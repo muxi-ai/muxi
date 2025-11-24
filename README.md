@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/muxi-logo.svg" alt="MUXI" width="200"/>
+  <img src="./muxi-logo.svg" alt="MUXI" width="200"/>
 </p>
 
 <h1 align="center">MUXI</h1>
