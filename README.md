@@ -1,20 +1,20 @@
 <p align="center">
-  <img src="./muxi-logo.svg" alt="MUXI" width="200"/>
+  <img src="./muxi-logo.svg" alt="MUXI" width="128"/>
 </p>
 
 <h1 align="center">MUXI</h1>
 
 <p align="center">
   <strong>Infrastructure Stack for AI Agents</strong><br>
-  Declare. Deploy. Own.
+  Not a framework. Not a wrapper. A Server.
 </p>
 
 <p align="center">
-  <a href="https://github.com/muxi-ai/server">Server</a> •
-  <a href="https://github.com/muxi-ai/cli">CLI</a> •
-  <a href="./docs">Docs</a> •
-  <a href="./examples">Examples</a> •
-  <a href="https://discord.gg/muxi">Discord</a>
+  <a href="https://github.com/muxi-ai/server">Server</a> &nbsp;•&nbsp;
+  <a href="https://github.com/muxi-ai/cli">CLI</a> &nbsp;•&nbsp;
+  <a href="./docs">Docs</a> &nbsp;•&nbsp;
+  <a href="./examples">Examples</a> &nbsp;•&nbsp;
+  <a href="https://github.com/muxi-ai/community/discussions">Discussions</a>
 </p>
 
 <p align="center">
@@ -27,9 +27,11 @@
 
 ## What is MUXI?
 
-MUXI (Multiplexed eXtensible Intelligence) is **open-source infrastructure stack that makes AI agents first-class primitives** – not scripts, not prompt chains, but deployable units with built-in orchestration, memory, and observability.
+MUXI (Multiplexed eXtensible Intelligence) is **open-source infrastructure stack that makes AI agents first-class primitives** – not ad hoc scripts or chained prompts — but infrastructure-level processes with built-in orchestration, observability, and scale.
 
-Think of it like Docker or Terraform, but for agents. You declare what an agent is, what it can do, and how it behaves. MUXI handles the rest: execution, coordination, persistence, and scale.
+MUXI uses “formations” – **complete AI systems packaged as deployable units** (think of these like Docker, but for agents). Formations include agents, knowledge, tools, SOPs, triggers, and settings defined in YAML, and result in production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in. 
+
+Self-hosted and LLM-agnostic.
 
 ```yaml
 # formation.yaml
