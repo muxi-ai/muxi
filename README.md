@@ -18,20 +18,37 @@
 
 MUXI (/muk-siː/, Multiplexed eXtensible Intelligence) is an open-source project that makes agents native primitives — not ad hoc scripts or chained prompts — but infrastructure-level processes with built-in orchestration, observability, and scale.
 
+```bash
+# create a formation
+muxi new formation customer-support
+```
+
 ```yaml
 # formation.yaml
-name: research-assistant
-model: claude-sonnet-4-20250514
-memory: semantic
-tools:
-  - web-search
-  - document-reader
-instructions: |
-  You help users research topics thoroughly.
-  Always cite sources and flag uncertainty.
+schema: "1.0.0"
+id: "customer-support"
+description: |
+  Helps customers with product support and refunds
+agents:
+  - id: "sales-assistant"
+    knowledge:
+    - ./knowledge/product-info.docx
+    - ./knowledge/shipping-rates.csv
+  - id: "refund-handler"
+    knowledge:
+      - ./knowledge/policies/*
+mcp:
+  servers:
+  - id: "shopify"
+    auth:
+      type: "bearer"
+      token: "${{ secrets.SHOPIFY_TOKEN }}"
+  - id: "stripe"
+  ...
 ```
 
 ```bash
+# deploy the formation
 muxi deploy
 ```
 
