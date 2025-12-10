@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/muxi-ai/muxi/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
+  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-ELv2%20%2F%20Apache%202.0-blue.svg" alt="License"></a>
   <a href="https://discord.gg/muxi"><img src="https://img.shields.io/discord/placeholder?color=7289da&label=discord" alt="Discord"></a>
   <a href="https://twitter.com/muxi_ai"><img src="https://img.shields.io/twitter/follow/muxi_ai?style=social" alt="Twitter"></a>
 </p>
@@ -199,7 +199,11 @@ muxi/
 │   ├── reference/        # API & config reference
 │   └── guides/           # How-to guides
 ├── examples/             # Working examples & formations
+├── ARCHITECTURE.md       # System architecture
 ├── CONTRIBUTING.md       # How to contribute
+├── DEVELOPMENT.md        # Development setup
+├── GIT-WORKFLOW.md       # Branching & releases
+├── LICENSE.md            # License details (ELv2 / Apache 2.0)
 ├── CHANGELOG.md          # Unified changelog
 └── ROADMAP.md            # What's coming
 ```
@@ -306,7 +310,10 @@ See the **[Roadmap](./ROADMAP.md)** for details.
 - 💬 Join the [Discord](https://discord.gg/muxi) for discussion
 
 ### Contribute
-We welcome contributions. See **[CONTRIBUTING.md](./CONTRIBUTING.md)** for guidelines.
+We welcome contributions! Before you start:
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Contribution guidelines
+- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Development setup
+- **[GIT-WORKFLOW.md](./GIT-WORKFLOW.md)** - Git branching workflow
 
 - Report bugs and request features via [Issues](https://github.com/muxi-ai/muxi/issues)
 - Submit PRs to any MUXI repository
@@ -330,7 +337,16 @@ This project is backed by the belief that AI infrastructure should be open, not 
 
 ## License
 
-Apache 2.0 – Use it, modify it, ship it. See [LICENSE](./LICENSE) for details.
+MUXI uses a **dual-license model**:
+
+| Component | License |
+|-----------|---------|
+| Server, Runtime | [Elastic License 2.0 (ELv2)](https://www.elastic.co/licensing/elastic-license) |
+| Formations, CLI, SDKs | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) |
+
+**TL;DR:** Use MUXI freely for your products and business. The only restriction: don't resell MUXI itself as a hosted service.
+
+See **[LICENSE.md](./LICENSE.md)** for full details.
 
 ---
 

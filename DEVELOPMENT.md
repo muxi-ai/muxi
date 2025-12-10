@@ -1,233 +1,152 @@
 # Development
 
-Polar's stack consists of the following elements:
+Set up your local environment to contribute to MUXI.
 
-- A backend written in Python, exposing a REST API and workers
-- A frontend written in JavaScript
-- A PostgreSQL database
-- A Redis database
-- An S3-compatible storage
-
-```mermaid
-flowchart TD
-    subgraph "Backend"
-        API["Rest API"]
-        POSTGRESQL["PostgreSQL"]
-        REDIS["Redis"]
-        S3["S3 Storage"]
-        WORKER["Worker"]
-        WORKER_GITHUB["Worker GitHub"]
-    end
-    subgraph "Frontend"
-        WEB["Web client"]
-    end
-    GITHUB_WH["GitHub Webhooks"]
-    STRIPE_WH["Stripe Webhooks"]
-    USERS["Users"]
-
-    WEB --> API
-    API --> POSTGRESQL
-    API --> REDIS
-    REDIS <--> WORKER
-    REDIS <--> WORKER_GITHUB
-    WORKER --> POSTGRESQL
-    WORKER_GITHUB --> POSTGRESQL
-    API --> S3
-    WEB --> S3
-
-    GITHUB_WH -.-> API
-    STRIPE_WH -.-> API
-    USERS -.-> API
-    USERS -.-> WEB
-```
+---
 
 ## Prerequisites
 
-Polar needs a [Python 3](https://www.python.org/downloads/) and [Node.js 22](https://nodejs.org/en/download/package-manager) installations.
+### Core Components
 
-## Setup environment
+| Component | Requirements |
+|-----------|--------------|
+| **Server** | [Go 1.21+](https://go.dev/doc/install) |
+| **Runtime** | [Python 3.11+](https://www.python.org/downloads/), [uv](https://docs.astral.sh/uv/) |
+| **CLI** | [Go 1.21+](https://go.dev/doc/install) |
 
-> [!TIP]
-> Want to get started quickly? Use GitHub Codespaces.
->
-> [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/polarsource/polar?machine=standardLinux32gb)
+### SDKs
 
-### Setup environment variables
+Each SDK has its own language-specific requirements. See the README in the respective SDK repository:
 
-For the Polar stack to run properly, it needs quite a bunch of settings defined as environment variables. To ease things, we provide a script to bootstrap them. It requires [uv](https://docs.astral.sh/uv/getting-started/installation/) to be installed on your system.
+| SDK | Repository |
+|-----|------------|
+| C++ | [muxi-ai/muxi-cpp](https://github.com/muxi-ai/muxi-cpp) |
+| C# | [muxi-ai/muxi-csharp](https://github.com/muxi-ai/muxi-csharp) |
+| Dart | [muxi-ai/muxi-dart](https://github.com/muxi-ai/muxi-dart) |
+| Go | [muxi-ai/muxi-go](https://github.com/muxi-ai/muxi-go) |
+| Java | [muxi-ai/muxi-java](https://github.com/muxi-ai/muxi-java) |
+| Kotlin | [muxi-ai/muxi-kotlin](https://github.com/muxi-ai/muxi-kotlin) |
+| PHP | [muxi-ai/muxi-php](https://github.com/muxi-ai/muxi-php) |
+| Python | [muxi-ai/muxi-python](https://github.com/muxi-ai/muxi-python) |
+| Ruby | [muxi-ai/muxi-ruby](https://github.com/muxi-ai/muxi-ruby) |
+| Rust | [muxi-ai/muxi-rust](https://github.com/muxi-ai/muxi-rust) |
+| Swift | [muxi-ai/muxi-swift](https://github.com/muxi-ai/muxi-swift) |
+| TypeScript | [muxi-ai/muxi-typescript](https://github.com/muxi-ai/muxi-typescript) |
 
-```sh
-./dev/setup-environment
-```
+---
 
-Once done, the script will automatically create `server/.env` and `clients/apps/web/.env.local` files with the necessary environment variables.
+## Quick Start
 
-**Optional: setup GitHub App**
+### Server
 
-If you want to work with GitHub login and issue funding, you'll need to have a [GitHub App](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps) for your development environment. Our script is able to help in this task by passing the following parameters:
-
-```sh
-./dev/setup-environment --setup-github-app --backend-external-url https://mydomain.ngrok.dev
-```
-
-Note that you'll need a valid external URL that'll route to your development server. For this task, we recommend to use [ngrok](https://ngrok.com/).
-
-Your browser will open a new page and you'll be prompted to **create a GitHub App**. You can just proceed, all the necessary configuration is already done automatically. The script will then add the necessary values to the environment files.
-
-> [!TIP]
-> If you run on **GitHub Codespaces**, you can just run it like this:
->
-> ```sh
-> ./dev/setup-environment --setup-github-app
-> ```
->
-> The script will automatically use your external GitHub Codespace URL.
-
-**Optional: setup Stripe**
-
-> [!NOTE]
-> Some functions, such as product creation, may not work as expected due to missing Stripe environment variables.
-
-If you want to work with payments and subscriptions, you'll need to set up a Stripe development environment:
-
-1. **Create a Stripe account** at [https://dashboard.stripe.com/register](https://dashboard.stripe.com/register)
-
-2. **Enable billing** in your Stripe account by visiting [Stripe Billing Starter Guide](https://dashboard.stripe.com/billing/starter-guide)
-
-3. **Copy your API keys** from the [Stripe API Keys page](https://dashboard.stripe.com/test/apikeys) and add them to your `server/.env` file:
-
-    ```
-    STRIPE_SECRET_KEY=sk_test_...
-    STRIPE_PUBLISHABLE_KEY=pk_test_...
-    ```
-
-4. **Create a webhook endpoint** to handle Stripe events:
-    - Go to [Stripe Webhooks](https://dashboard.stripe.com/test/webhooks)
-    - Click "Add endpoint"
-    - Set the endpoint URL to: `https://your-domain.ngrok-free.app/v1/integrations/stripe/webhook`
-    - Set enabled events to: `*` (all events)
-    - Set API version to: `2025-02-24.acacia`
-    - Copy the webhook signing secret and add it to your `server/.env` file:
-        ```
-        STRIPE_WEBHOOK_SECRET=whsec_...
-        ```
-
-### Setup backend
-
-> [!TIP]
-> If you run on **GitHub Codespaces**, you can **skip this step**. This is already done for you.
-
-Setting up the backend consists of basically three things:
-
-**1. Start the development containers**
-
-This will start PostgreSQL, Redis and Minio (S3 storage) containers. You'll need to have [Docker](https://docs.docker.com/get-started/) installed.
-
-```sh
+```bash
+git clone https://github.com/muxi-ai/server.git
 cd server
+go build ./... && go test ./...
+go run ./cmd/server
 ```
 
-```sh
-docker compose up -d
+### Runtime
+
+```bash
+git clone https://github.com/muxi-ai/runtime.git
+cd runtime
+uv sync && uv run pytest
+uv run python -m muxi
 ```
 
-**2. Install Python dependencies**
+### CLI
 
-We use [uv](https://docs.astral.sh/uv/) to manage our Python dependencies. Make sure it's installed on your system.
-
-```sh
-uv sync
+```bash
+git clone https://github.com/muxi-ai/cli.git
+cd cli/src
+go build ./... && go test ./...
+go run . --help
 ```
 
-### Setup frontend
+### SDKs
 
-> [!TIP]
-> If you run on **GitHub Codespaces**, you can **skip this step**. This is already done for you.
+Clone the SDK for your language and follow its README for setup and testing instructions.
 
-**1. Install JavaScript dependencies**
+---
 
-We use [pnpm](https://pnpm.io/installation) to manage our JavaScript dependencies. Make sure it's installed on your system.
+## Code Style
 
-```sh
-cd clients
+All code must pass linting and formatting checks before merge.
+
+### Go (Server, CLI)
+
+```bash
+go fmt ./...      # Format
+go vet ./...      # Lint
+go build ./...    # Build
+go test ./...     # Test
 ```
 
-```sh
-pnpm install
+**Guidelines:**
+- Place all imports at the top of files
+- Use proper goroutine and channel patterns for concurrency
+- Follow [Effective Go](https://go.dev/doc/effective_go)
+
+### Python (Runtime)
+
+```bash
+uv run ruff format .    # Format
+uv run ruff check .     # Lint
+uv run mypy .           # Type check
+uv run pytest           # Test
 ```
 
-## Start environment
+**Guidelines:**
+- Place all imports at the top of files
+- Use proper async/await patterns
+- Type hints required for public APIs
 
-> [!TIP]
-> Use several terminal tabs to run things in parallel.
+### SDKs
 
-### Start backend
+Each SDK follows its language's conventions. Refer to the SDK's README for specific linting, formatting, and testing commands.
 
-The backend consists of an API server, a general-purpose worker and a worker dedicated to GitHub synchronization. You can run them like this:
+### General
 
-```sh
-cd server
+- Write self-documenting code with meaningful names
+- Avoid unnecessary comments; let the code speak
+- Follow [SOLID](https://en.wikipedia.org/wiki/SOLID) principles
+- Only modify code related to your specific issue
+- Match existing patterns in the codebase
+
+---
+
+## Git Workflow
+
+All repositories use a **three-branch workflow**:
+
+```
+develop (default) → rc (release candidate) → main (production)
 ```
 
-**1. Build email binary**
+**All PRs must target `develop`.**
 
-```sh
-uv run task emails
+See [GIT-WORKFLOW.md](./GIT-WORKFLOW.md) for details.
+
+---
+
+## Running the Full Stack
+
+To run MUXI locally:
+
+```bash
+# Terminal 1: Start server
+cd server && go run ./cmd/server
+
+# Terminal 2: Use CLI
+cd cli/src && go run . --help
 ```
 
-> [!NOTE]
-> If you're in local development, you should build the email renderer binary, as it's required for first time.
+The server runs on port **7890** by default.
 
-**2. Apply the database migrations**
+---
 
-```sh
-uv run task db_migrate
-```
+## Getting Help
 
-> [!NOTE]
-> You don't necessarily need to run it each time you start the server, but it's a good idea to regularly do it nonetheless.
-
-**3. Start server and workers**
-
-```sh
-uv run task api
-```
-
-```sh
-uv run task worker
-```
-
-By default, the API server will be available at [http://127.0.0.1:8000](http://127.0.0.1:8000).
-
-> [!TIP]
-> The processes will restart automatically if you make changes to the code.
-
-### Start frontend
-
-The frontend mainly consists of a web client server, plus other projects useful for testing or examples. You can run them like this:
-
-```sh
-cd clients
-```
-
-```sh
-pnpm dev
-```
-
-By default, the web client will be available at [http://127.0.0.1:3000](http://127.0.0.1:3000).
-
-> [!TIP]
-> The processes will restart automatically if you make changes to the code.
-
-> [!NOTE]
-> On **GitHub Codespaces**, both API backend and web frontend will be routed on the 8080 port.
-
-## Login using email
-
-To log in for the first time, follow these steps:
-
-1. Navigate to the login page.
-2. Enter your email address in the provided field.
-3. Click the "Login" button.
-4. Check the terminal where the API is running (`uv run task api`) to get the OTP code.
-5. Enter the OTP code in the login form.
+- **Questions:** [GitHub Discussions](https://github.com/orgs/muxi-ai/discussions)
+- **Bugs:** [GitHub Issues](https://github.com/muxi-ai/muxi/issues)
