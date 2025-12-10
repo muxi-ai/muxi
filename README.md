@@ -132,7 +132,7 @@ muxi chat research-assistant
 
 ## Who's Behind This
 
-MUXI is created by [Ran Aroussi](https://x.com/aroussi), creator of OSS tools with 20M+ monthly installs, and author of the [📚 **Production-Grade Agentic AI**](http://productionaibook.com) book, and [🧑‍💻 **open-source developer**](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
+MUXI is created by [**Ran Aroussi** (𝕏)](https://x.com/aroussi), author of the [📚 **Production-Grade Agentic AI**](http://productionaibook.com) book, and [🧑‍💻 **open-source developer**](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
 
 ---
 
