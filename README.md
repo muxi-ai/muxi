@@ -32,8 +32,8 @@ description: |
 agents:
   - id: "sales-assistant"
     knowledge:
-    - ./knowledge/product-info.docx
-    - ./knowledge/shipping-rates.csv
+      - ./knowledge/product-info.docx
+      - ./knowledge/shipping-rates.csv
   - id: "refund-handler"
     knowledge:
       - ./knowledge/policies/*
