@@ -16,22 +16,9 @@ Set up your local environment to contribute to MUXI.
 
 ### SDKs
 
-Each SDK has its own language-specific requirements. See the README in the respective SDK repository:
+SDKs are available for 12 languages. See **[REPOSITORIES.md](./REPOSITORIES.md)** for the full list.
 
-| SDK | Repository |
-|-----|------------|
-| C++ | [muxi-ai/muxi-cpp](https://github.com/muxi-ai/muxi-cpp) |
-| C# | [muxi-ai/muxi-csharp](https://github.com/muxi-ai/muxi-csharp) |
-| Dart | [muxi-ai/muxi-dart](https://github.com/muxi-ai/muxi-dart) |
-| Go | [muxi-ai/muxi-go](https://github.com/muxi-ai/muxi-go) |
-| Java | [muxi-ai/muxi-java](https://github.com/muxi-ai/muxi-java) |
-| Kotlin | [muxi-ai/muxi-kotlin](https://github.com/muxi-ai/muxi-kotlin) |
-| PHP | [muxi-ai/muxi-php](https://github.com/muxi-ai/muxi-php) |
-| Python | [muxi-ai/muxi-python](https://github.com/muxi-ai/muxi-python) |
-| Ruby | [muxi-ai/muxi-ruby](https://github.com/muxi-ai/muxi-ruby) |
-| Rust | [muxi-ai/muxi-rust](https://github.com/muxi-ai/muxi-rust) |
-| Swift | [muxi-ai/muxi-swift](https://github.com/muxi-ai/muxi-swift) |
-| TypeScript | [muxi-ai/muxi-typescript](https://github.com/muxi-ai/muxi-typescript) |
+Each SDK has its own language-specific requirements - refer to the SDK's README for setup instructions.
 
 ---
 
@@ -150,3 +137,4 @@ The server runs on port **7890** by default.
 
 - **Questions:** [GitHub Discussions](https://github.com/orgs/muxi-ai/discussions)
 - **Bugs:** [GitHub Issues](https://github.com/muxi-ai/muxi/issues)
+- **Community:** [GitHub Discussions](https://github.com/orgs/muxi-ai/discussions)

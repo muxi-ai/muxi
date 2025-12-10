@@ -12,6 +12,7 @@ Thank you for your interest in contributing to MUXI!
 - **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Set up your dev environment
 - **[GIT-WORKFLOW.md](./GIT-WORKFLOW.md)** - Branching and release process
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Understand the system
+- **[REPOSITORIES.md](./REPOSITORIES.md)** - All MUXI repositories
 
 ---
 
@@ -145,6 +146,7 @@ Email [security@muxi.org](mailto:security@muxi.org) instead.
 
 - **Questions?** [GitHub Discussions](https://github.com/orgs/muxi-ai/discussions)
 - **Bugs?** [GitHub Issues](https://github.com/muxi-ai/muxi/issues)
+- **Community:** [GitHub Discussions](https://github.com/orgs/muxi-ai/discussions)
 
 ---
 

@@ -2,6 +2,8 @@
 
 All MUXI repositories use a consistent **three-branch workflow** for development, testing, and releases.
 
+> This workflow applies to all repositories listed in [REPOSITORIES.md](./REPOSITORIES.md).
+
 ---
 
 ## Overview
