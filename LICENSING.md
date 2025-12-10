@@ -33,7 +33,7 @@ If you're building AI agents for your product or business, you're good to go. Th
 
 ## Why This Model?
 
-The ELv2 license on the Server and Runtime prevents cloud providers from offering MUXI as a competing managed service without contributing back. Everything else (Formations, CLI, SDKs) is fully permissive Apache 2.0, so you can freely integrate, modify, and distribute those components.
+The ELv2 license on the Server and Runtime prevents cloud providers from offering MUXI as a competing managed service without contributing back. Everything else (Schemas, CLI, SDKs, etc.) is fully permissive Apache 2.0, so you can freely integrate, modify, and distribute those components.
 
 ## Questions?
 
