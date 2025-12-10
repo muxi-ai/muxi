@@ -89,7 +89,8 @@ We use **ScalVer** (date-based versioning): `0.YYYYMMDD.N`
 - Supports multiple releases per day
 - No semantic meaning to debate
 
-**Important:** Don't bump versions manually. CI/CD handles it automatically when `rc` merges to `main`.
+> [!IMPORTANT]
+> Don't bump versions manually. CI/CD handles it automatically when `rc` merges to `main`.
 
 ---
 
