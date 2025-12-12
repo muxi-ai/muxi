@@ -18,13 +18,15 @@
 
 MUXI (/muk-siː/, Multiplexed eXtensible Intelligence) is an open-source project that makes agents native primitives — not ad hoc scripts or chained prompts — but infrastructure-level processes with built-in orchestration, observability, and scale.
 
+It runs [Agent Formations](https://github.com/agent-formation) – **complete AI systems packaged as deployable units**. Agents, knowledge, tools, and A2A, together with SOPs, triggers, and settings defined in YAML. Production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in.
+
 ```bash
 # create a formation
 muxi new formation customer-support
 ```
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: "customer-support"
 description: |
