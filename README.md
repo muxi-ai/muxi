@@ -5,20 +5,31 @@
 <h1 align="center">MUXI</h1>
 
 <p align="center">
-  <strong>Infrastructure for the next generation of AI agents.</strong>
+  <strong>Open-Source Infrastructure for AI Agents</strong>
 </p>
 
 <p align="center">
-  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-ELv2%20%2F%20Apache%202.0-blue.svg" alt="License"></a>
-  <a href="https://github.com/muxi-ai/community"><img src="https://img.shields.io/badge/GitHub-Discussions-black.svg" alt="Community"></a>
-  <a href="https://twitter.com/muxi_ai"><img src="https://img.shields.io/twitter/follow/muxi_ai?style=social" alt="Twitter"></a>
+  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-ELv2%20%2F%20Apache%202.0-c98b45.svg" alt="License"></a>
+  <a href="https://github.com/muxi-ai/community"><img src="https://img.shields.io/badge/GitHub-Discussions-black.svg?logo=github" alt="Community"></a>
+  <a href="https://github.com/muxi-ai/community"><img src="https://img.shields.io/badge/‌-‌@muxi__ai-blue.svg?logo=x" alt="Community"></a>
 </p>
 
 ---
 
 MUXI (/muk-siː/, Multiplexed eXtensible Intelligence) is an open-source project that makes agents native primitives — not ad hoc scripts or chained prompts — but infrastructure-level processes with built-in orchestration, observability, and scale.
 
-It runs [Agent Formations](https://github.com/agent-formation) – **complete AI systems packaged as deployable units**. Agents, knowledge, tools, and A2A, together with SOPs, triggers, and settings defined in YAML. Production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in.
+MUXI runs **Agent Formations** –  complete AI systems packaged as **deployable units**. Agents, knowledge, tools, SOPs, triggers, and settings defined in YAML. Production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in.
+
+Agents, knowledge, A2A, and MCP (Model Context Protocol) tools defined in portable `.afs` files, together with SOPs, triggers, and settings defined in YAML. Production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in.
+
+
+> [!TIP]
+> MUXI introduced the [Agent Formation Standard](https://github.com/agent-formation) – an open spec for declarative AI systems. Agents, knowledge, A2A, and MCP (Model Context Protocol) tools defined in portable `.afs` files.
+>
+> **Like a Dockerfile for containers, but for agent intelligence.**
+
+
+## Example
 
 ```bash
 # create a formation
