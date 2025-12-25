@@ -2,6 +2,11 @@
 
 ## Reporting a Vulnerability
 
-If you believe you have found a security vulnerability in any of MUXI's components, we encourage you to responsibly disclose this and not open a public issue. Please report it using [GitHub Security Advisory](https://github.com/muxi-ai/muxi/security/advisories/new) tool, to ensure confidentiality and security.
+If you believe you have found a security vulnerability in any of MUXI's components, we encourage you to report to to us privately. 
 
-We'll review it as soon as possible and publish a fix accordingly.
+> [!IMPORTANT]
+> **Please do not report security vulnerabilities through public GitHub issues.**
+> 
+> Instead, report them by sending an email to security@muxi.org with sufficient details about the type of issue, the impact of the issue, and how to reproduce the issue. 
+
+When you notify us of a potential security issue, we'll acknowledge receipt, coordinate any necessary response activities with you, and publish a fix accordingly.
