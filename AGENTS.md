@@ -1,82 +1,28 @@
 # AGENTS.md
 
-> This file helps AI coding assistants understand the MUXI ecosystem.
-> Copy the **MUXI Ecosystem Overview** section to each repo's AGENTS.md, then add repo-specific details below.
+> This file helps AI coding assistants understand the MUXI project.
 
----
-
-## MUXI Ecosystem Overview
+## MUXI Ecosystem
 
 **MUXI is infrastructure for AI agents** - a complete platform for deploying and managing agents in production.
 
-### Architecture at a Glance
+For full architecture details, see **[ARCHITECTURE.md](./ARCHITECTURE.md)**.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     Your Application                        │
-└──────────────────────────┬──────────────────────────────────┘
-                           │ SDK / CLI / API
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                      MUXI Server                            │
-│              Orchestration • Routing • Auth                 │
-│                       Port 7890                             │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                     MUXI Runtime                            │
-│               Formation Execution (SIF)                     │
-└──────────────────────────┬──────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  LLM APIs / MCP Tools                       │
-└─────────────────────────────────────────────────────────────┘
-```
+### Quick Reference
 
-### Component Analogy
-
-| Component | Analogy | Purpose |
-|-----------|---------|---------|
-| **Server** | Docker Engine | Orchestration, routing, lifecycle |
-| **Runtime** | Container Image | Execution environment |
-| **Registry** | Docker Hub | Distribution & discovery |
-| **CLI** | kubectl / docker CLI | Management tool |
-| **SDKs** | Client libraries | Programmatic access |
-
-### Repository Map
-
-| Repo | Lang | Purpose | Status |
-|------|------|---------|--------|
-| [server](https://github.com/muxi-ai/server) | Go | Orchestration platform | Production |
-| [runtime](https://github.com/muxi-ai/runtime) | Python | Formation execution | Production |
-| [cli](https://github.com/muxi-ai/cli) | Go | Command-line interface | Complete |
-| [registry](https://github.com/muxi-ai/registry) | PHP | Formation distribution | Complete |
-| [schemas](https://github.com/muxi-ai/schemas) | YAML | Formation specification | Finalized |
-| [onellm](https://github.com/muxi-ai/onellm) | Python | Unified LLM interface | Production |
-| [faissx](https://github.com/muxi-ai/faissx) | Python | Vector search server | Production |
-| SDKs | Various | 12 language SDKs | In Progress |
+| Component | Purpose | Language |
+|-----------|---------|----------|
+| **Server** | Orchestration, routing, lifecycle | Go |
+| **Runtime** | Formation execution environment | Python |
+| **CLI** | Management tool | Go |
+| **Registry** | Distribution hub | PHP |
+| **SDKs** | Client libraries | 12 languages |
 
 ### Key Conventions
 
-- **Branch workflow:** `develop` → `rc` → `main` (all PRs target `develop`)
-- **Commit style:** [Conventional Commits](https://www.conventionalcommits.org/)
-- **Default port:** 7890 (MUXI Server)
-- **Container format:** SIF (Singularity Image Format)
-
-### Request Flow
-
-```
-Client → Server (:7890) → Reverse Proxy → Runtime (SIF) → LLM API
-```
-
-### Design Principles
-
-1. **Agents as infrastructure** - First-class primitives, not scripts
-2. **Self-hostable** - No required cloud services
-3. **Observable by default** - Structured traces for every invocation
-4. **Model agnostic** - Swap providers via config
+- **Branch workflow:** `develop` → `rc` → `main` (PRs target `develop`)
+- **Commits:** [Conventional Commits](https://www.conventionalcommits.org/)
+- **Style:** See [style-guides/](./style-guides/) for language-specific conventions
 
 ---
 
@@ -135,7 +81,21 @@ When adding AGENTS.md to other repositories, use this structure:
 ```markdown
 # AGENTS.md
 
-<!-- Copy the "MUXI Ecosystem Overview" section from muxi/AGENTS.md -->
+> This file helps AI coding assistants understand this repository.
+
+## MUXI Ecosystem
+
+This repo is part of **MUXI** - infrastructure for AI agents.
+
+| Component | Purpose | Language |
+|-----------|---------|----------|
+| **Server** | Orchestration, routing, lifecycle | Go |
+| **Runtime** | Formation execution environment | Python |
+| **CLI** | Management tool | Go |
+| **Registry** | Distribution hub | PHP |
+| **SDKs** | Client libraries | 12 languages |
+
+Full architecture: [muxi-ai/muxi/ARCHITECTURE.md](https://github.com/muxi-ai/muxi/blob/main/ARCHITECTURE.md)
 
 ---
 
@@ -151,12 +111,6 @@ When adding AGENTS.md to other repositories, use this structure:
 
 {Directory tree of key files/folders}
 
-### Key Files
-
-| File | Purpose |
-|------|---------|
-| `...` | ... |
-
 ### Development
 
 {How to run, test, build}
@@ -164,8 +118,4 @@ When adding AGENTS.md to other repositories, use this structure:
 ### For AI Agents Working Here
 
 {Repo-specific guidance: gotchas, patterns, things to avoid}
-
-### Dependencies
-
-{What this repo depends on, what depends on it}
 ```
