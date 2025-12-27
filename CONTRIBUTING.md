@@ -13,6 +13,20 @@ Thank you for your interest in contributing to MUXI!
 - **[GIT-WORKFLOW.md](./GIT-WORKFLOW.md)** - Branching and release process
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Understand the system
 - **[REPOSITORIES.md](./REPOSITORIES.md)** - All MUXI repositories
+- **[Style Guides](./style-guides/)** - Language-specific coding conventions
+- **[AGENTS.md](./AGENTS.md)** - AI assistant context (template for all repos)
+
+---
+
+## Find Something to Work On
+
+Looking for ways to contribute? Check issues with these labels:
+
+- **Help Wanted** — [server](https://github.com/muxi-ai/server/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22) · [runtime](https://github.com/muxi-ai/runtime/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22) · [cli](https://github.com/muxi-ai/cli/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22) · [onellm](https://github.com/muxi-ai/onellm/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22) · [faissx](https://github.com/muxi-ai/faissx/issues?q=is%3Aissue+state%3Aopen+label%3A%22help+wanted%22)
+- **Good First Issue** — [server](https://github.com/muxi-ai/server/issues?q=is%3Aissue+state%3Aopen+label%3A%22good+first+issue%22) · [runtime](https://github.com/muxi-ai/runtime/issues?q=is%3Aissue+state%3Aopen+label%3A%22good+first+issue%22) · [cli](https://github.com/muxi-ai/cli/issues?q=is%3Aissue+state%3Aopen+label%3A%22good+first+issue%22) · [onellm](https://github.com/muxi-ai/onellm/issues?q=is%3Aissue+state%3Aopen+label%3A%22good+first+issue%22) · [faissx](https://github.com/muxi-ai/faissx/issues?q=is%3Aissue+state%3Aopen+label%3A%22good+first+issue%22)
+- **Bug** — [server](https://github.com/muxi-ai/server/issues?q=is%3Aissue+state%3Aopen+label%3Abug) · [runtime](https://github.com/muxi-ai/runtime/issues?q=is%3Aissue+state%3Aopen+label%3Abug) · [cli](https://github.com/muxi-ai/cli/issues?q=is%3Aissue+state%3Aopen+label%3Abug) · [onellm](https://github.com/muxi-ai/onellm/issues?q=is%3Aissue+state%3Aopen+label%3Abug) · [faissx](https://github.com/muxi-ai/faissx/issues?q=is%3Aissue+state%3Aopen+label%3Abug)
+
+Want to take on an issue? Leave a comment and a maintainer may assign it to you.
 
 ---
 
@@ -72,6 +86,7 @@ We welcome AI-assisted development. However:
 - ✅ Run existing tests
 - ✅ Add tests for new functionality
 - ❌ **No "vibe-coded" contributions** that haven't been executed
+- ❌ **Avoid verbose LLM-generated PR descriptions** — be concise
 
 > [!WARNING]
 > PRs that show evidence of being AI-generated without local testing will be closed.
@@ -94,6 +109,28 @@ We welcome AI-assisted development. However:
 - Code that doesn't follow our style guidelines
 - Large refactoring without prior discussion
 - **Manual version bumps** - CI/CD handles versioning automatically
+
+---
+
+## Pull Request Expectations
+
+- **Keep PRs small and focused** — easier to review, faster to merge
+- **Link relevant issue(s)** in the description
+- **Explain the problem** and why your change fixes it
+- **Before adding new functions**, ensure similar behavior doesn't already exist elsewhere in the codebase
+- **Test locally** before submitting
+
+---
+
+## Feature Requests
+
+For net-new functionality, **start with a design conversation**. Open an issue describing:
+
+1. The problem you're trying to solve
+2. Your proposed approach (optional)
+3. Why it belongs in MUXI
+
+Wait for maintainer approval before opening a feature PR. This helps ensure alignment with project direction and avoids wasted effort.
 
 ---
 
