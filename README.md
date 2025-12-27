@@ -102,10 +102,19 @@ We're building infrastructure that reflects this philosophy.
 
 ## Quick Start
 
-```bash
-# Install
-curl -fsSL https://muxi.org/install | bash
+Install:
 
+```bash
+curl -fsSL https://muxi.org/install | sudo bash  # Linux
+# or
+brew install muxi-ai/tap/muxi  # macOS
+# or
+powershell -c "irm https://muxi.org/install | iex"  # Windows
+```
+
+Then:
+
+```bash
 # Pull a formation
 muxi pull @examples/research-assistant
 
