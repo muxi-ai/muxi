@@ -96,18 +96,13 @@ Anyone can find and pull.
 ### Private (Default)
 
 ```bash
-muxi push --private
+muxi push
 ```
 
 Only you can access.
 
-### Organization
-
-```bash
-muxi push --org my-org
-```
-
-Published under organization namespace.
+> [!NOTE]
+> Organization publishing (`--org`) is planned for future releases.
 
 ## Versioning
 
@@ -143,11 +138,8 @@ Previous versions remain available.
 
 ## Unpublish
 
-```bash
-muxi unpublish my-formation
-```
-
-Removes from registry.
+> [!NOTE]
+> Unpublishing formations is planned for future releases. Contact support to remove a formation.
 
 ## Best Practices
 
