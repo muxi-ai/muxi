@@ -17,10 +17,9 @@ One command installs both the **MUXI Server** (orchestration) and **CLI** (manag
 
 [[tab macOS]]
 ```bash
+# Homebrew handles everything - binaries, PATH, and updates.
 brew install muxi-ai/tap/muxi
 ```
-
-Homebrew handles everything - binaries, PATH, and updates.
 [[/tab]]
 
 [[tab Linux]]
@@ -35,10 +34,9 @@ curl -fsSL https://muxi.org/install | bash
 
 [[tab Windows]]
 ```powershell
+# Run PowerShell as Administrator for system-wide install.
 powershell -c "irm https://muxi.org/install | iex"
 ```
-
-Run PowerShell as Administrator for system-wide install.
 [[/tab]]
 
 [[tab Docker]]
