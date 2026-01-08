@@ -34,7 +34,7 @@
 ## Reference
 
 * [Overview](reference/README.md)
-* [Formation Schema](reference/schema.md)
+* [Agent Formation Schema](reference/schema.md)
 * [Agents](reference/agents.md)
 * [Tools](reference/tools.md)
 * [Memory](reference/memory.md)

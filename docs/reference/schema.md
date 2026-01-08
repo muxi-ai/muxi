@@ -1,19 +1,19 @@
 ---
-title: Schema Reference
-description: Complete YAML specification for formation files
+title: Agent Formation Schema
+description: Complete specification for .afs formation files
 ---
 
-# Schema Reference
+# Agent Formation Schema
 
-## Complete YAML specification
+## The .afs file format
 
-This reference documents every field in a formation configuration file.
+Agent Formation Schema (`.afs`) is MUXI's configuration format. Every formation starts with a `formation.afs` file that defines agents, tools, memory, and behavior.
 
 ---
 
 ## Minimal Formation
 
-The smallest valid formation:
+The smallest valid `formation.afs`:
 
 ```yaml
 schema: "1.0.0"
