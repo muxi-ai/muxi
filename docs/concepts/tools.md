@@ -56,19 +56,28 @@ Browse at [registry.muxi.org/mcps](https://registry.muxi.org/mcps) - Stripe, Not
 
 ## MCP Without the Bloat
 
-Traditional MCP implementations dump all tool schemas into every context window. MUXI is smarter:
+> [!TIP]
+> This solves the biggest problem with MCP today: **context window hogging**.
+
+Traditional MCP implementations dump all tool schemas into every context window. Add 10 tools and you've burned 10,000+ tokens before the user even says hello.
+
+MUXI takes a different approach:
 
 ```
-Traditional:
-  Every request = 10,000+ tokens of tool definitions
+Traditional MCP:
+  10 tools × 1,000 tokens each = 10,000 tokens per request
+  User message + tool schemas = bloated context
   
 MUXI:
-  Tool definitions loaded once, indexed
-  Subagents pull only what they need
+  Tool definitions loaded once at startup
+  Schemas indexed for semantic lookup
+  Subagents pull only what they need at runtime
   ~90% token reduction
 ```
 
-The result: **more tools, fewer tokens, lower costs**.
+The result: **use dozens of tools without burning your context window**.
+
+This is why MUXI can offer 1,000+ MCP tools while keeping your costs low and responses fast.
 
 ---
 
