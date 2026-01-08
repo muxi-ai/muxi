@@ -21,7 +21,7 @@ id: my-assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
 
 agents:
   - id: assistant
@@ -54,13 +54,13 @@ api_keys: {...}                    # Optional: Formation API keys
 ```yaml
 llm:
   models:
-    text: openai/gpt-4o                    # Text generation
+    text: openai/GPT-5                    # Text generation
     embedding: openai/text-embedding-3-small # Embeddings (for memory/knowledge)
-  
+
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
     anthropic: ${{ secrets.ANTHROPIC_API_KEY }}
-  
+
   defaults:
     temperature: 0.7
     max_tokens: 4096
@@ -70,7 +70,7 @@ llm:
 
 | Provider | Model Format | Example |
 |----------|--------------|---------|
-| OpenAI | `openai/{model}` | `openai/gpt-4o` |
+| OpenAI | `openai/{model}` | `openai/GPT-5` |
 | Anthropic | `anthropic/{model}` | `anthropic/claude-sonnet-4-20250514` |
 | Google | `google/{model}` | `google/gemini-pro` |
 | Ollama | `ollama/{model}` | `ollama/llama3` |
@@ -85,7 +85,7 @@ agents:
     name: AI Assistant             # Optional: Display name
     role: |                        # Required: System prompt
       You are a helpful assistant.
-    model: openai/gpt-4o           # Optional: Override default LLM
+    model: openai/GPT-5           # Optional: Override default LLM
     temperature: 0.7               # Optional: 0-1
     mcps:                          # Optional: Tools for this agent
       - web-search
@@ -120,11 +120,11 @@ memory:
     multiplier: 10                 # Capacity multiplier
     vector_search: true            # Semantic search
     embedding_model: openai/text-embedding-3-small
-  
+
   working:
     max_memory_mb: 10              # Tool output cache size
     fifo_interval_min: 5           # Cleanup interval
-  
+
   persistent:
     enabled: true
     provider: postgresql           # sqlite or postgresql
@@ -154,7 +154,7 @@ mcps:
 overlord:
   auto_decomposition: true         # Break complex tasks into steps
   complexity_threshold: 7.0        # Score for workflow mode
-  
+
   persona:
     name: Assistant
     style: professional            # professional, casual, technical
@@ -162,7 +162,7 @@ overlord:
     traits:
       - knowledgeable
       - efficient
-  
+
   response:
     format: markdown               # markdown, json, text, html
     streaming: true
@@ -253,7 +253,7 @@ description: AI research and writing team
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
     embedding: openai/text-embedding-3-small
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
@@ -264,7 +264,7 @@ agents:
     role: Research topics thoroughly with web search
     mcps:
       - web-search
-  
+
   - id: writer
     name: Content Writer
     role: Write clear, engaging content

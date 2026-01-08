@@ -42,7 +42,7 @@ name: My Assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -158,7 +158,7 @@ description: AI research and writing team
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
     embedding: openai/text-embedding-3-small
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
@@ -168,7 +168,7 @@ agents:
     role: Research topics thoroughly with web search
     mcps:
       - web-search
-  
+
   - id: writer
     role: Write clear, engaging content
 

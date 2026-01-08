@@ -22,7 +22,7 @@ name: Simple Assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -48,7 +48,7 @@ name: Research Assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -86,7 +86,7 @@ name: Customer Support
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
     embedding: openai/text-embedding-3-small
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
@@ -136,7 +136,7 @@ name: Content Creation Team
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -190,7 +190,7 @@ name: DevOps Assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -201,7 +201,7 @@ agents:
       - Repository management
       - Code review
       - System troubleshooting
-      
+
       Be careful with destructive operations.
       Always explain what you're doing.
     mcps:
@@ -239,7 +239,7 @@ name: Enterprise Assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
     embedding: openai/text-embedding-3-small
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
@@ -286,7 +286,7 @@ name: Alert Responder
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 

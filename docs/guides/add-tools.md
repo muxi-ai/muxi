@@ -69,7 +69,7 @@ id: my-assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -198,13 +198,13 @@ agents:
     role: Research and gather information
     mcps:
       - web-search      # Can search
-  
+
   - id: developer
     role: Code and database work
     mcps:
       - filesystem      # Can access files
       - database        # Can query database
-  
+
   - id: writer
     role: Write content
     # No tools - pure writing focus

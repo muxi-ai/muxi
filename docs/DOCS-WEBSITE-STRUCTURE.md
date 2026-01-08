@@ -647,7 +647,7 @@ name: My Assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    text: openai/GPT-5
 
 agents:
   - id: assistant

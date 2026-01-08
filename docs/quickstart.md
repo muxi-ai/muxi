@@ -16,7 +16,7 @@ This guide takes you from zero to a running AI agent you can chat with.
 > [!NOTE]
 > **Prerequisites:** macOS, Linux, or Windows with terminal access and an OpenAI API key.
 
-### Get started in 5 minutes
+## Get started in 5 minutes
 
 [[steps]]
 
@@ -181,7 +181,7 @@ graph LR
     A[Your App] -->|HTTP/SDK| B[MUXI Server :7890]
     B --> C[Formation :8001]
     C --> D[Agent: assistant]
-    D --> E[OpenAI GPT-4o]
+    D --> E[OpenAI GPT-5]
 ```
 
 You now have:

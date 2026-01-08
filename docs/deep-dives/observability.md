@@ -49,7 +49,7 @@ event: conversation.request.received
 data: {"session_id": "sess_123", ...}
 
 event: conversation.llm.call.started
-data: {"model": "gpt-4o", ...}
+data: {"model": "GPT-5", ...}
 
 event: conversation.response.completed
 data: {"tokens": 150, ...}

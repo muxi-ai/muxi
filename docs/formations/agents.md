@@ -34,7 +34,7 @@ agents:
     role: |
       You research topics thoroughly and provide accurate,
       well-sourced information. Always cite your sources.
-    model: openai/gpt-4o
+    model: openai/GPT-5
     temperature: 0.7
     mcps:
       - web-search
@@ -69,10 +69,10 @@ agents:
     role: Research topics and gather accurate information
     mcps:
       - web-search
-  
+
   - id: writer
     role: Write clear, engaging content based on research
-  
+
   - id: reviewer
     role: Review content for accuracy, clarity, and tone
 ```
@@ -102,7 +102,7 @@ MUXI analyzes requests and picks the right agent:
 User: "Find information about AI trends"
 → Routes to: researcher (has web-search)
 
-User: "Write a blog post about our product"  
+User: "Write a blog post about our product"
 → Routes to: writer (writing role)
 ```
 
@@ -172,13 +172,13 @@ agents:
     role: Research specialist
     mcps:
       - web-search      # Can search the web
-  
+
   - id: developer
     role: Code assistant
     mcps:
       - filesystem      # Can read/write files
       - database        # Can query databases
-  
+
   - id: writer
     role: Content writer
     # No tools - focuses purely on writing
@@ -200,7 +200,7 @@ agents:
           description: Customer FAQs
         - path: knowledge/troubleshooting/
           description: Troubleshooting guides
-  
+
   - id: sales
     role: Sales advisor
     knowledge:
