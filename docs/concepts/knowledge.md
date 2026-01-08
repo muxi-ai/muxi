@@ -5,8 +5,6 @@ description: How agents access domain expertise from your documents
 
 # Knowledge & RAG
 
-## Give agents expertise from your documents
-
 MUXI's knowledge system lets agents answer questions from your documents - PDFs, markdown, spreadsheets, images, and more. Automatic indexing, semantic search, and multimodal support built in.
 
 ---
@@ -67,9 +65,9 @@ sequenceDiagram
 
 ---
 
-## Multimodal Out-of-the-Box
+## Multimodal Support
 
-MUXI doesn't just extract text from images - it understands them:
+MUXI understands images, not just extracts text from them:
 
 ```
 knowledge/

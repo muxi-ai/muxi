@@ -5,9 +5,7 @@ description: Move your formation from localhost to a production server
 
 # Deploy to Production
 
-## Move from localhost to a real server
-
-This guide takes your local formation to production with TLS, authentication, and proper service management.
+Take your local formation to production with TLS, authentication, and proper service management.
 
 <!-- TODO: Add architecture diagram -->
 <!-- [Image placeholder: Local → Production deployment flow] -->

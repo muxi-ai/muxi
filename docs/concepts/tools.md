@@ -5,8 +5,6 @@ description: How agents interact with the world through MCP tools
 
 # Tools & MCP
 
-## Give agents superpowers with MCP
-
 MUXI uses the **Model Context Protocol (MCP)** to connect agents with tools - web search, databases, file systems, APIs, and more. 1,000+ tools available, with intelligent loading that keeps token usage low.
 
 ---
@@ -195,7 +193,7 @@ mcps:
 | Manual scheduling code | Natural language scheduling |
 | All tools for all agents | Agent-specific restrictions |
 
-The result: **agents that can do things**, not just talk about them.
+The result: **agents that act**, not just talk.
 
 ---
 

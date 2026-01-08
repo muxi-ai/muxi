@@ -1,13 +1,11 @@
 ---
-title: Why Encrypted Secrets
-description: The design rationale for MUXI's encrypted secrets system
+title: Secrets & Security
+description: Why MUXI uses encrypted secrets instead of environment variables
 ---
 
-# Why Encrypted Secrets
+# Secrets & Security
 
-## Environment variables considered harmful
-
-MUXI uses encrypted files instead of environment variables. This page explains why - and how it keeps your credentials safer.
+MUXI uses encrypted files instead of environment variables. Here's why - and how it keeps your credentials safer.
 
 ---
 

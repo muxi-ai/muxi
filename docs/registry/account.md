@@ -5,9 +5,7 @@ description: Set up your MUXI Registry account and authentication
 
 # Your Account
 
-## Your GitHub handle is your registry handle
-
-No separate account needed. Authenticate with GitHub and your username becomes your registry namespace.
+Your GitHub handle is your registry namespace. Authenticate with GitHub - no separate account needed.
 
 ---
 

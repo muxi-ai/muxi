@@ -5,9 +5,7 @@ description: Technical deep dive into user isolation and multi-tenant architectu
 
 # Multi-Tenancy
 
-## How MUXI isolates users and tenants
-
-MUXI is designed for multi-tenant deployments from the ground up. Complete isolation between users, per-user credential storage, and tenant-aware data partitioning.
+MUXI provides complete isolation between users: separate memory, per-user credentials, and tenant-aware data partitioning.
 
 ---
 

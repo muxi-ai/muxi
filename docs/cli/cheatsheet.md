@@ -5,8 +5,6 @@ description: Quick reference for all MUXI CLI commands
 
 # CLI Cheatsheet
 
-## Quick reference for every command
-
 ---
 
 ## Getting Started

@@ -5,9 +5,7 @@ description: How MUXI agents work together to accomplish complex tasks
 
 # Agents & Orchestration
 
-## Intelligent agents that collaborate and specialize
-
-MUXI agents aren't just chat interfaces - they're specialized workers that collaborate, delegate, and adapt. The Overlord orchestrates them automatically, routing tasks to the right agent and breaking complex requests into manageable steps.
+MUXI agents are specialized workers that collaborate, delegate, and adapt. The Overlord orchestrates them automatically, routing tasks to the right agent and breaking complex requests into manageable steps.
 
 ---
 
@@ -131,7 +129,7 @@ Request: "onboard new customer"
 | Static task routing | Dynamic complexity analysis |
 | Siloed agents | Collaborative A2A |
 
-The result: **agents that genuinely work together**, not just chat interfaces with different prompts.
+The result: **agents that work together**, not chat interfaces with different prompts.
 
 ---
 

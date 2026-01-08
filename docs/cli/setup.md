@@ -5,9 +5,7 @@ description: First-time configuration for the MUXI CLI
 
 # CLI Setup
 
-## Connect to your server in 2 minutes
-
-You've installed the MUXI CLI - now let's connect it to your server and create your first formation.
+Connect the CLI to your server and deploy your first formation.
 
 ---
 

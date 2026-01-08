@@ -5,8 +5,6 @@ description: Everything MUXI can do, at a glance
 
 # Feature Overview
 
-## Everything MUXI can do
-
 A quick reference to all MUXI capabilities. Click any feature to learn more.
 
 ---

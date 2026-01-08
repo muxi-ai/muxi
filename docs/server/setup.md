@@ -5,9 +5,7 @@ description: First-time configuration for MUXI Server
 
 # Server Setup
 
-## Get your server running in 5 minutes
-
-You've installed MUXI Server - now let's configure it. This walkthrough covers everything you need to start deploying formations.
+Configure MUXI Server and start deploying formations.
 
 ---
 

@@ -5,9 +5,7 @@ description: Configure the MUXI CLI settings and server profiles
 
 # CLI Configuration
 
-## Customize your CLI experience
-
-The MUXI CLI stores configuration in `~/.muxi/cli/`. Server profiles, default settings, and preferences.
+The CLI stores configuration in `~/.muxi/cli/`: server profiles, default settings, and preferences.
 
 ---
 

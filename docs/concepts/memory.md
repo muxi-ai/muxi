@@ -5,9 +5,7 @@ description: How MUXI remembers context across conversations and sessions
 
 # Memory System
 
-## Three-tier memory that actually remembers
-
-MUXI implements a three-tier memory system that handles everything from immediate conversation context to long-term user knowledge. Automatic tiering, intelligent caching, and semantic search - all built in.
+MUXI's three-tier memory handles everything from immediate conversation context to long-term user knowledge. Automatic tiering, intelligent caching, and semantic search - built in.
 
 ---
 
@@ -156,7 +154,7 @@ This happens automatically with `user_isolation: true` - no data leaks between u
 | Full history = high token costs | Synopsis caching saves 80%+ |
 | Keyword search only | Semantic similarity |
 
-The result: **agents that genuinely remember**, not just stateless chatbots.
+The result: **agents that remember**, not stateless chatbots.
 
 ---
 

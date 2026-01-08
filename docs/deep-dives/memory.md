@@ -5,9 +5,7 @@ description: Technical deep dive into MUXI's three-tier memory system
 
 # Memory Internals
 
-## How MUXI manages context at scale
-
-This deep dive covers the technical implementation of MUXI's memory system: data structures, algorithms, caching strategies, and performance characteristics.
+Technical implementation of MUXI's memory system: data structures, algorithms, caching strategies, and performance characteristics.
 
 ---
 
