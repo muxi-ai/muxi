@@ -77,16 +77,16 @@ Each section has a `SUMMARY.md` file for sidebar navigation. Here's the complete
 * [Searching](registry/searching.md)
 * [Publishing](registry/publishing.md)
 
-## Features
+## How It Works
 
-* [Features Overview](features/README.md)
-* [Request Lifecycle](features/request-lifecycle.md)
-* [Multi-Agent Orchestration](features/orchestration.md)
-* [Streaming Responses](features/streaming.md)
-* [Multi-User Support](features/multi-user.md)
-* [Async Operations](features/async.md)
-* [Observability](features/observability.md)
-* [Security](features/security.md)
+* [Overview](how-it-works/README.md)
+* [Request Lifecycle](how-it-works/request-lifecycle.md)
+* [Multi-Agent Orchestration](how-it-works/orchestration.md)
+* [Streaming Responses](how-it-works/streaming.md)
+* [Multi-User Support](how-it-works/multi-user.md)
+* [Async Operations](how-it-works/async.md)
+* [Observability](how-it-works/observability.md)
+* [Security](how-it-works/security.md)
 
 ## Guides
 
@@ -103,18 +103,9 @@ Each section has a `SUMMARY.md` file for sidebar navigation. Here's the complete
 * [Monitoring & Logs](guides/monitoring.md)
 * [Troubleshooting](guides/troubleshooting.md)
 
-## API Reference
-
-* [API Overview](api/README.md)
-* [Authentication](api/authentication.md)
-* [Server API](api/server-api.md)
-* [Formation API](api/formation-api.md)
-* [Error Codes](api/errors.md)
-
 ## Concepts
 
 * [Architecture](concepts/architecture.md)
-* [How It Works](concepts/how-it-works.md)
 * [Why Encrypted Secrets](concepts/secrets.md)
 * [Versioning](concepts/versioning.md)
 
@@ -122,6 +113,99 @@ Each section has a `SUMMARY.md` file for sidebar navigation. Here's the complete
 
 * [Runtime Overview](runtime/README.md)
 * [Embedding the Runtime](runtime/embedding.md)
+* [API Reference](runtime/api.md)
+```
+
+---
+
+## Per-Section SUMMARYs
+
+Sections with multiple pages get their own `SUMMARY.md`:
+
+### guides/SUMMARY.md
+
+```markdown
+# Guides
+
+* [Overview](README.md)
+
+## Getting Started
+* [Deploy to Production](deploy.md)
+* [Add Tools (MCP)](add-tools.md)
+* [Add Memory](add-memory.md)
+* [Add Knowledge](add-knowledge.md)
+
+## Automation
+* [Create Triggers](triggers.md)
+* [Write SOPs](sops.md)
+
+## Advanced
+* [Multi-Agent Systems](multi-agent.md)
+* [Build Custom UI](custom-ui.md)
+* [CI/CD Integration](ci-cd.md)
+
+## Operations
+* [Monitoring & Logs](monitoring.md)
+* [Troubleshooting](troubleshooting.md)
+```
+
+### runtime/SUMMARY.md
+
+```markdown
+# Runtime (Advanced)
+
+> For developers embedding MUXI Runtime in applications.
+> Most users should use the Server + CLI instead.
+
+* [Overview](README.md)
+* [Embedding the Runtime](embedding.md)
+* [API Reference](api.md)
+* [Configuration](configuration.md)
+* [Events & Observability](events.md)
+```
+
+### how-it-works/SUMMARY.md
+
+```markdown
+# How It Works
+
+* [Overview](README.md)
+
+## Request Processing
+* [Request Lifecycle](request-lifecycle.md)
+* [Multi-Agent Orchestration](orchestration.md)
+
+## Response Handling
+* [Streaming Responses](streaming.md)
+* [Async Operations](async.md)
+
+## Platform
+* [Multi-User Support](multi-user.md)
+* [Observability](observability.md)
+* [Security](security.md)
+```
+
+### formations/SUMMARY.md
+
+```markdown
+# Formations
+
+* [Overview](README.md)
+* [Schema Reference](schema.md)
+
+## Components
+* [Agents](agents.md)
+* [Tools (MCP)](tools.md)
+* [Memory](memory.md)
+* [Knowledge](knowledge.md)
+
+## Automation
+* [Triggers](triggers.md)
+* [SOPs](sops.md)
+
+## Configuration
+* [Secrets](secrets.md)
+* [Examples](examples.md)
 ```
 
 ---
@@ -1094,18 +1178,18 @@ The runtime has extensive documentation that should be reframed as **MUXI capabi
 | Runtime Doc | Docs Section | Framing |
 |-------------|--------------|---------|
 | `secrets-management.md` | `/formations/secrets` + `/concepts/secrets` | Why MUXI uses encrypted secrets, not env vars |
-| `request-lifecycle.md` | `/features/request-lifecycle` | What happens when you send a message |
+| `request-lifecycle.md` | `/how-it-works/request-lifecycle` | What happens when you send a message |
 | `triggers.md` | `/formations/triggers` + `/guides/triggers` | Webhook-friendly automation |
 | `knowledge-system.md` | `/formations/knowledge` + `/guides/add-knowledge` | RAG and domain knowledge |
 | `memory-systems.md` | `/formations/memory` + `/guides/add-memory` | Three-tier memory architecture |
 | `workflow/sop-system.md` | `/formations/sops` + `/guides/sops` | Standard operating procedures |
-| `overlord-process.md` | `/features/orchestration` | Multi-agent coordination |
-| `multi-user-architecture.md` | `/features/multi-user` | Multi-tenant support |
-| `observability.md` | `/features/observability` | 349 typed events |
-| `features/streaming.md` | `/features/streaming` | Real-time SSE responses |
-| `async-operations.md` | `/features/async` | Long-running operations |
-| `SECURITY.md` | `/features/security` | Security architecture |
-| `a2a/` | `/features/orchestration` | Agent-to-agent communication |
+| `overlord-process.md` | `/how-it-works/orchestration` | Multi-agent coordination |
+| `multi-user-architecture.md` | `/how-it-works/multi-user` | Multi-tenant support |
+| `observability.md` | `/how-it-works/observability` | 349 typed events |
+| `features/streaming.md` | `/how-it-works/streaming` | Real-time SSE responses |
+| `async-operations.md` | `/how-it-works/async` | Long-running operations |
+| `SECURITY.md` | `/how-it-works/security` | Security architecture |
+| `a2a/` | `/how-it-works/orchestration` | Agent-to-agent communication |
 | `mcp/` | `/formations/tools` | MCP integration |
 
 **Key reframing principle:** Instead of "how the runtime works internally," explain "what MUXI does for you."
@@ -1183,7 +1267,7 @@ What happens when a message arrives:
 7. Response generation
 8. Memory updates
 
-**Docs:** `/features/request-lifecycle.md` (reference)
+**Docs:** `/how-it-works/request-lifecycle.md` (reference)
 
 ### Multi-Agent Orchestration
 
@@ -1193,7 +1277,7 @@ How MUXI coordinates agents:
 - Parallel execution where possible
 - A2A (agent-to-agent) communication
 
-**Docs:** `/features/orchestration.md`
+**Docs:** `/how-it-works/orchestration.md`
 
 ---
 
