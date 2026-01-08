@@ -16,6 +16,7 @@
 * [Knowledge & RAG](concepts/knowledge.md)
 * [Tools & MCP](concepts/tools.md)
 * [Secrets & Security](concepts/secrets.md)
+* [User Credentials](concepts/user-credentials.md)
 * [Registry](concepts/registry.md)
 * [Standard Operating Procedures](concepts/sops.md)
 * [Triggers & Automation](concepts/triggers.md)
