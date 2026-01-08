@@ -207,6 +207,7 @@ To share a formation with teammates:
 ### Backup
 
 Store `.key` in a secure location:
+
 - Password manager (1Password, Bitwarden)
 - Secret vault (HashiCorp Vault, AWS Secrets Manager)
 - Secure backup separate from the repository

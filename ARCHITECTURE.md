@@ -228,6 +228,7 @@ Distribution:
 ### 1. Separate Repositories
 
 Each component evolves independently:
+
 - Server can release without affecting CLI
 - Runtime API stabilizes separately
 - Focused responsibility per repo
@@ -276,6 +277,7 @@ Every agent invocation produces structured traces. See what your agent did, why,
 ### Separation of Concerns
 
 Each component has a focused responsibility:
+
 - **Server** = orchestration
 - **Runtime** = execution
 - **CLI** = management

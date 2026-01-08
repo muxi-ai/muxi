@@ -39,6 +39,7 @@ The `muxi` meta-repo (https://github.com/muxi-ai/muxi) contains most everything 
 ### Purpose
 
 This is the **meta repository** containing:
+
 - Project-wide documentation (CONTRIBUTING, ARCHITECTURE, etc.)
 - Style guides for all supported languages
 - Shared configuration and guidelines

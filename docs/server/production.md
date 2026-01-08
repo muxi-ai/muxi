@@ -56,10 +56,10 @@ Use nginx, Caddy, or similar:
 server {
     listen 443 ssl;
     server_name muxi.example.com;
-    
+
     ssl_certificate /etc/letsencrypt/live/muxi.example.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/muxi.example.com/privkey.pem;
-    
+
     location / {
         proxy_pass http://127.0.0.1:7890;
         proxy_http_version 1.1;
@@ -190,6 +190,7 @@ fi
 ### Uptime Monitoring
 
 Use external monitoring:
+
 - Pingdom
 - UptimeRobot
 - Custom solution
@@ -218,6 +219,7 @@ cp -r /var/log/muxi $BACKUP_DIR/
 ### Single Server
 
 For most deployments, one server handles many formations:
+
 - Each formation runs independently
 - Resources shared across formations
 - Simple to manage
@@ -254,6 +256,7 @@ journalctl -u muxi-server -n 100
 ```
 
 Common issues:
+
 - Port already in use
 - Config syntax error
 - Missing permissions
@@ -267,6 +270,7 @@ muxi logs my-assistant --lines 200
 ```
 
 Common issues:
+
 - Missing secrets
 - Out of memory
 - Invalid configuration
@@ -280,6 +284,7 @@ top -p $(pgrep muxi-server)
 ```
 
 Consider:
+
 - Increasing resources
 - Reducing concurrent formations
 - Adding servers

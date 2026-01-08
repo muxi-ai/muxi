@@ -126,6 +126,7 @@ repository: https://github.com/user/my-formation
 ## Browse Online
 
 Visit [registry.muxi.org](https://registry.muxi.org) to:
+
 - Browse formations
 - View documentation
 - Check download stats

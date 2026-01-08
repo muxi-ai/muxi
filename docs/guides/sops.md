@@ -150,6 +150,7 @@ triggers:
 ## SOP Priority
 
 SOPs have highest routing priority:
+
 - Bypass complexity analysis
 - Bypass approval flows
 - Execute immediately when matched

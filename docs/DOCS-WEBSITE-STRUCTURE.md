@@ -256,7 +256,7 @@ Deploy AI agents to production with one command.
 
 ## What is MUXI?
 
-MUXI is infrastructure for running AI agents. You define agents in YAML files 
+MUXI is infrastructure for running AI agents. You define agents in YAML files
 (formations), deploy them to a server, and access them via API or SDK.
 
 Think: Docker for AI agents.
@@ -518,6 +518,7 @@ The orchestration platform for running MUXI formations.
 ## Overview
 
 MUXI Server:
+
 - Deploys and manages formations
 - Routes requests to the right formation
 - Handles authentication (HMAC)
@@ -631,6 +632,7 @@ A formation is a complete AI system definition in YAML.
 ## Overview
 
 Formations define:
+
 - **Agents** - AI personas with roles and capabilities
 - **Memory** - Short-term, long-term, and semantic memory
 - **Tools** - MCP servers for external capabilities
@@ -1219,6 +1221,7 @@ MUXI uses encrypted `secrets.enc` files instead of environment variables because
 ### Triggers
 
 Webhook-friendly requests with template-based message generation:
+
 - External systems → MUXI formation
 - Templates render data into prompts
 - Async by default (webhooks expect fast ack)
@@ -1229,6 +1232,7 @@ Webhook-friendly requests with template-based message generation:
 ### SOPs (Standard Operating Procedures)
 
 Predefined workflows for consistent task execution:
+
 - Markdown templates with steps
 - Override complexity thresholds
 - Bypass approval flows
@@ -1239,6 +1243,7 @@ Predefined workflows for consistent task execution:
 ### Knowledge
 
 RAG capabilities with disk-cached embeddings:
+
 - 30+ file formats via MarkItDown
 - Agent-level isolation
 - Lazy loading (on first query)
@@ -1272,6 +1277,7 @@ What happens when a message arrives:
 ### Multi-Agent Orchestration
 
 How MUXI coordinates agents:
+
 - Automatic routing by capability
 - Task decomposition for complex requests
 - Parallel execution where possible

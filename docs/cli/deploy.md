@@ -123,6 +123,7 @@ Fix the errors and retry.
 Error: Cannot connect to server
 
 Check:
+
 - Server is running
 - Network connectivity
 - Profile configuration

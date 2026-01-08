@@ -11,6 +11,7 @@ MUXI uses [ScalVer (Scalable Calendar Versioning)](https://github.com/veiloq/sca
 **Format**: `MAJOR.YYYYMMDD.PATCH`
 
 Where:
+
 - **MAJOR**: Breaking changes (like SemVer)
 - **YYYYMMDD**: Release date in UTC (8-digit format: 20250115 = January 15, 2025)
 - **PATCH**: Backward-compatible updates to that release (like SemVer)

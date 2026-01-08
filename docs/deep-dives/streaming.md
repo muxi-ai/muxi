@@ -110,7 +110,7 @@ const decoder = new TextDecoder();
 while (true) {
   const { done, value } = await reader.read();
   if (done) break;
-  
+
   const chunk = decoder.decode(value);
   // Parse SSE format and update UI
   console.log(chunk);
@@ -156,6 +156,7 @@ data: {"text": "here are the latest AI trends..."}
 ```
 
 This lets you show users what's happening:
+
 - "Searching the web..."
 - "Querying database..."
 - "Reading file..."
@@ -168,19 +169,19 @@ This lets you show users what's happening:
 function Chat() {
   const [messages, setMessages] = useState<string[]>([]);
   const [currentMessage, setCurrentMessage] = useState('');
-  
+
   const sendMessage = async (text: string) => {
     setMessages(prev => [...prev, `You: ${text}`]);
     setCurrentMessage('');
-    
+
     for await (const chunk of formation.chatStream(text)) {
       setCurrentMessage(prev => prev + chunk.text);
     }
-    
+
     setMessages(prev => [...prev, `Assistant: ${currentMessage}`]);
     setCurrentMessage('');
   };
-  
+
   return (
     <div>
       {messages.map((m, i) => <p key={i}>{m}</p>)}

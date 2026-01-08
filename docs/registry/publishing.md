@@ -167,6 +167,7 @@ muxi validate
 ```
 
 Checks:
+
 - Schema validity
 - Required fields
 - secrets.example exists

@@ -23,6 +23,7 @@ graph LR
 ```
 
 SOPs have **highest routing priority**. When matched:
+
 - Skip complexity analysis
 - Skip agent selection
 - Execute procedure immediately

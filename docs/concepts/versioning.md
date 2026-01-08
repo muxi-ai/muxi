@@ -43,6 +43,7 @@ muxi push --tag v1.1.0
 ### Semantic Versioning
 
 Follow semver:
+
 - **Major** (2.0.0) - Breaking changes
 - **Minor** (1.1.0) - New features, backward compatible
 - **Patch** (1.0.1) - Bug fixes
@@ -121,6 +122,7 @@ When upgrading schema versions:
 ### Migration Guides
 
 Major version migrations documented at:
+
 - docs.muxi.org/migrations/v1-to-v2
 - docs.muxi.org/migrations/v2-to-v3
 

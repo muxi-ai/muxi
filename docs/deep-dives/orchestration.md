@@ -72,7 +72,7 @@ For simple requests, the Overlord selects based on:
 Example routing:
 
 ```
-"Search for AI news" 
+"Search for AI news"
 → researcher (has web-search tool)
 
 "Write a blog post about our product"
@@ -154,6 +154,7 @@ Agent A Output → Overlord → Agent B Input
 ```
 
 This enables:
+
 - Consistent context between agents
 - Progress tracking
 - Error handling and retries
@@ -195,7 +196,7 @@ Proceed? [y/N]
 overlord:
   auto_decomposition: true     # Enable workflow mode
   complexity_threshold: 7.0    # Score threshold
-  
+
   persona:
     name: Assistant
     style: professional        # professional, casual, technical
@@ -232,6 +233,7 @@ muxi chat --debug "Your request here"
 ```
 
 Output includes:
+
 - Complexity score
 - Selected agent
 - Routing reason

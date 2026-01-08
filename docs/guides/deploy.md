@@ -103,10 +103,10 @@ logging:
 server {
     listen 443 ssl http2;
     server_name muxi.yourdomain.com;
-    
+
     ssl_certificate /etc/letsencrypt/live/muxi.yourdomain.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/muxi.yourdomain.com/privkey.pem;
-    
+
     location / {
         proxy_pass http://127.0.0.1:7890;
         proxy_http_version 1.1;
@@ -180,6 +180,7 @@ muxi profile add production
 ```
 
 Enter when prompted:
+
 - URL: `https://muxi.yourdomain.com`
 - Key ID: `MUXI_production`
 - Secret Key: `sk_...`
@@ -240,6 +241,7 @@ sudo journalctl -u muxi-server -n 100
 ```
 
 Common issues:
+
 - Port already in use
 - Config syntax error
 - Missing permissions

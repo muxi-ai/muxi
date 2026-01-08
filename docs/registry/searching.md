@@ -28,6 +28,7 @@ muxi search --tag multi-agent
 ## Web Search
 
 Visit [registry.muxi.org](https://registry.muxi.org) to:
+
 - Browse by category
 - View formation details
 - Read documentation

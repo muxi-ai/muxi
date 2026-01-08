@@ -24,6 +24,7 @@ cat /proc/1234/environ
 ```
 
 Environment variables are visible to:
+
 - All child processes
 - Process monitors
 - System administrators
@@ -94,6 +95,7 @@ muxi dev
 ```
 
 Compare to environment variables:
+
 - Document all required vars somewhere
 - Each person sets them up manually
 - Easy to miss one, typo another
@@ -124,6 +126,7 @@ $ env | grep API
 ```
 
 Secrets are:
+
 - Decrypted only when needed
 - Passed directly to LLM/tool calls
 - Never stored in process environment
@@ -170,6 +173,7 @@ graph LR
 
 [[toggle Why not just use a secrets manager?]]
 You can! For enterprise deployments, store `.key` in:
+
 - HashiCorp Vault
 - AWS Secrets Manager
 - Azure Key Vault

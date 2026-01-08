@@ -45,6 +45,7 @@ muxi new formation my-bot --template research
 ```
 
 Templates:
+
 - `default` - Basic assistant
 - `research` - Research with web search
 - `support` - Customer support with knowledge

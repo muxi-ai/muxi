@@ -269,6 +269,7 @@ muxi logs --mcp
 ```
 
 Common issues:
+
 - Invalid API key
 - Network connectivity
 - Server not running

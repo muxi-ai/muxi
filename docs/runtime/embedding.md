@@ -5,6 +5,7 @@ Run the MUXI runtime in your own application.
 ## Overview
 
 While most users access MUXI through the server, you can embed the runtime directly for:
+
 - Custom deployment scenarios
 - Integration with existing systems
 - Development and testing
@@ -18,7 +19,7 @@ pip install muxi-runtime
 ## Basic Usage
 
 ```python
-from muxi_runtime import Formation, Config
+from muxi.runtime import Formation, Config
 
 # Load formation
 formation = Formation.load("./my-formation")
@@ -31,7 +32,7 @@ print(response.text)
 ## Configuration
 
 ```python
-from muxi_runtime import Formation, Config
+from muxi.runtime import Formation, Config
 
 config = Config(
     port=8001,
@@ -48,7 +49,7 @@ formation = Formation.load(
 ## Running as Server
 
 ```python
-from muxi_runtime import Formation
+from muxi.runtime import Formation
 
 formation = Formation.load("./my-formation")
 formation.serve(port=8001)
@@ -57,7 +58,7 @@ formation.serve(port=8001)
 Or with uvicorn:
 
 ```python
-from muxi_runtime import Formation
+from muxi.runtime import Formation
 
 formation = Formation.load("./my-formation")
 app = formation.as_asgi()
@@ -135,7 +136,7 @@ response = formation.trigger(
 Subscribe to runtime events:
 
 ```python
-from muxi_runtime import Formation, EventType
+from muxi.runtime import Formation, EventType
 
 formation = Formation.load("./my-formation")
 
@@ -154,7 +155,7 @@ def on_complete(event):
 
 ```python
 from fastapi import FastAPI
-from muxi_runtime import Formation
+from muxi.runtime import Formation
 
 app = FastAPI()
 formation = Formation.load("./my-formation")
@@ -169,7 +170,7 @@ async def chat(message: str):
 
 ```python
 from django.http import JsonResponse
-from muxi_runtime import Formation
+from muxi.runtime import Formation
 
 formation = Formation.load("./my-formation")
 
@@ -190,6 +191,7 @@ def chat_view(request):
 ## Limitations
 
 When embedding:
+
 - No server management features
 - No multi-formation support
 - Manual scaling

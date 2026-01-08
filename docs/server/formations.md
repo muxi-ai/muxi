@@ -202,6 +202,7 @@ muxi logs my-assistant
 ```
 
 Common issues:
+
 - Missing secrets
 - Invalid configuration
 - Port conflict

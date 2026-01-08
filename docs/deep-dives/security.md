@@ -59,6 +59,7 @@ X-MUXI-Signature: base64(signature)
 ```
 
 Properties:
+
 - **Time-limited** - 5 minute window prevents replay
 - **Request-bound** - Signature includes request body
 - **Tamper-proof** - Any modification invalidates signature
@@ -156,7 +157,7 @@ mcps:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Cannot access OPENAI_API_KEY
-  
+
   - id: database
     config:
       connection_string: ${{ secrets.DATABASE_URL }}
