@@ -9,7 +9,7 @@
 ## Core Concepts
 
 * [Architecture](concepts/architecture.md)
-* [Why Encrypted Secrets](concepts/secrets.md)
+* [Secrets](concepts/secrets.md)
 * [Versioning](concepts/versioning.md)
 
 ## Formations
