@@ -244,4 +244,4 @@ Output includes:
 
 [+] [Request Lifecycle](request-lifecycle.md) - Full request flow
 [+] [Multi-Agent Guide](../guides/multi-agent.md) - Building agent teams
-[+] [SOPs](../formations/sops.md) - Standard operating procedures
+[+] [SOPs](../reference/sops.md) - Standard operating procedures

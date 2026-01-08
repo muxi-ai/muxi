@@ -38,7 +38,7 @@ Install MUXI on macOS, Linux, Windows, or Docker.
 
 [[/card]]
 
-(formations/README.md)[[card]]
+(reference/README.md)[[card]]
 
 #### Formations
 Learn how to define AI systems in YAML.
@@ -181,5 +181,5 @@ Authentication and encryption.
 
 [+] [Run the Quickstart](quickstart.md)
 [+] [Install MUXI](installation/README.md)
-[+] [Explore formations](formations/README.md)
+[+] [Explore formations](reference/README.md)
 [+] [Browse the registry](https://registry.muxi.org)

@@ -210,5 +210,5 @@ agents:
 
 ## Learn More
 
-- [Configure tools](../formations/tools.md) - YAML syntax
+- [Configure tools](../reference/tools.md) - YAML syntax
 - [Add Tools Guide](../guides/add-tools.md) - Step-by-step tutorial

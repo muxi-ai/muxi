@@ -33,16 +33,16 @@
 
 ## Reference
 
-* [Overview](formations/README.md)
-* [Schema Reference](formations/schema.md)
-* [Agents](formations/agents.md)
-* [Tools](formations/tools.md)
-* [Memory](formations/memory.md)
-* [Knowledge](formations/knowledge.md)
-* [Triggers](formations/triggers.md)
-* [SOPs](formations/sops.md)
-* [Secrets](formations/secrets.md)
-* [Examples](formations/examples.md)
+* [Overview](reference/README.md)
+* [Schema](reference/schema.md)
+* [Agents](reference/agents.md)
+* [Tools](reference/tools.md)
+* [Memory](reference/memory.md)
+* [Knowledge](reference/knowledge.md)
+* [Triggers](reference/triggers.md)
+* [SOPs](reference/sops.md)
+* [Secrets](reference/secrets.md)
+* [Examples](reference/examples.md)
 
 ## Server
 

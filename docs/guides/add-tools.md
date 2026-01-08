@@ -245,6 +245,6 @@ server:
 
 ## Next Steps
 
-[+] [Tools Reference](../formations/tools.md) - All configuration options
+[+] [Tools Reference](../reference/tools.md) - All configuration options
 [+] [Add Memory](add-memory.md) - Persistent conversations
 [+] [Multi-Agent Systems](multi-agent.md) - Specialized agent teams

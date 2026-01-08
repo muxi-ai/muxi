@@ -146,5 +146,5 @@ knowledge:
 
 ## Next Steps
 
-- [Knowledge Reference](../formations/knowledge.md) - Full configuration
+- [Knowledge Reference](../reference/knowledge.md) - Full configuration
 - [Add Memory](add-memory.md) - Conversation memory

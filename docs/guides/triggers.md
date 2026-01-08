@@ -146,5 +146,5 @@ curl http://localhost:8001/v1/triggers \
 
 ## Next Steps
 
-- [Triggers Reference](../formations/triggers.md) - Full details
+- [Triggers Reference](../reference/triggers.md) - Full details
 - [Write SOPs](sops.md) - Standard procedures

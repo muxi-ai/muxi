@@ -178,6 +178,6 @@ That's it. Three-tier memory, semantic search, automatic management.
 
 ## Learn More
 
-- [Configure memory](../formations/memory.md) - YAML syntax
+- [Configure memory](../reference/memory.md) - YAML syntax
 - [Add Memory Guide](../guides/add-memory.md) - Step-by-step tutorial
 - [Memory Internals](../deep-dives/memory.md) - Technical deep dive

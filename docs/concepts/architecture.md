@@ -213,4 +213,4 @@ Load Balancer
 
 [+] [Request Lifecycle](../deep-dives/request-lifecycle.md) - Detailed request flow
 [+] [Security Model](../deep-dives/security.md) - Authentication layers
-[+] [Formations](../formations/README.md) - Building formations
+[+] [Reference](../reference/README.md) - Building formations

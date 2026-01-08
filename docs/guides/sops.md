@@ -166,5 +166,5 @@ muxi chat "onboard a new customer"
 
 ## Next Steps
 
-- [SOPs Reference](../formations/sops.md) - Full details
+- [SOPs Reference](../reference/sops.md) - Full details
 - [Multi-Agent Systems](multi-agent.md) - Complex workflows

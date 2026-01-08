@@ -323,5 +323,5 @@ memory:
 ## Next Steps
 
 - [Memory Concepts](../concepts/memory.md) - High-level overview
-- [Memory Configuration](../formations/memory.md) - YAML reference
+- [Memory Configuration](../reference/memory.md) - YAML reference
 - [Multi-Tenancy](multi-tenancy.md) - User isolation details

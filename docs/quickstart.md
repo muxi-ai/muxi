@@ -211,7 +211,7 @@ Give your agent web search, file access, and more.
 Make conversations persist across sessions.
 [[/card]]
 
-(formations/README.md)[[card]]
+(reference/README.md)[[card]]
 #### Formation Reference
 Complete YAML configuration guide.
 [[/card]]

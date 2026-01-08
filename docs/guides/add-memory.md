@@ -149,5 +149,5 @@ memory:
 
 ## Next Steps
 
-- [Memory Reference](../formations/memory.md) - Full configuration
+- [Memory Reference](../reference/memory.md) - Full configuration
 - [Multi-User Support](../deep-dives/multi-user.md) - User isolation

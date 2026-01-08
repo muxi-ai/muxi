@@ -137,6 +137,6 @@ The result: **agents that genuinely work together**, not just chat interfaces wi
 
 ## Learn More
 
-- [Configure agents](../formations/agents.md) - YAML syntax for agent definitions
+- [Configure agents](../reference/agents.md) - YAML syntax for agent definitions
 - [Multi-Agent Guide](../guides/multi-agent.md) - Build your first multi-agent system
 - [Orchestration Deep Dive](../deep-dives/orchestration.md) - Technical internals
