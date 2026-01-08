@@ -77,16 +77,16 @@ Each section has a `SUMMARY.md` file for sidebar navigation. Here's the complete
 * [Searching](registry/searching.md)
 * [Publishing](registry/publishing.md)
 
-## How It Works
+## Deep Dives
 
-* [Overview](how-it-works/README.md)
-* [Request Lifecycle](how-it-works/request-lifecycle.md)
-* [Multi-Agent Orchestration](how-it-works/orchestration.md)
-* [Streaming Responses](how-it-works/streaming.md)
-* [Multi-User Support](how-it-works/multi-user.md)
-* [Async Operations](how-it-works/async.md)
-* [Observability](how-it-works/observability.md)
-* [Security](how-it-works/security.md)
+* [Overview](deep-dives/README.md)
+* [Request Lifecycle](deep-dives/request-lifecycle.md)
+* [Multi-Agent Orchestration](deep-dives/orchestration.md)
+* [Streaming Responses](deep-dives/streaming.md)
+* [Multi-User Support](deep-dives/multi-user.md)
+* [Async Operations](deep-dives/async.md)
+* [Observability](deep-dives/observability.md)
+* [Security](deep-dives/security.md)
 
 ## Guides
 
@@ -164,10 +164,10 @@ Sections with multiple pages get their own `SUMMARY.md`:
 * [Events & Observability](events.md)
 ```
 
-### how-it-works/SUMMARY.md
+### deep-dives/SUMMARY.md
 
 ```markdown
-# How It Works
+# Deep Dives
 
 * [Overview](README.md)
 
@@ -268,7 +268,7 @@ Think: Docker for AI agents.
 - **[CLI Reference →](/docs/cli)** - Command-line tool
 - **[SDKs →](/docs/sdks)** - Python, TypeScript, Go
 
-## How It Works
+## Deep Dives
 
 1. **Define** - Write a formation file (YAML)
 2. **Deploy** - `muxi deploy` to your server
@@ -1178,18 +1178,18 @@ The runtime has extensive documentation that should be reframed as **MUXI capabi
 | Runtime Doc | Docs Section | Framing |
 |-------------|--------------|---------|
 | `secrets-management.md` | `/formations/secrets` + `/concepts/secrets` | Why MUXI uses encrypted secrets, not env vars |
-| `request-lifecycle.md` | `/how-it-works/request-lifecycle` | What happens when you send a message |
+| `request-lifecycle.md` | `/deep-dives/request-lifecycle` | What happens when you send a message |
 | `triggers.md` | `/formations/triggers` + `/guides/triggers` | Webhook-friendly automation |
 | `knowledge-system.md` | `/formations/knowledge` + `/guides/add-knowledge` | RAG and domain knowledge |
 | `memory-systems.md` | `/formations/memory` + `/guides/add-memory` | Three-tier memory architecture |
 | `workflow/sop-system.md` | `/formations/sops` + `/guides/sops` | Standard operating procedures |
-| `overlord-process.md` | `/how-it-works/orchestration` | Multi-agent coordination |
-| `multi-user-architecture.md` | `/how-it-works/multi-user` | Multi-tenant support |
-| `observability.md` | `/how-it-works/observability` | 349 typed events |
-| `features/streaming.md` | `/how-it-works/streaming` | Real-time SSE responses |
-| `async-operations.md` | `/how-it-works/async` | Long-running operations |
-| `SECURITY.md` | `/how-it-works/security` | Security architecture |
-| `a2a/` | `/how-it-works/orchestration` | Agent-to-agent communication |
+| `overlord-process.md` | `/deep-dives/orchestration` | Multi-agent coordination |
+| `multi-user-architecture.md` | `/deep-dives/multi-user` | Multi-tenant support |
+| `observability.md` | `/deep-dives/observability` | 349 typed events |
+| `features/streaming.md` | `/deep-dives/streaming` | Real-time SSE responses |
+| `async-operations.md` | `/deep-dives/async` | Long-running operations |
+| `SECURITY.md` | `/deep-dives/security` | Security architecture |
+| `a2a/` | `/deep-dives/orchestration` | Agent-to-agent communication |
 | `mcp/` | `/formations/tools` | MCP integration |
 
 **Key reframing principle:** Instead of "how the runtime works internally," explain "what MUXI does for you."
@@ -1267,7 +1267,7 @@ What happens when a message arrives:
 7. Response generation
 8. Memory updates
 
-**Docs:** `/how-it-works/request-lifecycle.md` (reference)
+**Docs:** `/deep-dives/request-lifecycle.md` (reference)
 
 ### Multi-Agent Orchestration
 
@@ -1277,7 +1277,7 @@ How MUXI coordinates agents:
 - Parallel execution where possible
 - A2A (agent-to-agent) communication
 
-**Docs:** `/how-it-works/orchestration.md`
+**Docs:** `/deep-dives/orchestration.md`
 
 ---
 
