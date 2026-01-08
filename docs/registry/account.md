@@ -28,20 +28,16 @@ Your formations publish under `@alice/*`.
 
 ## Your Namespace
 
-| You are... | Your namespace |
-|------------|----------------|
-| GitHub user `alice` | `@alice/*` |
-| GitHub org `acme` | `@acme/*` |
+Your GitHub username becomes your registry namespace:
 
 ```bash
-# Publish as yourself
+# Publish under your username
 muxi push
 # → @alice/my-formation
-
-# Publish as org (if you're a member)
-muxi push --org acme
-# → @acme/my-formation
 ```
+
+> [!NOTE]
+> Organization namespaces (`@org/*`) are planned for future releases.
 
 ---
 
@@ -67,7 +63,6 @@ muxi auth status
 ```
 Authenticated as: @alice
 Email: alice@example.com
-Organizations: acme, startup
 ```
 
 ---
@@ -96,59 +91,6 @@ Tokens are scoped to registry access only - MUXI cannot access your GitHub repos
 
 ---
 
-## Organization Access
-
-If you're a member of GitHub organizations:
-
-```bash
-muxi auth orgs
-```
-
-```
-Organizations you can publish to:
-  @acme (admin)
-  @startup (member)
-```
-
-Publish to an org:
-
-```bash
-muxi push --org acme
-```
-
-Requires appropriate org permissions.
-
----
-
-## API Tokens
-
-For CI/CD, generate a registry token:
-
-```bash
-muxi auth token create --name "GitHub Actions"
-```
-
-```
-Token created: mrt_abc123...
-(This will only be shown once)
-```
-
-Use in CI:
-
-```bash
-export MUXI_REGISTRY_TOKEN=mrt_abc123...
-muxi push
-```
-
-### Token Management
-
-```bash
-muxi auth token list
-muxi auth token revoke mrt_abc123
-```
-
----
-
 ## Private Formations
 
 By default, formations are private:
@@ -156,18 +98,10 @@ By default, formations are private:
 ```bash
 muxi push              # Private (only you)
 muxi push --public     # Anyone can pull
-muxi push --org acme   # Org members can pull
 ```
 
-### Sharing Private Formations
-
-Grant access to specific users:
-
-```bash
-muxi access grant @bob --formation my-private-bot
-muxi access revoke @bob --formation my-private-bot
-muxi access list --formation my-private-bot
-```
+> [!NOTE]
+> Advanced features planned: organization access, team permissions, granular access control, and CI/CD tokens.
 
 ---
 
