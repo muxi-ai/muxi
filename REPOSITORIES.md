@@ -17,26 +17,27 @@ All MUXI repositories live under the [muxi-ai](https://github.com/muxi-ai) organ
 
 | Language | Repository |
 |----------|------------|
-| C++ | [sdk-cpp](https://github.com/muxi-ai/sdk-cpp) |
-| C# | [sdk-csharp](https://github.com/muxi-ai/sdk-csharp) |
-| Dart | [sdk-dart](https://github.com/muxi-ai/sdk-dart) |
-| Go | [sdk-go](https://github.com/muxi-ai/sdk-go) |
-| Java | [sdk-java](https://github.com/muxi-ai/sdk-java) |
-| Kotlin | [sdk-kotlin](https://github.com/muxi-ai/sdk-kotlin) |
-| PHP | [sdk-php](https://github.com/muxi-ai/sdk-php) |
-| Python | [sdk-python](https://github.com/muxi-ai/sdk-python) |
-| Ruby | [sdk-ruby](https://github.com/muxi-ai/sdk-ruby) |
-| Rust | [sdk-rust](https://github.com/muxi-ai/sdk-rust) |
-| Swift | [sdk-swift](https://github.com/muxi-ai/sdk-swift) |
-| TypeScript | [sdk-typescript](https://github.com/muxi-ai/sdk-typescript) |
+| C++ | [sdk-cpp](https://github.com/muxi-ai/muxi-cpp) |
+| C# | [sdk-csharp](https://github.com/muxi-ai/muxi-csharp) |
+| Dart | [sdk-dart](https://github.com/muxi-ai/muxi-dart) |
+| Go | [sdk-go](https://github.com/muxi-ai/muxi-go) |
+| Java | [sdk-java](https://github.com/muxi-ai/muxi-java) |
+| Kotlin | [sdk-kotlin](https://github.com/muxi-ai/muxi-kotlin) |
+| PHP | [sdk-php](https://github.com/muxi-ai/muxi-php) |
+| Python | [sdk-python](https://github.com/muxi-ai/muxi-python) |
+| Ruby | [sdk-ruby](https://github.com/muxi-ai/muxi-ruby) |
+| Rust | [sdk-rust](https://github.com/muxi-ai/muxi-rust) |
+| Swift | [sdk-swift](https://github.com/muxi-ai/muxi-swift) |
+| TypeScript | [sdk-typescript](https://github.com/muxi-ai/muxi-typescript) |
 
 ## Supporting
 
 | Repository | Description |
 |------------|-------------|
-| [schemas](https://github.com/muxi-ai/schemas) | Formation YAML specification |
+| [afs-spec](https://github.com/agent-formation/afs-spec) | Agent Formation specification |
 | [install](https://github.com/muxi-ai/install) | One-command installation scripts |
 | [homebrew-tap](https://github.com/muxi-ai/homebrew-tap) | Homebrew formulae |
+
 
 ## Related Projects
 
