@@ -3,6 +3,7 @@
 ## Getting Started
 
 * [What is MUXI](README.md)
+* [Feature Overview](features.md)
 * [Quickstart](quickstart.md)
 * [Installation](installation/README.md)
 
