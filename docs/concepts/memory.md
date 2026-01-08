@@ -12,23 +12,23 @@ MUXI's three-tier memory handles everything from immediate conversation context 
 ## The Three Tiers
 
 ```
-┌─────────────────────────────────────────┐
-│           Buffer Memory                  │
-│      Recent messages (fast, in-memory)   │
-│           ~50 messages                   │
-└─────────────────────────────────────────┘
+┌──────────────────────────────────────────┐
+│              Buffer Memory               │
+│    Recent messages (fast, in-memory)     │
+│              ~50 messages                │
+└───────────────────┬──────────────────────┘
                     ↓ overflow
-┌─────────────────────────────────────────┐
-│          Working Memory                  │
-│    Tool outputs, intermediate state      │
-│         Vector-indexed                   │
-└─────────────────────────────────────────┘
+┌──────────────────────────────────────────┐
+│              Working Memory              │
+│     Tool outputs, intermediate state     │
+│              Vector-indexed              │
+└───────────────────┬──────────────────────┘
                     ↓ important info
-┌─────────────────────────────────────────┐
-│        Persistent Memory                 │
+┌──────────────────────────────────────────┐
+│            Persistent Memory             │
 │    Long-term storage (SQLite/Postgres)   │
-│         Survives restarts                │
-└─────────────────────────────────────────┘
+│            Survives restarts             │
+└──────────────────────────────────────────┘
 ```
 
 Each tier serves a purpose:

@@ -22,7 +22,7 @@ agents:
     role: Research topics thoroughly with web search
     mcps:
       - web-search
-  
+
   - id: writer
     role: Write clear, engaging content
 ```
@@ -88,10 +88,10 @@ overlord:
 Agents within your formation work together seamlessly. For cross-formation or cross-organization collaboration, MUXI implements the **A2A protocol**:
 
 ```
-┌─────────────────┐         ┌─────────────────┐
-│  Your Formation │ ←─A2A─→ │ Partner Formation│
-│  (Research Bot) │         │  (Legal Review)  │
-└─────────────────┘         └─────────────────┘
+┌──────────────────┐           ┌───────────────────┐
+│  Your Formation  │ ←- A2A -→ │ Partner Formation │
+│  (Research Bot)  │           │   (Legal Review)  │
+└──────────────────┘           └───────────────────┘
 ```
 
 Agents can:

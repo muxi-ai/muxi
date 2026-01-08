@@ -88,10 +88,7 @@ Set up observability for production formations.
 
 ## Troubleshooting
 
-(troubleshooting.md)[[card]]
-#### Common Issues
-Solutions for installation, deployment, and runtime problems.
-[[/card]]
+For troubleshooting installation, deployment, and runtime problems, and other common issues visit the [Troubleshooting Guide](troubleshooting.md).
 
 ---
 

@@ -83,26 +83,16 @@ Publishing my-formation...
 Available at: https://registry.muxi.org/my-formation
 ```
 
-## Visibility
-
-### Public
-
-```bash
-muxi push --public
-```
-
-Anyone can find and pull.
-
-### Private (Default)
+## Publishing
 
 ```bash
 muxi push
 ```
 
-Only you can access.
+Publishes to your namespace (`@username/formation`).
 
 > [!NOTE]
-> Organization publishing (`--org`) is planned for future releases.
+> Visibility controls (public/private), organization publishing (`--org`), and access permissions are planned for future releases.
 
 ## Versioning
 

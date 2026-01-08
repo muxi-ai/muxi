@@ -5,7 +5,7 @@ description: Everything MUXI can do, at a glance
 
 # Feature Overview
 
-A quick reference to all MUXI capabilities. Click any feature to learn more.
+## A quick reference to all MUXI capabilities. Click any feature to learn more.
 
 > [!NOTE]
 > Prerequisites: MUXI installed and a running server (see Quickstart/Installation).
@@ -127,17 +127,6 @@ A quick reference to all MUXI capabilities. Click any feature to learn more.
 
 ## Next Steps
 
-<div class="cards">
-  <a href="quickstart" class="card">
-    <h3>Quickstart</h3>
-    <p>Build your first agent in 5 minutes</p>
-  </a>
-  <a href="installation/README" class="card">
-    <h3>Installation</h3>
-    <p>Get MUXI running on your machine</p>
-  </a>
-  <a href="concepts/architecture" class="card">
-    <h3>Architecture</h3>
-    <p>Understand how it all fits together</p>
-  </a>
-</div>
+[+] [Quickstart](quickstart.md) - Build your first agent in 5 minutes
+[+] [Installation](installation/README.md) - Get MUXI running on your machine
+[+] [Architecture](concepts/architecture.md) - Understand how it all fits together

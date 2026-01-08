@@ -9,7 +9,7 @@ The MUXI Registry is a distribution hub for formations. Pull community formation
 
 When to use the registry:
 - Start from a proven template (`muxi pull @muxi/starter`)
-- Share formations publicly or privately
+- Share formations with the community
 - Version and roll back formations safely
 
 ---
@@ -64,7 +64,7 @@ Now anyone can `muxi pull @yourusername/my-formation`.
 Your GitHub handle is your registry handle - no separate account needed.
 
 > [!NOTE]
-> Organization namespaces (`@org/*`) and private registries are planned for future releases.
+> Private registries are planned for future release.
 
 ---
 
@@ -100,15 +100,8 @@ muxi formation rollback my-assistant
 
 ---
 
-## Public vs Private
-
-```bash
-muxi push              # Private by default (only you)
-muxi push --public     # Anyone can pull
-```
-
 > [!NOTE]
-> Currently, all formations are either public or private to the author. Advanced sharing features (organization access, team permissions, private registries) are planned.
+> Visibility controls (public/private formations) and private registries are planned for future releases.
 
 ---
 
@@ -162,7 +155,7 @@ NAME                     DESCRIPTION                 DOWNLOADS
 | No versioning | Semantic versions, rollbacks |
 | Scattered documentation | Centralized, searchable |
 | Reinvent solutions | Pull and customize |
-| Private sharing via zip | Public/private sharing |
+| Manual distribution | One command sharing |
 
 The result: **formations that spread**, not code that rots in private repos.
 
@@ -180,7 +173,7 @@ muxi dev
 # Publish your own
 cd my-formation
 muxi auth login
-muxi push --public
+muxi push
 ```
 
 ---

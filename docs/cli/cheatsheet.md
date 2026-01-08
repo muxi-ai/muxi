@@ -143,9 +143,8 @@ muxi info @muxi/starter
 # Push
 muxi auth login
 muxi push
-muxi push --public
-muxi push --private
 muxi push --tag v1.0.0
+muxi push --dry-run
 ```
 
 ---
@@ -184,7 +183,7 @@ muxi profile remove old-server
 | `logs` | `--follow` | Stream logs |
 | `logs` | `--lines <n>` | Number of lines |
 | `pull` | `--output <dir>` | Output directory |
-| `push` | `--public` | Public visibility |
+| `push` | `--dry-run` | Preview without publishing |
 | `dev` | `--port <n>` | Override port |
 | `dev` | `--reindex` | Force reindex |
 
@@ -227,7 +226,7 @@ muxi formation get my-bot
 muxi new formation awesome-agent
 # ... build it ...
 muxi auth login
-muxi push --public
+muxi push
 
 # Use someone else's
 muxi pull @alice/awesome-agent

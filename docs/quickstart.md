@@ -6,10 +6,11 @@ youtube-video: placeholder
 
 # Quickstart
 
+## Go from zero to a running AI agent in 5 minutes.
+
 <!-- TODO: Add video walkthrough -->
 <!-- [Video placeholder: Complete quickstart walkthrough] -->
 
-Go from zero to a running AI agent in 5 minutes.
 
 > [!NOTE]
 > **Prerequisites:** macOS, Linux, or Windows with terminal access and an OpenAI API key.

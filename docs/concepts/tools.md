@@ -13,17 +13,17 @@ MUXI uses the **Model Context Protocol (MCP)** to connect agents with tools - we
 
 ```mermaid
 graph LR
-    A[Agent] -->|"search for X"| M[MUXI]
+    A[Agent] -->|"search for X"| O[Overlord]
     M -->|MCP protocol| T[Tool Server]
     T -->|Brave API| W[Web]
     W -->|results| T
-    T -->|formatted| M
-    M -->|context| A
+    T -->|formatted| O
+    O -->|context| A
     A -->|response| U[User]
 ```
 
 1. **Agent decides** it needs a tool (e.g., web search)
-2. **MUXI invokes** the MCP server
+2. **Overlord invokes** the MCP server
 3. **Tool executes** the action (API call, query, etc.)
 4. **Results return** to the agent
 5. **Agent synthesizes** a response
@@ -65,7 +65,7 @@ MUXI takes a different approach:
 Traditional MCP:
   10 tools × 1,000 tokens each = 10,000 tokens per request
   User message + tool schemas = bloated context
-  
+
 MUXI:
   Tool definitions loaded once at startup
   Schemas indexed for semantic lookup
@@ -143,10 +143,10 @@ mcps:
 agents:
   - id: researcher
     mcps: [web-search]      # Can only search
-  
+
   - id: developer
     mcps: [filesystem, database]  # Can access files and DB
-  
+
   - id: writer
     # No tools - pure writing
 ```

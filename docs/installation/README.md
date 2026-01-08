@@ -9,7 +9,6 @@ description: Install MUXI Server and CLI on any platform
 
 One command installs both the **MUXI Server** (orchestration) and **CLI** (management tool).
 
----
 
 ## Quick Install
 

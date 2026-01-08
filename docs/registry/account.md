@@ -91,17 +91,16 @@ Tokens are scoped to registry access only - MUXI cannot access your GitHub repos
 
 ---
 
-## Private Formations
+## Publishing Formations
 
-By default, formations are private:
+Publish formations to the registry:
 
 ```bash
-muxi push              # Private (only you)
-muxi push --public     # Anyone can pull
+muxi push              # Publish to your namespace
 ```
 
 > [!NOTE]
-> Advanced features planned: organization access, team permissions, granular access control, and CI/CD tokens.
+> Visibility controls (public/private), organization access, team permissions, and CI/CD tokens are planned for future releases.
 
 ---
 
