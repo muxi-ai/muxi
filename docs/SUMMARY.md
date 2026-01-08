@@ -17,11 +17,12 @@
 * [Tools & MCP](concepts/tools.md)
 * [Secrets & Security](concepts/secrets.md)
 * [Registry](concepts/registry.md)
+* [Standard Operating Procedures](concepts/sops.md)
+* [Triggers & Automation](concepts/triggers.md)
 
 ## Guides
 
 * [Overview](guides/README.md)
-* [Deploy to Production](guides/deploy.md)
 * [Add Tools (MCP)](guides/add-tools.md)
 * [Add Memory](guides/add-memory.md)
 * [Add Knowledge](guides/add-knowledge.md)
@@ -29,6 +30,7 @@
 * [Create SOPs](guides/sops.md)
 * [Build Multi-Agent Teams](guides/multi-agent.md)
 * [Build Custom UI](guides/custom-ui.md)
+* [Deploy to Production](guides/deploy.md)
 * [Set Up CI/CD](guides/ci-cd.md)
 * [Set Up Monitoring](guides/monitoring.md)
 * [Troubleshooting](guides/troubleshooting.md)
