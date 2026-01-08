@@ -29,16 +29,10 @@ You can opt out at any time. Choose whichever method you prefer:
 **Option 1: CLI command**
 
 ```bash
-muxi config telemetry off
+muxi telemetry disable
 ```
 
-**Option 2: Environment variable**
-
-```bash
-export MUXI_TELEMETRY=0
-```
-
-**Option 3: Configuration file**
+**Option 2: Configuration file**
 
 Add to `~/.muxi/config.yaml`:
 
@@ -49,7 +43,7 @@ telemetry: false
 ## Re-Enable Telemetry
 
 ```bash
-muxi config telemetry on
+muxi telemetry enable
 ```
 
 Or set `telemetry: true` in your config file.
