@@ -185,6 +185,7 @@ graph LR
 ```
 
 You now have:
+
 - A **MUXI Server** managing formations
 - A **Formation** with one agent
 - An **API** ready for integration
