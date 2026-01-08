@@ -1,0 +1,152 @@
+# muxi new
+
+Create new formations, agents, MCPs, triggers, and SOPs.
+
+## Usage
+
+```bash
+muxi new <type> <name> [options]
+```
+
+## Types
+
+| Type | Description |
+|------|-------------|
+| `formation` | Create new formation project |
+| `agent` | Add agent to formation |
+| `mcp` | Add MCP server config |
+| `trigger` | Add trigger template |
+| `sop` | Add SOP document |
+
+## Create Formation
+
+```bash
+muxi new formation my-assistant
+```
+
+Creates:
+
+```
+my-assistant/
+├── formation.afs
+├── agents/
+├── mcps/
+├── triggers/
+├── sops/
+├── knowledge/
+├── secrets.example
+└── .gitignore
+```
+
+### From Template
+
+```bash
+muxi new formation my-bot --template research
+```
+
+Templates:
+- `default` - Basic assistant
+- `research` - Research with web search
+- `support` - Customer support with knowledge
+
+## Create Agent
+
+```bash
+cd my-formation
+muxi new agent researcher
+```
+
+Creates `agents/researcher.afs`:
+
+```yaml
+id: researcher
+name: Research Specialist
+role: |
+  You are a research specialist who...
+```
+
+## Create MCP
+
+```bash
+muxi new mcp web-search
+```
+
+Creates `mcps/web-search.afs`:
+
+```yaml
+id: web-search
+server: "@anthropic/brave-search"
+config:
+  api_key: ${{ secrets.BRAVE_API_KEY }}
+```
+
+### From Template
+
+```bash
+muxi new mcp github --template github
+```
+
+Templates match common MCP servers.
+
+## Create Trigger
+
+```bash
+muxi new trigger github-issue
+```
+
+Creates `triggers/github-issue.md`:
+
+```markdown
+---
+name: GitHub Issue Handler
+tags: [github, issue]
+---
+
+New issue from ${{ data.repository }}:
+
+**Issue #${{ data.issue.number }}**: ${{ data.issue.title }}
+```
+
+## Create SOP
+
+```bash
+muxi new sop customer-onboarding
+```
+
+Creates `sops/customer-onboarding.md`:
+
+```markdown
+---
+name: Customer Onboarding
+tags: [customer, onboarding]
+triggers:
+  keywords: [new customer, onboard]
+---
+
+# Onboarding Procedure
+
+1. Collect customer information
+2. Create account
+3. Send welcome email
+```
+
+## Options
+
+| Flag | Description |
+|------|-------------|
+| `--template <name>` | Use specific template |
+| `--output <dir>` | Output directory |
+| `--force` | Overwrite existing |
+
+## Examples
+
+```bash
+# Create formation from template
+muxi new formation support-bot --template support
+
+# Add agent to current formation
+muxi new agent writer
+
+# Add MCP from template
+muxi new mcp database --template postgres
+```
