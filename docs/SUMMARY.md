@@ -11,6 +11,7 @@
 
 * [Architecture](concepts/architecture.md)
 * [Agents & Orchestration](concepts/agents.md)
+* [The Overlord](concepts/overlord.md)
 * [Memory System](concepts/memory.md)
 * [Knowledge & RAG](concepts/knowledge.md)
 * [Tools & MCP](concepts/tools.md)
