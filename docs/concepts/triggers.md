@@ -1,13 +1,13 @@
 ---
 title: Triggers & Automation
-description: How agents respond to webhooks, schedules, and events automatically
+description: Webhooks with intelligence - agents that respond to events automatically
 ---
 # Triggers & Automation
 
-## How agents respond to webhooks, schedules, and events automatically
+## Webhooks with intelligence - agents that respond to events automatically
 
 
-Triggers let agents respond to external events automatically - GitHub issues, scheduled tasks, Slack messages, monitoring alerts, and more. No manual intervention needed.
+Triggers combine traditional webhooks with AI intelligence. Instead of executing hardcoded scripts, triggers give events to agents who understand context and make decisions - handling GitHub issues, scheduled tasks, Slack messages, monitoring alerts, and more automatically.
 
 ---
 
@@ -26,6 +26,47 @@ Examples:
 - **Every Monday 9am** → Agent sends weekly report
 - **Slack mention** → Agent responds in thread
 - **Monitoring alert** → Agent investigates and reports
+
+---
+
+## Webhooks + Brains
+
+> **Key insight:** Traditional webhooks just pass data. MUXI triggers combine webhooks with intelligence.
+
+**Traditional webhooks:**
+- Receive event → Parse JSON → Execute hardcoded function
+- Fixed logic: `if event.type == "issue_opened" then add_label("triage")`
+- Can't adapt to context or make decisions
+
+**MUXI triggers:**
+- Receive event → Give full context to agent → Agent decides what to do
+- Intelligent response: Agent reads issue, understands problem, applies judgment
+- Can handle unexpected situations
+
+```
+Example: GitHub Issue Opened
+
+Traditional Webhook:
+  1. Receive issue event
+  2. IF title contains "bug" THEN add label "bug"
+  3. IF title contains "feature" THEN add label "enhancement"
+  4. Done
+  → Brittle, misses nuance
+
+MUXI Trigger:
+  1. Receive issue event with full payload
+  2. Agent reads issue title and body
+  3. Agent determines: Is this a bug? Feature request? Question? Duplicate?
+  4. Agent adds appropriate labels, assigns to team, adds helpful comment
+  5. Agent can escalate if uncertain
+  → Adaptive, context-aware
+```
+
+**The difference:**
+- **Traditional webhooks** are dumb pipes that execute code
+- **MUXI triggers** give events to agents who apply intelligence
+
+The result: **smart automation** that adapts to reality, not brittle scripts that break on edge cases.
 
 ---
 
