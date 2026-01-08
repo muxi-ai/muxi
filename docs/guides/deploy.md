@@ -68,7 +68,9 @@ muxi-server init
 
 [[step Configure the Server]]
 
-Edit `/etc/muxi/server/config.yaml`:
+Edit the config file:
+- **System install (sudo)**: `/etc/muxi/server/config.yaml`
+- **User install (Homebrew, curl)**: `~/.muxi/server/config.yaml`
 
 ```yaml
 server:
@@ -89,7 +91,8 @@ formations:
 logging:
   level: info
   format: json
-  output: /var/log/muxi/server.log
+  output: /var/log/muxi/server.log  # System install
+  # or: ~/.muxi/server/logs/server.log  # User install
 ```
 
 [[/step]]
@@ -126,12 +129,12 @@ sudo certbot --nginx -d muxi.yourdomain.com
 
 [[tab Caddy]]
 ```
+# Caddy handles TLS automatically!
 muxi.yourdomain.com {
     reverse_proxy localhost:7890
 }
 ```
 
-Caddy handles TLS automatically!
 [[/tab]]
 
 [[/tabs]]
