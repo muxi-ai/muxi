@@ -53,7 +53,7 @@ docker run -d \
 
 ---
 
-## Verify Installation
+### Verify Installation
 
 ```bash
 muxi --version
