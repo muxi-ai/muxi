@@ -25,18 +25,24 @@ Think: **Docker for AI agents**.
 :::: cols=3
 
 (quickstart.md)[[card]]
+
 #### Quickstart
 Get your first formation running in 5 minutes.
+
 [[/card]]
 
 (installation/README.md)[[card]]
+
 #### Installation
 Install MUXI on macOS, Linux, Windows, or Docker.
+
 [[/card]]
 
 (formations/README.md)[[card]]
+
 #### Formations
 Learn how to define AI systems in YAML.
+
 [[/card]]
 
 ::::
