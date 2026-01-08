@@ -24,15 +24,15 @@ This guide takes you from zero to a running AI agent you can chat with.
 
 [[tabs]]
 
-[[tab macOS]]
-```bash
-brew install muxi-ai/tap/muxi
-```
-[[/tab]]
-
 [[tab Linux]]
 ```bash
 curl -fsSL https://muxi.org/install | sudo bash
+```
+[[/tab]]
+
+[[tab macOS]]
+```bash
+brew install muxi-ai/tap/muxi
 ```
 [[/tab]]
 
