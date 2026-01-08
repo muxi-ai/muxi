@@ -58,9 +58,9 @@ An architectural overview of the MUXI ecosystem for developers and contributors.
 | [cli](https://github.com/muxi-ai/cli) | Go | Command-line interface |
 | [registry](https://github.com/muxi-ai/registry) | PHP | Formation distribution hub |
 | [sdks](https://github.com/muxi-ai/sdks) | Various | 12 SDKs |
-| [schemas](https://github.com/muxi-ai/schemas) | YAML/JSON | Formation specification |
 | [install](https://github.com/muxi-ai/install) | Shell | Installation scripts |
 | [homebrew-tap](https://github.com/muxi-ai/homebrew-tap) | Ruby | Homebrew formulae |
+| [afs-spec](https://github.com/agent-formation/afs-spec) | YAML | Agent Formation (org) |
 
 ---
 
@@ -76,7 +76,7 @@ The **orchestration platform** - the heart of MUXI.
 - HMAC authentication for the management API
 - Session and memory coordination
 
-**Technology:** Go (single binary, zero dependencies)
+**Technology:** Go (single binary, zero dependencies)<br>
 **Default Port:** 7890
 
 ---
