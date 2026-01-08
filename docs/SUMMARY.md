@@ -24,17 +24,17 @@
 * [Add Memory](guides/add-memory.md)
 * [Add Knowledge](guides/add-knowledge.md)
 * [Create Triggers](guides/triggers.md)
-* [Write SOPs](guides/sops.md)
-* [Multi-Agent Systems](guides/multi-agent.md)
+* [Create SOPs](guides/sops.md)
+* [Build Multi-Agent Teams](guides/multi-agent.md)
 * [Build Custom UI](guides/custom-ui.md)
-* [CI/CD Integration](guides/ci-cd.md)
-* [Monitoring & Logs](guides/monitoring.md)
+* [Set Up CI/CD](guides/ci-cd.md)
+* [Set Up Monitoring](guides/monitoring.md)
 * [Troubleshooting](guides/troubleshooting.md)
 
 ## Reference
 
 * [Overview](reference/README.md)
-* [Schema](reference/schema.md)
+* [Formation Schema](reference/schema.md)
 * [Agents](reference/agents.md)
 * [Tools](reference/tools.md)
 * [Memory](reference/memory.md)
@@ -52,7 +52,7 @@
 * [Authentication](server/authentication.md)
 * [Managing Formations](server/formations.md)
 * [Monitoring](server/monitoring.md)
-* [Production](server/production.md)
+* [Production Checklist](server/production.md)
 
 ## CLI
 
@@ -65,13 +65,13 @@
 
 * [Overview](deep-dives/README.md)
 * [Request Lifecycle](deep-dives/request-lifecycle.md)
-* [Orchestration](deep-dives/orchestration.md)
+* [How Orchestration Works](deep-dives/orchestration.md)
 * [Memory Internals](deep-dives/memory.md)
-* [Streaming](deep-dives/streaming.md)
+* [Real-Time Streaming](deep-dives/streaming.md)
 * [Async Operations](deep-dives/async.md)
 * [Multi-Tenancy](deep-dives/multi-tenancy.md)
 * [Observability](deep-dives/observability.md)
-* [Security](deep-dives/security.md)
+* [Security Model](deep-dives/security.md)
 
 ## SDKs
 
@@ -84,10 +84,10 @@
 
 * [Overview](registry/README.md)
 * [Your Account](registry/account.md)
-* [Publishing](registry/publishing.md)
+* [Publish Formations](registry/publishing.md)
 * [Versioning](registry/versioning.md)
 
 ## Runtime
 
 * [Overview](runtime/README.md)
-* [Embedding](runtime/embedding.md)
+* [Embed in Your App](runtime/embedding.md)
