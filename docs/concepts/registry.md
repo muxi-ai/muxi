@@ -9,7 +9,7 @@ The MUXI Registry is a distribution hub for formations. Pull community formation
 
 When to use the registry:
 - Start from a proven template (`muxi pull @muxi/starter`)
-- Share formations across teams or orgs
+- Share formations publicly or privately
 - Version and roll back formations safely
 
 ---
@@ -60,9 +60,11 @@ Now anyone can `muxi pull @yourusername/my-formation`.
 |-----------|-----|---------|
 | `@muxi/*` | Official formations | `@muxi/starter` |
 | `@username/*` | Individual developers | `@alice/support-bot` |
-| `@org/*` | Organizations | `@acme/internal-assistant` |
 
 Your GitHub handle is your registry handle - no separate account needed.
+
+> [!NOTE]
+> Organization namespaces (`@org/*`) and private registries are planned for future releases.
 
 ---
 
@@ -101,12 +103,12 @@ muxi formation rollback my-assistant
 ## Public vs Private
 
 ```bash
+muxi push              # Private by default (only you)
 muxi push --public     # Anyone can pull
-muxi push --private    # Only you (default)
-muxi push --org acme   # Org members only
 ```
 
-Private formations are encrypted and only accessible to authorized users.
+> [!NOTE]
+> Currently, all formations are either public or private to the author. Advanced sharing features (organization access, team permissions, private registries) are planned.
 
 ---
 
@@ -147,7 +149,7 @@ muxi search "customer support"
 ```
 NAME                     DESCRIPTION                 DOWNLOADS
 @muxi/support-bot        Customer support agent      1,234
-@acme/helpdesk          Helpdesk assistant          567
+@alice/helpdesk          Helpdesk assistant          567
 ```
 
 ---
@@ -160,7 +162,7 @@ NAME                     DESCRIPTION                 DOWNLOADS
 | No versioning | Semantic versions, rollbacks |
 | Scattered documentation | Centralized, searchable |
 | Reinvent solutions | Pull and customize |
-| Private sharing via zip | Org namespaces |
+| Private sharing via zip | Public/private sharing |
 
 The result: **formations that spread**, not code that rots in private repos.
 
