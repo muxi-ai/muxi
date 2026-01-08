@@ -9,12 +9,12 @@ Thank you for your interest in contributing to MUXI!
 
 ## Quick Links
 
-- **[DEVELOPMENT.md](./DEVELOPMENT.md)** - Set up your dev environment
-- **[GIT-WORKFLOW.md](./GIT-WORKFLOW.md)** - Branching and release process
-- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Understand the system
-- **[REPOSITORIES.md](./REPOSITORIES.md)** - All MUXI repositories
-- **[Style Guides](./style-guides/)** - Language-specific coding conventions
-- **[AGENTS.md](./AGENTS.md)** - AI assistant context (template for all repos)
+- **[DEVELOPMENT.md](https://github.com/muxi-ai/muxi/blob/main/DEVELOPMENT.md)** - Set up your dev environment
+- **[GIT-WORKFLOW.md](https://github.com/muxi-ai/muxi/blob/main/GIT-WORKFLOW.md)** - Branching and release process
+- **[ARCHITECTURE.md](https://github.com/muxi-ai/muxi/blob/main/ARCHITECTURE.md)** - Understand the system
+- **[REPOSITORIES.md](https://github.com/muxi-ai/muxi/blob/main/REPOSITORIES.md)** - All MUXI repositories
+- **[Style Guides](https://github.com/muxi-ai/muxi/blob/main/style-guides/)** - Language-specific coding conventions
+- **[AGENTS.md](https://github.com/muxi-ai/muxi/blob/main/AGENTS.md)** - AI assistant context (template for all repos)
 
 ---
 
@@ -40,7 +40,7 @@ All pull requests **must target the `develop` branch**, not `main`. We use a thr
 develop → rc → main
 ```
 
-See [GIT-WORKFLOW.md](./GIT-WORKFLOW.md) for details.
+See [GIT-WORKFLOW.md](https://github.com/muxi-ai/muxi/blob/main/GIT-WORKFLOW.md) for details.
 
 ### Issue First
 
@@ -181,7 +181,7 @@ Email [security@muxi.org](mailto:security@muxi.org) instead.
 
 ## Getting Help
 
-- **Questions?** [GitHub Discussions](https://github.com/orgs/muxi-ai/discussions)
+- **Questions?** [GitHub Discussions](https://github.com/muxi-ai/community/discussions)
 - **Bugs?** [GitHub Issues](https://github.com/muxi-ai/muxi/issues)
 - **Community:** [GitHub Discussions](https://github.com/orgs/muxi-ai/discussions)
 
@@ -189,7 +189,7 @@ Email [security@muxi.org](mailto:security@muxi.org) instead.
 
 ## License
 
-By contributing, you agree to license your contributions under the same license as the project. Please review our [Contributor License Agreement](./CONTRIBUTOR_LICENSE_AGREEMENT.md).
+By contributing, you agree to license your contributions under the same license as the project. Please review our [Contributor License Agreement](https://github.com/muxi-ai/muxi/blob/main/CONTRIBUTOR_LICENSE_AGREEMENT.md).
 
 ---
 
