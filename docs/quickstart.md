@@ -16,7 +16,7 @@ This guide takes you from zero to a running AI agent you can chat with.
 > [!NOTE]
 > **Prerequisites:** macOS, Linux, or Windows with terminal access and an OpenAI API key.
 
----
+### Get started in 5 minutes
 
 [[steps]]
 
@@ -158,7 +158,7 @@ print(response.text)
 
 ---
 
-## Alternative: Start from Registry
+## Start from Registry
 
 Pull a pre-built formation instead of creating from scratch:
 
