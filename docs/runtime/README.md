@@ -99,8 +99,8 @@ runtime:
 | Component | Stack |
 |-----------|-------|
 | Framework | Python + FastAPI |
-| LLM | LiteLLM (unified API) |
-| Vectors | FAISS |
+| LLM | OneLLM (unified API) |
+| Vectors | FAISS (via FAISSx) |
 | Protocol | MCP for tools |
 
 ---
@@ -109,7 +109,7 @@ runtime:
 
 For custom deployments, you can embed the runtime directly.
 
-[+] [Embedding the Runtime](embedding.md) - Run formations in your own app
+[+] [Embedding the Runtime in your own app](embedding.md)
 
 > [!NOTE]
 > Most users don't need to embed the runtime. The server manages everything automatically.

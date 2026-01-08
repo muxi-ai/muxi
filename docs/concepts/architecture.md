@@ -190,7 +190,7 @@ Load Balancer
 | Component | Technology | Why |
 |-----------|------------|-----|
 | Server | Go | Single binary, fast, concurrent |
-| Runtime | Python + FastAPI | AI ecosystem, async, LiteLLM |
+| Runtime | Python + FastAPI | AI ecosystem, async, OneLLM |
 | CLI | Go | Cross-platform, single binary |
 | SDKs | Python, TS, Go | Native experience per language |
 
