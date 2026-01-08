@@ -37,28 +37,15 @@ sequenceDiagram
 
 ## Supported Formats
 
-### Text & Documents
-| Format | Extension | Notes |
-|--------|-----------|-------|
-| Markdown | `.md` | Headers preserved for structure |
-| Plain text | `.txt` | Simple chunking |
-| PDF | `.pdf` | Text extraction + OCR |
-| Word | `.docx` | Full formatting support |
-| PowerPoint | `.pptx` | Slide-by-slide |
-| Excel | `.xlsx` | Tabular data preserved |
+MUXI uses [markitdown](https://github.com/microsoft/markitdown) for document conversion - any format markitdown supports works with MUXI.
 
-### Data
-| Format | Extension | Notes |
-|--------|-----------|-------|
-| CSV | `.csv` | Row-aware chunking |
-| JSON | `.json` | Structure preserved |
-| HTML | `.html` | Text extracted |
+### Common Formats
 
-### Multimodal
-| Format | Extension | Notes |
-|--------|-----------|-------|
-| Images | `.jpg`, `.png`, `.gif` | OCR text extraction |
-| Diagrams | Various | Vision model analysis |
+| Category | Examples | Notes |
+|----------|----------|-------|
+| **Text & Documents** | `.md`, `.txt`, `.pdf`, `.docx`, `.pptx`, `.xlsx` | Headers, structure, and formatting preserved |
+| **Data** | `.csv`, `.json`, `.html` | Structure-aware chunking |
+| **Multimodal** | `.jpg`, `.png`, `.gif`, and more | OCR + vision model analysis |
 
 > [!TIP]
 > MUXI handles images natively. Vision models (GPT-4V, Claude, Gemini) can analyze screenshots, diagrams, charts, and photos in your knowledge base.
