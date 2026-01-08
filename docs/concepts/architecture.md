@@ -2,8 +2,10 @@
 title: Architecture
 description: How MUXI components work together
 ---
-
 # Architecture
+
+## How MUXI components work together
+
 
 MUXI is a layered system: CLI and SDKs talk to Servers, which manage Formations running on Runtimes. The Registry distributes formations.
 

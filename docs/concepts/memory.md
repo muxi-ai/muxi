@@ -2,8 +2,10 @@
 title: Memory System
 description: How MUXI remembers context across conversations and sessions
 ---
-
 # Memory System
+
+## How MUXI remembers context across conversations and sessions
+
 
 MUXI's three-tier memory handles everything from immediate conversation context to long-term user knowledge. Automatic tiering, intelligent caching, and semantic search - built in.
 

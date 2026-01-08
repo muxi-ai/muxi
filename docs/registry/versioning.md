@@ -2,8 +2,10 @@
 title: Versioning
 description: How formation versions work in the MUXI Registry
 ---
-
 # Versioning
+
+## How formation versions work in the MUXI Registry
+
 
 Every push creates a version. Pull specific versions, rollback instantly, manage releases with semantic versioning.
 

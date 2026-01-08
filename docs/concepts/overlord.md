@@ -2,8 +2,10 @@
 title: The Overlord
 description: MUXI's intelligent orchestrator that routes requests and coordinates agents
 ---
-
 # The Overlord
+
+## MUXI's intelligent orchestrator that routes requests and coordinates agents
+
 
 MUXI's orchestrator that decides which agent handles each request, breaks complex tasks into steps, and coordinates multi-agent workflows - all automatically.
 

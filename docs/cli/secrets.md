@@ -1,5 +1,8 @@
 # muxi secrets
 
+## Command reference
+
+
 Manage formation secrets.
 
 ## Usage

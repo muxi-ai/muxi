@@ -1,5 +1,8 @@
 # Managing Formations
 
+## Server guide
+
+
 Deploy and manage formations on MUXI Server.
 
 ## Deploy

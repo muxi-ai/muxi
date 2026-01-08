@@ -1,5 +1,8 @@
 # muxi registry
 
+## Command reference
+
+
 Pull and publish formations from the MUXI Registry.
 
 ## Usage

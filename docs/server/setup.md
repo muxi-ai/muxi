@@ -2,8 +2,10 @@
 title: Server Setup
 description: First-time configuration for MUXI Server
 ---
-
 # Server Setup
+
+## First-time configuration for MUXI Server
+
 
 Configure MUXI Server and start deploying formations.
 

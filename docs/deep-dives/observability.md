@@ -1,5 +1,8 @@
 # Observability
 
+## Technical deep dive
+
+
 Events, logging, and monitoring in MUXI.
 
 ## Event System

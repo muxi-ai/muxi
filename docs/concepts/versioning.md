@@ -1,5 +1,8 @@
 # Versioning
 
+## Understanding versioning
+
+
 How MUXI handles versions across components.
 
 ## Schema Version

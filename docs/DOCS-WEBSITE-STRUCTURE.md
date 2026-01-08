@@ -1,5 +1,8 @@
 # MUXI Documentation Website Structure
 
+## Overview
+
+
 **Goal:** Get developers to install the server, use the registry, CLI, and SDKs to build production AI systems.
 
 **Audience:** Developers building AI applications, not contributors to MUXI internals.
@@ -647,7 +650,7 @@ name: My Assistant
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
 
 agents:
   - id: assistant

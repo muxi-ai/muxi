@@ -2,8 +2,10 @@
 title: Registry
 description: Share and distribute formations like Docker images
 ---
-
 # Registry
+
+## Share and distribute formations like Docker images
+
 
 The MUXI Registry is a distribution hub for formations. Pull community formations with one command. Publish your own. Version control, rollbacks, and namespaces built in.
 

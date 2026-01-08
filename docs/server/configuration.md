@@ -1,5 +1,8 @@
 # Server Configuration
 
+## Server guide
+
+
 Configure MUXI Server settings.
 
 ## Config File Location

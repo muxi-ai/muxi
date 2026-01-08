@@ -2,8 +2,10 @@
 title: CLI Setup
 description: First-time configuration for the MUXI CLI
 ---
-
 # CLI Setup
+
+## First-time configuration for the MUXI CLI
+
 
 Connect the CLI to your server and deploy your first formation.
 

@@ -1,5 +1,8 @@
 # Monitoring
 
+## Server guide
+
+
 Monitor MUXI Server and formations.
 
 ## Health Endpoints

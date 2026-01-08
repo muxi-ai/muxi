@@ -42,7 +42,7 @@ name: My Assistant
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -158,7 +158,7 @@ description: AI research and writing team
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
     embedding: openai/text-embedding-3-small
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}

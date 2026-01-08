@@ -1,5 +1,8 @@
 # Request Lifecycle
 
+## Technical deep dive
+
+
 How requests flow through MUXI from receipt to response.
 
 ## Overview

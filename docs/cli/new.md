@@ -1,5 +1,8 @@
 # muxi new
 
+## Command reference
+
+
 Create new formations, agents, MCPs, triggers, and SOPs.
 
 ## Usage

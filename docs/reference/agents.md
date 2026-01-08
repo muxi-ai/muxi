@@ -34,7 +34,7 @@ agents:
     role: |
       You research topics thoroughly and provide accurate,
       well-sourced information. Always cite your sources.
-    model: openai/GPT-5
+    model: openai/gpt-4o
     temperature: 0.7
     mcps:
       - web-search

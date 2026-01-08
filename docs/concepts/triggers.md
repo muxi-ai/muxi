@@ -2,8 +2,10 @@
 title: Triggers & Automation
 description: How agents respond to webhooks, schedules, and events automatically
 ---
-
 # Triggers & Automation
+
+## How agents respond to webhooks, schedules, and events automatically
+
 
 Triggers let agents respond to external events automatically - GitHub issues, scheduled tasks, Slack messages, monitoring alerts, and more. No manual intervention needed.
 

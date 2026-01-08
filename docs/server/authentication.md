@@ -1,5 +1,8 @@
 # Server Authentication
 
+## Server guide
+
+
 MUXI Server uses HMAC authentication for management operations.
 
 ## Overview

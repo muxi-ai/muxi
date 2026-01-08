@@ -1,5 +1,8 @@
 # Searching the Registry
 
+## Overview
+
+
 Find formations for your use case.
 
 ## CLI Search

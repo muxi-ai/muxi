@@ -1,5 +1,8 @@
 # Publishing to Registry
 
+## Overview
+
+
 Share your formations with the community.
 
 ## Prerequisites

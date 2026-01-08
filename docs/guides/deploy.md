@@ -2,8 +2,10 @@
 title: Deploy to Production
 description: Move your formation from localhost to a production server
 ---
-
 # Deploy to Production
+
+## Move your formation from localhost to a production server
+
 
 Take your local formation to production with TLS, authentication, and proper service management.
 
@@ -228,7 +230,7 @@ muxi chat --profile production "Hello!"
 - [ ] Authentication enabled (`auth.enabled: true`)
 - [ ] TLS/HTTPS configured
 - [ ] Firewall configured (allow 443, block 7890 from outside)
-- [ ] systemd service running
+- [ ] `systemd` service running
 - [ ] Logs configured
 - [ ] Monitoring set up (see [Monitoring Guide](monitoring.md))
 - [ ] Backup strategy planned

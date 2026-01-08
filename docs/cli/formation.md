@@ -1,5 +1,8 @@
 # muxi formation
 
+## Command reference
+
+
 Manage deployed formations.
 
 ## Usage

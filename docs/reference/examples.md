@@ -22,7 +22,7 @@ name: Simple Assistant
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -48,7 +48,7 @@ name: Research Assistant
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -86,7 +86,7 @@ name: Customer Support
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
     embedding: openai/text-embedding-3-small
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
@@ -136,7 +136,7 @@ name: Content Creation Team
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -190,7 +190,7 @@ name: DevOps Assistant
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 
@@ -239,7 +239,7 @@ name: Enterprise Assistant
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
     embedding: openai/text-embedding-3-small
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
@@ -286,7 +286,7 @@ name: Alert Responder
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 

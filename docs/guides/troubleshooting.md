@@ -1,5 +1,8 @@
 # Troubleshooting
 
+## Step-by-step guide
+
+
 Common issues and solutions.
 
 ## Installation Issues

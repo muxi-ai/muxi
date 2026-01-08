@@ -19,7 +19,7 @@ id: my-assistant
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
 
 agents:
   - id: assistant
@@ -38,7 +38,7 @@ id: my-assistant
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
 
 agents:
   - id: assistant
@@ -71,7 +71,7 @@ api_keys: {...}                    # Optional: Formation API keys
 ```yaml
 llm:
   models:
-    text: openai/GPT-5                    # Text generation
+    text: openai/gpt-4o                    # Text generation
     embedding: openai/text-embedding-3-small # Embeddings (for memory/knowledge)
 
   api_keys:
@@ -87,7 +87,7 @@ llm:
 
 | Provider | Model Format | Example |
 |----------|--------------|---------|
-| OpenAI | `openai/{model}` | `openai/GPT-5` |
+| OpenAI | `openai/{model}` | `openai/gpt-4o` |
 | Anthropic | `anthropic/{model}` | `anthropic/claude-sonnet-4-20250514` |
 | Google | `google/{model}` | `google/gemini-pro` |
 | Ollama | `ollama/{model}` | `ollama/llama3` |
@@ -102,7 +102,7 @@ agents:
     name: AI Assistant             # Optional: Display name
     role: |                        # Required: System prompt
       You are a helpful assistant.
-    model: openai/GPT-5           # Optional: Override default LLM
+    model: openai/gpt-4o           # Optional: Override default LLM
     temperature: 0.7               # Optional: 0-1
     mcps:                          # Optional: Tools for this agent
       - web-search
@@ -270,7 +270,7 @@ description: AI research and writing team
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
     embedding: openai/text-embedding-3-small
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}

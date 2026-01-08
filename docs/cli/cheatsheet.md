@@ -2,8 +2,10 @@
 title: CLI Cheatsheet
 description: Quick reference for all MUXI CLI commands
 ---
-
 # CLI Cheatsheet
+
+## Quick reference for all MUXI CLI commands
+
 
 ---
 

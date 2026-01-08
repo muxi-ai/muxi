@@ -2,8 +2,10 @@
 title: Standard Operating Procedures
 description: How SOPs give agents repeatable workflows for common tasks
 ---
-
 # Standard Operating Procedures (SOPs)
+
+## How SOPs give agents repeatable workflows for common tasks
+
 
 SOPs are step-by-step instructions that agents follow for specific, repeatable tasks - like onboarding customers, processing refunds, or handling incidents.
 

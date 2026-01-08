@@ -1,5 +1,8 @@
 # muxi chat
 
+## Command reference
+
+
 Chat with a running formation.
 
 ## Usage

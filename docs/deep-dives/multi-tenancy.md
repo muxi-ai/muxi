@@ -2,8 +2,10 @@
 title: Multi-Tenancy
 description: Technical deep dive into user isolation and multi-tenant architectures
 ---
-
 # Multi-Tenancy
+
+## Technical deep dive into user isolation and multi-tenant architectures
+
 
 MUXI provides complete isolation between users: separate memory, per-user credentials, and tenant-aware data partitioning.
 

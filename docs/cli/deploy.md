@@ -1,5 +1,8 @@
 # muxi deploy
 
+## Command reference
+
+
 Deploy a formation to MUXI Server.
 
 ## Usage

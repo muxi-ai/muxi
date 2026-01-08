@@ -69,7 +69,7 @@ id: my-assistant
 
 llm:
   models:
-    text: openai/GPT-5
+    text: openai/gpt-4o
   api_keys:
     openai: ${{ secrets.OPENAI_API_KEY }}
 

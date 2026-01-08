@@ -2,8 +2,10 @@
 title: Agents & Orchestration
 description: How MUXI agents work together to accomplish complex tasks
 ---
-
 # Agents & Orchestration
+
+## How MUXI agents work together to accomplish complex tasks
+
 
 MUXI agents are specialized workers that collaborate, delegate, and adapt. The Overlord orchestrates them automatically, routing tasks to the right agent and breaking complex requests into manageable steps.
 

@@ -2,8 +2,10 @@
 title: Memory Internals
 description: Technical deep dive into MUXI's three-tier memory system
 ---
-
 # Memory Internals
+
+## Technical deep dive into MUXI's three-tier memory system
+
 
 Technical implementation of MUXI's memory system: data structures, algorithms, caching strategies, and performance characteristics.
 
