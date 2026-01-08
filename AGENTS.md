@@ -6,7 +6,7 @@
 
 **MUXI is infrastructure for AI agents** - a complete platform for deploying and managing agents in production.
 
-For full architecture details, see **[ARCHITECTURE.md](./ARCHITECTURE.md)**.
+For full architecture details, see **[ARCHITECTURE.md](https://github.com/muxi-ai/muxi/blob/main/ARCHITECTURE.md)**.
 
 ### Quick Reference
 
@@ -23,6 +23,10 @@ For full architecture details, see **[ARCHITECTURE.md](./ARCHITECTURE.md)**.
 - **Branch workflow:** `develop` → `rc` → `main` (PRs target `develop`)
 - **Commits:** [Conventional Commits](https://www.conventionalcommits.org/)
 - **Style:** See [style-guides/](./style-guides/) for language-specific conventions
+
+### More info
+
+The `muxi` meta-repo (https://github.com/muxi-ai/muxi) contains most everything you need to understand the MUXI stack, including docs, development workflows, style-guides, etc.
 
 ---
 
