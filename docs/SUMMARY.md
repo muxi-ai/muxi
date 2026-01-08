@@ -31,7 +31,7 @@
 * [Monitoring & Logs](guides/monitoring.md)
 * [Troubleshooting](guides/troubleshooting.md)
 
-## Formations
+## Reference
 
 * [Overview](formations/README.md)
 * [Schema Reference](formations/schema.md)
