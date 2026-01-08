@@ -4,12 +4,125 @@
 
 **Audience:** Developers building AI applications, not contributors to MUXI internals.
 
+**Positioning:** MUXI is **infrastructure** - like Docker for AI agents. We are not a framework. The runtime powers formations on the server; users interact via CLI/SDK/API.
+
 **Principles:**
 - Progressive disclosure (start simple, go deep)
 - Action-oriented (what to do, not what things are)
 - Concrete examples (runnable code, expected output)
 - AI-digestible (clear structure, explicit relationships)
 - **Cross-referenced** - Components appear where relevant, not just in their own sections
+
+---
+
+## SUMMARY.md (Sidebar Navigation)
+
+Each section has a `SUMMARY.md` file for sidebar navigation. Here's the complete docs sidebar:
+
+```markdown
+# Table of contents
+
+## Getting Started
+
+* [What is MUXI](README.md)
+* [Quickstart](quickstart.md)
+* [Installation](installation/README.md)
+  * [macOS](installation/macos.md)
+  * [Linux](installation/linux.md)
+  * [Windows](installation/windows.md)
+  * [Docker](installation/docker.md)
+
+## Core Concepts
+
+* [Formations](formations/README.md)
+  * [Schema Reference](formations/schema.md)
+  * [Agents](formations/agents.md)
+  * [Tools (MCP)](formations/tools.md)
+  * [Memory](formations/memory.md)
+  * [Knowledge](formations/knowledge.md)
+  * [Triggers](formations/triggers.md)
+  * [SOPs](formations/sops.md)
+  * [Secrets](formations/secrets.md)
+  * [Examples](formations/examples.md)
+
+## Server
+
+* [Server Overview](server/README.md)
+* [Configuration](server/configuration.md)
+* [Authentication](server/authentication.md)
+* [Managing Formations](server/formations.md)
+* [Monitoring](server/monitoring.md)
+* [Production Deployment](server/production.md)
+
+## CLI
+
+* [CLI Overview](cli/README.md)
+* [new](cli/new.md)
+* [deploy](cli/deploy.md)
+* [secrets](cli/secrets.md)
+* [formation](cli/formation.md)
+* [registry](cli/registry.md)
+* [chat](cli/chat.md)
+
+## SDKs
+
+* [SDK Overview](sdks/README.md)
+* [Python](sdks/python.md)
+* [TypeScript](sdks/typescript.md)
+* [Go](sdks/go.md)
+
+## Registry
+
+* [Registry Overview](registry/README.md)
+* [Searching](registry/searching.md)
+* [Publishing](registry/publishing.md)
+
+## Features
+
+* [Features Overview](features/README.md)
+* [Request Lifecycle](features/request-lifecycle.md)
+* [Multi-Agent Orchestration](features/orchestration.md)
+* [Streaming Responses](features/streaming.md)
+* [Multi-User Support](features/multi-user.md)
+* [Async Operations](features/async.md)
+* [Observability](features/observability.md)
+* [Security](features/security.md)
+
+## Guides
+
+* [All Guides](guides/README.md)
+* [Deploy to Production](guides/deploy.md)
+* [Add Tools (MCP)](guides/add-tools.md)
+* [Add Memory](guides/add-memory.md)
+* [Add Knowledge](guides/add-knowledge.md)
+* [Create Triggers](guides/triggers.md)
+* [Write SOPs](guides/sops.md)
+* [Multi-Agent Systems](guides/multi-agent.md)
+* [Build Custom UI](guides/custom-ui.md)
+* [CI/CD Integration](guides/ci-cd.md)
+* [Monitoring & Logs](guides/monitoring.md)
+* [Troubleshooting](guides/troubleshooting.md)
+
+## API Reference
+
+* [API Overview](api/README.md)
+* [Authentication](api/authentication.md)
+* [Server API](api/server-api.md)
+* [Formation API](api/formation-api.md)
+* [Error Codes](api/errors.md)
+
+## Concepts
+
+* [Architecture](concepts/architecture.md)
+* [How It Works](concepts/how-it-works.md)
+* [Why Encrypted Secrets](concepts/secrets.md)
+* [Versioning](concepts/versioning.md)
+
+## Runtime (Advanced)
+
+* [Runtime Overview](runtime/README.md)
+* [Embedding the Runtime](runtime/embedding.md)
+```
 
 ---
 
@@ -974,67 +1087,113 @@ This section contains the detailed internals from `runtime/docs/`.
 
 ---
 
-## Navigation Structure
+## Runtime Content → MUXI Features
 
-```yaml
-# docs navigation
-- Home: index.md
-- Quickstart: quickstart.md                    # Uses: CLI, Server, (Registry)
-- Installation:
-  - Overview: installation/index.md            # Installs: Server + CLI
-  - macOS: installation/macos.md
-  - Linux: installation/linux.md
-  - Windows: installation/windows.md
-  - Docker: installation/docker.md
-- Server:
-  - Overview: server/index.md
-  - Configuration: server/configuration.md
-  - Authentication: server/authentication.md
-  - Monitoring: server/monitoring.md
-  - Production: server/production.md
-- Formations:
-  - Overview: formations/index.md              # Uses: CLI for scaffolding
-  - Schema Reference: formations/schema.md
-  - Agents: formations/agents.md
-  - Memory: formations/memory.md
-  - Tools (MCP): formations/tools.md
-  - Secrets: formations/secrets.md
-  - Examples: formations/examples.md
-- CLI:
-  - Overview: cli/index.md
-  - new: cli/new.md                            # Creates formations, agents, etc.
-  - deploy: cli/deploy.md                      # Deploys to Server
-  - secrets: cli/secrets.md
-  - formation: cli/formation.md                # Server operations
-  - registry: cli/registry.md                  # Registry operations
-- SDKs:
-  - Overview: sdks/index.md                    # Alternative to CLI for apps
-  - Python: sdks/python.md
-  - TypeScript: sdks/typescript.md
-  - Go: sdks/go.md
-- Registry:
-  - Overview: registry/index.md                # Uses: CLI for push/pull
-  - Searching: registry/searching.md
-  - Publishing: registry/publishing.md
-- Guides:                                      # Cross-cutting tutorials
-  - All Guides: guides/index.md
-  - Deploy to Production: guides/deploy.md     # Uses: Server, CLI
-  - Add Tools: guides/add-tools.md             # Uses: CLI, Formations
-  - Add Memory: guides/add-memory.md           # Uses: CLI, Formations
-  - Multi-Agent: guides/multi-agent.md         # Uses: Formations
-  - Custom UI: guides/custom-ui.md             # Uses: SDKs
-  - CI/CD: guides/ci-cd.md                     # Uses: CLI, SDKs, Server
-  - Monitoring: guides/monitoring.md           # Uses: Server, CLI
-- API Reference:
-  - Overview: api/index.md
-  - Authentication: api/authentication.md
-  - Server API: api/server-api.md              # Server endpoints
-  - Formation API: api/formation-api.md        # Runtime endpoints
-- Concepts:
-  - Overview: concepts/index.md
-  - Architecture: concepts/architecture.md     # How it all fits together
-- Runtime (Advanced): runtime/index.md         # For embedders only
-```
+The runtime has extensive documentation that should be reframed as **MUXI capabilities** (not framework internals):
+
+| Runtime Doc | Docs Section | Framing |
+|-------------|--------------|---------|
+| `secrets-management.md` | `/formations/secrets` + `/concepts/secrets` | Why MUXI uses encrypted secrets, not env vars |
+| `request-lifecycle.md` | `/features/request-lifecycle` | What happens when you send a message |
+| `triggers.md` | `/formations/triggers` + `/guides/triggers` | Webhook-friendly automation |
+| `knowledge-system.md` | `/formations/knowledge` + `/guides/add-knowledge` | RAG and domain knowledge |
+| `memory-systems.md` | `/formations/memory` + `/guides/add-memory` | Three-tier memory architecture |
+| `workflow/sop-system.md` | `/formations/sops` + `/guides/sops` | Standard operating procedures |
+| `overlord-process.md` | `/features/orchestration` | Multi-agent coordination |
+| `multi-user-architecture.md` | `/features/multi-user` | Multi-tenant support |
+| `observability.md` | `/features/observability` | 349 typed events |
+| `features/streaming.md` | `/features/streaming` | Real-time SSE responses |
+| `async-operations.md` | `/features/async` | Long-running operations |
+| `SECURITY.md` | `/features/security` | Security architecture |
+| `a2a/` | `/features/orchestration` | Agent-to-agent communication |
+| `mcp/` | `/formations/tools` | MCP integration |
+
+**Key reframing principle:** Instead of "how the runtime works internally," explain "what MUXI does for you."
+
+### Example Reframing
+
+**Runtime doc (internal):**
+> "The Overlord uses a priority-based routing system with SOP detection, complexity analysis, and agent selection..."
+
+**MUXI docs (capability):**
+> "MUXI automatically routes your request to the right agent. For complex tasks, it breaks down the work and coordinates multiple agents. Define SOPs for consistent handling of common workflows."
+
+---
+
+## Key Topics to Cover
+
+### Secrets (Why Not Env Vars)
+
+MUXI uses encrypted `secrets.enc` files instead of environment variables because:
+1. Formation files can be safely version-controlled
+2. Secrets travel with formations (portable)
+3. No accidental exposure in logs or process lists
+4. Single source of truth per formation
+
+**Docs:** `/formations/secrets.md` (reference) + `/concepts/secrets.md` (explanation)
+
+### Triggers
+
+Webhook-friendly requests with template-based message generation:
+- External systems → MUXI formation
+- Templates render data into prompts
+- Async by default (webhooks expect fast ack)
+- Same auth as regular requests
+
+**Docs:** `/formations/triggers.md` (syntax) + `/guides/triggers.md` (tutorial)
+
+### SOPs (Standard Operating Procedures)
+
+Predefined workflows for consistent task execution:
+- Markdown templates with steps
+- Override complexity thresholds
+- Bypass approval flows
+- Tag-based matching
+
+**Docs:** `/formations/sops.md` (syntax) + `/guides/sops.md` (tutorial)
+
+### Knowledge
+
+RAG capabilities with disk-cached embeddings:
+- 30+ file formats via MarkItDown
+- Agent-level isolation
+- Lazy loading (on first query)
+- Incremental updates (only changed files)
+
+**Docs:** `/formations/knowledge.md` (config) + `/guides/add-knowledge.md` (tutorial)
+
+### Memory
+
+Three-tier architecture:
+1. **Buffer** - Recent conversation (configurable size)
+2. **Working** - Session state, tool outputs
+3. **Persistent** - Long-term, multi-user (PostgreSQL/SQLite)
+
+**Docs:** `/formations/memory.md` (config) + `/guides/add-memory.md` (tutorial)
+
+### Request Lifecycle
+
+What happens when a message arrives:
+1. Session initialization
+2. Memory loading (3 tiers)
+3. Clarification check
+4. SOP/complexity routing
+5. Agent processing
+6. Tool execution (MCP)
+7. Response generation
+8. Memory updates
+
+**Docs:** `/features/request-lifecycle.md` (reference)
+
+### Multi-Agent Orchestration
+
+How MUXI coordinates agents:
+- Automatic routing by capability
+- Task decomposition for complex requests
+- Parallel execution where possible
+- A2A (agent-to-agent) communication
+
+**Docs:** `/features/orchestration.md`
 
 ---
 
