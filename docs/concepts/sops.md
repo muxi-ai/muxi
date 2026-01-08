@@ -1,13 +1,13 @@
 ---
 title: Standard Operating Procedures
-description: How SOPs give agents repeatable workflows for common tasks
+description: Guidelines that let agents adapt while maintaining consistency
 ---
 # Standard Operating Procedures (SOPs)
 
-## How SOPs give agents repeatable workflows for common tasks
+## Guidelines that let agents adapt while maintaining consistency
 
 
-SOPs are step-by-step instructions that agents follow for specific, repeatable tasks - like onboarding customers, processing refunds, or handling incidents.
+SOPs are step-by-step guidelines that agents interpret for specific, repeatable tasks - like onboarding customers, processing refunds, or handling incidents. Unlike rigid workflows, SOPs allow agents to adapt to context while ensuring consistent outcomes.
 
 ---
 
@@ -29,6 +29,47 @@ SOPs ensure:
 - **Quality** - Best practices baked in
 - **Speed** - No figuring out what to do
 - **Compliance** - Required steps never skipped
+
+---
+
+## Guidelines, Not Workflows
+
+> **Key insight:** Workflows ≠ Agentic
+
+Traditional workflow automation (Zapier, n8n, etc.) is **rigid**:
+- Fixed branching logic (`if X then Y`)
+- Hard-coded sequences
+- No adaptation to context
+- Breaks when reality doesn't match the script
+
+SOPs are **guidelines** that agents interpret:
+
+```
+Traditional Workflow:
+  1. IF premium customer THEN approve refund
+  2. ELSE IF < $50 THEN approve refund
+  3. ELSE reject
+  → Rigid, can't handle edge cases
+
+MUXI SOP:
+  1. Check customer tier and refund amount
+  2. Evaluate refund request based on policy
+  3. Use judgment for edge cases
+  → Agent adapts to context
+```
+
+**The difference:**
+- **Workflows** tell the system exactly what to do
+- **SOPs** tell the agent what outcome to achieve
+
+Agents can:
+- Skip irrelevant steps
+- Ask clarifying questions
+- Adapt to unexpected situations
+- Apply domain knowledge
+- Escalate when uncertain
+
+The result: **consistent outcomes** through adaptive behavior, not brittle automation.
 
 ---
 
@@ -194,11 +235,11 @@ Required steps block progress until completed.
 
 | Use SOPs For | Don't Use SOPs For |
 |-------------|-------------------|
-| Repeatable processes | One-time tasks |
-| Multi-step workflows | Simple questions |
-| Critical procedures | Creative work |
-| Compliance requirements | Exploratory conversations |
-| Customer service flows | General chat |
+| Processes with known best practices | One-time tasks |
+| Tasks with clear outcomes | Simple questions |
+| Critical procedures that need consistency | Creative/exploratory work |
+| Compliance requirements | General conversation |
+| Common customer flows | Novel situations |
 
 Examples of good SOP candidates:
 - Customer onboarding/offboarding
@@ -207,6 +248,9 @@ Examples of good SOP candidates:
 - Data export requests
 - Account verification
 - Bug report triage
+
+> [!TIP]
+> SOPs work best when there's a **repeatable pattern** but **context still matters**. The agent follows the guidelines while adapting to specifics.
 
 ---
 
@@ -235,15 +279,15 @@ Agents can execute any SOP in the library.
 
 ## Why This Matters
 
-| Without SOPs | With SOPs |
-|-------------|-----------|
-| Agents improvise | Agents follow best practices |
-| Inconsistent outcomes | Consistent quality |
-| Steps forgotten | All steps completed |
-| Training needed | Instructions built in |
-| Hard to improve | Update SOP once |
+| Rigid Workflows | SOPs + Agents |
+|----------------|---------------|
+| Brittle automation | Adaptive guidance |
+| Breaks on edge cases | Handles unexpected situations |
+| IF/THEN logic trees | Intelligent interpretation |
+| Can't ask questions | Seeks clarification when needed |
+| One-size-fits-all | Context-aware decisions |
 
-The result: **reliable, repeatable workflows** without hardcoding logic.
+The result: **consistent outcomes through intelligent adaptation**, not brittle automation.
 
 ---
 
