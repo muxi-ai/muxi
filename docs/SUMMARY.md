@@ -5,10 +5,6 @@
 * [What is MUXI](README.md)
 * [Quickstart](quickstart.md)
 * [Installation](installation/README.md)
-  * [macOS](installation/macos.md)
-  * [Linux](installation/linux.md)
-  * [Windows](installation/windows.md)
-  * [Docker](installation/docker.md)
 
 ## Core Concepts
 
@@ -38,18 +34,9 @@
 * [Monitoring](server/monitoring.md)
 * [Production Deployment](server/production.md)
 
-## CLI
+## CLI & SDKs
 
 * [CLI Overview](cli/README.md)
-* [new](cli/new.md)
-* [deploy](cli/deploy.md)
-* [secrets](cli/secrets.md)
-* [formation](cli/formation.md)
-* [registry](cli/registry.md)
-* [chat](cli/chat.md)
-
-## SDKs
-
 * [SDK Overview](sdks/README.md)
 * [Python](sdks/python.md)
 * [TypeScript](sdks/typescript.md)
