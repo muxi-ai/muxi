@@ -12,16 +12,22 @@
 
 ## Core Concepts
 
-* [Formations](formations/README.md)
-  * [Schema Reference](formations/schema.md)
-  * [Agents](formations/agents.md)
-  * [Tools (MCP)](formations/tools.md)
-  * [Memory](formations/memory.md)
-  * [Knowledge](formations/knowledge.md)
-  * [Triggers](formations/triggers.md)
-  * [SOPs](formations/sops.md)
-  * [Secrets](formations/secrets.md)
-  * [Examples](formations/examples.md)
+* [Architecture](concepts/architecture.md)
+* [Why Encrypted Secrets](concepts/secrets.md)
+* [Versioning](concepts/versioning.md)
+
+## Formations
+
+* [Overview](formations/README.md)
+* [Schema Reference](formations/schema.md)
+* [Agents](formations/agents.md)
+* [Tools (MCP)](formations/tools.md)
+* [Memory](formations/memory.md)
+* [Knowledge](formations/knowledge.md)
+* [Triggers](formations/triggers.md)
+* [SOPs](formations/sops.md)
+* [Secrets](formations/secrets.md)
+* [Examples](formations/examples.md)
 
 ## Server
 
@@ -80,12 +86,6 @@
 * [CI/CD Integration](guides/ci-cd.md)
 * [Monitoring & Logs](guides/monitoring.md)
 * [Troubleshooting](guides/troubleshooting.md)
-
-## Concepts
-
-* [Architecture](concepts/architecture.md)
-* [Why Encrypted Secrets](concepts/secrets.md)
-* [Versioning](concepts/versioning.md)
 
 ## Runtime (Advanced)
 
