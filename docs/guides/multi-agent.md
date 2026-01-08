@@ -18,6 +18,9 @@ Multi-agent systems divide work among specialists:
 Researcher  Writer   Reviewer
 ```
 
+> [!NOTE]
+> The Overlord routes requests automatically. SOP matches take priority, then explicit agent selection, then complexity-based routing.
+
 ## Step 1: Define Agents
 
 ```yaml

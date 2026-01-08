@@ -34,6 +34,8 @@ graph LR
 - Formation working locally (`muxi dev` succeeds)
 - Server with SSH access (cloud VM, dedicated, etc.)
 - Domain name (optional but recommended)
+- TLS-ready reverse proxy (Nginx/Caddy) or ability to bind HTTPS at the edge
+- Open ports: 443 (public), 7890 (internal to proxy), 8001-9000 (internal formations)
 
 ---
 

@@ -33,6 +33,8 @@ MUXI is a layered system: CLI and SDKs talk to Servers, which manage Formations 
 └──────────────────────────────────────────────────────────────┘
 ```
 
+Legend: CLI/SDKs → Server (port 7890) → Formations (ports 8001-8999) running on the Runtime; Registry distributes formations.
+
 ---
 
 ## Components

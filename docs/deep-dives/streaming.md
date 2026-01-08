@@ -19,6 +19,11 @@ MUXI streams responses using Server-Sent Events (SSE), reducing time-to-first-to
 | User experience | Wait... wait... wall of text | Typewriter effect |
 | Memory usage | Buffer entire response | Chunk by chunk |
 
+Performance baseline (typical):
+- Time to first token: 400-800ms
+- Subsequent chunks: 50-150ms
+- End-to-end (500-1500 tokens): 2-6s depending on model
+
 ---
 
 ## Enable Streaming

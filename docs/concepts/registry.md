@@ -7,6 +7,11 @@ description: Share and distribute formations like Docker images
 
 The MUXI Registry is a distribution hub for formations. Pull community formations with one command. Publish your own. Version control, rollbacks, and namespaces built in.
 
+When to use the registry:
+- Start from a proven template (`muxi pull @muxi/starter`)
+- Share formations across teams or orgs
+- Version and roll back formations safely
+
 ---
 
 ## The Docker Analogy

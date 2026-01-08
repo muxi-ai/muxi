@@ -7,6 +7,9 @@ description: Everything MUXI can do, at a glance
 
 A quick reference to all MUXI capabilities. Click any feature to learn more.
 
+> [!NOTE]
+> Prerequisites: MUXI installed and a running server (see Quickstart/Installation).
+
 ---
 
 ## Agents & Intelligence

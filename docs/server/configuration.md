@@ -15,6 +15,9 @@ Configure MUXI Server settings.
 muxi-server init
 ```
 
+> [!TIP]
+> Common ports: Server 7890, formations 8001-9000 (configurable).
+
 ## Configuration Reference
 
 ```yaml
