@@ -1,658 +1,358 @@
 ---
-title: Approval Configuration
-description: Complete reference for human-in-the-loop approval settings
+title: Approval Configuration Reference
+description: Complete reference for plan approval settings
 ---
-# Approval Configuration
+# Approval Configuration Reference
 
-## Complete reference for human-in-the-loop approval settings
+## Complete reference for plan approval settings
 
-Configure when and how users approve workflows before execution. Control approval requirements, timeouts, and custom rules.
+Configure when MUXI requires user approval before executing complex workflows. Approval configuration is part of the workflow settings under `overlord.workflow`.
+
+**Official Schema:** https://github.com/agent-formation/afs-spec
 
 ## Configuration Location
 
 ```yaml
 # In formation.yaml
-workflow:
-  # Approval settings here
+overlord:
+  workflow:
+    plan_approval_threshold: 7  # Approval threshold (1-10)
 ```
 
-## Basic Settings
+## Field Reference
 
-### requires_approval
-```yaml
-workflow:
-  requires_approval: true
-```
+### plan_approval_threshold
 
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Require approval for all workflows
+**Type:** `integer` (1-10)  
+**Required:** No  
+**Default:** `7`  
 
-**Behavior:**
-```yaml
-requires_approval: false  # No approval needed (default)
-requires_approval: true   # All workflows need approval
-```
+Complexity threshold for requiring plan approval before execution.
 
-### approval_threshold
-```yaml
-workflow:
-  approval_threshold: 10
-```
-
-**Type:** `float`  
-**Range:** `0.0` to `10.0`  
-**Default:** `10` (effectively disabled)  
-**Description:** Complexity score threshold for approval
-
-**How it works:**
-```
-Complexity score < approval_threshold → No approval needed
-Complexity score ≥ approval_threshold → Approval required
-```
-
-**Examples:**
-```yaml
-# Very selective (only most complex tasks)
-approval_threshold: 9.5
-
-# Moderately selective
-approval_threshold: 8.0
-
-# More aggressive
-approval_threshold: 7.0
-
-# Approve everything (same as requires_approval: true)
-approval_threshold: 0.0
-```
-
-## Timeout Settings
-
-### approval_timeout
-```yaml
-workflow:
-  approval_timeout: 300
-```
-
-**Type:** `integer` (seconds)  
-**Default:** `300` (5 minutes)  
-**Range:** `30` to `3600`  
-**Description:** Time to wait for user approval
-
-**Behavior:**
-```
-Present plan → Wait for approval
-         ↓
-approval_timeout seconds pass
-         ↓
-No response → Cancel workflow
-```
-
-**Recommendations:**
-```yaml
-# Quick decisions
-approval_timeout: 60    # 1 minute
-
-# Standard
-approval_timeout: 300   # 5 minutes
-
-# Complex reviews
-approval_timeout: 900   # 15 minutes
-```
-
-### approval_timeout_action
-```yaml
-workflow:
-  approval_timeout_action: "cancel"
-```
-
-**Type:** `string`  
-**Options:**
-- `cancel` - Cancel workflow (default)
-- `proceed` - Execute anyway (dangerous!)
-- `retry` - Ask again
-
-**Default:** `"cancel"`
-
-## Display Options
-
-### show_time_estimate
-```yaml
-workflow:
-  show_time_estimate: true
-```
-
-**Type:** `boolean`  
-**Default:** `true`  
-**Description:** Show estimated execution time in approval message
-
-**Example:**
-```
-With show_time_estimate: true
-"Estimated time: 5-7 minutes"
-
-With show_time_estimate: false
-(No time estimate shown)
-```
-
-### show_cost_estimate
-```yaml
-workflow:
-  show_cost_estimate: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Show estimated cost in approval message
-
-**Requires:** Cost tracking enabled
-
-**Example:**
-```
-With show_cost_estimate: true
-"Estimated cost: $0.12 (15 API calls)"
-```
-
-### show_impact
-```yaml
-workflow:
-  show_impact: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Show impact analysis (affected users, systems, etc.)
-
-**Example:**
-```
-With show_impact: true
-"Impact:
- - Affects: 10,234 active users
- - Systems: production-api, production-db
- - Downtime: ~30 seconds"
-```
-
-### show_task_details
-```yaml
-workflow:
-  show_task_details: true
-```
-
-**Type:** `boolean`  
-**Default:** `true`  
-**Description:** Show individual task details in plan
-
-**Example:**
-```
-With show_task_details: true
-"Tasks:
- 1. Research competitors (researcher)
-    Tools: web-search, company-db
-    Estimated time: 2-3 minutes
- 2. Create report (writer)
-    Tools: document-creation
-    Estimated time: 1-2 minutes"
-
-With show_task_details: false
-"I'll complete this task in 2 steps. Proceed?"
-```
-
-## Response Requirements
-
-### require_explicit_yes
-```yaml
-workflow:
-  require_explicit_yes: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Only accept "y" or "yes" as approval
-
-**When true:**
-```
-✓ Accepted: "y", "yes"
-✗ Rejected: "ok", "sure", "proceed", "go ahead"
-```
-
-**When false:**
-```
-✓ Accepted: "y", "yes", "ok", "sure", "proceed", "go ahead"
-```
-
-### require_confirmation
-```yaml
-workflow:
-  require_confirmation: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Require typing "CONFIRM" for sensitive operations
-
-**Behavior:**
-```
-MUXI: "This will delete 1,234 records. Type 'CONFIRM' to proceed:"
-User: "CONFIRM"
-MUXI: [Executes]
-```
-
-### confirmation_text
-```yaml
-workflow:
-  confirmation_text: "CONFIRM"
-```
-
-**Type:** `string`  
-**Default:** `"CONFIRM"`  
-**Description:** Text user must type for confirmation
-
-**Custom text:**
-```yaml
-confirmation_text: "DELETE DATA"
-```
-
-## Approval Rules
-
-### approval_rules
-```yaml
-workflow:
-  approval_rules:
-    - match: "pattern"
-      requires_approval: true
-      message: "Custom message"
-```
-
-**Type:** `array<object>`  
-**Description:** Pattern-based approval rules
-
-**Fields:**
-
-#### match
-```yaml
-match: "deploy.*production"
-```
-
-**Type:** `string` (regex)  
-**Description:** Pattern to match in user request
-
-#### requires_approval
-```yaml
-requires_approval: true
-```
-
-**Type:** `boolean`  
-**Description:** Force approval for matching requests
-
-#### message
-```yaml
-message: "⚠️ PRODUCTION DEPLOYMENT"
-```
-
-**Type:** `string`  
-**Description:** Custom message in approval prompt
-
-#### require_confirmation
-```yaml
-require_confirmation: true
-```
-
-**Type:** `boolean`  
-**Description:** Require typing confirmation text
-
-#### approval_timeout
-```yaml
-approval_timeout: 600
-```
-
-**Type:** `integer` (seconds)  
-**Description:** Custom timeout for this rule
-
-#### show_impact
-```yaml
-show_impact: true
-```
-
-**Type:** `boolean`  
-**Description:** Always show impact for this rule
-
-### Example Rules
+**Description:**  
+When MUXI calculates a request's complexity score, it compares the score to this threshold. If the score is at or above the threshold, MUXI presents an execution plan and waits for user approval before proceeding.
 
 ```yaml
-workflow:
-  approval_rules:
-    # Production deployments
-    - match: "deploy.*production"
-      requires_approval: true
-      message: "⚠️ PRODUCTION DEPLOYMENT"
-      show_impact: true
-      approval_timeout: 600
-
-    # Data deletion
-    - match: "delete|remove|drop"
-      requires_approval: true
-      require_confirmation: true
-      message: "⚠️ DESTRUCTIVE OPERATION"
-      confirmation_text: "DELETE DATA"
-
-    # External communications
-    - match: "send email|post.*slack|tweet"
-      requires_approval: true
-      message: "External communication"
-      show_preview: true
-
-    # Financial transactions
-    - match: "transfer|payment|refund"
-      requires_approval: true
-      message: "⚠️ FINANCIAL TRANSACTION"
-      require_explicit_yes: true
-      show_cost_estimate: true
+overlord:
+  workflow:
+    plan_approval_threshold: 7  # Default: require approval for complexity ≥ 7
 ```
 
-## Role-Based Approvals
+## How It Works
 
-### approval_requires_auth
-```yaml
-workflow:
-  approval_requires_auth: true
-```
+1. **Request arrives** - User makes a request
+2. **Complexity calculated** - MUXI scores complexity (1-10)
+3. **Threshold check** - Compare score to `plan_approval_threshold`
+4. **If score ≥ threshold:**
+   - Generate execution plan
+   - Present plan to user
+   - Wait for approval (yes/no)
+   - Execute if approved, cancel if rejected
+5. **If score < threshold:**
+   - Execute immediately without approval
 
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Require authenticated user to approve
+## Threshold Values
 
-### approval_roles
-```yaml
-workflow:
-  approval_roles:
-    - admin
-    - ops
-    - manager
-```
+| Threshold | When Approvals Trigger | Use Case |
+|-----------|------------------------|----------|
+| **1** | All requests | Maximum control (even simple queries) |
+| **3** | Most requests | Very conservative |
+| **5** | Moderate complexity+ | Balanced control |
+| **7** | Complex workflows only | **Default** - practical for production |
+| **9** | Very complex only | Minimal interruptions |
+| **10** | Never | Effectively disables approvals |
 
-**Type:** `array<string>`  
-**Description:** Roles allowed to approve
+## Examples
 
-**Requires:** User authentication enabled
-
-**Behavior:**
-```
-User role: "admin" → ✓ Can approve
-User role: "developer" → ✗ Cannot approve (not in list)
-```
-
-### approval_users
-```yaml
-workflow:
-  approval_users:
-    - alice@company.com
-    - bob@company.com
-```
-
-**Type:** `array<string>`  
-**Description:** Specific users allowed to approve
-
-## Multi-Approval
-
-### require_multiple_approvals
-```yaml
-workflow:
-  require_multiple_approvals: true
-  minimum_approvals: 2
-```
-
-**Type:** `boolean` + `integer`  
-**Default:** `false`, `1`  
-**Description:** Require multiple users to approve
-
-**Behavior:**
-```
-User 1 approves: "1/2 approvals"
-User 2 approves: "2/2 approvals - Executing..."
-```
-
-### approval_timeout_per_user
-```yaml
-workflow:
-  approval_timeout_per_user: 300
-```
-
-**Type:** `integer` (seconds)  
-**Description:** Timeout for each approver
-
-## Audit & Logging
-
-### log_approvals
-```yaml
-workflow:
-  log_approvals: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Log all approval decisions
-
-**Output:**
-```
-2025-01-09 14:32:15 | req_abc123 | APPROVED | user@company.com | Deploy v2.1.0
-2025-01-09 14:35:22 | req_def456 | REJECTED | admin@company.com | Delete users
-2025-01-09 14:40:11 | req_ghi789 | TIMEOUT  | system           | Backup database
-```
-
-### emit_approval_events
-```yaml
-workflow:
-  emit_approval_events: true
-```
-
-**Type:** `boolean`  
-**Default:** `true`  
-**Description:** Emit events for approval lifecycle
-
-**Events:**
-- `approval.requested`
-- `approval.approved`
-- `approval.rejected`
-- `approval.timeout`
-
-## Complete Example
+### Default (Balanced)
 
 ```yaml
-workflow:
-  # Basic settings
-  requires_approval: false
-  approval_threshold: 8
-  approval_timeout: 300
-  approval_timeout_action: "cancel"
-
-  # Display
-  show_time_estimate: true
-  show_cost_estimate: true
-  show_impact: false
-  show_task_details: true
-
-  # Response requirements
-  require_explicit_yes: false
-  require_confirmation: false
-
-  # Rules
-  approval_rules:
-    - match: "deploy.*production"
-      requires_approval: true
-      message: "⚠️ PRODUCTION DEPLOYMENT"
-      show_impact: true
-      approval_timeout: 600
-
-    - match: "delete|remove|drop"
-      requires_approval: true
-      require_confirmation: true
-      message: "⚠️ DESTRUCTIVE OPERATION"
-      confirmation_text: "DELETE DATA"
-
-    - match: "transfer|payment|refund"
-      requires_approval: true
-      message: "⚠️ FINANCIAL TRANSACTION"
-      require_explicit_yes: true
-      show_cost_estimate: true
-
-  # Role-based
-  approval_requires_auth: true
-  approval_roles: [admin, ops]
-
-  # Audit
-  log_approvals: true
-  emit_approval_events: true
+overlord:
+  workflow:
+    plan_approval_threshold: 7  # Complex workflows only
 ```
 
-## Presets
+**Requires approval for:**
+- Multi-step research and analysis
+- Workflows with 5+ subtasks
+- Operations affecting multiple systems
 
-### Strict (Maximum Safety)
+**No approval for:**
+- Simple questions
+- Single-agent tasks
+- Quick lookups
+
+### Strict (Maximum Control)
+
 ```yaml
-workflow:
-  requires_approval: true
-  approval_threshold: 5
-  approval_timeout: 600
-  require_explicit_yes: true
-  approval_requires_auth: true
-  log_approvals: true
+overlord:
+  workflow:
+    plan_approval_threshold: 5  # Most tasks require approval
 ```
 
-### Moderate (Balanced)
+**Requires approval for:**
+- Any task requiring multiple steps
+- Most agent interactions
+- Operations with dependencies
+
+Good for: Production environments, sensitive operations, compliance requirements.
+
+### Lenient (Speed Priority)
+
 ```yaml
-workflow:
-  requires_approval: false
-  approval_threshold: 8
-  approval_timeout: 300
-  show_time_estimate: true
-  show_cost_estimate: true
+overlord:
+  workflow:
+    plan_approval_threshold: 9  # Only very complex workflows
 ```
 
-### Lenient (Speed)
+**Requires approval for:**
+- Extremely complex multi-agent workflows
+- Tasks with 10+ subtasks
+- Long-running operations
+
+Good for: Development, testing, trusted environments.
+
+### Disabled
+
 ```yaml
-workflow:
-  requires_approval: false
-  approval_threshold: 9.5
-  approval_timeout: 60
+overlord:
+  workflow:
+    plan_approval_threshold: 10  # Never require approval
 ```
 
-### Production
+All requests execute immediately without approval, regardless of complexity.
+
+Good for: Automated systems, background jobs, development.
+
+## Complexity Scoring
+
+MUXI calculates complexity based on:
+
+- **Number of steps** - More steps = higher complexity
+- **Agent requirements** - Multiple agents = higher complexity
+- **Tool usage** - External tools = higher complexity
+- **Dependencies** - Task dependencies = higher complexity
+- **Estimated time** - Longer operations = higher complexity
+
+See [Workflows & Task Decomposition](../concepts/workflows.md) for details on complexity calculation.
+
+## Configuration with Other Settings
+
+### With Complexity Method
+
 ```yaml
-workflow:
-  requires_approval: false
-  approval_threshold: 9
-  approval_rules:
-    - match: "production"
-      requires_approval: true
-      show_impact: true
-  log_approvals: true
+overlord:
+  workflow:
+    complexity_method: "llm"           # Use LLM for scoring
+    complexity_threshold: 7.0          # Trigger workflows at 7+
+    plan_approval_threshold: 7         # Require approval at 7+
 ```
 
-## Environment Variables
+**Note:** `complexity_threshold` determines when workflows are created. `plan_approval_threshold` determines when approval is required. They can be different values.
 
-```bash
-# Override approval settings
-MUXI_WORKFLOW_REQUIRES_APPROVAL=true
-MUXI_WORKFLOW_APPROVAL_THRESHOLD=8.0
-MUXI_WORKFLOW_APPROVAL_TIMEOUT=300
-```
+### With Async Processing
 
-## API Endpoints
-
-### Get Approval Status
-```http
-GET /v1/requests/{request_id}
-```
-
-**Response:**
-```json
-{
-  "request_id": "req_abc123",
-  "status": "awaiting_approval",
-  "plan": {
-    "tasks": [...],
-    "estimated_time": "5-7 minutes"
-  }
-}
-```
-
-### Approve Request
-```http
-POST /v1/requests/{request_id}/approve
-```
-
-**Request:**
-```json
-{
-  "user_id": "alice@company.com",
-  "confirmation": "CONFIRM"  // If required
-}
-```
-
-### Reject Request
-```http
-POST /v1/requests/{request_id}/reject
-```
-
-**Request:**
-```json
-{
-  "user_id": "alice@company.com",
-  "reason": "Not ready for production"
-}
-```
-
-## Validation
-
-**Valid configuration:**
 ```yaml
-workflow:
-  requires_approval: true     # ✓ Boolean
-  approval_threshold: 8.0     # ✓ Float in range
-  approval_timeout: 300       # ✓ Positive integer
+overlord:
+  workflow:
+    plan_approval_threshold: 7
+
+async:
+  threshold_seconds: 30
 ```
 
-**Invalid configuration:**
+If a request requires approval AND is async:
+1. Present plan immediately
+2. Wait for approval
+3. If approved, execute in background
+4. Notify via webhook when complete
+
+### With Custom Persona
+
 ```yaml
-workflow:
-  requires_approval: "yes"    # ✗ Must be boolean
-  approval_threshold: 15      # ✗ Max is 10
-  approval_timeout: -1        # ✗ Must be positive
+overlord:
+  persona: |
+    When presenting execution plans for approval, clearly explain the impact
+    of each step. Highlight any irreversible actions or operations that affect
+    production systems. Use clear language and provide time estimates.
+  
+  workflow:
+    plan_approval_threshold: 6  # Slightly lower for sensitive operations
 ```
+
+The persona influences how approval messages are presented.
+
+## Approval Flow Example
+
+**Request:** "Research competitors, create comparison report, post to Slack"
+
+**Complexity score:** 9/10
+
+**If `plan_approval_threshold: 7`:**
+
+```
+MUXI: I've created a plan for this task:
+
+1. Research competitors (researcher agent)
+   - Search for top 5 competitors
+   - Analyze their offerings
+   - Estimated time: 2-3 minutes
+
+2. Create comparison report (analyst + writer agents)
+   - Compare features and pricing
+   - Generate PDF report
+   - Estimated time: 1-2 minutes
+
+3. Post to Slack (slack-agent)
+   - Post to #marketing channel
+   - Include report as attachment
+   - Estimated time: <10 seconds
+
+Total estimated time: 3-6 minutes
+
+Proceed? [y/N]
+
+User: y
+
+MUXI: Starting execution...
+```
+
+**If `plan_approval_threshold: 10`:**
+
+```
+MUXI: [Immediately starts execution without approval]
+```
+
+## Best Practices
+
+### DO ✅
+
+**Match environment to threshold:**
+```yaml
+# Development
+overlord:
+  workflow:
+    plan_approval_threshold: 10  # No interruptions
+
+# Staging
+overlord:
+  workflow:
+    plan_approval_threshold: 8   # Review complex operations
+
+# Production
+overlord:
+  workflow:
+    plan_approval_threshold: 6   # Review most operations
+```
+
+**Consider your use case:**
+- Customer-facing chatbot → Higher threshold (8-9)
+- Internal operations tool → Lower threshold (5-6)
+- Automated background jobs → Disabled (10)
+
+**Provide context in persona:**
+```yaml
+overlord:
+  persona: |
+    For operations requiring approval, explain what will be modified,
+    estimate the time required, and highlight any risks.
+```
+
+### DON'T ❌
+
+**Don't set too low in production:**
+```yaml
+# ❌ Bad: Users will be frustrated
+overlord:
+  workflow:
+    plan_approval_threshold: 2  # Approving everything!
+```
+
+**Don't disable without considering risks:**
+```yaml
+# ❌ Dangerous for sensitive operations
+overlord:
+  workflow:
+    plan_approval_threshold: 10  # No approval for deployments!
+```
+
+**Don't forget to test:**
+- Test with various request complexities
+- Verify approval messages are clear
+- Ensure timeout handling works
 
 ## Troubleshooting
 
-### Approvals Not Triggering
-```yaml
-# Check settings
-workflow:
-  requires_approval: false
-  approval_threshold: 10      # Complexity must be ≥ 10
+### Approvals Too Frequent
 
-# If complexity is 8, no approval triggered
-# Solution: Lower threshold
-  approval_threshold: 8
+**Problem:** Approving too many simple requests.
+
+**Solution:** Increase threshold.
+
+```yaml
+# Was: 5 (too many approvals)
+# Fix: 7 (only complex workflows)
+overlord:
+  workflow:
+    plan_approval_threshold: 7
 ```
 
-### Timeout Too Short
-```yaml
-# Users complaining they don't have enough time
-workflow:
-  approval_timeout: 60        # Too short!
+### Approvals Not Showing
 
-# Solution: Increase
-  approval_timeout: 300       # 5 minutes
+**Problem:** Expected approval didn't trigger.
+
+**Solution:** Request complexity is below threshold.
+
+```yaml
+# Check complexity scoring
+overlord:
+  workflow:
+    complexity_method: "llm"  # More accurate scoring
+    plan_approval_threshold: 6  # Lower threshold
 ```
 
-### Wrong User Approving
+### Approval Messages Unclear
+
+**Problem:** Users don't understand what they're approving.
+
+**Solution:** Improve persona guidance.
+
 ```yaml
-# Only admins should approve
-workflow:
-  approval_roles: [admin]     # Restrict to admins
-  approval_requires_auth: true  # Must be authenticated
+overlord:
+  persona: |
+    When presenting plans, use clear language. Explain:
+    - What will be modified
+    - Estimated time
+    - Any irreversible actions
+    - Potential risks
 ```
+
+## Related Configuration
+
+### Async Threshold
+
+```yaml
+async:
+  threshold_seconds: 30  # Switch to async after 30s
+```
+
+Approvals work with both sync and async modes.
+
+### Workflow Timeout
+
+```yaml
+overlord:
+  workflow:
+    timeouts:
+      workflow_timeout: 3600  # Total workflow timeout
+```
+
+If user doesn't approve within the timeout, the request is cancelled.
 
 ## Learn More
 
-- [Human-in-the-Loop Concept](../concepts/approvals.md) - User-facing explanation
-- [Workflows & Task Decomposition](../concepts/workflows.md) - Workflow system
-- [How Orchestration Works](../deep-dives/orchestration.md) - Technical details
+- **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official schema specification
+- [Human-in-the-Loop](../concepts/approvals.md) - Concept guide
+- [Workflows & Task Decomposition](../concepts/workflows.md) - Workflow configuration
+- [Workflow Configuration Reference](workflows.md) - All workflow settings
+- [The Overlord](../concepts/overlord.md) - How orchestration works

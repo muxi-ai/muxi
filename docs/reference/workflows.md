@@ -1,597 +1,382 @@
 ---
-title: Workflow Configuration
-description: Complete reference for workflow and task decomposition settings
+title: Workflow Configuration Reference
+description: Complete reference for overlord workflow settings
 ---
-# Workflow Configuration
+# Workflow Configuration Reference
 
-## Complete reference for workflow and task decomposition settings
+## Complete reference for overlord workflow settings
 
-Configure how MUXI decomposes complex requests into multi-agent workflows. Control parallel execution, timeouts, retries, and approval requirements.
+Configure how MUXI decomposes complex tasks, routes work to agents, handles errors, and executes workflows. All workflow settings are under `overlord.workflow` in your formation.
+
+**Official Schema:** https://github.com/agent-formation/afs-spec
 
 ## Configuration Location
 
 ```yaml
 # In formation.yaml
 overlord:
-  auto_decomposition: true
-  complexity_threshold: 7.0
-
-workflow:
-  # Workflow settings here
+  workflow:
+    # Workflow settings here
 ```
 
-## Overlord Settings
+## Core Workflow Settings
 
 ### auto_decomposition
+
+**Type:** `boolean`  
+**Default:** `true`  
+
+Enable automatic task decomposition for complex requests.
+
 ```yaml
 overlord:
-  auto_decomposition: true
+  workflow:
+    auto_decomposition: true  # Enable (default)
 ```
 
-**Type:** `boolean`  
-**Default:** `true`  
-**Description:** Enable automatic workflow creation for complex requests
+When enabled, MUXI automatically breaks complex tasks into subtasks and coordinates their execution across multiple agents.
 
-**When disabled:**
-- All requests route to single agent
-- No workflow decomposition
-- Useful for testing/debugging
+### plan_approval_threshold
 
-### complexity_threshold
+**Type:** `integer` (1-10)  
+**Default:** `7`  
+
+Complexity threshold for requiring plan approval before execution.
+
 ```yaml
 overlord:
-  complexity_threshold: 7.0
+  workflow:
+    plan_approval_threshold: 7  # Require approval for complexity ≥ 7
 ```
 
-**Type:** `float`  
-**Range:** `0.0` to `10.0`  
-**Default:** `7.0`  
-**Description:** Complexity score threshold to trigger workflows
+Requests with complexity scores at or above this threshold will present an execution plan and wait for user approval before proceeding.
 
-**Scoring:**
-- `0-3`: Simple (single agent)
-- `4-6`: Moderate (single agent, may use tools)
-- `7-10`: Complex (workflow mode)
+See [Human-in-the-Loop](../concepts/approvals.md) for details.
 
-**Example:**
-```yaml
-complexity_threshold: 8.0  # More selective (only very complex)
-complexity_threshold: 6.0  # More aggressive (more workflows)
-```
+## Complexity Calculation
 
-## Workflow Settings
-
-### max_parallel_tasks
-```yaml
-workflow:
-  max_parallel_tasks: 10
-```
-
-**Type:** `integer`  
-**Default:** `10`  
-**Range:** `1` to `50`  
-**Description:** Maximum concurrent tasks
-
-**Considerations:**
-- Higher = faster execution (if tasks are independent)
-- Lower = less resource usage, fewer API rate limits
-
-**Example:**
-```yaml
-# Conservative (avoid rate limits)
-max_parallel_tasks: 3
-
-# Aggressive (fast execution)
-max_parallel_tasks: 20
-```
-
-### min_tasks_for_parallel
-```yaml
-workflow:
-  min_tasks_for_parallel: 3
-```
-
-**Type:** `integer`  
-**Default:** `3`  
-**Description:** Minimum tasks required to enable parallel execution
-
-**Rationale:**
-- Overhead of parallel execution not worth it for 1-2 tasks
-- Only parallelize if ≥ 3 tasks
-
-### task_timeout
-```yaml
-workflow:
-  task_timeout: 300
-```
-
-**Type:** `integer` (seconds)  
-**Default:** `300` (5 minutes)  
-**Range:** `30` to `3600`  
-**Description:** Maximum time per individual task
-
-**Recommendations:**
-```yaml
-# Quick operations
-task_timeout: 60     # 1 minute
-
-# Standard operations
-task_timeout: 300    # 5 minutes
-
-# Long-running operations
-task_timeout: 900    # 15 minutes
-```
-
-### workflow_timeout
-```yaml
-workflow:
-  workflow_timeout: 1800
-```
-
-**Type:** `integer` (seconds)  
-**Default:** `1800` (30 minutes)  
-**Range:** `60` to `7200`  
-**Description:** Maximum time for entire workflow
-
-**Note:** Should be > task_timeout × expected_max_tasks
-
-### retry_failed_tasks
-```yaml
-workflow:
-  retry_failed_tasks: true
-```
-
-**Type:** `boolean`  
-**Default:** `true`  
-**Description:** Automatically retry failed tasks
-
-### max_retries
-```yaml
-workflow:
-  max_retries: 3
-```
-
-**Type:** `integer`  
-**Default:** `3`  
-**Range:** `0` to `10`  
-**Description:** Maximum retry attempts per task
-
-**Requires:** `retry_failed_tasks: true`
-
-### retry_delay
-```yaml
-workflow:
-  retry_delay: 5
-```
-
-**Type:** `integer` (seconds)  
-**Default:** `5`  
-**Range:** `1` to `60`  
-**Description:** Delay between retry attempts
-
-**Strategies:**
-```yaml
-# Quick retry (transient errors)
-retry_delay: 2
-
-# Standard backoff
-retry_delay: 5
-
-# Long backoff (rate limits)
-retry_delay: 30
-```
-
-### retry_exponential_backoff
-```yaml
-workflow:
-  retry_exponential_backoff: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Use exponential backoff for retries
-
-**Behavior:**
-```
-Attempt 1: Wait retry_delay (5s)
-Attempt 2: Wait retry_delay × 2 (10s)
-Attempt 3: Wait retry_delay × 4 (20s)
-```
-
-## Execution Settings
-
-### async_threshold
-```yaml
-workflow:
-  async_threshold: 10
-```
-
-**Type:** `integer` (seconds)  
-**Default:** `10`  
-**Description:** Estimated time threshold to switch to async mode
-
-**Behavior:**
-```
-Estimated time < 10s → Sync (blocking)
-Estimated time ≥ 10s → Async (non-blocking)
-```
-
-### enable_async
-```yaml
-workflow:
-  enable_async: true
-```
-
-**Type:** `boolean`  
-**Default:** `true`  
-**Description:** Allow async execution mode
-
-**When disabled:**
-- All workflows run synchronously
-- Long tasks may timeout
-- Not recommended for production
-
-### force_async
-```yaml
-workflow:
-  force_async:
-    - pattern: "research.*"
-    - pattern: "analyze.*codebase"
-```
-
-**Type:** `array<object>`  
-**Description:** Always use async for matching patterns
-
-**Example:**
-```yaml
-force_async:
-  - pattern: "research"
-  - pattern: "analyze"
-  - pattern: "generate.*report"
-```
-
-## Approval Settings
-
-### requires_approval
-```yaml
-workflow:
-  requires_approval: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Require user approval before executing workflows
-
-### approval_threshold
-```yaml
-workflow:
-  approval_threshold: 10
-```
-
-**Type:** `float`  
-**Range:** `0.0` to `10.0`  
-**Default:** `10` (disabled)  
-**Description:** Complexity score to trigger approval
-
-**Example:**
-```yaml
-# Require approval for very complex tasks only
-requires_approval: false
-approval_threshold: 9
-
-# Require approval for moderately complex tasks
-requires_approval: false
-approval_threshold: 7
-
-# Require approval for all workflows
-requires_approval: true
-```
-
-### approval_timeout
-```yaml
-workflow:
-  approval_timeout: 300
-```
-
-**Type:** `integer` (seconds)  
-**Default:** `300` (5 minutes)  
-**Description:** Time to wait for user approval
-
-**Behavior:**
-```
-Present plan → Wait for approval
-         ↓
-300 seconds pass, no response
-         ↓
-Cancel workflow, return timeout error
-```
-
-### show_cost_estimate
-```yaml
-workflow:
-  show_cost_estimate: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Include cost estimate in approval message
-
-**Requires:** Cost tracking enabled
-
-### show_time_estimate
-```yaml
-workflow:
-  show_time_estimate: true
-```
-
-**Type:** `boolean`  
-**Default:** `true`  
-**Description:** Include time estimate in approval message
-
-### require_explicit_yes
-```yaml
-workflow:
-  require_explicit_yes: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Only accept "y" or "yes" (reject "ok", "sure", etc.)
-
-### approval_rules
-```yaml
-workflow:
-  approval_rules:
-    - match: "deploy.*production"
-      requires_approval: true
-      message: "⚠️ PRODUCTION DEPLOYMENT"
-    
-    - match: "delete|remove"
-      requires_approval: true
-      require_confirmation: true
-```
-
-**Type:** `array<object>`  
-**Description:** Pattern-based approval rules
-
-**Fields:**
-- `match`: Regex pattern
-- `requires_approval`: Force approval
-- `message`: Custom approval message
-- `require_confirmation`: Require typing "CONFIRM"
-
-## Logging & Observability
-
-### log_workflows
-```yaml
-workflow:
-  log_workflows: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Log workflow creation and execution
-
-**Output:**
-```
-[WORKFLOW] Created workflow for request req_abc123
-[WORKFLOW]   Task 1: research (researcher)
-[WORKFLOW]   Task 2: analyze (analyst) - depends on [1]
-[WORKFLOW] Executing Task 1
-[WORKFLOW] Task 1 completed in 3.2s
-[WORKFLOW] Executing Task 2
-[WORKFLOW] Task 2 completed in 2.1s
-[WORKFLOW] Workflow completed in 5.5s
-```
-
-### log_task_results
-```yaml
-workflow:
-  log_task_results: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Log individual task results
-
-**Warning:** May log sensitive data
-
-### emit_events
-```yaml
-workflow:
-  emit_events: true
-```
-
-**Type:** `boolean`  
-**Default:** `true`  
-**Description:** Emit workflow events for observability
-
-**Events:**
-- `workflow.created`
-- `workflow.started`
-- `task.started`
-- `task.completed`
-- `task.failed`
-- `workflow.completed`
-- `workflow.failed`
-
-## Resource Limits
-
-### max_workflow_memory
-```yaml
-workflow:
-  max_workflow_memory: "2GB"
-```
+### complexity_method
 
 **Type:** `string`  
-**Default:** `"2GB"`  
-**Description:** Maximum memory per workflow
+**Options:** `heuristic`, `llm`, `custom`, `hybrid`  
+**Default:** `heuristic`  
 
-### max_workflow_cpu
+Method for calculating request complexity.
+
 ```yaml
-workflow:
-  max_workflow_cpu: 2.0
+overlord:
+  workflow:
+    complexity_method: "heuristic"  # Default: rule-based scoring
 ```
 
-**Type:** `float` (CPU cores)  
-**Default:** `2.0`  
-**Description:** Maximum CPU per workflow
+**Methods:**
+- **heuristic** - Rule-based scoring (fast, deterministic)
+- **llm** - LLM evaluates complexity (accurate, slower)
+- **custom** - Custom complexity function (advanced)
+- **hybrid** - Combines multiple methods with weights
+
+### complexity_threshold
+
+**Type:** `number` (1.0-10.0)  
+**Default:** `7.0`  
+
+Complexity threshold for triggering workflow decomposition.
+
+```yaml
+overlord:
+  workflow:
+    complexity_threshold: 7.0  # Trigger workflows at 7+
+```
+
+Requests scoring at or above this threshold trigger automatic workflow creation.
+
+### complexity_weights
+
+**Type:** `object`  
+**Default:** See example  
+
+Weights for hybrid complexity calculation (only used when `complexity_method: "hybrid"`).
+
+```yaml
+overlord:
+  workflow:
+    complexity_method: "hybrid"
+    complexity_weights:
+      heuristic: 0.4
+      llm: 0.4
+      custom: 0.2
+```
+
+Weights must sum to 1.0.
+
+## Task Routing
+
+### routing_strategy
+
+**Type:** `string`  
+**Options:** `capability_based`, `load_balanced`, `priority_based`, `custom`, `round_robin`, `specialized`  
+**Default:** `capability_based`  
+
+Strategy for routing tasks to agents.
+
+```yaml
+overlord:
+  workflow:
+    routing_strategy: "capability_based"  # Default: match capabilities
+```
+
+**Strategies:**
+- **capability_based** - Match task to agent capabilities (default)
+- **load_balanced** - Distribute evenly across agents
+- **priority_based** - Route to highest priority agents
+- **round_robin** - Cycle through agents
+- **specialized** - Prefer specialist agents
+- **custom** - Custom routing logic
+
+### enable_agent_affinity
+
+**Type:** `boolean`  
+**Default:** `true`  
+
+Prefer agents that successfully completed similar tasks.
+
+```yaml
+overlord:
+  workflow:
+    enable_agent_affinity: true  # Learn from past successes
+```
+
+When enabled, MUXI tracks which agents succeeded at specific task types and prefers them for similar future tasks.
+
+## Error Handling
+
+### error_recovery
+
+**Type:** `string`  
+**Options:** `fail_fast`, `retry_with_backoff`, `retry_with_alternate`, `skip_and_continue`, `compensate`, `manual_intervention`  
+**Default:** `retry_with_backoff`  
+
+Strategy for recovering from task failures.
+
+```yaml
+overlord:
+  workflow:
+    error_recovery: "retry_with_backoff"  # Default: retry with delays
+```
+
+**Strategies:**
+- **fail_fast** - Stop immediately on first error
+- **retry_with_backoff** - Retry with exponential backoff
+- **retry_with_alternate** - Try alternate agents/approaches
+- **skip_and_continue** - Skip failed task, continue workflow
+- **compensate** - Execute compensating actions
+- **manual_intervention** - Request user input
+
+### retry
+
+**Type:** `object`  
+
+Retry configuration for failed tasks.
+
+```yaml
+overlord:
+  workflow:
+    retry:
+      max_attempts: 3                     # Max retry attempts (1-10, default: 3)
+      initial_delay: 1.0                  # Initial delay in seconds (default: 1.0)
+      max_delay: 60.0                     # Max delay in seconds (default: 60.0)
+      backoff_factor: 2.0                 # Exponential backoff multiplier (default: 2.0)
+      retry_on_errors: ["timeout", "rate_limit", "temporary_failure"]
+```
+
+**Fields:**
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `max_attempts` | integer | 3 | Maximum retry attempts (1-10) |
+| `initial_delay` | number | 1.0 | Initial retry delay in seconds |
+| `max_delay` | number | 60.0 | Maximum retry delay in seconds |
+| `backoff_factor` | number | 2.0 | Exponential backoff multiplier |
+| `retry_on_errors` | array | - | Error types to retry on |
+
+**Backoff calculation:**  
+`delay = min(initial_delay * (backoff_factor ^ attempt), max_delay)`
+
+## Timeouts
+
+### timeouts
+
+**Type:** `object`  
+
+Timeout configuration for tasks and workflows.
+
+```yaml
+overlord:
+  workflow:
+    timeouts:
+      task_timeout: 300                   # Default per task (seconds, default: 300)
+      workflow_timeout: 3600              # Overall workflow (seconds, default: 3600)
+      enable_adaptive_timeout: true       # Adjust based on complexity (default: true)
+```
+
+**Fields:**
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `task_timeout` | integer | 300 | Default timeout per task in seconds |
+| `workflow_timeout` | integer | 3600 | Overall workflow timeout in seconds |
+| `enable_adaptive_timeout` | boolean | true | Adjust timeouts based on task complexity |
+
+### max_timeout_seconds
+
+**Type:** `integer`  
+**Default:** `7200`  
+
+Hard ceiling for entire workflow execution (2 hours).
+
+```yaml
+overlord:
+  workflow:
+    max_timeout_seconds: 7200  # Absolute maximum: 2 hours
+```
+
+Workflows exceeding this limit will fail with a timeout error. This prevents runaway workflows from consuming resources indefinitely.
+
+## Execution Configuration
+
+### parallel_execution
+
+**Type:** `boolean`  
+**Default:** `true`  
+
+Execute independent tasks in parallel.
+
+```yaml
+overlord:
+  workflow:
+    parallel_execution: true  # Enable parallel execution (default)
+```
+
+When enabled, tasks without dependencies run simultaneously, reducing total workflow time.
+
+### max_parallel_tasks
+
+**Type:** `integer` (1-20)  
+**Default:** `5`  
+
+Maximum number of tasks to execute in parallel.
+
+```yaml
+overlord:
+  workflow:
+    max_parallel_tasks: 5  # Default: 5 concurrent tasks
+```
+
+Limits concurrent task execution to prevent overwhelming the system or hitting rate limits.
+
+### partial_results
+
+**Type:** `boolean`  
+**Default:** `true`  
+
+Return partial results if some tasks fail.
+
+```yaml
+overlord:
+  workflow:
+    partial_results: true  # Return what succeeded (default)
+```
+
+When enabled, workflows return completed task results even if some tasks fail. When disabled, any task failure causes the entire workflow to fail.
 
 ## Complete Example
 
 ```yaml
 overlord:
-  auto_decomposition: true
-  complexity_threshold: 7.0
-
-workflow:
-  # Execution
-  max_parallel_tasks: 10
-  min_tasks_for_parallel: 3
-  task_timeout: 300
-  workflow_timeout: 1800
-  
-  # Async
-  async_threshold: 10
-  enable_async: true
-  force_async:
-    - pattern: "research.*"
-    - pattern: "analyze.*codebase"
-  
-  # Retries
-  retry_failed_tasks: true
-  max_retries: 3
-  retry_delay: 5
-  retry_exponential_backoff: true
-  
-  # Approvals
-  requires_approval: false
-  approval_threshold: 9
-  approval_timeout: 300
-  show_time_estimate: true
-  show_cost_estimate: true
-  approval_rules:
-    - match: "deploy.*production"
-      requires_approval: true
-      message: "⚠️ PRODUCTION DEPLOYMENT"
-  
-  # Observability
-  log_workflows: true
-  log_task_results: false
-  emit_events: true
-  
-  # Resources
-  max_workflow_memory: "2GB"
-  max_workflow_cpu: 2.0
+  workflow:
+    # Core settings
+    auto_decomposition: true
+    plan_approval_threshold: 7
+    
+    # Complexity calculation
+    complexity_method: "hybrid"
+    complexity_threshold: 7.0
+    complexity_weights:
+      heuristic: 0.5
+      llm: 0.5
+    
+    # Routing
+    routing_strategy: "capability_based"
+    enable_agent_affinity: true
+    
+    # Error handling
+    error_recovery: "retry_with_backoff"
+    retry:
+      max_attempts: 3
+      initial_delay: 1.0
+      max_delay: 60.0
+      backoff_factor: 2.0
+      retry_on_errors: ["timeout", "rate_limit"]
+    
+    # Timeouts
+    timeouts:
+      task_timeout: 300
+      workflow_timeout: 3600
+      enable_adaptive_timeout: true
+    max_timeout_seconds: 7200
+    
+    # Execution
+    parallel_execution: true
+    max_parallel_tasks: 5
+    partial_results: true
 ```
 
-## Presets
+## Common Configurations
 
-### Conservative (Safe)
+### Conservative (High Reliability)
+
 ```yaml
-workflow:
-  max_parallel_tasks: 3
-  task_timeout: 600
-  retry_failed_tasks: true
-  max_retries: 5
-  requires_approval: true
-  approval_threshold: 7
-```
-
-### Aggressive (Fast)
-```yaml
-workflow:
-  max_parallel_tasks: 20
-  task_timeout: 300
-  retry_failed_tasks: true
-  max_retries: 2
-  requires_approval: false
-```
-
-### Development
-```yaml
-workflow:
-  max_parallel_tasks: 5
-  task_timeout: 60
-  retry_failed_tasks: false
-  log_workflows: true
-  log_task_results: true
-```
-
-### Production
-```yaml
-workflow:
-  max_parallel_tasks: 10
-  task_timeout: 300
-  retry_failed_tasks: true
-  max_retries: 3
-  requires_approval: false
-  approval_threshold: 9
-  log_workflows: false
-  emit_events: true
-```
-
-## Environment Variables
-
-```bash
-# Override workflow settings
-MUXI_WORKFLOW_MAX_PARALLEL=5
-MUXI_WORKFLOW_TASK_TIMEOUT=600
-MUXI_WORKFLOW_RETRY_ENABLED=true
-```
-
-## Validation
-
-**Valid configuration:**
-```yaml
-workflow:
-  max_parallel_tasks: 10      # ✓ Integer in range
-  task_timeout: 300           # ✓ Positive integer
-  retry_failed_tasks: true    # ✓ Boolean
-```
-
-**Invalid configuration:**
-```yaml
-workflow:
-  max_parallel_tasks: 100     # ✗ Too high (max 50)
-  task_timeout: -1            # ✗ Must be positive
-  retry_failed_tasks: "yes"   # ✗ Must be boolean
-```
-
-## Troubleshooting
-
-### Workflows Not Creating
-```yaml
-# Check decomposition is enabled
 overlord:
-  auto_decomposition: true   # Must be true
-  complexity_threshold: 7.0  # Check threshold
+  workflow:
+    error_recovery: "retry_with_alternate"
+    retry:
+      max_attempts: 5
+      initial_delay: 2.0
+      max_delay: 120.0
+    max_parallel_tasks: 3
+    partial_results: false  # All or nothing
 ```
 
-### Tasks Timing Out
+### Aggressive (Fast Execution)
+
 ```yaml
-# Increase timeout
-workflow:
-  task_timeout: 600          # Was 300, now 600
+overlord:
+  workflow:
+    error_recovery: "skip_and_continue"
+    retry:
+      max_attempts: 1
+    timeouts:
+      task_timeout: 60
+      workflow_timeout: 300
+    max_parallel_tasks: 10
+    partial_results: true
 ```
 
-### Too Many Parallel Tasks
-```yaml
-# Hitting rate limits
-workflow:
-  max_parallel_tasks: 5      # Reduce from 10
-```
+### Development (Quick Feedback)
 
-### Retries Not Working
 ```yaml
-# Check retry settings
-workflow:
-  retry_failed_tasks: true   # Must be true
-  max_retries: 3             # Must be > 0
+overlord:
+  workflow:
+    auto_decomposition: false  # Single agent only
+    plan_approval_threshold: 10  # No approvals
+    timeouts:
+      task_timeout: 30
+      workflow_timeout: 120
 ```
 
 ## Learn More
 
-- [Workflows & Task Decomposition](../concepts/workflows.md) - User-facing explanation
-- [Human-in-the-Loop](../concepts/approvals.md) - Approval system
-- [How Orchestration Works](../deep-dives/orchestration.md) - Technical details
+- **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official schema specification
+- [Workflows & Task Decomposition](../concepts/workflows.md) - Concept guide
+- [Human-in-the-Loop](../concepts/approvals.md) - Plan approvals
+- [The Overlord](../concepts/overlord.md) - How orchestration works
