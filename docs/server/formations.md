@@ -1,9 +1,8 @@
 # Managing Formations
 
-## Server guide
+## Deploy and manage formations on MUXI Server
 
-
-Deploy and manage formations on MUXI Server.
+Control the lifecycle of your AI agents with zero-downtime operations. Deploy new formations, update existing ones, rollback changes, and monitor health - all through the CLI or API.
 
 ## Deploy
 
