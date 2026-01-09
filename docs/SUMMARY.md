@@ -13,11 +13,13 @@
 * [Architecture](concepts/architecture.md)
 * [The Overlord](concepts/overlord.md)
 * [Formation Schema](concepts/formation-schema.md)
+* [LLM Providers](concepts/llm-providers.md)
 * [Agents & Orchestration](concepts/agents.md)
 * [Workflows & Task Decomposition](concepts/workflows.md)
 * [Human-in-the-Loop](concepts/approvals.md)
 * [Persona & Personality](concepts/persona.md)
 * [Memory System](concepts/memory.md)
+* [Multi-Tenancy](concepts/multi-tenancy.md)
 * [Tools & MCP](concepts/tools.md)
 * [Secrets & Security](concepts/secrets.md)
 * [User Credentials](concepts/user-credentials.md)
@@ -98,6 +100,7 @@
 * [Multi-Identity](deep-dives/multi-identity.md)
 * [Observability](deep-dives/observability.md)
 * [Security Model](deep-dives/security.md)
+* [Resilience](deep-dives/resilience.md)
 
 ## SDKs
 

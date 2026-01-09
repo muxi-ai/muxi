@@ -143,6 +143,14 @@ def validate_html_response(content: str) -> str:
 
 ## Format-Specific Behavior
 
+### Real-Time Streaming
+
+MUXI streams tokens as the model generates them. Use SSE for simple, one-way streams (chat, dashboards) or WebSockets for bidirectional interactions. Long tasks can start streaming, then hand off to async workflows with progress events.
+
+- **Protocols:** SSE, WebSockets
+- **When to use:** Chat UIs, live dashboards, long-running jobs needing updates
+- **See also:** [Streaming](./streaming.md), [Async Operations](./async.md)
+
 ### Markdown
 
 **No validation** - LLMs are good at markdown naturally.

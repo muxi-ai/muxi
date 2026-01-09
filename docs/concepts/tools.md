@@ -7,7 +7,7 @@ description: How agents interact with the world through MCP tools
 ## How agents interact with the world through MCP tools
 
 
-MUXI uses the **Model Context Protocol (MCP)** to connect agents with tools - web search, databases, file systems, APIs, and more. 1,000+ tools available, with intelligent loading that keeps token usage low.
+MUXI speaks the **Model Context Protocol (MCP)** to connect agents with tools—web search, databases, file systems, APIs, and more. Any compliant MCP server works: Anthropic’s, community/open-source servers, or your own. No registry or vendor lock-in required.
 
 
 ## How MCP Works
@@ -35,21 +35,17 @@ The agent decides when to use tools - you don't need to explicitly request them.
 
 ## Available Tools
 
-### Official MCP Servers
+### Common MCP servers (examples)
 
 | Tool | What It Does |
 |------|--------------|
 | `@anthropic/brave-search` | Web search |
-| `@anthropic/filesystem` | Read/write files |
 | `@anthropic/github` | GitHub API |
 | `@anthropic/postgres` | PostgreSQL queries |
-| `@anthropic/sqlite` | SQLite queries |
-| `@anthropic/slack` | Slack integration |
-| `@anthropic/google-drive` | Google Drive access |
+| `@anthropic/filesystem` | Read/write files |
+| Any custom MCP server | Bring your own business logic |
 
-### 1,000+ Community Tools
-
-Browse at [registry.muxi.org/mcps](https://registry.muxi.org/mcps) - Stripe, Notion, Jira, Salesforce, and more.
+> Use any MCP server address you control. There is no required registry; just point to the server URL.
 
 ---
 
@@ -102,29 +98,6 @@ mcps:
 ```
 
 Credentials encrypted at rest. Complete isolation between users.
-
----
-
-## Natural Language Scheduling
-
-Agents understand time expressions:
-
-```
-User: "Check my email every hour"
-User: "Remind me tomorrow at 2pm"
-User: "Run this report every Monday"
-```
-
-No cron syntax required. MUXI parses natural language and creates scheduled tasks:
-
-```yaml
-# Equivalent to what MUXI creates:
-triggers:
-  - schedule: "0 * * * *"  # every hour
-    action: check_email
-```
-
-Timezone-aware, recurring or one-time.
 
 ---
 

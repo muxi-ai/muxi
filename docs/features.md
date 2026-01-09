@@ -79,6 +79,14 @@ MUXI provides everything you need to build and deploy production AI agents: mult
 | **WebSocket Support** | Bidirectional real-time communication | [Real-Time Streaming](deep-dives/streaming.md) |
 | **Async Operations** | Long tasks run in background with status updates | [Async Operations](deep-dives/async.md) |
 
+## Real-Time Streaming
+
+Low-latency experiences for chat and dashboards. Stream tokens as the model thinks, switch to background mode for long tasks, and surface progress updates via SSE or WebSockets.
+
+- **Protocols:** SSE and WebSockets
+- **When to use:** Chat UIs, live dashboards, long-running jobs with progress
+- **See also:** [Response Formats](deep-dives/response-formats.md), [Async Operations](deep-dives/async.md), [Streaming](deep-dives/streaming.md)
+
 ---
 
 ## Security & Secrets
@@ -101,6 +109,22 @@ MUXI provides everything you need to build and deploy production AI agents: mult
 | **GitOps Workflow** | Version control formations, PR reviews for changes | [Set Up CI/CD](guides/ci-cd.md) |
 | **Built-in Observability** | Metrics, logs, and traces out of the box | [Observability](deep-dives/observability.md) |
 | **Auto-Restart** | Crashed formations restart automatically | [Server Configuration](server/configuration.md) |
+
+## Observability
+
+Built-in metrics, traces, and logs for every agent action. Ship events to Datadog, Elastic, Splunk, OpenTelemetry, and more without extra agents or sidecars.
+
+- **What you get:** Structured events for LLM calls, tool usage, workflows, and errors
+- **Export targets:** Datadog, Elastic, Splunk, OTLP, and webhooks
+- **See also:** [Observability](deep-dives/observability.md)
+
+## Enterprise Resilience
+
+Reliability patterns baked in: circuit breakers, retries with backoff, graceful degradation, and cache utilization to reduce LLM load and latency.
+
+- **Patterns:** Circuit breakers, exponential backoff, fallback behaviors
+- **Where it applies:** Tools, LLM calls, external APIs, streaming paths
+- **See also:** [Security](deep-dives/security.md), [Async Operations](deep-dives/async.md)
 
 ---
 
