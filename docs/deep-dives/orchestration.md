@@ -9,7 +9,6 @@ description: How MUXI coordinates multiple agents
 
 MUXI uses an **Overlord** pattern for coordinating agents. The Overlord analyzes requests, routes to the right agent, and manages complex multi-step workflows.
 
----
 
 ## The Overlord Pattern
 

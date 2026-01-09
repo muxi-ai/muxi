@@ -9,7 +9,6 @@ description: How each user brings their own API keys for personalized tool acces
 
 User credentials let each person use their own API keys with shared agents. Same formation, personalized access - your GitHub, your Slack, your data.
 
----
 
 ## Why Per-User Credentials?
 

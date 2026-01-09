@@ -155,7 +155,6 @@ print(response.text)
 
 [[/steps]]
 
----
 
 ## Start from Registry
 

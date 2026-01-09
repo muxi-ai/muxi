@@ -9,7 +9,6 @@ description: Guidelines that let agents adapt while maintaining consistency
 
 SOPs are step-by-step guidelines that agents interpret for specific, repeatable tasks - like onboarding customers, processing refunds, or handling incidents. Unlike rigid workflows, SOPs allow agents to adapt to context while ensuring consistent outcomes.
 
----
 
 ## Why SOPs?
 

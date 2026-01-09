@@ -9,7 +9,6 @@ description: How agents create files, charts, reports, and deliverables
 
 Agents don't just chat - they create files. PDFs, charts, CSVs, images, code - anything you can generate with Python. The artifact system handles secure execution, storage, and delivery.
 
----
 
 ## What Are Artifacts?
 

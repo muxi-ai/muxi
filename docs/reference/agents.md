@@ -9,7 +9,6 @@ description: Define AI personas with specific roles and capabilities
 
 Agents are the workers in your formation. Each has a role, personality, and set of tools. MUXI automatically routes requests to the right agent.
 
----
 
 ## Your First Agent
 

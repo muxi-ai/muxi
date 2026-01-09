@@ -9,7 +9,6 @@ description: Technical deep-dives into MUXI internals
 
 Technical documentation for understanding how MUXI works internally. Read these when you need to debug complex issues, build integrations, or contribute to MUXI.
 
----
 
 ## Architecture & Flow
 

@@ -8,7 +8,6 @@ description: Complete journey from user request to agent response
 
 This is the definitive guide to understanding how MUXI processes requests - from the moment a user sends a message to the final response delivery. Follow along to see how MUXI's orchestration intelligence works.
 
----
 
 ## What Makes MUXI Different
 

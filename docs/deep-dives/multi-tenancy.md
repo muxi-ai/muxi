@@ -9,7 +9,6 @@ description: Technical deep dive into user isolation and multi-tenant architectu
 
 MUXI provides complete isolation between users: separate memory, per-user credentials, and tenant-aware data partitioning.
 
----
 
 ## Isolation Layers
 

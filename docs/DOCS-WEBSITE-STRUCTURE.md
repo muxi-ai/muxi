@@ -119,7 +119,6 @@ Each section has a `SUMMARY.md` file for sidebar navigation. Here's the complete
 * [API Reference](runtime/api.md)
 ```
 
----
 
 ## Per-Section SUMMARYs
 

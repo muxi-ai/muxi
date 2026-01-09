@@ -9,7 +9,6 @@ description: Give agents domain expertise with RAG
 
 Knowledge sources let agents answer questions using your documents - PDFs, markdown, spreadsheets, and more. MUXI handles embedding, indexing, and retrieval automatically.
 
----
 
 ## Quick Setup
 

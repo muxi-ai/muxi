@@ -9,7 +9,6 @@ description: Why MUXI uses encrypted secrets instead of environment variables
 
 MUXI uses encrypted files instead of environment variables. Here's why - and how it keeps your credentials safer.
 
----
 
 ## The Problem with Environment Variables
 

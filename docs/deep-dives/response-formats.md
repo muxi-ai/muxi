@@ -8,7 +8,6 @@ description: Technical implementation of structured output in MUXI
 
 MUXI's response format system uses **LLM persona instructions** combined with **post-processing validation** to generate naturally formatted content while maintaining technical correctness.
 
----
 
 ## Architecture
 

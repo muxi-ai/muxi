@@ -12,7 +12,6 @@ A formation is everything your AI needs: agents, tools, memory, knowledge, and w
 <!-- TODO: Add diagram/illustration -->
 <!-- [Image placeholder: Visual of formation components] -->
 
----
 
 ## What's in a Formation?
 

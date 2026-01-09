@@ -9,7 +9,6 @@ description: Client libraries for Python, TypeScript, and Go
 
 Build applications that interact with MUXI formations using idiomatic code in your language of choice.
 
----
 
 ## Available SDKs
 

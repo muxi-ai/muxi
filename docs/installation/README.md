@@ -50,7 +50,6 @@ docker run -d \
 
 [[/tabs]]
 
----
 
 ### Verify Installation
 

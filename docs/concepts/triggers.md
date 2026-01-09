@@ -9,7 +9,6 @@ description: Webhooks with intelligence - external systems that invoke agents
 
 Triggers let external systems invoke your agents via webhooks. Instead of executing hardcoded functions, triggers render templates with event data and let agents process them intelligently.
 
----
 
 ## What Are Triggers?
 

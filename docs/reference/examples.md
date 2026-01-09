@@ -9,7 +9,6 @@ description: Complete examples for common use cases
 
 Copy these examples as starting points for your own formations.
 
----
 
 ## Simple Assistant
 

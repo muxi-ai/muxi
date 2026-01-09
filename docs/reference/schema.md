@@ -9,7 +9,6 @@ description: Complete specification for .afs formation files
 
 Agent Formation Schema (`.afs`) is MUXI's configuration format. Every formation starts with a `formation.afs` file that defines agents, tools, memory, and behavior.
 
----
 
 ## Copy-paste starter (`formation.afs`)
 

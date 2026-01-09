@@ -20,7 +20,6 @@ muxi --help
 muxi <command> --help
 ```
 
----
 
 ## Create
 

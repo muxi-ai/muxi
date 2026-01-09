@@ -9,7 +9,6 @@ description: Standard operating procedures for consistent workflows
 
 SOPs ensure agents handle specific tasks the same way every time. When a request matches an SOP, the agent follows that procedure exactly.
 
----
 
 ## How It Works
 

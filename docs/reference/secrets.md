@@ -9,7 +9,6 @@ description: Secure credential management for formations
 
 MUXI uses encrypted files instead of environment variables. Your API keys stay secure, portable, and never leak in logs.
 
----
 
 ## Why Not Environment Variables?
 

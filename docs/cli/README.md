@@ -9,7 +9,6 @@ description: Command-line tool for managing MUXI formations
 
 The `muxi` CLI handles everything: creating formations, managing secrets, deploying to servers, and chatting with your agents.
 
----
 
 ## Installation
 

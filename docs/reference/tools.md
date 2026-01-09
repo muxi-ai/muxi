@@ -12,7 +12,6 @@ Tools let agents interact with the world - search the web, read files, query dat
 <!-- TODO: Add illustration of agent using tools -->
 <!-- [Image placeholder: Agent using web search and database tools] -->
 
----
 
 ## Add Your First Tool
 

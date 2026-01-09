@@ -9,7 +9,6 @@ description: The orchestration platform for running MUXI formations
 
 MUXI Server manages your formations - deploying, routing, monitoring, and auto-restarting them. Think of it as **Docker + nginx + PM2** for AI agents.
 
----
 
 ## What It Does
 

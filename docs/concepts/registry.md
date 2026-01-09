@@ -14,7 +14,6 @@ When to use the registry:
 - Share formations with the community
 - Version and roll back formations safely
 
----
 
 ## The Docker Analogy
 

@@ -9,7 +9,6 @@ description: Set up your MUXI Registry account and authentication
 
 Your GitHub handle is your registry namespace. Authenticate with GitHub - no separate account needed.
 
----
 
 ## Authentication
 

@@ -9,7 +9,6 @@ description: Give your agents capabilities with MCP servers
 
 Tools let agents interact with the real world - search the web, access files, query databases, call APIs. This guide adds web search to your formation.
 
----
 
 ## What You'll Build
 

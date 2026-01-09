@@ -12,7 +12,6 @@ Take your local formation to production with TLS, authentication, and proper ser
 <!-- TODO: Add architecture diagram -->
 <!-- [Image placeholder: Local → Production deployment flow] -->
 
----
 
 ## What You'll Set Up
 

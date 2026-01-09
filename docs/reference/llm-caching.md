@@ -8,7 +8,6 @@ description: Configuration and optimization for prompt caching
 
 MUXI automatically caches LLM responses using semantic similarity matching, reducing API costs by 70%+ for repeated or similar queries.
 
----
 
 ## How It Works
 

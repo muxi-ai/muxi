@@ -9,7 +9,6 @@ description: How agents access domain expertise from your documents
 
 MUXI's knowledge system lets agents answer questions from your documents - PDFs, markdown, spreadsheets, images, and more. Automatic indexing, semantic search, and multimodal support built in.
 
----
 
 ## How It Works
 

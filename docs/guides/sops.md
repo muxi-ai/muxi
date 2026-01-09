@@ -62,7 +62,6 @@ Assistant: I'll follow the customer onboarding procedure...
 ### Frontmatter
 
 ```yaml
----
 name: Display Name
 tags: [tag1, tag2]
 triggers:

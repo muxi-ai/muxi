@@ -12,7 +12,6 @@ Find pre-built formations, share your own, and manage versions - all from the co
 <!-- TODO: Add registry screenshot -->
 <!-- [Image placeholder: Registry website homepage] -->
 
----
 
 ## Quick Start
 

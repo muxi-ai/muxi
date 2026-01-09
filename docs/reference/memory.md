@@ -9,7 +9,6 @@ description: Give agents persistent memory across conversations
 
 MUXI's three-tier memory system lets agents remember context within conversations and across sessions.
 
----
 
 ## Memory Architecture
 

@@ -10,7 +10,6 @@ doc-type: doc
 
 Practical guides that take you from start to finish on common tasks.
 
----
 
 ## Getting Started
 

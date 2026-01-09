@@ -8,7 +8,6 @@ description: How MUXI links multiple identifiers to a single user
 
 MUXI's multi-identity system solves a common problem: users interact through multiple platforms (email, Slack, GitHub), each with its own ID. MUXI automatically links these identities to maintain consistent memory, preferences, and context.
 
----
 
 ## The Problem
 

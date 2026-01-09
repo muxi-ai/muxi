@@ -9,7 +9,6 @@ description: Get type-safe JSON responses from agents for API integration
 
 Agents can return structured data - not just text. Define schemas, get validated JSON, build APIs. Perfect for data extraction, form filling, and programmatic access.
 
----
 
 ## The Problem: Text Responses
 

@@ -9,7 +9,6 @@ description: Real-time response streaming via Server-Sent Events
 
 MUXI streams responses using Server-Sent Events (SSE), reducing time-to-first-token from seconds to milliseconds.
 
----
 
 ## Why Streaming?
 

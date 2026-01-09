@@ -9,7 +9,6 @@ description: MUXI's security model and best practices
 
 MUXI implements multiple security layers: transport encryption, authentication, secrets encryption, and user isolation.
 
----
 
 ## Security Layers
 

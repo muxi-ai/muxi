@@ -9,7 +9,6 @@ description: Natural language scheduling - agents that work on a schedule
 
 Schedule recurring tasks using natural language. Say "check my email every hour" or "remind me Monday at 9am" and agents execute those tasks automatically, on schedule.
 
----
 
 ## What Are Scheduled Tasks?
 

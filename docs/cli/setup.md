@@ -9,7 +9,6 @@ description: First-time configuration for the MUXI CLI
 
 Connect the CLI to your server and deploy your first formation.
 
----
 
 <!-- Video placeholder -->
 <div class="video-placeholder">

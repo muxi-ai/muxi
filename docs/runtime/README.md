@@ -9,7 +9,6 @@ description: The execution environment for MUXI formations
 
 The runtime is what actually runs your AI agents - executing logic, managing memory, calling LLMs, and running tools. Most users never interact with it directly; the server handles everything.
 
----
 
 ## What the Runtime Does
 

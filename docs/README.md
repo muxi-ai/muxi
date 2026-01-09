@@ -18,7 +18,6 @@ Think: **Docker for AI agents**.
 > [!TIP]
 > New to MUXI? Start with the [Quickstart](quickstart.md) to get running in 5 minutes.
 
----
 
 ## Get Started
 

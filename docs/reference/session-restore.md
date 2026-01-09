@@ -8,7 +8,6 @@ description: Restore conversation history from external storage
 
 Build ChatGPT-like chat applications where users can return to previous conversations. The Session Restore API lets you hydrate conversation history from your own database.
 
----
 
 ## Why Session Restore?
 

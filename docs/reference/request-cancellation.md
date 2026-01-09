@@ -8,7 +8,6 @@ description: API reference for cancelling in-flight requests
 
 Cancel in-flight requests to stop processing, free up resources, and prevent unnecessary LLM costs.
 
----
 
 ## Quick Start
 

@@ -9,7 +9,6 @@ description: How agents handle ambiguity by asking intelligent questions
 
 When your request is unclear, agents don't guess - they ask. The clarification system detects ambiguity and asks focused questions to understand what you really want.
 
----
 
 ## The Problem: Ambiguous Requests
 
