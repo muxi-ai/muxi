@@ -8,6 +8,9 @@ description: Complete reference for overlord workflow settings
 
 Configure how MUXI decomposes complex tasks, routes work to agents, handles errors, and executes workflows. All workflow settings are under `overlord.workflow` in your formation.
 
+> [!TIP]
+> **New to workflows?** Read [Workflows Concept →](../concepts/workflows.md) to understand task decomposition and routing.
+
 **Official Schema:** https://github.com/agent-formation/afs-spec
 
 ## Configuration Location

@@ -22,6 +22,12 @@ MUXI uses encrypted files instead of environment variables. Your API keys stay s
 
 > [!TIP]
 > Learn more about the design decision in [Why Encrypted Secrets](../concepts/secrets.md).
+>
+> **API Reference:** 
+> - [GET /v1/secrets](/docs/api/formation#tag/Secrets/GET/secrets) - List secrets
+> - [POST /v1/secrets](/docs/api/formation#tag/Secrets/POST/secrets) - Create secret  
+> - [PUT /v1/secrets/{key}](/docs/api/formation#tag/Secrets/PUT/secrets/{key}) - Update secret
+> - [DELETE /v1/secrets/{key}](/docs/api/formation#tag/Secrets/DELETE/secrets/{key}) - Delete secret
 
 ---
 

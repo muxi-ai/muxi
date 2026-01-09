@@ -15,12 +15,12 @@ Your App  →  MUXI API  →  Formation
 
 ## API Endpoints
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/v1/chat` | POST | Send message |
-| `/v1/sessions` | POST | Create session |
-| `/v1/sessions/{id}` | GET | Get history |
-| `/v1/agents` | GET | List agents |
+| Endpoint | Method | Description | API Reference |
+|----------|--------|-------------|---------------|
+| `/v1/chat` | POST | Send message | [API Docs →](/docs/api/formation#tag/Chat/POST/chat) |
+| `/v1/sessions` | POST | Create session | [API Docs →](/docs/api/formation#tag/Sessions/POST/sessions) |
+| `/v1/sessions/{id}` | GET | Get history | [API Docs →](/docs/api/formation#tag/Sessions/GET/sessions/{session_id}) |
+| `/v1/agents` | GET | List agents | [API Docs →](/docs/api/formation#tag/Agents/GET/agents) |
 
 ## React Example
 
@@ -181,7 +181,10 @@ const send = async (message: string) => {
 };
 ```
 
-## Next Steps
+## Learn More
 
-- [SDKs](../sdks/README.md) - Client libraries
-- [Streaming](../deep-dives/streaming.md) - SSE details
+- [Python SDK →](../sdks/python.md) - Full Python reference
+- [TypeScript SDK →](../sdks/typescript.md) - Full TypeScript reference
+- [API Reference →](../reference/api-reference.md) - Direct API access
+- [Deep Dive: Streaming →](../deep-dives/streaming.md) - Real-time responses
+- [Deep Dive: Response Formats →](../deep-dives/response-formats.md) - Understanding responses

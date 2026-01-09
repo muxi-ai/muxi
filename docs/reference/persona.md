@@ -8,6 +8,11 @@ description: Complete reference for overlord persona configuration
 
 The `overlord.persona` field defines your formation's communication style and behavior through a freeform text description.
 
+> [!TIP]
+> **New to personas?** Read [Persona Concept →](../concepts/persona.md) to learn how to write effective personas.
+>
+> **API Reference:** [GET /v1/overlord/persona](/docs/api/formation#tag/Overlord/GET/overlord/persona)
+
 ## Configuration Location
 
 ```yaml

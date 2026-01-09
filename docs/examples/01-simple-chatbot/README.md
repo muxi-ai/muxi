@@ -105,3 +105,11 @@ Make sure MUXI Server is running:
 ```bash
 muxi-server start
 ```
+
+---
+
+## Learn More
+
+[+] [Agent Reference](../../reference/agents.md) - Complete agent configuration
+[+] [LLM Configuration](../../reference/schema.md#llm) - Model settings
+[+] [Quickstart Guide](../../quickstart.md) - Getting started tutorial

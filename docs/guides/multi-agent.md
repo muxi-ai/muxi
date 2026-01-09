@@ -143,7 +143,11 @@ curl -d '{"message": "...", "agent": "researcher"}'
 3. **Focused knowledge** - Relevant sources per agent
 4. **Test routing** - Verify correct agent selection
 
-## Next Steps
+## Learn More
 
-- [Orchestration Deep Dive](../deep-dives/orchestration.md) - How routing works
-- [Write SOPs](sops.md) - Standard procedures
+[+] [Agents Reference](../reference/agents.md) - Configuration
+[+] [Agents Concept](../concepts/agents.md) - Architecture
+[+] [Workflows Reference](../reference/workflows.md) - Routing configuration
+[+] [Deep Dive: Orchestration](../deep-dives/orchestration.md) - How routing works
+[+] [Write SOPs](sops.md) - Standard procedures
+[+] [Example: Multi-Agent Team](../examples/05-multi-agent-team/) - Working example

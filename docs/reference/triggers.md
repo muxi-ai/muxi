@@ -9,6 +9,11 @@ description: Invoke agents from external systems via webhooks
 
 Triggers let external systems invoke your agents via webhooks. GitHub issues, Slack messages, monitoring alerts - any JSON payload can become a conversation.
 
+> [!TIP]
+> **New to triggers?** Read [Triggers Concept →](../concepts/triggers.md) to understand the template system.
+>
+> **API Reference:** [GET /v1/triggers](/docs/api/formation#tag/Triggers/GET/triggers) | [POST /v1/triggers/{id}/invoke](/docs/api/formation#tag/Triggers/POST/triggers/{trigger_id}/invoke)
+
 
 ## How It Works
 

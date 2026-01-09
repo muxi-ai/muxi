@@ -198,3 +198,11 @@ Make sure you're using the same `session_id` across requests:
 ```json
 {"message": "...", "session_id": "customer_123"}
 ```
+
+---
+
+## Learn More
+
+[+] [Knowledge Systems](../../reference/knowledge.md) - RAG configuration
+[+] [Multi-Agent Guide](../../guides/multi-agent.md) - Building teams
+[+] [Memory Reference](../../reference/memory.md) - Conversation persistence
