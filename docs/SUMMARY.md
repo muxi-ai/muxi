@@ -53,6 +53,7 @@
 * [Secrets](reference/secrets.md)
 * [LLM Caching](reference/llm-caching.md)
 * [Request Cancellation](reference/request-cancellation.md)
+* [Session Restore](reference/session-restore.md)
 * [Examples](reference/examples.md)
 
 ## Server
