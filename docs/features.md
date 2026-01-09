@@ -5,7 +5,9 @@ description: Everything MUXI can do, at a glance
 
 # Feature Overview
 
-## A quick reference to all MUXI capabilities. Click any feature to learn more.
+## A quick reference to all MUXI capabilities
+
+MUXI provides everything you need to build and deploy production AI agents: multi-agent orchestration, memory systems, tool integration, security, and more. This page lists all features with links to detailed documentation.
 
 > [!NOTE]
 > Prerequisites: MUXI installed and a running server (see Quickstart/Installation).
