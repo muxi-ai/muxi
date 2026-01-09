@@ -48,30 +48,25 @@ Consistent, professional, branded experience.
 
 ## Configuration
 
+The persona field is a **freeform text string** where you describe your agent's personality, communication style, and behavior. The LLM interprets this description to shape all responses.
+
+**Basic syntax:**
 ```yaml
 overlord:
-  persona:
-    name: "Assistant"
-    style: "professional"  # professional, casual, technical, friendly
-    tone: "helpful"
-    traits:
-      - knowledgeable
-      - efficient
-      - precise
-    communication_preferences:
-      use_examples: true
-      explain_reasoning: false
-      include_confidence: false
-      max_verbosity: "balanced"  # concise, balanced, detailed
+  persona: "You are a helpful and professional assistant."
 ```
 
-## Style Options
+**That's it!** Write your persona description in natural language.
 
-### Professional
+## Writing Effective Personas
+
+### Professional Style
 ```yaml
-persona:
-  style: "professional"
-  tone: "helpful"
+overlord:
+  persona: |
+    You are a professional business analyst. You communicate clearly and concisely,
+    always back your statements with data, and maintain a helpful but formal tone.
+    Focus on actionable insights and avoid unnecessary elaboration.
 ```
 
 **Output:**
@@ -82,11 +77,13 @@ I've analyzed your data and identified three key trends:
 3. Retention rates improved to 94%
 ```
 
-### Casual
+### Casual & Friendly
 ```yaml
-persona:
-  style: "casual"
-  tone: "friendly"
+overlord:
+  persona: |
+    You're a friendly and approachable assistant who explains things in simple terms.
+    Use conversational language, occasional enthusiasm, and help users feel comfortable.
+    You're knowledgeable but never condescending.
 ```
 
 **Output:**
@@ -97,11 +94,13 @@ Great news! Your numbers are looking really solid:
 - And you're keeping 94% of them around!
 ```
 
-### Technical
+### Technical Expert
 ```yaml
-persona:
-  style: "technical"
-  tone: "precise"
+overlord:
+  persona: |
+    You are a technical expert who values precision and accuracy. Use exact numbers,
+    technical terminology, and structured formats. Assume the user has technical
+    knowledge and prefers concise, data-driven responses.
 ```
 
 **Output:**
@@ -112,11 +111,13 @@ Analysis results (Q3 2024):
 - Retention: 94% (industry avg: 87%)
 ```
 
-### Friendly
+### Enthusiastic & Motivating
 ```yaml
-persona:
-  style: "friendly"
-  tone: "enthusiastic"
+overlord:
+  persona: |
+    You're an enthusiastic coach who celebrates wins and motivates users.
+    Use positive language, emojis when appropriate, and frame everything
+    in an encouraging way. Help users see the bright side while staying honest.
 ```
 
 **Output:**
@@ -127,12 +128,16 @@ Awesome news! 🎉 Your business is crushing it:
 - And almost everyone's sticking around (94%!)
 ```
 
-## Verbosity Levels
+## Controlling Verbosity
+
+You can specify desired verbosity directly in the persona string:
 
 ### Concise
 ```yaml
-communication_preferences:
-  max_verbosity: "concise"
+overlord:
+  persona: |
+    You are efficient and concise. Give direct answers without elaboration.
+    Use bullet points and short sentences. No fluff.
 ```
 
 **Output:**
@@ -142,8 +147,10 @@ Task completed. 3 files processed, 0 errors.
 
 ### Balanced
 ```yaml
-communication_preferences:
-  max_verbosity: "balanced"
+overlord:
+  persona: |
+    You provide clear, balanced responses. Include enough context to be helpful
+    but avoid over-explaining. Use 2-3 sentences for most answers.
 ```
 
 **Output:**
@@ -154,8 +161,11 @@ The results are ready for review.
 
 ### Detailed
 ```yaml
-communication_preferences:
-  max_verbosity: "detailed"
+overlord:
+  persona: |
+    You provide thorough, detailed explanations. Walk users through processes
+    step-by-step, explain your reasoning, and offer to elaborate further.
+    Users appreciate your comprehensive approach.
 ```
 
 **Output:**
@@ -171,274 +181,259 @@ been compiled and are ready for your review. Would you like me to explain
 the processing steps in more detail?
 ```
 
-## Personality Traits
+## Persona Traits
 
-Add traits to influence response style:
-
-```yaml
-traits:
-  - knowledgeable    # Shows expertise
-  - efficient        # Gets to the point
-  - precise          # Uses exact numbers
-  - empathetic       # Acknowledges user feelings
-  - playful          # Uses humor/creativity
-  - confident        # Assertive recommendations
-  - humble           # Acknowledges limitations
-  - enthusiastic     # Shows excitement
-```
-
-**Example with different traits:**
-
-**Knowledgeable + Precise:**
-```
-Based on industry benchmarks, your 94% retention rate significantly
-outperforms the 87% average, placing you in the top quartile.
-```
+Describe personality traits in your persona string to influence response style:
 
 **Empathetic + Helpful:**
+```yaml
+overlord:
+  persona: |
+    You are empathetic and genuinely care about helping users succeed.
+    Acknowledge their concerns, celebrate their wins, and guide them
+    through challenges with patience and understanding.
+```
+
+**Output:**
 ```
 I can see you're concerned about retention. The good news is you're doing
 great at 94% - that's well above the industry average. Let me help you
 understand what's working.
 ```
 
-**Enthusiastic + Playful:**
+**Knowledgeable + Confident:**
+```yaml
+overlord:
+  persona: |
+    You are a confident expert with deep knowledge. Make clear recommendations,
+    cite industry standards, and explain best practices. Users trust your guidance.
+```
+
+**Output:**
+```
+Based on industry benchmarks, your 94% retention rate significantly
+outperforms the 87% average, placing you in the top quartile.
+```
+
+**Playful + Creative:**
+```yaml
+overlord:
+  persona: |
+    You have a playful personality and use creative analogies to explain concepts.
+    Make interactions enjoyable with appropriate humor and memorable explanations.
+    Stay helpful while keeping things light.
+```
+
+**Output:**
 ```
 Wow, 94% retention? You're basically a customer magnet! 🧲 That's way
 better than the competition. Want to know your secret sauce?
 ```
 
-## Per-User Personalization
-
-Adapt persona based on user preferences:
-
-```yaml
-overlord:
-  persona:
-    adapt_to_user: true  # Learn user communication style
-```
-
-When enabled:
-- Learns from user's language (formal vs casual)
-- Matches user's verbosity
-- Adapts to user's technical level
-- Remembers user preferences
-
-**Example:**
-
-```
-User 1 (formal): "Please provide quarterly analysis"
-Response: "I've prepared the quarterly analysis as requested..."
-
-User 2 (casual): "hey what's up with Q3 numbers?"
-Response: "Hey! Let me break down Q3 for you..."
-```
-
 ## How Persona is Applied
+
+When you set a persona, it's included in the system prompt for all agents in your formation. The LLM interprets your persona description and shapes responses accordingly.
 
 **The process:**
 
 ```
-1. Agent generates response
-   "The analysis has been completed. Results show revenue increase of 15%."
+1. Agent receives task with persona context
+   Persona: "You are a professional business analyst..."
 
-2. Overlord analyzes persona configuration
-   style: professional, tone: helpful, verbosity: balanced
+2. Agent generates response using persona guidance
+   "I've analyzed your quarterly data. Revenue increased 15% compared
+    to last quarter, which represents strong growth."
 
-3. Transform response
-   "I've analyzed the data for you. Revenue increased 15% this quarter."
+3. Overlord ensures consistency
+   If multiple agents contribute, the overlord harmonizes their responses
+   to match the defined persona.
 
-4. Apply personality traits
-   (knowledgeable + helpful)
-   "I've analyzed the data for you. Revenue increased 15% this quarter,
-    which is a strong performance compared to industry benchmarks."
-
-5. Return to user
-   Consistent branded experience
+4. Return to user
+   Consistent branded experience across all interactions
 ```
 
 ## Consistency Across Agents
 
-**Same request, different agents:**
+The persona field ensures all agents in your formation speak with one voice:
+
+**Without persona configuration:**
+```
+Researcher Agent: "Research indicates positive trend."
+Writer Agent: "Hey! The trend looks great!"
+Analyst Agent: "Trend vector: +15.2% YoY."
+```
+Inconsistent voices, confusing experience.
+
+**With persona:**
+```yaml
+overlord:
+  persona: "You are a professional analyst. Communicate clearly and use data."
+```
 
 ```
-Without persona:
-Researcher: "Research indicates positive trend."
-Writer: "Hey! The trend looks great!"
-Analyst: "Trend vector: +15.2% YoY."
-
-With persona (professional):
 All agents: "The analysis shows a positive trend with 15% growth this year."
 ```
+One consistent voice, clear communication.
 
 ## Use Cases
 
-### Customer Support (Empathetic + Helpful)
+### Customer Support
 ```yaml
-persona:
-  style: "friendly"
-  tone: "empathetic"
-  traits: [helpful, patient, knowledgeable]
+overlord:
+  persona: |
+    You are a friendly and empathetic customer support specialist. You genuinely
+    care about solving user problems. Acknowledge frustrations, be patient, and
+    guide users step-by-step through solutions. Always end by asking if they
+    need anything else.
 ```
 
-**Response:**
+**Example Response:**
 ```
 I understand this is frustrating. Let me help you resolve this right away.
 I've found the issue and here's what we'll do...
 ```
 
-### Technical Documentation (Precise + Knowledgeable)
+### Technical Documentation
 ```yaml
-persona:
-  style: "technical"
-  tone: "precise"
-  traits: [knowledgeable, efficient]
+overlord:
+  persona: |
+    You are a technical documentation writer who values precision and clarity.
+    Use exact function signatures, type information, and code examples. Be
+    concise but thorough. Assume readers have programming knowledge.
 ```
 
-**Response:**
+**Example Response:**
 ```
 Function signature: `analyze(data: DataFrame, threshold: float = 0.05)`
 Returns: Dict[str, Any] containing analysis results and metadata.
 ```
 
-### Sales & Marketing (Enthusiastic + Confident)
+### Sales & Marketing
 ```yaml
-persona:
-  style: "friendly"
-  tone: "enthusiastic"
-  traits: [confident, persuasive, helpful]
+overlord:
+  persona: |
+    You're an enthusiastic sales professional who helps customers discover value.
+    Use confident, positive language. Focus on benefits, not just features.
+    Make customers excited about possibilities while staying authentic.
 ```
 
-**Response:**
+**Example Response:**
 ```
 This is a game-changer! Your product perfectly addresses the market need.
 Here's why customers will love it...
 ```
 
-### Internal Tools (Efficient + Concise)
+### Internal Tools
 ```yaml
-persona:
-  style: "casual"
-  tone: "efficient"
-  traits: [efficient, precise]
-  communication_preferences:
-    max_verbosity: "concise"
+overlord:
+  persona: |
+    You're an efficient internal tool. Give status updates in bullet points.
+    No explanations unless asked. Just report what happened, concisely.
 ```
 
-**Response:**
+**Example Response:**
 ```
 Done. 3 issues created, 2 PRs merged, 1 deployment triggered.
 ```
 
-## Configuration Tips
+## Writing Tips
 
-### 1. Match Your Brand
+### 1. Be Specific
 ```yaml
-# Professional company
-persona:
-  style: "professional"
-  tone: "helpful"
-  traits: [knowledgeable, efficient]
-
-# Startup/casual
-persona:
-  style: "friendly"
-  tone: "enthusiastic"
-  traits: [helpful, playful]
-```
-
-### 2. Consider Your Audience
-```yaml
-# Technical audience
-persona:
-  style: "technical"
-  tone: "precise"
-  communication_preferences:
-    use_examples: false
-    explain_reasoning: false
-
-# Non-technical audience
-persona:
-  style: "friendly"
-  tone: "helpful"
-  communication_preferences:
-    use_examples: true
-    explain_reasoning: true
-```
-
-### 3. Balance Personality
-```yaml
-# Too much personality can be annoying
-traits: [enthusiastic, playful, casual]  # Might be too much
-
-# Balanced approach
-traits: [helpful, knowledgeable, friendly]  # Better balance
-```
-
-### 4. Test Different Styles
-Start with a default persona, then adjust based on user feedback:
-
-```yaml
-# Week 1: Test professional
-persona:
-  style: "professional"
-
-# Week 2: Test friendly
-persona:
-  style: "friendly"
-
-# Week 3: Settle on balanced
-persona:
-  style: "professional"
-  tone: "helpful"  # Professional but approachable
-```
-
-## Advanced: Dynamic Persona
-
-Change persona based on context:
-
-```yaml
+# ❌ Too vague
 overlord:
-  persona:
-    default:
-      style: "professional"
-      tone: "helpful"
+  persona: "Be helpful"
 
-    contexts:
-      error_handling:
-        tone: "empathetic"
-        traits: [patient, helpful]
-
-      celebrations:
-        tone: "enthusiastic"
-        traits: [encouraging, friendly]
+# ✅ Specific guidance
+overlord:
+  persona: |
+    You are a helpful customer support agent. Acknowledge concerns, provide
+    clear step-by-step solutions, and always follow up to ensure the issue
+    is resolved. Use friendly but professional language.
 ```
 
-**Example:**
+### 2. Include Communication Preferences
+```yaml
+# ✅ Specify how to communicate
+overlord:
+  persona: |
+    You are a technical expert. Use precise terminology, provide code examples,
+    and structure responses with clear headers. Keep explanations concise -
+    users prefer direct answers over lengthy elaboration.
 ```
-Normal: "I've completed the analysis."
-Error: "I'm sorry, I encountered an issue. Let me help you fix this."
-Success: "Great! Your deployment was successful! 🎉"
+
+### 3. Define Boundaries
+```yaml
+# ✅ Set clear boundaries
+overlord:
+  persona: |
+    You are a financial advisor assistant. Provide information and education
+    about financial concepts, but never give specific investment advice or
+    make predictions about market performance. Always remind users to consult
+    with licensed professionals.
+```
+
+### 4. Test and Iterate
+Start with a basic persona and refine based on real interactions:
+
+```yaml
+# Week 1: Start simple
+overlord:
+  persona: "You are a helpful professional assistant."
+
+# Week 2: Add specificity based on feedback
+overlord:
+  persona: |
+    You are a helpful professional assistant. Use clear language, provide
+    examples when helpful, and keep responses to 2-3 paragraphs unless more
+    detail is requested.
+
+# Week 3: Fine-tune based on usage patterns
+overlord:
+  persona: |
+    You are a helpful professional assistant who values clarity and efficiency.
+    Start with a direct answer, then provide supporting context. Use bullet
+    points for lists. Include code examples for technical questions. If a
+    question is ambiguous, ask for clarification rather than guessing.
+```
+
+### 5. Match Your Use Case
+```yaml
+# For customer-facing chatbot
+overlord:
+  persona: |
+    You represent [Company Name] customer support. You're friendly, empathetic,
+    and focused on solving problems quickly. Match the user's communication
+    style - be professional with formal users, casual with casual users.
+
+# For internal developer tool
+overlord:
+  persona: |
+    You're an internal development assistant. Assume users are experienced
+    developers. Give concise, technical responses. Include relevant code
+    snippets and command examples. Skip explanations of basic concepts.
 ```
 
 ## Best Practices
 
 **DO:**
-- ✅ Keep persona consistent across your formation
-- ✅ Match your brand voice
-- ✅ Consider your audience
-- ✅ Test different styles with users
-- ✅ Use adapt_to_user for personalization
+- ✅ Write personas in clear, natural language
+- ✅ Be specific about tone, style, and communication preferences
+- ✅ Test your persona with real queries to see if it works
+- ✅ Include examples of good responses in your persona description
+- ✅ Define boundaries (what the agent should/shouldn't do)
+- ✅ Match your brand voice and target audience
 
 **DON'T:**
-- ❌ Mix conflicting styles (professional + playful)
-- ❌ Over-use personality traits (too many = diluted)
-- ❌ Ignore user feedback
-- ❌ Change persona frequently (confuses users)
+- ❌ Be too vague ("be helpful" isn't enough guidance)
+- ❌ Mix conflicting instructions (e.g., "be concise and provide detailed explanations")
+- ❌ Change personas frequently (confuses users and breaks consistency)
+- ❌ Forget to test - persona descriptions can be interpreted differently than expected
 
 ## Learn More
 
+- **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official formation schema specification
 - [Response Formats](structured-output.md) - Control output format (JSON, HTML, etc.)
 - [The Overlord](overlord.md) - How the orchestrator works
-- [Persona Configuration Reference](../reference/persona.md) - Full config options
-- [Request Lifecycle](../deep-dives/request-lifecycle.md) - See how persona is applied
+- [Clarification](clarification.md) - LLM-powered clarifying questions
+- [Request Lifecycle](../deep-dives/request-lifecycle.md) - See how persona is applied in practice

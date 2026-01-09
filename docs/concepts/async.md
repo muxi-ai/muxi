@@ -41,11 +41,11 @@ Webhook notification: "Task complete! Here's your report..."
 **MUXI automatically switches to async when:**
 
 ```yaml
-workflow:
-  async_threshold: 10           # Estimated time in seconds
+async:
+  threshold_seconds: 30          # Default: 30 seconds
 ```
 
-If estimated execution time ≥ threshold → async mode.
+If estimated execution time ≥ threshold → async mode automatically.
 
 **Typical async operations:**
 - ✅ Complex research (5+ sources)
@@ -141,37 +141,44 @@ Webhook: "Task complete! Security report ready."
 
 ## Configuration
 
-### Automatic Threshold
+### Threshold Configuration
+
 ```yaml
-workflow:
-  async_threshold: 10           # Seconds
+async:
+  threshold_seconds: 30          # Default: 30 seconds
+  enable_estimation: true        # Allow overlord to estimate execution time
 ```
 
-MUXI automatically switches to async for tasks estimated > 10s.
+MUXI automatically switches to async for tasks estimated to take longer than the threshold.
 
-### Force Async
+**Adjust threshold based on your needs:**
+
 ```yaml
-# Always use async for specific operations
-workflow:
-  force_async:
-    - pattern: "research.*"
-    - pattern: "analyze.*codebase"
-    - pattern: "create.*report"
+# Aggressive async (for slow clients/networks)
+async:
+  threshold_seconds: 10          # Switch to async quickly
+
+# Conservative async (for fast operations)
+async:
+  threshold_seconds: 60          # Wait longer before going async
+
+# Disable automatic async (testing only)
+async:
+  threshold_seconds: 999999      # Effectively never auto-async
 ```
 
-### Force Sync
+### Webhook Configuration
+
+Set up automatic notifications when async tasks complete:
+
 ```yaml
-# Always use sync (even if estimated long)
-workflow:
-  force_sync: true              # Not recommended for long tasks
+async:
+  webhook_url: "https://your-app.com/muxi-callback"  # Default webhook
+  webhook_retries: 3              # Retry failed deliveries (default: 3)
+  webhook_timeout: 10             # Timeout per delivery attempt in seconds (default: 10)
 ```
 
-### Disable Async
-```yaml
-# Never use async (for testing only)
-workflow:
-  enable_async: false           # All requests block
-```
+The webhook URL can also be specified per-request in the API call.
 
 ## Using Async Mode
 
@@ -397,10 +404,14 @@ POST http://localhost:8001/v1/triggers/github-issue
 
 ## Timeout Configuration
 
+Task and workflow timeouts are configured under `overlord.workflow`:
+
 ```yaml
-workflow:
-  task_timeout: 300             # 5 minutes per task
-  workflow_timeout: 1800        # 30 minutes total
+overlord:
+  workflow:
+    timeouts:
+      task_timeout: 300          # 5 minutes per task (default: 300)
+      workflow_timeout: 1800     # 30 minutes total (default: 3600)
 ```
 
 **What happens on timeout:**
@@ -455,11 +466,16 @@ formation.cancel_request("req_abc123")
 
 ### Automatic Retries
 
+Configure retry behavior in overlord workflow settings:
+
 ```yaml
-workflow:
-  retry_failed_tasks: true
-  max_retries: 3
-  retry_delay: 5                # Seconds between retries
+overlord:
+  workflow:
+    retry:
+      max_attempts: 3            # Default: 3
+      initial_delay: 1.0         # Seconds before first retry (default: 1.0)
+      max_delay: 60.0            # Max retry delay (default: 60.0)
+      backoff_factor: 2.0        # Exponential backoff (default: 2.0)
 ```
 
 **On failure:**
@@ -568,10 +584,13 @@ observability:
 ## Troubleshooting
 
 ### Task Stuck in "Processing"
-```
-Check timeout settings:
-workflow:
-  task_timeout: 300             # Increase if needed
+```yaml
+# Check timeout settings
+overlord:
+  workflow:
+    timeouts:
+      task_timeout: 600          # Increase if needed (default: 300)
+      workflow_timeout: 7200     # Increase overall limit (default: 3600)
 ```
 
 ### Webhook Not Receiving Callbacks
@@ -593,7 +612,7 @@ while True:
 
 ## Learn More
 
+- **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official formation schema specification
 - [Workflows & Task Decomposition](workflows.md) - Complex task execution
 - [Triggers & Webhooks](triggers.md) - Webhook integrations
 - [Request Cancellation](../reference/request-cancellation.md) - Cancel in-flight requests
-- [Async Operations Deep Dive](../deep-dives/async.md) - Technical details

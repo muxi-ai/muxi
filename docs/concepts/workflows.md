@@ -71,8 +71,9 @@ The Overlord scores requests from 0-10:
 **Configure threshold:**
 ```yaml
 overlord:
-  auto_decomposition: true
-  complexity_threshold: 7.0  # Workflows trigger at 7+
+  workflow:
+    auto_decomposition: true
+    complexity_threshold: 7.0  # Workflows trigger at 7+
 ```
 
 ## Workflow Creation
@@ -266,23 +267,29 @@ Response: "I completed the analysis, but encountered an issue
 ### Enable Workflows
 ```yaml
 overlord:
-  auto_decomposition: true        # Enable automatic workflows
-  complexity_threshold: 7.0       # Score to trigger workflow
+  workflow:
+    auto_decomposition: true      # Enable automatic workflows
+    complexity_threshold: 7.0     # Score to trigger workflow (default: 7.0)
 ```
 
 ### Workflow Settings
 ```yaml
-workflow:
-  max_parallel_tasks: 10          # Max concurrent tasks
-  task_timeout: 300               # Seconds per task
-  retry_failed_tasks: true        # Retry on failure
-  max_retries: 3                  # Max retry attempts
+overlord:
+  workflow:
+    max_parallel_tasks: 5         # Max concurrent tasks (default: 5)
+    parallel_execution: true      # Enable parallel task execution
+    timeouts:
+      task_timeout: 300           # Seconds per task (default: 300)
+      workflow_timeout: 3600      # Max duration for entire workflow (default: 3600)
+    retry:
+      max_attempts: 3             # Max retry attempts (default: 3)
 ```
 
 ### Disable for Testing
 ```yaml
 overlord:
-  auto_decomposition: false       # Force single-agent mode
+  workflow:
+    auto_decomposition: false     # Force single-agent mode
 ```
 
 ## Task Types
@@ -382,50 +389,53 @@ Same workflow structure for similar requests.
 - Standardized workflows
 - Compliance requirements
 
-## Advanced: Custom Decomposition
+## Advanced: Workflow Routing
 
-Override automatic decomposition:
+Configure how tasks are routed to agents:
 
 ```yaml
 overlord:
-  custom_decomposition:
-    patterns:
-      - match: "research and write"
-        tasks:
-          - type: "research"
-            agent: "researcher"
-          - type: "write"
-            agent: "writer"
-            depends_on: ["research"]
+  workflow:
+    routing_strategy: "capability_based"  # Default: match task to agent capabilities
+    # Other strategies: load_balanced, priority_based, round_robin, specialized
+    enable_agent_affinity: true  # Prefer agents that succeeded with similar tasks
 ```
 
 ## Performance Optimization
 
-### Reduce Overhead
-```yaml
-workflow:
-  min_tasks_for_parallel: 3  # Only parallelize if 3+ tasks
-```
-
 ### Adjust Timeouts
 ```yaml
-workflow:
-  task_timeout: 600          # Longer timeout for complex tasks
+overlord:
+  workflow:
+    timeouts:
+      task_timeout: 600          # Longer timeout for complex tasks
+      workflow_timeout: 7200     # Max duration for entire workflow (2 hours)
 ```
 
-### Limit Concurrency
+### Control Parallelism
 ```yaml
-workflow:
-  max_parallel_tasks: 5      # Reduce if hitting rate limits
+overlord:
+  workflow:
+    parallel_execution: true     # Enable parallel execution
+    max_parallel_tasks: 3        # Reduce if hitting rate limits (default: 5)
+```
+
+### Configure Retries
+```yaml
+overlord:
+  workflow:
+    retry:
+      max_attempts: 5            # More retries for flaky operations (default: 3)
+      initial_delay: 1.0         # Seconds before first retry (default: 1.0)
+      max_delay: 60.0            # Max retry delay (default: 60.0)
+      backoff_factor: 2.0        # Exponential backoff multiplier (default: 2.0)
 ```
 
 ## Debugging Workflows
 
-**Enable workflow logging:**
-```yaml
-overlord:
-  log_workflows: true        # Log workflow creation
-```
+**Enable detailed logging:**
+
+Configure logging streams to capture workflow details (see [Logging Configuration](logging.md) for more options).
 
 **Output:**
 ```
@@ -446,20 +456,20 @@ overlord:
 **DO:**
 - ✅ Let MUXI handle decomposition automatically
 - ✅ Set reasonable timeouts (balance speed vs completion)
-- ✅ Use SOPs for repeatable workflows
-- ✅ Monitor workflow performance
+- ✅ Monitor workflow performance in production
 - ✅ Adjust complexity threshold based on your use case
+- ✅ Use default values unless you have specific performance needs
 
 **DON'T:**
-- ❌ Disable auto_decomposition (unless testing)
-- ❌ Set timeout too low (causes failures)
-- ❌ Set max_parallel_tasks too high (rate limits)
-- ❌ Manually orchestrate (let MUXI handle it)
+- ❌ Disable `auto_decomposition` in production (only for testing)
+- ❌ Set `task_timeout` too low (causes premature failures)
+- ❌ Set `max_parallel_tasks` too high (can hit API rate limits)
+- ❌ Manually orchestrate tasks (MUXI does this automatically)
 
 ## Learn More
 
+- **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official formation schema specification
 - [The Overlord](overlord.md) - How orchestration works
-- [Agents & Orchestration](agents.md) - Multi-agent coordination
-- [Standard Operating Procedures](sops.md) - Pre-defined workflows
-- [Human-in-the-Loop](approvals.md) - Workflow confirmations
-- [How Orchestration Works](../deep-dives/orchestration.md) - Technical details
+- [Human-in-the-Loop](approvals.md) - Plan approval workflow
+- [Workflow Configuration Reference](../reference/workflows.md) - Complete workflow settings
+- [Request Lifecycle](../deep-dives/request-lifecycle.md) - See workflows in action

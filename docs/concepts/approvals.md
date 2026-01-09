@@ -58,26 +58,41 @@ Safe, controlled execution.
 
 ## Configuration
 
-### Enable Approvals
+The `plan_approval_threshold` controls when approvals are required based on complexity scoring (1-10).
+
+### Default Configuration
 ```yaml
-workflow:
-  requires_approval: true         # Require approval for all workflows
-  approval_threshold: 10          # Only for complexity ≥ 10
+overlord:
+  workflow:
+    plan_approval_threshold: 7   # Default: require approval for complexity ≥ 7
 ```
 
-### Threshold-Based
+### Require Approval for Complex Tasks
 ```yaml
-workflow:
-  requires_approval: false        # Off by default
-  approval_threshold: 8           # Require for complexity ≥ 8
+overlord:
+  workflow:
+    plan_approval_threshold: 8   # Only very complex tasks require approval
 ```
 
-When complexity score ≥ threshold, MUXI requests approval.
-
-### Always Require
+### Require Approval for Most Tasks
 ```yaml
-workflow:
-  requires_approval: true         # Always ask, regardless of complexity
+overlord:
+  workflow:
+    plan_approval_threshold: 5   # Most tasks require approval
+```
+
+### Require Approval for Everything
+```yaml
+overlord:
+  workflow:
+    plan_approval_threshold: 1   # All tasks require approval (even simple ones)
+```
+
+### Disable Approvals
+```yaml
+overlord:
+  workflow:
+    plan_approval_threshold: 10  # Never require approval (max score is 10)
 ```
 
 ## How It Works
@@ -85,9 +100,9 @@ workflow:
 ```
 1. User makes request
          ↓
-2. Overlord analyzes complexity
+2. Overlord calculates complexity score (1-10)
          ↓
-3. Score ≥ approval_threshold?
+3. Score ≥ plan_approval_threshold?
          ↓
 4. YES → Create execution plan
          ↓
@@ -122,7 +137,7 @@ Overlord analyzes:
   - External communication
   - Complexity score: 9/10
          ↓
-Score ≥ approval_threshold (8)
+Score ≥ plan_approval_threshold (7 by default)
          ↓
 MUXI presents plan:
 
@@ -248,62 +263,31 @@ MUXI: "Updated plan:
        Proceed? [y/N]"
 ```
 
-## Configuration Options
+## Adjusting the Threshold
 
-### Basic Configuration
+The threshold determines which requests require approval. Lower threshold = more approvals.
+
+| Threshold | When Approvals Trigger |
+|-----------|------------------------|
+| 1 | All requests (even "What's the weather?") |
+| 3 | Most requests with any complexity |
+| 5 | Moderate and complex requests |
+| **7** | **Complex requests only (default)** |
+| 9 | Only very complex multi-step workflows |
+| 10 | Never (effectively disables approvals) |
+
+**Example: Strict control for production**
 ```yaml
-workflow:
-  requires_approval: true
-  approval_threshold: 8
+overlord:
+  workflow:
+    plan_approval_threshold: 5   # Require approval for most tasks
 ```
 
-### Advanced Configuration
+**Example: Testing/development**
 ```yaml
-workflow:
-  requires_approval: true
-  approval_threshold: 8
-  approval_timeout: 300           # 5 minutes to respond
-  show_cost_estimate: true        # Include cost in approval
-  show_time_estimate: true        # Include time in approval
-  require_explicit_yes: true      # Only accept "y" or "yes"
-```
-
-### Operation-Specific Approvals
-```yaml
-workflow:
-  requires_approval: false        # Default: off
-  approval_rules:
-    - match: "deploy.*production"
-      requires_approval: true
-      message: "⚠️ PRODUCTION DEPLOYMENT"
-
-    - match: "delete.*"
-      requires_approval: true
-      message: "⚠️ DESTRUCTIVE OPERATION"
-
-    - match: "send email"
-      requires_approval: true
-      message: "Email will be sent externally"
-```
-
-## Timeout Handling
-
-**What happens if user doesn't respond?**
-
-```yaml
-workflow:
-  approval_timeout: 300           # 5 minutes
-```
-
-After timeout:
-```
-MUXI: "I've created a plan for this task..."
-      "Proceed? [y/N]"
-
-[5 minutes pass, no response]
-
-MUXI: "Approval timeout. Request cancelled.
-       Send your request again when you're ready."
+overlord:
+  workflow:
+    plan_approval_threshold: 10  # No approvals during development
 ```
 
 ## Approval in Different Modes
@@ -503,79 +487,66 @@ MUXI: Processes refund
 - ❌ Skip approval for destructive operations
 - ❌ Approve without reading (defeats purpose)
 
-## Security Considerations
+## Monitoring Approvals
 
-### User Authentication
-Ensure user identity is verified:
-
-```yaml
-workflow:
-  approval_requires_auth: true    # Require authenticated user
-  approval_roles: [admin, ops]    # Only specific roles can approve
-```
-
-### Audit Trail
-Log all approval decisions:
+Use logging to track approval patterns:
 
 ```yaml
-workflow:
-  log_approvals: true             # Log who approved what
+logging:
+  enabled: true
+  streams:
+    - transport: file
+      level: info
+      destination: /var/log/muxi/approvals.log
 ```
 
-**Audit log:**
-```
-2025-01-09 14:32:15 | req_abc123 | APPROVED | user@company.com | Deploy v2.1.0
-2025-01-09 14:35:22 | req_def456 | REJECTED | admin@company.com | Delete users
-```
-
-### Two-Factor Approval
-For critical operations:
-
-```yaml
-workflow:
-  approval_rules:
-    - match: "production"
-      requires_2fa: true
-```
+This captures when approvals are requested, approved, or rejected for audit purposes.
 
 ## Troubleshooting
 
 ### Approval Not Showing
 ```yaml
-# Check threshold
-workflow:
-  approval_threshold: 8
+# Configuration
+overlord:
+  workflow:
+    plan_approval_threshold: 8   # Requires approval for complexity ≥ 8
 
-# Request complexity: 7 (below threshold)
-# Solution: Lower threshold or manually trigger
+# Request complexity calculated as 7 (below threshold)
+# Solution: Lower threshold to 7 or 6
+overlord:
+  workflow:
+    plan_approval_threshold: 6   # Now complexity 7 will require approval
 ```
 
-### Timeout Too Short
+### Too Many Approvals
 ```yaml
-# Was: 60 seconds (not enough time to review)
-workflow:
-  approval_timeout: 60
+# Was: Approving everything
+overlord:
+  workflow:
+    plan_approval_threshold: 3   # Almost all requests need approval
 
-# Solution: Increase to 5-10 minutes
-workflow:
-  approval_timeout: 300
+# Solution: Raise threshold
+overlord:
+  workflow:
+    plan_approval_threshold: 8   # Only very complex requests need approval
 ```
 
-### Approvals Too Frequent
+### Not Enough Control
 ```yaml
-# Was: All workflows need approval
-workflow:
-  requires_approval: true
+# Was: Too few approvals
+overlord:
+  workflow:
+    plan_approval_threshold: 9   # Only extremely complex requests
 
-# Solution: Use threshold instead
-workflow:
-  requires_approval: false
-  approval_threshold: 9
+# Solution: Lower threshold for production environments
+overlord:
+  workflow:
+    plan_approval_threshold: 6   # More requests require approval
 ```
 
 ## Learn More
 
+- **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official formation schema specification
 - [Workflows & Task Decomposition](workflows.md) - How workflows are created
 - [The Overlord](overlord.md) - Orchestration engine
 - [Async Processing](async.md) - Background task execution
-- [How Orchestration Works](../deep-dives/orchestration.md) - Technical details
