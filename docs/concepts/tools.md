@@ -35,15 +35,42 @@ The agent decides when to use tools - you don't need to explicitly request them.
 
 ## Available Tools
 
-### Common MCP servers (examples)
+### MCP server types (where they live in a formation)
 
-| Tool | What It Does |
-|------|--------------|
-| `@anthropic/brave-search` | Web search |
-| `@anthropic/github` | GitHub API |
-| `@anthropic/postgres` | PostgreSQL queries |
-| `@anthropic/filesystem` | Read/write files |
-| Any custom MCP server | Bring your own business logic |
+| Server type | When to use | Where in formation structure |
+|-------------|-------------|------------------------------|
+| **command (CLI)** | Run a local/server-side process (e.g., `npx @modelcontextprotocol/server-json-rpc`, Bash, Python) | `mcps/your-cli.afs` (see `schemas/mcp/local_tools.afs`) |
+| **http** | Call a remote MCP server over HTTPS (any provider or your own) | `mcps/your-http.afs` (see `schemas/mcp/web_tools.afs`) |
+
+Example — command/CLI MCP:
+
+```yaml
+# mcps/local-tools.afs
+schema: "1.0.0"
+id: local-tools
+type: command
+command: "npx"
+args: ["-y", "@modelcontextprotocol/server-json-rpc"]
+timeout_seconds: 60
+auth:
+  type: env
+  API_KEY: "${{ secrets.API_KEY }}"
+```
+
+Example — HTTP MCP:
+
+```yaml
+# mcps/web-tools.afs
+schema: "1.0.0"
+id: web-tools
+type: http
+endpoint: "https://external.com/mcp"
+timeout_seconds: 30
+retry_attempts: 3
+auth:
+  type: bearer
+  token: "${{ secrets.MCP_TOKEN }}"
+```
 
 > Use any MCP server address you control. There is no required registry; just point to the server URL.
 
@@ -99,6 +126,11 @@ mcps:
 
 Credentials encrypted at rest. Complete isolation between users.
 
+**Formation placement:**
+- Server definitions live in `mcps/*.afs`.
+- Per-user secrets live in `secrets.enc` and are referenced as `user.secrets.*`.
+- Agents opt into tools by listing `mcps: [...]` inside `agents/*.afs`.
+
 ---
 
 ## Agent-Specific Tools
@@ -126,6 +158,11 @@ agents:
 ```
 
 Right tools for right agents. No accidental file access from the writer.
+
+**Formation placement:**
+- Tool servers: `mcps/*.afs`
+- Agent bindings: `agents/*.afs` → `mcps: [tool-id, ...]`
+- Formation root: `formation.afs` can include shared defaults.
 
 ---
 
@@ -246,6 +283,11 @@ Stop! Same error 3 times. Report to user.
 ```
 
 The agent knows when to escalate to the user.
+
+**Formation placement (security & safety):**
+- Per-tool configs (timeouts, auth, allowlists): `mcps/*.afs`
+- Global safety limits (e.g., `tool_chaining`) live in `formation.afs`.
+- Secrets/tokens: `secrets.enc` referenced as `${{ secrets.* }}` or `${{ user.secrets.* }}`.
 
 ### Error Pattern Recognition
 

@@ -55,6 +55,8 @@ Port: 7890
 
 Runs agent logic, manages memory, calls LLMs, executes tools. Written in Python (FastAPI).
 
+Packaging: ships as a native SIF image for Linux. On macOS/Windows, run via Docker; on Linux, run SIF directly (or Docker if preferred).
+
 Ports: 8001-8999
 [[/card]]
 
@@ -128,6 +130,30 @@ my-formation/
 └── secrets    # Template
 ```
 
+### Formation placement (concepts → files/dirs)
+
+| Concept | Where it lives in a formation |
+|---------|--------------------------------|
+| LLMs | `formation.afs` (defaults) and `agents/*.afs` (`llm:` per agent) |
+| Agents & Orchestration | `agents/*.afs` (roles, routing, task decomposition) |
+| Workflows | `agents/*.afs` (plans/steps), optionally `formation.afs` defaults |
+| Approvals (HITL) | `agents/*.afs` (`approvals:` per action/workflow) |
+| Persona | `agents/*.afs` (`persona:`) |
+| Memory (3-tier) | `formation.afs` (`memory:` backend/limits) |
+| Multi-Tenancy | `formation.afs` (`security/users`, namespaces), secrets scoped per user |
+| Tools & MCP | `mcps/*.afs` (server defs), referenced in `agents/*.afs` (`mcps:`) |
+| Secrets & Security | `secrets.enc` (referenced as `${{ secrets.* }}` / `${{ user.secrets.* }}` in formation/agents/mcps) |
+| User Credentials | `secrets.enc` / `user.secrets.*`, bound at runtime per caller |
+| Knowledge & RAG | `knowledge/` files, referenced in `agents/*.afs` (`knowledge:`) |
+| Triggers & Webhooks | `triggers/` definitions (including schedules); referenced in `formation.afs`/agents |
+| Async Processing | `formation.afs` (`async`/timeouts), trigger workflows in `triggers/` |
+| SOPs | `sops/` documents linked from `agents/*.afs` |
+| Registry/Versioning | Metadata in `formation.afs` (name/version); published via CLI/registry |
+| Scheduled Tasks | `triggers/` entries with `schedule:`; optional `formation.afs` defaults |
+| Artifacts | Produced by agents; configuration in `agents/*.afs` (outputs/format) |
+| Clarification | `agents/*.afs` (clarification prompts/steps) |
+| Structured Output | `agents/*.afs` (response format/persona), validated by runtime |
+
 ---
 
 ## Inside a Formation
@@ -189,7 +215,7 @@ Load Balancer
 | Component | Technology | Why |
 |-----------|------------|-----|
 | Server | Go | Single binary, fast, concurrent |
-| Runtime | Python + FastAPI | AI ecosystem, async, OneLLM |
+| Runtime | Python + FastAPI (as native SIF image) | AI ecosystem, async, OneLLM |
 | CLI | Go | Cross-platform, single binary |
 | SDKs | Python, TS, Go | Native experience per language |
 

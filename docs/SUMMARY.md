@@ -101,6 +101,7 @@
 * [Observability](deep-dives/observability.md)
 * [Security Model](deep-dives/security.md)
 * [Resilience](deep-dives/resilience.md)
+* [Multi-Server Memory](deep-dives/faissx.md)
 
 ## SDKs
 

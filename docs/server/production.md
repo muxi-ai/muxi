@@ -84,6 +84,47 @@ muxi.example.com {
 
 Caddy handles TLS automatically.
 
+## Shared Vector Memory with FAISSx
+
+Use [FAISSx](https://github.com/muxi-ai/faissx) as a remote vector service when formations run on multiple servers. FAISSx speaks ZeroMQ (TCP, default port `45678`) and supports API-key/tenant isolation.
+
+### Run FAISSx
+
+```bash
+# CLI
+faissx.server run --port 45678 --data-dir /data --enable-auth --auth-keys "key1:tenant1,key2:tenant2"
+
+# Docker
+docker run -p 45678:45678 \
+  -v /path/to/data:/data \
+  -e FAISSX_DATA_DIR=/data \
+  -e FAISSX_ENABLE_AUTH=true \
+  -e FAISSX_AUTH_KEYS="key1:tenant1,key2:tenant2" \
+  ghcr.io/muxi-ai/faissx:latest-slim
+```
+
+### Load balance (ZeroMQ/TCP)
+
+Use an L4/TCP balancer (e.g., nginx stream, HAProxy) to front multiple FAISSx nodes. HTTP reverse_proxy will not work because FAISSx is not HTTP.
+
+```nginx
+stream {
+    upstream faissx_pool {
+        server faissx-1.internal:45678;
+        server faissx-2.internal:45678;
+    }
+
+    server {
+        listen 45678;
+        proxy_pass faissx_pool;
+    }
+}
+```
+
+### Point MUXI at FAISSx
+
+Configure your vector (and optional buffer) memory to use the FAISSx ZeroMQ endpoint (e.g., `tcp://faissx-lb.internal:45678`) and supply the API key/tenant id used above so every server shares the same index. Keep the FAISSx endpoint on a private network and require auth keys.
+
 ## Service Configuration
 
 ### systemd (Linux)
