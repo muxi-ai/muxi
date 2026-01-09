@@ -344,6 +344,92 @@ await formation.remove_identifier(
 # User still accessible via other identifiers
 ```
 
+### SDK usage patterns
+
+Keep a canonical `muxi_user_id` (e.g., `usr_abc123`) and let users attach multiple identifiers via the Formation API.
+
+**Python (HTTP client with Client Key):**
+
+```python
+import httpx
+
+CLIENT_KEY = "fmc_..."
+BASE = "https://your-server/api/v1/formations/my-formation"
+
+def chat(message: str, user_id: str):
+    r = httpx.post(
+        f"{BASE}/chat",
+        headers={"X-Muxi-Client-Key": CLIENT_KEY, "X-Muxi-User-Id": user_id},
+        json={"message": message},
+        timeout=30,
+    )
+    r.raise_for_status()
+    return r.json()
+
+def link_identifiers(muxi_user_id: str, identifiers):
+    r = httpx.post(
+        f"{BASE}/users/identifiers",
+        headers={"X-Muxi-Client-Key": CLIENT_KEY},
+        json={"muxi_user_id": muxi_user_id, "identifiers": identifiers},
+        timeout=15,
+    )
+    r.raise_for_status()
+    return r.json()
+
+# Example: chat, then link Slack + GitHub
+resp = chat("hi", user_id="alice@example.com")
+muxi_user_id = resp.get("data", {}).get("muxi_user_id", "usr_abc123")
+
+link_identifiers(
+    muxi_user_id,
+    [
+        ["U123ABC456", "slack"],
+        ["alice-dev", "github"],
+    ],
+)
+```
+
+**TypeScript (fetch):**
+
+```ts
+const CLIENT_KEY = "fmc_...";
+const BASE = "https://your-server/api/v1/formations/my-formation";
+
+async function chat(message: string, userId: string) {
+  const res = await fetch(`${BASE}/chat`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Muxi-Client-Key": CLIENT_KEY,
+      "X-Muxi-User-Id": userId,
+    },
+    body: JSON.stringify({ message }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+async function linkIdentifiers(muxiUserId: string, identifiers: Array<string | [string, string]>) {
+  const res = await fetch(`${BASE}/users/identifiers`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Muxi-Client-Key": CLIENT_KEY,
+    },
+    body: JSON.stringify({ muxi_user_id: muxiUserId, identifiers }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+```
+
+### Building an identity dashboard
+
+1) Store the canonical `muxi_user_id` returned on first interaction (or create one via `/users/identifiers`).
+2) Let users attach more IDs (Slack, email, GitHub, phone) by calling `POST /users/identifiers` with strings, `[id, type]`, or objects.
+3) Show linked IDs via `GET /users/identifiers`; allow removal with `DELETE /users/identifiers/{identifier}`.
+4) Always send whatever identifier the request came from in `X-Muxi-User-Id` so all channels resolve to the same profile.
+
 ---
 
 ## Performance
