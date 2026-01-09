@@ -1,9 +1,12 @@
+---
+title: Add Memory
+description: Make your agents remember conversations
+---
 # Add Memory
 
-## Step-by-step guide
+## Give agents memory that persists
 
-
-Make your agent remember conversations.
+Enable memory so agents remember what users told them - within a conversation and across sessions. This guide adds persistent memory to your formation.
 
 ## Overview
 

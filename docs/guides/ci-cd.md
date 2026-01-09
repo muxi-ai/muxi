@@ -1,9 +1,12 @@
+---
+title: CI/CD Integration
+description: Automate formation deployment with GitHub Actions and other CI systems
+---
 # CI/CD Integration
 
-## Step-by-step guide
+## Deploy formations automatically on every push
 
-
-Automate formation deployment with CI/CD.
+Set up continuous deployment so your formations deploy automatically when you push to main. This guide covers GitHub Actions, but the approach works with any CI system.
 
 ## Overview
 

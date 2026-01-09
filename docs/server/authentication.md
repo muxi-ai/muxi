@@ -1,9 +1,12 @@
+---
+title: Server Authentication
+description: Secure your MUXI Server with HMAC and API key authentication
+---
 # Server Authentication
 
-## Server guide
+## Secure your server and formations
 
-
-MUXI Server uses HMAC authentication for management operations.
+MUXI uses HMAC signatures for server management (deploy, control) and API keys for formation access (chat, queries). This guide covers both authentication layers.
 
 ## Overview
 

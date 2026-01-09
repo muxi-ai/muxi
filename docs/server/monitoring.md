@@ -1,9 +1,12 @@
+---
+title: Monitoring
+description: Monitor MUXI Server health and formation performance
+---
 # Monitoring
 
-## Server guide
+## Keep your agents healthy
 
-
-Monitor MUXI Server and formations.
+Monitor server health, formation status, request latency, and resource usage. MUXI exposes health endpoints and Prometheus metrics for integration with your monitoring stack.
 
 ## Health Endpoints
 

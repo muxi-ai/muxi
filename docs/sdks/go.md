@@ -1,9 +1,12 @@
+---
+title: Go SDK
+description: Native Go client for MUXI formations
+---
 # Go SDK
 
-## SDK documentation
+## Idiomatic Go for MUXI
 
-
-Go client for MUXI formations.
+Build Go applications that interact with MUXI formations. Full support for chat, streaming, sessions, triggers, and all Formation API operations.
 
 ## Installation
 

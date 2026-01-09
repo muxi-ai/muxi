@@ -1,9 +1,12 @@
+---
+title: Write SOPs
+description: Create standard operating procedures for consistent agent behavior
+---
 # Write SOPs
 
-## Step-by-step guide
+## Define repeatable workflows agents follow every time
 
-
-Create standard operating procedures for consistent workflows.
+SOPs (Standard Operating Procedures) ensure agents handle specific tasks consistently. When a request matches an SOP pattern, the agent follows that procedure exactly - like onboarding a customer or processing a refund.
 
 ## Overview
 

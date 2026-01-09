@@ -1,9 +1,12 @@
+---
+title: Build Custom UI
+description: Create a frontend that connects to your MUXI formation
+---
 # Build Custom UI
 
-## Step-by-step guide
+## Connect any frontend to your agents
 
-
-Create a frontend that connects to your MUXI formation.
+Build a custom chat interface, dashboard, or app that talks to your MUXI formation. The API works with any framework - React, Vue, vanilla JS, or mobile apps.
 
 ## Overview
 

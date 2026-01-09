@@ -1,9 +1,12 @@
+---
+title: muxi registry
+description: Pull and publish formations from the MUXI Registry
+---
 # muxi registry
 
-## Command reference
+## Share formations with the community
 
-
-Pull and publish formations from the MUXI Registry.
+Pull pre-built formations to use as templates, publish your own for others to use, and search the registry for solutions to common problems.
 
 ## Usage
 

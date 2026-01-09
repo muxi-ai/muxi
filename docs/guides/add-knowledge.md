@@ -1,9 +1,12 @@
+---
+title: Add Knowledge
+description: Give your agents domain expertise from your documents
+---
 # Add Knowledge
 
-## Step-by-step guide
+## Let agents answer questions from your docs
 
-
-Give your agent domain expertise with RAG.
+Add PDFs, markdown, spreadsheets, and more to give agents domain expertise. MUXI indexes your documents automatically and retrieves relevant context when users ask questions.
 
 ## Overview
 

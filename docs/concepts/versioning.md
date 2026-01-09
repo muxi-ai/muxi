@@ -1,9 +1,12 @@
+---
+title: Versioning
+description: How MUXI handles versions across components
+---
 # Versioning
 
-## Understanding versioning
+## Keep formations stable as MUXI evolves
 
-
-How MUXI handles versions across components.
+MUXI uses semantic versioning across schemas, runtime, and server. This page explains version compatibility and upgrade paths.
 
 ## Schema Version
 

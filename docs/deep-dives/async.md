@@ -6,14 +6,17 @@ description: Background task processing for long-running agent operations
 
 ## Handle long-running tasks without blocking
 
-Some operations take too long for synchronous HTTP - complex research, multi-step workflows, large file processing. MUXI's async system queues these tasks, processes them in the background, and delivers results via polling or webhooks.
+Some operations take too long for synchronous HTTP. MUXI's async system queues these tasks, processes them in the background, and delivers results via polling or webhooks.
 
-- Complex research tasks
-- Multi-step workflows
-- Large file processing
-- Webhook triggers
+**The problem:** A user asks your agent to "research competitor pricing and create a comparison spreadsheet." This might take 2-3 minutes - way beyond typical HTTP timeouts. Without async, the connection drops and the user gets nothing.
 
-MUXI handles these asynchronously.
+**The solution:** MUXI immediately returns a `request_id`, processes the task in the background, and notifies your app when complete. The user sees progress, you don't lose work, and your infrastructure stays responsive.
+
+**When to use async:**
+- Complex research or analysis (multiple tool calls, web searches)
+- Multi-step workflows with agent handoffs
+- Large file processing or artifact generation
+- Any request that might exceed 30 seconds
 
 ## Async Chat
 

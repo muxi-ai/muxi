@@ -1,9 +1,12 @@
+---
+title: muxi new
+description: Scaffold new formations and components
+---
 # muxi new
 
-## Command reference
+## Create formations, agents, and more with one command
 
-
-Create new formations, agents, MCPs, triggers, and SOPs.
+Scaffold new formations, agents, MCP servers, triggers, and SOPs from templates. Skip the boilerplate and start with working code.
 
 ## Usage
 

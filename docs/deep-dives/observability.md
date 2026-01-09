@@ -8,6 +8,16 @@ description: Events, logging, and monitoring for MUXI formations
 
 MUXI emits structured events across the full request lifecycle - from initial routing through agent execution to final delivery. Stream these events to your logging infrastructure for debugging, auditing, and performance monitoring.
 
+**Why this matters:** When a user reports "the agent gave me a wrong answer," you need to trace exactly what happened - which agent was selected, what tools were called, what context was retrieved from memory, and how the response was generated. Without observability, you're debugging blind.
+
+**Example use cases:**
+- **Debugging:** Trace why an agent selected the wrong tool or returned unexpected results
+- **Auditing:** Log all tool calls and data access for compliance requirements
+- **Performance:** Identify slow LLM calls, memory lookups, or tool executions
+- **Alerting:** Get notified when error rates spike or latency exceeds thresholds
+
+---
+
 ## Event System
 
 MUXI emits 349 typed events across the system lifecycle.

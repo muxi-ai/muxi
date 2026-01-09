@@ -8,6 +8,20 @@ description: Run MUXI formations directly in your Python application
 
 While most users access MUXI through the server, you can embed the runtime directly into your Python application. This enables custom deployments, integration with existing systems, and streamlined local development.
 
+**When to embed vs. use the server:**
+
+| Use Case | Recommendation |
+|----------|----------------|
+| Production deployment with multiple formations | Use the server |
+| Adding AI to an existing Python app | Embed the runtime |
+| Local development and testing | Embed the runtime |
+| Multi-language environment (JS, Go, etc.) | Use the server + SDK |
+| Single formation, simple deployment | Either works |
+
+**Example:** You have an existing Django app and want to add an AI assistant. Instead of running a separate MUXI server and making HTTP calls, embed the runtime directly - your assistant runs in-process with zero network overhead.
+
+---
+
 ## Installation
 
 ```bash

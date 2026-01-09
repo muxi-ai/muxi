@@ -1,9 +1,12 @@
+---
+title: Monitoring & Logs
+description: Monitor your formations and debug issues in production
+---
 # Monitoring & Logs
 
-## Step-by-step guide
+## Know what your agents are doing
 
-
-Monitor your formations in production.
+Monitor formation health, track request latency, and debug issues with structured logs and metrics. This guide covers the built-in monitoring and integration with external tools.
 
 ## Quick Health Check
 

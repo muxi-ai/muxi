@@ -1,27 +1,36 @@
 ---
 title: Multi-Server Deployments
-description: How to run FAISSx as a shared vector store for formations across multiple servers
+description: Share memory across multiple MUXI server instances
 ---
 
 # Multi-Server Deployments
 
-## When running multiple servers, each formation instance needs access to shared state for memory. This guide covers how to set up centralized memory for multi-server deployments.
+## Scale horizontally without losing user context
 
-> Load balancers only distribute traffic; every formation instance must read/write the same sources of truth for memory. That means **PostgreSQL is required for persistent (long-term) memory** in multi-server setups (SQLite is single-node only), and your vector/buffer memory must point to a shared service (e.g., FAISSx).
+When you run multiple MUXI servers behind a load balancer, each instance needs access to the same memory. Otherwise, a user might chat with Server A, get load-balanced to Server B on the next request, and lose all context.
 
-## Shared state requirements
+**The problem:** Load balancers distribute traffic, but they don't share state. If Alice's conversation history lives only on Server A, she gets amnesia when Server B handles her next message.
 
-- **Persistent memory (long-term):** PostgreSQL only. Configure all servers to the same DB so conversations, credentials, and identifiers stay consistent.
-- **Vector/buffer memory (short-term + embeddings):** Centralize via FAISSx (ZeroMQ/TCP) so embeddings and buffer context are shared across servers.
-- **Load balancer:** L4/L7 balancer fronts MUXI servers for ingress; it does **not** provide shared state. Ensure both DB (Postgres) and FAISSx endpoints are reachable from all servers.
-Use [FAISSx](https://github.com/muxi-ai/faissx) as a remote vector service when formations run on multiple servers. FAISSx extends FAISS over ZeroMQ (TCP) with API-key/tenant isolation.
+**The solution:** Centralize both persistent memory (PostgreSQL) and vector memory (FAISSx) so every server instance reads and writes to the same sources of truth. Your load balancer handles traffic distribution; shared storage handles state.
 
-## When to use
-- You need one shared vector index across multiple MUXI servers.
-- You want multi-tenant isolation via API keys/tenant IDs.
-- You prefer centralizing memory instead of per-node vector stores.
+> [!IMPORTANT]
+> SQLite is single-node only. For multi-server deployments, you **must** use PostgreSQL for persistent memory.
 
-## Run FAISSx
+---
+
+## What You Need
+
+| Component | Purpose | Required? |
+|-----------|---------|-----------|
+| **PostgreSQL** | Persistent memory (conversations, credentials, user data) | Yes |
+| **FAISSx** | Vector memory (embeddings, semantic search) | Yes, if using vector search |
+| **L4 Load Balancer** | Distribute traffic to MUXI servers | Yes |
+
+---
+
+## Set Up FAISSx (Vector Memory)
+
+[FAISSx](https://github.com/muxi-ai/faissx) provides shared vector storage over ZeroMQ/TCP with multi-tenant isolation. Run it on your internal network:
 
 ```bash
 # CLI
@@ -62,21 +71,47 @@ Point your vector (and optional buffer) memory configuration to the FAISSx ZeroM
 
 Keep FAISSx traffic on internal networks, rotate auth keys periodically, and monitor the service like any other stateful dependency.
 
-## Configure persistent memory (PostgreSQL)
+## Configure Your Formation
 
-All servers must point to the **same** Postgres database for long-term memory. SQLite is not supported for multi-server deployments.
+Point all server instances to the same PostgreSQL database and FAISSx endpoint:
 
 ```yaml
 memory:
   persistent:
     provider: postgres
     connection_string: ${{ secrets.POSTGRES_URI }}
-
-memory:
+  
   vector:
     provider: faissx
     endpoint: tcp://faissx-lb.internal:45678
     api_key: ${{ secrets.FAISSX_API_KEY }}
 ```
 
-With Postgres + FAISSx, every server instance shares both long-term (DB) and short-term/vector memory, while the load balancer simply distributes incoming traffic.
+With this configuration, every server instance shares both long-term (Postgres) and vector (FAISSx) memory. Your load balancer distributes traffic; shared storage maintains state consistency.
+
+---
+
+## Architecture Overview
+
+```
+                    ┌─────────────────┐
+                    │  Load Balancer  │
+                    │   (L4 or L7)    │
+                    └────────┬────────┘
+                             │
+            ┌────────────────┼────────────────┐
+            ▼                ▼                ▼
+     ┌────────────┐   ┌────────────┐   ┌────────────┐
+     │  MUXI #1   │   │  MUXI #2   │   │  MUXI #3   │
+     │  (:8001)   │   │  (:8001)   │   │  (:8001)   │
+     └─────┬──────┘   └─────┬──────┘   └─────┬──────┘
+           │                │                │
+           └────────────────┼────────────────┘
+                            │
+           ┌────────────────┴────────────────┐
+           ▼                                 ▼
+    ┌────────────┐                   ┌────────────┐
+    │ PostgreSQL │                   │  FAISSx    │
+    │ (memory)   │                   │ (vectors)  │
+    └────────────┘                   └────────────┘
+```

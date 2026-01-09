@@ -1,9 +1,12 @@
+---
+title: Troubleshooting
+description: Common issues and how to fix them
+---
 # Troubleshooting
 
-## Step-by-step guide
+## Fix common problems fast
 
-
-Common issues and solutions.
+Solutions to the most common issues you'll encounter when building and deploying MUXI formations.
 
 ## Installation Issues
 

@@ -1,9 +1,12 @@
+---
+title: Publishing to Registry
+description: Share your formations with the MUXI community
+---
 # Publishing to Registry
 
-## Overview
+## Share your work with the community
 
-
-Share your formations with the community.
+Publish formations to the MUXI Registry so others can use them. Once published, anyone can install your formation with `muxi pull @yourname/formation`.
 
 ## Prerequisites
 

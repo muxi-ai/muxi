@@ -1,4 +1,12 @@
+---
+title: Windows Installation
+description: Install MUXI on Windows with PowerShell
+---
 # Windows Installation
+
+## Get MUXI running on Windows
+
+Install MUXI Server and CLI with a single PowerShell command. Works on Windows 10, 11, and Windows Server.
 
 ## PowerShell Install
 

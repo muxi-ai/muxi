@@ -1,4 +1,12 @@
+---
+title: Linux Installation
+description: Install MUXI on Ubuntu, Debian, Fedora, and other Linux distributions
+---
 # Linux Installation
+
+## One command to install on any Linux distro
+
+Install MUXI Server and CLI with a single command. Works on Ubuntu, Debian, Fedora, CentOS, Arch, and most other distributions.
 
 ## Quick Install
 

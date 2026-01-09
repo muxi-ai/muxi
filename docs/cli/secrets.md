@@ -1,9 +1,12 @@
+---
+title: muxi secrets
+description: Manage encrypted secrets for formations
+---
 # muxi secrets
 
-## Command reference
+## Secure credential management from the CLI
 
-
-Manage formation secrets.
+Add, update, and remove encrypted secrets for your formations. Secrets are stored in `secrets.enc` and never exposed in logs or environment variables.
 
 ## Usage
 

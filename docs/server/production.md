@@ -1,9 +1,12 @@
+---
+title: Production Deployment
+description: Best practices for running MUXI Server in production
+---
 # Production Deployment
 
-## Server guide
+## Run MUXI reliably in production
 
-
-Best practices for running MUXI Server in production.
+Production checklist for running MUXI Server: TLS, authentication, reverse proxy, logging, monitoring, auto-restart, and scaling considerations.
 
 ## Checklist
 

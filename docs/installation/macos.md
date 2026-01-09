@@ -1,4 +1,12 @@
+---
+title: macOS Installation
+description: Install MUXI on macOS with Homebrew or direct download
+---
 # macOS Installation
+
+## Get MUXI running on your Mac
+
+Install MUXI Server and CLI using Homebrew (recommended) or download binaries directly. Works on both Intel and Apple Silicon Macs.
 
 ## Homebrew (Recommended)
 

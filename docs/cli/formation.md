@@ -1,9 +1,12 @@
+---
+title: muxi formation
+description: Manage deployed formations on MUXI Server
+---
 # muxi formation
 
-## Command reference
+## Control your running formations
 
-
-Manage deployed formations.
+List, inspect, restart, and remove formations running on MUXI Server. Monitor health and manage the lifecycle of your deployed agents.
 
 ## Usage
 

@@ -1,9 +1,12 @@
+---
+title: Multi-User Support
+description: User isolation and session management internals
+---
 # Multi-User Support
 
-## Technical deep dive
+## How MUXI keeps users separate
 
-
-User isolation and session management.
+Every user gets isolated memory, credentials, and sessions. This deep dive explains the internals of user isolation and how to build multi-tenant applications.
 
 ## Overview
 

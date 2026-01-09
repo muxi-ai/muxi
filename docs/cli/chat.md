@@ -1,9 +1,12 @@
+---
+title: muxi chat
+description: Interactive chat with your deployed formations
+---
 # muxi chat
 
-## Command reference
+## Talk to your agents from the terminal
 
-
-Chat with a running formation.
+Chat with a running formation interactively or send one-off messages. Great for testing, debugging, and quick interactions.
 
 ## Usage
 

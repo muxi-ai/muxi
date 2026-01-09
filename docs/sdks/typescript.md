@@ -1,9 +1,12 @@
+---
+title: TypeScript SDK
+description: Type-safe client for MUXI formations in TypeScript and JavaScript
+---
 # TypeScript SDK
 
-## SDK documentation
+## Type-safe access to your agents
 
-
-TypeScript/JavaScript client for MUXI formations.
+Build web and Node.js applications that interact with MUXI formations. Full TypeScript support with type definitions for all API operations.
 
 ## Installation
 

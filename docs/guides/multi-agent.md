@@ -1,9 +1,12 @@
+---
+title: Multi-Agent Systems
+description: Build systems with multiple specialized agents that collaborate
+---
 # Multi-Agent Systems
 
-## Step-by-step guide
+## Create teams of specialized agents
 
-
-Build systems with multiple specialized agents.
+Build formations where multiple agents with different skills work together. A researcher gathers information, a writer creates content, a reviewer checks quality - MUXI orchestrates them automatically.
 
 ## Overview
 

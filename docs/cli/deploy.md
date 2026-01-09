@@ -1,9 +1,12 @@
+---
+title: muxi deploy
+description: Deploy formations to MUXI Server
+---
 # muxi deploy
 
-## Command reference
+## Push your formation to production
 
-
-Deploy a formation to MUXI Server.
+Deploy a formation to MUXI Server with zero downtime. The server handles rolling updates, health checks, and automatic restarts.
 
 ## Usage
 

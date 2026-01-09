@@ -1,9 +1,12 @@
+---
+title: Create Triggers
+description: Connect external systems to your agents via webhooks
+---
 # Create Triggers
 
-## Step-by-step guide
+## Let external events invoke your agents
 
-
-Automate workflows with webhooks.
+Triggers turn webhooks into agent conversations. GitHub issues, Slack messages, monitoring alerts - any JSON payload can start a conversation with your agents.
 
 ## Overview
 

@@ -1,9 +1,12 @@
+---
+title: Server Configuration
+description: Configure MUXI Server settings and behavior
+---
 # Server Configuration
 
-## Server guide
+## Customize server behavior
 
-
-Configure MUXI Server settings.
+Configure ports, authentication, logging, resource limits, and other server settings. Most defaults work well, but production deployments often need tuning.
 
 ## Config File Location
 

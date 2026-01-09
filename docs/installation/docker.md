@@ -1,9 +1,12 @@
+---
+title: Docker Installation
+description: Run MUXI Server in a container
+---
 # Docker Installation
 
-## Overview
+## Run MUXI anywhere with containers
 
-
-Run MUXI Server in a container.
+Deploy MUXI Server using Docker for easy setup, consistent environments, and simple scaling. Perfect for development, CI/CD, and production deployments.
 
 ## Quick Start
 

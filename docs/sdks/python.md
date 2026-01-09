@@ -1,9 +1,12 @@
+---
+title: Python SDK
+description: Native Python client for MUXI formations
+---
 # Python SDK
 
-## SDK documentation
+## Pythonic access to your agents
 
-
-Python client for MUXI formations.
+Build Python applications that interact with MUXI formations. Full support for chat, streaming, async operations, sessions, triggers, and all Formation API operations.
 
 ## Installation
 

@@ -1,9 +1,12 @@
+---
+title: Searching the Registry
+description: Find pre-built formations for your use case
+---
 # Searching the Registry
 
-## Overview
+## Find formations to jumpstart your project
 
-
-Find formations for your use case.
+Search the MUXI Registry for pre-built formations - customer support bots, research assistants, code reviewers, and more. Use them as-is or as starting points for your own.
 
 ## CLI Search
 
