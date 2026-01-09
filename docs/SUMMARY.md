@@ -23,7 +23,7 @@
 * [Triggers & Webhooks](concepts/triggers.md)
 * [Async Processing](concepts/async.md)
 * [Standard Operating Procedures](concepts/sops.md)
-* [Registry](concepts/registry.md)
+* [Formation Registry](concepts/registry.md)
 * [Scheduled Tasks](concepts/scheduled-tasks.md)
 * [Artifacts & File Generation](concepts/artifacts.md)
 * [Clarification System](concepts/clarification.md)

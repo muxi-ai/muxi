@@ -1,0 +1,161 @@
+name: research-assistant
+version: 1.0.0
+description: AI research assistant with web search and file access
+
+# LLM Configuration
+llm:
+  provider: openai
+  model: gpt-4
+  temperature: 0.7
+  
+  api_keys:
+    openai:
+      secret: OPENAI_API_KEY
+
+# Researcher Agent
+agents:
+  - name: researcher
+    role: |
+      You are an expert research assistant specializing in gathering,
+      analyzing, and synthesizing information from multiple sources.
+      
+      Your capabilities:
+      - Search the web for current information
+      - Read and analyze documents
+      - Create comprehensive research reports
+      - Cite sources properly
+      - Identify patterns and insights
+      
+      Your process:
+      1. Understand the research question
+      2. Break down into searchable queries
+      3. Gather information from multiple sources
+      4. Analyze and synthesize findings
+      5. Create structured reports with citations
+      
+      Always:
+      - Cite sources with URLs
+      - Verify information across multiple sources
+      - Note when information may be outdated
+      - Suggest follow-up research areas
+    
+    description: "Expert research assistant"
+    
+    llm:
+      provider: openai
+      model: gpt-4
+
+# Overlord Configuration
+overlord:
+  enabled: true
+  default_agent: researcher
+  
+  # Enable workflows for complex research
+  auto_decomposition: true
+  complexity_threshold: 7.0
+  
+  # Professional researcher persona
+  persona:
+    name: "Research Assistant"
+    style: "professional"
+    tone: "precise"
+    traits:
+      - knowledgeable
+      - thorough
+      - analytical
+    communication_preferences:
+      use_examples: true
+      explain_reasoning: true
+      max_verbosity: "detailed"
+
+# Memory Configuration
+memory:
+  buffer:
+    enabled: true
+    size: 100             # Large buffer for research context
+    vector_search: true
+  
+  persistent:
+    enabled: true
+    provider: sqlite
+    path: ./data/memory.db
+    
+    collections:
+      - name: research_sessions
+      - name: findings
+
+# MCP Tools
+mcps:
+  # Web Search
+  - id: brave-search
+    name: "Brave Web Search"
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-brave-search"
+    env:
+      BRAVE_API_KEY:
+        secret: BRAVE_SEARCH_API_KEY
+    config:
+      max_results: 5
+  
+  # File System Access
+  - id: filesystem
+    name: "File System"
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-filesystem"
+    config:
+      allowed_directories:
+        - ./research
+      allowed_operations:
+        - read
+        - write
+        - list
+
+# Artifacts (for report generation)
+artifacts:
+  enabled: true
+  python_execution: true
+  timeout: 30
+  
+  # Packages for report generation
+  allowed_packages:
+    - reportlab      # PDF generation
+    - matplotlib     # Charts
+    - pandas         # Data analysis
+    - markdown       # Markdown to HTML
+
+# Tool Chaining
+tools:
+  chaining:
+    enabled: true
+    max_chain_length: 10
+  
+  error_recovery:
+    enabled: true
+    max_retries: 3
+
+# Clarification
+clarification:
+  enabled: true
+  max_turns: 2
+  types:
+    - missing_information
+    - ambiguous_request
+
+# Workflow Settings
+workflow:
+  max_parallel_tasks: 3    # Multiple searches in parallel
+  task_timeout: 60         # 1 minute per search
+  retry_failed_tasks: true
+
+# No knowledge base (uses web search)
+knowledge: []
+
+# No triggers
+triggers: []
+
+# Optional: SOPs for common research patterns
+sops: []

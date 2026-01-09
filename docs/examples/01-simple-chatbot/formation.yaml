@@ -1,0 +1,59 @@
+name: simple-chatbot
+version: 1.0.0
+description: The simplest MUXI formation - a single assistant agent
+
+# LLM Configuration
+llm:
+  provider: openai
+  model: gpt-4
+  temperature: 0.7
+  max_tokens: 1000
+  
+  # API key from secrets
+  api_keys:
+    openai:
+      secret: OPENAI_API_KEY
+
+# Single Agent
+agents:
+  - name: assistant
+    role: "You are a helpful AI assistant"
+    description: "General-purpose assistant for answering questions"
+    
+    # Use formation-level LLM settings
+    llm:
+      provider: openai
+      model: gpt-4
+
+# Overlord Configuration
+overlord:
+  enabled: true
+  default_agent: assistant  # Route all requests here
+  
+  # No complexity analysis needed (single agent)
+  auto_decomposition: false
+  
+  # Simple persona
+  persona:
+    name: "Assistant"
+    style: "professional"
+    tone: "helpful"
+
+# No memory (stateless)
+memory:
+  buffer:
+    enabled: false
+  persistent:
+    enabled: false
+
+# No tools
+mcps: []
+
+# No knowledge
+knowledge: []
+
+# No triggers
+triggers: []
+
+# No SOPs
+sops: []

@@ -6,14 +6,18 @@ youtube-video: placeholder
 
 # Quickstart
 
-## Go from zero to a running AI agent in 5 minutes.
+## Go from zero to a running AI agent in 5 minutes
 
 <!-- TODO: Add video walkthrough -->
 <!-- [Video placeholder: Complete quickstart walkthrough] -->
 
+This quickstart gets you from zero to a working AI agent in 5 minutes. You'll install MUXI, create a formation, and test it.
 
 > [!NOTE]
-> **Prerequisites:** macOS, Linux, or Windows with terminal access and an OpenAI API key.
+> **Prerequisites:** 
+> - Terminal access (macOS, Linux, or Windows)
+> - OpenAI API key ([get one here](https://platform.openai.com/api-keys))
+> - 5 minutes
 
 ## Get started in 5 minutes
 
@@ -23,21 +27,42 @@ youtube-video: placeholder
 
 [[tabs]]
 
+[[tab macOS]]
+```bash
+brew install muxi-ai/tap/muxi
+```
+
+**Expected output:**
+```
+==> Downloading https://github.com/muxi-ai/muxi/releases/...
+==> Installing muxi
+🍺  /opt/homebrew/bin/muxi
+```
+[[/tab]]
+
 [[tab Linux]]
 ```bash
 curl -fsSL https://muxi.org/install | sudo bash
 ```
-[[/tab]]
 
-[[tab macOS]]
-```bash
-brew install muxi-ai/tap/muxi
+**Expected output:**
+```
+[INFO] Downloading MUXI...
+[INFO] Installing to /usr/local/bin
+[INFO] MUXI installed successfully
 ```
 [[/tab]]
 
 [[tab Windows]]
 ```powershell
 powershell -c "irm https://muxi.org/install | iex"
+```
+
+**Expected output:**
+```
+Downloading MUXI...
+Installing to C:\Program Files\muxi
+MUXI installed successfully
 ```
 [[/tab]]
 
@@ -49,19 +74,56 @@ Verify installation:
 muxi --version
 ```
 
+**Expected:** `muxi version 1.0.0` (or higher)
+
+> [!TIP]
+> **Troubleshooting:**
+> - Command not found? Restart your terminal
+> - macOS: `brew update && brew install muxi-ai/tap/muxi`
+> - Linux: Check PATH includes `/usr/local/bin`
+
 [[/step]]
 
 [[step Start the Server]]
 
+**First time only** - generate credentials:
+
 ```bash
-muxi-server init    # First time only - generates credentials
+muxi-server init
+```
+
+**Expected output:**
+```
+Generated credentials:
+  Key ID:     muxi_key_abc123...
+  Secret:     muxi_secret_xyz789...
+
+⚠️  Save these credentials securely!
+Config saved to: ~/.muxi/server/config.yaml
+```
+
+> [!WARNING]
+> **Save these credentials!** You'll need them to deploy formations remotely.
+
+Now start the server:
+
+```bash
 muxi-server start
 ```
 
-The server runs on port 7890. Leave this terminal open.
+**Expected output:**
+```
+[INFO] MUXI Server starting...
+[INFO] Listening on :7890
+[INFO] Server ready
+```
+
+**Leave this terminal open** - the server must stay running.
 
 > [!TIP]
-> Save the credentials shown after `init` - you'll need them for remote deployments.
+> **Troubleshooting:**
+> - Port already in use? `muxi-server --port 7891`
+> - Check logs: `muxi-server logs`
 
 [[/step]]
 

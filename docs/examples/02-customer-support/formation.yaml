@@ -1,0 +1,111 @@
+name: customer-support
+version: 1.0.0
+description: Customer support agent with memory and knowledge base
+
+# LLM Configuration
+llm:
+  provider: openai
+  model: gpt-4
+  temperature: 0.7
+  
+  api_keys:
+    openai:
+      secret: OPENAI_API_KEY
+
+# Support Agent
+agents:
+  - name: support
+    role: |
+      You are a helpful customer support agent.
+      
+      Your responsibilities:
+      - Answer customer questions using the knowledge base
+      - Be empathetic and patient
+      - Offer solutions, not just information
+      - Escalate complex issues when needed
+      
+      Always:
+      - Reference specific policies when applicable
+      - Ask clarifying questions if details are missing
+      - Provide next steps or action items
+    
+    description: "Customer support specialist"
+    
+    llm:
+      provider: openai
+      model: gpt-4
+
+# Overlord Configuration
+overlord:
+  enabled: true
+  default_agent: support
+  auto_decomposition: false
+  
+  # Support persona
+  persona:
+    name: "Support Agent"
+    style: "professional"
+    tone: "empathetic"
+    traits:
+      - helpful
+      - patient
+      - knowledgeable
+    communication_preferences:
+      use_examples: true
+      explain_reasoning: true
+      max_verbosity: "balanced"
+
+# Memory Configuration
+memory:
+  buffer:
+    enabled: true
+    size: 50              # Remember last 50 messages
+    vector_search: true   # Semantic search
+  
+  persistent:
+    enabled: true
+    provider: sqlite
+    path: ./data/memory.db
+    
+    # Store user preferences
+    collections:
+      - name: user_preferences
+      - name: interaction_history
+
+# Knowledge Base
+knowledge:
+  - name: company-docs
+    type: directory
+    path: ./knowledge
+    description: "Company FAQs, policies, and documentation"
+    
+    # Chunking settings
+    chunk_size: 512
+    chunk_overlap: 50
+    
+    # Embedding
+    embedding:
+      provider: openai
+      model: text-embedding-3-small
+      
+    # RAG settings
+    retrieval:
+      top_k: 3
+      similarity_threshold: 0.7
+
+# Clarification
+clarification:
+  enabled: true
+  max_turns: 3
+  types:
+    - missing_information
+    - ambiguous_request
+
+# No tools needed for basic support
+mcps: []
+
+# No triggers
+triggers: []
+
+# No SOPs (add later for complex workflows)
+sops: []

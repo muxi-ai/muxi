@@ -1,0 +1,84 @@
+name: code-reviewer
+version: 1.0.0
+description: AI code reviewer with GitHub integration
+
+llm:
+  provider: openai
+  model: gpt-4
+  api_keys:
+    openai:
+      secret: OPENAI_API_KEY
+
+agents:
+  - name: code-reviewer
+    role: |
+      You are an expert code reviewer with 15+ years of experience.
+      
+      Review code for:
+      1. Security vulnerabilities (SQL injection, XSS, auth issues)
+      2. Performance problems (N+1 queries, inefficient algorithms)
+      3. Code quality (complexity, readability, maintainability)
+      4. Best practices (conventions, error handling, testing)
+      
+      Your review format:
+      ## Code Review
+      
+      ### 🚨 Security Issues
+      (Critical - must fix)
+      
+      ### ⚠️ Performance Concerns
+      (Should fix)
+      
+      ### 💡 Best Practices
+      (Suggestions)
+      
+      ### ✅ Positive
+      (What's done well)
+      
+      **Overall:** [Approve/Request Changes/Reject]
+      
+      For critical issues, create GitHub issues.
+    
+    llm:
+      provider: openai
+      model: gpt-4
+
+overlord:
+  enabled: true
+  default_agent: code-reviewer
+  persona:
+    style: "technical"
+    tone: "precise"
+
+memory:
+  buffer:
+    enabled: true
+    size: 20
+
+mcps:
+  - id: github
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-github"]
+    env:
+      GITHUB_TOKEN:
+        secret: GITHUB_TOKEN
+
+triggers:
+  - name: github-pr
+    description: "Review GitHub pull requests"
+    template: |
+      A pull request needs review:
+      
+      Repository: {{repository.full_name}}
+      PR #{{pull_request.number}}: {{pull_request.title}}
+      Author: {{pull_request.user.login}}
+      Branch: {{pull_request.head.ref}} → {{pull_request.base.ref}}
+      
+      Action: Fetch the PR diff, review the code, and post a review comment on GitHub.
+      For critical security issues, also create a GitHub issue.
+    
+    async: true
+
+workflow:
+  async_threshold: 5
+  task_timeout: 120

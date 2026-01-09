@@ -1,0 +1,154 @@
+name: multi-agent-team
+version: 1.0.0
+description: Team of specialized AI agents with automatic orchestration
+
+llm:
+  provider: openai
+  model: gpt-4
+  api_keys:
+    openai:
+      secret: OPENAI_API_KEY
+
+# Three Specialized Agents
+agents:
+  # Researcher: Gathers information
+  - name: researcher
+    role: |
+      You are an expert researcher who gathers information from multiple sources.
+      
+      Your strengths:
+      - Web search and source evaluation
+      - Summarizing complex information
+      - Identifying key facts and data points
+      - Citing sources properly
+      
+      Always provide URLs and cite your sources.
+    
+    description: "Information gathering specialist"
+    llm:
+      model: gpt-4-turbo  # Faster for research
+      temperature: 0.5    # More focused
+  
+  # Analyst: Processes and analyzes data
+  - name: analyst
+    role: |
+      You are a data analyst who identifies patterns, trends, and insights.
+      
+      Your strengths:
+      - Data analysis and comparison
+      - Trend identification
+      - Creating structured comparisons
+      - Quantitative reasoning
+      
+      Present findings clearly with numbers and comparisons.
+    
+    description: "Data analysis specialist"
+    llm:
+      model: gpt-4o      # Best reasoning
+      temperature: 0.3   # Very focused
+  
+  # Writer: Creates polished outputs
+  - name: writer
+    role: |
+      You are a professional writer who creates clear, engaging content.
+      
+      Your strengths:
+      - Report writing and summaries
+      - Clear, structured writing
+      - Audience-appropriate tone
+      - Professional formatting
+      
+      Create well-structured documents with headers, bullets, and clear sections.
+    
+    description: "Content creation specialist"
+    llm:
+      model: gpt-4       # Best writing quality
+      temperature: 0.7   # Creative
+
+# Overlord Orchestration
+overlord:
+  enabled: true
+  
+  # Automatic workflow creation
+  auto_decomposition: true
+  complexity_threshold: 7.0
+  
+  # Agent selection hints
+  agent_selection:
+    - match: "research|find|search|gather"
+      agent: researcher
+    
+    - match: "analyze|compare|trends|data"
+      agent: analyst
+    
+    - match: "write|create|summary|report"
+      agent: writer
+  
+  # Professional persona
+  persona:
+    name: "Team Lead"
+    style: "professional"
+    tone: "helpful"
+    traits:
+      - knowledgeable
+      - thorough
+      - efficient
+
+# Memory
+memory:
+  buffer:
+    enabled: true
+    size: 100
+    vector_search: true
+
+# MCP Tools (for researcher)
+mcps:
+  - id: brave-search
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+    env:
+      BRAVE_API_KEY:
+        secret: BRAVE_SEARCH_API_KEY
+  
+  - id: filesystem
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-filesystem"]
+    config:
+      allowed_directories:
+        - ./research
+        - ./reports
+
+# Workflow Configuration
+workflow:
+  max_parallel_tasks: 5      # Research tasks can run parallel
+  task_timeout: 120          # 2 minutes per task
+  workflow_timeout: 600      # 10 minutes total
+  
+  retry_failed_tasks: true
+  max_retries: 2
+  
+  # Log workflow execution
+  log_workflows: true
+
+# Artifacts (for writer)
+artifacts:
+  enabled: true
+  python_execution: true
+  allowed_packages:
+    - reportlab
+    - matplotlib
+
+# Clarification
+clarification:
+  enabled: true
+  max_turns: 2
+
+# Tool Chaining
+tools:
+  chaining:
+    enabled: true
+    max_chain_length: 15  # Complex workflows may need many steps
+  
+  error_recovery:
+    enabled: true
+    max_retries: 3
