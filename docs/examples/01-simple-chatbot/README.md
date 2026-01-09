@@ -1,9 +1,10 @@
 # Simple Chatbot
 
-**Difficulty:** Beginner  
+## The simplest possible MUXI formation - a single AI assistant agent with no memory, tools, or knowledge.
+
+**Difficulty:** Beginner
 **Time to setup:** 2 minutes
 
-The simplest possible MUXI formation - a single AI assistant agent with no memory, tools, or knowledge.
 
 ## What It Does
 

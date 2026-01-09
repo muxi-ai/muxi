@@ -1,9 +1,10 @@
 # Multi-Agent Team
 
-**Difficulty:** Advanced  
+## A team of specialized AI agents that automatically coordinate to handle complex requests. Demonstrates MUXI's automatic workflow decomposition and agent orchestration.
+
+**Difficulty:** Advanced
 **Time to setup:** 10 minutes
 
-A team of specialized AI agents that automatically coordinate to handle complex requests. Demonstrates MUXI's automatic workflow decomposition and agent orchestration.
 
 ## What It Does
 
@@ -206,10 +207,10 @@ overlord:
   agent_selection:
     - match: "research|find|search"
       agent: researcher
-    
+
     - match: "analyze|compare|trends"
       agent: analyst
-    
+
     - match: "write|create|summary|report"
       agent: writer
 ```
@@ -253,10 +254,10 @@ Workflow:
 agents:
   - name: editor
     role: "Proofreads and improves written content"
-  
+
   - name: data-scientist
     role: "Creates charts and visualizations"
-  
+
   - name: translator
     role: "Translates content to multiple languages"
 ```
@@ -323,7 +324,7 @@ agents:
   - name: researcher
     llm:
       model: gpt-3.5-turbo  # Cheaper model
-      
+
 workflow:
   max_parallel_tasks: 2  # Less parallel API calls
 ```

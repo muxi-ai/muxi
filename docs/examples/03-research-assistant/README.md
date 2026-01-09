@@ -1,9 +1,10 @@
 # Research Assistant
 
-**Difficulty:** Intermediate  
+## An AI research assistant with web search, file access, and memory. Great for gathering information, summarizing findings, and creating reports.
+
+**Difficulty:** Intermediate
 **Time to setup:** 10 minutes
 
-An AI research assistant with web search, file access, and memory. Great for gathering information, summarizing findings, and creating reports.
 
 ## What It Does
 
@@ -114,7 +115,7 @@ mcps:
     env:
       BRAVE_API_KEY:
         secret: BRAVE_SEARCH_API_KEY
-  
+
   - id: filesystem
     command: npx
     args:
@@ -180,7 +181,7 @@ mcps:
   - id: puppeteer
     command: npx
     args: ["-y", "@modelcontextprotocol/server-puppeteer"]
-  
+
   # Database access
   - id: postgres
     command: npx

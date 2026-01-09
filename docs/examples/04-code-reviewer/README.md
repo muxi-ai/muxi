@@ -1,9 +1,10 @@
 # Code Reviewer
 
-**Difficulty:** Advanced  
+## An AI code reviewer integrated with GitHub. Reviews pull requests, suggests improvements, checks for security issues, and comments directly on GitHub.
+
+**Difficulty:** Advanced
 **Time to setup:** 15 minutes
 
-An AI code reviewer integrated with GitHub. Reviews pull requests, suggests improvements, checks for security issues, and comments directly on GitHub.
 
 ## What It Does
 
@@ -126,7 +127,7 @@ def login(username, password):
 
 1. **SQL Injection Vulnerability** (Line 2)
    The query uses string formatting which is vulnerable to SQL injection.
-   
+
    **Fix:**
    ```python
    user = db.query("SELECT * FROM users WHERE username=?", (username,))
@@ -134,7 +135,7 @@ def login(username, password):
 
 2. **Plaintext Password Comparison** (Line 3)
    Passwords should be hashed, not stored/compared in plaintext.
-   
+
    **Fix:**
    ```python
    if user and verify_password(password, user.password_hash):
@@ -176,12 +177,12 @@ triggers:
     description: "Triggered when PR is opened/updated"
     template: |
       Review this pull request:
-      
+
       Repository: {{repository.full_name}}
       PR #{{pull_request.number}}: {{pull_request.title}}
       Author: {{pull_request.user.login}}
       URL: {{pull_request.html_url}}
-      
+
       Analyze the code changes and post a review comment on GitHub.
 ```
 
@@ -191,22 +192,22 @@ agents:
   - name: code-reviewer
     role: |
       You are an expert code reviewer focusing on:
-      
+
       Security:
       - SQL injection, XSS, CSRF vulnerabilities
       - Authentication/authorization issues
       - Sensitive data exposure
-      
+
       Code Quality:
       - Code complexity and readability
       - Error handling
       - Test coverage
-      
+
       Performance:
       - N+1 queries
       - Inefficient algorithms
       - Memory leaks
-      
+
       Best Practices:
       - Language/framework conventions
       - Documentation

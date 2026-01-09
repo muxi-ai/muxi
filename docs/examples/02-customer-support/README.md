@@ -1,9 +1,10 @@
 # Customer Support Bot
 
-**Difficulty:** Intermediate  
+## A customer support agent with memory (remembers conversations) and knowledge base (company FAQs, policies).
+
+**Difficulty:** Intermediate
 **Time to setup:** 5 minutes
 
-A customer support agent with memory (remembers conversations) and knowledge base (company FAQs, policies).
 
 ## What It Does
 
@@ -93,7 +94,7 @@ memory:
   buffer:
     enabled: true
     size: 50  # Last 50 messages
-  
+
   persistent:
     enabled: true
     provider: sqlite
