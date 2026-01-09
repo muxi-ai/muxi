@@ -20,6 +20,32 @@ Or specify profile:
 muxi deploy --profile production
 ```
 
+### Zero-Downtime Updates
+
+**All formation updates and rollbacks happen with zero downtime.** The server uses a blue-green deployment strategy:
+
+1. **New version starts** on a temporary port
+2. **Health check passes** before switching traffic
+3. **Traffic switches** to new version instantly
+4. **Old version stops** after graceful shutdown
+
+During the update:
+- ✅ No dropped requests
+- ✅ No connection interruptions  
+- ✅ No service downtime
+- ✅ Instant rollback capability
+
+**Example update process:**
+```bash
+muxi deploy  # New version starts, old version still serving
+# Server validates new version...
+# Health check passes...
+# Traffic instantly switches to new version
+# Old version gracefully shuts down
+```
+
+If the new version fails health checks, the old version keeps running and the update is automatically aborted.
+
 ## List Formations
 
 ```bash
@@ -71,11 +97,19 @@ muxi formation delete my-assistant
 
 ## Rollback
 
-Rollback to previous version:
+Rollback to previous version with **zero downtime**:
 
 ```bash
 muxi formation rollback my-assistant
 ```
+
+The rollback process is instantaneous:
+1. Previous version starts on temporary port
+2. Health check passes
+3. Traffic switches back to previous version
+4. Current version shuts down gracefully
+
+**No requests are dropped during rollback.** The entire process completes in seconds while maintaining full availability.
 
 ## View Logs
 
