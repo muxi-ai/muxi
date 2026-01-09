@@ -99,6 +99,12 @@ formation/
 > [!CAUTION]
 > There's no recovery without the `.key` file. This is intentional security.
 
+### Auditing & tool controls
+
+- All key actions (requests, tool calls, A2A) emit events to observability streams for audit.
+- Outbound tools/A2A should be allowlisted and scoped per formation; combine with rate limits and timeouts.
+- Prefer redirect-mode user credentials for enterprise; dynamic mode should be gated by `accept_inline` on the MCP server.
+
 ---
 
 ## User Isolation

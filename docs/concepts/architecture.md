@@ -234,6 +234,14 @@ Load Balancer
 
 ---
 
+## Versioning & compatibility
+
+- Formation schema follows semver; new minor versions stay backward compatible, breaking changes land in majors.
+- Pin server/runtime versions together for production; upgrade runtime before server when possible.
+- Regenerate/validate formations after upgrades to catch schema or tooling changes early.
+
+---
+
 ## Next Steps
 
 [+] [Request Lifecycle](../deep-dives/request-lifecycle.md) - Detailed request flow

@@ -1,17 +1,12 @@
+---
+title: Embedding the Runtime
+description: Run MUXI formations directly in your Python application
+---
 # Embedding the Runtime
 
-## Overview
+## Run formations without a server
 
-
-Run the MUXI runtime in your own application.
-
-## Overview
-
-While most users access MUXI through the server, you can embed the runtime directly for:
-
-- Custom deployment scenarios
-- Integration with existing systems
-- Development and testing
+While most users access MUXI through the server, you can embed the runtime directly into your Python application. This enables custom deployments, integration with existing systems, and streamlined local development.
 
 ## Installation
 
@@ -101,6 +96,13 @@ app = formation.as_asgi()
 import uvicorn
 uvicorn.run(app, host="0.0.0.0", port=8001)
 ```
+
+## Operational tips
+
+- **Load once, reuse:** Initialize `Formation.load(...)` at process start and reuse; avoid per-request loads.
+- **Secrets via env:** Keep secrets in env or `secrets.enc`; don’t bake tokens in code.
+- **Graceful shutdown:** When embedding in ASGI/WSGI, ensure the process awaits inflight tasks before exit.
+- **Keep logging wired:** Forward runtime logs/events to your app’s logging/observability pipeline for auditability.
 
 ## Programmatic Access
 

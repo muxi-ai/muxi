@@ -51,6 +51,12 @@ MUXI uses [markitdown](https://github.com/microsoft/markitdown) for document con
 > [!TIP]
 > MUXI handles images natively. Vision models (GPT-4V, Claude, Gemini) can analyze screenshots, diagrams, charts, and photos in your knowledge base.
 
+### Source rules & validation
+
+- Paths must stay within the formation (relative paths only; no `..`); keep sources under `knowledge/`.
+- Large/recursive sources can be limited with `max_files_per_source`, `file_limit`, `allowed_extensions`, and `max_file_size`.
+- Files are chunked and cached with MD5; unchanged files are skipped on restart, only deltas are re-embedded.
+
 ---
 
 ## Multimodal Support

@@ -50,6 +50,11 @@ Agent: Checks if user has GitHub token stored
 
 No manual configuration. The agent figures it out.
 
+**Operational details:**
+- Uses the MCP registry from your formation to know which services need credentials and whether inline collection is allowed (`accept_inline`).
+- Validates tokens before storing; rejects invalid/duplicate tokens.
+- If multiple accounts exist, agents (or clarification) will ask which one to use.
+
 ### Encrypted Storage
 
 Your credentials are encrypted before storage:
@@ -137,7 +142,20 @@ Configure the mode in your formation:
 ```yaml
 user_credentials:
   mode: "dynamic"  # or "redirect"
+  redirect_message: "Add credentials at https://credentials.example.com"
+
+# Optional hardening (see formation schema):
+# user_credentials:
+#   encryption:
+#     key: "${{ secrets.CREDENTIAL_KEY }}"  # otherwise derives from formation_id
+#     salt: "muxi-user-credentials-salt-v1"
+#   require_https: true          # default true for inline collection
+#   credential_ttl_minutes: 60   # cache lifetime for inline tokens
+#   max_attempts: 3              # lockout after failed attempts
 ```
+
+- **Redirect:** Never collect secrets in chat; send users to your portal/CLI. Best for enterprise compliance.
+- **Dynamic:** Collect inline only if the MCP server marks `accept_inline: true`; tokens are validated, deduped, and named by discovered identity (e.g., GitHub handle).
 
 ---
 

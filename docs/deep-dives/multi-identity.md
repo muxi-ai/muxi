@@ -8,6 +8,8 @@ description: How MUXI links multiple identifiers to a single user
 
 MUXI's multi-identity system solves a common problem: users interact through multiple platforms (email, Slack, GitHub), each with its own ID. MUXI automatically links these identities to maintain consistent memory, preferences, and context.
 
+**ID format:** MUXI-issued user IDs follow `usr_{nanoid}`; external identifiers retain their native form (email, Slack ID, phone, etc.). Keep the canonical `muxi_user_id` in your app and attach external identifiers as needed.
+
 
 ## The Problem
 

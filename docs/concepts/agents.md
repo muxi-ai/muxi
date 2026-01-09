@@ -205,6 +205,12 @@ Fast, no bottleneck
 
 **The result:** Agents work like human teams - strategic direction from above, tactical collaboration among peers.
 
+### A2A safety & limits
+
+- Outbound A2A requires explicit allowlisting and authentication; nothing is open by default.
+- Calls are signed with a nonce to prevent replay, and timeouts/hop limits stop runaway delegation.
+- Apply rate limits and scoped capabilities to partner formations; all A2A events flow into observability streams for audit.
+
 ---
 
 ## Routing Priority

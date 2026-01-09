@@ -90,6 +90,19 @@ This synopsis:
 - **Two-tier caching**: identity (long-term) + context (refreshed regularly)
 - **Reduces tokens by 80%+** vs. including full history every time
 
+Configure synopsis behavior:
+
+```yaml
+memory:
+  persistent:
+    user_synopsis:
+      enabled: true       # default true
+      cache_ttl: 3600     # seconds for context synopsis refresh
+```
+
+- `enabled`: disable if you want to skip synopsis generation to save LLM cost.
+- `cache_ttl`: refresh cadence for the context synopsis; identity synopsis persists until updated.
+
 ---
 
 ## Context Management

@@ -1,9 +1,12 @@
+---
+title: Observability
+description: Events, logging, and monitoring for MUXI formations
+---
 # Observability
 
-## Technical deep dive
+## Track every request from ingress to response
 
-
-Events, logging, and monitoring in MUXI.
+MUXI emits structured events across the full request lifecycle - from initial routing through agent execution to final delivery. Stream these events to your logging infrastructure for debugging, auditing, and performance monitoring.
 
 ## Event System
 
@@ -88,29 +91,33 @@ data: {"tokens": 150, ...}
 | `memory.updated` | Memory saved |
 | `knowledge.searched` | RAG search |
 
-## Structured Logging
+## Logging configuration (schema-aligned)
 
-### Configuration
+Two-tier config matching the formation schema:
 
 ```yaml
 logging:
-  level: info
-  format: json
-  output: /var/log/muxi/server.log
+  system:
+    level: info
+    destination: stdout        # or file path
+  conversation:
+    enabled: true
+    streams:
+      - transport: stdout      # stdout | file | stream | trail
+        level: info
+        format: jsonl          # jsonl | text | msgpack | datadog_json | splunk_hec | ...
+        events: ["request.*", "agent.*", "tool.*"]
+      - transport: stream
+        protocol: http         # http/https/zmq/websocket
+        destination: https://logs.example.com/ingest
+        format: jsonl
+        auth:
+          type: bearer
+          token: "${{ secrets.LOG_TOKEN }}"
 ```
 
-### Log Format
-
-```json
-{
-  "level": "info",
-  "time": "2025-01-08T10:00:00Z",
-  "message": "Request processed",
-  "formation": "my-assistant",
-  "session_id": "sess_123",
-  "duration_ms": 1250
-}
-```
+- **System tier:** infrastructure events (startup/shutdown, MCP, A2A, errors) → single destination.
+- **Conversation tier:** multi-stream with per-stream level/format/event filters; use `events` to scope (e.g., `request.*`, `memory.*`).
 
 ## Metrics
 

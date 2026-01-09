@@ -155,6 +155,12 @@ Safety confirmation for destructive operations.
 
 ## Multi-Turn Clarification
 
+### Lifecycle
+
+- Triggers can be proactive (detected ambiguity) or reactive (e.g., multiple credentials/tools to pick from).
+- States: `pending` → `awaiting_user` → `resolved` or `cancelled`.
+- Clarification stays scoped to the current request/session; once answered, the agent resumes the original task with the new detail.
+
 Complex requests may need multiple clarifications:
 
 ```

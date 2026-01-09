@@ -1,4 +1,12 @@
-# Table of contents
+---
+title: Documentation
+description: Complete guide to building AI agents with MUXI
+---
+# Documentation
+
+## Navigate the MUXI docs
+
+Find everything you need to build, deploy, and operate AI agent formations - from quickstart guides to deep technical references.
 
 ## Getting Started
 
@@ -99,6 +107,7 @@
 * [Multi-Tenancy](deep-dives/multi-tenancy.md)
 * [Multi-Identity](deep-dives/multi-identity.md)
 * [Observability](deep-dives/observability.md)
+* [Observability Event Types](deep-dives/observability-events.md)
 * [Security Model](deep-dives/security.md)
 * [Resilience](deep-dives/resilience.md)
 * [Multi-Server Memory](deep-dives/multi-server.md)

@@ -1,13 +1,12 @@
+---
+title: Async Operations
+description: Background task processing for long-running agent operations
+---
 # Async Operations
 
-## Technical deep dive
+## Handle long-running tasks without blocking
 
-
-Background task processing for long-running operations.
-
-## Overview
-
-Some operations take too long for synchronous HTTP:
+Some operations take too long for synchronous HTTP - complex research, multi-step workflows, large file processing. MUXI's async system queues these tasks, processes them in the background, and delivers results via polling or webhooks.
 
 - Complex research tasks
 - Multi-step workflows
@@ -64,6 +63,11 @@ Response:
 | `completed` | Finished successfully |
 | `failed` | Error occurred |
 | `cancelled` | Cancelled by user |
+
+**Decision logic & retries (runtime):**
+- Auto async when estimated duration/complexity exceeds threshold or when webhook is provided; override with `use_async` flag.
+- Background executor retries transient failures with backoff; final status lands in `failed` if retries exhaust.
+- Webhook payloads mirror the status API; include `request_id`, `status`, and `result` or `error`.
 
 ## Triggers (Default Async)
 

@@ -104,6 +104,12 @@ plt.savefig('chart.png')
 - No network requests
 - No file system escapes
 
+### IDs & limits
+
+- Artifact IDs use `atf_{nanoid}`; execution IDs use `exc_{nanoid}`.
+- Default limits: ~30s execution, ~512MB memory, ~10MB output (tune per deployment).
+- Downloads are scoped to the requester’s formation and credentials.
+
 ### Resource Limits
 
 Each artifact generation has strict limits:
