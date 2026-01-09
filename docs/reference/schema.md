@@ -10,24 +10,7 @@ description: Complete specification for .afs formation files
 Agent Formation Schema (`.afs`) is MUXI's configuration format. Every formation starts with a `formation.afs` file that defines agents, tools, memory, and behavior.
 
 
-## Copy-paste starter (`formation.afs`)
-
-```yaml
-schema: "1.0.0"
-id: my-assistant
-
-llm:
-  models:
-    text: openai/gpt-4o
-
-agents:
-  - id: assistant
-    role: helpful assistant
-```
-
----
-
-## Minimal Formation
+## Copy-paste starter
 
 The smallest valid `formation.afs`:
 
