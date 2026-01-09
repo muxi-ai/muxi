@@ -528,7 +528,7 @@ Build task graph:
   - Agent assignments
          ↓
 Confirm plan (if enabled):
-"I'll analyze the code, run a security audit, create 
+"I'll analyze the code, run a security audit, create
  Linear issues, and notify your team. Proceed?"
          ↓
 User approves → Execute workflow
