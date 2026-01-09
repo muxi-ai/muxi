@@ -1,22 +1,29 @@
 ---
 title: MUXI Documentation
-description: The infrastructure layer for AI agents - deploy to production with one command
+description: Production infrastructure for AI agents - deploy with zero downtime
 doc-type: home
 ---
 
 # MUXI Documentation
 
-## Deploy AI agents to production with one command
+## Production infrastructure for AI agents
 
 <!-- TODO: Add hero video showing deployment flow -->
 <!-- [Video placeholder: 60s demo of creating and deploying a formation] -->
 
-MUXI is infrastructure for running AI agents. Define agents in YAML files called **formations**, deploy them to a server, and access them via API or SDK.
+MUXI is infrastructure for running AI agents in production. Define multi-agent systems in YAML, deploy with zero downtime, scale with built-in orchestration.
 
-Think: **Docker for AI agents**.
+**Think: Kubernetes for AI agents.**
+
+- ✅ Zero-downtime deployments
+- ✅ Multi-agent orchestration  
+- ✅ Built-in memory & RAG
+- ✅ Production-ready security
 
 > [!TIP]
 > New to MUXI? Start with the [Quickstart](quickstart.md) to get running in 5 minutes.
+
+**Popular:** [Quickstart](quickstart.md) • [Examples](examples/README.md) • [Formation Schema](concepts/formation-schema.md) • [Zero-Downtime Updates](server/formations.md#zero-downtime-updates)
 
 
 ## Get Started
@@ -45,6 +52,43 @@ Learn how to define AI systems in YAML.
 [[/card]]
 
 ::::
+
+---
+
+## See It In Action
+
+:::: cols=3
+
+(examples/01-simple-chatbot/README.md)[[card]]
+
+#### Simple Chatbot
+⭐ Beginner • 2 min
+
+Basic assistant with single agent.
+
+[[/card]]
+
+(examples/02-customer-support/README.md)[[card]]
+
+#### Customer Support
+⭐⭐ Intermediate • 5 min
+
+Memory + knowledge + persona.
+
+[[/card]]
+
+(examples/05-multi-agent-team/README.md)[[card]]
+
+#### Multi-Agent Team
+⭐⭐⭐ Advanced • 10 min
+
+3 specialized agents working together.
+
+[[/card]]
+
+::::
+
+[View all 5 examples →](examples/README.md)
 
 ---
 
@@ -125,51 +169,110 @@ fmt.Println(response.Text)
 
 ---
 
-## Explore by Topic
+## Why MUXI?
 
-:::: cols=2
+:::: cols=4
 
-(server/README.md)[[card]]
-#### Server
-Orchestration platform for running formations.
+[[card]]
+
+#### 🚀 Zero Downtime
+Blue-green deployments. Update formations without dropping requests.
+
 [[/card]]
 
-(cli/README.md)[[card]]
-#### CLI
-Command-line tool for managing MUXI.
+[[card]]
+
+#### 🤖 Multi-Agent
+Auto-decompose complex tasks across specialized agents.
+
 [[/card]]
 
-(sdks/README.md)[[card]]
-#### SDKs
-Python, TypeScript, and Go client libraries.
+[[card]]
+
+#### 🧠 Memory & RAG
+Built-in vector search, persistent memory, knowledge bases.
+
 [[/card]]
 
-(registry/README.md)[[card]]
-#### Registry
-Discover and share formations.
+[[card]]
+
+#### 🔐 Production Ready
+HMAC auth, secrets management, per-user credentials.
+
 [[/card]]
 
 ::::
 
 ---
 
-## Deep Dives
+## Explore by Topic
+
+:::: cols=2
+
+(server/README.md)[[card]]
+
+#### Server
+Orchestration platform for running formations.
+
+[[/card]]
+
+(cli/README.md)[[card]]
+
+#### CLI
+Command-line tool for managing MUXI.
+
+[[/card]]
+
+(sdks/README.md)[[card]]
+
+#### SDKs
+Python, TypeScript, and Go client libraries.
+
+[[/card]]
+
+(registry/README.md)[[card]]
+
+#### Registry
+Discover and share formations.
+
+[[/card]]
+
+::::
+
+---
+
+## Learn More
 
 :::: cols=3
 
-(deep-dives/orchestration.md)[[card]]
-#### Multi-Agent
-How agents work together.
+[[card]]
+
+#### 🎓 Core Concepts
+- [Formation Schema](concepts/formation-schema.md)
+- [The Overlord](concepts/overlord.md)
+- [Workflows](concepts/workflows.md)
+- [Memory System](concepts/memory.md)
+
 [[/card]]
 
-(deep-dives/streaming.md)[[card]]
-#### Streaming
-Real-time response streaming.
+[[card]]
+
+#### 🛠️ Guides
+- [Add Tools (MCP)](guides/add-tools.md)
+- [Build Multi-Agent Teams](guides/multi-agent.md)
+- [Deploy to Production](guides/deploy.md)
+- [Troubleshooting](guides/troubleshooting.md)
+
 [[/card]]
 
-(deep-dives/security.md)[[card]]
-#### Security
-Authentication and encryption.
+[[card]]
+
+#### 📚 Reference
+- [Agent Formation Schema](reference/schema.md)
+- [Server Configuration](server/configuration.md)
+- [CLI Commands](cli/cheatsheet.md)
+- [Deep Dives](deep-dives/README.md)
+
 [[/card]]
 
 ::::
@@ -178,7 +281,14 @@ Authentication and encryption.
 
 ## Next Steps
 
-[+] [Run the Quickstart](quickstart.md)
-[+] [Install MUXI](installation/README.md)
-[+] [Explore formations](reference/README.md)
-[+] [Browse the registry](https://registry.muxi.org)
+**Just starting?**  
+[→ 5-minute Quickstart](quickstart.md)
+
+**Want to see code?**  
+[→ Browse Examples](examples/README.md)
+
+**Ready to deploy?**  
+[→ Install MUXI](installation/README.md)
+
+**Building something?**  
+[→ Read the Guides](guides/README.md)
