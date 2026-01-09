@@ -47,26 +47,16 @@ agents:
 
 # Overlord Configuration
 overlord:
-  enabled: true
-  default_agent: researcher
+  # Professional researcher persona (freeform text description)
+  persona: |
+    You are a professional research assistant who is knowledgeable, thorough,
+    and analytical. Be precise in your communication. Use examples when helpful,
+    explain your reasoning, and provide detailed explanations when researching
+    complex topics.
   
-  # Enable workflows for complex research
-  auto_decomposition: true
-  complexity_threshold: 7.0
-  
-  # Professional researcher persona
-  persona:
-    name: "Research Assistant"
-    style: "professional"
-    tone: "precise"
-    traits:
-      - knowledgeable
-      - thorough
-      - analytical
-    communication_preferences:
-      use_examples: true
-      explain_reasoning: true
-      max_verbosity: "detailed"
+  workflow:
+    auto_decomposition: true       # Enable workflows for complex research
+    complexity_threshold: 7.0      # Default threshold
 
 # Memory Configuration
 memory:
@@ -145,11 +135,9 @@ clarification:
     - missing_information
     - ambiguous_request
 
-# Workflow Settings
-workflow:
-  max_parallel_tasks: 3    # Multiple searches in parallel
-  task_timeout: 60         # 1 minute per search
-  retry_failed_tasks: true
+# Workflow Settings (moved under overlord)
+# These are already configured above in overlord.workflow
+# Additional workflow settings can be added there if needed
 
 # No knowledge base (uses web search)
 knowledge: []

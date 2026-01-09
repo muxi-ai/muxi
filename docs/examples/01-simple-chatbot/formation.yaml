@@ -27,17 +27,11 @@ agents:
 
 # Overlord Configuration
 overlord:
-  enabled: true
-  default_agent: assistant  # Route all requests here
+  # Simple persona (just a string, not an object!)
+  persona: "You are a helpful, professional assistant."
   
-  # No complexity analysis needed (single agent)
-  auto_decomposition: false
-  
-  # Simple persona
-  persona:
-    name: "Assistant"
-    style: "professional"
-    tone: "helpful"
+  workflow:
+    auto_decomposition: false  # No complexity analysis needed (single agent)
 
 # No memory (stateless)
 memory:

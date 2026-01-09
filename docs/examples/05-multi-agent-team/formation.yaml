@@ -67,32 +67,15 @@ agents:
 
 # Overlord Orchestration
 overlord:
-  enabled: true
+  # Professional persona (freeform text description)
+  persona: |
+    You are a professional team lead who coordinates between specialized agents.
+    You're knowledgeable, thorough, and efficient in delegation and synthesis.
   
   # Automatic workflow creation
-  auto_decomposition: true
-  complexity_threshold: 7.0
-  
-  # Agent selection hints
-  agent_selection:
-    - match: "research|find|search|gather"
-      agent: researcher
-    
-    - match: "analyze|compare|trends|data"
-      agent: analyst
-    
-    - match: "write|create|summary|report"
-      agent: writer
-  
-  # Professional persona
-  persona:
-    name: "Team Lead"
-    style: "professional"
-    tone: "helpful"
-    traits:
-      - knowledgeable
-      - thorough
-      - efficient
+  workflow:
+    auto_decomposition: true
+    complexity_threshold: 7.0
 
 # Memory
 memory:
@@ -118,17 +101,18 @@ mcps:
         - ./research
         - ./reports
 
-# Workflow Configuration
-workflow:
-  max_parallel_tasks: 5      # Research tasks can run parallel
-  task_timeout: 120          # 2 minutes per task
-  workflow_timeout: 600      # 10 minutes total
-  
-  retry_failed_tasks: true
-  max_retries: 2
-  
-  # Log workflow execution
-  log_workflows: true
+# Additional Workflow Configuration (under overlord.workflow above)
+# Note: max_parallel_tasks, timeouts, and retry are configured under overlord.workflow
+# Example of what could be added there:
+#
+# overlord:
+#   workflow:
+#     max_parallel_tasks: 5
+#     timeouts:
+#       task_timeout: 120
+#       workflow_timeout: 600
+#     retry:
+#       max_attempts: 2
 
 # Artifacts (for writer)
 artifacts:

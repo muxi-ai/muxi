@@ -37,23 +37,14 @@ agents:
 
 # Overlord Configuration
 overlord:
-  enabled: true
-  default_agent: support
-  auto_decomposition: false
+  # Support persona (freeform text description)
+  persona: |
+    You are a professional and empathetic customer support agent. You're helpful,
+    patient, and knowledgeable. Use examples when explaining things, explain your
+    reasoning, and keep responses balanced - not too brief, not too verbose.
   
-  # Support persona
-  persona:
-    name: "Support Agent"
-    style: "professional"
-    tone: "empathetic"
-    traits:
-      - helpful
-      - patient
-      - knowledgeable
-    communication_preferences:
-      use_examples: true
-      explain_reasoning: true
-      max_verbosity: "balanced"
+  workflow:
+    auto_decomposition: false
 
 # Memory Configuration
 memory:

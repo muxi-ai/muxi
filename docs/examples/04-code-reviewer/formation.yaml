@@ -44,11 +44,7 @@ agents:
       model: gpt-4
 
 overlord:
-  enabled: true
-  default_agent: code-reviewer
-  persona:
-    style: "technical"
-    tone: "precise"
+  persona: "You are a technical code reviewer. Be precise and thorough in your feedback."
 
 memory:
   buffer:
@@ -79,6 +75,12 @@ triggers:
     
     async: true
 
-workflow:
-  async_threshold: 5
-  task_timeout: 120
+# Async configuration (top-level, not under workflow)
+async:
+  threshold_seconds: 5  # Switch to async quickly for PRs
+
+# Workflow configuration (under overlord)
+overlord:
+  workflow:
+    timeouts:
+      task_timeout: 120

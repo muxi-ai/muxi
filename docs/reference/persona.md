@@ -1,436 +1,412 @@
 ---
-title: Persona Configuration
-description: Complete reference for persona and personality settings
+title: Persona Configuration Reference
+description: Complete reference for overlord persona configuration
 ---
-# Persona Configuration
+# Persona Configuration Reference
 
-## Complete reference for persona and personality settings
+## Complete reference for overlord persona configuration
 
-Configure agent personality, communication style, tone, and format preferences. This reference covers all available options.
+The `overlord.persona` field defines your formation's communication style and behavior through a freeform text description.
 
 ## Configuration Location
 
 ```yaml
 # In formation.yaml
 overlord:
-  persona:
-    # Persona settings here
+  persona: "Your persona description here"
 ```
 
-## Basic Settings
+## Field Specification
 
-### name
-```yaml
-persona:
-  name: "Assistant"
-```
+### overlord.persona
 
 **Type:** `string`  
-**Default:** `"Assistant"`  
-**Description:** Agent's display name
+**Required:** No  
+**Default:** None  
 
-### style
-```yaml
-persona:
-  style: "professional"
-```
+**Description:**  
+Custom persona text defining the overlord's identity and communication style. The LLM interprets this natural language description to shape all responses across your formation.
 
-**Type:** `string`  
-**Options:**
-- `professional` - Formal, business-appropriate
-- `casual` - Relaxed, conversational
-- `technical` - Precise, technical terminology
-- `friendly` - Warm, approachable
+**Official Schema:**  
+See the [Agent Formation Schema](https://github.com/agent-formation/afs-spec) for the authoritative specification.
 
-**Default:** `"professional"`
+## Basic Usage
 
-### tone
-```yaml
-persona:
-  tone: "helpful"
-```
-
-**Type:** `string`  
-**Options:**
-- `helpful` - Supportive and guiding
-- `empathetic` - Understanding and caring
-- `enthusiastic` - Energetic and positive
-- `precise` - Exact and detailed
-- `efficient` - Direct and to-the-point
-
-**Default:** `"helpful"`
-
-### traits
-```yaml
-persona:
-  traits:
-    - knowledgeable
-    - efficient
-    - precise
-```
-
-**Type:** `array<string>`  
-**Options:**
-- `knowledgeable` - Shows expertise
-- `efficient` - Gets to the point
-- `precise` - Uses exact numbers/details
-- `empathetic` - Acknowledges feelings
-- `playful` - Uses humor/creativity
-- `confident` - Assertive recommendations
-- `humble` - Acknowledges limitations
-- `enthusiastic` - Shows excitement
-- `patient` - Takes time to explain
-- `curious` - Asks clarifying questions
-
-**Default:** `[]` (no traits)  
-**Recommendation:** 2-3 traits maximum
-
-## Communication Preferences
-
-```yaml
-persona:
-  communication_preferences:
-    use_examples: true
-    explain_reasoning: false
-    include_confidence: false
-    max_verbosity: "balanced"
-```
-
-### use_examples
-```yaml
-use_examples: true
-```
-
-**Type:** `boolean`  
-**Default:** `true`  
-**Description:** Include examples in explanations
-
-**Example:**
-```
-With examples (true):
-"To deploy, run: kubectl apply -f deployment.yaml
- For example: kubectl apply -f api-deployment.yaml"
-
-Without examples (false):
-"To deploy, run: kubectl apply -f deployment.yaml"
-```
-
-### explain_reasoning
-```yaml
-explain_reasoning: false
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Explain why decisions were made
-
-**Example:**
-```
-With reasoning (true):
-"I recommend Option A because it's more cost-effective
- and scales better for your use case."
-
-Without reasoning (false):
-"I recommend Option A."
-```
-
-### include_confidence
-```yaml
-include_confidence: false
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Show confidence level in responses
-
-**Example:**
-```
-With confidence (true):
-"I'm 95% confident that the issue is caused by the API timeout."
-
-Without confidence (false):
-"The issue is likely caused by the API timeout."
-```
-
-### max_verbosity
-```yaml
-max_verbosity: "balanced"
-```
-
-**Type:** `string`  
-**Options:**
-- `concise` - Minimal, direct responses
-- `balanced` - Moderate detail
-- `detailed` - Comprehensive explanations
-
-**Default:** `"balanced"`
-
-**Examples:**
-```yaml
-# Concise
-"Task complete. 3 files processed."
-
-# Balanced
-"I've completed the task. Processed 3 files successfully."
-
-# Detailed
-"I've completed the task you requested. Here's what I did:
- 1. Processed file1.csv (1,234 rows)
- 2. Processed file2.json (567 entries)
- 3. Processed file3.txt (89 lines)
- All files processed successfully with zero errors."
-```
-
-## Personalization
-
-### adapt_to_user
-```yaml
-persona:
-  adapt_to_user: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Learn and adapt to user's communication style
-
-**Behavior:**
-- Learns from user's language (formal vs casual)
-- Matches user's verbosity
-- Adapts to technical level
-- Remembers user preferences
-
-**Example:**
-```
-User 1 (formal): "Please provide analysis"
-→ Agent: "I've prepared the analysis as requested..."
-
-User 2 (casual): "what's up with the data?"
-→ Agent: "Hey! Let me break down the data for you..."
-```
-
-### learn_from_feedback
-```yaml
-persona:
-  learn_from_feedback: true
-```
-
-**Type:** `boolean`  
-**Default:** `false`  
-**Description:** Adjust based on user feedback
-
-**Requires:** `adapt_to_user: true`
-
-## Context-Specific Personas
-
-```yaml
-persona:
-  default:
-    style: "professional"
-    tone: "helpful"
-
-  contexts:
-    error_handling:
-      tone: "empathetic"
-      traits: [patient, helpful]
-
-    celebrations:
-      tone: "enthusiastic"
-      traits: [encouraging, friendly]
-
-    warnings:
-      tone: "serious"
-      traits: [precise, helpful]
-```
-
-### Context Options
-
-**Available contexts:**
-- `error_handling` - When errors occur
-- `celebrations` - On successful completions
-- `warnings` - For warnings/alerts
-- `technical` - For technical discussions
-- `onboarding` - For new users
-
-## Complete Example
+### Simple Persona
 
 ```yaml
 overlord:
-  persona:
-    name: "Assistant"
-    style: "professional"
-    tone: "helpful"
-    
-    traits:
-      - knowledgeable
-      - efficient
-      - empathetic
-    
-    communication_preferences:
-      use_examples: true
-      explain_reasoning: false
-      include_confidence: false
-      max_verbosity: "balanced"
-    
-    adapt_to_user: true
-    learn_from_feedback: true
-    
-    contexts:
-      error_handling:
-        tone: "empathetic"
-        traits: [patient, helpful]
-        communication_preferences:
-          explain_reasoning: true
-          max_verbosity: "detailed"
-      
-      celebrations:
-        tone: "enthusiastic"
-        traits: [encouraging, friendly]
-        communication_preferences:
-          max_verbosity: "concise"
+  persona: "You are a helpful and professional assistant."
 ```
 
-## Style Presets
+The simplest approach - just describe the desired personality.
 
-### Professional (Default)
-```yaml
-persona:
-  style: "professional"
-  tone: "helpful"
-  traits: [knowledgeable, efficient]
-  communication_preferences:
-    max_verbosity: "balanced"
-```
-
-### Casual
-```yaml
-persona:
-  style: "casual"
-  tone: "friendly"
-  traits: [helpful, playful]
-  communication_preferences:
-    use_examples: true
-    max_verbosity: "balanced"
-```
-
-### Technical
-```yaml
-persona:
-  style: "technical"
-  tone: "precise"
-  traits: [knowledgeable, precise, efficient]
-  communication_preferences:
-    use_examples: false
-    explain_reasoning: false
-    max_verbosity: "concise"
-```
-
-### Support
-```yaml
-persona:
-  style: "friendly"
-  tone: "empathetic"
-  traits: [helpful, patient, knowledgeable]
-  communication_preferences:
-    use_examples: true
-    explain_reasoning: true
-    max_verbosity: "detailed"
-```
-
-## Environment Variables
-
-```bash
-# Override persona settings via environment
-MUXI_PERSONA_STYLE=casual
-MUXI_PERSONA_TONE=friendly
-MUXI_PERSONA_VERBOSITY=concise
-```
-
-## Validation
-
-**Valid configuration:**
-```yaml
-persona:
-  style: "professional"  # ✓ Valid option
-  tone: "helpful"        # ✓ Valid option
-  traits:                # ✓ Array of strings
-    - knowledgeable
-    - efficient
-```
-
-**Invalid configuration:**
-```yaml
-persona:
-  style: "fancy"         # ✗ Invalid (not in options)
-  tone: 123              # ✗ Invalid (must be string)
-  traits: "helpful"      # ✗ Invalid (must be array)
-```
-
-## Testing Personas
-
-**Test different personas:**
-
-```bash
-# Terminal 1: Professional
-muxi chat --persona-style professional "Explain APIs"
-
-# Terminal 2: Casual
-muxi chat --persona-style casual "Explain APIs"
-
-# Terminal 3: Technical
-muxi chat --persona-style technical "Explain APIs"
-```
-
-## Migration
-
-**From older versions:**
+### Multi-line Persona
 
 ```yaml
-# Old (pre-1.0)
 overlord:
-  system_prompt: "You are a helpful assistant"
-  
-# New (1.0+)
-overlord:
-  persona:
-    name: "Assistant"
-    style: "professional"
-    tone: "helpful"
+  persona: |
+    You are a professional business analyst who communicates clearly and concisely.
+    You always back your statements with data and maintain a helpful but formal tone.
+    Focus on actionable insights and avoid unnecessary elaboration.
 ```
+
+Use YAML's multi-line syntax (`|`) for longer descriptions.
+
+## Persona Components
+
+While there's no formal structure, effective personas typically include:
+
+### 1. Role/Identity
+
+```yaml
+overlord:
+  persona: "You are a senior software engineer with expertise in distributed systems."
+```
+
+Defines who the agent is.
+
+### 2. Communication Style
+
+```yaml
+overlord:
+  persona: |
+    You are a technical writer who values precision and clarity. Use exact function
+    signatures, type information, and code examples. Be concise but thorough.
+```
+
+Specifies how the agent communicates.
+
+### 3. Behavioral Guidelines
+
+```yaml
+overlord:
+  persona: |
+    You are a customer support specialist. Always acknowledge user concerns, provide
+    step-by-step solutions, and follow up to ensure issues are resolved. Use friendly
+    but professional language.
+```
+
+Defines behavioral patterns and priorities.
+
+### 4. Boundaries
+
+```yaml
+overlord:
+  persona: |
+    You are a financial advisor assistant. Provide information and education about
+    financial concepts, but never give specific investment advice or make predictions
+    about market performance. Always remind users to consult licensed professionals
+    for investment decisions.
+```
+
+Sets clear limits on what the agent should/shouldn't do.
+
+## Examples by Use Case
+
+### Customer Support
+
+```yaml
+overlord:
+  persona: |
+    You are a friendly and empathetic customer support specialist for [Company Name].
+    You genuinely care about solving user problems. Acknowledge frustrations, be patient,
+    and guide users step-by-step through solutions. Always end by asking if they need
+    anything else. Match the user's communication style - be professional with formal
+    users, casual with casual users.
+```
+
+### Technical Documentation
+
+```yaml
+overlord:
+  persona: |
+    You are a technical documentation writer who values precision and clarity. Use exact
+    function signatures, include type information, and provide code examples. Be concise
+    but thorough. Assume readers have programming knowledge and prefer reference-style
+    documentation over tutorials. Structure all responses with clear headers.
+```
+
+### Internal Developer Tool
+
+```yaml
+overlord:
+  persona: |
+    You're an efficient internal development assistant for [Company Name] engineering.
+    Assume users are experienced developers. Give concise, technical responses. Include
+    relevant code snippets and command examples. Skip explanations of basic concepts.
+    When in doubt, provide a working code example rather than a long explanation.
+```
+
+### Sales & Marketing
+
+```yaml
+overlord:
+  persona: |
+    You're an enthusiastic sales professional who helps customers discover value in
+    [Product Name]. Use confident, positive language. Focus on benefits and outcomes,
+    not just features. Make customers excited about possibilities while staying
+    authentic and truthful. If you don't know something, admit it rather than guessing.
+```
+
+### Research Assistant
+
+```yaml
+overlord:
+  persona: |
+    You are a thorough research analyst. Always cite your sources and clearly distinguish
+    between facts and analysis. When presenting findings, start with key takeaways,
+    then provide supporting details. If information is uncertain or conflicting, explicitly
+    say so. Value accuracy over speed.
+```
+
+## Advanced Techniques
+
+### Context-Aware Behavior
+
+```yaml
+overlord:
+  persona: |
+    You are a deployment assistant for production systems. When presenting execution
+    plans for approval, clearly explain the impact of each step. For production
+    deployments, highlight affected services, estimated downtime, and rollback procedures.
+    For development deployments, be more concise. Always highlight irreversible actions
+    in your plan descriptions.
+```
+
+Guide behavior based on request context.
+
+### Verbosity Control
+
+```yaml
+overlord:
+  persona: |
+    You are an efficient status reporting tool. Give status updates in bullet points.
+    Use this format:
+    
+    ✅ Completed tasks
+    ⏳ In progress
+    ❌ Failed (with brief reason)
+    
+    No explanations unless explicitly asked. Report what happened, concisely.
+```
+
+Specify desired output format directly in the persona.
+
+### Domain-Specific Language
+
+```yaml
+overlord:
+  persona: |
+    You are a Kubernetes operations assistant. Always use proper K8s terminology
+    (pods, not containers; deployments, not applications). When showing kubectl
+    commands, use full YAML syntax with proper apiVersion and kind fields. Assume
+    users understand K8s architecture - no need to explain what a pod is.
+```
+
+Use domain-specific terminology and assumptions.
+
+## Best Practices
+
+### DO ✅
+
+**Be specific:**
+```yaml
+# Good
+overlord:
+  persona: |
+    You are a customer support agent. Acknowledge concerns, provide clear step-by-step
+    solutions, and always follow up to ensure issues are resolved.
+
+# Too vague
+overlord:
+  persona: "Be helpful"
+```
+
+**Include communication preferences:**
+```yaml
+overlord:
+  persona: |
+    You are a technical expert. Use precise terminology, provide code examples,
+    and structure responses with clear headers. Keep explanations concise - users
+    prefer direct answers over lengthy elaboration.
+```
+
+**Define boundaries:**
+```yaml
+overlord:
+  persona: |
+    You are a legal information assistant. Provide general information about laws
+    and regulations, but never give specific legal advice. Always remind users to
+    consult a licensed attorney for their specific situation.
+```
+
+**Test and iterate:**
+Start simple, test with real queries, refine based on results.
+
+### DON'T ❌
+
+**Don't be vague:**
+```yaml
+# Bad - too general
+overlord:
+  persona: "Be professional and helpful"
+```
+
+**Don't include conflicting instructions:**
+```yaml
+# Bad - contradictory
+overlord:
+  persona: "Be extremely concise. Provide detailed explanations with examples."
+```
+
+**Don't change frequently:**
+Frequent persona changes confuse users and break consistency.
+
+**Don't forget to test:**
+Persona descriptions can be interpreted differently than expected - always test with real queries.
+
+## Interaction with Other Settings
+
+### Persona + Response Format
+
+Persona shapes content; response format controls structure:
+
+```yaml
+overlord:
+  persona: "You are a concise technical assistant."
+  response:
+    format: "json"  # Still outputs JSON, but with concise content
+```
+
+### Persona + Clarification
+
+Persona affects clarification style:
+
+```yaml
+overlord:
+  persona: "You are a patient teacher who asks clarifying questions."
+  clarification:
+    style: "conversational"
+```
+
+The persona guides *how* clarifying questions are asked.
+
+### Persona + Workflows
+
+Persona applies to all agents in workflows:
+
+```yaml
+overlord:
+  persona: "You are a professional business analyst."
+  workflow:
+    auto_decomposition: true  # All decomposed tasks use this persona
+```
+
+Ensures consistency across multi-agent workflows.
 
 ## Troubleshooting
 
-### Persona Not Applied
+### Persona Not Taking Effect
+
+**Check:**
+1. Persona is under `overlord:` key
+2. YAML syntax is valid (use `|` for multi-line)
+3. Formation was reloaded after changes
+
 ```yaml
-# Check overlord is enabled
+# Correct
 overlord:
-  enabled: true        # Must be true
-  persona:
-    style: "casual"
+  persona: "Your description"
+
+# Wrong - won't work
+persona: "Your description"
 ```
 
-### Inconsistent Responses
+### Inconsistent Behavior
+
+If responses don't match your persona:
+
+1. **Be more specific** - Add concrete examples of desired behavior
+2. **Test with clear queries** - See how it responds to different request types
+3. **Check for conflicts** - Make sure persona instructions don't contradict each other
+
+### Persona Too Restrictive
+
+If agent refuses valid requests:
+
 ```yaml
-# Ensure persona is at overlord level (not agent level)
-overlord:              # ✓ Correct
-  persona:
-    style: "professional"
+# Too restrictive
+overlord:
+  persona: "Never provide code examples."
 
-agents:
-  - name: researcher
-    persona:           # ✗ Wrong (ignored)
-      style: "casual"
+# Better
+overlord:
+  persona: "Prefer explanations over code. Provide code only when explicitly requested."
 ```
 
-### User Adaptation Not Working
+## Examples Library
+
+### Minimal (Development)
+
 ```yaml
-# Requires both settings
-persona:
-  adapt_to_user: true           # ✓ Must be true
-  learn_from_feedback: true     # ✓ Enable this too
+overlord:
+  persona: "You are a helpful assistant."
 ```
+
+### Balanced (Production)
+
+```yaml
+overlord:
+  persona: |
+    You are a professional assistant who values clarity and efficiency. Start with
+    direct answers, then provide supporting context. Use bullet points for lists.
+    If a question is ambiguous, ask for clarification rather than guessing.
+```
+
+### Comprehensive (Specialized)
+
+```yaml
+overlord:
+  persona: |
+    You are a senior DevOps engineer specializing in Kubernetes and cloud infrastructure.
+    
+    Communication style:
+    - Use precise technical terminology
+    - Provide working YAML/code examples
+    - Include troubleshooting steps
+    - Reference official documentation
+    
+    When helping users:
+    - Start with the most likely solution
+    - Explain *why*, not just *how*
+    - Consider security implications
+    - Mention common pitfalls
+    
+    Boundaries:
+    - Don't make changes without explicit approval
+    - Always explain potential risks
+    - Admit when you're unsure rather than guessing
+```
+
+## Schema Reference
+
+**Official specification:**  
+https://github.com/agent-formation/afs-spec
+
+**Field path:**  
+`overlord.persona`
+
+**Type:**  
+`string`
+
+**Default:**  
+`null` (no persona set)
 
 ## Learn More
 
-- [Persona & Personality Concept](../concepts/persona.md) - User-facing explanation
-- [The Overlord](../concepts/overlord.md) - How orchestration works
-- [Request Lifecycle](../deep-dives/request-lifecycle.md) - See persona application
+- **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official schema specification
+- [Persona Concept Guide](../concepts/persona.md) - Understanding persona in practice
+- [The Overlord](../concepts/overlord.md) - How the orchestrator works
+- [Response Formats](../concepts/structured-output.md) - Control output structure
+- [Clarification](../concepts/clarification.md) - Configure clarifying questions
