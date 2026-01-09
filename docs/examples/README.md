@@ -253,8 +253,8 @@ After trying examples:
 
 Have a great formation example? Share it!
 
-1. Fork the muxi/docs repo
-2. Add your example to `examples/`
+1. Fork the [`muxi-ai/muxi`](https://github.com/muxi-ai/muxi) repo
+2. Add your example to `docs/examples/`
 3. Follow the format (README, formation.yaml, secrets)
 4. Submit a pull request
 
