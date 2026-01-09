@@ -125,7 +125,7 @@ muxi deploy
 muxi chat research-assistant
 ```
 
-**[Full documentation →](./docs)**
+**[Full documentation →](https://github.com/muxi-ai/muxi/docs)**
 
 ---
 
@@ -133,12 +133,12 @@ muxi chat research-assistant
 
 | Looking for... | Go to |
 |----------------|-------|
-| How MUXI works | [ARCHITECTURE.md](./ARCHITECTURE.md) |
-| Contributing guidelines | [CONTRIBUTING.md](./CONTRIBUTING.md) |
-| Development setup | [DEVELOPMENT.md](./DEVELOPMENT.md) |
-| Git workflow | [GIT-WORKFLOW.md](./GIT-WORKFLOW.md) |
-| All repositories | [REPOSITORIES.md](./REPOSITORIES.md) |
-| Licensing | [LICENSE.md](./LICENSE.md) |
+| How MUXI works | [ARCHITECTURE.md](https://github.com/muxi-ai/muxi/ARCHITECTURE.md) |
+| Contributing guidelines | [CONTRIBUTING.md](https://github.com/muxi-ai/muxi/CONTRIBUTING.md) |
+| Development setup | [DEVELOPMENT.md](https://github.com/muxi-ai/muxi/DEVELOPMENT.md) |
+| Git workflow | [GIT-WORKFLOW.md](https://github.com/muxi-ai/muxi/GIT-WORKFLOW.md) |
+| All repositories | [REPOSITORIES.md](https://github.com/muxi-ai/muxi/REPOSITORIES.md) |
+| Licensing | [LICENSE.md](https://github.com/muxi-ai/muxi/LICENSE.md) |
 | Roadmap | [Roadmap →](https://github.com/orgs/muxi-ai/projects/1) |
 
 ---
@@ -148,7 +148,7 @@ muxi chat research-assistant
 - ⭐ Star this repo to follow progress
 - 💬 Join the [Community](https://github.com/muxi-ai/community) for discussion
 - 🐦 Follow [@muxi_ai](https://twitter.com/muxi_ai) for updates
-- 🛠️ See [CONTRIBUTING.md](./CONTRIBUTING.md) to contribute
+- 🛠️ See [CONTRIBUTING.md](https://github.com/muxi-ai/muxi/CONTRIBUTING.md) to contribute
 
 ---
 
@@ -167,7 +167,7 @@ Server and Runtime are [ELv2](https://www.elastic.co/licensing/elastic-license),
 **TL;DR:**
 Use MUXI freely for your products and business. The only restriction: don't resell MUXI itself as a hosted service.
 
-See [LICENSE.md](./LICENSE.md) for details.
+See [LICENSE.md](https://github.com/muxi-ai/muxi/LICENSE.md) for details.
 
 ---
 

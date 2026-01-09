@@ -292,12 +292,12 @@ Each component has a focused responsibility:
 | Server, Runtime | [Elastic License 2.0](https://www.elastic.co/licensing/elastic-license) |
 | CLI, SDKs, Schemas, etc. | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) |
 
-See [LICENSE.md](./LICENSE.md) for details.
+See [LICENSE.md](https://github.com/muxi-ai/muxi/LICENSE.md) for details.
 
 ---
 
 ## Next Steps
 
-- **Want to contribute?** See [CONTRIBUTING.md](./CONTRIBUTING.md)
-- **Setting up dev environment?** See [DEVELOPMENT.md](./DEVELOPMENT.md)
-- **Understanding git workflow?** See [GIT-WORKFLOW.md](./GIT-WORKFLOW.md)
+- **Want to contribute?** See [CONTRIBUTING.md](https://github.com/muxi-ai/muxi/CONTRIBUTING.md)
+- **Setting up dev environment?** See [DEVELOPMENT.md](https://github.com/muxi-ai/muxi/DEVELOPMENT.md)
+- **Understanding git workflow?** See [GIT-WORKFLOW.md](https://github.com/muxi-ai/muxi/GIT-WORKFLOW.md)
