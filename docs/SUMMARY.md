@@ -11,6 +11,7 @@
 
 * [Architecture](concepts/architecture.md)
 * [The Overlord](concepts/overlord.md)
+* [Formation Schema](concepts/formation-schema.md)
 * [Agents & Orchestration](concepts/agents.md)
 * [Workflows & Task Decomposition](concepts/workflows.md)
 * [Human-in-the-Loop](concepts/approvals.md)
