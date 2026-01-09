@@ -5,6 +5,7 @@
 * [What is MUXI](README.md)
 * [Feature Overview](features.md)
 * [Quickstart](quickstart.md)
+* [Examples](examples/README.md)
 * [Installation](installation/README.md)
 
 ## Core Concepts
