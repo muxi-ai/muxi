@@ -101,6 +101,7 @@ import { Formation } from '@muxi/sdk';
 const formation = new Formation('my-team');
 const response = await formation.chat("What's the weather?");
 ```
+
 [JavaScript SDK Documentation →](sdks/javascript)
 
 **For deployment automation:**
@@ -367,5 +368,5 @@ data: {"finished": true}
 > [!TIP]
 > **Building an SDK for a new language?**
 >
-> We'd love to have you contribute! Check out our [SDK Development Guide](https://muxi-ai.org/contributing)
+> We'd love to have you contribute! Check out our [SDK Development Guide](https://muxi.org/contributing)
 > or reach out on [GitHub Discussions](https://github.com/org/muxi-ai/discussions).

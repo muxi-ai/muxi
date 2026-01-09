@@ -148,7 +148,7 @@ muxi chat research-assistant
 - ⭐ Star this repo to follow progress
 - 💬 Join the [Community](https://github.com/muxi-ai/community) for discussion
 - 🐦 Follow [@muxi_ai](https://twitter.com/muxi_ai) for updates
-- 🛠️ See [CONTRIBUTING.md](https://muxi-ai.org/contributing) to contribute
+- 🛠️ See [CONTRIBUTING.md](https://muxi.org/contributing) to contribute
 
 ---
 
@@ -167,7 +167,7 @@ Server and Runtime are [ELv2](https://www.elastic.co/licensing/elastic-license),
 **TL;DR:**
 Use MUXI freely for your products and business. The only restriction: don't resell MUXI itself as a hosted service.
 
-See [LICENSE.md](https://muxi-ai.org/licensing) for details.
+See [LICENSE.md](https://muxi.org/licensing) for details.
 
 ---
 
