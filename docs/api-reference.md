@@ -5,6 +5,10 @@ section: reference
 doc-type: doc
 ---
 
+# API Reference
+
+## Direct API access for advanced users, SDK developers, and custom integrations in languages without SDK support.
+
 > [!NOTE]
 > **Most developers should use the SDKs or CLI instead of calling these APIs directly.**
 >
@@ -14,7 +18,6 @@ doc-type: doc
 > - Advanced automation and deployment pipelines
 > - Understanding MUXI's capabilities at the protocol level
 
----
 
 ## Which API Do I Need?
 
