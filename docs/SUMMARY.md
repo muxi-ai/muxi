@@ -4,10 +4,6 @@ description: Complete guide to building AI agents with MUXI
 ---
 # Documentation
 
-## Navigate the MUXI docs
-
-Find everything you need to build, deploy, and operate AI agent formations - from quickstart guides to deep technical references.
-
 ## Getting Started
 
 * [What is MUXI](README.md)
