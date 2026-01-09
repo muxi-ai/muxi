@@ -41,7 +41,7 @@ MUXI provides two complementary APIs that work together to orchestrate and run A
 
 **Base URL:** `http://localhost:7890`
 
-[View Server API Reference →](/docs/api/server)
+[View Server API Reference →](api/server)
 [[/card]]
 
 [[card]]
@@ -60,7 +60,7 @@ MUXI provides two complementary APIs that work together to orchestrate and run A
 
 **Base URL:** `http://localhost:8000-9000/v1` (per formation)
 
-[View Formation API Reference →](/docs/api/formation)
+[View Formation API Reference →](api/formation)
 [[/card]]
 
 ::::
@@ -92,7 +92,7 @@ from muxi import Formation
 formation = Formation("my-team")
 response = formation.chat("What's the weather?")
 ```
-[Python SDK Documentation →](/docs/sdks/python)
+[Python SDK Documentation →](sdks/python)
 
 **For JavaScript/TypeScript developers:**
 ```javascript
@@ -101,7 +101,7 @@ import { Formation } from '@muxi/sdk';
 const formation = new Formation('my-team');
 const response = await formation.chat("What's the weather?");
 ```
-[JavaScript SDK Documentation →](/docs/sdks/javascript)
+[JavaScript SDK Documentation →](sdks/javascript)
 
 **For deployment automation:**
 ```bash
@@ -109,7 +109,7 @@ muxi deploy my-formation.tar.gz
 muxi formations list
 muxi formations logs my-team
 ```
-[CLI Documentation →](/docs/cli)
+[CLI Documentation →](cli)
 
 [[/step]]
 
@@ -174,7 +174,7 @@ curl -X POST http://localhost:7890/rpc/formations \
   --data-binary @formation.tar.gz
 ```
 
-[Learn more about HMAC authentication →](/docs/server/authentication)
+[Learn more about HMAC authentication →](server/authentication)
 
 ---
 
@@ -205,7 +205,7 @@ curl http://localhost:8271/v1/chat \
   -d '{"message": "Hello!"}'
 ```
 
-[Learn more about API keys →](/docs/concepts/authentication)
+[Learn more about API keys →](concepts/authentication)
 
 ---
 
@@ -290,7 +290,7 @@ curl -X POST http://localhost:7890/rpc/formations \
   --data-binary @my-team.tar.gz
 ```
 
-[Full endpoint documentation →](/docs/api/server#deploy-formation)
+[Full endpoint documentation →](api/server#deploy-formation)
 
 ---
 
@@ -306,7 +306,7 @@ curl -X POST http://localhost:8271/v1/chat \
   }'
 ```
 
-[Full endpoint documentation →](/docs/api/formation#chat)
+[Full endpoint documentation →](api/formation#chat)
 
 ---
 
@@ -338,7 +338,7 @@ event: done
 data: {"finished": true}
 ```
 
-[Learn about streaming →](/docs/api/formation#streaming)
+[Learn about streaming →](api/formation#streaming)
 
 ---
 
@@ -346,26 +346,26 @@ data: {"finished": true}
 
 ### View Full API References
 
-- [Server Management API Reference →](/docs/api/server)
-- [Formation Runtime API Reference →](/docs/api/formation)
+- [Server Management API Reference →](api/server)
+- [Formation Runtime API Reference →](api/formation)
 
 ### Prefer High-Level Tools?
 
-- [Python SDK →](/docs/sdks/python)
-- [JavaScript/TypeScript SDK →](/docs/sdks/javascript)
-- [Go SDK →](/docs/sdks/go)
-- [CLI Reference →](/docs/cli)
+- [Python SDK →](../sdks/python)
+- [JavaScript/TypeScript SDK →](../sdks/javascript)
+- [Go SDK →](../sdks/go)
+- [CLI Reference →](../cli)
 
 ### Learn More
 
-- [Authentication Guide →](/docs/concepts/authentication)
-- [Deployment Guide →](/docs/server/deployment)
-- [Formation Configuration →](/docs/reference/schema)
+- [Authentication Guide →](../concepts/authentication)
+- [Deployment Guide →](../server/deployment)
+- [Formation Configuration →](../reference/schema)
 
 ---
 
 > [!TIP]
 > **Building an SDK for a new language?**
 >
-> We'd love to have you contribute! Check out our [SDK Development Guide](/docs/contributing/sdks)
+> We'd love to have you contribute! Check out our [SDK Development Guide](contributing/sdks)
 > or reach out on [GitHub Discussions](https://github.com/muxi-ai/muxi/discussions).
