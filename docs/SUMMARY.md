@@ -80,6 +80,10 @@
 * [LLM Caching](reference/llm-caching.md)
 * [Request Cancellation](reference/request-cancellation.md)
 * [Session Restore](reference/session-restore.md)
+* [API Reference](referenceapi.md)
+  * [Overview](reference/api.md)
+  * [Server API](api/server)
+  * [Formation API](api/formation)
 * [Examples](reference/examples.md)
 
 ## Deep Dives

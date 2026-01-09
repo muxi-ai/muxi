@@ -6,8 +6,7 @@ description: Quick reference for all MUXI CLI commands
 
 ## Quick reference for all MUXI CLI commands
 
-
----
+The CLI is your primary tool for creating, developing, deploying, and managing MUXI formations.
 
 ## Getting Started
 
