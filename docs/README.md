@@ -16,14 +16,19 @@ MUXI is infrastructure for running AI agents in production. Define multi-agent s
 **Think: Kubernetes for AI agents.**
 
 - ✅ Zero-downtime deployments
-- ✅ Multi-agent orchestration  
+- ✅ Multi-agent orchestration
 - ✅ Built-in memory & RAG
 - ✅ Production-ready security
 
 > [!TIP]
 > New to MUXI? Start with the [Quickstart](quickstart.md) to get running in 5 minutes.
 
-**Popular:** [Quickstart](quickstart.md) • [Examples](examples/README.md) • [Formation Schema](concepts/formation-schema.md) • [Zero-Downtime Updates](server/formations.md#zero-downtime-updates)
+**Popular:**
+
+- [Quickstart](quickstart.md)
+- [Examples](examples/README.md)
+- [Formation Schema](concepts/formation-schema.md)
+- [Zero-Downtime Updates](server/formations.md#zero-downtime-updates)
 
 
 ## Get Started
@@ -281,14 +286,14 @@ Discover and share formations.
 
 ## Next Steps
 
-**Just starting?**  
+**Just starting?**
 [→ 5-minute Quickstart](quickstart.md)
 
-**Want to see code?**  
+**Want to see code?**
 [→ Browse Examples](examples/README.md)
 
-**Ready to deploy?**  
+**Ready to deploy?**
 [→ Install MUXI](installation/README.md)
 
-**Building something?**  
+**Building something?**
 [→ Read the Guides](guides/README.md)
