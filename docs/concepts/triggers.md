@@ -1,31 +1,29 @@
 ---
-title: Triggers & Automation
-description: Webhooks with intelligence - agents that respond to events automatically
+title: Triggers & Webhooks
+description: Webhooks with intelligence - external systems that invoke agents
 ---
-# Triggers & Automation
+# Triggers & Webhooks
 
-## Webhooks with intelligence - agents that respond to events automatically
+## Webhooks with intelligence - external systems that invoke agents
 
 
-Triggers combine traditional webhooks with AI intelligence. Instead of executing hardcoded scripts, triggers give events to agents who understand context and make decisions - handling GitHub issues, scheduled tasks, Slack messages, monitoring alerts, and more automatically.
+Triggers let external systems invoke your agents via webhooks. Instead of executing hardcoded functions, triggers render templates with event data and let agents process them intelligently.
 
 ---
 
 ## What Are Triggers?
 
-```
-Traditional:
-  Event happens → Manual action required
+Triggers are **webhook-friendly requests** - external systems send JSON data to a trigger endpoint, which renders a message template and processes it like any other agent request.
 
-With Triggers:
-  Event happens → Agent acts automatically
+```
+External System → Webhook POST → Trigger Template → Agent Message → Agent Processes
 ```
 
-Examples:
-- **GitHub issue opened** → Agent triages and labels it
-- **Every Monday 9am** → Agent sends weekly report
-- **Slack mention** → Agent responds in thread
-- **Monitoring alert** → Agent investigates and reports
+**Examples:**
+- **GitHub issue opened** → Webhook calls trigger → Agent triages issue
+- **Stripe payment received** → Webhook calls trigger → Agent sends receipt
+- **Slack message posted** → Webhook calls trigger → Agent responds
+- **Monitoring alert fired** → Webhook calls trigger → Agent investigates
 
 ---
 
@@ -70,165 +68,209 @@ The result: **smart automation** that adapts to reality, not brittle scripts tha
 
 ---
 
-## Types of Triggers
+## How Triggers Work
 
-### Webhooks
+### 1. Define a Trigger Template
 
-External systems call your formation via HTTP:
+Create a Markdown template in `triggers/` directory:
+
+```markdown
+<!-- triggers/github-issue.md -->
+New GitHub issue opened in ${{ data.repository }}:
+
+**Issue #${{ data.issue.number }}**: ${{ data.issue.title }}
+**Author**: ${{ data.issue.author }}
+**Labels**: ${{ data.issue.labels | join(', ') }}
+
+${{ data.issue.body }}
+
+Please analyze this issue and take appropriate action.
+```
+
+Templates use Jinja2 syntax to render webhook data.
+
+### 2. External System Calls Trigger
+
+```bash
+# GitHub webhook sends POST to your formation
+curl -X POST https://your-server.com/v1/formations/support-bot/triggers/github-issue \
+  -H "X-Muxi-Client-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "repository": "acme/app",
+      "issue": {
+        "number": 123,
+        "title": "Login button not working",
+        "author": "alice",
+        "labels": ["bug", "frontend"],
+        "body": "When I click login, nothing happens..."
+      }
+    }
+  }'
+```
+
+### 3. Template Renders into Message
 
 ```
-GitHub → POST /webhooks/github-issue
-             ↓
-         Agent receives event
-             ↓
-         Agent processes issue
+New GitHub issue opened in acme/app:
+
+**Issue #123**: Login button not working
+**Author**: alice
+**Labels**: bug, frontend
+
+When I click login, nothing happens...
+
+Please analyze this issue and take appropriate action.
 ```
 
-Any system that can send HTTP requests can trigger your agents.
+### 4. Agent Processes Message
 
-### Scheduled Tasks
+The agent receives this rendered message and processes it like any other request:
 
-Time-based automation:
+```
+Agent reads the issue
+Agent understands: Frontend bug affecting login
+Agent checks for duplicates
+Agent adds label: "critical"
+Agent assigns to: @frontend-team
+Agent posts comment: "Thanks for reporting! This looks like a critical 
+                      issue affecting user login. I've assigned it to 
+                      the frontend team for urgent investigation."
+```
+
+All happening automatically when the webhook fires.
+
+---
+
+## Trigger Configuration
+
+### Formation Setup
 
 ```yaml
+# formation.afs
 triggers:
-  - schedule: "0 9 * * MON"  # Every Monday 9am
-    action: weekly_report
-```
-
-Or natural language:
-
-```
-"Send me a summary every morning at 9am"
-→ MUXI creates scheduled trigger
-```
-
-### Event-Driven
-
-Agents respond to system events:
-
-```yaml
-triggers:
-  - event: formation.deployed
-    action: notify_team
+  enabled: true
   
-  - event: agent.error
-    action: alert_oncall
+# Optionally configure specific triggers
+# (or just create template files in triggers/ directory)
+```
+
+### Create Trigger Templates
+
+```
+your-formation/
+├── formation.afs
+├── triggers/
+│   ├── github-issue.md
+│   ├── github-pr.md
+│   ├── slack-mention.md
+│   └── stripe-payment.md
+```
+
+Each `.md` file becomes a trigger endpoint.
+
+### Template Syntax
+
+Templates use Jinja2:
+
+```markdown
+<!-- Basic variable -->
+Hello ${{ data.user.name }}!
+
+<!-- Conditionals -->
+{% if data.priority == "high" %}
+🚨 **HIGH PRIORITY**
+{% endif %}
+
+<!-- Loops -->
+{% for item in data.items %}
+- ${{ item.name }}: ${{ item.value }}
+{% endfor %}
+
+<!-- Filters -->
+Date: ${{ data.timestamp | datetime }}
+Tags: ${{ data.tags | join(', ') }}
 ```
 
 ---
 
-## How Webhooks Work
+## Real-World Examples
 
-### Incoming Webhooks
+### GitHub Issue Triage
 
-```mermaid
-sequenceDiagram
-    participant G as GitHub
-    participant S as MUXI Server
-    participant A as Agent
+```markdown
+<!-- triggers/github-issue.md -->
+New GitHub issue from **${{ data.repository }}**:
 
-    G->>S: POST /webhooks/github-issue
-    S->>A: New issue event
-    A->>A: Process issue
-    A->>G: Add labels, comment
+**#${{ data.issue.number }}**: ${{ data.issue.title }}
+**Author**: @${{ data.issue.author }}
+**Created**: ${{ data.issue.created_at }}
+
+${{ data.issue.body }}
+
+{% if data.issue.labels %}
+**Current labels**: ${{ data.issue.labels | join(', ') }}
+{% endif %}
+
+Please:
+1. Analyze the issue type (bug, feature, question, etc.)
+2. Add appropriate labels
+3. Determine priority
+4. Assign to the right team
+5. Add a helpful comment for the author
 ```
 
-1. **External system** sends event to your webhook URL
-2. **MUXI Server** receives and validates
-3. **Agent** processes the event with full context
-4. **Agent can respond** back to the source system
+**Agent response:**
+- Reads full issue context
+- Determines it's a critical bug
+- Adds labels: `bug`, `critical`, `frontend`
+- Assigns to `@frontend-team`
+- Posts: "Thanks for reporting! This is a critical bug affecting login. The frontend team will investigate immediately."
 
-### Webhook Templates
+### Stripe Payment Webhook
 
-MUXI provides templates for common services:
+```markdown
+<!-- triggers/stripe-payment.md -->
+Payment received via Stripe:
 
-```yaml
-triggers:
-  - webhook: github-issue
-    agent: support
-    
-  - webhook: slack-mention
-    agent: assistant
-    
-  - webhook: stripe-payment
-    agent: billing
+**Amount**: ${{ data.amount / 100 }} USD
+**Customer**: ${{ data.customer.email }}
+**Description**: ${{ data.description }}
+**Invoice**: ${{ data.invoice_id }}
+
+Please:
+1. Send a receipt email to the customer
+2. Update their account status to "active"
+3. Log this transaction
+4. Notify the customer success team
 ```
 
-Templates handle authentication and payload parsing automatically.
+**Agent response:**
+- Sends professional receipt email
+- Updates customer record
+- Logs transaction in database
+- Notifies team via Slack
 
----
+### Slack Mention
 
-## Scheduled Triggers
+```markdown
+<!-- triggers/slack-mention.md -->
+You were mentioned in Slack:
 
-### Cron Syntax
+**Channel**: #${{ data.channel }}
+**User**: @${{ data.user }}
+**Message**: ${{ data.text }}
+**Thread**: ${{ data.thread_ts }}
 
-```yaml
-triggers:
-  - schedule: "0 9 * * MON"     # Every Monday 9am
-    action: weekly_report
-    
-  - schedule: "*/15 * * * *"    # Every 15 minutes
-    action: check_status
-    
-  - schedule: "0 0 1 * *"       # First of month
-    action: monthly_summary
+Please respond helpfully in the thread.
 ```
 
-Standard cron syntax - five fields: minute, hour, day, month, weekday.
-
-### Natural Language
-
-Agents can create schedules from conversation:
-
-```
-User: "Remind me every Friday afternoon to review open tasks"
-Agent: Creates schedule: "0 14 * * FRI"
-
-User: "Check the API health every 5 minutes"
-Agent: Creates schedule: "*/5 * * * *"
-```
-
-MUXI parses natural language and creates proper cron expressions.
-
----
-
-## Trigger Actions
-
-### Execute SOP
-
-Run a Standard Operating Procedure:
-
-```yaml
-triggers:
-  - webhook: github-issue
-    sop: triage-issue
-```
-
-When the webhook fires, the agent executes the SOP.
-
-### Agent Task
-
-Send a task to a specific agent:
-
-```yaml
-triggers:
-  - schedule: "0 9 * * *"
-    agent: reporter
-    prompt: "Generate daily metrics report"
-```
-
-### Tool Invocation
-
-Directly call a tool:
-
-```yaml
-triggers:
-  - schedule: "*/30 * * * *"
-    tool: health-check
-    params:
-      endpoint: "https://api.example.com/health"
-```
+**Agent response:**
+- Understands the question
+- Provides relevant answer
+- Posts response in Slack thread
+- All happening automatically
 
 ---
 
@@ -236,160 +278,308 @@ triggers:
 
 ### HMAC Signatures
 
-MUXI validates webhook signatures:
+Verify webhooks are authentic:
 
 ```yaml
 triggers:
-  - webhook: github-issue
-    secret: ${{ secrets.GITHUB_WEBHOOK_SECRET }}
+  enabled: true
+  secrets:
+    github: ${{ secrets.GITHUB_WEBHOOK_SECRET }}
+    stripe: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
 ```
 
-Requests without valid signatures are rejected.
+MUXI automatically verifies webhook signatures before processing.
 
 ### IP Allowlists
 
-Restrict webhooks to known sources:
+Restrict to known sources:
 
 ```yaml
 triggers:
-  - webhook: internal-alert
-    allowed_ips:
-      - 10.0.0.0/8
-      - 192.168.1.100
+  enabled: true
+  allowed_ips:
+    - 192.30.252.0/22  # GitHub IPs
+    - 10.0.0.0/8       # Internal network
 ```
 
-Only requests from these IPs are accepted.
+### API Key Authentication
+
+All trigger requests require authentication:
+
+```bash
+curl -X POST .../triggers/my-trigger \
+  -H "X-Muxi-Client-Key: YOUR_API_KEY" \  # Required
+  ...
+```
 
 ---
 
-## Payload Context
+## Async vs Sync Execution
 
-Webhooks provide full event context to agents:
+### Async (Default - Recommended)
 
-```
-Trigger: GitHub issue opened
-
-Agent receives:
+```json
 {
-  "event": "issues",
-  "action": "opened",
-  "issue": {
-    "number": 123,
-    "title": "Bug in login flow",
-    "body": "Steps to reproduce...",
-    "author": "alice",
-    "labels": []
-  },
-  "repository": "acme/app"
+  "data": { ... },
+  "use_async": true
 }
 ```
 
-Agents use this context to make intelligent decisions.
+**Response:** Immediate acknowledgment with `request_id`
+
+```json
+{
+  "request": {
+    "id": "req_abc123",
+    "status": "processing"
+  }
+}
+```
+
+**Best for:**
+- Long-running agent tasks
+- External webhooks (don't timeout)
+- Fire-and-forget scenarios
+
+### Sync (Blocks Until Complete)
+
+```json
+{
+  "data": { ... },
+  "use_async": false
+}
+```
+
+**Response:** Full agent response after completion
+
+```json
+{
+  "request": {
+    "id": "req_abc123",
+    "status": "completed"
+  },
+  "response": {
+    "content": "I've analyzed the issue and added labels...",
+    ...
+  }
+}
+```
+
+**Best for:**
+- Quick operations
+- When you need immediate response
+- Testing/debugging
 
 ---
 
-## Responding to Triggers
+## Setting Up External Webhooks
 
-Agents can respond back to the source:
+### GitHub
 
-```
-1. GitHub issue opened
-2. Agent analyzes issue
-3. Agent adds labels: ["bug", "authentication"]
-4. Agent posts comment: "Thanks! Triaged as authentication bug"
-5. Agent assigns to @security-team
-```
+1. Go to repository settings → Webhooks
+2. Add webhook URL: `https://your-server.com/v1/formations/your-formation/triggers/github-issue`
+3. Set content type: `application/json`
+4. Set secret: Your webhook secret
+5. Select events: Issues, Pull requests, etc.
 
-The agent has full access to the source system's API (via tools).
+### Stripe
 
----
+1. Go to Stripe Dashboard → Webhooks
+2. Add endpoint: `https://your-server.com/v1/formations/billing-bot/triggers/stripe-payment`
+3. Set signing secret in formation config
+4. Select events: `payment_intent.succeeded`, etc.
 
-## Trigger Chaining
+### Slack
 
-One trigger can activate another:
-
-```yaml
-triggers:
-  - webhook: monitoring-alert
-    sop: investigate-alert
-    on_complete:
-      webhook: slack-notify  # Notify team when done
-```
-
-Build complex automation workflows.
+1. Create Slack app → Enable Events API
+2. Set request URL: `https://your-server.com/v1/formations/slack-bot/triggers/slack-mention`
+3. Subscribe to bot events: `app_mention`, `message.channels`, etc.
+4. Install app to workspace
 
 ---
 
-## Example: GitHub Integration
+## Monitoring Triggers
 
-```yaml
-triggers:
-  # New issue
-  - webhook: github-issue
-    secret: ${{ secrets.GITHUB_SECRET }}
-    agent: triage
-    sop: issue-triage
-  
-  # PR review requested
-  - webhook: github-pr-review
-    agent: reviewer
-    sop: code-review
-  
-  # Daily summary
-  - schedule: "0 9 * * *"
-    agent: reporter
-    prompt: "Summarize yesterday's GitHub activity"
+### View Trigger Executions
+
+```bash
+# Check recent trigger activity
+muxi logs formation-name --filter="trigger"
+
+# See specific trigger executions
+muxi logs formation-name --filter="trigger:github-issue"
 ```
 
-Complete GitHub automation with three triggers.
+### Audit Trail
+
+Every trigger execution is logged:
+
+```json
+{
+  "request_id": "req_abc123",
+  "trigger_name": "github-issue",
+  "timestamp": "2025-01-09T10:30:00Z",
+  "user_id": "webhook-user",
+  "data": {
+    "repository": "acme/app",
+    "issue": { ... }
+  },
+  "status": "completed",
+  "agent_response": "Analyzed issue #123..."
+}
+```
 
 ---
 
-## When to Use Triggers
+## Testing Triggers
 
-| Use Triggers For | Don't Use Triggers For |
-|-----------------|----------------------|
-| Automated responses | Interactive conversations |
-| Scheduled reports | One-time tasks |
-| Event reactions | Exploratory work |
-| Background processing | Real-time chat |
-| Integration automation | User-initiated requests |
+### Test Locally
+
+```bash
+# Send test webhook
+curl -X POST http://localhost:8001/v1/formations/test/triggers/github-issue \
+  -H "X-Muxi-Client-Key: test_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "repository": "test/repo",
+      "issue": {
+        "number": 1,
+        "title": "Test issue",
+        "author": "tester"
+      }
+    }
+  }'
+```
+
+### Dry Run
+
+Preview what the agent would see:
+
+```bash
+curl .../triggers/github-issue?dry_run=true \
+  -d '{ "data": { ... } }'
+```
+
+Returns the rendered template without executing.
+
+---
+
+## Common Patterns
+
+### Conditional Logic in Templates
+
+```markdown
+{% if data.priority == "critical" %}
+🚨 **CRITICAL ALERT** 🚨
+{% elif data.priority == "high" %}
+⚠️ **HIGH PRIORITY**
+{% endif %}
+
+${{ data.message }}
+
+{% if data.priority == "critical" %}
+**Action required within 1 hour.**
+{% endif %}
+```
+
+### Data Transformation
+
+```markdown
+<!-- Format currency -->
+Amount: ${{ (data.amount_cents / 100) | round(2) }} USD
+
+<!-- Format dates -->
+Date: ${{ data.timestamp | datetime("%Y-%m-%d %H:%M") }}
+
+<!-- Join lists -->
+Tags: ${{ data.tags | join(', ') }}
+
+<!-- Default values -->
+Status: ${{ data.status | default("pending") }}
+```
+
+### Multi-Source Triggers
+
+One template can handle multiple webhook sources:
+
+```markdown
+<!-- triggers/alert.md -->
+{% if data.source == "datadog" %}
+Datadog Alert: ${{ data.alert.title }}
+Severity: ${{ data.alert.severity }}
+{% elif data.source == "pagerduty" %}
+PagerDuty Incident: ${{ data.incident.title }}
+Urgency: ${{ data.incident.urgency }}
+{% elif data.source == "newrelic" %}
+New Relic Alert: ${{ data.violation.condition_name }}
+{% endif %}
+
+Please investigate and respond.
+```
+
+---
+
+## Limitations
+
+### What Triggers Are NOT
+
+❌ **Not scheduled tasks** - Use [Scheduled Tasks](scheduled-tasks.md) for recurring jobs
+❌ **Not internal events** - Triggers are for external webhooks only
+❌ **Not bidirectional** - Agents can't "call back" through trigger (use tools/MCP for that)
+
+### What Triggers ARE
+
+✅ **Webhook endpoints** for external systems
+✅ **Template-based** message generation
+✅ **Agent-powered** intelligent responses
+✅ **Real-time** processing
 
 ---
 
 ## Why This Matters
 
-| Without Triggers | With Triggers |
-|-----------------|---------------|
-| Manual monitoring | Automatic response |
-| Delayed reactions | Instant action |
-| Human-initiated | Event-driven |
-| Business hours only | 24/7 automation |
-| Context switching | Agent handles it |
+| Traditional Webhooks | MUXI Triggers |
+|-------------------|---------------|
+| Execute hardcoded functions | Agents make decisions |
+| IF/THEN logic trees | Intelligent interpretation |
+| Brittle, breaks on edge cases | Adapts to unexpected situations |
+| Same response every time | Context-aware responses |
+| Can't ask questions | Seeks clarification when needed |
 
-The result: **agents that work while you sleep**, not chatbots waiting for input.
+The result: **smart automation** that handles real-world complexity, not brittle scripts.
 
 ---
 
 ## Quick Setup
 
 ```yaml
+# formation.afs
 triggers:
-  - webhook: github-issue
-    secret: ${{ secrets.GITHUB_SECRET }}
-    agent: support
-    sop: triage-issue
+  enabled: true
 ```
 
-Configure webhook in GitHub settings:
-- URL: `https://your-server.com/webhooks/github-issue`
-- Secret: Your webhook secret
-- Events: Issues
+Create trigger template:
+
+```bash
+mkdir -p triggers
+cat > triggers/my-trigger.md <<EOF
+Event received: ${{ data.event_type }}
+Data: ${{ data | tojson }}
+
+Please process this event.
+EOF
+```
+
+Configure external webhook to call:
+```
+POST https://your-server.com/v1/formations/your-formation/triggers/my-trigger
+```
 
 ---
 
 ## Learn More
 
-- [Create Triggers Guide](../guides/triggers.md) - Set up your first trigger
-- [Triggers Reference](../reference/triggers.md) - Syntax and options
-- [Create SOPs](../guides/sops.md) - SOPs work great with triggers
+- [Scheduled Tasks](scheduled-tasks.md) - Recurring tasks with natural language
+- [Tools & MCP](tools.md) - How agents use tools to respond to triggers
+- [Standard Operating Procedures](sops.md) - Templates for agent workflows

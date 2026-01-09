@@ -19,7 +19,8 @@
 * [User Credentials](concepts/user-credentials.md)
 * [Registry](concepts/registry.md)
 * [Standard Operating Procedures](concepts/sops.md)
-* [Triggers & Automation](concepts/triggers.md)
+* [Triggers & Webhooks](concepts/triggers.md)
+* [Scheduled Tasks](concepts/scheduled-tasks.md)
 * [Artifacts & File Generation](concepts/artifacts.md)
 * [Clarification System](concepts/clarification.md)
 
