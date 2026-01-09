@@ -19,7 +19,7 @@ Or specify profile:
 muxi deploy --profile production
 ```
 
-**CLI:** [`muxi deploy`](../cli/deploy.md) | **API:** [POST /rpc/formations](/docs/api/server#tag/Formations/POST/rpc/formations)
+**CLI:** [`muxi deploy`](../cli/deploy.md) | **API:** [POST /rpc/formations](api/server#tag/Formations/POST/rpc/formations)
 
 ### Zero-Downtime Updates
 
@@ -32,7 +32,7 @@ muxi deploy --profile production
 
 During the update:
 - ✅ No dropped requests
-- ✅ No connection interruptions  
+- ✅ No connection interruptions
 - ✅ No service downtime
 - ✅ Instant rollback capability
 
@@ -53,7 +53,7 @@ If the new version fails health checks, the old version keeps running and the up
 muxi formation list
 ```
 
-**CLI:** [`muxi formation list`](../cli/formation.md#list) | **API:** [GET /rpc/formations](/docs/api/server#tag/Formations/GET/rpc/formations)
+**CLI:** [`muxi formation list`](../cli/formation.md#list) | **API:** [GET /rpc/formations](api/server#tag/Formations/GET/rpc/formations)
 
 Output:
 
@@ -86,7 +86,7 @@ Memory:    128MB
 muxi formation stop my-assistant
 ```
 
-**CLI:** [`muxi formation stop`](../cli/formation.md#stop) | **API:** [POST /rpc/formations/{id}/stop](/docs/api/server#tag/Formations/POST/rpc/formations/{formation_id}/stop)
+**CLI:** [`muxi formation stop`](../cli/formation.md#stop) | **API:** [POST /rpc/formations/{id}/stop](api/server#tag/Formations/POST/rpc/formations/{formation_id}/stop)
 
 ## Restart Formation
 
@@ -94,7 +94,7 @@ muxi formation stop my-assistant
 muxi formation restart my-assistant
 ```
 
-**CLI:** [`muxi formation restart`](../cli/formation.md#restart) | **API:** [POST /rpc/formations/{id}/restart](/docs/api/server#tag/Formations/POST/rpc/formations/{formation_id}/restart)
+**CLI:** [`muxi formation restart`](../cli/formation.md#restart) | **API:** [POST /rpc/formations/{id}/restart](api/server#tag/Formations/POST/rpc/formations/{formation_id}/restart)
 
 ## Delete Formation
 
@@ -102,13 +102,13 @@ muxi formation restart my-assistant
 muxi formation delete my-assistant
 ```
 
-**CLI:** [`muxi formation delete`](../cli/formation.md#delete) | **API:** [DELETE /rpc/formations/{id}](/docs/api/server#tag/Formations/DELETE/rpc/formations/{formation_id})
+**CLI:** [`muxi formation delete`](../cli/formation.md#delete) | **API:** [DELETE /rpc/formations/{id}](api/server#tag/Formations/DELETE/rpc/formations/{formation_id})
 
 ## Rollback
 
 Rollback to previous version with **zero downtime**:
 
-**API:** [POST /rpc/formations/{id}/rollback](/docs/api/server#tag/Formations/POST/rpc/formations/{formation_id}/rollback)
+**API:** [POST /rpc/formations/{id}/rollback](api/server#tag/Formations/POST/rpc/formations/{formation_id}/rollback)
 
 ```bash
 muxi formation rollback my-assistant

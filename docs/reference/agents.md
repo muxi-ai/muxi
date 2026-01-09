@@ -12,7 +12,7 @@ Agents are the workers in your formation. Each has a role, personality, and set 
 > [!TIP]
 > **New to agents?** Read [Agent Concepts →](../concepts/agents.md) first for an overview of how agents work in MUXI.
 >
-> **API Reference:** [GET /v1/agents](/docs/api/formation#tag/Agents/GET/agents) | [GET /v1/agents/{id}](/docs/api/formation#tag/Agents/GET/agents/{agent_id})
+> **API Reference:** [GET /v1/agents](api/formation#tag/Agents/GET/agents) | [GET /v1/agents/{id}](api/formation#tag/Agents/GET/agents/{agent_id})
 
 
 ## Your First Agent

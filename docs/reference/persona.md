@@ -11,7 +11,7 @@ The `overlord.persona` field defines your formation's communication style and be
 > [!TIP]
 > **New to personas?** Read [Persona Concept →](../concepts/persona.md) to learn how to write effective personas.
 >
-> **API Reference:** [GET /v1/overlord/persona](/docs/api/formation#tag/Overlord/GET/overlord/persona)
+> **API Reference:** [GET /v1/overlord/persona](api/formation#tag/Overlord/GET/overlord/persona)
 
 ## Configuration Location
 
@@ -25,14 +25,14 @@ overlord:
 
 ### overlord.persona
 
-**Type:** `string`  
-**Required:** No  
-**Default:** None  
+**Type:** `string`
+**Required:** No
+**Default:** None
 
-**Description:**  
+**Description:**
 Custom persona text defining the overlord's identity and communication style. The LLM interprets this natural language description to shape all responses across your formation.
 
-**Official Schema:**  
+**Official Schema:**
 See the [Agent Formation Schema](https://github.com/agent-formation/afs-spec) for the authoritative specification.
 
 ## Basic Usage
@@ -188,11 +188,11 @@ overlord:
   persona: |
     You are an efficient status reporting tool. Give status updates in bullet points.
     Use this format:
-    
+
     ✅ Completed tasks
     ⏳ In progress
     ❌ Failed (with brief reason)
-    
+
     No explanations unless explicitly asked. Report what happened, concisely.
 ```
 
@@ -375,19 +375,19 @@ overlord:
 overlord:
   persona: |
     You are a senior DevOps engineer specializing in Kubernetes and cloud infrastructure.
-    
+
     Communication style:
     - Use precise technical terminology
     - Provide working YAML/code examples
     - Include troubleshooting steps
     - Reference official documentation
-    
+
     When helping users:
     - Start with the most likely solution
     - Explain *why*, not just *how*
     - Consider security implications
     - Mention common pitfalls
-    
+
     Boundaries:
     - Don't make changes without explicit approval
     - Always explain potential risks
@@ -396,16 +396,16 @@ overlord:
 
 ## Schema Reference
 
-**Official specification:**  
+**Official specification:**
 https://github.com/agent-formation/afs-spec
 
-**Field path:**  
+**Field path:**
 `overlord.persona`
 
-**Type:**  
+**Type:**
 `string`
 
-**Default:**  
+**Default:**
 `null` (no persona set)
 
 ## Learn More

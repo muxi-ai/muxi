@@ -12,7 +12,7 @@ MUXI's three-tier memory system lets agents remember context within conversation
 > [!TIP]
 > **New to memory?** Read [Memory Concepts →](../concepts/memory.md) first to understand how the three-tier architecture works.
 >
-> **API Reference:** [GET /v1/memory](/docs/api/formation#tag/Memory/GET/memory) | [DELETE /v1/memory/buffer](/docs/api/formation#tag/Memory/DELETE/memory/buffer)
+> **API Reference:** [GET /v1/memory](api/formation#tag/Memory/GET/memory) | [DELETE /v1/memory/buffer](api/formation#tag/Memory/DELETE/memory/buffer)
 
 
 ## Memory Architecture
@@ -211,12 +211,12 @@ memory:
     multiplier: 10
     vector_search: true
     embedding_model: openai/text-embedding-3-small
-  
+
   # Working memory (tool outputs, intermediate state)
   working:
     max_memory_mb: 10
     fifo_interval_min: 5
-  
+
   # Persistent storage
   persistent:
     enabled: true

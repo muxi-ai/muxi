@@ -17,10 +17,10 @@ Your App  →  MUXI API  →  Formation
 
 | Endpoint | Method | Description | API Reference |
 |----------|--------|-------------|---------------|
-| `/v1/chat` | POST | Send message | [API Docs →](/docs/api/formation#tag/Chat/POST/chat) |
-| `/v1/sessions` | POST | Create session | [API Docs →](/docs/api/formation#tag/Sessions/POST/sessions) |
-| `/v1/sessions/{id}` | GET | Get history | [API Docs →](/docs/api/formation#tag/Sessions/GET/sessions/{session_id}) |
-| `/v1/agents` | GET | List agents | [API Docs →](/docs/api/formation#tag/Agents/GET/agents) |
+| `/v1/chat` | POST | Send message | [API Docs →](api/formation#tag/Chat/POST/chat) |
+| `/v1/sessions` | POST | Create session | [API Docs →](api/formation#tag/Sessions/POST/sessions) |
+| `/v1/sessions/{id}` | GET | Get history | [API Docs →](api/formation#tag/Sessions/GET/sessions/{session_id}) |
+| `/v1/agents` | GET | List agents | [API Docs →](api/formation#tag/Agents/GET/agents) |
 
 ## React Example
 
@@ -50,7 +50,7 @@ export function Chat() {
 
   const send = async () => {
     if (!input.trim()) return;
-    
+
     const userMessage = { role: 'user' as const, content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
@@ -99,7 +99,7 @@ export function Chat() {
 ```tsx
 const sendStreaming = async () => {
   setLoading(true);
-  
+
   const response = await fetch(`${MUXI_URL}/v1/chat`, {
     method: 'POST',
     headers: {
@@ -117,10 +117,10 @@ const sendStreaming = async () => {
   while (true) {
     const { done, value } = await reader!.read();
     if (done) break;
-    
+
     const chunk = decoder.decode(value);
     const lines = chunk.split('\n');
-    
+
     for (const line of lines) {
       if (line.startsWith('data: ')) {
         const data = JSON.parse(line.slice(6));
@@ -129,7 +129,7 @@ const sendStreaming = async () => {
       }
     }
   }
-  
+
   setLoading(false);
 };
 ```

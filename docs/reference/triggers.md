@@ -12,7 +12,7 @@ Triggers let external systems invoke your agents via webhooks. GitHub issues, Sl
 > [!TIP]
 > **New to triggers?** Read [Triggers Concept →](../concepts/triggers.md) to understand the template system.
 >
-> **API Reference:** [GET /v1/triggers](/docs/api/formation#tag/Triggers/GET/triggers) | [POST /v1/triggers/{id}/invoke](/docs/api/formation#tag/Triggers/POST/triggers/{trigger_id}/invoke)
+> **API Reference:** [GET /v1/triggers](api/formation#tag/Triggers/GET/triggers) | [POST /v1/triggers/{id}/invoke](api/formation#tag/Triggers/POST/triggers/{trigger_id}/invoke)
 
 
 ## How It Works
@@ -259,7 +259,7 @@ app.post('/github-webhook', (req, res) => {
       }
     }
   };
-  
+
   fetch('http://muxi:8001/v1/triggers/github-issue', {
     method: 'POST',
     headers: {
@@ -268,7 +268,7 @@ app.post('/github-webhook', (req, res) => {
     },
     body: JSON.stringify(payload)
   });
-  
+
   res.status(200).send('OK');
 });
 ```
