@@ -23,6 +23,7 @@
 * [Scheduled Tasks](concepts/scheduled-tasks.md)
 * [Artifacts & File Generation](concepts/artifacts.md)
 * [Clarification System](concepts/clarification.md)
+* [Structured Output](concepts/structured-output.md)
 
 ## Guides
 
@@ -50,6 +51,8 @@
 * [Triggers](reference/triggers.md)
 * [SOPs](reference/sops.md)
 * [Secrets](reference/secrets.md)
+* [LLM Caching](reference/llm-caching.md)
+* [Request Cancellation](reference/request-cancellation.md)
 * [Examples](reference/examples.md)
 
 ## Server
@@ -76,8 +79,10 @@
 * [How Orchestration Works](deep-dives/orchestration.md)
 * [Memory Internals](deep-dives/memory.md)
 * [Real-Time Streaming](deep-dives/streaming.md)
+* [Response Formats](deep-dives/response-formats.md)
 * [Async Operations](deep-dives/async.md)
 * [Multi-Tenancy](deep-dives/multi-tenancy.md)
+* [Multi-Identity](deep-dives/multi-identity.md)
 * [Observability](deep-dives/observability.md)
 * [Security Model](deep-dives/security.md)
 
