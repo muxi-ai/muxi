@@ -41,7 +41,7 @@ MUXI provides two complementary APIs that work together to orchestrate and run A
 
 **Base URL:** `http://localhost:7890`
 
-<a href="/docs/api/server" target="server-api">View Server API Reference →</a>
+[View Server API Reference →](api/server)
 [[/card]]
 
 [[card]]
@@ -60,7 +60,7 @@ MUXI provides two complementary APIs that work together to orchestrate and run A
 
 **Base URL:** `http://localhost:8000-9000/v1` (per formation)
 
-<a href="/docs/api/formation" target="formation-api">View Formation API Reference →</a>
+[View Formation API Reference →](api/formation)
 [[/card]]
 
 ::::
