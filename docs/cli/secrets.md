@@ -104,7 +104,7 @@ Secrets are stored encrypted:
 ```
 my-formation/
 ├── secrets.enc      # Encrypted secrets
-├── secrets.example  # Template (commit this)
+├── secrets  # Template (commit this)
 └── .key             # Encryption key (never commit!)
 ```
 
@@ -112,7 +112,7 @@ my-formation/
 
 - **Never commit `.key`** - Add to `.gitignore`
 - **Safe to commit `secrets.enc`** - Encrypted
-- **Keep `secrets.example` updated** - Shows required secrets
+- **Keep `secrets` updated** - Shows required secrets
 
 ## Examples
 

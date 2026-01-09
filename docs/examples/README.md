@@ -7,7 +7,7 @@ Complete, working MUXI formation examples. Copy, customize, and deploy.
 Each example includes:
 - Complete `formation.yaml`
 - README with setup instructions
-- `secrets.example` template
+- `secrets` template
 - Testing commands
 - Customization tips
 
@@ -255,7 +255,7 @@ Have a great formation example? Share it!
 
 1. Fork the muxi/docs repo
 2. Add your example to `examples/`
-3. Follow the format (README, formation.yaml, secrets.example)
+3. Follow the format (README, formation.yaml, secrets)
 4. Submit a pull request
 
 ## Troubleshooting

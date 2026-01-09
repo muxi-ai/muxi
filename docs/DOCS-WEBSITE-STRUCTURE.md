@@ -338,7 +338,7 @@ This creates:
 my-assistant/
 ├── formation.afs    # Main configuration
 ├── agents/          # Agent definitions
-└── secrets.example  # Required secrets
+└── secrets  # Required secrets
 
 ## Step 4: Configure Secrets (1 min)
 
@@ -666,7 +666,7 @@ my-formation/
 ├── sops/              # Standard operating procedures
 │   └── onboarding.md
 ├── secrets.enc        # Encrypted secrets
-└── secrets.example    # Template for required secrets
+└── secrets    # Template for required secrets
 
 ## Quick Reference
 

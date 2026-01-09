@@ -14,7 +14,7 @@ youtube-video: placeholder
 This quickstart gets you from zero to a working AI agent in 5 minutes. You'll install MUXI, create a formation, and test it.
 
 > [!NOTE]
-> **Prerequisites:** 
+> **Prerequisites:**
 > - Terminal access (macOS, Linux, or Windows)
 > - OpenAI API key ([get one here](https://platform.openai.com/api-keys))
 > - 5 minutes
@@ -142,7 +142,7 @@ This creates:
 my-assistant/
 ├── formation.afs      # Main configuration
 ├── agents/            # Agent definitions
-├── secrets.example    # Required secrets template
+├── secrets    # Required secrets template
 └── .gitignore
 ```
 

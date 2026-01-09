@@ -46,10 +46,12 @@ muxi push
 
 Your registry profile is pulled from GitHub:
 
+
 - **Username** - Your handle
 - **Avatar** - Your GitHub avatar
 - **Bio** - Your GitHub bio (optional)
 - **URL** - Your GitHub profile or website
+
 
 Update these on GitHub; they sync automatically.
 

@@ -125,7 +125,7 @@ my-formation/
 ├── knowledge/         # RAG sources
 │   └── docs/
 ├── secrets.enc        # Encrypted credentials
-└── secrets.example    # Template
+└── secrets    # Template
 ```
 
 ---

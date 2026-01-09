@@ -40,7 +40,7 @@ tags:
 repository: https://github.com/user/my-formation
 ```
 
-### Create secrets.example
+### Create secrets
 
 Document required secrets:
 
@@ -155,5 +155,5 @@ Checks:
 
 - Schema validity
 - Required fields
-- secrets.example exists
+- secrets exists
 - README exists (warning if missing)

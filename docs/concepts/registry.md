@@ -118,7 +118,7 @@ my-formation/
 ├── knowledge/         ✓ Published (optional)
 ├── secrets.enc        ✗ Never (encrypted secrets)
 ├── .key               ✗ Never (encryption key)
-└── secrets.example    ✓ Published (shows required secrets)
+└── secrets    ✓ Published (shows required secrets)
 ```
 
 Secrets never leave your machine. Users who pull must provide their own credentials.

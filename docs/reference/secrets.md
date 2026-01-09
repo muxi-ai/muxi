@@ -31,7 +31,7 @@ MUXI uses encrypted files instead of environment variables. Your API keys stay s
 formation/
 ├── formation.afs     # References secrets like ${{ secrets.KEY }}
 ├── secrets.enc       # Encrypted secrets (safe to commit)
-├── secrets.example   # Template showing required secrets
+├── secrets   # Template showing required secrets
 └── .key              # Encryption key (NEVER commit!)
 ```
 
@@ -129,7 +129,7 @@ muxi secrets delete OLD_API_KEY
 ```
 my-formation/
 ├── secrets.enc        # Encrypted - SAFE to commit
-├── secrets.example    # Template - SAFE to commit
+├── secrets    # Template - SAFE to commit
 └── .key               # Encryption key - NEVER commit!
 ```
 
@@ -145,7 +145,7 @@ Always include:
 > [!CAUTION]
 > Never commit `.key` to version control. Without the key, `secrets.enc` is unreadable - this is a security feature.
 
-### secrets.example
+### secrets
 
 Document required secrets for your team:
 
@@ -195,7 +195,7 @@ mcps:
 
 To share a formation with teammates:
 
-1. **Commit** `secrets.enc` and `secrets.example` to git
+1. **Commit** `secrets.enc` and `secrets` to git
 2. **Share `.key` securely** (password manager, secure channel)
 3. **Or** have teammates run `muxi secrets setup` with their own keys
 
@@ -260,7 +260,7 @@ ls -la secrets.enc .key
 ## Best Practices
 
 1. **Never commit `.key`** - Add to `.gitignore`
-2. **Keep `secrets.example` updated** - Document all required secrets
+2. **Keep `secrets` updated** - Document all required secrets
 3. **Backup `.key` securely** - Can't recover without it
 4. **Use descriptive names** - `OPENAI_API_KEY` not `KEY1`
 5. **Rotate periodically** - Update secrets regularly

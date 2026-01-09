@@ -37,7 +37,7 @@ my-assistant/
 ├── triggers/
 ├── sops/
 ├── knowledge/
-├── secrets.example
+├── secrets
 └── .gitignore
 ```
 

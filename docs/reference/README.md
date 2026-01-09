@@ -24,7 +24,7 @@ my-formation/
 ├── triggers/          # Webhook templates
 ├── knowledge/         # RAG sources
 ├── secrets.enc        # Encrypted credentials
-└── secrets.example    # Template for required secrets
+└── secrets    # Template for required secrets
 ```
 
 ---

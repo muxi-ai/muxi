@@ -66,7 +66,7 @@ python app.py
 formation/
 ├── formation.afs     # References ${{ secrets.KEY }}
 ├── secrets.enc       # Encrypted (safe to commit)
-├── secrets.example   # Template (safe to commit)
+├── secrets   # Template (safe to commit)
 └── .key              # Encryption key (NEVER commit)
 ```
 
@@ -75,7 +75,7 @@ formation/
 | File | Contains | Commit? | Share? |
 |------|----------|---------|--------|
 | `secrets.enc` | Encrypted secrets | ✓ Yes | ✓ Yes |
-| `secrets.example` | Required keys (no values) | ✓ Yes | ✓ Yes |
+| `secrets` | Required keys (no values) | ✓ Yes | ✓ Yes |
 | `.key` | Encryption key | ✗ Never | Securely |
 
 ---
@@ -146,7 +146,7 @@ mcps:
 ```
 
 ```bash
-# secrets.example shows what's required
+# secrets shows what's required
 OPENAI_API_KEY=
 BRAVE_API_KEY=
 ```
@@ -207,7 +207,7 @@ Not recommended, but the runtime can read them as fallback for specific deployme
 2. **Backup `.key` separately** - Not in the same place as the repo
 3. **Rotate periodically** - Regenerate secrets on a schedule
 4. **Use descriptive names** - `OPENAI_API_KEY` not `KEY1`
-5. **Keep `secrets.example` updated** - Document all required secrets
+5. **Keep `secrets` updated** - Document all required secrets
 
 ---
 
