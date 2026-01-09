@@ -185,6 +185,139 @@ mcps:
 
 ---
 
+## Tool Chaining & Error Recovery
+
+Agents don't give up on first error - they intelligently retry and recover.
+
+### Automatic Error Recovery
+
+When a tool fails, agents analyze the error and attempt to fix it:
+
+```
+User: "Create a GitHub repo called 'my-project'"
+Agent: Calls create_repo("my-project")
+GitHub: Error - "Repository already exists"
+Agent: Analyzes error
+Agent: Calls delete_repo("my-project")  # Remove old one
+Agent: Calls create_repo("my-project")  # Recreate
+Success!
+```
+
+**Traditional approach:**
+```
+Tool fails → Show error to user → User figures it out → User retries
+```
+
+**MUXI approach:**
+```
+Tool fails → Agent analyzes → Agent fixes → Success
+```
+
+### Multi-Step Tool Chains
+
+Agents can chain multiple tool calls to accomplish complex tasks:
+
+```
+User: "Deploy the app"
+Agent: 
+  1. Calls run_tests() → Passes ✓
+  2. Calls build_docker_image() → Success ✓
+  3. Calls push_to_registry() → Success ✓
+  4. Calls deploy_to_k8s() → Success ✓
+Done!
+```
+
+Each step depends on the previous one. If step 2 fails, the agent doesn't blindly continue to step 3.
+
+### Intelligent Retry Logic
+
+Not just dumb retries:
+
+```
+Example: GitHub API rate limit
+
+Dumb retry:
+  Call API → 429 Too Many Requests
+  Wait 1 second
+  Call API → 429 Too Many Requests
+  Wait 1 second
+  Call API → 429 Too Many Requests
+  Give up ❌
+
+Smart retry:
+  Call API → 429 Too Many Requests
+  Parse error: "Rate limit reset at 10:15 AM"
+  Wait until 10:15 AM
+  Call API → Success ✓
+```
+
+The agent understands the error and responds appropriately.
+
+### Safety Mechanisms
+
+To prevent infinite loops:
+
+```yaml
+tool_chaining:
+  max_iterations: 10          # Max retry attempts per chain
+  max_tool_calls: 50          # Total tool calls across all chains
+  max_repeated_errors: 3      # Stop if same error repeats
+  timeout: 120                # 2 minutes max per chain
+```
+
+**Example - Repeated Error Detection:**
+```
+Try 1: create_file() → "Permission denied"
+Try 2: chmod +w → create_file() → "Permission denied"
+Try 3: sudo create_file() → "Permission denied"
+Stop! Same error 3 times. Report to user.
+```
+
+The agent knows when to escalate to the user.
+
+### Error Pattern Recognition
+
+Agents learn from errors:
+
+```
+Error: "Database connection refused"
+Agent recognizes: Network/connectivity issue
+Action: Check if database is running, restart if needed
+
+Error: "File not found: /tmp/data.csv"
+Agent recognizes: Missing dependency
+Action: Check if previous step completed, regenerate file if needed
+
+Error: "Invalid API key"
+Agent recognizes: Credential issue
+Action: Ask user to update credentials
+```
+
+Different error types get different recovery strategies.
+
+### When Recovery Fails
+
+If the agent can't fix it, you get a detailed explanation:
+
+```
+Agent: "I tried to deploy the app but encountered an error:
+       
+       1. Ran tests → Passed ✓
+       2. Built Docker image → Failed ✗
+          Error: 'docker' command not found
+       
+       I attempted to:
+       - Check if Docker is installed
+       - Restart Docker service
+       
+       This appears to be a system configuration issue. 
+       Please install Docker and try again."
+```
+
+Clear explanation of what failed and what was attempted.
+
+---
+
 ## Why This Matters
 
 | Traditional Approach | MUXI Approach |
