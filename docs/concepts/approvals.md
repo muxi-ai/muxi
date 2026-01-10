@@ -408,11 +408,12 @@ POST /v1/requests/{request_id}/reject
 
 ### 1. Production Deployments
 ```yaml
-workflow:
-  approval_rules:
-    - match: "deploy.*production"
-      requires_approval: true
-      show_impact: true
+overlord:
+  workflow:
+    approval_rules:
+      - match: "deploy.*production"
+        requires_approval: true
+        show_impact: true
 ```
 
 **Flow:**
@@ -425,11 +426,12 @@ MUXI: Executes deployment
 
 ### 2. Data Deletion
 ```yaml
-workflow:
-  approval_rules:
-    - match: "delete|remove|drop"
-      requires_approval: true
-      require_confirmation: true
+overlord:
+  workflow:
+    approval_rules:
+      - match: "delete|remove|drop"
+        requires_approval: true
+        require_confirmation: true
 ```
 
 **Flow:**
@@ -442,11 +444,12 @@ MUXI: Executes deletion
 
 ### 3. External Communications
 ```yaml
-workflow:
-  approval_rules:
-    - match: "send email|post.*slack|tweet"
-      requires_approval: true
-      show_preview: true
+overlord:
+  workflow:
+    approval_rules:
+      - match: "send email|post.*slack|tweet"
+        requires_approval: true
+        show_preview: true
 ```
 
 **Flow:**
@@ -459,11 +462,12 @@ MUXI: Sends emails
 
 ### 4. Financial Transactions
 ```yaml
-workflow:
-  approval_rules:
-    - match: "transfer|payment|refund"
-      requires_approval: true
-      require_explicit_amount: true
+overlord:
+  workflow:
+    approval_rules:
+      - match: "transfer|payment|refund"
+        requires_approval: true
+        require_explicit_amount: true
 ```
 
 **Flow:**
