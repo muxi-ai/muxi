@@ -75,7 +75,7 @@ llm_models:
   - text: "http://llama.example.com/v1/llama-3-70b-instruct"
 ```
 
-### When to choose which model
+## Model choice matrix example
 
 - **Reasoning-heavy:** GPT-5, Claude Opus 4.5
 - **Long-form writing:** Claude Sonnet 4.5, Gemini 3
