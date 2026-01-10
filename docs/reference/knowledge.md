@@ -35,7 +35,7 @@ knowledge/
 [[step Configure the agent]]
 
 ```yaml
-# agents/assistant.yaml
+# agents/assistant.afs
 schema: "1.0.0"
 id: assistant
 name: Assistant
@@ -163,7 +163,7 @@ agents:
 Give different agents different expertise:
 
 ```yaml
-# agents/support.yaml
+# agents/support.afs
 schema: "1.0.0"
 id: support
 name: Support Agent
@@ -181,7 +181,7 @@ knowledge:
 ```
 
 ```yaml
-# agents/sales.yaml
+# agents/sales.afs
 schema: "1.0.0"
 id: sales
 name: Sales Agent
@@ -199,7 +199,7 @@ knowledge:
 ```
 
 ```yaml
-# agents/technical.yaml
+# agents/technical.afs
 schema: "1.0.0"
 id: technical
 name: Technical Expert

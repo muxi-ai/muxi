@@ -298,7 +298,7 @@ The result: **consistent outcomes through intelligent adaptation**, not brittle 
 Create an agent file:
 
 ```yaml
-# agents/support.yaml
+# agents/support.afs
 schema: "1.0.0"
 id: support
 name: Support Agent

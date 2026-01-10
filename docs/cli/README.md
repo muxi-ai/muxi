@@ -135,7 +135,7 @@ muxi dev
 
 ## Configuration
 
-CLI config: `~/.muxi/cli/config.yaml`
+CLI config: `~/.muxi/cli/config.afs`
 
 ```yaml
 default_profile: local

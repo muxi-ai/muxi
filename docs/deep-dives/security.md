@@ -138,7 +138,7 @@ X-Muxi-User-Id: tenant_b:user_456
 ### Filesystem Restrictions
 
 ```yaml
-# mcp/filesystem.yaml
+# mcp/filesystem.afs
 schema: "1.0.0"
 id: filesystem
 type: command
@@ -160,7 +160,7 @@ args:
 Each tool gets only its required secrets:
 
 ```yaml
-# mcp/github.yaml - only gets GITHUB_TOKEN
+# mcp/github.afs - only gets GITHUB_TOKEN
 schema: "1.0.0"
 id: github
 type: command
@@ -173,7 +173,7 @@ auth:
 ```
 
 ```yaml
-# mcp/database.yaml - only gets DATABASE_URL
+# mcp/database.afs - only gets DATABASE_URL
 schema: "1.0.0"
 id: database
 type: command

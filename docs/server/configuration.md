@@ -12,8 +12,8 @@ Configure ports, authentication, logging, resource limits, and other server sett
 
 | Install Type | Location |
 |--------------|----------|
-| Homebrew/User | `~/.muxi/server/config.yaml` |
-| System (sudo) | `/etc/muxi/server/config.yaml` |
+| Homebrew/User | `~/.muxi/server/config.afs` |
+| System (sudo) | `/etc/muxi/server/config.afs` |
 
 ## Generate Config
 

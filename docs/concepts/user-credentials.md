@@ -182,7 +182,7 @@ Stored as: "ranaroussi" (not "GitHub")
 
 ## Using Credentials in Tools
 
-Reference user credentials in MCP server configuration (`mcp/github.yaml`):
+Reference user credentials in MCP server configuration (`mcp/github.afs`):
 
 ```yaml
 schema: "1.0.0"
@@ -315,7 +315,7 @@ The system is extensible - new services work automatically if they're configured
 
 ### Formation Configuration
 
-`formation.yaml`:
+`formation.afs`:
 ```yaml
 # User credential settings
 user_credentials:
@@ -324,7 +324,7 @@ user_credentials:
     Configure credentials at: https://credentials.example.com
 ```
 
-`mcp/github.yaml` - MCP server that uses user credentials:
+`mcp/github.afs` - MCP server that uses user credentials:
 ```yaml
 schema: "1.0.0"
 id: github
@@ -382,13 +382,13 @@ The result: **privacy, security, and compliance** without extra work.
 
 **Dynamic mode** (fastest):
 
-`formation.yaml`:
+`formation.afs`:
 ```yaml
 user_credentials:
   mode: "dynamic"
 ```
 
-`mcp/github.yaml`:
+`mcp/github.afs`:
 ```yaml
 schema: "1.0.0"
 id: github

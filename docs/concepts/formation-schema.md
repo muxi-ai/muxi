@@ -8,6 +8,9 @@ description: Understanding the Agent Formation Schema specification
 
 Every MUXI formation is defined using the **Agent Formation Schema** (AFS), a YAML-based configuration format that describes agents, tools, memory, and behavior.
 
+> [!NOTE]
+> **File Extension:** AFS files use the `.afs` extension (or `.yaml` - they're identical). The `.afs` extension signals "this is an Agent Formation Schema file" while remaining 100% YAML-compatible.
+
 ## Official Specification
 
 The authoritative schema specification is maintained at:
@@ -63,7 +66,7 @@ agents: []
 With agent file:
 
 ```yaml
-# agents/assistant.yaml
+# agents/assistant.afs
 schema: "1.0.0"
 id: assistant
 name: Assistant
@@ -165,10 +168,10 @@ memory:
 
 ### Agents
 
-Agents are defined in `agents/*.yaml` files:
+Agents are defined in `agents/*.afs` files:
 
 ```yaml
-# agents/assistant.yaml
+# agents/assistant.afs
 schema: "1.0.0"
 id: assistant
 name: Assistant
@@ -260,7 +263,7 @@ Formation validation failed:
 ### Single Agent Formation
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: simple-assistant
 description: "Single general-purpose assistant"
@@ -278,7 +281,7 @@ agents: []
 ```
 
 ```yaml
-# agents/assistant.yaml
+# agents/assistant.afs
 schema: "1.0.0"
 id: assistant
 name: Assistant
@@ -290,7 +293,7 @@ system_message: "General purpose helper"
 ### Multi-Agent Formation
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: research-team
 description: "Research team with specialized agents"
@@ -305,13 +308,13 @@ overlord:
     auto_decomposition: true
     complexity_threshold: 7.0
 
-agents: []  # researcher.yaml, analyst.yaml, writer.yaml in agents/
+agents: []  # researcher.afs, analyst.afs, writer.afs in agents/
 ```
 
 ### Formation with Tools
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: developer-assistant
 description: "AI assistant with code tools"
@@ -326,7 +329,7 @@ agents: []  # Auto-discovered from agents/
 With agent file:
 
 ```yaml
-# agents/developer.yaml
+# agents/developer.afs
 schema: "1.0.0"
 id: developer
 name: Developer
@@ -338,7 +341,7 @@ system_message: "Software development assistant"
 And MCP file:
 
 ```yaml
-# mcp/github.yaml
+# mcp/github.afs
 schema: "1.0.0"
 id: github
 type: command
@@ -415,7 +418,7 @@ description: "An incomplete formation"
 ### CLI Validation
 
 ```bash
-muxi validate formation.yaml
+muxi validate formation.afs
 ```
 
 **Output:**

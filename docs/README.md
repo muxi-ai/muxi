@@ -11,7 +11,7 @@ doc-type: home
 <!-- TODO: Add hero video showing deployment flow -->
 <!-- [Video placeholder: 60s demo of creating and deploying a formation] -->
 
-MUXI is infrastructure for running AI agents in production. Define multi-agent systems in YAML, deploy with zero downtime, scale with built-in orchestration.
+MUXI is infrastructure for running AI agents in production. Define multi-agent systems using the **Agent Formation Schema** (`.afs` files - it's just YAML), deploy with zero downtime, scale with built-in orchestration.
 
 **Think: Kubernetes for AI agents.**
 
@@ -121,7 +121,7 @@ agents: []  # Auto-discovered from agents/ directory
 With agent file:
 
 ```yaml
-# agents/assistant.yaml
+# agents/assistant.afs
 schema: "1.0.0"
 id: assistant
 name: Assistant

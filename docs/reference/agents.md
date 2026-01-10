@@ -17,7 +17,7 @@ Agents are the workers in your formation. Each has a role, personality, and set 
 
 ## Your First Agent
 
-Create `agents/assistant.yaml`:
+Create `agents/assistant.afs`:
 
 ```yaml
 schema: "1.0.0"
@@ -37,7 +37,7 @@ That's it. One agent, ready to chat.
 ### Full Example
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Research Specialist
@@ -78,7 +78,7 @@ llm_models:
 The real power comes from multiple specialized agents:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Researcher
@@ -88,7 +88,7 @@ system_message: Research topics and gather accurate information.
 ```
 
 ```yaml
-# agents/writer.yaml
+# agents/writer.afs
 schema: "1.0.0"
 id: writer
 name: Writer
@@ -98,7 +98,7 @@ system_message: Write clear, engaging content based on research.
 ```
 
 ```yaml
-# agents/reviewer.yaml
+# agents/reviewer.afs
 schema: "1.0.0"
 id: reviewer
 name: Reviewer
@@ -186,10 +186,10 @@ response, _ := formation.ChatWithOptions("Find info about AI trends", muxi.ChatO
 
 ## Agent-Specific Tools
 
-MCP servers are defined in `mcp/*.yaml` files. All agents in a formation have access to formation-level MCP servers. For agent-specific tools, define them in the agent file:
+MCP servers are defined in `mcp/*.afs` files. All agents in a formation have access to formation-level MCP servers. For agent-specific tools, define them in the agent file:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Researcher
@@ -210,7 +210,7 @@ mcp_servers:
 ```
 
 ```yaml
-# agents/developer.yaml
+# agents/developer.afs
 schema: "1.0.0"
 id: developer
 name: Developer
@@ -235,7 +235,7 @@ mcp_servers:
 ```
 
 ```yaml
-# agents/writer.yaml
+# agents/writer.afs
 schema: "1.0.0"
 id: writer
 name: Writer
@@ -252,7 +252,7 @@ system_message: Content writer - no tools, pure writing focus.
 Different agents can access different knowledge bases:
 
 ```yaml
-# agents/support.yaml
+# agents/support.afs
 schema: "1.0.0"
 id: support
 name: Support Agent
@@ -270,7 +270,7 @@ knowledge:
 ```
 
 ```yaml
-# agents/sales.yaml
+# agents/sales.afs
 schema: "1.0.0"
 id: sales
 name: Sales Agent
@@ -291,16 +291,16 @@ knowledge:
 
 ## Separate Agent Files
 
-Agents are auto-discovered from `agents/*.yaml` files:
+Agents are auto-discovered from `agents/*.afs` files:
 
 ```bash
 muxi new agent researcher
 ```
 
-Creates `agents/researcher.yaml`:
+Creates `agents/researcher.afs`:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Research Specialist
@@ -317,7 +317,7 @@ system_message: |
 In your formation, just leave agents empty - they're auto-discovered:
 
 ```yaml
-# formation.yaml
+# formation.afs
 agents: []  # Auto-discovered from agents/ directory
 ```
 

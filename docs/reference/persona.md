@@ -16,7 +16,7 @@ The `overlord.persona` field defines your formation's communication style and be
 ## Configuration Location
 
 ```yaml
-# In formation.yaml
+# In formation.afs
 overlord:
   persona: "Your persona description here"
 ```

@@ -16,7 +16,7 @@ Configure how MUXI decomposes complex tasks, routes work to agents, handles erro
 ## Configuration Location
 
 ```yaml
-# In formation.yaml
+# In formation.afs
 overlord:
   workflow:
     # Workflow settings here

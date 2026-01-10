@@ -1,13 +1,13 @@
 ---
 title: Agent Formation Schema
-description: Complete specification for formation.yaml files
+description: Complete specification for formation.afs files
 ---
 
 # Agent Formation Schema
 
 ## The formation file format
 
-Every formation starts with a `formation.yaml` (or `formation.afs`) file that defines agents, tools, memory, and behavior.
+Every formation starts with a `formation.afs` (or `formation.afs`) file that defines agents, tools, memory, and behavior.
 
 
 ## Copy-paste starter
@@ -15,7 +15,7 @@ Every formation starts with a `formation.yaml` (or `formation.afs`) file that de
 The smallest valid formation:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: my-assistant
 description: A simple assistant
@@ -30,7 +30,7 @@ agents: []  # Auto-discovered from agents/ directory
 ```
 
 ```yaml
-# agents/assistant.yaml
+# agents/assistant.afs
 schema: "1.0.0"
 id: assistant
 name: Assistant
@@ -109,7 +109,7 @@ llm:
 Agents are defined in separate files in `agents/` directory (auto-discovered):
 
 ```yaml
-# agents/assistant.yaml
+# agents/assistant.afs
 schema: "1.0.0"
 id: assistant
 name: AI Assistant
@@ -167,7 +167,7 @@ memory:
 MCP servers are defined in separate files in `mcp/` directory:
 
 ```yaml
-# mcp/web-search.yaml
+# mcp/web-search.afs
 schema: "1.0.0"
 id: web-search
 type: command
@@ -179,7 +179,7 @@ auth:
 ```
 
 ```yaml
-# mcp/api-service.yaml
+# mcp/api-service.afs
 schema: "1.0.0"
 id: api-service
 type: http
@@ -263,8 +263,8 @@ Reference external files:
 
 ```yaml
 agents:
-  - $include: agents/researcher.yaml
-  - $include: agents/writer.yaml
+  - $include: agents/researcher.afs
+  - $include: agents/writer.afs
 ```
 
 ---
@@ -278,7 +278,7 @@ llm:
   api_keys:
     openai: "${{ secrets.OPENAI_API_KEY }}"
 
-# In mcp/*.yaml files:
+# In mcp/*.afs files:
 auth:
   type: env
   API_KEY: "${{ secrets.API_KEY }}"
@@ -301,7 +301,7 @@ muxi validate
 Formation file:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: research-assistant
 description: AI research and writing team
@@ -342,7 +342,7 @@ agents: []
 Agent file:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Research Specialist
@@ -356,7 +356,7 @@ system_message: |
 MCP file:
 
 ```yaml
-# mcp/web-search.yaml
+# mcp/web-search.afs
 schema: "1.0.0"
 id: web-search
 type: command
@@ -370,7 +370,7 @@ auth:
 With MCP server file:
 
 ```yaml
-# mcp/web-search.yaml
+# mcp/web-search.afs
 schema: "1.0.0"
 id: web-search
 type: command

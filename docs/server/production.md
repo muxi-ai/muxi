@@ -246,7 +246,7 @@ Use external monitoring:
 
 ### What to Backup
 
-- Server config: `~/.muxi/server/config.yaml`
+- Server config: `~/.muxi/server/config.afs`
 - Formation data: `~/.muxi/server/data/`
 - Logs: `/var/log/muxi/`
 

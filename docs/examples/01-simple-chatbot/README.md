@@ -57,7 +57,7 @@ open http://localhost:8001/chat
 
 ## Configuration Explained
 
-### formation.yaml
+### formation.afs
 ```yaml
 schema: "1.0.0"
 id: simple-chatbot
@@ -73,7 +73,7 @@ llm:
 agents: []
 ```
 
-### agents/assistant.yaml
+### agents/assistant.afs
 ```yaml
 schema: "1.0.0"
 id: assistant

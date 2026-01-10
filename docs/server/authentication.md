@@ -117,7 +117,7 @@ curl -X GET http://localhost:7890/rpc/formations \
 Formations use simpler API key authentication:
 
 ```yaml
-# formation.yaml
+# formation.afs
 server:
   api_keys:
     admin_key: "${{ secrets.ADMIN_KEY }}"
@@ -154,7 +154,7 @@ muxi profile add production
 muxi formation list
 ```
 
-Profiles stored in `~/.muxi/cli/servers.yaml`.
+Profiles stored in `~/.muxi/cli/servers.afs`.
 
 ## SDK Authentication
 

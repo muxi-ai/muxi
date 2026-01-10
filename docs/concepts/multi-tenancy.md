@@ -92,7 +92,7 @@ All queries are automatically filtered - no way for User A to access User B's me
 Users bring their own API keys for external services. See [User Credentials](./user-credentials.md) for the full guide.
 
 ```yaml
-# mcp/github.yaml
+# mcp/github.afs
 schema: "1.0.0"
 id: github
 type: command
@@ -116,7 +116,7 @@ At runtime:
 ### Minimal Multi-Tenant Setup
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: multi-tenant-bot
 

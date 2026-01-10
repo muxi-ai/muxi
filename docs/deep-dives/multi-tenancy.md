@@ -190,7 +190,7 @@ Encryption: AES-256-GCM with per-user derived keys.
 
 ### Access Pattern
 
-`mcp/github.yaml` references user secrets:
+`mcp/github.afs` references user secrets:
 ```yaml
 schema: "1.0.0"
 id: github
@@ -288,11 +288,11 @@ Cons: More resources, management overhead
 Shared formation with tenant overrides:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: support-bot
 
-# Default agent in agents/support.yaml
+# Default agent in agents/support.afs
 agents: []
 ```
 

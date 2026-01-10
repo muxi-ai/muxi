@@ -38,7 +38,7 @@ cd my-formation
 mkdir -p mcp
 ```
 
-Create `mcp/web-search.yaml`:
+Create `mcp/web-search.afs`:
 
 ```yaml
 schema: "1.0.0"
@@ -66,12 +66,12 @@ Enter your Brave API key when prompted.
 
 [[step Update Formation]]
 
-Update your `formation.yaml`:
+Update your `formation.afs`:
 
 Formation file:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: my-assistant
 description: Assistant with web search
@@ -88,7 +88,7 @@ agents: []  # Auto-discovered from agents/
 Agent file:
 
 ```yaml
-# agents/assistant.yaml
+# agents/assistant.afs
 schema: "1.0.0"
 id: assistant
 name: Assistant
@@ -148,7 +148,7 @@ sequenceDiagram
 ### File System
 
 ```yaml
-# mcp/filesystem.yaml
+# mcp/filesystem.afs
 schema: "1.0.0"
 id: filesystem
 type: command
@@ -162,7 +162,7 @@ args: ["-y", "@modelcontextprotocol/server-filesystem", "/home/user/documents"]
 
 [[tab PostgreSQL]]
 ```yaml
-# mcp/database.yaml
+# mcp/database.afs
 schema: "1.0.0"
 id: database
 type: command
@@ -176,7 +176,7 @@ auth:
 
 [[tab SQLite]]
 ```yaml
-# mcp/database.yaml
+# mcp/database.afs
 schema: "1.0.0"
 id: database
 type: command
@@ -190,7 +190,7 @@ args: ["-y", "@modelcontextprotocol/server-sqlite", "--db", "./data/app.db"]
 ### GitHub
 
 ```yaml
-# mcp/github.yaml
+# mcp/github.afs
 schema: "1.0.0"
 id: github
 type: command
@@ -205,10 +205,10 @@ auth:
 
 ## Agent-Specific Tools
 
-Formation-level MCP servers (in `mcp/*.yaml`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
+Formation-level MCP servers (in `mcp/*.afs`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Researcher
@@ -225,7 +225,7 @@ mcp_servers:
 ```
 
 ```yaml
-# agents/developer.yaml
+# agents/developer.afs
 schema: "1.0.0"
 id: developer
 name: Developer

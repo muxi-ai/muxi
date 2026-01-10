@@ -44,14 +44,14 @@ formation/
 Reference secrets in YAML:
 
 ```yaml
-# In formation.yaml
+# In formation.afs
 llm:
   api_keys:
     openai: "${{ secrets.OPENAI_API_KEY }}"
 ```
 
 ```yaml
-# In mcp/github.yaml
+# In mcp/github.afs
 schema: "1.0.0"
 id: github
 type: command
@@ -186,7 +186,7 @@ llm:
 ### In MCP Config Files
 
 ```yaml
-# mcp/database.yaml
+# mcp/database.afs
 schema: "1.0.0"
 id: database
 type: command
@@ -198,7 +198,7 @@ auth:
 ```
 
 ```yaml
-# mcp/github.yaml
+# mcp/github.afs
 schema: "1.0.0"
 id: github
 type: command

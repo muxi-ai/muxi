@@ -17,10 +17,10 @@ Each agent is a specialized AI persona with:
 - Access to **MCP tools** (web search, databases, APIs)
 - **Knowledge** it can reference (documents, FAQs)
 
-Agents are defined in `agents/*.yaml` files:
+Agents are defined in `agents/*.afs` files:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Research Specialist
@@ -32,7 +32,7 @@ system_message: |
 ```
 
 ```yaml
-# agents/writer.yaml
+# agents/writer.afs
 schema: "1.0.0"
 id: writer
 name: Content Writer

@@ -70,8 +70,8 @@ muxi-server init
 [[step Configure the Server]]
 
 Edit the config file:
-- **System install (sudo)**: `/etc/muxi/server/config.yaml`
-- **User install (Homebrew, curl)**: `~/.muxi/server/config.yaml`
+- **System install (sudo)**: `/etc/muxi/server/config.afs`
+- **User install (Homebrew, curl)**: `~/.muxi/server/config.afs`
 
 ```yaml
 server:

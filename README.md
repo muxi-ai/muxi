@@ -37,7 +37,7 @@ muxi new formation customer-support
 ```
 
 ```yaml
-# formation.yaml
+# formation.afs (it's just YAML)
 schema: "1.0.0"
 id: "customer-support"
 description: Helps customers with product support and refunds
@@ -48,12 +48,12 @@ llm:
   api_keys:
     openai: "${{ secrets.OPENAI_API_KEY }}"
 
-# Agents auto-discovered from agents/*.yaml
+# Agents auto-discovered from agents/*.afs
 agents: []
 ```
 
 ```yaml
-# agents/sales-assistant.yaml
+# agents/sales-assistant.afs
 schema: "1.0.0"
 id: sales-assistant
 name: Sales Assistant

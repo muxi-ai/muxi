@@ -32,7 +32,7 @@ Researcher  Writer   Reviewer
 Create agent files in `agents/` directory:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Research Specialist
@@ -44,7 +44,7 @@ system_message: |
 ```
 
 ```yaml
-# agents/writer.yaml
+# agents/writer.afs
 schema: "1.0.0"
 id: writer
 name: Content Writer
@@ -56,7 +56,7 @@ system_message: |
 ```
 
 ```yaml
-# agents/reviewer.yaml
+# agents/reviewer.afs
 schema: "1.0.0"
 id: reviewer
 name: Content Reviewer
@@ -72,7 +72,7 @@ system_message: |
 Create MCP files in `mcp/` directory:
 
 ```yaml
-# mcp/web-search.yaml
+# mcp/web-search.afs
 schema: "1.0.0"
 id: web-search
 type: command
@@ -86,7 +86,7 @@ auth:
 ## Step 3: Configure Orchestration
 
 ```yaml
-# formation.yaml
+# formation.afs
 overlord:
   workflow:
     auto_decomposition: true
@@ -114,12 +114,12 @@ MUXI:
 
 ### By System Message
 
-Each agent has a specialized `system_message` in `agents/*.yaml`:
+Each agent has a specialized `system_message` in `agents/*.afs`:
 
 ```yaml
-# agents/support.yaml - Customer support focus
-# agents/sales.yaml - Sales advisor focus  
-# agents/technical.yaml - Technical expert focus
+# agents/support.afs - Customer support focus
+# agents/sales.afs - Sales advisor focus  
+# agents/technical.afs - Technical expert focus
 ```
 
 ### By Tools
@@ -127,9 +127,9 @@ Each agent has a specialized `system_message` in `agents/*.yaml`:
 Give agents specific MCP servers via `mcp_servers` in agent files:
 
 ```yaml
-# agents/researcher.yaml - Has web-search mcp_servers
-# agents/data-analyst.yaml - Has database mcp_servers
-# agents/developer.yaml - Has github, filesystem mcp_servers
+# agents/researcher.afs - Has web-search mcp_servers
+# agents/data-analyst.afs - Has database mcp_servers
+# agents/developer.afs - Has github, filesystem mcp_servers
 ```
 
 ### By Knowledge
@@ -137,7 +137,7 @@ Give agents specific MCP servers via `mcp_servers` in agent files:
 Configure knowledge sources per agent:
 
 ```yaml
-# agents/product-expert.yaml
+# agents/product-expert.afs
 schema: "1.0.0"
 id: product-expert
 name: Product Expert

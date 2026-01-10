@@ -14,15 +14,15 @@ The CLI stores configuration in `~/.muxi/cli/`: server profiles, default setting
 
 ```
 ~/.muxi/cli/
-├── config.yaml      # CLI settings
-└── servers.yaml     # Server profiles
+├── config.afs      # CLI settings
+└── servers.afs     # Server profiles
 ```
 
 ---
 
 ## CLI Settings
 
-`~/.muxi/cli/config.yaml`:
+`~/.muxi/cli/config.afs`:
 
 ```yaml
 # Default server profile
@@ -57,7 +57,7 @@ dev:
 
 ## Server Profiles
 
-`~/.muxi/cli/servers.yaml`:
+`~/.muxi/cli/servers.afs`:
 
 ```yaml
 profiles:

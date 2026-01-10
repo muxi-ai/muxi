@@ -106,10 +106,10 @@ Response:
 
 ### MCP Tools
 
-MCP servers are defined in `mcp/*.yaml` files:
+MCP servers are defined in `mcp/*.afs` files:
 
 ```yaml
-# mcp/brave-search.yaml
+# mcp/brave-search.afs
 schema: "1.0.0"
 id: brave-search
 type: command
@@ -121,7 +121,7 @@ auth:
 ```
 
 ```yaml
-# mcp/filesystem.yaml
+# mcp/filesystem.afs
 schema: "1.0.0"
 id: filesystem
 type: command
@@ -178,10 +178,10 @@ artifacts:
 
 ### Add More Tools
 
-Create additional `mcp/*.yaml` files:
+Create additional `mcp/*.afs` files:
 
 ```yaml
-# mcp/puppeteer.yaml - Web scraping
+# mcp/puppeteer.afs - Web scraping
 schema: "1.0.0"
 id: puppeteer
 type: command
@@ -190,7 +190,7 @@ args: ["-y", "@modelcontextprotocol/server-puppeteer"]
 ```
 
 ```yaml
-# mcp/postgres.yaml - Database access
+# mcp/postgres.afs - Database access
 schema: "1.0.0"
 id: postgres
 type: command
@@ -203,7 +203,7 @@ auth:
 
 ### Change LLM
 
-Update `formation.yaml`:
+Update `formation.afs`:
 ```yaml
 llm:
   models:
@@ -255,7 +255,7 @@ muxi secrets get BRAVE_SEARCH_API_KEY
 Get new key at: https://brave.com/search/api
 
 ### "Permission denied: /etc/passwd"
-Filesystem MCP trying to access disallowed directory. Update `mcp/filesystem.yaml`:
+Filesystem MCP trying to access disallowed directory. Update `mcp/filesystem.afs`:
 ```yaml
 schema: "1.0.0"
 id: filesystem

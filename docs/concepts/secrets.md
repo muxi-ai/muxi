@@ -137,14 +137,14 @@ Secrets are:
 ### 4. Self-Documenting
 
 ```yaml
-# formation.yaml shows what secrets are used
+# formation.afs shows what secrets are used
 llm:
   api_keys:
     openai: "${{ secrets.OPENAI_API_KEY }}"
 ```
 
 ```yaml
-# mcp/search.yaml
+# mcp/search.afs
 schema: "1.0.0"
 id: search
 type: command

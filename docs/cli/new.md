@@ -78,7 +78,7 @@ role: |
 muxi new mcp web-search
 ```
 
-Creates `mcp/web-search.yaml`:
+Creates `mcp/web-search.afs`:
 
 ```yaml
 schema: "1.0.0"

@@ -185,7 +185,7 @@ Check database file exists:
 ls data/memory.db
 ```
 
-Ensure persistent memory is enabled in formation.yaml.
+Ensure persistent memory is enabled in formation.afs.
 
 ### "Agent doesn't remember context"
 Make sure you're using the same `session_id` across requests:

@@ -30,7 +30,7 @@ muxi-server init
 ```
 
 This creates:
-- `~/.muxi/server/config.yaml` - Server configuration
+- `~/.muxi/server/config.afs` - Server configuration
 - Authentication keys for secure API access
 
 ```

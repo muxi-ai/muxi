@@ -74,10 +74,10 @@ Config files are stored in `~/.muxi/`:
 ```
 ~/.muxi/
 ├── server/
-│   └── config.yaml    # Server configuration
+│   └── config.afs    # Server configuration
 └── cli/
-    ├── config.yaml    # CLI settings
-    └── servers.yaml   # Server profiles
+    ├── config.afs    # CLI settings
+    └── servers.afs   # Server profiles
 ```
 
 ## Running as a Service

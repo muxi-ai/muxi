@@ -39,13 +39,13 @@ The agent decides when to use tools - you don't need to explicitly request them.
 
 | Server type | When to use | Where in formation structure |
 |-------------|-------------|------------------------------|
-| **command (CLI)** | Run a local/server-side process (e.g., `npx @modelcontextprotocol/server-json-rpc`, Bash, Python) | `mcp/your-tool.yaml` |
-| **http** | Call a remote MCP server over HTTPS (any provider or your own) | `mcp/your-tool.yaml` |
+| **command (CLI)** | Run a local/server-side process (e.g., `npx @modelcontextprotocol/server-json-rpc`, Bash, Python) | `mcp/your-tool.afs` |
+| **http** | Call a remote MCP server over HTTPS (any provider or your own) | `mcp/your-tool.afs` |
 
 Example — command/CLI MCP:
 
 ```yaml
-# mcp/local-tools.yaml
+# mcp/local-tools.afs
 schema: "1.0.0"
 id: local-tools
 type: command
@@ -60,7 +60,7 @@ auth:
 Example — HTTP MCP:
 
 ```yaml
-# mcp/web-tools.yaml
+# mcp/web-tools.afs
 schema: "1.0.0"
 id: web-tools
 type: http
@@ -118,7 +118,7 @@ Same formation, personalized access.
 In your MCP config file, reference user secrets:
 
 ```yaml
-# mcp/github.yaml
+# mcp/github.afs
 schema: "1.0.0"
 id: github
 type: command
@@ -132,7 +132,7 @@ auth:
 Credentials encrypted at rest. Complete isolation between users.
 
 **Formation structure:**
-- Server definitions live in `mcp/*.yaml` files (auto-discovered)
+- Server definitions live in `mcp/*.afs` files (auto-discovered)
 - Per-user secrets referenced as `user.secrets.*`
 - All agents have access to formation-level MCP servers
 - Agent-specific tools use `mcp_servers:` in agent files
@@ -141,10 +141,10 @@ Credentials encrypted at rest. Complete isolation between users.
 
 ## Agent-Specific Tools
 
-Formation-level MCP servers (in `mcp/*.yaml`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
+Formation-level MCP servers (in `mcp/*.afs`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Researcher
@@ -161,7 +161,7 @@ mcp_servers:
 ```
 
 ```yaml
-# agents/developer.yaml
+# agents/developer.afs
 schema: "1.0.0"
 id: developer
 name: Developer
@@ -180,7 +180,7 @@ mcp_servers:
 Or define formation-level MCP servers in `mcp/` directory (available to all agents):
 
 ```yaml
-# mcp/web-search.yaml
+# mcp/web-search.afs
 schema: "1.0.0"
 id: web-search
 type: command
@@ -192,7 +192,7 @@ auth:
 ```
 
 ```yaml
-# mcp/filesystem.yaml
+# mcp/filesystem.afs
 schema: "1.0.0"
 id: filesystem
 type: command
@@ -201,7 +201,7 @@ args: ["-y", "@modelcontextprotocol/server-filesystem", "./workspace"]
 ```
 
 ```yaml
-# mcp/database.yaml
+# mcp/database.afs
 schema: "1.0.0"
 id: database
 type: command
@@ -223,7 +223,7 @@ Right tools for right agents. No accidental file access from the writer.
 Restrict filesystem access in the MCP command args:
 
 ```yaml
-# mcp/filesystem.yaml
+# mcp/filesystem.afs
 schema: "1.0.0"
 id: filesystem
 type: command
@@ -241,7 +241,7 @@ args:
 Each tool gets only its required secrets:
 
 ```yaml
-# mcp/github.yaml - only gets GITHUB_TOKEN
+# mcp/github.afs - only gets GITHUB_TOKEN
 auth:
   type: env
   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -270,7 +270,7 @@ Success!
 
 ### Safety Mechanisms
 
-Configure in `formation.yaml`:
+Configure in `formation.afs`:
 
 ```yaml
 mcp:
@@ -297,7 +297,7 @@ The result: **agents that act**, not just talk.
 
 ## Quick Setup
 
-Create `mcp/web-search.yaml`:
+Create `mcp/web-search.afs`:
 
 ```yaml
 schema: "1.0.0"
@@ -313,7 +313,7 @@ auth:
 All agents in the formation automatically have access to MCP servers in `mcp/`. Or create an agent file:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Researcher

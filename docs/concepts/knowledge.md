@@ -85,7 +85,7 @@ Agent: "Based on the architecture diagram, data flows from..."
 Different agents can access different knowledge bases:
 
 ```yaml
-# agents/support.yaml
+# agents/support.afs
 schema: "1.0.0"
 id: support
 name: Support Agent
@@ -101,7 +101,7 @@ knowledge:
 ```
 
 ```yaml
-# agents/sales.yaml
+# agents/sales.afs
 schema: "1.0.0"
 id: sales
 name: Sales Agent

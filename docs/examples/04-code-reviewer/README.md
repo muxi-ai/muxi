@@ -161,7 +161,7 @@ I've created issue #456 to track the security improvements.
 
 ### GitHub MCP
 
-`mcp/github.yaml`:
+`mcp/github.afs`:
 ```yaml
 schema: "1.0.0"
 id: github
@@ -191,7 +191,7 @@ triggers:
 
 ### Reviewer Instructions
 ```yaml
-# agents/code-reviewer.yaml
+# agents/code-reviewer.afs
 schema: "1.0.0"
 id: code-reviewer
 name: Code Reviewer
@@ -224,7 +224,7 @@ system_message: |
 ## Customization
 
 ### Review Criteria
-Customize the system_message in `agents/code-reviewer.yaml`:
+Customize the system_message in `agents/code-reviewer.afs`:
 ```yaml
 system_message: |
   Focus your review on:

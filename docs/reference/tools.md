@@ -20,7 +20,7 @@ Tools let agents interact with the world - search the web, read files, query dat
 mkdir -p mcp
 ```
 
-Create `mcp/web-search.yaml`:
+Create `mcp/web-search.afs`:
 
 ```yaml
 schema: "1.0.0"
@@ -44,7 +44,7 @@ muxi secrets set BRAVE_API_KEY
 
 [[step Test it]]
 
-All agents in the formation automatically have access to MCP servers defined in `mcp/*.yaml`.
+All agents in the formation automatically have access to MCP servers defined in `mcp/*.afs`.
 
 ```bash
 muxi dev
@@ -63,7 +63,7 @@ muxi dev
 Runs a local process:
 
 ```yaml
-# mcp/local-tool.yaml
+# mcp/local-tool.afs
 schema: "1.0.0"
 id: local-tool
 type: command
@@ -80,7 +80,7 @@ auth:
 Calls a remote MCP server:
 
 ```yaml
-# mcp/remote-tool.yaml
+# mcp/remote-tool.afs
 schema: "1.0.0"
 id: remote-tool
 type: http
@@ -125,7 +125,7 @@ auth:
 ### Web Search
 
 ```yaml
-# mcp/web-search.yaml
+# mcp/web-search.afs
 schema: "1.0.0"
 id: web-search
 type: command
@@ -139,7 +139,7 @@ auth:
 ### File System
 
 ```yaml
-# mcp/filesystem.yaml
+# mcp/filesystem.afs
 schema: "1.0.0"
 id: filesystem
 type: command
@@ -157,7 +157,7 @@ timeout_seconds: 30
 
 [[tab PostgreSQL]]
 ```yaml
-# mcp/postgres.yaml
+# mcp/postgres.afs
 schema: "1.0.0"
 id: database
 type: command
@@ -171,7 +171,7 @@ auth:
 
 [[tab SQLite]]
 ```yaml
-# mcp/sqlite.yaml
+# mcp/sqlite.afs
 schema: "1.0.0"
 id: database
 type: command
@@ -185,7 +185,7 @@ args: ["-y", "@modelcontextprotocol/server-sqlite", "--db", "./data/app.db"]
 ### GitHub
 
 ```yaml
-# mcp/github.yaml
+# mcp/github.afs
 schema: "1.0.0"
 id: github
 type: command
@@ -200,7 +200,7 @@ auth:
 
 ## Formation-Level MCP Settings
 
-Configure global MCP behavior in `formation.yaml`:
+Configure global MCP behavior in `formation.afs`:
 
 ```yaml
 mcp:
@@ -214,10 +214,10 @@ mcp:
 
 ## Agent-Specific Tools
 
-Formation-level MCP servers (in `mcp/*.yaml`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
+Formation-level MCP servers (in `mcp/*.afs`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Researcher
@@ -234,7 +234,7 @@ mcp_servers:
 ```
 
 ```yaml
-# agents/developer.yaml  
+# agents/developer.afs  
 schema: "1.0.0"
 id: developer
 name: Developer

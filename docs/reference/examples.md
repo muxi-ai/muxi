@@ -15,7 +15,7 @@ Copy these examples as starting points for your own formations.
 The minimal production-ready assistant:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: simple-assistant
 description: A simple helpful assistant
@@ -34,7 +34,7 @@ agents: []
 ```
 
 ```yaml
-# agents/assistant.yaml
+# agents/assistant.afs
 schema: "1.0.0"
 id: assistant
 name: Assistant
@@ -50,7 +50,7 @@ system_message: You are a helpful, friendly assistant.
 Agent with web search capabilities:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: research-assistant
 description: Research assistant with web search
@@ -69,7 +69,7 @@ agents: []
 ```
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Research Specialist
@@ -85,7 +85,7 @@ system_message: |
 With MCP file:
 
 ```yaml
-# mcp/web-search.yaml
+# mcp/web-search.afs
 schema: "1.0.0"
 id: web-search
 type: command
@@ -103,7 +103,7 @@ auth:
 Support bot with knowledge base:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: support-bot
 description: Customer support with knowledge base
@@ -132,7 +132,7 @@ agents: []
 ```
 
 ```yaml
-# agents/support.yaml
+# agents/support.afs
 schema: "1.0.0"
 id: support
 name: Support Agent
@@ -158,7 +158,7 @@ knowledge:
 Specialized agents working together:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: content-team
 description: Content creation team with specialized agents
@@ -180,7 +180,7 @@ agents: []
 ```
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Research Specialist
@@ -193,7 +193,7 @@ system_message: |
 ```
 
 ```yaml
-# agents/writer.yaml
+# agents/writer.afs
 schema: "1.0.0"
 id: writer
 name: Content Writer
@@ -206,7 +206,7 @@ system_message: |
 ```
 
 ```yaml
-# agents/editor.yaml
+# agents/editor.afs
 schema: "1.0.0"
 id: editor
 name: Editor
@@ -221,7 +221,7 @@ system_message: |
 With MCP file:
 
 ```yaml
-# mcp/web-search.yaml
+# mcp/web-search.afs
 schema: "1.0.0"
 id: web-search
 type: command
@@ -239,7 +239,7 @@ auth:
 System management with GitHub tools:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: devops-assistant
 description: DevOps assistant with GitHub access
@@ -258,7 +258,7 @@ agents: []
 ```
 
 ```yaml
-# agents/devops.yaml
+# agents/devops.afs
 schema: "1.0.0"
 id: devops
 name: DevOps Specialist
@@ -277,7 +277,7 @@ system_message: |
 With MCP files:
 
 ```yaml
-# mcp/github.yaml
+# mcp/github.afs
 schema: "1.0.0"
 id: github
 type: command
@@ -289,7 +289,7 @@ auth:
 ```
 
 ```yaml
-# mcp/filesystem.yaml
+# mcp/filesystem.afs
 schema: "1.0.0"
 id: filesystem
 type: command
@@ -304,7 +304,7 @@ args: ["-y", "@modelcontextprotocol/server-filesystem", "./repos"]
 Async processing with webhooks:
 
 ```yaml
-# formation.yaml
+# formation.afs
 schema: "1.0.0"
 id: alert-responder
 description: Incident response automation
@@ -319,7 +319,7 @@ agents: []
 ```
 
 ```yaml
-# agents/responder.yaml
+# agents/responder.afs
 schema: "1.0.0"
 id: responder
 name: Alert Responder
@@ -331,7 +331,7 @@ system_message: |
   Prioritize based on severity.
 ```
 
-And in formation.yaml, add:
+And in formation.afs, add:
 
 ```yaml
 async:
@@ -346,7 +346,7 @@ overlord:
 With MCP file:
 
 ```yaml
-# mcp/database.yaml
+# mcp/database.afs
 schema: "1.0.0"
 id: database
 type: command

@@ -30,7 +30,7 @@ knowledge/
 
 ## Step 2: Configure Agent
 
-Create `agents/assistant.yaml`:
+Create `agents/assistant.afs`:
 
 ```yaml
 schema: "1.0.0"

@@ -5,7 +5,7 @@ Complete, working MUXI formation examples. Copy, customize, and deploy.
 ## Quick Start
 
 Each example includes:
-- Complete `formation.yaml`
+- Complete `formation.afs`
 - README with setup instructions
 - `secrets` template
 - Testing commands
@@ -198,7 +198,7 @@ llm:
 
 ### Add Tools
 
-Create `mcp/postgres.yaml`:
+Create `mcp/postgres.afs`:
 ```yaml
 schema: "1.0.0"
 id: postgres
@@ -261,7 +261,7 @@ Have a great formation example? Share it!
 
 1. Fork the [`muxi-ai/muxi`](https://github.com/muxi-ai/muxi) repo
 2. Add your example to `docs/examples/`
-3. Follow the format (README, formation.yaml, secrets)
+3. Follow the format (README, formation.afs, secrets)
 4. Submit a pull request
 
 ## Troubleshooting

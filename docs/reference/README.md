@@ -49,7 +49,7 @@ agents: []  # Auto-discovered from agents/ directory
 ```
 
 > [!TIP]
-> File extension `.afs` stands for **Agent Formation Schema**. You can also use `.yaml` or `.yml`.
+> File extension `.afs` stands for **Agent Formation Schema**. You can also use `.afs` or `.yml`.
 
 ---
 
@@ -182,7 +182,7 @@ agents: []
 With separate agent files:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Researcher
@@ -192,7 +192,7 @@ system_message: Research topics thoroughly with web search.
 ```
 
 ```yaml
-# agents/writer.yaml
+# agents/writer.afs
 schema: "1.0.0"
 id: writer
 name: Writer

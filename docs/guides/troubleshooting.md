@@ -153,7 +153,7 @@ Error: Access denied to /etc/passwd
 **Solution:**
 Configure allowed directories in your MCP file:
 ```yaml
-# mcp/filesystem.yaml
+# mcp/filesystem.afs
 schema: "1.0.0"
 id: filesystem
 type: command
@@ -317,7 +317,7 @@ Error: Formation validation failed
   - memory.buffer.size: must be integer, got string
 ```
 
-**Cause:** Invalid formation.yaml syntax
+**Cause:** Invalid formation.afs syntax
 
 **Solution:**
 1. Check YAML syntax (indentation, colons)

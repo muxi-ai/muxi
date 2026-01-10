@@ -13,7 +13,7 @@ Configure when MUXI requires user approval before executing complex workflows. A
 ## Configuration Location
 
 ```yaml
-# In formation.yaml
+# In formation.afs
 overlord:
   workflow:
     plan_approval_threshold: 7  # Approval threshold (1-10)

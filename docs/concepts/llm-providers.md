@@ -34,10 +34,10 @@ Under the hood, MUXI uses [OneLLM](https://github.com/muxi-ai/onellm) - a unifie
 
 ### How to configure
 
-Agent-specific model overrides in `agents/*.yaml`:
+Agent-specific model overrides in `agents/*.afs`:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Researcher
@@ -50,7 +50,7 @@ llm_models:
 ```
 
 ```yaml
-# agents/writer.yaml
+# agents/writer.afs
 schema: "1.0.0"
 id: writer
 name: Writer
@@ -63,7 +63,7 @@ llm_models:
 ```
 
 ```yaml
-# agents/high-volume.yaml
+# agents/high-volume.afs
 schema: "1.0.0"
 id: high-volume
 name: High Volume Agent

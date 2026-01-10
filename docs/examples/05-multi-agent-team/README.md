@@ -171,10 +171,10 @@ Based on analysis of 12 recent reports and market data...
 
 ### Multiple Agents
 
-Each agent is defined in `agents/*.yaml`:
+Each agent is defined in `agents/*.afs`:
 
 ```yaml
-# agents/researcher.yaml
+# agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Researcher
@@ -187,7 +187,7 @@ llm_models:
 ```
 
 ```yaml
-# agents/analyst.yaml
+# agents/analyst.afs
 schema: "1.0.0"
 id: analyst
 name: Analyst
@@ -200,7 +200,7 @@ llm_models:
 ```
 
 ```yaml
-# agents/writer.yaml
+# agents/writer.afs
 schema: "1.0.0"
 id: writer
 name: Writer
@@ -279,7 +279,7 @@ Workflow:
 Create additional agent files in `agents/`:
 
 ```yaml
-# agents/editor.yaml
+# agents/editor.afs
 schema: "1.0.0"
 id: editor
 name: Editor
@@ -289,7 +289,7 @@ system_message: Proofreads and improves written content.
 ```
 
 ```yaml
-# agents/translator.yaml
+# agents/translator.afs
 schema: "1.0.0"
 id: translator
 name: Translator
@@ -346,13 +346,13 @@ muxi logs my-team --follow
 
 ### Reduce Latency
 ```yaml
-# formation.yaml
+# formation.afs
 overlord:
   workflow:
     max_parallel_tasks: 10  # More parallelization
 ```
 
-With faster model in `agents/researcher.yaml`:
+With faster model in `agents/researcher.afs`:
 ```yaml
 llm_models:
   - text: "openai/gpt-4-turbo"  # Faster model
@@ -360,14 +360,14 @@ llm_models:
 
 ### Reduce Costs
 
-Use cheaper model in `agents/researcher.yaml`:
+Use cheaper model in `agents/researcher.afs`:
 ```yaml
 llm_models:
   - text: "openai/gpt-3.5-turbo"  # Cheaper model
 ```
 
 ```yaml
-# formation.yaml
+# formation.afs
 overlord:
   workflow:
     max_parallel_tasks: 2  # Less parallel API calls
@@ -383,7 +383,7 @@ overlord:
 ```
 
 ### "Tasks timeout"
-Increase timeout in `formation.yaml`:
+Increase timeout in `formation.afs`:
 ```yaml
 overlord:
   workflow:
@@ -392,7 +392,7 @@ overlord:
 ```
 
 ### "No parallel execution"
-Check tasks have no dependencies in `formation.yaml`:
+Check tasks have no dependencies in `formation.afs`:
 ```yaml
 overlord:
   workflow:
