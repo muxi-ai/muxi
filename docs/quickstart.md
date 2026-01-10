@@ -201,10 +201,11 @@ curl -X POST http://localhost:8001/v1/chat \
   -d '{"message": "Hello!"}'
 ```
 
+[[/tab]]
+
 > [!TIP]
 > See the [complete chat API reference](api/formation#tag/Chat/POST/chat) for streaming, async, and advanced options.
 
-[[/tab]]
 
 [[tab Browser]]
 Open `http://localhost:8001/chat` in your browser for an interactive chat UI.
