@@ -30,10 +30,7 @@ This quickstart gets you from zero to a working AI agent in 5 minutes. You'll in
 [[tab macOS]]
 ```bash
 brew install muxi-ai/tap/muxi
-```
 
-**Expected output:**
-```
 ==> Downloading https://github.com/muxi-ai/muxi/releases/...
 ==> Installing muxi
 🍺  /opt/homebrew/bin/muxi
@@ -43,10 +40,7 @@ brew install muxi-ai/tap/muxi
 [[tab Linux]]
 ```bash
 curl -fsSL https://muxi.org/install | sudo bash
-```
 
-**Expected output:**
-```
 [INFO] Downloading MUXI...
 [INFO] Installing to /usr/local/bin
 [INFO] MUXI installed successfully
@@ -56,10 +50,7 @@ curl -fsSL https://muxi.org/install | sudo bash
 [[tab Windows]]
 ```powershell
 powershell -c "irm https://muxi.org/install | iex"
-```
 
-**Expected output:**
-```
 Downloading MUXI...
 Installing to C:\Program Files\muxi
 MUXI installed successfully
@@ -90,10 +81,7 @@ muxi --version
 
 ```bash
 muxi-server init
-```
 
-**Expected output:**
-```
 Generated credentials:
   Key ID:     muxi_key_abc123...
   Secret:     muxi_secret_xyz789...
@@ -109,10 +97,7 @@ Now start the server:
 
 ```bash
 muxi-server start
-```
 
-**Expected output:**
-```
 [INFO] MUXI Server starting...
 [INFO] Listening on :7890
 [INFO] Server ready
