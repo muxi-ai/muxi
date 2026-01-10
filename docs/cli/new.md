@@ -78,13 +78,17 @@ role: |
 muxi new mcp web-search
 ```
 
-Creates `mcp/web-search.afs`:
+Creates `mcp/web-search.yaml`:
 
 ```yaml
+schema: "1.0.0"
 id: web-search
-server: "@anthropic/brave-search"
-config:
-  api_key: ${{ secrets.BRAVE_API_KEY }}
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
 ### From Template

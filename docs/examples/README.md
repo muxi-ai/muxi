@@ -188,12 +188,12 @@ Each example is a starting point. Common customizations:
 ### Change LLM
 ```yaml
 llm:
-  model: gpt-4-turbo  # Faster, cheaper
-  # or
-  model: gpt-4o       # Best reasoning
-  # or
-  provider: anthropic
-  model: claude-3-opus
+  models:
+    - text: "openai/gpt-4-turbo"  # Faster, cheaper
+    # or
+    - text: "openai/gpt-4o"       # Best reasoning
+    # or
+    - text: "anthropic/claude-3-opus"
 ```
 
 ### Add Tools

@@ -34,23 +34,45 @@ Under the hood, MUXI uses [OneLLM](https://github.com/muxi-ai/onellm) - a unifie
 
 ### How to configure
 
+Agent-specific model overrides in `agents/*.yaml`:
+
 ```yaml
-agents:
-  - id: researcher
-    llm:
-      provider: openai
-      model: gpt-4.1
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Researcher
+description: Research specialist
 
-  - id: writer
-    llm:
-      provider: anthropic
-      model: claude-3.5-sonnet
+system_message: Research specialist.
 
-  - id: high-volume
-    llm:
-      provider: http
-      base_url: https://llama.example.com/v1
-      model: llama-3-70b-instruct
+llm_models:
+  - text: "openai/gpt-4.1"
+```
+
+```yaml
+# agents/writer.yaml
+schema: "1.0.0"
+id: writer
+name: Writer
+description: Content writer
+
+system_message: Content writer.
+
+llm_models:
+  - text: "anthropic/claude-3.5-sonnet"
+```
+
+```yaml
+# agents/high-volume.yaml
+schema: "1.0.0"
+id: high-volume
+name: High Volume Agent
+description: High volume processing
+
+system_message: High volume processing agent.
+
+llm_models:
+  - text: "http://llama.example.com/v1/llama-3-70b-instruct"
 ```
 
 ### When to choose which model
