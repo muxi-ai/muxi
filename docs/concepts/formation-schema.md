@@ -54,12 +54,22 @@ overlord:
     auto_decomposition: true
     complexity_threshold: 7.0
 
-# Agents
-agents:
-  - id: assistant
-    role: "Your role description"
+# Agents auto-discovered from agents/ directory
+agents: []
 
 # Optional: Memory, MCP, Knowledge, etc.
+```
+
+With agent file:
+
+```yaml
+# agents/assistant.yaml
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: Helpful assistant
+
+system_message: "Your role description here..."
 ```
 
 ## Schema Versions
@@ -155,14 +165,20 @@ memory:
 
 ### Agents
 
+Agents are defined in `agents/*.yaml` files:
+
 ```yaml
-agents:
-  - id: assistant
-    role: "You are a helpful assistant..."
-    description: "General purpose agent"
-    
-    llm:
-      model: openai/gpt-4
+# agents/assistant.yaml
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: General purpose agent
+
+system_message: "You are a helpful assistant..."
+
+llm_models:
+  - text: "openai/gpt-4"
+    settings:
       temperature: 0.7
 ```
 
@@ -215,9 +231,7 @@ llm:
   models:
     text: openai/gpt-4
 
-agents:
-  - id: assistant
-    role: "Helper"
+agents: []  # Auto-discovered from agents/
 ```
 
 ### Invalid Formation ❌
@@ -246,34 +260,44 @@ Formation validation failed:
 ### Single Agent Formation
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: simple-assistant
 description: "Single general-purpose assistant"
 
 llm:
   models:
-    text: openai/gpt-4
+    - text: "openai/gpt-4"
 
 overlord:
   persona: "You are a helpful assistant."
   workflow:
-    auto_decomposition: false  # Single agent, no workflows
+    auto_decomposition: false
 
-agents:
-  - id: assistant
-    role: "General purpose helper"
+agents: []
+```
+
+```yaml
+# agents/assistant.yaml
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: General purpose helper
+
+system_message: "General purpose helper"
 ```
 
 ### Multi-Agent Formation
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: research-team
 description: "Research team with specialized agents"
 
 llm:
   models:
-    text: openai/gpt-4
+    - text: "openai/gpt-4"
 
 overlord:
   persona: "You coordinate a research team."
@@ -281,46 +305,48 @@ overlord:
     auto_decomposition: true
     complexity_threshold: 7.0
 
-agents:
-  - id: researcher
-    role: "Research specialist"
-  
-  - id: analyst
-    role: "Data analyst"
-  
-  - id: writer
-    role: "Report writer"
+agents: []  # researcher.yaml, analyst.yaml, writer.yaml in agents/
 ```
 
 ### Formation with Tools
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: developer-assistant
 description: "AI assistant with code tools"
 
 llm:
   models:
-    text: openai/gpt-4
+    - text: "openai/gpt-4"
 
-agents:
-  - id: developer
-    role: "Software development assistant"
+agents: []  # Auto-discovered from agents/
+```
 
-mcp:
-  servers:
-    - id: github
-      command: npx
-      args: ["-y", "@modelcontextprotocol/server-github"]
-      env:
-        GITHUB_TOKEN:
-          secret: GITHUB_TOKEN
-    
-    - id: filesystem
-      command: npx
-      args: ["-y", "@modelcontextprotocol/server-filesystem"]
-      config:
-        allowed_directories: ["./workspace"]
+With agent file:
+
+```yaml
+# agents/developer.yaml
+schema: "1.0.0"
+id: developer
+name: Developer
+description: Software development assistant
+
+system_message: "Software development assistant"
+```
+
+And MCP file:
+
+```yaml
+# mcp/github.yaml
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
 ## Best Practices

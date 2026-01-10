@@ -140,27 +140,43 @@ Credentials encrypted at rest. Complete isolation between users.
 
 ## Agent-Specific Tools
 
-Restrict tools to specific agents in `formation.yaml`:
+Formation-level MCP servers (in `mcp/*.yaml`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
 
 ```yaml
-agents:
-  - id: researcher
-    role: Research specialist
-    mcps:
-      - web-search      # Can only search
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Researcher
+description: Research specialist
 
-  - id: developer
-    role: Code assistant
-    mcps:
-      - filesystem      # Can access files
-      - database        # Can query database
+system_message: Research specialist with web search.
 
-  - id: writer
-    role: Content writer
-    # No mcps - pure writing
+mcp_servers:
+  - id: web-search
+    description: Web search
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-brave-search"]
 ```
 
-With MCP files in `mcp/` directory:
+```yaml
+# agents/developer.yaml
+schema: "1.0.0"
+id: developer
+name: Developer
+description: Code assistant
+
+system_message: Code assistant.
+
+mcp_servers:
+  - id: filesystem
+    description: File access
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-filesystem"]
+```
+
+Or define formation-level MCP servers in `mcp/` directory (available to all agents):
 
 ```yaml
 # mcp/web-search.yaml
@@ -293,15 +309,16 @@ auth:
   BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
-Reference in agent:
+All agents in the formation automatically have access to MCP servers in `mcp/`. Or create an agent file:
 
 ```yaml
-# formation.yaml
-agents:
-  - id: researcher
-    role: Research specialist
-    mcps:
-      - web-search
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Researcher
+description: Research specialist
+
+system_message: Research specialist with web access.
 ```
 
 ---
