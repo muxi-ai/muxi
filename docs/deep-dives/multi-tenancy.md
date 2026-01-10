@@ -284,20 +284,15 @@ Cons: More resources, management overhead
 Shared formation with tenant overrides:
 
 ```yaml
-# Base formation
+# formation.yaml
+schema: "1.0.0"
 id: support-bot
 
-# Tenant overrides
-tenants:
-  acme:
-    agents:
-      - id: support
-        role: "Support for Acme products..."
-  corp:
-    agents:
-      - id: support
-        role: "Support for Corp services..."
+# Default agent in agents/support.yaml
+agents: []
 ```
+
+Tenant-specific behavior is handled through user identity and the agent's ability to adapt based on user context, not through separate agent definitions per tenant.
 
 ---
 

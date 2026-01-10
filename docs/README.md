@@ -113,11 +113,21 @@ id: my-assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    - text: "openai/gpt-4o"
 
-agents:
-  - id: assistant
-    role: helpful assistant
+agents: []  # Auto-discovered from agents/ directory
+```
+
+With agent file:
+
+```yaml
+# agents/assistant.yaml
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: Helpful assistant
+
+system_message: You are a helpful assistant.
 ```
 
 ### Deploy to your server
