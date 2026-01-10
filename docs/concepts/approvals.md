@@ -74,6 +74,9 @@ overlord:
     plan_approval_threshold: 8   # Only very complex tasks require approval
 ```
 
+> [!TIP]
+> **Start with a lower threshold in production.** Better to approve too often than to let something slip through. Raise the threshold as you build confidence in your agents.
+
 ### Require Approval for Most Tasks
 ```yaml
 overlord:

@@ -72,6 +72,9 @@ Response:
 - Background executor retries transient failures with backoff; final status lands in `failed` if retries exhaust.
 - Webhook payloads mirror the status API; include `request_id`, `status`, and `result` or `error`.
 
+> [!TIP]
+> **Prefer webhooks over polling.** Polling wastes resources and adds latency. Set up a webhook endpoint and let MUXI push results to you when ready.
+
 ## Triggers (Default Async)
 
 Triggers default to async:

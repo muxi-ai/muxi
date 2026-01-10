@@ -70,6 +70,9 @@ Agents can:
 
 The result: **consistent outcomes** through adaptive behavior, not brittle automation.
 
+> [!TIP]
+> **Start with one SOP for your most common task.** Get it working well before adding more. SOPs compound - a few good ones beat many mediocre ones.
+
 ---
 
 ## How SOPs Work

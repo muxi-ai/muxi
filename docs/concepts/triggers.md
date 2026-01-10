@@ -65,6 +65,9 @@ MUXI Trigger:
 
 The result: **smart automation** that adapts to reality, not brittle scripts that break on edge cases.
 
+> [!TIP]
+> **Test triggers locally first.** Use `curl` to POST sample payloads to your local formation before connecting real webhooks. This catches template errors before they hit production.
+
 ---
 
 ## How Triggers Work

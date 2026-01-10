@@ -24,6 +24,9 @@ By the end of this guide, your agent will:
 - A working formation (`muxi dev` succeeds)
 - Brave Search API key ([get one free](https://brave.com/search/api/))
 
+> [!TIP]
+> **Test tools in isolation first.** Before adding a new MCP server to your formation, run it standalone and verify it works with direct calls. This saves debugging time.
+
 ---
 
 [[steps]]

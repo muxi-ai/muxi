@@ -76,6 +76,9 @@ overlord:
     complexity_threshold: 7.0  # Workflows trigger at 7+
 ```
 
+> [!TIP]
+> **Start with a higher threshold (8+) and lower it if needed.** Too many workflows slow things down. Only decompose when the task genuinely needs multiple agents.
+
 ## Workflow Creation
 
 **When complexity ≥ threshold:**

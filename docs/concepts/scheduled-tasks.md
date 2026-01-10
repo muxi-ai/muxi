@@ -66,6 +66,9 @@ The system parses your intent and creates the schedule automatically.
 
 No cron syntax needed - the agent figures it out.
 
+> [!TIP]
+> **Set your timezone in the formation.** Scheduled tasks use the formation's configured timezone. Without it, times default to UTC, which may not match user expectations.
+
 ---
 
 ## Creating Scheduled Tasks

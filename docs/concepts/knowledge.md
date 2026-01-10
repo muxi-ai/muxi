@@ -103,6 +103,9 @@ agents:
 
 Support agent knows troubleshooting; sales agent knows pricing. No overlap, no confusion.
 
+> [!TIP]
+> **Keep knowledge files focused.** Smaller, topic-specific files retrieve better than large catch-all documents. Split your FAQ into sections rather than one giant file.
+
 ---
 
 ## How Indexing Works

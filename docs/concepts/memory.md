@@ -53,6 +53,9 @@ Each tier serves a purpose:
 
 You don't manage this manually - MUXI handles tiering automatically.
 
+> [!TIP]
+> **Start with defaults.** MUXI's memory works out of the box. Only tune buffer sizes and TTLs after you understand your actual usage patterns.
+
 ### Semantic Search
 
 When an agent needs context, MUXI doesn't just look at recent messages:

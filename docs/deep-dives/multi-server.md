@@ -16,6 +16,9 @@ When you run multiple MUXI servers behind a load balancer, each instance needs a
 > [!IMPORTANT]
 > SQLite is single-node only. For multi-server deployments, you **must** use PostgreSQL for persistent memory.
 
+> [!TIP]
+> **Test your multi-server setup with two local instances first.** Run two MUXI servers on different ports pointing to the same Postgres/FAISSx before deploying to production. This catches configuration issues early.
+
 ---
 
 ## What You Need

@@ -12,6 +12,9 @@ SOPs (Standard Operating Procedures) ensure agents handle specific tasks consist
 
 SOPs define repeatable workflows that trigger automatically when detected.
 
+> [!TIP]
+> **Start with your most common task.** Identify the one thing your agents do repeatedly, document it as an SOP, and refine it. One well-tuned SOP beats ten half-baked ones.
+
 ## Step 1: Create SOP
 
 ```bash

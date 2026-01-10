@@ -58,6 +58,9 @@ overlord:
 
 **That's it!** Write your persona description in natural language.
 
+> [!TIP]
+> **Be specific about what you don't want.** "Never use emojis" or "Avoid jargon" are more effective than vague positives. Constraints shape behavior better than aspirations.
+
 ## Writing Effective Personas
 
 ### Professional Style

@@ -74,6 +74,9 @@ auth:
 
 > Use any MCP server address you control. There is no required registry; just point to the server URL.
 
+> [!TIP]
+> **Start with one tool per agent.** Add tools incrementally and test each one. Too many tools confuse the agent about which to use.
+
 ---
 
 ## MCP Without the Bloat

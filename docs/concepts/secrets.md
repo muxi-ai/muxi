@@ -78,6 +78,9 @@ formation/
 | `secrets` | Required keys (no values) | ✓ Yes | ✓ Yes |
 | `.key` | Encryption key | ✗ Never | Securely |
 
+> [!TIP]
+> **Back up your `.key` file securely.** Without it, you cannot decrypt `secrets.enc`. Store it in a password manager or secure vault - never in git, email, or Slack.
+
 ---
 
 ## How It's Better
