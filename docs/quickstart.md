@@ -201,10 +201,9 @@ curl -X POST http://localhost:8001/v1/chat \
   -d '{"message": "Hello!"}'
 ```
 
-[[/tab]]
+See the [complete chat API reference](api/formation#tag/Chat/POST/chat) for streaming, async, and advanced options.
 
-> [!TIP]
-> See the [complete chat API reference](api/formation#tag/Chat/POST/chat) for streaming, async, and advanced options.
+[[/tab]]
 
 
 [[tab Browser]]
