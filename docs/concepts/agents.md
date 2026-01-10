@@ -13,19 +13,32 @@ MUXI agents are specialized workers that collaborate, delegate, and adapt. The O
 ## How Agents Work
 
 Each agent is a specialized AI persona with:
-- A **role** defining its expertise and behavior
-- **Tools** it can use (web search, databases, APIs)
+- A **system_message** defining its expertise and behavior
+- Access to **MCP tools** (web search, databases, APIs)
 - **Knowledge** it can reference (documents, FAQs)
 
-```yaml
-agents:
-  - id: researcher
-    role: Research topics thoroughly with web search
-    mcps:
-      - web-search
+Agents are defined in `agents/*.yaml` files:
 
-  - id: writer
-    role: Write clear, engaging content
+```yaml
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Research Specialist
+description: Gathers information from web sources
+
+system_message: |
+  Research topics thoroughly with web search.
+  Always cite your sources.
+```
+
+```yaml
+# agents/writer.yaml
+schema: "1.0.0"
+id: writer
+name: Content Writer
+description: Creates polished content
+
+system_message: Write clear, engaging content.
 ```
 
 When a request arrives, MUXI's **Overlord** decides which agent handles it - or coordinates multiple agents for complex tasks.
@@ -78,8 +91,9 @@ This happens automatically based on your formation's `complexity_threshold`:
 
 ```yaml
 overlord:
-  auto_decomposition: true
-  complexity_threshold: 7.0
+  workflow:
+    auto_decomposition: true
+    complexity_threshold: 7.0
 ```
 
 ---
