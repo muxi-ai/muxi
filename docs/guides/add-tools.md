@@ -68,7 +68,10 @@ Enter your Brave API key when prompted.
 
 Update your `formation.yaml`:
 
+Formation file:
+
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: my-assistant
 description: Assistant with web search
@@ -79,13 +82,21 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents:
-  - id: assistant
-    role: |
-      You are a helpful assistant with web search capabilities.
-      Use web search when you need current information.
-    mcps:
-      - web-search
+agents: []  # Auto-discovered from agents/
+```
+
+Agent file:
+
+```yaml
+# agents/assistant.yaml
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: Assistant with web search
+
+system_message: |
+  You are a helpful assistant with web search capabilities.
+  Use web search when you need current information.
 ```
 
 [[/step]]
@@ -194,27 +205,41 @@ auth:
 
 ## Agent-Specific Tools
 
-Give different agents different tools in `formation.yaml`:
+Formation-level MCP servers (in `mcp/*.yaml`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
 
 ```yaml
-agents:
-  - id: researcher
-    role: Research and gather information
-    mcps:
-      - web-search      # Can search
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Researcher
+description: Research and gather information
 
-  - id: developer
-    role: Code and database work
-    mcps:
-      - filesystem      # Can access files
-      - database        # Can query database
+system_message: Research and gather information.
 
-  - id: writer
-    role: Write content
-    # No mcps - pure writing focus
+mcp_servers:
+  - id: web-search
+    description: Web search
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-brave-search"]
 ```
 
-With corresponding MCP files in `mcp/` directory.
+```yaml
+# agents/developer.yaml
+schema: "1.0.0"
+id: developer
+name: Developer
+description: Code and database work
+
+system_message: Code and database work.
+
+mcp_servers:
+  - id: filesystem
+    description: File access
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-filesystem"]
+```
 
 ---
 

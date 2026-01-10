@@ -30,17 +30,21 @@ knowledge/
 
 ## Step 2: Configure Agent
 
-Add to `formation.afs`:
+Create `agents/assistant.yaml`:
 
 ```yaml
-agents:
-  - id: assistant
-    role: helpful assistant
-    knowledge:
-      enabled: true
-      sources:
-        - path: knowledge/docs/
-          description: Product documentation
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: Helpful assistant with knowledge access
+
+system_message: You are a helpful assistant.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/docs/
+      description: Product documentation
 ```
 
 ## Step 3: Test
