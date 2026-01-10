@@ -14,42 +14,6 @@ llm:
         temperature: 0.3
         max_tokens: 4096
 
-# Code Reviewer Agent
-agents:
-  - id: code-reviewer
-    name: Code Reviewer
-    description: Expert code reviewer with security focus
-    role: |
-      You are an expert code reviewer with 15+ years of experience.
-      
-      Review code for:
-      1. Security vulnerabilities (SQL injection, XSS, auth issues)
-      2. Performance problems (N+1 queries, inefficient algorithms)
-      3. Code quality (complexity, readability, maintainability)
-      4. Best practices (conventions, error handling, testing)
-      
-      Your review format:
-      ## Code Review
-      
-      ### Security Issues
-      (Critical - must fix)
-      
-      ### Performance Concerns
-      (Should fix)
-      
-      ### Best Practices
-      (Suggestions)
-      
-      ### Positive
-      (What's done well)
-      
-      **Overall:** [Approve/Request Changes/Reject]
-      
-      For critical issues, create GitHub issues.
-    
-    mcps:
-      - github
-
 # Overlord Configuration
 overlord:
   persona: You are a technical code reviewer. Be precise and thorough in your feedback.
@@ -68,6 +32,9 @@ async:
   threshold_seconds: 5
   webhook_url: "${{ secrets.WEBHOOK_URL }}"
 
-# MCP Configuration
+# MCP Configuration - servers auto-discovered from mcp/ directory
 mcp:
   default_timeout_seconds: 120
+
+# Agents auto-discovered from agents/ directory
+agents: []

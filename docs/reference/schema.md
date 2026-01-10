@@ -97,34 +97,36 @@ llm:
 
 ## Agents
 
-Agents can be defined inline or in separate files in `agents/`:
+Agents are defined in separate files in `agents/` directory (auto-discovered):
 
 ```yaml
-agents:
-  - id: assistant
-    name: AI Assistant
-    description: General-purpose assistant
-    role: |
-      You are a helpful assistant.
-    mcps:
-      - web-search
-    knowledge:
-      enabled: true
-      sources:
-        - path: knowledge/docs/
+# agents/assistant.yaml
+schema: "1.0.0"
+id: assistant
+name: AI Assistant
+description: General-purpose assistant
+
+system_message: |
+  You are a helpful assistant.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/docs/
 ```
 
 ### Agent Fields
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| `schema` | string | Yes | Schema version ("1.0.0") |
 | `id` | string | Yes | Unique identifier |
-| `name` | string | No | Display name |
-| `description` | string | No | What the agent does |
-| `role` | string | Yes | System prompt |
-| `mcps` | list | No | Tool IDs this agent can use |
+| `name` | string | Yes | Display name |
+| `description` | string | Yes | What the agent does |
+| `system_message` | string | No | System prompt defining behavior |
 | `knowledge` | object | No | RAG configuration |
 | `llm_models` | list | No | Override formation LLM |
+| `mcp_servers` | list | No | Agent-specific MCP servers |
 
 ---
 
@@ -287,7 +289,10 @@ muxi validate
 
 ## Complete Example
 
+Formation file:
+
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: research-assistant
 description: AI research and writing team
@@ -299,21 +304,6 @@ llm:
   models:
     - text: "openai/gpt-4o"
     - embedding: "openai/text-embedding-3-large"
-
-agents:
-  - id: researcher
-    name: Research Specialist
-    description: Gathers information from web sources
-    role: |
-      Research topics thoroughly with web search.
-      Always cite your sources.
-    mcps:
-      - web-search
-
-  - id: writer
-    name: Content Writer
-    description: Creates polished content
-    role: Write clear, engaging content.
 
 memory:
   buffer:
@@ -335,6 +325,37 @@ server:
   api_keys:
     admin_key: "${{ secrets.ADMIN_KEY }}"
     client_key: "${{ secrets.CLIENT_KEY }}"
+
+# Agents auto-discovered from agents/ directory
+agents: []
+```
+
+Agent file:
+
+```yaml
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Research Specialist
+description: Gathers information from web sources
+
+system_message: |
+  Research topics thoroughly with web search.
+  Always cite your sources.
+```
+
+MCP file:
+
+```yaml
+# mcp/web-search.yaml
+schema: "1.0.0"
+id: web-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
 With MCP server file:

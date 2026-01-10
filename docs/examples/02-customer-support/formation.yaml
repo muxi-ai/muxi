@@ -1,6 +1,6 @@
 schema: "1.0.0"
 id: customer-support
-description: Customer support agent with knowledge base and clarification
+description: Customer support agent with knowledge base
 version: "1.0.0"
 
 # LLM Configuration
@@ -13,28 +13,7 @@ llm:
       settings:
         temperature: 0.5
         max_tokens: 2000
-
-# Support Agent
-agents:
-  - id: support
-    name: Support Agent
-    description: Customer support specialist
-    role: |
-      You are a friendly customer support agent.
-      
-      Your responsibilities:
-      - Answer customer questions using the knowledge base
-      - Provide accurate, helpful information
-      - Escalate complex issues when needed
-      - Maintain a professional, empathetic tone
-      
-      Always check the knowledge base before answering.
-      If you don't know the answer, say so honestly.
-    
-    knowledge:
-      enabled: true
-      sources:
-        - path: knowledge/
+    - embedding: "openai/text-embedding-3-large"
 
 # Overlord Configuration
 overlord:
@@ -53,3 +32,6 @@ memory:
   buffer:
     size: 20
     vector_search: true
+
+# Agents auto-discovered from agents/ directory
+agents: []

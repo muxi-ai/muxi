@@ -14,21 +14,22 @@ llm:
         temperature: 0.7
         max_tokens: 1000
 
-# Single Agent
+# Single Agent - defined inline for simplicity
+# For more complex agents, use agents/*.yaml files
 agents:
   - id: assistant
     name: Assistant
     description: General-purpose assistant for answering questions
-    role: You are a helpful AI assistant.
+    system_message: You are a helpful AI assistant.
 
 # Overlord Configuration
 overlord:
   persona: You are a helpful, professional assistant.
   
   workflow:
-    auto_decomposition: false  # No complexity analysis needed (single agent)
+    auto_decomposition: false
 
-# No memory (stateless)
+# Minimal memory
 memory:
   buffer:
     size: 10

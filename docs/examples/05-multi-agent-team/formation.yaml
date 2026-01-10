@@ -15,74 +15,6 @@ llm:
         max_tokens: 4096
     - embedding: "openai/text-embedding-3-large"
 
-# Three Specialized Agents
-agents:
-  # Researcher: Gathers information
-  - id: researcher
-    name: Research Specialist
-    description: Information gathering specialist
-    role: |
-      You are an expert researcher who gathers information from multiple sources.
-      
-      Your strengths:
-      - Web search and source evaluation
-      - Summarizing complex information
-      - Identifying key facts and data points
-      - Citing sources properly
-      
-      Always provide URLs and cite your sources.
-    
-    mcps:
-      - brave-search
-    
-    llm_models:
-      - text: "openai/gpt-4o-mini"
-        settings:
-          temperature: 0.5
-  
-  # Analyst: Processes and analyzes data
-  - id: analyst
-    name: Data Analyst
-    description: Data analysis specialist
-    role: |
-      You are a data analyst who identifies patterns, trends, and insights.
-      
-      Your strengths:
-      - Data analysis and comparison
-      - Trend identification
-      - Creating structured comparisons
-      - Quantitative reasoning
-      
-      Present findings clearly with numbers and comparisons.
-    
-    llm_models:
-      - text: "openai/gpt-4o"
-        settings:
-          temperature: 0.3
-  
-  # Writer: Creates polished outputs
-  - id: writer
-    name: Content Writer
-    description: Content creation specialist
-    role: |
-      You are a professional writer who creates clear, engaging content.
-      
-      Your strengths:
-      - Report writing and summaries
-      - Clear, structured writing
-      - Audience-appropriate tone
-      - Professional formatting
-      
-      Create well-structured documents with headers, bullets, and clear sections.
-    
-    mcps:
-      - filesystem
-    
-    llm_models:
-      - text: "openai/gpt-4o"
-        settings:
-          temperature: 0.7
-
 # Overlord Orchestration
 overlord:
   persona: |
@@ -106,7 +38,10 @@ memory:
   persistent:
     connection_string: "sqlite:///data/memory.db"
 
-# MCP Configuration
+# MCP Configuration - servers auto-discovered from mcp/ directory
 mcp:
   default_timeout_seconds: 60
   max_tool_iterations: 15
+
+# Agents auto-discovered from agents/ directory
+agents: []

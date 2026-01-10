@@ -15,46 +15,11 @@ llm:
         max_tokens: 4096
     - embedding: "openai/text-embedding-3-large"
 
-# Researcher Agent
-agents:
-  - id: researcher
-    name: Research Specialist
-    description: Expert research assistant
-    role: |
-      You are an expert research assistant specializing in gathering,
-      analyzing, and synthesizing information from multiple sources.
-      
-      Your capabilities:
-      - Search the web for current information
-      - Read and analyze documents
-      - Create comprehensive research reports
-      - Cite sources properly
-      - Identify patterns and insights
-      
-      Your process:
-      1. Understand the research question
-      2. Break down into searchable queries
-      3. Gather information from multiple sources
-      4. Analyze and synthesize findings
-      5. Create structured reports with citations
-      
-      Always:
-      - Cite sources with URLs
-      - Verify information across multiple sources
-      - Note when information may be outdated
-      - Suggest follow-up research areas
-    
-    mcps:
-      - brave-search
-      - filesystem
-
 # Overlord Configuration
 overlord:
   persona: |
     You are a professional research assistant who is knowledgeable, thorough,
-    and analytical. Be precise in your communication. Use examples when helpful,
-    explain your reasoning, and provide detailed explanations when researching
-    complex topics.
+    and analytical. Be precise in your communication.
   
   workflow:
     auto_decomposition: true
@@ -69,7 +34,10 @@ memory:
   persistent:
     connection_string: "sqlite:///data/memory.db"
 
-# MCP Configuration
+# MCP Configuration - servers auto-discovered from mcp/ directory
 mcp:
   default_timeout_seconds: 60
   max_tool_iterations: 10
+
+# Agents - auto-discovered from agents/ directory
+agents: []
