@@ -41,13 +41,11 @@ name: My Assistant
 
 llm:
   models:
-    text: openai/gpt-4o
+    - text: "openai/gpt-4o"
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
 
-agents:
-  - id: assistant
-    role: helpful assistant
+agents: []  # Auto-discovered from agents/ directory
 ```
 
 > [!TIP]
@@ -157,25 +155,10 @@ description: AI research and writing team
 
 llm:
   models:
-    text: openai/gpt-4o
-    embedding: openai/text-embedding-3-small
+    - text: "openai/gpt-4o"
+    - embedding: "openai/text-embedding-3-small"
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
-
-agents:
-  - id: researcher
-    role: Research topics thoroughly with web search
-    mcps:
-      - web-search
-
-  - id: writer
-    role: Write clear, engaging content
-
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-    config:
-      api_key: ${{ secrets.BRAVE_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
 
 memory:
   buffer:
@@ -186,9 +169,36 @@ memory:
     provider: sqlite
 
 overlord:
-  auto_decomposition: true
+  workflow:
+    auto_decomposition: true
   response:
     streaming: true
+
+# MCP servers auto-discovered from mcp/ directory
+# Agents auto-discovered from agents/ directory
+agents: []
+```
+
+With separate agent files:
+
+```yaml
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Researcher
+description: Research topics with web search
+
+system_message: Research topics thoroughly with web search.
+```
+
+```yaml
+# agents/writer.yaml
+schema: "1.0.0"
+id: writer
+name: Writer
+description: Creates content
+
+system_message: Write clear, engaging content.
 ```
 
 ---

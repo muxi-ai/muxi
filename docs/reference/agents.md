@@ -17,10 +17,15 @@ Agents are the workers in your formation. Each has a role, personality, and set 
 
 ## Your First Agent
 
+Create `agents/assistant.yaml`:
+
 ```yaml
-agents:
-  - id: assistant
-    role: You are a helpful assistant who answers questions clearly.
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: Helpful assistant
+
+system_message: You are a helpful assistant who answers questions clearly.
 ```
 
 That's it. One agent, ready to chat.
@@ -32,34 +37,39 @@ That's it. One agent, ready to chat.
 ### Full Example
 
 ```yaml
-agents:
-  - id: researcher
-    name: Research Specialist
-    role: |
-      You research topics thoroughly and provide accurate,
-      well-sourced information. Always cite your sources.
-    model: openai/gpt-4o
-    temperature: 0.7
-    mcps:
-      - web-search
-    knowledge:
-      enabled: true
-      sources:
-        - path: knowledge/docs/
-          description: Internal documentation
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Research Specialist
+description: Gathers accurate information from multiple sources
+
+system_message: |
+  You research topics thoroughly and provide accurate,
+  well-sourced information. Always cite your sources.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/docs/
+      description: Internal documentation
+
+llm_models:
+  - text: "openai/gpt-4o"
+    settings:
+      temperature: 0.7
 ```
 
 ### Configuration Fields
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| `schema` | string | Yes | Schema version ("1.0.0") |
 | `id` | string | Yes | Unique identifier (used in routing) |
-| `name` | string | No | Display name |
-| `role` | string | Yes | System prompt defining behavior |
-| `model` | string | No | Override default LLM |
-| `temperature` | float | No | Creativity (0-1, default: 0.7) |
-| `mcps` | list | No | Tools this agent can use |
+| `name` | string | Yes | Display name |
+| `description` | string | Yes | What the agent does |
+| `system_message` | string | No | System prompt defining behavior |
 | `knowledge` | object | No | RAG sources for this agent |
+| `llm_models` | list | No | Override formation LLM settings |
 
 ---
 
@@ -68,17 +78,33 @@ agents:
 The real power comes from multiple specialized agents:
 
 ```yaml
-agents:
-  - id: researcher
-    role: Research topics and gather accurate information
-    mcps:
-      - web-search
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Researcher
+description: Gathers accurate information
 
-  - id: writer
-    role: Write clear, engaging content based on research
+system_message: Research topics and gather accurate information.
+```
 
-  - id: reviewer
-    role: Review content for accuracy, clarity, and tone
+```yaml
+# agents/writer.yaml
+schema: "1.0.0"
+id: writer
+name: Writer
+description: Creates content
+
+system_message: Write clear, engaging content based on research.
+```
+
+```yaml
+# agents/reviewer.yaml
+schema: "1.0.0"
+id: reviewer
+name: Reviewer
+description: Reviews content quality
+
+system_message: Review content for accuracy, clarity, and tone.
 ```
 
 ```mermaid
@@ -160,32 +186,63 @@ response, _ := formation.ChatWithOptions("Find info about AI trends", muxi.ChatO
 
 ## Agent-Specific Tools
 
-Give different agents different capabilities:
+MCP servers are defined in `mcp/*.yaml` files. All agents in a formation have access to formation-level MCP servers. For agent-specific tools, define them in the agent file:
 
 ```yaml
-mcps:
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Researcher
+description: Research specialist
+
+system_message: Research specialist with web access.
+
+# Agent-specific MCP server
+mcp_servers:
   - id: web-search
-    server: "@anthropic/brave-search"
+    description: Brave web search
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+    auth:
+      type: env
+      BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+```
+
+```yaml
+# agents/developer.yaml
+schema: "1.0.0"
+id: developer
+name: Developer
+description: Code assistant
+
+system_message: Code assistant with file and database access.
+
+mcp_servers:
   - id: filesystem
-    server: "@anthropic/filesystem"
+    description: File access
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "./src"]
   - id: database
-    server: "@anthropic/postgres"
+    description: PostgreSQL access
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-postgres"]
+    auth:
+      type: env
+      DATABASE_URL: "${{ secrets.DATABASE_URL }}"
+```
 
-agents:
-  - id: researcher
-    role: Research specialist
-    mcps:
-      - web-search      # Can search the web
+```yaml
+# agents/writer.yaml
+schema: "1.0.0"
+id: writer
+name: Writer
+description: Content writer
 
-  - id: developer
-    role: Code assistant
-    mcps:
-      - filesystem      # Can read/write files
-      - database        # Can query databases
-
-  - id: writer
-    role: Content writer
-    # No tools - focuses purely on writing
+system_message: Content writer - no tools, pure writing focus.
+# No mcp_servers - focuses purely on writing
 ```
 
 ---
@@ -195,43 +252,61 @@ agents:
 Different agents can access different knowledge bases:
 
 ```yaml
-agents:
-  - id: support
-    role: Customer support specialist
-    knowledge:
-      sources:
-        - path: knowledge/faq/
-          description: Customer FAQs
-        - path: knowledge/troubleshooting/
-          description: Troubleshooting guides
+# agents/support.yaml
+schema: "1.0.0"
+id: support
+name: Support Agent
+description: Customer support specialist
 
-  - id: sales
-    role: Sales advisor
-    knowledge:
-      sources:
-        - path: knowledge/pricing/
-          description: Pricing and plans
-        - path: knowledge/features/
-          description: Product features
+system_message: Customer support specialist with FAQ access.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/faq/
+      description: Customer FAQs
+    - path: knowledge/troubleshooting/
+      description: Troubleshooting guides
+```
+
+```yaml
+# agents/sales.yaml
+schema: "1.0.0"
+id: sales
+name: Sales Agent
+description: Sales advisor
+
+system_message: Sales advisor with pricing knowledge.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/pricing/
+      description: Pricing and plans
+    - path: knowledge/features/
+      description: Product features
 ```
 
 ---
 
 ## Separate Agent Files
 
-For complex agents, use separate files:
+Agents are auto-discovered from `agents/*.yaml` files:
 
 ```bash
 muxi new agent researcher
 ```
 
-Creates `agents/researcher.afs`:
+Creates `agents/researcher.yaml`:
 
 ```yaml
-# agents/researcher.afs
+# agents/researcher.yaml
+schema: "1.0.0"
 id: researcher
 name: Research Specialist
-role: |
+description: Expert at gathering information
+
+system_message: |
   You are an expert researcher who:
   - Gathers accurate information from multiple sources
   - Cites all sources properly
@@ -239,14 +314,11 @@ role: |
   - Admits uncertainty when appropriate
 ```
 
-Reference in your main formation:
+In your formation, just leave agents empty - they're auto-discovered:
 
 ```yaml
-# formation.afs
-agents:
-  - $include: agents/researcher.afs
-  - $include: agents/writer.afs
-  - $include: agents/reviewer.afs
+# formation.yaml
+agents: []  # Auto-discovered from agents/ directory
 ```
 
 ---

@@ -15,6 +15,7 @@ Copy these examples as starting points for your own formations.
 The minimal production-ready assistant:
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: simple-assistant
 description: A simple helpful assistant
@@ -25,13 +26,21 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents:
-  - id: assistant
-    role: You are a helpful, friendly assistant.
-
 overlord:
   response:
     streaming: true
+
+agents: []
+```
+
+```yaml
+# agents/assistant.yaml
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: A helpful assistant
+
+system_message: You are a helpful, friendly assistant.
 ```
 
 ---
@@ -52,20 +61,25 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents:
-  - id: researcher
-    description: Research specialist
-    role: |
-      You are a research specialist who:
-      - Searches for accurate, up-to-date information
-      - Cites sources for all claims
-      - Provides balanced, objective analysis
-    mcps:
-      - web-search
-
 overlord:
   response:
     streaming: true
+
+agents: []
+```
+
+```yaml
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Research Specialist
+description: Research specialist
+
+system_message: |
+  You are a research specialist who:
+  - Searches for accurate, up-to-date information
+  - Cites sources for all claims
+  - Provides balanced, objective analysis
 ```
 
 With MCP file:
@@ -89,6 +103,7 @@ auth:
 Support bot with knowledge base:
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: support-bot
 description: Customer support with knowledge base
@@ -99,20 +114,6 @@ llm:
   models:
     - text: "openai/gpt-4o"
     - embedding: "openai/text-embedding-3-large"
-
-agents:
-  - id: support
-    description: Customer support agent
-    role: |
-      You are a customer support agent for Acme Inc.
-      Be helpful, professional, and empathetic.
-      If you don't know something, say so and offer to escalate.
-    knowledge:
-      enabled: true
-      sources:
-        - path: knowledge/faq/
-        - path: knowledge/docs/
-        - path: knowledge/troubleshooting/
 
 memory:
   buffer:
@@ -126,6 +127,28 @@ overlord:
     You are a professional, empathetic support representative.
   response:
     streaming: true
+
+agents: []
+```
+
+```yaml
+# agents/support.yaml
+schema: "1.0.0"
+id: support
+name: Support Agent
+description: Customer support agent
+
+system_message: |
+  You are a customer support agent for Acme Inc.
+  Be helpful, professional, and empathetic.
+  If you don't know something, say so and offer to escalate.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/faq/
+    - path: knowledge/docs/
+    - path: knowledge/troubleshooting/
 ```
 
 ---
@@ -146,39 +169,53 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents:
-  - id: researcher
-    name: Research Specialist
-    description: Gathers information from sources
-    role: |
-      Research topics thoroughly.
-      Gather accurate, well-sourced information.
-      Provide raw research for the writer.
-    mcps:
-      - web-search
-
-  - id: writer
-    name: Content Writer
-    description: Creates draft content
-    role: |
-      Write clear, engaging content.
-      Follow the user's style preferences.
-      Create drafts based on research.
-
-  - id: editor
-    name: Editor
-    description: Reviews and improves content
-    role: |
-      Review content for accuracy and clarity.
-      Check grammar and style.
-      Suggest improvements.
-
 overlord:
   workflow:
     auto_decomposition: true
     complexity_threshold: 5.0
   response:
     streaming: true
+
+agents: []
+```
+
+```yaml
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Research Specialist
+description: Gathers information from sources
+
+system_message: |
+  Research topics thoroughly.
+  Gather accurate, well-sourced information.
+  Provide raw research for the writer.
+```
+
+```yaml
+# agents/writer.yaml
+schema: "1.0.0"
+id: writer
+name: Content Writer
+description: Creates draft content
+
+system_message: |
+  Write clear, engaging content.
+  Follow the user's style preferences.
+  Create drafts based on research.
+```
+
+```yaml
+# agents/editor.yaml
+schema: "1.0.0"
+id: editor
+name: Editor
+description: Reviews and improves content
+
+system_message: |
+  Review content for accuracy and clarity.
+  Check grammar and style.
+  Suggest improvements.
 ```
 
 With MCP file:
@@ -213,24 +250,28 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents:
-  - id: devops
-    description: DevOps specialist
-    role: |
-      You are a DevOps specialist who helps with:
-      - Repository management
-      - Code review
-      - System troubleshooting
-
-      Be careful with destructive operations.
-      Always explain what you're doing.
-    mcps:
-      - github
-      - filesystem
-
 overlord:
   workflow:
     plan_approval_threshold: 5  # Require approval for complex ops
+
+agents: []
+```
+
+```yaml
+# agents/devops.yaml
+schema: "1.0.0"
+id: devops
+name: DevOps Specialist
+description: DevOps specialist
+
+system_message: |
+  You are a DevOps specialist who helps with:
+  - Repository management
+  - Code review
+  - System troubleshooting
+
+  Be careful with destructive operations.
+  Always explain what you're doing.
 ```
 
 With MCP files:
@@ -274,16 +315,25 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents:
-  - id: responder
-    description: Analyzes alerts and incidents
-    role: |
-      You analyze alerts and incidents.
-      Provide clear summaries and action items.
-      Prioritize based on severity.
-    mcps:
-      - database
+agents: []
+```
 
+```yaml
+# agents/responder.yaml
+schema: "1.0.0"
+id: responder
+name: Alert Responder
+description: Analyzes alerts and incidents
+
+system_message: |
+  You analyze alerts and incidents.
+  Provide clear summaries and action items.
+  Prioritize based on severity.
+```
+
+And in formation.yaml, add:
+
+```yaml
 async:
   threshold_seconds: 10
   webhook_url: "${{ secrets.WEBHOOK_URL }}"

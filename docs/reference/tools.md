@@ -42,20 +42,9 @@ muxi secrets set BRAVE_API_KEY
 ```
 [[/step]]
 
-[[step Assign to agent]]
-
-In your agent config (inline or `agents/*.yaml`):
-
-```yaml
-agents:
-  - id: researcher
-    role: Research specialist
-    mcps:
-      - web-search  # References the MCP id
-```
-[[/step]]
-
 [[step Test it]]
+
+All agents in the formation automatically have access to MCP servers defined in `mcp/*.yaml`.
 
 ```bash
 muxi dev
@@ -225,25 +214,40 @@ mcp:
 
 ## Agent-Specific Tools
 
-Assign tools to specific agents:
+Formation-level MCP servers (in `mcp/*.yaml`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
 
 ```yaml
-# formation.yaml
-agents:
-  - id: researcher
-    role: Research topics
-    mcps:
-      - web-search     # Can search the web
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Researcher
+description: Research topics
 
-  - id: developer
-    role: Code assistant
-    mcps:
-      - filesystem     # Can access files
-      - database       # Can query database
+system_message: Research topics with web access.
 
-  - id: writer
-    role: Content writer
-    # No mcps - pure writing focus
+mcp_servers:
+  - id: web-search
+    description: Web search
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+```
+
+```yaml
+# agents/developer.yaml  
+schema: "1.0.0"
+id: developer
+name: Developer
+description: Code assistant
+
+system_message: Code assistant with file and database access.
+
+mcp_servers:
+  - id: filesystem
+    description: File access
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-filesystem"]
 ```
 
 ---

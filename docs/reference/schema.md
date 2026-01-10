@@ -12,9 +12,10 @@ Every formation starts with a `formation.yaml` (or `formation.afs`) file that de
 
 ## Copy-paste starter
 
-The smallest valid `formation.yaml`:
+The smallest valid formation:
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: my-assistant
 description: A simple assistant
@@ -25,9 +26,17 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents:
-  - id: assistant
-    role: You are a helpful assistant.
+agents: []  # Auto-discovered from agents/ directory
+```
+
+```yaml
+# agents/assistant.yaml
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: A helpful assistant
+
+system_message: You are a helpful assistant.
 ```
 
 ---

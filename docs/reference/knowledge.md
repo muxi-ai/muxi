@@ -35,14 +35,19 @@ knowledge/
 [[step Configure the agent]]
 
 ```yaml
-agents:
-  - id: assistant
-    role: helpful assistant
-    knowledge:
-      enabled: true
-      sources:
-        - path: knowledge/docs/
-          description: Product documentation
+# agents/assistant.yaml
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: Helpful assistant with knowledge access
+
+system_message: You are a helpful assistant.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/docs/
+      description: Product documentation
 ```
 [[/step]]
 
@@ -158,33 +163,57 @@ agents:
 Give different agents different expertise:
 
 ```yaml
-agents:
-  - id: support
-    role: Customer support specialist
-    knowledge:
-      sources:
-        - path: knowledge/faq/
-          description: Customer FAQs
-        - path: knowledge/troubleshooting/
-          description: Troubleshooting guides
-  
-  - id: sales
-    role: Sales advisor
-    knowledge:
-      sources:
-        - path: knowledge/pricing/
-          description: Pricing and plans
-        - path: knowledge/features/
-          description: Product features
-  
-  - id: technical
-    role: Technical expert
-    knowledge:
-      sources:
-        - path: knowledge/api/
-          description: API documentation
-        - path: knowledge/architecture/
-          description: System architecture
+# agents/support.yaml
+schema: "1.0.0"
+id: support
+name: Support Agent
+description: Customer support specialist
+
+system_message: Customer support specialist.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/faq/
+      description: Customer FAQs
+    - path: knowledge/troubleshooting/
+      description: Troubleshooting guides
+```
+
+```yaml
+# agents/sales.yaml
+schema: "1.0.0"
+id: sales
+name: Sales Agent
+description: Sales advisor
+
+system_message: Sales advisor.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/pricing/
+      description: Pricing and plans
+    - path: knowledge/features/
+      description: Product features
+```
+
+```yaml
+# agents/technical.yaml
+schema: "1.0.0"
+id: technical
+name: Technical Expert
+description: Technical expert
+
+system_message: Technical expert.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/api/
+      description: API documentation
+    - path: knowledge/architecture/
+      description: System architecture
 ```
 
 ---
