@@ -55,8 +55,8 @@ agents:
 
 ### When to choose which model
 
-- **Reasoning-heavy:** GPT-4.1, Claude 3.5
-- **Long-form writing:** Claude 3.5, Gemini 1.5
+- **Reasoning-heavy:** GPT-5, Claude Opus 4.5
+- **Long-form writing:** Claude Sonnet 4.5, Gemini 3
 - **High-volume or on-prem:** Llama 3 (vLLM/llama.cpp), Mistral
 
 ### Related docs
