@@ -118,7 +118,7 @@ my-formation/
 ├── agents/            # Agent definitions
 │   ├── researcher.afs
 │   └── writer.afs
-├── mcps/              # Tool configurations
+├── mcp/              # Tool configurations
 │   └── web-search.afs
 ├── sops/              # Standard procedures
 │   └── onboarding.md
@@ -141,7 +141,7 @@ my-formation/
 | Persona | `agents/*.afs` (`persona:`) |
 | Memory (3-tier) | `formation.afs` (`memory:` backend/limits) |
 | Multi-Tenancy | `formation.afs` (`security/users`, namespaces), secrets scoped per user |
-| Tools & MCP | `mcps/*.afs` (server defs), referenced in `agents/*.afs` (`mcps:`) |
+| Tools & MCP | `mcp/*.afs` (server defs), referenced in `agents/*.afs` (`mcps:`) |
 | Secrets & Security | `secrets.enc` (referenced as `${{ secrets.* }}` / `${{ user.secrets.* }}` in formation/agents/mcps) |
 | User Credentials | `secrets.enc` / `user.secrets.*`, bound at runtime per caller |
 | Knowledge & RAG | `knowledge/` files, referenced in `agents/*.afs` (`knowledge:`) |

@@ -1,0 +1,10 @@
+schema: "1.0.0"
+id: brave-search
+description: Brave Web Search for research
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+timeout_seconds: 30
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_SEARCH_API_KEY }}"

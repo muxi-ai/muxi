@@ -1,102 +1,55 @@
-name: customer-support
-version: 1.0.0
-description: Customer support agent with memory and knowledge base
+schema: "1.0.0"
+id: customer-support
+description: Customer support agent with knowledge base and clarification
+version: "1.0.0"
 
 # LLM Configuration
 llm:
-  provider: openai
-  model: gpt-4
-  temperature: 0.7
-  
   api_keys:
-    openai:
-      secret: OPENAI_API_KEY
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  
+  models:
+    - text: "openai/gpt-4o"
+      settings:
+        temperature: 0.5
+        max_tokens: 2000
 
 # Support Agent
 agents:
-  - name: support
+  - id: support
+    name: Support Agent
+    description: Customer support specialist
     role: |
-      You are a helpful customer support agent.
+      You are a friendly customer support agent.
       
       Your responsibilities:
       - Answer customer questions using the knowledge base
-      - Be empathetic and patient
-      - Offer solutions, not just information
+      - Provide accurate, helpful information
       - Escalate complex issues when needed
+      - Maintain a professional, empathetic tone
       
-      Always:
-      - Reference specific policies when applicable
-      - Ask clarifying questions if details are missing
-      - Provide next steps or action items
+      Always check the knowledge base before answering.
+      If you don't know the answer, say so honestly.
     
-    description: "Customer support specialist"
-    
-    llm:
-      provider: openai
-      model: gpt-4
+    knowledge:
+      enabled: true
+      sources:
+        - path: knowledge/
 
 # Overlord Configuration
 overlord:
-  # Support persona (freeform text description)
   persona: |
-    You are a professional and empathetic customer support agent. You're helpful,
-    patient, and knowledgeable. Use examples when explaining things, explain your
-    reasoning, and keep responses balanced - not too brief, not too verbose.
+    You are a helpful customer support representative.
+    Be friendly, patient, and thorough in your responses.
   
-  workflow:
-    auto_decomposition: false
+  clarification:
+    style: conversational
+    max_rounds:
+      direct: 3
+      other: 2
 
-# Memory Configuration
+# Memory for conversation context
 memory:
   buffer:
-    enabled: true
-    size: 50              # Remember last 50 messages
-    vector_search: true   # Semantic search
-  
-  persistent:
-    enabled: true
-    provider: sqlite
-    path: ./data/memory.db
-    
-    # Store user preferences
-    collections:
-      - name: user_preferences
-      - name: interaction_history
-
-# Knowledge Base
-knowledge:
-  - name: company-docs
-    type: directory
-    path: ./knowledge
-    description: "Company FAQs, policies, and documentation"
-    
-    # Chunking settings
-    chunk_size: 512
-    chunk_overlap: 50
-    
-    # Embedding
-    embedding:
-      provider: openai
-      model: text-embedding-3-small
-      
-    # RAG settings
-    retrieval:
-      top_k: 3
-      similarity_threshold: 0.7
-
-# Clarification
-clarification:
-  enabled: true
-  max_turns: 3
-  types:
-    - missing_information
-    - ambiguous_request
-
-# No tools needed for basic support
-mcps: []
-
-# No triggers
-triggers: []
-
-# No SOPs (add later for complex workflows)
-sops: []
+    size: 20
+    vector_search: true

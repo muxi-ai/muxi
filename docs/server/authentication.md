@@ -117,10 +117,11 @@ curl -X GET http://localhost:7890/rpc/formations \
 Formations use simpler API key authentication:
 
 ```yaml
-# formation.afs
-api_keys:
-  admin: ${{ secrets.ADMIN_KEY }}
-  client: ${{ secrets.CLIENT_KEY }}
+# formation.yaml
+server:
+  api_keys:
+    admin_key: "${{ secrets.ADMIN_KEY }}"
+    client_key: "${{ secrets.CLIENT_KEY }}"
 ```
 
 ### Admin Key

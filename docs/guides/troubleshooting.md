@@ -151,13 +151,17 @@ Error: Access denied to /etc/passwd
 ```
 
 **Solution:**
-Configure allowed directories:
+Configure allowed directories in your MCP file:
 ```yaml
-mcps:
-  - id: filesystem
-    config:
-      allowed_directories:
-        - /home/user/documents
+# mcp/filesystem.yaml
+schema: "1.0.0"
+id: filesystem
+type: command
+command: npx
+args:
+  - "-y"
+  - "@modelcontextprotocol/server-filesystem"
+  - "/home/user/documents"
 ```
 
 ## Network Issues
@@ -439,16 +443,16 @@ muxi formation start my-formation
 **Solution:**
 ```yaml
 # Reduce parallel tasks
-workflow:
-  max_parallel_tasks: 2  # Was 10
+overlord:
+  workflow:
+    max_parallel_tasks: 2  # Was 10
+    retry:
+      initial_delay: 10    # Wait 10s between retries
 
-# Add retry delays
-workflow:
-  retry_delay: 10        # Wait 10s between retries
-
-# Use cheaper model
+# Or use cheaper model
 llm:
-  model: gpt-3.5-turbo   # Less expensive
+  models:
+    - text: "openai/gpt-4o-mini"  # Less expensive
 ```
 
 ---

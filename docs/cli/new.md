@@ -36,7 +36,7 @@ Creates:
 my-assistant/
 ├── formation.afs
 ├── agents/
-├── mcps/
+├── mcp/
 ├── triggers/
 ├── sops/
 ├── knowledge/
@@ -78,7 +78,7 @@ role: |
 muxi new mcp web-search
 ```
 
-Creates `mcps/web-search.afs`:
+Creates `mcp/web-search.afs`:
 
 ```yaml
 id: web-search

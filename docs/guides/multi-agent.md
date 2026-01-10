@@ -54,20 +54,28 @@ agents:
 
 ## Step 2: Add Tools
 
+Create MCP files in `mcp/` directory:
+
 ```yaml
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-    config:
-      api_key: ${{ secrets.BRAVE_API_KEY }}
+# mcp/web-search.yaml
+schema: "1.0.0"
+id: web-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
 ## Step 3: Configure Orchestration
 
 ```yaml
+# formation.yaml
 overlord:
-  auto_decomposition: true
-  complexity_threshold: 5.0
+  workflow:
+    auto_decomposition: true
+    complexity_threshold: 5.0
 ```
 
 ## Step 4: Test

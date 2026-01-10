@@ -17,13 +17,13 @@ The minimal production-ready assistant:
 ```yaml
 schema: "1.0.0"
 id: simple-assistant
-name: Simple Assistant
+description: A simple helpful assistant
 
 llm:
-  models:
-    text: openai/gpt-4o
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  models:
+    - text: "openai/gpt-4o"
 
 agents:
   - id: assistant
@@ -41,18 +41,20 @@ overlord:
 Agent with web search capabilities:
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: research-assistant
-name: Research Assistant
+description: Research assistant with web search
 
 llm:
-  models:
-    text: openai/gpt-4o
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  models:
+    - text: "openai/gpt-4o"
 
 agents:
   - id: researcher
+    description: Research specialist
     role: |
       You are a research specialist who:
       - Searches for accurate, up-to-date information
@@ -61,15 +63,23 @@ agents:
     mcps:
       - web-search
 
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-    config:
-      api_key: ${{ secrets.BRAVE_API_KEY }}
-
 overlord:
   response:
     streaming: true
+```
+
+With MCP file:
+
+```yaml
+# mcp/web-search.yaml
+schema: "1.0.0"
+id: web-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
 ---
@@ -81,17 +91,18 @@ Support bot with knowledge base:
 ```yaml
 schema: "1.0.0"
 id: support-bot
-name: Customer Support
+description: Customer support with knowledge base
 
 llm:
-  models:
-    text: openai/gpt-4o
-    embedding: openai/text-embedding-3-small
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  models:
+    - text: "openai/gpt-4o"
+    - embedding: "openai/text-embedding-3-large"
 
 agents:
   - id: support
+    description: Customer support agent
     role: |
       You are a customer support agent for Acme Inc.
       Be helpful, professional, and empathetic.
@@ -100,24 +111,19 @@ agents:
       enabled: true
       sources:
         - path: knowledge/faq/
-          description: Frequently asked questions
         - path: knowledge/docs/
-          description: Product documentation
         - path: knowledge/troubleshooting/
-          description: Troubleshooting guides
 
 memory:
   buffer:
     size: 50
     vector_search: true
   persistent:
-    enabled: true
-    provider: sqlite
+    connection_string: "sqlite:///data/memory.db"
 
 overlord:
-  persona:
-    style: professional
-    tone: empathetic
+  persona: |
+    You are a professional, empathetic support representative.
   response:
     streaming: true
 ```
@@ -129,19 +135,21 @@ overlord:
 Specialized agents working together:
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: content-team
-name: Content Creation Team
+description: Content creation team with specialized agents
 
 llm:
-  models:
-    text: openai/gpt-4o
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  models:
+    - text: "openai/gpt-4o"
 
 agents:
   - id: researcher
     name: Research Specialist
+    description: Gathers information from sources
     role: |
       Research topics thoroughly.
       Gather accurate, well-sourced information.
@@ -151,6 +159,7 @@ agents:
 
   - id: writer
     name: Content Writer
+    description: Creates draft content
     role: |
       Write clear, engaging content.
       Follow the user's style preferences.
@@ -158,43 +167,55 @@ agents:
 
   - id: editor
     name: Editor
+    description: Reviews and improves content
     role: |
       Review content for accuracy and clarity.
       Check grammar and style.
       Suggest improvements.
 
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-    config:
-      api_key: ${{ secrets.BRAVE_API_KEY }}
-
 overlord:
-  auto_decomposition: true
-  complexity_threshold: 5.0
+  workflow:
+    auto_decomposition: true
+    complexity_threshold: 5.0
   response:
     streaming: true
+```
+
+With MCP file:
+
+```yaml
+# mcp/web-search.yaml
+schema: "1.0.0"
+id: web-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
 ---
 
 ## DevOps Assistant
 
-System management with tools:
+System management with GitHub tools:
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: devops-assistant
-name: DevOps Assistant
+description: DevOps assistant with GitHub access
 
 llm:
-  models:
-    text: openai/gpt-4o
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  models:
+    - text: "openai/gpt-4o"
 
 agents:
   - id: devops
+    description: DevOps specialist
     role: |
       You are a DevOps specialist who helps with:
       - Repository management
@@ -207,90 +228,55 @@ agents:
       - github
       - filesystem
 
-mcps:
-  - id: github
-    server: "@anthropic/github"
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  - id: filesystem
-    server: "@anthropic/filesystem"
-    config:
-      allowed_directories:
-        - /home/deploy/apps
-        - /var/log
-
 overlord:
-  response:
-    streaming: true
+  workflow:
+    plan_approval_threshold: 5  # Require approval for complex ops
 ```
 
----
-
-## Enterprise Multi-Tenant
-
-Production-ready with PostgreSQL and user isolation:
+With MCP files:
 
 ```yaml
+# mcp/github.yaml
 schema: "1.0.0"
-id: enterprise-assistant
-name: Enterprise Assistant
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+```
 
-llm:
-  models:
-    text: openai/gpt-4o
-    embedding: openai/text-embedding-3-small
-  api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
-
-agents:
-  - id: assistant
-    role: |
-      You are an enterprise assistant.
-      Maintain professionalism and confidentiality.
-      Never share information between users.
-
-memory:
-  buffer:
-    size: 100
-    vector_search: true
-  persistent:
-    enabled: true
-    provider: postgresql
-    connection_string: ${{ secrets.POSTGRES_URI }}
-    user_isolation: true
-
-overlord:
-  persona:
-    style: professional
-    tone: formal
-  response:
-    streaming: true
-
-api_keys:
-  admin: ${{ secrets.ADMIN_KEY }}
-  client: ${{ secrets.CLIENT_KEY }}
+```yaml
+# mcp/filesystem.yaml
+schema: "1.0.0"
+id: filesystem
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-filesystem", "./repos"]
 ```
 
 ---
 
-## Webhook-Driven Bot
+## Alert Responder
 
-Formation with triggers for external events:
+Async processing with webhooks:
 
 ```yaml
+# formation.yaml
 schema: "1.0.0"
 id: alert-responder
-name: Alert Responder
+description: Incident response automation
 
 llm:
-  models:
-    text: openai/gpt-4o
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  models:
+    - text: "openai/gpt-4o"
 
 agents:
   - id: responder
+    description: Analyzes alerts and incidents
     role: |
       You analyze alerts and incidents.
       Provide clear summaries and action items.
@@ -298,40 +284,95 @@ agents:
     mcps:
       - database
 
-mcps:
-  - id: database
-    server: "@anthropic/postgres"
-    config:
-      connection_string: ${{ secrets.DATABASE_URL }}
+async:
+  threshold_seconds: 10
+  webhook_url: "${{ secrets.WEBHOOK_URL }}"
+
+overlord:
+  response:
+    streaming: false  # Batch responses for alerts
 ```
 
-With trigger template `triggers/alert.md`:
+With MCP file:
 
-```markdown
+```yaml
+# mcp/database.yaml
+schema: "1.0.0"
+id: database
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-postgres"]
+auth:
+  type: env
+  DATABASE_URL: "${{ secrets.DATABASE_URL }}"
+```
+
 ---
-name: Alert Handler
-tags: [alert, incident]
-triggers:
-  keywords: [new alert, incident report]
----
 
-New alert from ${{ data.source }}:
+## Enterprise Ready
 
-**Severity**: ${{ data.severity }}
-**Message**: ${{ data.message }}
-**Time**: ${{ data.timestamp }}
+Full production setup:
 
-Analyze this alert and provide:
-1. Brief summary
-2. Potential root causes
-3. Recommended actions
-4. Priority level (P0-P3)
+```yaml
+schema: "1.0.0"
+id: enterprise-assistant
+description: Production-ready enterprise assistant
+version: "1.0.0"
+
+llm:
+  api_keys:
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  settings:
+    temperature: 0.7
+    max_tokens: 4096
+  models:
+    - text: "openai/gpt-4o"
+    - embedding: "openai/text-embedding-3-large"
+
+agents:
+  - id: assistant
+    name: Enterprise Assistant
+    description: General-purpose enterprise assistant
+    role: |
+      You are an enterprise assistant.
+      Be professional and thorough.
+
+memory:
+  buffer:
+    size: 50
+    vector_search: true
+  persistent:
+    connection_string: "${{ secrets.POSTGRES_URL }}"
+    user_synopsis:
+      enabled: true
+
+overlord:
+  persona: You are a professional enterprise assistant.
+  workflow:
+    auto_decomposition: true
+    complexity_threshold: 7.0
+  response:
+    format: markdown
+    streaming: true
+  clarification:
+    style: formal
+
+server:
+  api_keys:
+    admin_key: "${{ secrets.ADMIN_KEY }}"
+    client_key: "${{ secrets.CLIENT_KEY }}"
+
+logging:
+  system:
+    level: info
+  conversation:
+    enabled: true
 ```
 
 ---
 
 ## Next Steps
 
-[+] [Schema Reference](schema.md) - All configuration options
-[+] [Registry](../registry/README.md) - Find more formations
-[+] [Quickstart](../quickstart.md) - Get started with examples
+- [Schema Reference](schema.md) - Full schema documentation
+- [Tools](tools.md) - MCP configuration
+- [Example Formations](../examples/) - Runnable examples

@@ -1,20 +1,25 @@
-name: research-assistant
-version: 1.0.0
+schema: "1.0.0"
+id: research-assistant
 description: AI research assistant with web search and file access
+version: "1.0.0"
 
 # LLM Configuration
 llm:
-  provider: openai
-  model: gpt-4
-  temperature: 0.7
-  
   api_keys:
-    openai:
-      secret: OPENAI_API_KEY
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  
+  models:
+    - text: "openai/gpt-4o"
+      settings:
+        temperature: 0.7
+        max_tokens: 4096
+    - embedding: "openai/text-embedding-3-large"
 
 # Researcher Agent
 agents:
-  - name: researcher
+  - id: researcher
+    name: Research Specialist
+    description: Expert research assistant
     role: |
       You are an expert research assistant specializing in gathering,
       analyzing, and synthesizing information from multiple sources.
@@ -39,15 +44,12 @@ agents:
       - Note when information may be outdated
       - Suggest follow-up research areas
     
-    description: "Expert research assistant"
-    
-    llm:
-      provider: openai
-      model: gpt-4
+    mcps:
+      - brave-search
+      - filesystem
 
 # Overlord Configuration
 overlord:
-  # Professional researcher persona (freeform text description)
   persona: |
     You are a professional research assistant who is knowledgeable, thorough,
     and analytical. Be precise in your communication. Use examples when helpful,
@@ -55,95 +57,19 @@ overlord:
     complex topics.
   
   workflow:
-    auto_decomposition: true       # Enable workflows for complex research
-    complexity_threshold: 7.0      # Default threshold
+    auto_decomposition: true
+    complexity_threshold: 7.0
 
 # Memory Configuration
 memory:
   buffer:
-    enabled: true
-    size: 100             # Large buffer for research context
+    size: 50
     vector_search: true
   
   persistent:
-    enabled: true
-    provider: sqlite
-    path: ./data/memory.db
-    
-    collections:
-      - name: research_sessions
-      - name: findings
+    connection_string: "sqlite:///data/memory.db"
 
-# MCP Tools
-mcps:
-  # Web Search
-  - id: brave-search
-    name: "Brave Web Search"
-    command: npx
-    args:
-      - "-y"
-      - "@modelcontextprotocol/server-brave-search"
-    env:
-      BRAVE_API_KEY:
-        secret: BRAVE_SEARCH_API_KEY
-    config:
-      max_results: 5
-  
-  # File System Access
-  - id: filesystem
-    name: "File System"
-    command: npx
-    args:
-      - "-y"
-      - "@modelcontextprotocol/server-filesystem"
-    config:
-      allowed_directories:
-        - ./research
-      allowed_operations:
-        - read
-        - write
-        - list
-
-# Artifacts (for report generation)
-artifacts:
-  enabled: true
-  python_execution: true
-  timeout: 30
-  
-  # Packages for report generation
-  allowed_packages:
-    - reportlab      # PDF generation
-    - matplotlib     # Charts
-    - pandas         # Data analysis
-    - markdown       # Markdown to HTML
-
-# Tool Chaining
-tools:
-  chaining:
-    enabled: true
-    max_chain_length: 10
-  
-  error_recovery:
-    enabled: true
-    max_retries: 3
-
-# Clarification
-clarification:
-  enabled: true
-  max_turns: 2
-  types:
-    - missing_information
-    - ambiguous_request
-
-# Workflow Settings (moved under overlord)
-# These are already configured above in overlord.workflow
-# Additional workflow settings can be added there if needed
-
-# No knowledge base (uses web search)
-knowledge: []
-
-# No triggers
-triggers: []
-
-# Optional: SOPs for common research patterns
-sops: []
+# MCP Configuration
+mcp:
+  default_timeout_seconds: 60
+  max_tool_iterations: 10

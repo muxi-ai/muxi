@@ -131,8 +131,10 @@ MUXI POSTs to callback:
 ## Timeout Configuration
 
 ```yaml
-workflow:
-  task_timeout: 300  # 5 minutes per task
+overlord:
+  workflow:
+    timeouts:
+      task_timeout: 300  # 5 minutes per task
 ```
 
 ## Cancel Request

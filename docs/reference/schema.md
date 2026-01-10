@@ -1,30 +1,33 @@
 ---
 title: Agent Formation Schema
-description: Complete specification for .afs formation files
+description: Complete specification for formation.yaml files
 ---
 
 # Agent Formation Schema
 
-## The .afs file format
+## The formation file format
 
-Agent Formation Schema (`.afs`) is MUXI's configuration format. Every formation starts with a `formation.afs` file that defines agents, tools, memory, and behavior.
+Every formation starts with a `formation.yaml` (or `formation.afs`) file that defines agents, tools, memory, and behavior.
 
 
 ## Copy-paste starter
 
-The smallest valid `formation.afs`:
+The smallest valid `formation.yaml`:
 
 ```yaml
 schema: "1.0.0"
 id: my-assistant
+description: A simple assistant
 
 llm:
+  api_keys:
+    openai: "${{ secrets.OPENAI_API_KEY }}"
   models:
-    text: openai/gpt-4o
+    - text: "openai/gpt-4o"
 
 agents:
   - id: assistant
-    role: helpful assistant
+    role: You are a helpful assistant.
 ```
 
 ---
@@ -34,16 +37,18 @@ agents:
 ```yaml
 schema: "1.0.0"                    # Required: Schema version
 id: my-formation                   # Required: Unique identifier
-name: My Formation                 # Optional: Display name
-description: A helpful AI assistant # Optional: Description
+description: A helpful AI assistant # Required: Description
 
-llm: {...}                         # Required: LLM configuration
-agents: [...]                      # Required: At least one agent
-memory: {...}                      # Optional: Memory configuration
-mcps: [...]                        # Optional: MCP tool servers
-overlord: {...}                    # Optional: Orchestration settings
-workflow: {...}                    # Optional: Workflow configuration
-api_keys: {...}                    # Optional: Formation API keys
+llm: {...}                         # LLM configuration
+agents: [...]                      # At least one agent
+memory: {...}                      # Memory configuration
+mcp: {...}                         # MCP tool settings
+overlord: {...}                    # Orchestration settings
+server: {...}                      # Server configuration
+async: {...}                       # Async behavior
+scheduler: {...}                   # Scheduled tasks
+a2a: {...}                         # Agent-to-agent
+user_credentials: {...}            # User credential handling
 ```
 
 ---
@@ -52,18 +57,32 @@ api_keys: {...}                    # Optional: Formation API keys
 
 ```yaml
 llm:
-  models:
-    text: openai/gpt-4o                    # Text generation
-    embedding: openai/text-embedding-3-small # Embeddings (for memory/knowledge)
-
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
-    anthropic: ${{ secrets.ANTHROPIC_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+    anthropic: "${{ secrets.ANTHROPIC_API_KEY }}"
 
-  defaults:
+  settings:
     temperature: 0.7
     max_tokens: 4096
+    timeout_seconds: 30
+
+  models:
+    - text: "openai/gpt-4o"
+    - embedding: "openai/text-embedding-3-large"
+    - vision: "openai/gpt-4o"
+      settings:
+        max_tokens: 1500
 ```
+
+### Model Capabilities
+
+| Capability | Purpose | Example |
+|------------|---------|---------|
+| `text` | Text generation | `openai/gpt-4o` |
+| `embedding` | Vector embeddings | `openai/text-embedding-3-large` |
+| `vision` | Image analysis | `openai/gpt-4o` |
+| `audio` | Transcription | `openai/whisper-1` |
+| `streaming` | Progress updates | `openai/gpt-4o-mini` |
 
 ### Supported Providers
 
@@ -78,35 +97,34 @@ llm:
 
 ## Agents
 
+Agents can be defined inline or in separate files in `agents/`:
+
 ```yaml
 agents:
-  - id: assistant                  # Required: Unique identifier
-    name: AI Assistant             # Optional: Display name
-    role: |                        # Required: System prompt
+  - id: assistant
+    name: AI Assistant
+    description: General-purpose assistant
+    role: |
       You are a helpful assistant.
-    model: openai/gpt-4o           # Optional: Override default LLM
-    temperature: 0.7               # Optional: 0-1
-    mcps:                          # Optional: Tools for this agent
+    mcps:
       - web-search
-      - filesystem
-    knowledge:                     # Optional: RAG sources
+    knowledge:
       enabled: true
       sources:
         - path: knowledge/docs/
-          description: Documentation
 ```
 
 ### Agent Fields
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| `id` | string | Yes | - | Unique identifier |
-| `name` | string | No | id value | Display name |
-| `role` | string | Yes | - | System prompt |
-| `model` | string | No | llm.models.text | LLM model |
-| `temperature` | float | No | 0.7 | Creativity (0-1) |
-| `mcps` | list | No | [] | Tool IDs this agent can use |
-| `knowledge` | object | No | disabled | RAG configuration |
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | Yes | Unique identifier |
+| `name` | string | No | Display name |
+| `description` | string | No | What the agent does |
+| `role` | string | Yes | System prompt |
+| `mcps` | list | No | Tool IDs this agent can use |
+| `knowledge` | object | No | RAG configuration |
+| `llm_models` | list | No | Override formation LLM |
 
 ---
 
@@ -115,34 +133,58 @@ agents:
 ```yaml
 memory:
   buffer:
-    size: 50                       # Messages to keep
-    multiplier: 10                 # Capacity multiplier
-    vector_search: true            # Semantic search
-    embedding_model: openai/text-embedding-3-small
+    size: 50
+    multiplier: 10
+    vector_search: true
 
   working:
-    max_memory_mb: 10              # Tool output cache size
-    fifo_interval_min: 5           # Cleanup interval
+    max_memory_mb: auto
+    mode: local  # or "remote" for FAISSx
 
   persistent:
-    enabled: true
-    provider: postgresql           # sqlite or postgresql
-    connection_string: ${{ secrets.POSTGRES_URI }}
-    user_isolation: true           # Separate memory per user
+    connection_string: "postgres://user:pass@localhost/db"
+    # or: "sqlite:///data/memory.db"
+    user_synopsis:
+      enabled: true
+      cache_ttl: 3600
 ```
 
 ---
 
-## MCP Servers
+## MCP Configuration
+
+MCP servers are defined in separate files in `mcp/` directory:
 
 ```yaml
-mcps:
-  - id: web-search                 # Required: Unique identifier
-    server: "@anthropic/brave-search" # Required: MCP package
-    config:                        # Optional: Server config
-      api_key: ${{ secrets.BRAVE_API_KEY }}
-    env:                           # Optional: Environment variables
-      DEBUG: "false"
+# mcp/web-search.yaml
+schema: "1.0.0"
+id: web-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+```
+
+```yaml
+# mcp/api-service.yaml
+schema: "1.0.0"
+id: api-service
+type: http
+endpoint: "https://api.example.com/mcp"
+auth:
+  type: bearer
+  token: "${{ secrets.API_TOKEN }}"
+```
+
+Formation-level MCP settings:
+
+```yaml
+mcp:
+  default_timeout_seconds: 30
+  max_tool_iterations: 10
+  max_tool_calls: 50
 ```
 
 ---
@@ -151,42 +193,55 @@ mcps:
 
 ```yaml
 overlord:
-  auto_decomposition: true         # Break complex tasks into steps
-  complexity_threshold: 7.0        # Score for workflow mode
+  persona: |
+    You are a helpful, professional assistant.
 
-  persona:
-    name: Assistant
-    style: professional            # professional, casual, technical
-    tone: helpful
-    traits:
-      - knowledgeable
-      - efficient
+  llm:
+    model: "openai/gpt-4o-mini"
+    settings:
+      temperature: 0.2
+
+  workflow:
+    auto_decomposition: true
+    complexity_threshold: 7.0
+    plan_approval_threshold: 8
+    max_parallel_tasks: 5
 
   response:
-    format: markdown               # markdown, json, text, html
+    format: markdown
     streaming: true
+
+  clarification:
+    style: conversational
+    max_rounds:
+      direct: 3
+      brainstorm: 10
 ```
 
 ---
 
-## Workflow
+## Server Configuration
 
 ```yaml
-workflow:
-  requires_approval: true          # Ask before complex tasks
-  approval_threshold: 10           # Complexity score for approval
-  max_parallel_tasks: 10           # Concurrent task limit
-  task_timeout: 300                # Seconds per task
+server:
+  host: "0.0.0.0"
+  port: 8001
+
+  api_keys:
+    admin_key: "${{ secrets.ADMIN_KEY }}"
+    client_key: "${{ secrets.CLIENT_KEY }}"
 ```
 
 ---
 
-## API Keys
+## Async Configuration
 
 ```yaml
-api_keys:
-  admin: ${{ secrets.FORMATION_ADMIN_KEY }}
-  client: ${{ secrets.FORMATION_CLIENT_KEY }}
+async:
+  threshold_seconds: 30
+  enable_estimation: true
+  webhook_url: "https://myapp.com/webhooks/muxi"
+  webhook_retries: 3
 ```
 
 ---
@@ -197,12 +252,8 @@ Reference external files:
 
 ```yaml
 agents:
-  - $include: agents/researcher.afs
-  - $include: agents/writer.afs
-
-mcps:
-  - $include: mcps/web-search.afs
-  - $include: mcps/database.afs
+  - $include: agents/researcher.yaml
+  - $include: agents/writer.yaml
 ```
 
 ---
@@ -214,14 +265,12 @@ Use `${{ secrets.KEY }}` syntax:
 ```yaml
 llm:
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
 
-mcps:
-  - id: database
-    config:
-      connection_string: ${{ secrets.DATABASE_URL }}
-    env:
-      API_TOKEN: ${{ secrets.API_TOKEN }}
+# In mcp/*.yaml files:
+auth:
+  type: env
+  API_KEY: "${{ secrets.API_KEY }}"
 ```
 
 ---
@@ -234,12 +283,6 @@ Validate your formation:
 muxi validate
 ```
 
-Or validate during deploy:
-
-```bash
-muxi deploy --validate
-```
-
 ---
 
 ## Complete Example
@@ -247,58 +290,71 @@ muxi deploy --validate
 ```yaml
 schema: "1.0.0"
 id: research-assistant
-name: Research Assistant
 description: AI research and writing team
+version: "1.0.0"
 
 llm:
-  models:
-    text: openai/gpt-4o
-    embedding: openai/text-embedding-3-small
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  models:
+    - text: "openai/gpt-4o"
+    - embedding: "openai/text-embedding-3-large"
 
 agents:
   - id: researcher
     name: Research Specialist
-    role: Research topics thoroughly with web search
+    description: Gathers information from web sources
+    role: |
+      Research topics thoroughly with web search.
+      Always cite your sources.
     mcps:
       - web-search
 
   - id: writer
     name: Content Writer
-    role: Write clear, engaging content
-
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-    config:
-      api_key: ${{ secrets.BRAVE_API_KEY }}
+    description: Creates polished content
+    role: Write clear, engaging content.
 
 memory:
   buffer:
     size: 50
     vector_search: true
   persistent:
-    enabled: true
-    provider: sqlite
+    connection_string: "sqlite:///data/memory.db"
 
 overlord:
-  auto_decomposition: true
-  complexity_threshold: 7.0
-  persona:
-    style: professional
-  response:
-    streaming: true
+  persona: You are a professional research assistant.
+  workflow:
+    auto_decomposition: true
+    complexity_threshold: 7.0
 
-api_keys:
-  admin: ${{ secrets.ADMIN_KEY }}
-  client: ${{ secrets.CLIENT_KEY }}
+mcp:
+  default_timeout_seconds: 30
+
+server:
+  api_keys:
+    admin_key: "${{ secrets.ADMIN_KEY }}"
+    client_key: "${{ secrets.CLIENT_KEY }}"
+```
+
+With MCP server file:
+
+```yaml
+# mcp/web-search.yaml
+schema: "1.0.0"
+id: web-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
 ---
 
 ## Next Steps
 
-[+] [Examples](examples.md) - More complete examples
-[+] [Agents](agents.md) - Agent configuration
-[+] [Tools](tools.md) - MCP configuration
+- [Examples](examples.md) - More complete examples
+- [Agents](agents.md) - Agent configuration
+- [Tools](tools.md) - MCP configuration

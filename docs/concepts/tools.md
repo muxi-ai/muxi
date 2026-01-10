@@ -7,7 +7,7 @@ description: How agents interact with the world through MCP tools
 ## How agents interact with the world through MCP tools
 
 
-MUXI speaks the **Model Context Protocol (MCP)** to connect agents with tools—web search, databases, file systems, APIs, and more. Any compliant MCP server works: Anthropic’s, community/open-source servers, or your own. No registry or vendor lock-in required.
+MUXI speaks the **Model Context Protocol (MCP)** to connect agents with tools—web search, databases, file systems, APIs, and more. Any compliant MCP server works: Anthropic's, community/open-source servers, or your own. No registry or vendor lock-in required.
 
 
 ## How MCP Works
@@ -39,17 +39,17 @@ The agent decides when to use tools - you don't need to explicitly request them.
 
 | Server type | When to use | Where in formation structure |
 |-------------|-------------|------------------------------|
-| **command (CLI)** | Run a local/server-side process (e.g., `npx @modelcontextprotocol/server-json-rpc`, Bash, Python) | `mcps/your-cli.afs` (see `schemas/mcp/local_tools.afs`) |
-| **http** | Call a remote MCP server over HTTPS (any provider or your own) | `mcps/your-http.afs` (see `schemas/mcp/web_tools.afs`) |
+| **command (CLI)** | Run a local/server-side process (e.g., `npx @modelcontextprotocol/server-json-rpc`, Bash, Python) | `mcp/your-tool.yaml` |
+| **http** | Call a remote MCP server over HTTPS (any provider or your own) | `mcp/your-tool.yaml` |
 
 Example — command/CLI MCP:
 
 ```yaml
-# mcps/local-tools.afs
+# mcp/local-tools.yaml
 schema: "1.0.0"
 id: local-tools
 type: command
-command: "npx"
+command: npx
 args: ["-y", "@modelcontextprotocol/server-json-rpc"]
 timeout_seconds: 60
 auth:
@@ -60,7 +60,7 @@ auth:
 Example — HTTP MCP:
 
 ```yaml
-# mcps/web-tools.afs
+# mcp/web-tools.yaml
 schema: "1.0.0"
 id: web-tools
 type: http
@@ -102,8 +102,6 @@ MUXI:
 
 The result: **use dozens of tools without burning your context window**.
 
-This is why MUXI can offer 1,000+ MCP tools while keeping your costs low and responses fast.
-
 ---
 
 ## Multi-User Tool Access
@@ -117,55 +115,87 @@ User B: GitHub token → their repos
 Same formation, personalized access.
 ```
 
-Agents automatically use the requesting user's credentials:
+In your MCP config file, reference user secrets:
 
 ```yaml
-mcps:
-  - id: github
-    server: "@anthropic/github"
-    env:
-      GITHUB_TOKEN: ${{ user.secrets.GITHUB_TOKEN }}
+# mcp/github.yaml
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ user.secrets.GITHUB_TOKEN }}"
 ```
 
 Credentials encrypted at rest. Complete isolation between users.
 
-**Formation placement:**
-- Server definitions live in `mcps/*.afs`.
-- Per-user secrets live in `secrets.enc` and are referenced as `user.secrets.*`.
-- Agents opt into tools by listing `mcps: [...]` inside `agents/*.afs`.
+**Formation structure:**
+- Server definitions live in `mcp/*.yaml` files
+- Per-user secrets referenced as `user.secrets.*`
+- Agents reference tools by ID in their `mcps:` list
 
 ---
 
 ## Agent-Specific Tools
 
-Restrict tools to specific agents:
+Restrict tools to specific agents in `formation.yaml`:
 
 ```yaml
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-  - id: filesystem
-    server: "@anthropic/filesystem"
-  - id: database
-    server: "@anthropic/postgres"
-
 agents:
   - id: researcher
-    mcps: [web-search]      # Can only search
+    role: Research specialist
+    mcps:
+      - web-search      # Can only search
 
   - id: developer
-    mcps: [filesystem, database]  # Can access files and DB
+    role: Code assistant
+    mcps:
+      - filesystem      # Can access files
+      - database        # Can query database
 
   - id: writer
-    # No tools - pure writing
+    role: Content writer
+    # No mcps - pure writing
+```
+
+With MCP files in `mcp/` directory:
+
+```yaml
+# mcp/web-search.yaml
+schema: "1.0.0"
+id: web-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+```
+
+```yaml
+# mcp/filesystem.yaml
+schema: "1.0.0"
+id: filesystem
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-filesystem", "./workspace"]
+```
+
+```yaml
+# mcp/database.yaml
+schema: "1.0.0"
+id: database
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-postgres"]
+auth:
+  type: env
+  DATABASE_URL: "${{ secrets.DATABASE_URL }}"
 ```
 
 Right tools for right agents. No accidental file access from the writer.
-
-**Formation placement:**
-- Tool servers: `mcps/*.afs`
-- Agent bindings: `agents/*.afs` → `mcps: [tool-id, ...]`
-- Formation root: `formation.afs` can include shared defaults.
 
 ---
 
@@ -173,14 +203,20 @@ Right tools for right agents. No accidental file access from the writer.
 
 ### Path Restrictions
 
+Restrict filesystem access in the MCP command args:
+
 ```yaml
-mcps:
-  - id: filesystem
-    config:
-      allowed_directories:
-        - /home/user/documents
-        - /tmp/workspace
-        # NOT: /, /etc, /root
+# mcp/filesystem.yaml
+schema: "1.0.0"
+id: filesystem
+type: command
+command: npx
+args:
+  - "-y"
+  - "@modelcontextprotocol/server-filesystem"
+  - "/home/user/documents"
+  - "/tmp/workspace"
+  # NOT: /, /etc, /root
 ```
 
 ### Credential Isolation
@@ -188,11 +224,11 @@ mcps:
 Each tool gets only its required secrets:
 
 ```yaml
-mcps:
-  - id: github
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Cannot access DATABASE_URL
+# mcp/github.yaml - only gets GITHUB_TOKEN
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  # Cannot access DATABASE_URL
 ```
 
 ---
@@ -210,128 +246,22 @@ User: "Create a GitHub repo called 'my-project'"
 Agent: Calls create_repo("my-project")
 GitHub: Error - "Repository already exists"
 Agent: Analyzes error
-Agent: Calls delete_repo("my-project")  # Remove old one
-Agent: Calls create_repo("my-project")  # Recreate
+Agent: Calls delete_repo("my-project")
+Agent: Calls create_repo("my-project")
 Success!
 ```
 
-**Traditional approach:**
-```
-Tool fails → Show error to user → User figures it out → User retries
-```
-
-**MUXI approach:**
-```
-Tool fails → Agent analyzes → Agent fixes → Success
-```
-
-### Multi-Step Tool Chains
-
-Agents can chain multiple tool calls to accomplish complex tasks:
-
-```
-User: "Deploy the app"
-Agent: 
-  1. Calls run_tests() → Passes ✓
-  2. Calls build_docker_image() → Success ✓
-  3. Calls push_to_registry() → Success ✓
-  4. Calls deploy_to_k8s() → Success ✓
-Done!
-```
-
-Each step depends on the previous one. If step 2 fails, the agent doesn't blindly continue to step 3.
-
-### Intelligent Retry Logic
-
-Not just dumb retries:
-
-```
-Example: GitHub API rate limit
-
-Dumb retry:
-  Call API → 429 Too Many Requests
-  Wait 1 second
-  Call API → 429 Too Many Requests
-  Wait 1 second
-  Call API → 429 Too Many Requests
-  Give up ❌
-
-Smart retry:
-  Call API → 429 Too Many Requests
-  Parse error: "Rate limit reset at 10:15 AM"
-  Wait until 10:15 AM
-  Call API → Success ✓
-```
-
-The agent understands the error and responds appropriately.
-
 ### Safety Mechanisms
 
-To prevent infinite loops:
+Configure in `formation.yaml`:
 
 ```yaml
-tool_chaining:
-  max_iterations: 10          # Max retry attempts per chain
+mcp:
+  max_tool_iterations: 10     # Max retry attempts per chain
   max_tool_calls: 50          # Total tool calls across all chains
   max_repeated_errors: 3      # Stop if same error repeats
-  timeout: 120                # 2 minutes max per chain
+  max_timeout_in_seconds: 120 # 2 minutes max
 ```
-
-**Example - Repeated Error Detection:**
-```
-Try 1: create_file() → "Permission denied"
-Try 2: chmod +w → create_file() → "Permission denied"
-Try 3: sudo create_file() → "Permission denied"
-Stop! Same error 3 times. Report to user.
-```
-
-The agent knows when to escalate to the user.
-
-**Formation placement (security & safety):**
-- Per-tool configs (timeouts, auth, allowlists): `mcps/*.afs`
-- Global safety limits (e.g., `tool_chaining`) live in `formation.afs`.
-- Secrets/tokens: `secrets.enc` referenced as `${{ secrets.* }}` or `${{ user.secrets.* }}`.
-
-### Error Pattern Recognition
-
-Agents learn from errors:
-
-```
-Error: "Database connection refused"
-Agent recognizes: Network/connectivity issue
-Action: Check if database is running, restart if needed
-
-Error: "File not found: /tmp/data.csv"
-Agent recognizes: Missing dependency
-Action: Check if previous step completed, regenerate file if needed
-
-Error: "Invalid API key"
-Agent recognizes: Credential issue
-Action: Ask user to update credentials
-```
-
-Different error types get different recovery strategies.
-
-### When Recovery Fails
-
-If the agent can't fix it, you get a detailed explanation:
-
-```
-Agent: "I tried to deploy the app but encountered an error:
-       
-       1. Ran tests → Passed ✓
-       2. Built Docker image → Failed ✗
-          Error: 'docker' command not found
-       
-       I attempted to:
-       - Check if Docker is installed
-       - Restart Docker service
-       
-       This appears to be a system configuration issue. 
-       Please install Docker and try again."
-```
-
-Clear explanation of what failed and what was attempted.
 
 ---
 
@@ -342,7 +272,6 @@ Clear explanation of what failed and what was attempted.
 | Build custom integrations | MCP standard protocol |
 | Tool schemas in every request | Indexed, loaded on demand |
 | Single set of credentials | Per-user credential storage |
-| Manual scheduling code | Natural language scheduling |
 | All tools for all agents | Agent-specific restrictions |
 
 The result: **agents that act**, not just talk.
@@ -351,13 +280,23 @@ The result: **agents that act**, not just talk.
 
 ## Quick Setup
 
-```yaml
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-    config:
-      api_key: ${{ secrets.BRAVE_API_KEY }}
+Create `mcp/web-search.yaml`:
 
+```yaml
+schema: "1.0.0"
+id: web-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+```
+
+Reference in agent:
+
+```yaml
+# formation.yaml
 agents:
   - id: researcher
     role: Research specialist

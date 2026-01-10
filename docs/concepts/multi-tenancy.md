@@ -13,22 +13,35 @@ MUXI formations are multi-tenant: every user gets isolated sessions, memory, and
 - **Credentials:** OAuth tokens/API keys are stored per user; agents use only the caller’s credentials.
 - **Tools:** MCP servers run with user-scoped secrets; path and capability restrictions apply per tool.
 
-### Typical setup
+### How it works
+
+**Authentication:** Requests include `X-Muxi-User-Id` header to identify the caller:
+
+```http
+POST /v1/chat HTTP/1.1
+X-Muxi-Client-Key: fmc_...
+X-Muxi-User-Id: tenant_acme:user_123
+```
+
+**Memory isolation:** Configure persistent storage - all queries are automatically filtered by user ID:
 
 ```yaml
-security:
-  users:
-    auth: hmac  # or your auth plugin
-
 memory:
-  persistence: postgres
-  namespace: "{{ user.id }}"  # per-user partitioning
+  persistent:
+    connection_string: "postgres://user:pass@localhost:5432/muxi"
+```
 
-mcps:
-  - id: github
-    server: "@anthropic/github"
-    env:
-      GITHUB_TOKEN: "${{ user.secrets.GITHUB_TOKEN }}"
+**Per-user credentials:** MCP servers can access user-specific secrets:
+
+```yaml
+# In your MCP config (mcp/github.yaml)
+schema: "1.0.0"
+id: github
+type: http
+endpoint: "https://api.github.com"
+auth:
+  type: bearer
+  token: "${{ user.secrets.GITHUB_TOKEN }}"
 ```
 
 ### Best practices

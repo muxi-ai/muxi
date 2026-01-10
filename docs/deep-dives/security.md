@@ -138,15 +138,18 @@ X-Muxi-User-Id: tenant_b:user_456
 ### Filesystem Restrictions
 
 ```yaml
-mcps:
-  - id: filesystem
-    server: "@anthropic/filesystem"
-    config:
-      allowed_directories:
-        - /home/user/documents    # ✓ Allowed
-        - /home/user/projects     # ✓ Allowed
-        # /etc                    # ✗ Not listed
-        # /root                   # ✗ Not listed
+# mcp/filesystem.yaml
+schema: "1.0.0"
+id: filesystem
+type: command
+command: npx
+args:
+  - "-y"
+  - "@modelcontextprotocol/server-filesystem"
+  - "/home/user/documents"    # Allowed
+  - "/home/user/projects"     # Allowed
+  # /etc - Not listed = not allowed
+  # /root - Not listed = not allowed
 ```
 
 > [!WARNING]
@@ -157,16 +160,29 @@ mcps:
 Each tool gets only its required secrets:
 
 ```yaml
-mcps:
-  - id: github
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Cannot access OPENAI_API_KEY
+# mcp/github.yaml - only gets GITHUB_TOKEN
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  # Cannot access OPENAI_API_KEY or DATABASE_URL
+```
 
-  - id: database
-    config:
-      connection_string: ${{ secrets.DATABASE_URL }}
-      # Cannot access GITHUB_TOKEN
+```yaml
+# mcp/database.yaml - only gets DATABASE_URL
+schema: "1.0.0"
+id: database
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-postgres"]
+auth:
+  type: env
+  DATABASE_URL: "${{ secrets.DATABASE_URL }}"
+  # Cannot access GITHUB_TOKEN
 ```
 
 ---

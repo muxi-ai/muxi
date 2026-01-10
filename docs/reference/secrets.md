@@ -44,14 +44,22 @@ formation/
 Reference secrets in YAML:
 
 ```yaml
+# In formation.yaml
 llm:
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+```
 
-mcps:
-  - id: github
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```yaml
+# In mcp/github.yaml
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
 ---
@@ -175,24 +183,30 @@ llm:
     anthropic: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
-### In MCP Config
+### In MCP Config Files
 
 ```yaml
-mcps:
-  - id: database
-    server: "@anthropic/postgres"
-    config:
-      connection_string: ${{ secrets.DATABASE_URL }}
+# mcp/database.yaml
+schema: "1.0.0"
+id: database
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-postgres"]
+auth:
+  type: env
+  DATABASE_URL: "${{ secrets.DATABASE_URL }}"
 ```
 
-### In Environment Variables
-
 ```yaml
-mcps:
-  - id: github
-    server: "@anthropic/github"
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# mcp/github.yaml
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
 ---

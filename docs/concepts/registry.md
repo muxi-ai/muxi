@@ -112,7 +112,7 @@ muxi formation rollback my-assistant
 my-formation/
 ├── formation.afs      ✓ Published
 ├── agents/            ✓ Published
-├── mcps/              ✓ Published
+├── mcp/              ✓ Published
 ├── sops/              ✓ Published
 ├── triggers/          ✓ Published
 ├── knowledge/         ✓ Published (optional)

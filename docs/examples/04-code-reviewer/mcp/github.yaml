@@ -1,0 +1,10 @@
+schema: "1.0.0"
+id: github
+description: GitHub API access for code review
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+timeout_seconds: 60
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

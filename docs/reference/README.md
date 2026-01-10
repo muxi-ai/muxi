@@ -19,7 +19,7 @@ A formation is everything your AI needs: agents, tools, memory, knowledge, and w
 my-formation/
 ├── formation.afs      # Main configuration
 ├── agents/            # Agent definitions
-├── mcps/              # Tool configurations
+├── mcp/              # Tool configurations
 ├── sops/              # Standard procedures
 ├── triggers/          # Webhook templates
 ├── knowledge/         # RAG sources

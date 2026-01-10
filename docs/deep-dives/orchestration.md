@@ -166,9 +166,9 @@ This enables:
 For very complex tasks, require human approval:
 
 ```yaml
-workflow:
-  requires_approval: true
-  approval_threshold: 10
+overlord:
+  workflow:
+    plan_approval_threshold: 10  # Require approval for high complexity
 ```
 
 When triggered:
@@ -193,19 +193,16 @@ Proceed? [y/N]
 
 ```yaml
 overlord:
-  auto_decomposition: true     # Enable workflow mode
-  complexity_threshold: 7.0    # Score threshold
+  persona: |
+    You are a professional assistant.
 
-  persona:
-    name: Assistant
-    style: professional        # professional, casual, technical
-    tone: helpful
-
-workflow:
-  requires_approval: false     # Require user approval
-  approval_threshold: 10       # Approval trigger score
-  max_parallel_tasks: 10       # Concurrent task limit
-  task_timeout: 300            # Seconds per task
+  workflow:
+    auto_decomposition: true     # Enable workflow mode
+    complexity_threshold: 7.0    # Score threshold
+    plan_approval_threshold: 10  # Approval trigger score
+    max_parallel_tasks: 10       # Concurrent task limit
+    timeouts:
+      task_timeout: 300          # Seconds per task
 ```
 
 ---

@@ -9,23 +9,29 @@ description: Give agents capabilities with MCP servers
 
 Tools let agents interact with the world - search the web, read files, query databases, call APIs. MUXI uses the **Model Context Protocol (MCP)** for tool integration.
 
-<!-- TODO: Add illustration of agent using tools -->
-<!-- [Image placeholder: Agent using web search and database tools] -->
-
 
 ## Add Your First Tool
 
 [[steps]]
 
-[[step Add the MCP config]]
+[[step Create the MCP config file]]
+
+```bash
+mkdir -p mcp
+```
+
+Create `mcp/web-search.yaml`:
 
 ```yaml
-# formation.afs
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-    config:
-      api_key: ${{ secrets.BRAVE_API_KEY }}
+schema: "1.0.0"
+id: web-search
+description: Brave web search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 [[/step]]
 
@@ -38,12 +44,14 @@ muxi secrets set BRAVE_API_KEY
 
 [[step Assign to agent]]
 
+In your agent config (inline or `agents/*.yaml`):
+
 ```yaml
 agents:
   - id: researcher
     role: Research specialist
     mcps:
-      - web-search
+      - web-search  # References the MCP id
 ```
 [[/step]]
 
@@ -59,41 +67,67 @@ muxi dev
 
 ---
 
-## MCP Configuration
+## MCP Server Types
+
+### Command-based (Local)
+
+Runs a local process:
 
 ```yaml
-mcps:
-  - id: web-search           # Unique identifier
-    server: "@anthropic/brave-search"  # MCP server package
-    config:                  # Server configuration
-      api_key: ${{ secrets.BRAVE_API_KEY }}
-    env:                     # Environment variables
-      DEBUG: "false"
+# mcp/local-tool.yaml
+schema: "1.0.0"
+id: local-tool
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+timeout_seconds: 30
+auth:
+  type: env
+  API_KEY: "${{ secrets.API_KEY }}"
 ```
+
+### HTTP-based (Remote)
+
+Calls a remote MCP server:
+
+```yaml
+# mcp/remote-tool.yaml
+schema: "1.0.0"
+id: remote-tool
+type: http
+endpoint: "https://api.example.com/mcp"
+timeout_seconds: 30
+auth:
+  type: bearer
+  token: "${{ secrets.API_TOKEN }}"
+```
+
+---
+
+## MCP File Fields
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `id` | Yes | Unique identifier for this tool |
-| `server` | Yes | MCP server package or command |
-| `config` | No | Server-specific configuration |
-| `env` | No | Environment variables for the server |
+| `schema` | Yes | Schema version (`"1.0.0"`) |
+| `id` | Yes | Unique identifier |
+| `type` | Yes | `command` or `http` |
+| `command` | Yes (command) | Command to execute |
+| `args` | No | Command arguments |
+| `endpoint` | Yes (http) | Remote server URL |
+| `timeout_seconds` | No | Request timeout |
+| `auth` | No | Authentication config |
 
 ---
 
 ## Popular MCP Servers
 
-### Official Servers
-
-| Server | What It Does | Config Required |
-|--------|--------------|-----------------|
-| `@anthropic/brave-search` | Web search | `api_key` |
-| `@anthropic/filesystem` | Read/write files | `allowed_directories` |
-| `@anthropic/github` | GitHub API | `GITHUB_TOKEN` env |
-| `@anthropic/postgres` | PostgreSQL queries | `connection_string` |
-| `@anthropic/sqlite` | SQLite queries | `database_path` |
-
-> [!TIP]
-> Browse more servers at [registry.muxi.org/mcps](https://registry.muxi.org/mcps)
+| Server | What It Does | Type |
+|--------|--------------|------|
+| `@modelcontextprotocol/server-brave-search` | Web search | command |
+| `@modelcontextprotocol/server-filesystem` | Read/write files | command |
+| `@modelcontextprotocol/server-github` | GitHub API | command |
+| `@modelcontextprotocol/server-postgres` | PostgreSQL | command |
+| `@modelcontextprotocol/server-sqlite` | SQLite | command |
 
 ---
 
@@ -102,27 +136,31 @@ mcps:
 ### Web Search
 
 ```yaml
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-    config:
-      api_key: ${{ secrets.BRAVE_API_KEY }}
+# mcp/web-search.yaml
+schema: "1.0.0"
+id: web-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
 ### File System
 
 ```yaml
-mcps:
-  - id: files
-    server: "@anthropic/filesystem"
-    config:
-      allowed_directories:
-        - /home/user/documents
-        - /home/user/projects
+# mcp/filesystem.yaml
+schema: "1.0.0"
+id: filesystem
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-filesystem", "./documents", "./projects"]
+timeout_seconds: 30
 ```
 
 > [!WARNING]
-> Always restrict file access to specific directories. Never allow `/` or home directory root.
+> Always restrict file access to specific directories in the args.
 
 ### Database
 
@@ -130,21 +168,26 @@ mcps:
 
 [[tab PostgreSQL]]
 ```yaml
-mcps:
-  - id: database
-    server: "@anthropic/postgres"
-    config:
-      connection_string: ${{ secrets.DATABASE_URL }}
+# mcp/postgres.yaml
+schema: "1.0.0"
+id: database
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-postgres"]
+auth:
+  type: env
+  DATABASE_URL: "${{ secrets.DATABASE_URL }}"
 ```
 [[/tab]]
 
 [[tab SQLite]]
 ```yaml
-mcps:
-  - id: database
-    server: "@anthropic/sqlite"
-    config:
-      database_path: ./data/app.db
+# mcp/sqlite.yaml
+schema: "1.0.0"
+id: database
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-sqlite", "--db", "./data/app.db"]
 ```
 [[/tab]]
 
@@ -153,93 +196,93 @@ mcps:
 ### GitHub
 
 ```yaml
-mcps:
-  - id: github
-    server: "@anthropic/github"
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# mcp/github.yaml
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
 ---
 
-## Custom MCP Servers
+## Formation-Level MCP Settings
 
-Use any MCP-compatible server:
-
-```yaml
-mcps:
-  - id: custom-tool
-    server: npx @company/custom-mcp-server
-    env:
-      API_KEY: ${{ secrets.CUSTOM_API_KEY }}
-```
-
-Or a local server:
+Configure global MCP behavior in `formation.yaml`:
 
 ```yaml
-mcps:
-  - id: local-tool
-    server: python /path/to/my_mcp_server.py
-```
-
----
-
-## Separate MCP Files
-
-For complex configurations:
-
-```bash
-muxi new mcp web-search
-```
-
-Creates `mcps/web-search.afs`:
-
-```yaml
-# mcps/web-search.afs
-id: web-search
-server: "@anthropic/brave-search"
-config:
-  api_key: ${{ secrets.BRAVE_API_KEY }}
-```
-
-Reference in formation:
-
-```yaml
-mcps:
-  - $include: mcps/web-search.afs
-  - $include: mcps/database.afs
+mcp:
+  default_timeout_seconds: 30
+  max_tool_iterations: 10
+  max_tool_calls: 50
+  max_repeated_errors: 3
 ```
 
 ---
 
 ## Agent-Specific Tools
 
-Restrict tools to specific agents:
+Assign tools to specific agents:
 
 ```yaml
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-  - id: filesystem
-    server: "@anthropic/filesystem"
-  - id: database
-    server: "@anthropic/postgres"
-
+# formation.yaml
 agents:
   - id: researcher
     role: Research topics
     mcps:
-      - web-search     # Only researcher can search
+      - web-search     # Can search the web
 
   - id: developer
     role: Code assistant
     mcps:
-      - filesystem     # Only developer can access files
-      - database       # Only developer can query database
+      - filesystem     # Can access files
+      - database       # Can query database
 
   - id: writer
     role: Content writer
-    # No tools - pure writing focus
+    # No mcps - pure writing focus
+```
+
+---
+
+## Authentication Types
+
+### Environment Variables
+
+```yaml
+auth:
+  type: env
+  API_KEY: "${{ secrets.API_KEY }}"
+  DEBUG: "true"
+```
+
+### Bearer Token
+
+```yaml
+auth:
+  type: bearer
+  token: "${{ secrets.TOKEN }}"
+```
+
+### Basic Auth
+
+```yaml
+auth:
+  type: basic
+  username: "${{ secrets.USERNAME }}"
+  password: "${{ secrets.PASSWORD }}"
+```
+
+### API Key Header
+
+```yaml
+auth:
+  type: api_key
+  header: "X-API-Key"
+  key: "${{ secrets.API_KEY }}"
 ```
 
 ---
@@ -250,13 +293,7 @@ agents:
 Verify the server is installed:
 
 ```bash
-npx @anthropic/brave-search --version
-```
-
-If not found, install it:
-
-```bash
-npm install -g @anthropic/brave-search
+npx @modelcontextprotocol/server-brave-search --version
 ```
 [[/toggle]]
 
@@ -268,22 +305,15 @@ muxi logs --mcp
 ```
 
 Common issues:
-
 - Invalid API key
 - Network connectivity
 - Server not running
-[[/toggle]]
-
-[[toggle Permission Denied]]
-For filesystem tools, verify paths are in `allowed_directories`.
-
-For databases, check connection credentials.
 [[/toggle]]
 
 ---
 
 ## Next Steps
 
-[+] [Secrets](secrets.md) - Manage tool credentials securely
-[+] [Agents](agents.md) - Assign tools to agents
-[+] [Add Tools Guide](../guides/add-tools.md) - Step-by-step tutorial
+- [Secrets](secrets.md) - Manage tool credentials
+- [Agents](agents.md) - Assign tools to agents
+- [Add Tools Guide](../guides/add-tools.md) - Step-by-step tutorial

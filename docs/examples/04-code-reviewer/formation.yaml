@@ -1,16 +1,24 @@
-name: code-reviewer
-version: 1.0.0
+schema: "1.0.0"
+id: code-reviewer
 description: AI code reviewer with GitHub integration
+version: "1.0.0"
 
+# LLM Configuration
 llm:
-  provider: openai
-  model: gpt-4
   api_keys:
-    openai:
-      secret: OPENAI_API_KEY
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  
+  models:
+    - text: "openai/gpt-4o"
+      settings:
+        temperature: 0.3
+        max_tokens: 4096
 
+# Code Reviewer Agent
 agents:
-  - name: code-reviewer
+  - id: code-reviewer
+    name: Code Reviewer
+    description: Expert code reviewer with security focus
     role: |
       You are an expert code reviewer with 15+ years of experience.
       
@@ -23,64 +31,43 @@ agents:
       Your review format:
       ## Code Review
       
-      ### 🚨 Security Issues
+      ### Security Issues
       (Critical - must fix)
       
-      ### ⚠️ Performance Concerns
+      ### Performance Concerns
       (Should fix)
       
-      ### 💡 Best Practices
+      ### Best Practices
       (Suggestions)
       
-      ### ✅ Positive
+      ### Positive
       (What's done well)
       
       **Overall:** [Approve/Request Changes/Reject]
       
       For critical issues, create GitHub issues.
     
-    llm:
-      provider: openai
-      model: gpt-4
+    mcps:
+      - github
 
+# Overlord Configuration
 overlord:
-  persona: "You are a technical code reviewer. Be precise and thorough in your feedback."
+  persona: You are a technical code reviewer. Be precise and thorough in your feedback.
+  
+  workflow:
+    auto_decomposition: false
 
+# Memory for review context
 memory:
   buffer:
-    enabled: true
-    size: 20
+    size: 30
+    vector_search: true
 
-mcps:
-  - id: github
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-github"]
-    env:
-      GITHUB_TOKEN:
-        secret: GITHUB_TOKEN
-
-triggers:
-  - name: github-pr
-    description: "Review GitHub pull requests"
-    template: |
-      A pull request needs review:
-      
-      Repository: {{repository.full_name}}
-      PR #{{pull_request.number}}: {{pull_request.title}}
-      Author: {{pull_request.user.login}}
-      Branch: {{pull_request.head.ref}} → {{pull_request.base.ref}}
-      
-      Action: Fetch the PR diff, review the code, and post a review comment on GitHub.
-      For critical security issues, also create a GitHub issue.
-    
-    async: true
-
-# Async configuration (top-level, not under workflow)
+# Async configuration for PR reviews
 async:
-  threshold_seconds: 5  # Switch to async quickly for PRs
+  threshold_seconds: 5
+  webhook_url: "${{ secrets.WEBHOOK_URL }}"
 
-# Workflow configuration (under overlord)
-overlord:
-  workflow:
-    timeouts:
-      task_timeout: 120
+# MCP Configuration
+mcp:
+  default_timeout_seconds: 120

@@ -35,17 +35,21 @@ By the end of this guide, your agent will:
 
 ```bash
 cd my-formation
-muxi new mcp web-search
+mkdir -p mcp
 ```
 
-This creates `mcps/web-search.afs`:
+Create `mcp/web-search.yaml`:
 
 ```yaml
-# mcps/web-search.afs
+schema: "1.0.0"
 id: web-search
-server: "@anthropic/brave-search"
-config:
-  api_key: ${{ secrets.BRAVE_API_KEY }}
+description: Brave web search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
 [[/step]]
@@ -60,23 +64,20 @@ Enter your Brave API key when prompted.
 
 [[/step]]
 
-[[step Reference in Formation]]
+[[step Update Formation]]
 
-Update your `formation.afs`:
+Update your `formation.yaml`:
 
 ```yaml
-# formation.afs
 schema: "1.0.0"
 id: my-assistant
+description: Assistant with web search
 
 llm:
-  models:
-    text: openai/gpt-4o
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
-
-mcps:
-  - $include: mcps/web-search.afs
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  models:
+    - text: "openai/gpt-4o"
 
 agents:
   - id: assistant
@@ -136,12 +137,12 @@ sequenceDiagram
 ### File System
 
 ```yaml
-mcps:
-  - id: files
-    server: "@anthropic/filesystem"
-    config:
-      allowed_directories:
-        - /home/user/documents
+# mcp/filesystem.yaml
+schema: "1.0.0"
+id: filesystem
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-filesystem", "/home/user/documents"]
 ```
 
 ### Database
@@ -150,21 +151,26 @@ mcps:
 
 [[tab PostgreSQL]]
 ```yaml
-mcps:
-  - id: database
-    server: "@anthropic/postgres"
-    config:
-      connection_string: ${{ secrets.DATABASE_URL }}
+# mcp/database.yaml
+schema: "1.0.0"
+id: database
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-postgres"]
+auth:
+  type: env
+  DATABASE_URL: "${{ secrets.DATABASE_URL }}"
 ```
 [[/tab]]
 
 [[tab SQLite]]
 ```yaml
-mcps:
-  - id: database
-    server: "@anthropic/sqlite"
-    config:
-      database_path: ./data/app.db
+# mcp/database.yaml
+schema: "1.0.0"
+id: database
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-sqlite", "--db", "./data/app.db"]
 ```
 [[/tab]]
 
@@ -173,28 +179,24 @@ mcps:
 ### GitHub
 
 ```yaml
-mcps:
-  - id: github
-    server: "@anthropic/github"
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# mcp/github.yaml
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
 ---
 
 ## Agent-Specific Tools
 
-Give different agents different tools:
+Give different agents different tools in `formation.yaml`:
 
 ```yaml
-mcps:
-  - id: web-search
-    server: "@anthropic/brave-search"
-  - id: filesystem
-    server: "@anthropic/filesystem"
-  - id: database
-    server: "@anthropic/postgres"
-
 agents:
   - id: researcher
     role: Research and gather information
@@ -209,16 +211,18 @@ agents:
 
   - id: writer
     role: Write content
-    # No tools - pure writing focus
+    # No mcps - pure writing focus
 ```
+
+With corresponding MCP files in `mcp/` directory.
 
 ---
 
 ## Troubleshooting
 
 [[toggle Tool not appearing]]
-1. Check the MCP is referenced in `formation.afs`
-2. Check the agent has the MCP in its `mcps` list
+1. Check the MCP file exists in `mcp/` directory
+2. Check the agent has the MCP ID in its `mcps` list
 3. Restart with `muxi dev`
 [[/toggle]]
 
@@ -236,10 +240,9 @@ curl "https://api.search.brave.com/res/v1/web/search?q=test" \
 [[/toggle]]
 
 [[toggle Tool timing out]]
-Some tools take time. Increase timeout in server config:
+Increase timeout in the MCP config:
 ```yaml
-server:
-  write_timeout: 60s
+timeout_seconds: 60
 ```
 [[/toggle]]
 
@@ -247,6 +250,6 @@ server:
 
 ## Next Steps
 
-[+] [Tools Reference](../reference/tools.md) - All configuration options
-[+] [Add Memory](add-memory.md) - Persistent conversations
-[+] [Multi-Agent Systems](multi-agent.md) - Specialized agent teams
+- [Tools Reference](../reference/tools.md) - All configuration options
+- [Add Memory](add-memory.md) - Persistent conversations
+- [Multi-Agent Systems](multi-agent.md) - Specialized agent teams

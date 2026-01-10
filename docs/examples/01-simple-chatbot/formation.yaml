@@ -1,34 +1,29 @@
-name: simple-chatbot
-version: 1.0.0
+schema: "1.0.0"
+id: simple-chatbot
 description: The simplest MUXI formation - a single assistant agent
+version: "1.0.0"
 
 # LLM Configuration
 llm:
-  provider: openai
-  model: gpt-4
-  temperature: 0.7
-  max_tokens: 1000
-  
-  # API key from secrets
   api_keys:
-    openai:
-      secret: OPENAI_API_KEY
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  
+  models:
+    - text: "openai/gpt-4o"
+      settings:
+        temperature: 0.7
+        max_tokens: 1000
 
 # Single Agent
 agents:
-  - name: assistant
-    role: "You are a helpful AI assistant"
-    description: "General-purpose assistant for answering questions"
-    
-    # Use formation-level LLM settings
-    llm:
-      provider: openai
-      model: gpt-4
+  - id: assistant
+    name: Assistant
+    description: General-purpose assistant for answering questions
+    role: You are a helpful AI assistant.
 
 # Overlord Configuration
 overlord:
-  # Simple persona (just a string, not an object!)
-  persona: "You are a helpful, professional assistant."
+  persona: You are a helpful, professional assistant.
   
   workflow:
     auto_decomposition: false  # No complexity analysis needed (single agent)
@@ -36,18 +31,5 @@ overlord:
 # No memory (stateless)
 memory:
   buffer:
-    enabled: false
-  persistent:
-    enabled: false
-
-# No tools
-mcps: []
-
-# No knowledge
-knowledge: []
-
-# No triggers
-triggers: []
-
-# No SOPs
-sops: []
+    size: 10
+    vector_search: false

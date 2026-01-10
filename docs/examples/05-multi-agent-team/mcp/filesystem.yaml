@@ -1,0 +1,7 @@
+schema: "1.0.0"
+id: filesystem
+description: File system access for reports
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-filesystem", "./research", "./reports"]
+timeout_seconds: 30
