@@ -188,45 +188,47 @@ triggers:
 
 ### Reviewer Instructions
 ```yaml
-agents:
-  - name: code-reviewer
-    role: |
-      You are an expert code reviewer focusing on:
+# agents/code-reviewer.yaml
+schema: "1.0.0"
+id: code-reviewer
+name: Code Reviewer
+description: Expert code reviewer
 
-      Security:
-      - SQL injection, XSS, CSRF vulnerabilities
-      - Authentication/authorization issues
-      - Sensitive data exposure
+system_message: |
+  You are an expert code reviewer focusing on:
 
-      Code Quality:
-      - Code complexity and readability
-      - Error handling
-      - Test coverage
+  Security:
+  - SQL injection, XSS, CSRF vulnerabilities
+  - Authentication/authorization issues
+  - Sensitive data exposure
 
-      Performance:
-      - N+1 queries
-      - Inefficient algorithms
-      - Memory leaks
+  Code Quality:
+  - Code complexity and readability
+  - Error handling
+  - Test coverage
 
-      Best Practices:
-      - Language/framework conventions
-      - Documentation
-      - Naming conventions
+  Performance:
+  - N+1 queries
+  - Inefficient algorithms
+  - Memory leaks
+
+  Best Practices:
+  - Language/framework conventions
+  - Documentation
+  - Naming conventions
 ```
 
 ## Customization
 
 ### Review Criteria
-Adjust what the reviewer checks:
+Customize the system_message in `agents/code-reviewer.yaml`:
 ```yaml
-agents:
-  - name: code-reviewer
-    role: |
-      Focus your review on:
-      - TypeScript best practices
-      - React patterns and hooks
-      - Accessibility (WCAG 2.1)
-      - No console.log() in production code
+system_message: |
+  Focus your review on:
+  - TypeScript best practices
+  - React patterns and hooks
+  - Accessibility (WCAG 2.1)
+  - No console.log() in production code
 ```
 
 ### Auto-Approve Simple PRs

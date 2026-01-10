@@ -59,20 +59,28 @@ open http://localhost:8001/chat
 
 ### formation.yaml
 ```yaml
-name: simple-chatbot
-version: 1.0.0
+schema: "1.0.0"
+id: simple-chatbot
+description: Simple chatbot
 
-# Single agent, no tools, no memory
-agents:
-  - name: assistant
-    role: "You are a helpful AI assistant"
-    llm:
-      provider: openai
-      model: gpt-4
+llm:
+  api_keys:
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+  models:
+    - text: "openai/gpt-4o"
 
-# Use the assistant for all requests
-overlord:
-  default_agent: assistant
+# Agent auto-discovered from agents/
+agents: []
+```
+
+### agents/assistant.yaml
+```yaml
+schema: "1.0.0"
+id: assistant
+name: Assistant
+description: Helpful AI assistant
+
+system_message: You are a helpful AI assistant.
 ```
 
 ## Next Steps

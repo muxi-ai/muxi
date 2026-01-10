@@ -170,22 +170,46 @@ Based on analysis of 12 recent reports and market data...
 ## Configuration Highlights
 
 ### Multiple Agents
+
+Each agent is defined in `agents/*.yaml`:
+
 ```yaml
-agents:
-  - name: researcher
-    role: "Expert at gathering information..."
-    llm:
-      model: gpt-4-turbo  # Faster for research
+# agents/researcher.yaml
+schema: "1.0.0"
+id: researcher
+name: Researcher
+description: Expert at gathering information
 
-  - name: analyst
-    role: "Data analyst who identifies patterns..."
-    llm:
-      model: gpt-4o  # Best reasoning
+system_message: Expert at gathering information...
 
-  - name: writer
-    role: "Professional writer who creates reports..."
-    llm:
-      model: gpt-4  # Best writing quality
+llm_models:
+  - text: "openai/gpt-4-turbo"  # Faster for research
+```
+
+```yaml
+# agents/analyst.yaml
+schema: "1.0.0"
+id: analyst
+name: Analyst
+description: Data analyst who identifies patterns
+
+system_message: Data analyst who identifies patterns...
+
+llm_models:
+  - text: "openai/gpt-4o"  # Best reasoning
+```
+
+```yaml
+# agents/writer.yaml
+schema: "1.0.0"
+id: writer
+name: Writer
+description: Professional writer
+
+system_message: Professional writer who creates reports...
+
+llm_models:
+  - text: "openai/gpt-4"  # Best writing quality
 ```
 
 ### Workflow Settings
@@ -250,16 +274,27 @@ Workflow:
 ## Customization
 
 ### Add More Agents
+
+Create additional agent files in `agents/`:
+
 ```yaml
-agents:
-  - name: editor
-    role: "Proofreads and improves written content"
+# agents/editor.yaml
+schema: "1.0.0"
+id: editor
+name: Editor
+description: Proofreads and improves written content
 
-  - name: data-scientist
-    role: "Creates charts and visualizations"
+system_message: Proofreads and improves written content.
+```
 
-  - name: translator
-    role: "Translates content to multiple languages"
+```yaml
+# agents/translator.yaml
+schema: "1.0.0"
+id: translator
+name: Translator
+description: Translates content to multiple languages
+
+system_message: Translates content to multiple languages.
 ```
 
 ### Adjust Complexity Threshold
