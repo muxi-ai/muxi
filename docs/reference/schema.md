@@ -7,7 +7,7 @@ description: Complete specification for formation.afs files
 
 ## The formation file format
 
-Every formation starts with a `formation.afs` (or `formation.afs`) file that defines agents, tools, memory, and behavior.
+Every formation starts with a `formation.afs` (or `.yaml`) file that defines agents, tools, memory, and behavior.
 
 
 ## Copy-paste starter
