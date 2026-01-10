@@ -224,4 +224,4 @@ auth:
 ## Next Steps
 
 - [Configuration](configuration.md) - Server settings
-- [CLI: profile](../cli/profile.md) - Managing server profiles
+- [CLI Setup](../cli/setup.md) - Managing server profiles

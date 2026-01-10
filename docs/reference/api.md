@@ -206,7 +206,7 @@ curl http://localhost:8271/v1/chat \
   -d '{"message": "Hello!"}'
 ```
 
-[Learn more about API keys →](concepts/authentication)
+[Learn more about API keys →](../server/authentication.md)
 
 ---
 
@@ -359,9 +359,9 @@ data: {"finished": true}
 
 ### Learn More
 
-- [Authentication Guide →](../concepts/authentication)
-- [Deployment Guide →](../server/deployment)
-- [Formation Configuration →](../reference/schema)
+- [Authentication Guide →](../server/authentication.md)
+- [Server Setup →](../server/setup.md)
+- [Formation Configuration →](schema.md)
 
 ---
 
