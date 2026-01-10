@@ -215,13 +215,14 @@ llm_models:
 ### Workflow Settings
 ```yaml
 overlord:
-  auto_decomposition: true
-  complexity_threshold: 7.0
-
-workflow:
-  max_parallel_tasks: 5
-  task_timeout: 120
-  retry_failed_tasks: true
+  workflow:
+    auto_decomposition: true
+    complexity_threshold: 7.0
+    max_parallel_tasks: 5
+    timeouts:
+      task_timeout: 120
+    retry:
+      max_attempts: 3
 ```
 
 ### Agent Selection
@@ -323,8 +324,9 @@ sops:
 
 Enable workflow logging:
 ```yaml
-workflow:
-  log_workflows: true
+overlord:
+  workflow:
+    log_workflows: true
 ```
 
 See execution:
@@ -344,24 +346,31 @@ muxi logs my-team --follow
 
 ### Reduce Latency
 ```yaml
-workflow:
-  max_parallel_tasks: 10  # More parallelization
+# formation.yaml
+overlord:
+  workflow:
+    max_parallel_tasks: 10  # More parallelization
+```
 
-agents:
-  - name: researcher
-    llm:
-      model: gpt-4-turbo  # Faster model
+With faster model in `agents/researcher.yaml`:
+```yaml
+llm_models:
+  - text: "openai/gpt-4-turbo"  # Faster model
 ```
 
 ### Reduce Costs
-```yaml
-agents:
-  - name: researcher
-    llm:
-      model: gpt-3.5-turbo  # Cheaper model
 
-workflow:
-  max_parallel_tasks: 2  # Less parallel API calls
+Use cheaper model in `agents/researcher.yaml`:
+```yaml
+llm_models:
+  - text: "openai/gpt-3.5-turbo"  # Cheaper model
+```
+
+```yaml
+# formation.yaml
+overlord:
+  workflow:
+    max_parallel_tasks: 2  # Less parallel API calls
 ```
 
 ## Common Issues
@@ -374,17 +383,20 @@ overlord:
 ```
 
 ### "Tasks timeout"
-Increase timeout:
+Increase timeout in `formation.yaml`:
 ```yaml
-workflow:
-  task_timeout: 180  # 3 minutes
+overlord:
+  workflow:
+    timeouts:
+      task_timeout: 180  # 3 minutes
 ```
 
 ### "No parallel execution"
-Check tasks have no dependencies:
+Check tasks have no dependencies in `formation.yaml`:
 ```yaml
-workflow:
-  min_tasks_for_parallel: 2  # Enable for 2+ tasks
+overlord:
+  workflow:
+    min_tasks_for_parallel: 2  # Enable for 2+ tasks
 ```
 
 ## Next Steps

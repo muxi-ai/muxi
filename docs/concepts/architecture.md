@@ -141,7 +141,7 @@ my-formation/
 | Persona | `agents/*.afs` (`persona:`) |
 | Memory (3-tier) | `formation.afs` (`memory:` backend/limits) |
 | Multi-Tenancy | `formation.afs` (`security/users`, namespaces), secrets scoped per user |
-| Tools & MCP | `mcp/*.afs` (server defs), referenced in `agents/*.afs` (`mcps:`) |
+| Tools & MCP | `mcp/*.yaml` (server defs, auto-discovered); agents use `mcp_servers:` for agent-specific tools |
 | Secrets & Security | `secrets.enc` (referenced as `${{ secrets.* }}` / `${{ user.secrets.* }}` in formation/agents/mcps) |
 | User Credentials | `secrets.enc` / `user.secrets.*`, bound at runtime per caller |
 | Knowledge & RAG | `knowledge/` files, referenced in `agents/*.afs` (`knowledge:`) |
