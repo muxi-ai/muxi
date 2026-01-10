@@ -220,9 +220,9 @@ memory:
 ### Change Persona
 ```yaml
 overlord:
-  persona:
-    style: "casual"
-    tone: "friendly"
+  persona: |
+    You are a friendly, casual assistant.
+    Use conversational language and be approachable.
 ```
 
 ## Deploy to Production

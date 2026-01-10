@@ -127,13 +127,9 @@ The Overlord has its own personality that affects how it coordinates:
 
 ```yaml
 overlord:
-  persona:
-    name: Assistant
-    style: professional    # professional, casual, technical
-    tone: helpful
-    traits:
-      - knowledgeable
-      - efficient
+  persona: |
+    You are a professional, knowledgeable assistant.
+    Communicate efficiently and helpfully.
 ```
 
 This affects:
@@ -186,10 +182,7 @@ overlord:
   complexity_threshold: 7.0
   
   # Persona
-  persona:
-    name: Assistant
-    style: professional
-    tone: helpful
+  persona: "You are a professional, helpful assistant."
   
   # Response
   response:

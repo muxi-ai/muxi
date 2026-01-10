@@ -43,7 +43,7 @@ description: "..."            # What this formation does
 # LLM configuration
 llm:
   models:
-    text: openai/gpt-4
+    - text: "openai/gpt-4"
   api_keys:
     openai: ${{secrets.OPENAI_API_KEY}}
 

@@ -37,27 +37,34 @@ muxi new formation customer-support
 ```
 
 ```yaml
-# formation.afs
+# formation.yaml
 schema: "1.0.0"
 id: "customer-support"
-description: |
-  Helps customers with product support and refunds
-agents:
-  - id: "sales-assistant"
-    knowledge:
-      - ./knowledge/product-info.docx
-      - ./knowledge/shipping-rates.csv
-  - id: "refund-handler"
-    knowledge:
-      - ./knowledge/policies/*
-mcp:
-  servers:
-  - id: "shopify"
-    auth:
-      type: "bearer"
-      token: "${{ secrets.SHOPIFY_TOKEN }}"
-  - id: "stripe"
-  ...
+description: Helps customers with product support and refunds
+
+llm:
+  models:
+    - text: "openai/gpt-4o"
+  api_keys:
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+
+# Agents auto-discovered from agents/*.yaml
+agents: []
+```
+
+```yaml
+# agents/sales-assistant.yaml
+schema: "1.0.0"
+id: sales-assistant
+name: Sales Assistant
+description: Helps customers with product questions
+
+system_message: Help customers find products and answer questions.
+
+knowledge:
+  sources:
+    - path: knowledge/product-info.docx
+    - path: knowledge/shipping-rates.csv
 ```
 
 ```bash

@@ -114,13 +114,9 @@ knowledge:
 ### Persona
 ```yaml
 overlord:
-  persona:
-    style: "professional"
-    tone: "empathetic"
-    traits:
-      - helpful
-      - patient
-      - knowledgeable
+  persona: |
+    You are a professional customer support representative.
+    Be empathetic, helpful, patient, and knowledgeable.
 ```
 
 ## Customization
@@ -150,9 +146,7 @@ memory:
 
 ```yaml
 overlord:
-  persona:
-    style: "casual"      # More relaxed
-    tone: "enthusiastic"  # More energetic
+  persona: "You are a casual, enthusiastic support representative."
 ```
 
 ## Deploy to Production
