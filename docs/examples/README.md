@@ -197,11 +197,17 @@ llm:
 ```
 
 ### Add Tools
+
+Create `mcp/postgres.yaml`:
 ```yaml
-mcps:
-  - id: postgres
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-postgres"]
+schema: "1.0.0"
+id: postgres
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-postgres"]
+auth:
+  type: env
+  DATABASE_URL: "${{ secrets.DATABASE_URL }}"
 ```
 
 ### Adjust Memory

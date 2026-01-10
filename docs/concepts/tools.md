@@ -132,9 +132,10 @@ auth:
 Credentials encrypted at rest. Complete isolation between users.
 
 **Formation structure:**
-- Server definitions live in `mcp/*.yaml` files
+- Server definitions live in `mcp/*.yaml` files (auto-discovered)
 - Per-user secrets referenced as `user.secrets.*`
-- Agents reference tools by ID in their `mcps:` list
+- All agents have access to formation-level MCP servers
+- Agent-specific tools use `mcp_servers:` in agent files
 
 ---
 

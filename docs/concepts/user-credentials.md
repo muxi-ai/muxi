@@ -182,14 +182,17 @@ Stored as: "ranaroussi" (not "GitHub")
 
 ## Using Credentials in Tools
 
-Reference user credentials in MCP server configuration:
+Reference user credentials in MCP server configuration (`mcp/github.yaml`):
 
 ```yaml
-mcps:
-  - id: github
-    server: "@modelcontextprotocol/server-github"
-    env:
-      GITHUB_TOKEN: ${{ user.credentials.github }}
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ user.credentials.github }}"
 ```
 
 The runtime automatically:
@@ -312,21 +315,26 @@ The system is extensible - new services work automatically if they're configured
 
 ### Formation Configuration
 
+`formation.yaml`:
 ```yaml
 # User credential settings
 user_credentials:
   mode: "dynamic"           # "redirect" or "dynamic"
   redirect_message: |
     Configure credentials at: https://credentials.example.com
-  
-# MCP servers that use user credentials
-mcps:
-  - id: github
-    server: "@modelcontextprotocol/server-github"
-    auth:
-      type: bearer
-      accept_inline: true   # Allow dynamic credential collection
-      token: ${{ user.credentials.github }}
+```
+
+`mcp/github.yaml` - MCP server that uses user credentials:
+```yaml
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: bearer
+  accept_inline: true   # Allow dynamic credential collection
+  token: "${{ user.credentials.github }}"
 ```
 
 ### Mode Comparison
@@ -374,15 +382,22 @@ The result: **privacy, security, and compliance** without extra work.
 
 **Dynamic mode** (fastest):
 
+`formation.yaml`:
 ```yaml
 user_credentials:
   mode: "dynamic"
+```
 
-mcps:
-  - id: github
-    auth:
-      accept_inline: true
-      token: ${{ user.credentials.github }}
+`mcp/github.yaml`:
+```yaml
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  accept_inline: true
+  token: "${{ user.credentials.github }}"
 ```
 
 That's it. The agent handles the rest.

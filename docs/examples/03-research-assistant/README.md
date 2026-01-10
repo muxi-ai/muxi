@@ -105,25 +105,28 @@ Response:
 ## Configuration Highlights
 
 ### MCP Tools
-```yaml
-mcps:
-  - id: brave-search
-    command: npx
-    args:
-      - "-y"
-      - "@modelcontextprotocol/server-brave-search"
-    env:
-      BRAVE_API_KEY:
-        secret: BRAVE_SEARCH_API_KEY
 
-  - id: filesystem
-    command: npx
-    args:
-      - "-y"
-      - "@modelcontextprotocol/server-filesystem"
-    config:
-      allowed_directories:
-        - ./research
+MCP servers are defined in `mcp/*.yaml` files:
+
+```yaml
+# mcp/brave-search.yaml
+schema: "1.0.0"
+id: brave-search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_SEARCH_API_KEY }}"
+```
+
+```yaml
+# mcp/filesystem.yaml
+schema: "1.0.0"
+id: filesystem
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-filesystem", "./research"]
 ```
 
 ### Tool Chaining
@@ -175,33 +178,38 @@ artifacts:
 
 ### Add More Tools
 
-```yaml
-mcps:
-  # Web scraping
-  - id: puppeteer
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-puppeteer"]
+Create additional `mcp/*.yaml` files:
 
-  # Database access
-  - id: postgres
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-postgres"]
+```yaml
+# mcp/puppeteer.yaml - Web scraping
+schema: "1.0.0"
+id: puppeteer
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-puppeteer"]
 ```
 
-### Adjust Search Results
 ```yaml
-mcps:
-  - id: brave-search
-    config:
-      max_results: 10  # More results per search
+# mcp/postgres.yaml - Database access
+schema: "1.0.0"
+id: postgres
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-postgres"]
+auth:
+  type: env
+  DATABASE_URL: "${{ secrets.DATABASE_URL }}"
 ```
 
 ### Change LLM
+
+Update `formation.yaml`:
 ```yaml
 llm:
-  model: gpt-4-turbo  # Faster, cheaper
-  # or
-  model: gpt-4o       # Best reasoning
+  models:
+    - text: "openai/gpt-4-turbo"  # Faster, cheaper
+    # or
+    - text: "openai/gpt-4o"       # Best reasoning
 ```
 
 ## Deploy to Production
@@ -247,13 +255,14 @@ muxi secrets get BRAVE_SEARCH_API_KEY
 Get new key at: https://brave.com/search/api
 
 ### "Permission denied: /etc/passwd"
-Filesystem MCP trying to access disallowed directory:
+Filesystem MCP trying to access disallowed directory. Update `mcp/filesystem.yaml`:
 ```yaml
-mcps:
-  - id: filesystem
-    config:
-      allowed_directories:
-        - ./research  # Only allow research directory
+schema: "1.0.0"
+id: filesystem
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-filesystem", "./research"]
+# Only allow research directory
 ```
 
 ### "Artifact generation failed"

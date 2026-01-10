@@ -190,12 +190,16 @@ Encryption: AES-256-GCM with per-user derived keys.
 
 ### Access Pattern
 
+`mcp/github.yaml` references user secrets:
 ```yaml
-# formation.afs - references user secrets
-mcps:
-  - id: github
-    env:
-      GITHUB_TOKEN: ${{ user.secrets.GITHUB_TOKEN }}
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ user.secrets.GITHUB_TOKEN }}"
 ```
 
 At runtime:

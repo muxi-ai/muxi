@@ -137,15 +137,22 @@ Secrets are:
 ### 4. Self-Documenting
 
 ```yaml
-# formation.afs shows what secrets are used
+# formation.yaml shows what secrets are used
 llm:
   api_keys:
-    openai: ${{ secrets.OPENAI_API_KEY }}
+    openai: "${{ secrets.OPENAI_API_KEY }}"
+```
 
-mcps:
-  - id: search
-    config:
-      api_key: ${{ secrets.BRAVE_API_KEY }}
+```yaml
+# mcp/search.yaml
+schema: "1.0.0"
+id: search
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-brave-search"]
+auth:
+  type: env
+  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
 ```bash

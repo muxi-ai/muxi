@@ -160,14 +160,17 @@ I've created issue #456 to track the security improvements.
 ## Configuration Highlights
 
 ### GitHub MCP
+
+`mcp/github.yaml`:
 ```yaml
-mcps:
-  - id: github
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-github"]
-    env:
-      GITHUB_TOKEN:
-        secret: GITHUB_TOKEN
+schema: "1.0.0"
+id: github
+type: command
+command: npx
+args: ["-y", "@modelcontextprotocol/server-github"]
+auth:
+  type: env
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
 ### Trigger
