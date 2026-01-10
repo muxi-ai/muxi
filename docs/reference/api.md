@@ -87,22 +87,33 @@ Before diving into raw APIs, consider these higher-level tools:
 
 **For Python developers:**
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
-formation = Formation("my-team")
-response = formation.chat("What's the weather?")
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-team",
+    client_key="...",
+)
+for event in formation.chat_stream({"message": "What's the weather?"}, user_id="user_123"):
+    print(event)
 ```
-[Python SDK Documentation →](sdks/python)
+[Python SDK Documentation →](../sdks/python.md)
 
 **For JavaScript/TypeScript developers:**
-```javascript
-import { Formation } from '@muxi/sdk';
+```typescript
+import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-const formation = new Formation('my-team');
-const response = await formation.chat("What's the weather?");
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-team",
+  clientKey: "...",
+});
+for await (const chunk of await formation.chatStream({ message: "What's the weather?" }, "user_123")) {
+  console.log(chunk);
+}
 ```
 
-[JavaScript SDK Documentation →](sdks/javascript)
+[TypeScript SDK Documentation →](../sdks/typescript.md)
 
 **For deployment automation:**
 ```bash

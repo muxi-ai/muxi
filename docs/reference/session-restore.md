@@ -144,7 +144,7 @@ for msg in messages:
 When user opens an old conversation:
 
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
 # User selects conversation from history
 conversation_id = "conv_xyz789"
@@ -155,9 +155,15 @@ messages = await db.messages.find({
     "conversation_id": conversation_id
 }).sort("timestamp")
 
-# Restore to MUXI session
-formation = Formation(api_key="...")
-await formation.restore_session(
+# Initialize client
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="...",
+)
+
+# Restore session
+formation.restore_session(
     session_id=conversation_id,
     user_id=user_id,
     messages=[
@@ -171,11 +177,12 @@ await formation.restore_session(
 )
 
 # Continue chatting with full context
-response = await formation.chat(
-    message="Continue from where we left off",
-    session_id=conversation_id,
+for event in formation.chat_stream(
+    {"message": "Continue from where we left off", "session_id": conversation_id},
     user_id=user_id
-)
+):
+    if event.get("type") == "text":
+        print(event.get("text"), end="")
 ```
 
 ---
@@ -385,12 +392,16 @@ Session ID doesn't exist. You can restore to a new session ID - it will be creat
 ### Python
 
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
-formation = Formation(api_key="muxi_...")
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="...",
+)
 
 # Restore session
-result = await formation.restore_session(
+result = formation.restore_session(
     session_id="sess_abc123",
     user_id="user@example.com",
     messages=[
@@ -407,14 +418,15 @@ result = await formation.restore_session(
     ]
 )
 
-print(f"Loaded {result.messages_loaded} messages")
+print(f"Loaded {result.get('messages_loaded')} messages")
 
 # Continue chatting
-response = await formation.chat(
-    message="Thanks! What about tomorrow?",
-    session_id="sess_abc123",
+for event in formation.chat_stream(
+    {"message": "Thanks! What about tomorrow?", "session_id": "sess_abc123"},
     user_id="user@example.com"
-)
+):
+    if event.get("type") == "text":
+        print(event.get("text"), end="")
 ```
 
 ### TypeScript

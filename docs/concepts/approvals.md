@@ -329,26 +329,30 @@ Non-blocking, user can do other things.
 
 ### Python
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
-formation = Formation(api_key="...")
-
-# Sync with approval
-response = formation.chat(
-    message="Deploy to production",
-    wait_for_approval=True
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="...",
 )
 
-# User sees plan, types 'y'
-print(response.text)
+# Streaming chat - approvals are handled via events
+for event in formation.chat_stream(
+    {"message": "Deploy to production"},
+    user_id="user_123"
+):
+    if event.get("type") == "approval_required":
+        print("Plan:", event.get("plan"))
+        # User approval handled via separate endpoint
+    elif event.get("type") == "text":
+        print(event.get("text"), end="")
 ```
 
-### Python (Async)
+### Async Request Status
 ```python
-# Async with approval
-request = formation.chat_async(
-    message="Deploy to production"
-)
+# Check async request status
+status = formation.get_request_status(request_id="req_abc123")
 
 # Later, approve
 formation.approve_request(request.id)

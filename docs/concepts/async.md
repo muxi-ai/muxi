@@ -290,39 +290,44 @@ Content-Type: application/json
 
 ### Python
 
-**Async with polling:**
+**Polling for async request status:**
 ```python
-from muxi import Formation
+from muxi import FormationClient
 import time
 
-formation = Formation(api_key="...")
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="...",
+)
 
-# Start async request
-request = formation.chat_async("Research AI trends")
-print(f"Started: {request.id}")
+# Streaming chat - long operations return request_id
+for event in formation.chat_stream(
+    {"message": "Research AI trends"},
+    user_id="user_123"
+):
+    if event.get("request_id"):
+        request_id = event.get("request_id")
+        print(f"Request ID: {request_id}")
 
 # Poll for completion
 while True:
-    status = formation.get_request(request.id)
+    status = formation.get_request_status(request_id)
     
-    if status.is_complete:
-        print(status.result.text)
+    if status.get("status") == "completed":
+        print(status.get("result"))
         break
     
-    print(f"Progress: {status.progress}%")
+    print(f"Status: {status.get('status')}")
     time.sleep(2)
 ```
 
-**Async with webhook:**
-```python
-# Start with webhook
-request = formation.chat_async(
-    "Research AI trends",
-    webhook_url="https://your-app.com/callback"
-)
-
-print(f"Started: {request.id}")
-# Your webhook receives result when complete
+**Webhook configuration:**
+Configure webhooks in your `formation.afs`:
+```yaml
+async:
+  webhook_url: "https://your-app.com/callback"
+  webhook_retries: 3
 ```
 
 **Async with callback:**
@@ -344,24 +349,36 @@ request = formation.chat_async(
 ### TypeScript
 
 ```typescript
-import { Formation } from '@muxi/sdk';
+import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-const formation = new Formation({ apiKey: '...' });
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "...",
+});
 
-// Async with polling
-const request = await formation.chatAsync("Research AI trends");
-console.log(`Started: ${request.id}`);
+// Get request ID from streaming response
+let requestId: string;
+for await (const chunk of await formation.chatStream(
+  { message: "Research AI trends" },
+  "user_123"
+)) {
+  if (chunk.requestId) {
+    requestId = chunk.requestId;
+    console.log(`Request ID: ${requestId}`);
+  }
+}
 
-// Poll
+// Poll for completion
 while (true) {
-  const status = await formation.getRequest(request.id);
+  const status = await formation.getRequestStatus(requestId);
   
-  if (status.isComplete) {
-    console.log(status.result.text);
+  if (status.status === "completed") {
+    console.log(status.result);
     break;
   }
   
-  console.log(`Progress: ${status.progress}%`);
+  console.log(`Status: ${status.status}`);
   await new Promise(resolve => setTimeout(resolve, 2000));
 }
 

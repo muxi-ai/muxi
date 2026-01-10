@@ -61,12 +61,14 @@ console.log(res.text);
 Runtime embedding is Python-first. Use the Go SDK to call a running formation:
 
 ```go
-formation := muxi.NewFormation(muxi.Config{
+import muxi "github.com/muxi-ai/muxi-go"
+
+client := muxi.NewFormationClient(&muxi.FormationConfig{
     URL:       "http://localhost:8001",
     ClientKey: "...",
 })
-resp, _ := formation.Chat("Hello!")
-fmt.Println(resp.Text)
+resp, _ := client.Chat(ctx, &muxi.ChatRequest{Message: "Hello!", UserID: "user_123"})
+fmt.Println(resp.Response)
 ```
 [[/tab]]
 

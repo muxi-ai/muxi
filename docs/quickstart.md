@@ -207,11 +207,12 @@ Open `http://localhost:8001/chat` in your browser for an interactive chat UI.
 
 [[tab Python]]
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
-formation = Formation(url="http://localhost:8001")
-response = formation.chat("Hello!")
-print(response.text)
+formation = FormationClient(url="http://localhost:8001", client_key="...")
+for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
+    if event.get("type") == "text":
+        print(event.get("text"), end="")
 ```
 [[/tab]]
 

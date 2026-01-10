@@ -8,26 +8,28 @@ description: Type-safe client for MUXI formations in TypeScript and JavaScript
 
 Build web and Node.js applications that interact with MUXI formations. Full TypeScript support with type definitions for all API operations.
 
+**GitHub:** [muxi-ai/muxi-typescript](https://github.com/muxi-ai/muxi-typescript)
+
 ## Installation
 
 ```bash
-npm install @muxi/sdk
+npm install @muxi-ai/muxi-typescript
 # or
-yarn add @muxi/sdk
+yarn add @muxi-ai/muxi-typescript
 ```
 
 ## Quick Start
 
 ```typescript
-import { Formation } from '@muxi/sdk';
+import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-const formation = new Formation({
-  url: 'http://localhost:8001',
-  clientKey: 'fmc_...'
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "your_client_key",
 });
 
-const response = await formation.chat('Hello!');
-console.log(response.text);
+console.log(await formation.health());
 ```
 
 ## Formation Client
@@ -35,264 +37,349 @@ console.log(response.text);
 ### Initialize
 
 ```typescript
-import { Formation } from '@muxi/sdk';
+import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-// With client key
-const formation = new Formation({
-  url: 'http://localhost:8001',
-  clientKey: 'fmc_...'
+// Via server proxy (recommended)
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "your_client_key",
+  adminKey: "your_admin_key",  // Optional, for admin operations
 });
 
-// With admin key
-const formation = new Formation({
-  url: 'http://localhost:8001',
-  adminKey: 'fma_...'
-});
-```
-
-### Chat
-
-```typescript
-// Simple message
-const response = await formation.chat('Hello!');
-console.log(response.text);
-
-// With options
-const response = await formation.chat('Research AI', {
-  agent: 'researcher',
-  sessionId: 'sess_123',
-  userId: 'user_456'
+// Direct connection (for local dev)
+const formation = new FormationClient({
+  baseUrl: "http://localhost:8001/v1",  // Direct to formation
+  clientKey: "your_client_key",
 });
 ```
 
-### Streaming
+### Chat (Streaming)
 
 ```typescript
-const stream = formation.chatStream('Tell me a story');
-
-for await (const chunk of stream) {
-  process.stdout.write(chunk.text);
+// Streaming chat (recommended)
+for await (const chunk of await formation.chatStream(
+  { message: "Hello!" },
+  "user_123"
+)) {
+  if (chunk.type === "text") {
+    process.stdout.write(chunk.text);
+  }
 }
+```
+
+Chunk types: `text`, `tool_call`, `tool_result`, `agent_handoff`, `thinking`, `error`, `done`.
+
+### Agents
+
+```typescript
+// List agents (requires admin key)
+const agents = await formation.getAgents();
+agents.forEach(agent => console.log(agent.id, agent.name));
+
+// Get specific agent
+const agent = await formation.getAgent("researcher");
 ```
 
 ### Sessions
 
 ```typescript
-// Create session
-const session = await formation.createSession();
-console.log(session.id); // sess_abc123
+// List sessions
+const sessions = await formation.getSessions("user_123");
+sessions.forEach(s => console.log(s.session_id));
 
-// Chat with session
-const response = await formation.chat('Hello!', {
-  sessionId: session.id
-});
-
-// Get session history
-const history = await formation.getSession(session.id);
+// Get session messages
+const history = await formation.getSessionMessages("sess_abc123", "user_123");
 for (const message of history.messages) {
   console.log(`${message.role}: ${message.content}`);
 }
+
+// Restore session
+await formation.restoreSession("sess_abc123", messages, "user_123");
 ```
 
-### Agents
+### Memory
 
 ```typescript
-// List agents
-const agents = await formation.listAgents();
-agents.forEach(a => console.log(a.id, a.name));
+// Get memory config
+const config = await formation.getMemoryConfig();
 
-// Target specific agent
-const response = await formation.chat('Research this', {
-  agent: 'researcher'
-});
+// Get memories for user
+const memories = await formation.getMemories("user_123");
+
+// Add a memory
+await formation.addMemory("User prefers TypeScript", "user_123");
+
+// Clear user buffer
+await formation.clearUserBuffer("user_123");
+
+// Get buffer stats
+const stats = await formation.getBufferStats();
 ```
 
 ### Triggers
 
 ```typescript
-const response = await formation.trigger('github-issue', {
+const response = await formation.fireTrigger("github-issue", {
   data: {
-    repository: 'muxi/runtime',
+    repository: "muxi/runtime",
     issue: {
       number: 123,
-      title: 'Bug report'
+      title: "Bug report"
     }
   }
-});
+}, "user_123");
 ```
 
-### Multi-User
+### Scheduler
 
 ```typescript
-// User isolation
-await formation.chat('Remember my preference', {
-  userId: 'user_123'
-});
+// List scheduled jobs
+const jobs = await formation.getSchedulerJobs("user_123");
 
-// Different user
-await formation.chat("What's my preference?", {
-  userId: 'user_456'
-});
+// Create a job
+const job = await formation.createSchedulerJob({
+  title: "Daily report",
+  schedule: "0 9 * * *",  // 9am daily
+  prompt: "Generate daily summary"
+}, "user_123");
+
+// Delete a job
+await formation.deleteSchedulerJob("job_abc123", "user_123");
 ```
+
+### Event Streaming
+
+```typescript
+// Stream events for a user
+for await (const event of await formation.streamEvents("user_123")) {
+  console.log(event);
+}
+
+// Stream logs (admin)
+for await (const log of await formation.streamLogs({ level: "info" })) {
+  console.log(log);
+}
+```
+
+---
 
 ## Server Client
 
-### Initialize
+For managing formations (deploy, start, stop):
 
 ```typescript
-import { ServerClient } from '@muxi/sdk';
+import { ServerClient } from "@muxi-ai/muxi-typescript";
 
 const server = new ServerClient({
-  url: 'http://localhost:7890',
-  keyId: 'MUXI_...',
-  secretKey: 'sk_...'
+  url: "http://localhost:7890",
+  keyId: "muxi_pk_...",
+  secretKey: "muxi_sk_...",
 });
-```
 
-### List Formations
+// Check server status
+console.log(await server.status());
 
-```typescript
+// List formations
 const formations = await server.listFormations();
-formations.forEach(f => {
-  console.log(f.id, f.status, f.port);
-});
+
+// Deploy a formation (with streaming progress)
+for await (const event of await server.streamDeployFormation({
+  bundlePath: "my-bot.tar.gz"
+})) {
+  console.log(event);
+}
+
+// Stop/start/restart
+await server.stopFormation("my-bot");
+await server.startFormation("my-bot");
+await server.restartFormation("my-bot");
 ```
 
-### Deploy Formation
-
-```typescript
-const result = await server.deploy('/path/to/formation');
-console.log(result.port);
-```
-
-### Stop/Start/Restart
-
-```typescript
-await server.stopFormation('my-assistant');
-await server.startFormation('my-assistant');
-await server.restartFormation('my-assistant');
-```
-
-### Delete Formation
-
-```typescript
-await server.deleteFormation('my-assistant');
-```
+---
 
 ## Error Handling
 
 ```typescript
-import { 
-  MuxiError, 
-  AuthenticationError, 
-  FormationError 
-} from '@muxi/sdk';
+import {
+  MuxiError,
+  AuthenticationError,
+  AuthorizationError,
+  NotFoundError,
+  ValidationError,
+  RateLimitError,
+  ServerError,
+  ConnectionError,
+} from "@muxi-ai/muxi-typescript";
 
 try {
-  const response = await formation.chat('Hello!');
-} catch (error) {
-  if (error instanceof AuthenticationError) {
-    console.log('Invalid API key');
-  } else if (error instanceof FormationError) {
-    console.log(`Formation error: ${error.message}`);
-  } else if (error instanceof MuxiError) {
-    console.log(`MUXI error: ${error.message}`);
+  const stream = await formation.chatStream({ message: "Hello!" }, "user_123");
+  for await (const chunk of stream) {
+    // ...
+  }
+} catch (err) {
+  if (err instanceof AuthenticationError) {
+    console.log("Auth failed:", err.message);
+  } else if (err instanceof RateLimitError) {
+    console.log(`Rate limited, retry after: ${err.retryAfter}s`);
+  } else if (err instanceof MuxiError) {
+    console.log(`Error: ${err.code} - ${err.message}`);
   }
 }
 ```
 
+All errors include:
+- `code` - Error code string
+- `message` - Human-readable message
+- `statusCode` - HTTP status code
+- `retryAfter` - Seconds to wait (for rate limits)
+
+---
+
 ## Configuration
 
 ```typescript
-new Formation({
-  url: 'http://localhost:8001',
-  clientKey: 'fmc_...',
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "your_client_key",
   timeout: 30000,      // Request timeout (ms)
-  maxRetries: 3,       // Retry on failure
+  maxRetries: 3,       // Retry count for 429/5xx
+  debug: true,         // Enable debug logging
 });
 ```
 
-## Types
-
-```typescript
-interface ChatResponse {
-  text: string;
-  agent: string;
-  sessionId: string;
-  metadata?: Record<string, any>;
-}
-
-interface Session {
-  id: string;
-  createdAt: Date;
-  messages: Message[];
-}
-
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-}
-```
+---
 
 ## Examples
 
 ### Chat Bot (Node.js)
 
 ```typescript
-import { Formation } from '@muxi/sdk';
-import * as readline from 'readline';
+import { FormationClient } from "@muxi-ai/muxi-typescript";
+import * as readline from "readline";
 
-const formation = new Formation({ url: '...', clientKey: '...' });
-const session = await formation.createSession();
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "your_client_key",
+});
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 });
 
-const chat = async () => {
-  rl.question('You: ', async (input) => {
-    if (input === '/exit') {
+async function chat(message: string) {
+  process.stdout.write("Assistant: ");
+  for await (const chunk of await formation.chatStream(
+    { message },
+    "user_123"
+  )) {
+    if (chunk.type === "text") {
+      process.stdout.write(chunk.text);
+    }
+  }
+  console.log();
+}
+
+function prompt() {
+  rl.question("You: ", async (input) => {
+    if (input.toLowerCase() === "quit") {
       rl.close();
       return;
     }
-    
-    const response = await formation.chat(input, {
-      sessionId: session.id
-    });
-    console.log(`Assistant: ${response.text}`);
-    chat();
+    await chat(input);
+    prompt();
   });
-};
+}
 
-chat();
+prompt();
 ```
 
 ### React Hook
 
 ```typescript
-import { useState } from 'react';
-import { Formation } from '@muxi/sdk';
+import { useState, useCallback } from "react";
+import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-const formation = new Formation({ url: '...', clientKey: '...' });
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "your_client_key",
+});
 
-export function useChat() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState(false);
+export function useChat(userId: string) {
+  const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const send = async (text: string) => {
-    setLoading(true);
-    setMessages(prev => [...prev, { role: 'user', content: text }]);
-    
-    const response = await formation.chat(text);
-    setMessages(prev => [...prev, { 
-      role: 'assistant', 
-      content: response.text 
-    }]);
-    setLoading(false);
-  };
+  const sendMessage = useCallback(async (content: string) => {
+    setMessages(prev => [...prev, { role: "user", content }]);
+    setIsLoading(true);
 
-  return { messages, send, loading };
+    let response = "";
+    try {
+      for await (const chunk of await formation.chatStream(
+        { message: content },
+        userId
+      )) {
+        if (chunk.type === "text") {
+          response += chunk.text;
+          setMessages(prev => [
+            ...prev.slice(0, -1),
+            { role: "assistant", content: response },
+          ]);
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userId]);
+
+  return { messages, sendMessage, isLoading };
 }
 ```
+
+### Next.js API Route
+
+```typescript
+// app/api/chat/route.ts
+import { FormationClient } from "@muxi-ai/muxi-typescript";
+
+const formation = new FormationClient({
+  serverUrl: process.env.MUXI_SERVER_URL!,
+  formationId: process.env.MUXI_FORMATION_ID!,
+  clientKey: process.env.MUXI_CLIENT_KEY!,
+});
+
+export async function POST(req: Request) {
+  const { message, userId } = await req.json();
+
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      for await (const chunk of await formation.chatStream(
+        { message },
+        userId
+      )) {
+        if (chunk.type === "text") {
+          controller.enqueue(encoder.encode(chunk.text));
+        }
+      }
+      controller.close();
+    },
+  });
+
+  return new Response(stream, {
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  });
+}
+```
+
+---
+
+## Learn More
+
+- [Python SDK](python.md)
+- [Go SDK](go.md)
+- [API Reference](../reference/api.md)

@@ -1,38 +1,42 @@
 ---
 title: SDKs
-description: Client libraries for Python, TypeScript, and Go
+description: Official client libraries for MUXI
 ---
-
 # SDKs
 
-## Native client libraries for every language
+## Official client libraries for MUXI
 
-Build applications that interact with MUXI formations using idiomatic code in your language of choice.
+Native SDKs for Python, TypeScript, and Go. All SDKs provide the same core functionality: chat, streaming, sessions, memory, triggers, and formation management.
 
-
-## Available SDKs
+## Quick Install
 
 :::: cols=3
 
 (python.md)[[card]]
 #### Python
-`pip install muxi-sdk`
+```bash
+pip install muxi-client
+```
 
-Async support, streaming, type hints.
+[GitHub](https://github.com/muxi-ai/muxi-python)
 [[/card]]
 
 (typescript.md)[[card]]
 #### TypeScript
-`npm install @muxi/sdk`
+```bash
+npm install @muxi-ai/muxi-typescript
+```
 
-Full typing, React hooks, streaming.
+[GitHub](https://github.com/muxi-ai/muxi-typescript)
 [[/card]]
 
 (go.md)[[card]]
 #### Go
-`go get github.com/muxi-ai/sdk-go`
+```bash
+go get github.com/muxi-ai/muxi-go
+```
 
-Channels, context, zero dependencies.
+[GitHub](https://github.com/muxi-ai/muxi-go)
 [[/card]]
 
 ::::
@@ -45,221 +49,175 @@ Channels, context, zero dependencies.
 
 [[tab Python]]
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
-formation = Formation(
-    url="http://localhost:8001",
-    client_key="fmc_..."
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="your_client_key",
 )
 
-response = formation.chat("Hello!")
-print(response.text)
+for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
+    if event.get("type") == "text":
+        print(event.get("text"), end="", flush=True)
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Formation } from '@muxi/sdk';
+import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-const formation = new Formation({
-  url: 'http://localhost:8001',
-  clientKey: 'fmc_...'
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "your_client_key",
 });
 
-const response = await formation.chat('Hello!');
-console.log(response.text);
+for await (const chunk of await formation.chatStream({ message: "Hello!" }, "user_123")) {
+  if (chunk.type === "text") process.stdout.write(chunk.text);
+}
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-import "github.com/muxi-ai/sdk-go/muxi"
+import muxi "github.com/muxi-ai/muxi-go"
 
-formation := muxi.NewFormation(muxi.Config{
-    URL:       "http://localhost:8001",
-    ClientKey: "fmc_...",
+client := muxi.NewFormationClient(&muxi.FormationConfig{
+    FormationID: "my-assistant",
+    ServerURL:   "http://localhost:7890",
+    ClientKey:   "your_client_key",
 })
 
-response, _ := formation.Chat("Hello!")
-fmt.Println(response.Text)
+stream, errs := client.ChatStream(ctx, &muxi.ChatRequest{
+    Message: "Hello!",
+    UserID:  "user_123",
+})
+for chunk := range stream {
+    if chunk.Type == "text" {
+        fmt.Print(chunk.Text)
+    }
+}
 ```
 [[/tab]]
 
 [[/tabs]]
+
+---
+
+## Two Client Types
+
+All SDKs provide two clients:
+
+### FormationClient
+
+For interacting with a running formation:
+
+- Chat (streaming & non-streaming)
+- Sessions & history
+- Memory management
+- Triggers & scheduled tasks
+- Agent configuration
+
+**Authentication:** Client key (`X-Muxi-Client-Key`) or Admin key (`X-Muxi-Admin-Key`)
+
+### ServerClient
+
+For managing the MUXI server:
+
+- Deploy formations
+- Start/stop/restart formations
+- List formations
+- Server health & logs
+
+**Authentication:** HMAC signature (`key_id` + `secret_key`)
 
 ---
 
 ## Common Operations
 
-### Chat with Streaming
+### Chat (Streaming)
 
 [[tabs]]
 
 [[tab Python]]
 ```python
-for chunk in formation.chat_stream("Tell me a story"):
-    print(chunk.text, end="", flush=True)
+for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
+    if event.get("type") == "text":
+        print(event.get("text"), end="")
+    elif event.get("type") == "done":
+        break
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-for await (const chunk of formation.chatStream('Tell me a story')) {
-  process.stdout.write(chunk.text);
+for await (const chunk of await formation.chatStream({ message: "Hello!" }, "user_123")) {
+  if (chunk.type === "text") process.stdout.write(chunk.text);
+  if (chunk.type === "done") break;
 }
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-stream, _ := formation.ChatStream("Tell me a story")
-for chunk := range stream.Chunks {
-    fmt.Print(chunk.Text)
-}
-```
-[[/tab]]
-
-[[/tabs]]
-
-### Session Management
-
-[[tabs]]
-
-[[tab Python]]
-```python
-# Create session
-session = formation.create_session()
-
-# Chat with session context
-response = formation.chat(
-    "Remember my name is Alice",
-    session_id=session.id
-)
-
-# Later...
-response = formation.chat(
-    "What's my name?",
-    session_id=session.id
-)
-# "Your name is Alice"
-```
-[[/tab]]
-
-[[tab TypeScript]]
-```typescript
-// Create session
-const session = await formation.createSession();
-
-// Chat with session context
-await formation.chat('Remember my name is Alice', {
-  sessionId: session.id
-});
-
-// Later...
-const response = await formation.chat("What's my name?", {
-  sessionId: session.id
-});
-// "Your name is Alice"
-```
-[[/tab]]
-
-[[tab Go]]
-```go
-// Create session
-session, _ := formation.CreateSession()
-
-// Chat with session context
-formation.ChatWithOptions("Remember my name is Alice", muxi.ChatOptions{
-    SessionID: session.ID,
-})
-
-// Later...
-response, _ := formation.ChatWithOptions("What's my name?", muxi.ChatOptions{
-    SessionID: session.ID,
-})
-// "Your name is Alice"
-```
-[[/tab]]
-
-[[/tabs]]
-
-### Target Specific Agent
-
-[[tabs]]
-
-[[tab Python]]
-```python
-response = formation.chat(
-    "Research AI trends",
-    agent="researcher"
-)
-```
-[[/tab]]
-
-[[tab TypeScript]]
-```typescript
-const response = await formation.chat('Research AI trends', {
-  agent: 'researcher'
-});
-```
-[[/tab]]
-
-[[tab Go]]
-```go
-response, _ := formation.ChatWithOptions("Research AI trends", muxi.ChatOptions{
-    Agent: "researcher",
-})
-```
-[[/tab]]
-
-[[/tabs]]
-
-### Fire Triggers
-
-[[tabs]]
-
-[[tab Python]]
-```python
-response = formation.trigger(
-    "github-issue",
-    data={
-        "repository": "muxi/runtime",
-        "issue": {"number": 123, "title": "Bug report"}
+stream, errs := client.ChatStream(ctx, &muxi.ChatRequest{Message: "Hello!", UserID: "user_123"})
+for chunk := range stream {
+    if chunk.Type == "text" {
+        fmt.Print(chunk.Text)
     }
-)
-```
-[[/tab]]
-
-[[tab TypeScript]]
-```typescript
-const response = await formation.trigger('github-issue', {
-  data: {
-    repository: 'muxi/runtime',
-    issue: { number: 123, title: 'Bug report' }
-  }
-});
-```
-[[/tab]]
-
-[[tab Go]]
-```go
-response, _ := formation.Trigger("github-issue", muxi.TriggerData{
-    "repository": "muxi/runtime",
-    "issue": map[string]interface{}{
-        "number": 123,
-        "title":  "Bug report",
-    },
-})
+}
 ```
 [[/tab]]
 
 [[/tabs]]
 
----
+### Memory
 
-## Server Client
+[[tabs]]
 
-For server management operations (deploy, restart, etc.):
+[[tab Python]]
+```python
+# Get memories
+memories = formation.get_memories(user_id="user_123")
+
+# Add memory
+formation.add_memory("User prefers Python", user_id="user_123")
+
+# Clear buffer
+formation.clear_user_buffer(user_id="user_123")
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+// Get memories
+const memories = await formation.getMemories("user_123");
+
+// Add memory
+await formation.addMemory("User prefers TypeScript", "user_123");
+
+// Clear buffer
+await formation.clearUserBuffer("user_123");
+```
+[[/tab]]
+
+[[tab Go]]
+```go
+// Get memories
+memories, _ := client.GetMemories(ctx, "user_123")
+
+// Add memory
+client.AddMemory(ctx, "User prefers Go", "user_123")
+
+// Clear buffer
+client.ClearUserBuffer(ctx, "user_123")
+```
+[[/tab]]
+
+[[/tabs]]
+
+### Server Management
 
 [[tabs]]
 
@@ -269,58 +227,61 @@ from muxi import ServerClient
 
 server = ServerClient(
     url="http://localhost:7890",
-    key_id="MUXI_...",
-    secret_key="sk_..."
+    key_id="muxi_pk_...",
+    secret_key="muxi_sk_...",
 )
+
+# Deploy
+server.deploy_formation(bundle_path="my-bot.tar.gz")
 
 # List formations
 formations = server.list_formations()
 
-# Deploy
-server.deploy("/path/to/formation")
-
-# Restart
-server.restart_formation("my-assistant")
+# Stop/start/restart
+server.stop_formation(formation_id="my-bot")
+server.start_formation(formation_id="my-bot")
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { ServerClient } from '@muxi/sdk';
+import { ServerClient } from "@muxi-ai/muxi-typescript";
 
 const server = new ServerClient({
-  url: 'http://localhost:7890',
-  keyId: 'MUXI_...',
-  secretKey: 'sk_...'
+  url: "http://localhost:7890",
+  keyId: "muxi_pk_...",
+  secretKey: "muxi_sk_...",
 });
+
+// Deploy
+await server.deployFormation({ bundlePath: "my-bot.tar.gz" });
 
 // List formations
 const formations = await server.listFormations();
 
-// Deploy
-await server.deploy('/path/to/formation');
-
-// Restart
-await server.restartFormation('my-assistant');
+// Stop/start/restart
+await server.stopFormation("my-bot");
+await server.startFormation("my-bot");
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-server := muxi.NewServerClient(muxi.ServerConfig{
+server := muxi.NewServerClient(&muxi.ServerConfig{
     URL:       "http://localhost:7890",
-    KeyID:     "MUXI_...",
-    SecretKey: "sk_...",
+    KeyID:     "muxi_pk_...",
+    SecretKey: "muxi_sk_...",
 })
 
-// List formations
-formations, _ := server.ListFormations()
-
 // Deploy
-server.Deploy("/path/to/formation")
+server.DeployFormation(ctx, &muxi.DeployRequest{BundlePath: "my-bot.tar.gz"})
 
-// Restart
-server.RestartFormation("my-assistant")
+// List formations
+formations, _ := server.ListFormations(ctx)
+
+// Stop/start/restart
+server.StopFormation(ctx, "my-bot")
+server.StartFormation(ctx, "my-bot")
 ```
 [[/tab]]
 
@@ -328,63 +289,50 @@ server.RestartFormation("my-assistant")
 
 ---
 
-## Authentication
-
-### Formation Client (Chat)
-
-Uses simple API keys:
-
-```python
-Formation(
-    client_key="fmc_..."    # Limited access (chat only)
-    # or
-    admin_key="fma_..."     # Full access
-)
-```
-
-### Server Client (Management)
-
-Uses HMAC signatures (handled automatically by SDK):
-
-```python
-ServerClient(
-    key_id="MUXI_...",
-    secret_key="sk_..."
-)
-```
-
----
-
 ## Error Handling
+
+All SDKs provide typed errors:
+
+| Error | Meaning |
+|-------|---------|
+| `AuthenticationError` | Invalid API key |
+| `AuthorizationError` | Insufficient permissions |
+| `NotFoundError` | Resource doesn't exist |
+| `ValidationError` | Invalid request data |
+| `RateLimitError` | Too many requests |
+| `ServerError` | Server-side error |
+| `ConnectionError` | Network issue |
 
 [[tabs]]
 
 [[tab Python]]
 ```python
-from muxi import MuxiError, AuthenticationError, FormationError
+from muxi import MuxiError, AuthenticationError, RateLimitError
 
 try:
-    response = formation.chat("Hello!")
+    response = formation.chat_stream({"message": "Hello!"}, user_id="user_123")
 except AuthenticationError:
     print("Invalid API key")
-except FormationError as e:
-    print(f"Formation error: {e}")
+except RateLimitError as e:
+    print(f"Rate limited, retry after {e.retry_after}s")
 except MuxiError as e:
-    print(f"MUXI error: {e}")
+    print(f"Error: {e.code} - {e.message}")
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { MuxiError, AuthenticationError, FormationError } from '@muxi/sdk';
+import { MuxiError, AuthenticationError, RateLimitError } from "@muxi-ai/muxi-typescript";
 
 try {
-  const response = await formation.chat('Hello!');
-} catch (error) {
-  if (error instanceof AuthenticationError) {
-    console.log('Invalid API key');
-  } else if (error instanceof FormationError) {
-    console.log(`Formation error: ${error.message}`);
+  await formation.chatStream({ message: "Hello!" }, "user_123");
+} catch (err) {
+  if (err instanceof AuthenticationError) {
+    console.log("Invalid API key");
+  } else if (err instanceof RateLimitError) {
+    console.log(`Rate limited, retry after ${err.retryAfter}s`);
+  } else if (err instanceof MuxiError) {
+    console.log(`Error: ${err.code} - ${err.message}`);
   }
 }
 ```
@@ -392,13 +340,18 @@ try {
 
 [[tab Go]]
 ```go
-response, err := formation.Chat("Hello!")
+resp, err := client.Chat(ctx, &muxi.ChatRequest{Message: "Hello!", UserID: "u1"})
 if err != nil {
-    switch e := err.(type) {
-    case *muxi.AuthenticationError:
+    var authErr *muxi.AuthenticationError
+    var rateLimit *muxi.RateLimitError
+    
+    switch {
+    case errors.As(err, &authErr):
         log.Println("Invalid API key")
-    case *muxi.FormationError:
-        log.Printf("Formation error: %v", e)
+    case errors.As(err, &rateLimit):
+        log.Printf("Rate limited, retry after %d seconds", rateLimit.RetryAfter)
+    default:
+        log.Fatal(err)
     }
 }
 ```
@@ -408,9 +361,19 @@ if err != nil {
 
 ---
 
-## Next Steps
+## Configuration
 
-[+] [Python SDK](python.md) - Full Python reference
-[+] [TypeScript SDK](typescript.md) - Full TypeScript reference
-[+] [Go SDK](go.md) - Full Go reference
-[+] [Build Custom UI](../guides/custom-ui.md) - Frontend integration guide
+| Setting | Python | TypeScript | Go | Default |
+|---------|--------|------------|-----|---------|
+| Timeout | `timeout=30` | `timeout: 30000` | 30s built-in | 30s |
+| Retries | `max_retries=3` | `maxRetries: 3` | 3 built-in | 3 |
+| Debug | `debug=True` | `debug: true` | - | Off |
+
+---
+
+## Learn More
+
+- [Python SDK →](python.md)
+- [TypeScript SDK →](typescript.md)
+- [Go SDK →](go.md)
+- [API Reference →](../reference/api.md)

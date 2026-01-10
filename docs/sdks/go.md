@@ -6,12 +6,14 @@ description: Native Go client for MUXI formations
 
 ## Idiomatic Go for MUXI
 
-Build Go applications that interact with MUXI formations. Full support for chat, streaming, sessions, triggers, and all Formation API operations.
+Build Go applications that interact with MUXI formations. Full support for chat, streaming, context cancellation, and all Formation API operations.
+
+**GitHub:** [muxi-ai/muxi-go](https://github.com/muxi-ai/muxi-go)
 
 ## Installation
 
 ```bash
-go get github.com/muxi-ai/sdk-go
+go get github.com/muxi-ai/muxi-go
 ```
 
 ## Quick Start
@@ -20,18 +22,31 @@ go get github.com/muxi-ai/sdk-go
 package main
 
 import (
+    "context"
     "fmt"
-    "github.com/muxi-ai/sdk-go/muxi"
+    "log"
+    "os"
+
+    muxi "github.com/muxi-ai/muxi-go"
 )
 
 func main() {
-    formation := muxi.NewFormation(muxi.Config{
-        URL:       "http://localhost:8001",
-        ClientKey: "fmc_...",
+    ctx := context.Background()
+
+    client := muxi.NewFormationClient(&muxi.FormationConfig{
+        FormationID: "my-assistant",
+        ServerURL:   os.Getenv("MUXI_SERVER_URL"),
+        ClientKey:   os.Getenv("MUXI_CLIENT_KEY"),
     })
 
-    response, _ := formation.Chat("Hello!")
-    fmt.Println(response.Text)
+    resp, err := client.Chat(ctx, &muxi.ChatRequest{
+        Message: "Hello!",
+        UserID:  "user_123",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println(resp.Response)
 }
 ```
 
@@ -40,207 +55,207 @@ func main() {
 ### Initialize
 
 ```go
-import "github.com/muxi-ai/sdk-go/muxi"
+import muxi "github.com/muxi-ai/muxi-go"
 
-// With client key
-formation := muxi.NewFormation(muxi.Config{
-    URL:       "http://localhost:8001",
-    ClientKey: "fmc_...",
+// Via server proxy (recommended)
+client := muxi.NewFormationClient(&muxi.FormationConfig{
+    FormationID: "my-assistant",
+    ServerURL:   "http://localhost:7890",
+    ClientKey:   "your_client_key",
+    AdminKey:    "your_admin_key",  // Optional, for admin operations
 })
 
-// With admin key
-formation := muxi.NewFormation(muxi.Config{
-    URL:      "http://localhost:8001",
-    AdminKey: "fma_...",
+// Direct connection (for local dev)
+client := muxi.NewFormationClient(&muxi.FormationConfig{
+    URL:       "http://localhost:8001",  // Direct to formation
+    ClientKey: "your_client_key",
 })
 ```
 
 ### Chat
 
 ```go
-// Simple message
-response, err := formation.Chat("Hello!")
+// Simple chat
+resp, err := client.Chat(ctx, &muxi.ChatRequest{
+    Message: "Hello!",
+    UserID:  "user_123",
+})
 if err != nil {
     log.Fatal(err)
 }
-fmt.Println(response.Text)
-
-// With options
-response, err := formation.ChatWithOptions("Research AI", muxi.ChatOptions{
-    Agent:     "researcher",
-    SessionID: "sess_123",
-    UserID:    "user_456",
-})
+fmt.Println(resp.Response)
 ```
 
 ### Streaming
 
 ```go
-stream, err := formation.ChatStream("Tell me a story")
-if err != nil {
-    log.Fatal(err)
-}
-
-for chunk := range stream.Chunks {
-    fmt.Print(chunk.Text)
-}
-```
-
-### Sessions
-
-```go
-// Create session
-session, err := formation.CreateSession()
-fmt.Println(session.ID) // sess_abc123
-
-// Chat with session
-response, err := formation.ChatWithOptions("Hello!", muxi.ChatOptions{
-    SessionID: session.ID,
+stream, errs := client.ChatStream(ctx, &muxi.ChatRequest{
+    Message: "Tell me a story",
+    UserID:  "user_123",
 })
 
-// Get session history
-history, err := formation.GetSession(session.ID)
-for _, msg := range history.Messages {
-    fmt.Printf("%s: %s\n", msg.Role, msg.Content)
+for stream != nil {
+    select {
+    case chunk, ok := <-stream:
+        if !ok {
+            stream = nil
+            continue
+        }
+        if chunk.Type == "text" {
+            fmt.Print(chunk.Text)
+        }
+    case err := <-errs:
+        if err != nil {
+            log.Fatal(err)
+        }
+        errs = nil
+    }
 }
 ```
 
-### Agents
+Chunk types: `text`, `tool_call`, `tool_result`, `agent_handoff`, `thinking`, `error`, `done`.
+
+### Memory
 
 ```go
-// List agents
-agents, err := formation.ListAgents()
-for _, agent := range agents {
-    fmt.Println(agent.ID, agent.Name)
+// Get memory config
+config, err := client.GetMemoryConfig(ctx)
+
+// Get memories for user
+memories, err := client.GetMemories(ctx, "user_123")
+
+// Add a memory
+err = client.AddMemory(ctx, "User prefers Go", "user_123")
+
+// Clear user buffer
+err = client.ClearUserBuffer(ctx, "user_123")
+
+// Get buffer stats
+stats, err := client.GetBufferStats(ctx)
+```
+
+### Scheduler
+
+```go
+// List scheduled jobs
+jobs, err := client.GetSchedulerJobs(ctx, "user_123")
+
+// Create a job
+job, err := client.CreateSchedulerJob(ctx, &muxi.SchedulerJobRequest{
+    Title:    "Daily report",
+    Schedule: "0 9 * * *",
+    Prompt:   "Generate daily summary",
+}, "user_123")
+
+// Delete a job
+err = client.DeleteSchedulerJob(ctx, "job_abc123", "user_123")
+```
+
+### Sessions & Requests
+
+```go
+// Get sessions
+sessions, err := client.GetSessions(ctx, "user_123")
+
+// Get request status
+status, err := client.GetRequestStatus(ctx, "req_abc123")
+
+// Cancel a request
+err = client.CancelRequest(ctx, "req_abc123")
+
+// Stream request events
+stream, errs := client.StreamRequest(ctx, "req_abc123")
+```
+
+### Event & Log Streaming
+
+```go
+// Stream events for a user
+events, errs := client.StreamEvents(ctx, "user_123")
+for event := range events {
+    fmt.Println(event)
 }
 
-// Target specific agent
-response, err := formation.ChatWithOptions("Research this", muxi.ChatOptions{
-    Agent: "researcher",
-})
+// Stream logs (admin)
+logs, errs := client.StreamLogs(ctx, &muxi.LogFilter{Level: "info"})
+for log := range logs {
+    fmt.Println(log)
+}
 ```
 
-### Triggers
-
-```go
-response, err := formation.Trigger("github-issue", muxi.TriggerData{
-    "repository": "muxi/runtime",
-    "issue": map[string]interface{}{
-        "number": 123,
-        "title":  "Bug report",
-    },
-})
-```
-
-### Multi-User
-
-```go
-// User isolation
-formation.ChatWithOptions("Remember my preference", muxi.ChatOptions{
-    UserID: "user_123",
-})
-
-// Different user
-formation.ChatWithOptions("What's my preference?", muxi.ChatOptions{
-    UserID: "user_456",
-})
-```
+---
 
 ## Server Client
 
-### Initialize
+For managing formations (deploy, start, stop):
 
 ```go
-import "github.com/muxi-ai/sdk-go/muxi"
+import muxi "github.com/muxi-ai/muxi-go"
 
-server := muxi.NewServerClient(muxi.ServerConfig{
-    URL:       "http://localhost:7890",
-    KeyID:     "MUXI_...",
-    SecretKey: "sk_...",
+server := muxi.NewServerClient(&muxi.ServerConfig{
+    URL:       os.Getenv("MUXI_SERVER_URL"),
+    KeyID:     os.Getenv("MUXI_KEY_ID"),
+    SecretKey: os.Getenv("MUXI_SECRET_KEY"),
 })
+
+// Check server status
+status, err := server.Status(ctx)
+fmt.Println(status)
+
+// List formations
+formations, err := server.ListFormations(ctx)
+
+// Deploy a formation
+res, err := server.DeployFormation(ctx, &muxi.DeployRequest{
+    BundlePath: "my-bot.tar.gz",
+})
+fmt.Println("Deployed:", res.FormationID)
+
+// Stop/start/restart
+server.StopFormation(ctx, "my-bot")
+server.StartFormation(ctx, "my-bot")
+server.RestartFormation(ctx, "my-bot")
+
+// Get server logs
+logs, err := server.GetServerLogs(ctx, 200)
 ```
 
-### List Formations
-
-```go
-formations, err := server.ListFormations()
-for _, f := range formations {
-    fmt.Println(f.ID, f.Status, f.Port)
-}
-```
-
-### Deploy Formation
-
-```go
-result, err := server.Deploy("/path/to/formation")
-fmt.Println(result.Port)
-```
-
-### Stop/Start/Restart
-
-```go
-server.StopFormation("my-assistant")
-server.StartFormation("my-assistant")
-server.RestartFormation("my-assistant")
-```
-
-### Delete Formation
-
-```go
-server.DeleteFormation("my-assistant")
-```
+---
 
 ## Error Handling
 
 ```go
-response, err := formation.Chat("Hello!")
+resp, err := client.Chat(ctx, &muxi.ChatRequest{Message: "Hello!", UserID: "u1"})
 if err != nil {
-    switch e := err.(type) {
-    case *muxi.AuthenticationError:
-        log.Println("Invalid API key")
-    case *muxi.FormationError:
-        log.Printf("Formation error: %v", e)
-    case *muxi.MuxiError:
-        log.Printf("MUXI error: %v", e)
+    var authErr *muxi.AuthenticationError
+    var notFound *muxi.NotFoundError
+    var rateLimit *muxi.RateLimitError
+
+    switch {
+    case errors.As(err, &authErr):
+        log.Println("Authentication failed")
+    case errors.As(err, &notFound):
+        log.Println("Not found:", notFound.Message)
+    case errors.As(err, &rateLimit):
+        log.Printf("Rate limited, retry after %d seconds", rateLimit.RetryAfter)
     default:
         log.Fatal(err)
     }
 }
 ```
 
+Error types: `AuthenticationError`, `AuthorizationError`, `NotFoundError`, `ValidationError`, `RateLimitError`, `ServerError`, `ConnectionError`.
+
+---
+
 ## Configuration
 
-```go
-muxi.NewFormation(muxi.Config{
-    URL:        "http://localhost:8001",
-    ClientKey:  "fmc_...",
-    Timeout:    30 * time.Second,
-    MaxRetries: 3,
-})
-```
+- **Default timeout:** 30s (no timeout for streaming)
+- **Retries:** GET/DELETE only, exponential backoff (500ms × 2, max 30s, ±10% jitter)
+- **Idempotency:** `X-Muxi-Idempotency-Key` auto-generated on every request
+- **Context:** All methods accept `context.Context` for cancellation
 
-## Types
-
-```go
-type ChatResponse struct {
-    Text      string
-    Agent     string
-    SessionID string
-    Metadata  map[string]interface{}
-}
-
-type Session struct {
-    ID        string
-    CreatedAt time.Time
-    Messages  []Message
-}
-
-type Message struct {
-    Role      string
-    Content   string
-    Timestamp time.Time
-}
-```
+---
 
 ## Examples
 
@@ -251,35 +266,58 @@ package main
 
 import (
     "bufio"
+    "context"
     "fmt"
     "os"
     "strings"
-    
-    "github.com/muxi-ai/sdk-go/muxi"
+
+    muxi "github.com/muxi-ai/muxi-go"
 )
 
 func main() {
-    formation := muxi.NewFormation(muxi.Config{
-        URL:       "http://localhost:8001",
-        ClientKey: "fmc_...",
+    ctx := context.Background()
+    client := muxi.NewFormationClient(&muxi.FormationConfig{
+        FormationID: "my-assistant",
+        ServerURL:   os.Getenv("MUXI_SERVER_URL"),
+        ClientKey:   os.Getenv("MUXI_CLIENT_KEY"),
     })
 
-    session, _ := formation.CreateSession()
     reader := bufio.NewReader(os.Stdin)
+    userID := "user_123"
 
     for {
         fmt.Print("You: ")
         input, _ := reader.ReadString('\n')
         input = strings.TrimSpace(input)
 
-        if input == "/exit" {
+        if input == "quit" {
             break
         }
 
-        response, _ := formation.ChatWithOptions(input, muxi.ChatOptions{
-            SessionID: session.ID,
+        fmt.Print("Assistant: ")
+        stream, errs := client.ChatStream(ctx, &muxi.ChatRequest{
+            Message: input,
+            UserID:  userID,
         })
-        fmt.Printf("Assistant: %s\n", response.Text)
+
+        for stream != nil {
+            select {
+            case chunk, ok := <-stream:
+                if !ok {
+                    stream = nil
+                    continue
+                }
+                if chunk.Type == "text" {
+                    fmt.Print(chunk.Text)
+                }
+            case err := <-errs:
+                if err != nil {
+                    fmt.Println("Error:", err)
+                }
+                errs = nil
+            }
+        }
+        fmt.Println()
     }
 }
 ```
@@ -290,15 +328,18 @@ func main() {
 package main
 
 import (
+    "context"
     "encoding/json"
     "net/http"
-    
-    "github.com/muxi-ai/sdk-go/muxi"
+    "os"
+
+    muxi "github.com/muxi-ai/muxi-go"
 )
 
-var formation = muxi.NewFormation(muxi.Config{
-    URL:       "http://localhost:8001",
-    ClientKey: "fmc_...",
+var client = muxi.NewFormationClient(&muxi.FormationConfig{
+    FormationID: os.Getenv("MUXI_FORMATION_ID"),
+    ServerURL:   os.Getenv("MUXI_SERVER_URL"),
+    ClientKey:   os.Getenv("MUXI_CLIENT_KEY"),
 })
 
 func chatHandler(w http.ResponseWriter, r *http.Request) {
@@ -308,8 +349,9 @@ func chatHandler(w http.ResponseWriter, r *http.Request) {
     }
     json.NewDecoder(r.Body).Decode(&req)
 
-    response, err := formation.ChatWithOptions(req.Message, muxi.ChatOptions{
-        UserID: req.UserID,
+    resp, err := client.Chat(r.Context(), &muxi.ChatRequest{
+        Message: req.Message,
+        UserID:  req.UserID,
     })
     if err != nil {
         http.Error(w, err.Error(), 500)
@@ -317,7 +359,7 @@ func chatHandler(w http.ResponseWriter, r *http.Request) {
     }
 
     json.NewEncoder(w).Encode(map[string]string{
-        "response": response.Text,
+        "response": resp.Response,
     })
 }
 
@@ -326,3 +368,11 @@ func main() {
     http.ListenAndServe(":3000", nil)
 }
 ```
+
+---
+
+## Learn More
+
+- [Python SDK](python.md)
+- [TypeScript SDK](typescript.md)
+- [API Reference](../reference/api.md)

@@ -151,32 +151,47 @@ curl -X POST http://localhost:8001/v1/chat \
 
 [[tab Python]]
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
-formation = Formation(url="http://localhost:8001", client_key="...")
-response = formation.chat("Hello!")
-print(response.text)
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="...",
+)
+for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
+    if event.get("type") == "text":
+        print(event.get("text"), end="")
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Formation } from '@muxi/sdk';
+import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-const formation = new Formation({ url: 'http://localhost:8001', clientKey: '...' });
-const response = await formation.chat('Hello!');
-console.log(response.text);
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "...",
+});
+for await (const chunk of await formation.chatStream({ message: "Hello!" }, "user_123")) {
+  if (chunk.type === "text") process.stdout.write(chunk.text);
+}
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-formation := muxi.NewFormation(muxi.Config{
-    URL:       "http://localhost:8001",
-    ClientKey: "...",
+client := muxi.NewFormationClient(&muxi.FormationConfig{
+    FormationID: "my-assistant",
+    ServerURL:   "http://localhost:7890",
+    ClientKey:   "...",
 })
-response, _ := formation.Chat("Hello!")
-fmt.Println(response.Text)
+stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{Message: "Hello!", UserID: "user_123"})
+for chunk := range stream {
+    if chunk.Type == "text" {
+        fmt.Print(chunk.Text)
+    }
+}
 ```
 [[/tab]]
 

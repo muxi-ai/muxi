@@ -6,26 +6,29 @@ description: Native Python client for MUXI formations
 
 ## Pythonic access to your agents
 
-Build Python applications that interact with MUXI formations. Full support for chat, streaming, async operations, sessions, triggers, and all Formation API operations.
+Build Python applications that interact with MUXI formations. Full support for chat, streaming, async operations, sessions, and all Formation API operations.
+
+**GitHub:** [muxi-ai/muxi-python](https://github.com/muxi-ai/muxi-python)
 
 ## Installation
 
 ```bash
-pip install muxi-sdk
+pip install muxi-client
 ```
 
 ## Quick Start
 
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
-formation = Formation(
-    url="http://localhost:8001",
-    client_key="fmc_..."
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="your_client_key",
 )
 
-response = formation.chat("Hello!")
-print(response.text)
+# Check health
+print(formation.health())
 ```
 
 ## Formation Client
@@ -33,228 +36,277 @@ print(response.text)
 ### Initialize
 
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
-# With client key
-formation = Formation(
-    url="http://localhost:8001",
-    client_key="fmc_..."
+# Via server proxy (recommended)
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="your_client_key",
+    admin_key="your_admin_key",  # Optional, for admin operations
 )
 
-# With admin key
-formation = Formation(
-    url="http://localhost:8001",
-    admin_key="fma_..."
-)
-```
-
-### Chat
-
-```python
-# Simple message
-response = formation.chat("Hello!")
-print(response.text)
-
-# With options
-response = formation.chat(
-    message="Research AI trends",
-    agent="researcher",
-    session_id="sess_123",
-    user_id="user_456"
+# Direct connection (for local dev)
+formation = FormationClient(
+    url="http://localhost:8001",  # Direct to formation
+    client_key="your_client_key",
 )
 ```
 
-### Streaming
+### Chat (Streaming)
 
 ```python
-for chunk in formation.chat_stream("Tell me a story"):
-    print(chunk.text, end="", flush=True)
-```
-
-### Sessions
-
-```python
-# Create session
-session = formation.create_session()
-print(session.id)  # sess_abc123
-
-# Chat with session
-response = formation.chat(
-    "Hello!",
-    session_id=session.id
-)
-
-# Get session history
-history = formation.get_session(session.id)
-for message in history.messages:
-    print(f"{message.role}: {message.content}")
+# Streaming chat (recommended)
+for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
+    if event.get("type") == "text":
+        print(event.get("text"), end="", flush=True)
+    elif event.get("type") == "done":
+        break
 ```
 
 ### Agents
 
 ```python
-# List agents
-agents = formation.list_agents()
+# List agents (requires admin key)
+agents = formation.get_agents()
 for agent in agents:
-    print(agent.id, agent.name)
+    print(agent["id"], agent["name"])
+```
 
-# Target specific agent
-response = formation.chat(
-    "Research this topic",
-    agent="researcher"
+### Sessions
+
+```python
+# List sessions
+sessions = formation.get_sessions(user_id="user_123")
+for session in sessions["sessions"]:
+    print(session["session_id"])
+
+# Get session messages
+messages = formation.get_session_messages(session_id="sess_abc123", user_id="user_123")
+```
+
+### Memory
+
+```python
+# Get memory config
+config = formation.get_memory_config()
+
+# Get memories for user
+memories = formation.get_memories(user_id="user_123")
+
+# Add a memory
+formation.add_memory(
+    content="User prefers Python",
+    user_id="user_123"
 )
+
+# Clear user buffer
+formation.clear_user_buffer(user_id="user_123")
 ```
 
 ### Triggers
 
 ```python
-response = formation.trigger(
-    "github-issue",
+response = formation.fire_trigger(
+    trigger_id="github-issue",
     data={
         "repository": "muxi/runtime",
         "issue": {
             "number": 123,
             "title": "Bug report"
         }
-    }
-)
-```
-
-### Multi-User
-
-```python
-# User isolation
-response = formation.chat(
-    "Remember my preference",
+    },
     user_id="user_123"
 )
-
-# Different user
-response = formation.chat(
-    "What's my preference?",
-    user_id="user_456"
-)
 ```
+
+### Scheduler
+
+```python
+# List scheduled jobs
+jobs = formation.get_scheduler_jobs(user_id="user_123")
+
+# Create a job
+job = formation.create_scheduler_job(
+    user_id="user_123",
+    title="Daily report",
+    schedule="0 9 * * *",  # 9am daily
+    prompt="Generate daily summary"
+)
+
+# Delete a job
+formation.delete_scheduler_job(job_id="job_abc123", user_id="user_123")
+```
+
+---
 
 ## Server Client
 
-### Initialize
+For managing formations (deploy, start, stop):
 
 ```python
 from muxi import ServerClient
 
 server = ServerClient(
     url="http://localhost:7890",
-    key_id="MUXI_...",
-    secret_key="sk_..."
+    key_id="muxi_pk_...",
+    secret_key="muxi_sk_...",
 )
-```
 
-### List Formations
+# Check server status
+status = server.status()
+print(status)
 
-```python
+# List formations
 formations = server.list_formations()
-for f in formations:
-    print(f.id, f.status, f.port)
+
+# Deploy a formation
+result = server.deploy_formation(bundle_path="my-bot.tar.gz")
+print(f"Deployed: {result['formation_id']}")
+
+# Stop/start/restart
+server.stop_formation(formation_id="my-bot")
+server.start_formation(formation_id="my-bot")
+server.restart_formation(formation_id="my-bot")
 ```
 
-### Deploy Formation
+---
 
-```python
-result = server.deploy("/path/to/formation")
-print(result.port)
-```
+## Async Client
 
-### Stop/Start/Restart
-
-```python
-server.stop_formation("my-assistant")
-server.start_formation("my-assistant")
-server.restart_formation("my-assistant")
-```
-
-### Delete Formation
-
-```python
-server.delete_formation("my-assistant")
-```
-
-## Async Support
+For async/await usage:
 
 ```python
 import asyncio
-from muxi import AsyncFormation
+from muxi import AsyncFormationClient
 
 async def main():
-    formation = AsyncFormation(
-        url="http://localhost:8001",
-        client_key="fmc_..."
+    formation = AsyncFormationClient(
+        server_url="http://localhost:7890",
+        formation_id="my-assistant",
+        client_key="your_client_key",
     )
     
-    response = await formation.chat("Hello!")
-    print(response.text)
-    
     # Async streaming
-    async for chunk in formation.chat_stream("Story"):
-        print(chunk.text, end="")
+    async for event in await formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
+        if event.get("type") == "text":
+            print(event.get("text"), end="", flush=True)
+        elif event.get("type") == "done":
+            break
 
 asyncio.run(main())
 ```
 
+---
+
 ## Error Handling
 
 ```python
-from muxi import MuxiError, AuthenticationError, FormationError
+from muxi import (
+    MuxiError,
+    AuthenticationError,
+    AuthorizationError,
+    NotFoundError,
+    ValidationError,
+    RateLimitError,
+    ServerError,
+    ConnectionError,
+)
 
 try:
-    response = formation.chat("Hello!")
-except AuthenticationError:
-    print("Invalid API key")
-except FormationError as e:
-    print(f"Formation error: {e}")
+    response = formation.chat_stream({"message": "Hello!"}, user_id="user_123")
+except AuthenticationError as e:
+    print(f"Auth failed: {e.message}")
+except RateLimitError as e:
+    print(f"Rate limited, retry after: {e.retry_after}s")
 except MuxiError as e:
-    print(f"MUXI error: {e}")
+    print(f"Error: {e.code} - {e.message}")
 ```
+
+All errors include:
+- `code` - Error code string
+- `message` - Human-readable message
+- `status_code` - HTTP status code
+- `retry_after` - Seconds to wait (for rate limits)
+
+---
 
 ## Configuration
 
 ```python
-Formation(
-    url="http://localhost:8001",
-    client_key="fmc_...",
-    timeout=30,           # Request timeout
-    max_retries=3,        # Retry on failure
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="your_client_key",
+    timeout=30,        # Request timeout (seconds)
+    max_retries=3,     # Retry count for 429/5xx
+    debug=True,        # Enable debug logging
 )
 ```
+
+Environment variable `MUXI_DEBUG=1` also enables debug logging.
+
+---
 
 ## Examples
 
 ### Chat Bot
 
 ```python
-from muxi import Formation
+from muxi import FormationClient
 
-formation = Formation(url="...", client_key="...")
-
-session = formation.create_session()
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="your_client_key",
+)
 
 while True:
     user_input = input("You: ")
-    if user_input == "/exit":
+    if user_input.lower() == "quit":
         break
     
-    response = formation.chat(
-        user_input,
-        session_id=session.id
-    )
-    print(f"Assistant: {response.text}")
+    print("Assistant: ", end="")
+    for event in formation.chat_stream({"message": user_input}, user_id="user_123"):
+        if event.get("type") == "text":
+            print(event.get("text"), end="", flush=True)
+    print()
 ```
 
-### Streaming Response
+### With Session Persistence
 
 ```python
-print("Assistant: ", end="")
-for chunk in formation.chat_stream("Tell me about AI"):
-    print(chunk.text, end="", flush=True)
-print()
+from muxi import FormationClient
+
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="your_client_key",
+)
+
+session_id = None
+
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "quit":
+        break
+    
+    print("Assistant: ", end="")
+    for event in formation.chat_stream(
+        {"message": user_input, "session_id": session_id},
+        user_id="user_123"
+    ):
+        if event.get("type") == "text":
+            print(event.get("text"), end="", flush=True)
+        elif event.get("session_id"):
+            session_id = event.get("session_id")
+    print()
 ```
+
+---
+
+## Learn More
+
+- [TypeScript SDK](typescript.md)
+- [Go SDK](go.md)
+- [API Reference](../reference/api.md)
