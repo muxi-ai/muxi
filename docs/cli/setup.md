@@ -89,7 +89,7 @@ my-assistant/
 ├── formation.afs       # Main configuration
 ├── agents/             # Agent definitions
 ├── knowledge/          # Documents for RAG
-└── secrets     # Required secrets template
+└── secrets             # Required secrets template
 ```
 
 ---

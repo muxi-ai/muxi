@@ -147,7 +147,7 @@ This creates:
 my-assistant/
 ├── formation.afs      # Main configuration
 ├── agents/            # Agent definitions
-├── secrets    # Required secrets template
+├── secrets            # Required secrets template
 └── .gitignore
 ```
 
