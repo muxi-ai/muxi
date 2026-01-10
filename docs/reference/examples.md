@@ -379,13 +379,7 @@ llm:
     - text: "openai/gpt-4o"
     - embedding: "openai/text-embedding-3-large"
 
-agents:
-  - id: assistant
-    name: Enterprise Assistant
-    description: General-purpose enterprise assistant
-    role: |
-      You are an enterprise assistant.
-      Be professional and thorough.
+agents: []
 
 memory:
   buffer:
