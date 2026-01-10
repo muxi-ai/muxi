@@ -85,20 +85,35 @@ Agent: "Based on the architecture diagram, data flows from..."
 Different agents can access different knowledge bases:
 
 ```yaml
-agents:
-  - id: support
-    role: Customer support
-    knowledge:
-      sources:
-        - path: knowledge/faq/
-        - path: knowledge/troubleshooting/
-  
-  - id: sales
-    role: Sales advisor
-    knowledge:
-      sources:
-        - path: knowledge/pricing/
-        - path: knowledge/features/
+# agents/support.yaml
+schema: "1.0.0"
+id: support
+name: Support Agent
+description: Customer support
+
+system_message: Customer support specialist.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/faq/
+    - path: knowledge/troubleshooting/
+```
+
+```yaml
+# agents/sales.yaml
+schema: "1.0.0"
+id: sales
+name: Sales Agent
+description: Sales advisor
+
+system_message: Sales advisor.
+
+knowledge:
+  enabled: true
+  sources:
+    - path: knowledge/pricing/
+    - path: knowledge/features/
 ```
 
 Support agent knows troubleshooting; sales agent knows pricing. No overlap, no confusion.

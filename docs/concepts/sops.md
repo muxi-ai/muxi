@@ -295,10 +295,16 @@ The result: **consistent outcomes through intelligent adaptation**, not brittle 
 
 ## Quick Setup
 
+Create an agent file:
+
 ```yaml
-agents:
-  - id: support
-    role: Customer support specialist
+# agents/support.yaml
+schema: "1.0.0"
+id: support
+name: Support Agent
+description: Customer support specialist
+
+system_message: Customer support specialist.
 ```
 
 Add SOP file to `sops/customer-onboarding.md`, restart - it works automatically.
