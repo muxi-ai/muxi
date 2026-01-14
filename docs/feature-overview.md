@@ -1,157 +1,331 @@
 ---
 title: Feature Overview
-description: Everything MUXI can do, at a glance
+description: Common questions about what MUXI can do
 ---
 
 # Feature Overview
 
-## A quick reference to all MUXI capabilities
+## What can MUXI do? Answers to common questions.
 
-MUXI provides everything you need to build and deploy production AI agents: multi-agent orchestration, memory systems, tool integration, security, and more. This page lists all features with links to detailed documentation.
-
-> [!NOTE]
-> Prerequisites: MUXI installed and a running server (see Quickstart/Installation).
-
-
-## Agents & Intelligence
-
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **Multi-Agent Systems** | Specialized agents that collaborate on complex tasks | [Agents & Orchestration](concepts/agents-and-orchestration.md) |
-| **Intelligent Routing** | Overlord automatically routes requests to the best agent | [Agents & Orchestration](concepts/agents-and-orchestration.md) |
-| **Task Decomposition** | Complex requests broken into steps automatically | [How Orchestration Works](deep-dives/how-orchestration-works.md) |
-| **Agent Collaboration (A2A)** | Agents delegate to specialists across formations | [Agents & Orchestration](concepts/agents-and-orchestration.md) |
-| **Standard Operating Procedures** | Predefined workflows agents follow for specific tasks | [Create SOPs](guides/create-sops.md) |
-| **LLM-Agnostic** | Use OpenAI, Anthropic, Google, Ollama, or any provider | [Agent Formation Schema](reference/formation-schema.md) |
+Find your question, get the answer. Each section links to deeper documentation.
 
 ---
 
-## Memory & Context
+## Building Agents
 
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **Three-Tier Memory** | Buffer, working, and persistent memory layers | [Memory System](concepts/memory-system.md) |
-| **Semantic Search** | Find relevant context by meaning, not keywords | [Memory System](concepts/memory-system.md) |
-| **User Synopsis Caching** | LLM-synthesized user profiles reduce tokens by 80%+ | [Memory Internals](deep-dives/memory-internals.md) |
-| **Persistent Memory** | Conversations survive restarts (SQLite/PostgreSQL) | [Add Memory](guides/add-memory.md) |
-| **Multi-User Isolation** | Each user gets completely separate memory | [Multi-Tenancy](deep-dives/multi-tenancy.md) |
+[[toggle How do I define an agent?]]
 
----
+In YAML. Create an `.afs` file (Agent Formation Schema) with your agent's name, persona, LLM provider, and capabilities. No framework code required.
 
-## Knowledge & RAG
+```yaml
+name: support-agent
+agents:
+  support:
+    persona: "Helpful customer support specialist"
+    provider: openai/gpt-4o
+    tools: [search, ticket-system]
+    knowledge: ./docs/
+```
 
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **Document Ingestion** | Index PDFs, Markdown, Word, Excel, and more | [Knowledge & RAG](concepts/knowledge-and-rag.md) |
-| **Multimodal Support** | Images, diagrams, and charts analyzed by vision models | [Knowledge & RAG](concepts/knowledge-and-rag.md) |
-| **Agent-Specific Knowledge** | Different agents access different document sets | [Add Knowledge](guides/add-knowledge.md) |
-| **Incremental Indexing** | Only changed files re-indexed on restart | [Knowledge & RAG](concepts/knowledge-and-rag.md) |
+**Learn more:** [Formation Schema](concepts/formation-schema.md) | [Quickstart](quickstart.md)
 
----
+[[/toggle]]
 
-## Tools & MCP
+[[toggle How do agents remember context?]]
 
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **1,000+ MCP Tools** | Web search, databases, APIs, file systems, and more | [Tools & MCP](concepts/tools-and-mcp.md) |
-| **Context-Efficient Loading** | Tool schemas indexed once, not dumped into every request | [Tools & MCP](concepts/tools-and-mcp.md) |
-| **Per-User Credentials** | Each user stores their own API keys for tools | [Tools & MCP](concepts/tools-and-mcp.md) |
-| **Agent-Specific Tools** | Restrict which agents can use which tools | [Add Tools](guides/add-mcp-tools.md) |
-| **Natural Language Scheduling** | "Remind me tomorrow" creates scheduled tasks | [Tools & MCP](concepts/tools-and-mcp.md) |
+MUXI has a **three-tier memory system**:
 
----
+1. **Buffer** - Current conversation (last N messages)
+2. **Working** - Session-level context and facts extracted mid-conversation
+3. **Persistent** - Long-term memory stored in SQLite/PostgreSQL, survives restarts
 
-## Triggers & Automation
+Plus **User Synopsis Caching** - the LLM periodically synthesizes what it knows about a user, reducing token usage by 80%+ on long conversations.
 
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **Webhook Triggers** | External systems trigger agent actions via HTTP | [Create Triggers](guides/create-triggers.md) |
-| **Scheduled Tasks** | Cron-style or natural language scheduling | [Triggers](reference/triggers.md) |
-| **Event-Driven** | Agents respond to system events automatically | [Observability](deep-dives/observability.md) |
+**Learn more:** [Memory System](concepts/memory-system.md) | [Memory Internals](deep-dives/memory-internals.md) | [Add Memory](guides/add-memory.md)
 
----
+[[/toggle]]
 
-## Real-Time & Streaming
+[[toggle How do I give agents access to tools and APIs?]]
 
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **SSE Streaming** | Server-sent events for real-time responses | [Real-Time Streaming](deep-dives/real-time-streaming.md) |
-| **WebSocket Support** | Bidirectional real-time communication | [Real-Time Streaming](deep-dives/real-time-streaming.md) |
-| **Async Operations** | Long tasks run in background with status updates | [Async Operations](deep-dives/async-operations.md) |
+Via **MCP (Model Context Protocol)**. MUXI supports 1,000+ pre-built tools: web search, databases, file systems, APIs, and more.
 
-## Real-Time Streaming
+```yaml
+tools:
+  - mcp: brave-search
+  - mcp: postgres
+  - mcp: slack
+```
 
-Low-latency experiences for chat and dashboards. Stream tokens as the model thinks, switch to background mode for long tasks, and surface progress updates via SSE or WebSockets.
+Tools are loaded efficiently - schemas indexed once, not dumped into every request.
 
-- **Protocols:** SSE and WebSockets
-- **When to use:** Chat UIs, live dashboards, long-running jobs with progress
-- **See also:** [Response Formats](deep-dives/response-formats.md), [Async Operations](deep-dives/async-operations.md), [Streaming](deep-dives/real-time-streaming.md)
+**Learn more:** [Tools & MCP](concepts/tools-and-mcp.md) | [Add Tools](guides/add-mcp-tools.md)
 
----
+[[/toggle]]
 
-## Security & Secrets
+[[toggle How do I give agents domain knowledge?]]
 
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **Encrypted Secrets** | API keys encrypted at rest, never in plain text | [Secrets & Security](concepts/secrets-and-security.md) |
-| **HMAC Authentication** | Signed requests between CLI, SDKs, and server | [Authentication](server/authentication.md) |
-| **User Isolation** | Complete data separation between users | [Multi-Tenancy](deep-dives/multi-tenancy.md) |
-| **Path Restrictions** | Limit file system access per tool | [Security Model](deep-dives/security-model.md) |
+Point agents at documents. MUXI indexes PDFs, Markdown, Word, Excel, images, and more. Each agent can have its own knowledge set.
 
----
+```yaml
+agents:
+  legal:
+    knowledge: ./contracts/
+  support:
+    knowledge: ./help-docs/
+```
 
-## Deployment & Operations
+Uses semantic search (meaning, not keywords) and incremental indexing (only re-indexes changed files).
 
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **One Command Deploy** | `muxi deploy` pushes to production | [Deploy to Production](guides/deploy-to-production.md) |
-| **Single Binary Server** | No dependencies, just download and run | [Installation](installation/README.md) |
-| **GitOps Workflow** | Version control formations, PR reviews for changes | [Set Up CI/CD](guides/setup-ci-cd.md) |
-| **Built-in Observability** | Metrics, logs, and traces out of the box | [Observability](deep-dives/observability.md) |
-| **Auto-Restart** | Crashed formations restart automatically | [Server Configuration](server/configuration.md) |
+**Learn more:** [Knowledge & RAG](concepts/knowledge-and-rag.md) | [Add Knowledge](guides/add-knowledge.md)
 
-## Observability
+[[/toggle]]
 
-Built-in metrics, traces, and logs for every agent action. Ship events to Datadog, Elastic, Splunk, OpenTelemetry, and more without extra agents or sidecars.
+[[toggle Can I define workflows or procedures for agents?]]
 
-- **What you get:** Structured events for LLM calls, tool usage, workflows, and errors
-- **Export targets:** Datadog, Elastic, Splunk, OTLP, and webhooks
-- **See also:** [Observability](deep-dives/observability.md)
+Yes - **Standard Operating Procedures (SOPs)**. Define step-by-step workflows that agents follow for specific tasks:
 
-## Enterprise Resilience
+```yaml
+sops:
+  refund-request:
+    steps:
+      - Verify purchase in system
+      - Check refund policy eligibility
+      - Process refund or explain denial
+```
 
-Reliability patterns baked in: circuit breakers, retries with backoff, graceful degradation, and cache utilization to reduce LLM load and latency.
+Agents automatically follow SOPs when they match the user's request.
 
-- **Patterns:** Circuit breakers, exponential backoff, fallback behaviors
-- **Where it applies:** Tools, LLM calls, external APIs, streaming paths
-- **See also:** [Security](deep-dives/security-model.md), [Async Operations](deep-dives/async-operations.md)
+**Learn more:** [SOPs](concepts/standard-operating-procedures.md) | [Create SOPs](guides/create-sops.md)
+
+[[/toggle]]
 
 ---
 
-## Registry & Sharing
+## Multi-Agent Systems
 
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **Pull Formations** | `muxi pull @muxi/starter` gets you started instantly | [Registry](concepts/registry.md) |
-| **Publish Formations** | Share your formations with the community | [Publish Formations](registry/publish-formations.md) |
-| **Semantic Versioning** | Version control with instant rollbacks | [Versioning](registry/versioning.md) |
-| **Private Formations** | Keep formations private or share with your org | [Your Account](registry/account.md) |
+[[toggle How do multiple agents work together?]]
+
+The **Overlord** orchestrates everything:
+
+- **Intelligent Routing** - Requests go to the best agent automatically
+- **Task Decomposition** - Complex requests broken into steps
+- **Agent-to-Agent (A2A)** - Agents delegate to specialists across formations
+
+You define agents with specialties; the Overlord figures out who handles what.
+
+**Learn more:** [The Overlord](concepts/overlord.md) | [Agents & Orchestration](concepts/agents-and-orchestration.md) | [How Orchestration Works](deep-dives/how-orchestration-works.md)
+
+[[/toggle]]
+
+[[toggle Which LLMs are supported?]]
+
+All of them. MUXI is **LLM-agnostic**:
+
+- OpenAI (GPT-4o, GPT-4, etc.)
+- Anthropic (Claude 3.5, Claude 3, etc.)
+- Google (Gemini)
+- Ollama (local models)
+- Any OpenAI-compatible API
+
+Different agents can use different providers in the same formation.
+
+**Learn more:** [LLM Providers](concepts/llm-providers.md) | [Formation Schema](reference/formation-schema.md)
+
+[[/toggle]]
+
+---
+
+## Production & Scale
+
+[[toggle Can multiple users share one deployment?]]
+
+Yes - **multi-tenancy** is built in. Each user gets:
+
+- Isolated memory (no data leakage)
+- Separate conversation history
+- Their own API credentials for tools
+
+One server, many users, complete isolation.
+
+**Learn more:** [Multi-Tenancy](concepts/multi-tenancy.md) | [Multi-Tenancy Deep Dive](deep-dives/multi-tenancy.md)
+
+[[/toggle]]
+
+[[toggle How do I deploy to production?]]
+
+One command:
+
+```bash
+muxi deploy
+```
+
+MUXI is a **single binary** - no dependencies, no Docker required (though Docker is supported). Supports GitOps workflows for PR-based deployments.
+
+**Learn more:** [Deploy to Production](guides/deploy-to-production.md) | [Set Up CI/CD](guides/setup-ci-cd.md) | [Production Checklist](server/production-checklist.md)
+
+[[/toggle]]
+
+[[toggle How do I monitor my agents?]]
+
+**Built-in observability**. Every agent action emits structured events:
+
+- LLM calls (tokens, latency, cost)
+- Tool usage
+- Workflow steps
+- Errors
+
+Export to Datadog, Elastic, Splunk, OpenTelemetry, or webhooks - no sidecars needed.
+
+**Learn more:** [Observability](deep-dives/observability.md) | [Observability Events](deep-dives/observability-events.md) | [Set Up Monitoring](guides/setup-monitoring.md)
+
+[[/toggle]]
+
+[[toggle Is it reliable enough for production?]]
+
+Yes. **Enterprise resilience patterns** are baked in:
+
+- Circuit breakers for failing dependencies
+- Retries with exponential backoff
+- Graceful degradation
+- LLM response caching to reduce load and latency
+- Auto-restart for crashed formations
+
+**Learn more:** [Resilience](deep-dives/resilience.md) | [Security Model](deep-dives/security-model.md)
+
+[[/toggle]]
+
+---
+
+## Real-Time & Async
+
+[[toggle Can I stream responses in real-time?]]
+
+Yes. MUXI supports:
+
+- **SSE (Server-Sent Events)** - Stream tokens as the model thinks
+- **WebSockets** - Bidirectional real-time communication
+
+Perfect for chat UIs and live dashboards.
+
+**Learn more:** [Real-Time Streaming](deep-dives/real-time-streaming.md) | [Response Formats](deep-dives/response-formats.md)
+
+[[/toggle]]
+
+[[toggle What about long-running tasks?]]
+
+Use **async operations**. Long tasks run in the background with status updates. Users aren't left waiting.
+
+**Learn more:** [Async Operations](deep-dives/async-operations.md)
+
+[[/toggle]]
+
+[[toggle Can external systems trigger agents?]]
+
+Yes - **triggers and webhooks**:
+
+- HTTP webhooks trigger agent actions
+- Cron-style scheduled tasks
+- Natural language scheduling ("remind me tomorrow")
+
+**Learn more:** [Triggers & Webhooks](concepts/triggers-and-webhooks.md) | [Create Triggers](guides/create-triggers.md)
+
+[[/toggle]]
+
+---
+
+## Security
+
+[[toggle How are secrets and API keys handled?]]
+
+**Encrypted at rest**. API keys never stored in plain text. Per-user credentials supported - each user can store their own keys for tools.
+
+**Learn more:** [Secrets & Security](concepts/secrets-and-security.md)
+
+[[/toggle]]
+
+[[toggle How does authentication work?]]
+
+**HMAC-signed requests** between CLI, SDKs, and server. Plus complete user isolation - data never leaks between users.
+
+**Learn more:** [Authentication](server/authentication.md) | [Security Model](deep-dives/security-model.md)
+
+[[/toggle]]
 
 ---
 
 ## Developer Experience
 
-| Feature | Description | Learn More |
-|---------|-------------|------------|
-| **Local Development** | `muxi dev` runs formations locally with hot reload | [Quickstart](quickstart.md) |
-| **Native SDKs** | Python, TypeScript, and Go libraries | [SDKs](sdks/README.md) |
-| **CLI** | Full control from the command line | [CLI Cheatsheet](cli/cheatsheet.md) |
-| **Embeddable Runtime** | Run MUXI inside your own application | [Embed in Your App](runtime/embed-in-your-app.md) |
+[[toggle How do I develop locally?]]
+
+```bash
+muxi dev
+```
+
+Runs your formation locally with hot reload. Change your `.afs` file, see changes immediately.
+
+**Learn more:** [Quickstart](quickstart.md) | [CLI Cheatsheet](cli/cheatsheet.md)
+
+[[/toggle]]
+
+[[toggle Are there SDKs?]]
+
+Yes - **Python, TypeScript, and Go**:
+
+```python
+from muxi import Muxi
+client = Muxi()
+response = client.chat("Hello!")
+```
+
+**Learn more:** [Python SDK](sdks/python-sdk.md) | [TypeScript SDK](sdks/typescript-sdk.md) | [Go SDK](sdks/go-sdk.md)
+
+[[/toggle]]
+
+[[toggle Can I embed MUXI in my own app?]]
+
+Yes. The **embeddable runtime** lets you run MUXI inside your application - no separate server process.
+
+**Learn more:** [Embed in Your App](runtime/embed-in-your-app.md)
+
+[[/toggle]]
+
+---
+
+## Registry & Sharing
+
+[[toggle Can I use pre-built agents?]]
+
+Yes. Pull formations from the **MUXI Registry**:
+
+```bash
+muxi pull @muxi/customer-support
+muxi pull @muxi/code-reviewer
+```
+
+**Learn more:** [Registry](concepts/registry.md) | [Examples](examples/README.md)
+
+[[/toggle]]
+
+[[toggle Can I share my formations?]]
+
+Yes. Publish to the registry:
+
+```bash
+muxi publish
+```
+
+Supports semantic versioning, private formations, and organization sharing.
+
+**Learn more:** [Publish Formations](registry/publish-formations.md) | [Versioning](registry/versioning.md)
+
+[[/toggle]]
 
 ---
 
 ## Next Steps
 
-[+] [Quickstart](quickstart.md) - Build your first agent in 5 minutes
+[>] [Quickstart](quickstart.md) - Build your first agent in 5 minutes
+
 [+] [Installation](installation/README.md) - Get MUXI running on your machine
 [+] [Architecture](concepts/architecture.md) - Understand how it all fits together
+[+] [Examples](examples/README.md) - See real formations in action
