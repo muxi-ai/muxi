@@ -4,16 +4,16 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep functions focused** — extract only when reusable or testable
-- **Prefer early returns** — reduce nesting, avoid `else` when possible
-- **Handle errors explicitly** — use `.catch()`, Result types, or try/catch sparingly
-- **Use strict typing** — avoid `any`, prefer `unknown` when type is uncertain
+- **Keep functions focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  reduce nesting, avoid `else` when possible
+- **Handle errors explicitly**  –  use `.catch()`, Result types, or try/catch sparingly
+- **Use strict typing**  –  avoid `any`, prefer `unknown` when type is uncertain
 
 ## Variables
 
-- **Prefer `const`** — use `let` only when reassignment is necessary
-- **Prefer concise names** — single words when descriptive enough
-- **Avoid unnecessary destructuring** — keep access explicit when clearer
+- **Prefer `const`**  –  use `let` only when reassignment is necessary
+- **Prefer concise names**  –  single words when descriptive enough
+- **Avoid unnecessary destructuring**  –  keep access explicit when clearer
 
 ## Typing
 

@@ -4,14 +4,14 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep functions focused** — extract only when reusable or testable
-- **Prefer early returns** — reduce nesting, avoid `else` when possible
-- **Handle errors explicitly** — use return codes, `std::expected`, or exceptions consistently
-- **Use modern C++** — prefer C++17/20 features over legacy patterns
+- **Keep functions focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  reduce nesting, avoid `else` when possible
+- **Handle errors explicitly**  –  use return codes, `std::expected`, or exceptions consistently
+- **Use modern C++**  –  prefer C++17/20 features over legacy patterns
 
 ## Variables
 
-- **Prefer `const`** — use mutable variables only when needed
+- **Prefer `const`**  –  use mutable variables only when needed
 - **Prefer `auto`** when type is obvious or verbose
 - **Use `snake_case`** for variables and functions
 

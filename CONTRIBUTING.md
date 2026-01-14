@@ -87,7 +87,7 @@ We welcome AI-assisted development. However:
 - ✅ Run existing tests
 - ✅ Add tests for new functionality
 - ❌ **No "vibe-coded" contributions** that haven't been executed
-- ❌ **Avoid verbose LLM-generated PR descriptions** — be concise
+- ❌ **Avoid verbose LLM-generated PR descriptions**  –  be concise
 
 > [!WARNING]
 > PRs that show evidence of being AI-generated without local testing will be closed.
@@ -115,7 +115,7 @@ We welcome AI-assisted development. However:
 
 ## Pull Request Expectations
 
-- **Keep PRs small and focused** — easier to review, faster to merge
+- **Keep PRs small and focused**  –  easier to review, faster to merge
 - **Link relevant issue(s)** in the description
 - **Explain the problem** and why your change fixes it
 - **Before adding new functions**, ensure similar behavior doesn't already exist elsewhere in the codebase

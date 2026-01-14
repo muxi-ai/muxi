@@ -4,10 +4,10 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep methods focused** — extract only when reusable or testable
-- **Prefer early returns** — reduce nesting, avoid `else` when possible
-- **Handle errors explicitly** — use specific exceptions or Result patterns
-- **Use strict typing** — avoid `dynamic` and `object` when possible
+- **Keep methods focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  reduce nesting, avoid `else` when possible
+- **Handle errors explicitly**  –  use specific exceptions or Result patterns
+- **Use strict typing**  –  avoid `dynamic` and `object` when possible
 
 ## Variables
 

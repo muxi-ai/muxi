@@ -14,7 +14,7 @@ MUXI is **The Agent Server** - production infrastructure for running AI agents. 
 
 [[boxed float-right]]
 
-### ▶ Watch the Demo
+### Watch the Demo
 
 [![image info](https://placehold.co/600x400)](http://google.com.au/)
 
@@ -22,10 +22,10 @@ From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
 [[/boxed]]
 
-- **Define everything in YAML** - Agents, tools, memory, knowledge, triggers—all in `.afs` files. Zero framework code.
-- **Let the Overlord handle it** - Smart [orchestration](concepts/overlord.md) that routes, decomposes, clarifies, and coordinates
+- **Define everything in YAML** - Agents, tools, memory, knowledge, triggers – as a [deployable unit](concepts/formation-schema.md). Zero framework code.
 - **Ship with one command** - `muxi deploy`. Done.
-- **Actually production-ready** - Multi-tenancy, observability, and enterprise features included
+- **Let the orchestration roll** - Smart [Overlord](concepts/overlord.md) that routes, decomposes, clarifies, and coordinates.
+- **Actually production-ready** - Multi-tenancy, observability, and enterprise features included, not bolted on.
 
 Think: **Docker for AI agents.**
 

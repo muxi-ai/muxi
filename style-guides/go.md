@@ -4,16 +4,16 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep functions focused** — extract only when reusable or testable
-- **Prefer early returns** — reduce nesting, avoid `else` when possible
-- **Handle errors explicitly** — check errors immediately, don't ignore them
-- **Use strict typing** — avoid `interface{}` and `any` unless necessary
+- **Keep functions focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  reduce nesting, avoid `else` when possible
+- **Handle errors explicitly**  –  check errors immediately, don't ignore them
+- **Use strict typing**  –  avoid `interface{}` and `any` unless necessary
 
 ## Variables
 
 - **Prefer short names** in small scopes (`i`, `n`, `err`)
 - **Use descriptive names** for package-level and longer-lived variables
-- **Avoid shadowing** — don't reuse variable names in nested scopes
+- **Avoid shadowing**  –  don't reuse variable names in nested scopes
 
 ## Error Handling
 

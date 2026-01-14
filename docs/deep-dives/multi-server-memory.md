@@ -48,7 +48,7 @@ docker run -p 45678:45678 \
   ghcr.io/muxi-ai/faissx:latest-slim
 ```
 
-FAISSx listens on ZeroMQ (TCP) — keep it on a private network and require auth keys.
+FAISSx listens on ZeroMQ (TCP)  –  keep it on a private network and require auth keys.
 
 ## Load balance FAISSx (L4/TCP)
 
@@ -83,7 +83,7 @@ memory:
   persistent:
     provider: postgres
     connection_string: ${{ secrets.POSTGRES_URI }}
-  
+
   vector:
     provider: faissx
     endpoint: tcp://faissx-lb.internal:45678

@@ -4,16 +4,16 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep functions focused** — extract only when reusable or testable
-- **Prefer early returns** — use `?` operator and guard clauses
-- **Handle errors explicitly** — use `Result<T, E>`, avoid `.unwrap()` in library code
-- **Leverage the type system** — use enums, newtypes, and strict typing
+- **Keep functions focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  use `?` operator and guard clauses
+- **Handle errors explicitly**  –  use `Result<T, E>`, avoid `.unwrap()` in library code
+- **Leverage the type system**  –  use enums, newtypes, and strict typing
 
 ## Variables
 
-- **Prefer immutability** — use `let`, add `mut` only when needed
+- **Prefer immutability**  –  use `let`, add `mut` only when needed
 - **Use `snake_case`** for variables and functions
-- **Prefer concise names** — single words when descriptive enough
+- **Prefer concise names**  –  single words when descriptive enough
 
 ## Error Handling
 

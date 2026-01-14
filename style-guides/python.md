@@ -4,14 +4,14 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep functions focused** — extract only when reusable or testable
-- **Prefer early returns** — reduce nesting, avoid `else` when possible
-- **Handle errors explicitly** — use specific exceptions, not bare `except:`
-- **Use type hints** — annotate function signatures and complex variables
+- **Keep functions focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  reduce nesting, avoid `else` when possible
+- **Handle errors explicitly**  –  use specific exceptions, not bare `except:`
+- **Use type hints**  –  annotate function signatures and complex variables
 
 ## Variables
 
-- **Prefer descriptive names** — clarity over brevity
+- **Prefer descriptive names**  –  clarity over brevity
 - **Use `snake_case`** for variables and functions
 - **Avoid single letters** except in comprehensions and short lambdas
 

@@ -4,15 +4,15 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep methods focused** — extract only when reusable or testable
-- **Prefer early returns** — reduce nesting, avoid `else` when possible
-- **Handle errors explicitly** — use specific exceptions, avoid catching `Exception`
-- **Use strict typing** — avoid raw types and `Object` when possible
+- **Keep methods focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  reduce nesting, avoid `else` when possible
+- **Handle errors explicitly**  –  use specific exceptions, avoid catching `Exception`
+- **Use strict typing**  –  avoid raw types and `Object` when possible
 
 ## Variables
 
-- **Prefer `final`** — use mutable variables only when needed
-- **Use descriptive names** — clarity over brevity
+- **Prefer `final`**  –  use mutable variables only when needed
+- **Use descriptive names**  –  clarity over brevity
 - **Use `camelCase`** for variables and methods
 
 ## Null Handling

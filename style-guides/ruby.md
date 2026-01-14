@@ -4,16 +4,16 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep methods focused** — extract only when reusable or testable
-- **Prefer early returns** — use guard clauses liberally
-- **Handle errors explicitly** — rescue specific exceptions, not `StandardError`
-- **Use duck typing wisely** — but document expected interfaces
+- **Keep methods focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  use guard clauses liberally
+- **Handle errors explicitly**  –  rescue specific exceptions, not `StandardError`
+- **Use duck typing wisely**  –  but document expected interfaces
 
 ## Variables
 
-- **Prefer descriptive names** — clarity over brevity
+- **Prefer descriptive names**  –  clarity over brevity
 - **Use `snake_case`** for variables and methods
-- **Freeze constants** — `CONSTANT = 'value'.freeze`
+- **Freeze constants**  –  `CONSTANT = 'value'.freeze`
 
 ## Control Flow
 
@@ -21,7 +21,7 @@ These are guidelines, not strict rules. Use judgment.
 # GOOD: Guard clause (early return)
 def process(data)
   return '' if data.nil? || data.empty?
-  
+
   # main logic here
   result
 end

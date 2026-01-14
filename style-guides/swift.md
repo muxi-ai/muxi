@@ -4,15 +4,15 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep functions focused** — extract only when reusable or testable
-- **Prefer early returns** — use `guard` statements liberally
-- **Handle errors explicitly** — use `throws`, `Result`, or optionals appropriately
-- **Use strict typing** — avoid `Any` and force unwrapping
+- **Keep functions focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  use `guard` statements liberally
+- **Handle errors explicitly**  –  use `throws`, `Result`, or optionals appropriately
+- **Use strict typing**  –  avoid `Any` and force unwrapping
 
 ## Variables
 
-- **Prefer `let`** — use `var` only when mutation is needed
-- **Prefer concise names** — single words when descriptive enough
+- **Prefer `let`**  –  use `var` only when mutation is needed
+- **Prefer concise names**  –  single words when descriptive enough
 - **Use `camelCase`** for variables and functions
 
 ## Optionals

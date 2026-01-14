@@ -7,7 +7,7 @@ description: How agents interact with the world through MCP tools
 ## How agents interact with the world through MCP tools
 
 
-MUXI speaks the **Model Context Protocol (MCP)** to connect agents with tools—web search, databases, file systems, APIs, and more. Any compliant MCP server works: Anthropic's, community/open-source servers, or your own. No registry or vendor lock-in required.
+MUXI speaks the **Model Context Protocol (MCP)** to connect agents with tools – web search, databases, file systems, APIs, and more. Any compliant MCP server works: Anthropic's, community/open-source servers, or your own. No registry or vendor lock-in required.
 
 
 ## How MCP Works
@@ -42,7 +42,7 @@ The agent decides when to use tools - you don't need to explicitly request them.
 | **command (CLI)** | Run a local/server-side process (e.g., `npx @modelcontextprotocol/server-json-rpc`, Bash, Python) | `mcp/your-tool.afs` |
 | **http** | Call a remote MCP server over HTTPS (any provider or your own) | `mcp/your-tool.afs` |
 
-Example — command/CLI MCP:
+Example  –  command/CLI MCP:
 
 ```yaml
 # mcp/local-tools.afs
@@ -57,7 +57,7 @@ auth:
   API_KEY: "${{ secrets.API_KEY }}"
 ```
 
-Example — HTTP MCP:
+Example  –  HTTP MCP:
 
 ```yaml
 # mcp/web-tools.afs

@@ -4,15 +4,15 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep functions focused** — extract only when reusable or testable
-- **Prefer early returns** — reduce nesting, avoid `else` when possible
-- **Handle errors explicitly** — use `Result`, sealed classes, or exceptions appropriately
-- **Use strict typing** — avoid `Any`, prefer specific types
+- **Keep functions focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  reduce nesting, avoid `else` when possible
+- **Handle errors explicitly**  –  use `Result`, sealed classes, or exceptions appropriately
+- **Use strict typing**  –  avoid `Any`, prefer specific types
 
 ## Variables
 
-- **Prefer `val`** — use `var` only when mutation is needed
-- **Prefer concise names** — single words when descriptive enough
+- **Prefer `val`**  –  use `var` only when mutation is needed
+- **Prefer concise names**  –  single words when descriptive enough
 - **Use `camelCase`** for variables and functions
 
 ## Null Safety

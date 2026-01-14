@@ -17,10 +17,10 @@ We designed our telemetry with privacy as the top priority:
 
 ## How It Works
 
-- **Default: Enabled** — Telemetry is on unless you disable it
-- **Fully anonymous** — No way to trace data back to you
-- **Secure transmission** — All data sent over HTTPS
-- **Open source** — Review exactly what we collect: [github.com/muxi-ai/telemetry](https://github.com/muxi-ai/telemetry)
+- **Default: Enabled**  –  Telemetry is on unless you disable it
+- **Fully anonymous**  –  No way to trace data back to you
+- **Secure transmission**  –  All data sent over HTTPS
+- **Open source**  –  Review exactly what we collect: [github.com/muxi-ai/telemetry](https://github.com/muxi-ai/telemetry)
 
 ## Disable Telemetry
 

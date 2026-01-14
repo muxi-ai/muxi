@@ -16,7 +16,7 @@
 
 ---
 
-MUXI (/muk-siː/, Multiplexed eXtensible Intelligence) is an open-source project that makes agents native primitives — not ad hoc scripts or chained prompts — but infrastructure-level processes with built-in orchestration, observability, and scale.
+MUXI (/muk-siː/, Multiplexed eXtensible Intelligence) is an open-source project that makes agents native primitives  –  not ad hoc scripts or chained prompts  –  but infrastructure-level processes with built-in orchestration, observability, and scale.
 
 MUXI runs **Agent Formations** –  complete AI systems packaged as **deployable units**. Agents, knowledge, tools, SOPs, triggers, and settings defined in YAML. Production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in.
 

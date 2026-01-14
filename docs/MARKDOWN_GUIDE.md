@@ -162,7 +162,7 @@ Toggles render as collapsible `<details>` elements for optional or advanced cont
 
 ```md
 [[toggle Advanced options]]
-You can include **any content** here — text, lists, code, etc.
+You can include **any content** here  –  text, lists, code, etc.
 [[/toggle]]
 ```
 
@@ -312,7 +312,7 @@ Renders as:
 
 ## Writing conventions
 
-- Keep all custom tags (`[[...]]`, `::::`, etc.) **flush-left** — avoid indenting them inside lists or code.
+- Keep all custom tags (`[[...]]`, `::::`, etc.) **flush-left**  –  avoid indenting them inside lists or code.
 - Inside custom blocks, you can write normal markdown (headings, lists, tables, etc.).
 - Use blank lines between structural blocks for readability.
 - Keep labels lowercase for consistency, but they’re case-insensitive.
@@ -353,6 +353,6 @@ console.log("Hello")
 
 ## Final notes
 
-- These patterns are designed for **clarity and compatibility** — markdown remains human-readable in raw form.
-- No build-time magic is required — all features can be parsed via a simple line-based preprocessor.
+- These patterns are designed for **clarity and compatibility**  –  markdown remains human-readable in raw form.
+- No build-time magic is required  –  all features can be parsed via a simple line-based preprocessor.
 - Always preview rendered docs before committing to ensure structure looks right.

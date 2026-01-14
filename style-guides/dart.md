@@ -4,15 +4,15 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep functions focused** — extract only when reusable or testable
-- **Prefer early returns** — reduce nesting, avoid `else` when possible
-- **Handle errors explicitly** — use try/catch or Result patterns appropriately
-- **Use strict typing** — avoid `dynamic`, enable strict analysis
+- **Keep functions focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  reduce nesting, avoid `else` when possible
+- **Handle errors explicitly**  –  use try/catch or Result patterns appropriately
+- **Use strict typing**  –  avoid `dynamic`, enable strict analysis
 
 ## Variables
 
-- **Prefer `final`** — use `var` only when reassignment is needed
-- **Prefer concise names** — single words when descriptive enough
+- **Prefer `final`**  –  use `var` only when reassignment is needed
+- **Prefer concise names**  –  single words when descriptive enough
 - **Use `camelCase`** for variables and functions
 
 ## Null Safety

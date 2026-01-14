@@ -4,16 +4,16 @@ These are guidelines, not strict rules. Use judgment.
 
 ## General Principles
 
-- **Keep functions focused** — extract only when reusable or testable
-- **Prefer early returns** — reduce nesting, avoid `else` when possible
-- **Handle errors explicitly** — use exceptions appropriately, avoid `@` suppression
-- **Use strict typing** — enable `declare(strict_types=1)` in all files
+- **Keep functions focused**  –  extract only when reusable or testable
+- **Prefer early returns**  –  reduce nesting, avoid `else` when possible
+- **Handle errors explicitly**  –  use exceptions appropriately, avoid `@` suppression
+- **Use strict typing**  –  enable `declare(strict_types=1)` in all files
 
 ## Variables
 
-- **Prefer descriptive names** — clarity over brevity
+- **Prefer descriptive names**  –  clarity over brevity
 - **Use `camelCase`** for variables and functions
-- **Avoid global variables** — use dependency injection
+- **Avoid global variables**  –  use dependency injection
 
 ## Type Safety
 
