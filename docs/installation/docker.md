@@ -132,4 +132,4 @@ volumes:
 ## Next Steps
 
 - [Server Configuration](../server/configuration.md) - Configure the server
-- [Production Deployment](../server/production.md) - Production best practices
+- [Production Deployment](../server/production-checklist.md) - Production best practices

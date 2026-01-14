@@ -162,9 +162,9 @@ muxi deploy production
 
 ## Next Steps
 
-- [Add Tools](../../guides/add-tools.md) - Let agent check order status, create tickets
+- [Add Tools](../../guides/add-mcp-tools.md) - Let agent check order status, create tickets
 - [Multi-Agent Team](../05-multi-agent-team/) - Add specialized agents
-- [Triggers](../../guides/triggers.md) - Integrate with Zendesk/Intercom
+- [Triggers](../../guides/create-triggers.md) - Integrate with Zendesk/Intercom
 
 ## Common Issues
 
@@ -198,5 +198,5 @@ Make sure you're using the same `session_id` across requests:
 ## Learn More
 
 [+] [Knowledge Systems](../../reference/knowledge.md) - RAG configuration
-[+] [Multi-Agent Guide](../../guides/multi-agent.md) - Building teams
+[+] [Multi-Agent Guide](../../guides/build-multi-agent-systems.md) - Building teams
 [+] [Memory Reference](../../reference/memory.md) - Conversation persistence

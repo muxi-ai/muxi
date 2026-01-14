@@ -124,8 +124,8 @@ Discover and share formations.
 - [Architecture](concepts/architecture.md)
 - [The Overlord](concepts/overlord.md)
 - [Formation Schema](concepts/formation-schema.md)
-- [Memory System](concepts/memory.md)
-- [Tools & MCP](concepts/tools.md)
+- [Memory System](concepts/memory-system.md)
+- [Tools & MCP](concepts/tools-and-mcp.md)
 
 [[/card]]
 
@@ -133,10 +133,10 @@ Discover and share formations.
 
 #### Guides
 
-- [Add Tools (MCP)](guides/add-tools.md)
+- [Add Tools (MCP)](guides/add-mcp-tools.md)
 - [Add Memory](guides/add-memory.md)
-- [Build Multi-Agent Teams](guides/multi-agent.md)
-- [Deploy to Production](guides/deploy.md)
+- [Build Multi-Agent Teams](guides/build-multi-agent-systems.md)
+- [Deploy to Production](guides/deploy-to-production.md)
 - [Troubleshooting](guides/troubleshooting.md)
 
 [[/card]]
@@ -145,11 +145,11 @@ Discover and share formations.
 
 #### Reference
 
-- [Formation Schema](reference/schema.md)
-- [API Reference](reference/api.md)
+- [Formation Schema](reference/formation-schema.md)
+- [API Reference](reference/api-reference.md)
 - [CLI Cheatsheet](cli/cheatsheet.md)
 - [Deep Dives](deep-dives/README.md)
-- [All Features](features.md)
+- [All Features](feature-overview.md)
 
 [[/card]]
 
@@ -162,5 +162,5 @@ Discover and share formations.
 [+] [Quickstart](quickstart.md) - 5 minutes to your first agent
 [+] [Examples](examples/README.md) - See real formations
 [+] [Formation Schema](concepts/formation-schema.md) - YAML configuration
-[+] [Add Tools (MCP)](guides/add-tools.md) - Give agents capabilities
-[+] [Deploy to Production](guides/deploy.md) - Go live
+[+] [Add Tools (MCP)](guides/add-mcp-tools.md) - Give agents capabilities
+[+] [Deploy to Production](guides/deploy-to-production.md) - Go live

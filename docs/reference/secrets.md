@@ -21,7 +21,7 @@ MUXI uses encrypted files instead of environment variables. Your API keys stay s
 | Safe to commit | ✗ Never | ✓ Encrypted file |
 
 > [!TIP]
-> Learn more about the design decision in [Why Encrypted Secrets](../concepts/secrets.md).
+> Learn more about the design decision in [Why Encrypted Secrets](../concepts/secrets-and-security.md).
 >
 > **API Reference:**
 > - [GET /v1/secrets](api/formation#tag/Secrets/GET/secrets) - List secrets
@@ -290,6 +290,6 @@ ls -la secrets.enc .key
 
 ## Next Steps
 
-[+] [Why Encrypted Secrets](../concepts/secrets.md) - Design rationale
+[+] [Why Encrypted Secrets](../concepts/secrets-and-security.md) - Design rationale
 [+] [Tools](tools.md) - Use secrets with MCP servers
-[+] [Security](../deep-dives/security.md) - Full security model
+[+] [Security](../deep-dives/security-model.md) - Full security model

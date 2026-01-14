@@ -134,7 +134,7 @@ MUXI calculates complexity based on:
 - **Dependencies** - Task dependencies = higher complexity
 - **Estimated time** - Longer operations = higher complexity
 
-See [Workflows & Task Decomposition](../concepts/workflows.md) for details on complexity calculation.
+See [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) for details on complexity calculation.
 
 ## Configuration with Other Settings
 
@@ -352,7 +352,7 @@ If user doesn't approve within the timeout, the request is cancelled.
 ## Learn More
 
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official schema specification
-- [Human-in-the-Loop](../concepts/approvals.md) - Concept guide
-- [Workflows & Task Decomposition](../concepts/workflows.md) - Workflow configuration
+- [Human-in-the-Loop](../concepts/human-in-the-loop.md) - Concept guide
+- [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - Workflow configuration
 - [Workflow Configuration Reference](workflows.md) - All workflow settings
 - [The Overlord](../concepts/overlord.md) - How orchestration works

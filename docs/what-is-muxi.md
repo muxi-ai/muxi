@@ -123,7 +123,7 @@ Each user stores their own credentials – OAuth tokens, API keys, connection st
 
 The Overlord automatically breaks down complex requests into subtasks. No predefined workflows – agents analyze complexity, identify dependencies, and execute in optimal order.
 
-[Learn more →](concepts/agents.md)
+[Learn more →](concepts/agents-and-orchestration.md)
 
 [[/card]]
 
@@ -133,7 +133,7 @@ The Overlord automatically breaks down complex requests into subtasks. No predef
 
 Agents within your formation work together seamlessly. Delegate tasks across formations. Collaborate with external agents from other organizations via A2A protocol.
 
-[Learn more →](concepts/agents.md)
+[Learn more →](concepts/agents-and-orchestration.md)
 
 [[/card]]
 
@@ -143,7 +143,7 @@ Agents within your formation work together seamlessly. Delegate tasks across for
 
 Access GitHub, Slack, Stripe, databases, file systems, and more through Model Context Protocol. Unlike typical implementations, MUXI indexes tool schemas once – not dumped into every context window.
 
-[Learn more →](concepts/tools.md)
+[Learn more →](concepts/tools-and-mcp.md)
 
 [[/card]]
 
@@ -153,7 +153,7 @@ Access GitHub, Slack, Stripe, databases, file systems, and more through Model Co
 
 Buffer memory for immediate context. Persistent memory across sessions. Vector memory for semantic retrieval. User synopsis caching reduces token usage by 80%+.
 
-[Learn more →](concepts/memory.md)
+[Learn more →](concepts/memory-system.md)
 
 [[/card]]
 
@@ -163,7 +163,7 @@ Buffer memory for immediate context. Persistent memory across sessions. Vector m
 
 Pre-load agents with domain knowledge from files and URLs. PDFs, markdown, Office docs, images – agents retrieve relevant context without fine-tuning. Update knowledge by updating files.
 
-[Learn more →](concepts/knowledge.md)
+[Learn more →](concepts/knowledge-and-rag.md)
 
 [[/card]]
 
@@ -173,7 +173,7 @@ Pre-load agents with domain knowledge from files and URLs. PDFs, markdown, Offic
 
 Stream responses as agents think, not after completion. SSE and WebSocket support. Token-by-token delivery for chat interfaces. Progress updates for multi-step operations.
 
-[Learn more →](deep-dives/streaming.md)
+[Learn more →](deep-dives/real-time-streaming.md)
 
 [[/card]]
 

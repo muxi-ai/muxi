@@ -9,7 +9,7 @@ description: Complete reference for overlord workflow settings
 Configure how MUXI decomposes complex tasks, routes work to agents, handles errors, and executes workflows. All workflow settings are under `overlord.workflow` in your formation.
 
 > [!TIP]
-> **New to workflows?** Read [Workflows Concept →](../concepts/workflows.md) to understand task decomposition and routing.
+> **New to workflows?** Read [Workflows Concept →](../concepts/workflows-and-task-decomposition.md) to understand task decomposition and routing.
 
 **Official Schema:** https://github.com/agent-formation/afs-spec
 
@@ -54,7 +54,7 @@ overlord:
 
 Requests with complexity scores at or above this threshold will present an execution plan and wait for user approval before proceeding.
 
-See [Human-in-the-Loop](../concepts/approvals.md) for details.
+See [Human-in-the-Loop](../concepts/human-in-the-loop.md) for details.
 
 ## Complexity Calculation
 
@@ -380,6 +380,6 @@ overlord:
 ## Learn More
 
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official schema specification
-- [Workflows & Task Decomposition](../concepts/workflows.md) - Concept guide
-- [Human-in-the-Loop](../concepts/approvals.md) - Plan approvals
+- [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - Concept guide
+- [Human-in-the-Loop](../concepts/human-in-the-loop.md) - Plan approvals
 - [The Overlord](../concepts/overlord.md) - How orchestration works

@@ -585,7 +585,7 @@ Preserve useful context:
 
 ## Learn More
 
-- [Memory System](../concepts/memory.md) - How buffer memory works
+- [Memory System](../concepts/memory-system.md) - How buffer memory works
 - [Session Management](../guides/sessions.md) - Managing user sessions
 - [Memory Configuration](memory.md) - Buffer size and persistence settings
 - [Webhooks](../guides/webhooks.md) - Receive messages via webhooks

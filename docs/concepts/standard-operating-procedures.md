@@ -313,6 +313,6 @@ Add SOP file to `sops/customer-onboarding.md`, restart - it works automatically.
 
 ## Learn More
 
-- [Create SOPs Guide](../guides/sops.md) - Write your first SOP
+- [Create SOPs Guide](../guides/create-sops.md) - Write your first SOP
 - [SOPs Reference](../reference/sops.md) - Syntax and options
 - [The Overlord](overlord.md) - How routing priority works

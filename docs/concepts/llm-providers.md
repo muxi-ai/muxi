@@ -83,6 +83,6 @@ llm_models:
 
 ### Related docs
 
-- [Agent Formation Schema](../reference/schema.md)
+- [Agent Formation Schema](../reference/formation-schema.md)
 - [Memory](./memory.md)
 - [Tools & MCP](./tools.md)

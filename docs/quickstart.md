@@ -362,12 +362,12 @@ For more issues, see the [Troubleshooting Guide](guides/troubleshooting.md).
 
 :::: cols=2
 
-(guides/deploy.md)[[card]]
+(guides/deploy-to-production.md)[[card]]
 #### Deploy to Production
 Move beyond localhost to a real server.
 [[/card]]
 
-(guides/add-tools.md)[[card]]
+(guides/add-mcp-tools.md)[[card]]
 #### Add Tools
 Give your agent web search, file access, and more.
 [[/card]]

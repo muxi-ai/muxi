@@ -148,7 +148,7 @@ name: My Assistant
 system_message: You are a helpful assistant.
 ```
 
-[Learn more →](concepts/agents.md)
+[Learn more →](concepts/agents-and-orchestration.md)
 
 [[/card]]
 
@@ -166,7 +166,7 @@ id: web-search
 server: "@anthropic/web-search"
 ```
 
-[Learn more →](concepts/tools.md)
+[Learn more →](concepts/tools-and-mcp.md)
 
 [[/card]]
 
@@ -185,7 +185,7 @@ memory:
     enabled: true
 ```
 
-[Learn more →](concepts/memory.md)
+[Learn more →](concepts/memory-system.md)
 
 [[/card]]
 
@@ -204,7 +204,7 @@ knowledge:
     - path: ./docs
 ```
 
-[Learn more →](concepts/knowledge.md)
+[Learn more →](concepts/knowledge-and-rag.md)
 
 [[/card]]
 
@@ -322,7 +322,7 @@ The Overlord routes requests to the right agent or coordinates multiple agents f
 
 Good for: customer support systems, research assistants, content pipelines.
 
-[Build Multi-Agent Teams →](guides/multi-agent.md)
+[Build Multi-Agent Teams →](guides/build-multi-agent-systems.md)
 
 ---
 
@@ -349,7 +349,7 @@ muxi deploy
 # Formation deployed to server at http://server:7890/api/my-assistant/
 ```
 
-[Deploy to Production →](guides/deploy.md)
+[Deploy to Production →](guides/deploy-to-production.md)
 
 ---
 
@@ -359,7 +359,7 @@ Now that you understand how MUXI works, choose your path:
 
 :::: cols=2
 
-(guides/add-tools.md)[[card]]
+(guides/add-mcp-tools.md)[[card]]
 #### Add Tools
 Give your agent web search, file access, databases, and more via MCP.
 [[/card]]
@@ -374,7 +374,7 @@ Make conversations persist across sessions.
 Let your agent reference your documents (RAG).
 [[/card]]
 
-(guides/multi-agent.md)[[card]]
+(guides/build-multi-agent-systems.md)[[card]]
 #### Build Multi-Agent Teams
 Create specialized agents that work together.
 [[/card]]

@@ -582,6 +582,6 @@ except RequestNotFoundError:
 
 ## Learn More
 
-- [Async Operations](../deep-dives/async.md) - Background task management
-- [Streaming](../deep-dives/streaming.md) - Cancel streaming responses
+- [Async Operations](../deep-dives/async-operations.md) - Background task management
+- [Streaming](../deep-dives/real-time-streaming.md) - Cancel streaming responses
 - [Observability](../deep-dives/observability.md) - Monitor cancellations

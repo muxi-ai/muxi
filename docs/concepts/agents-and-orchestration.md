@@ -262,5 +262,5 @@ The result: **agents that work together**, not chat interfaces with different pr
 ## Learn More
 
 - [Configure agents](../reference/agents.md) - YAML syntax for agent definitions
-- [Multi-Agent Guide](../guides/multi-agent.md) - Build your first multi-agent system
-- [Orchestration Deep Dive](../deep-dives/orchestration.md) - Technical internals
+- [Multi-Agent Guide](../guides/build-multi-agent-systems.md) - Build your first multi-agent system
+- [Orchestration Deep Dive](../deep-dives/how-orchestration-works.md) - Technical internals

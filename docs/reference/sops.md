@@ -312,6 +312,6 @@ You: help me triage this bug
 
 ## Next Steps
 
-[+] [Write SOPs Guide](../guides/sops.md) - Step-by-step tutorial
+[+] [Write SOPs Guide](../guides/create-sops.md) - Step-by-step tutorial
 [+] [Triggers](triggers.md) - Webhook automation
-[+] [Orchestration](../deep-dives/orchestration.md) - How routing works
+[+] [Orchestration](../deep-dives/how-orchestration-works.md) - How routing works

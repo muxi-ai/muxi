@@ -346,6 +346,6 @@ cache_key = f"{tenant_id}:{user_id}:{key}"
 
 ## Next Steps
 
-- [Multi-User Concepts](../concepts/memory.md#multi-user-isolation) - High-level overview
+- [Multi-User Concepts](../concepts/memory-system.md#multi-user-isolation) - High-level overview
 - [Security Deep Dive](security.md) - Full security model
 - [Authentication](../server/authentication.md) - API authentication

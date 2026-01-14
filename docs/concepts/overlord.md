@@ -195,5 +195,5 @@ overlord:
 ## Learn More
 
 - [Agents & Orchestration](agents.md) - How agents work with the Overlord
-- [How Orchestration Works](../deep-dives/orchestration.md) - Technical internals
-- [Create SOPs](../guides/sops.md) - Priority routing with procedures
+- [How Orchestration Works](../deep-dives/how-orchestration-works.md) - Technical internals
+- [Create SOPs](../guides/create-sops.md) - Priority routing with procedures

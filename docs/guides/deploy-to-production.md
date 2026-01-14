@@ -264,8 +264,8 @@ curl http://127.0.0.1:7890/health
 
 ## Next Steps
 
-[+] [Server: Managing Formations](../server/formations.md) - All operations
+[+] [Server: Managing Formations](../server/managing-formations.md) - All operations
 [+] [CLI: muxi deploy](../cli/deploy.md) - Command reference
-[+] [Production Guide](../server/production.md) - Best practices
+[+] [Production Guide](../server/production-checklist.md) - Best practices
 [+] [Monitoring & Logs](monitoring.md) - Set up observability
 [+] [CI/CD Integration](ci-cd.md) - Automate deployments

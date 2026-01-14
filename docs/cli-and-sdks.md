@@ -221,9 +221,9 @@ for chunk := range stream {
 [[card]]
 #### SDKs
 - [SDK Overview](sdks/README.md)
-- [Python SDK](sdks/python.md)
-- [TypeScript SDK](sdks/typescript.md)
-- [Go SDK](sdks/go.md)
+- [Python SDK](sdks/python-sdk.md)
+- [TypeScript SDK](sdks/typescript-sdk.md)
+- [Go SDK](sdks/go-sdk.md)
 [[/card]]
 
 ::::

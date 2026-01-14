@@ -17,12 +17,12 @@ MUXI provides everything you need to build and deploy production AI agents: mult
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
-| **Multi-Agent Systems** | Specialized agents that collaborate on complex tasks | [Agents & Orchestration](concepts/agents.md) |
-| **Intelligent Routing** | Overlord automatically routes requests to the best agent | [Agents & Orchestration](concepts/agents.md) |
-| **Task Decomposition** | Complex requests broken into steps automatically | [How Orchestration Works](deep-dives/orchestration.md) |
-| **Agent Collaboration (A2A)** | Agents delegate to specialists across formations | [Agents & Orchestration](concepts/agents.md) |
-| **Standard Operating Procedures** | Predefined workflows agents follow for specific tasks | [Create SOPs](guides/sops.md) |
-| **LLM-Agnostic** | Use OpenAI, Anthropic, Google, Ollama, or any provider | [Agent Formation Schema](reference/schema.md) |
+| **Multi-Agent Systems** | Specialized agents that collaborate on complex tasks | [Agents & Orchestration](concepts/agents-and-orchestration.md) |
+| **Intelligent Routing** | Overlord automatically routes requests to the best agent | [Agents & Orchestration](concepts/agents-and-orchestration.md) |
+| **Task Decomposition** | Complex requests broken into steps automatically | [How Orchestration Works](deep-dives/how-orchestration-works.md) |
+| **Agent Collaboration (A2A)** | Agents delegate to specialists across formations | [Agents & Orchestration](concepts/agents-and-orchestration.md) |
+| **Standard Operating Procedures** | Predefined workflows agents follow for specific tasks | [Create SOPs](guides/create-sops.md) |
+| **LLM-Agnostic** | Use OpenAI, Anthropic, Google, Ollama, or any provider | [Agent Formation Schema](reference/formation-schema.md) |
 
 ---
 
@@ -30,9 +30,9 @@ MUXI provides everything you need to build and deploy production AI agents: mult
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
-| **Three-Tier Memory** | Buffer, working, and persistent memory layers | [Memory System](concepts/memory.md) |
-| **Semantic Search** | Find relevant context by meaning, not keywords | [Memory System](concepts/memory.md) |
-| **User Synopsis Caching** | LLM-synthesized user profiles reduce tokens by 80%+ | [Memory Internals](deep-dives/memory.md) |
+| **Three-Tier Memory** | Buffer, working, and persistent memory layers | [Memory System](concepts/memory-system.md) |
+| **Semantic Search** | Find relevant context by meaning, not keywords | [Memory System](concepts/memory-system.md) |
+| **User Synopsis Caching** | LLM-synthesized user profiles reduce tokens by 80%+ | [Memory Internals](deep-dives/memory-internals.md) |
 | **Persistent Memory** | Conversations survive restarts (SQLite/PostgreSQL) | [Add Memory](guides/add-memory.md) |
 | **Multi-User Isolation** | Each user gets completely separate memory | [Multi-Tenancy](deep-dives/multi-tenancy.md) |
 
@@ -42,10 +42,10 @@ MUXI provides everything you need to build and deploy production AI agents: mult
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
-| **Document Ingestion** | Index PDFs, Markdown, Word, Excel, and more | [Knowledge & RAG](concepts/knowledge.md) |
-| **Multimodal Support** | Images, diagrams, and charts analyzed by vision models | [Knowledge & RAG](concepts/knowledge.md) |
+| **Document Ingestion** | Index PDFs, Markdown, Word, Excel, and more | [Knowledge & RAG](concepts/knowledge-and-rag.md) |
+| **Multimodal Support** | Images, diagrams, and charts analyzed by vision models | [Knowledge & RAG](concepts/knowledge-and-rag.md) |
 | **Agent-Specific Knowledge** | Different agents access different document sets | [Add Knowledge](guides/add-knowledge.md) |
-| **Incremental Indexing** | Only changed files re-indexed on restart | [Knowledge & RAG](concepts/knowledge.md) |
+| **Incremental Indexing** | Only changed files re-indexed on restart | [Knowledge & RAG](concepts/knowledge-and-rag.md) |
 
 ---
 
@@ -53,11 +53,11 @@ MUXI provides everything you need to build and deploy production AI agents: mult
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
-| **1,000+ MCP Tools** | Web search, databases, APIs, file systems, and more | [Tools & MCP](concepts/tools.md) |
-| **Context-Efficient Loading** | Tool schemas indexed once, not dumped into every request | [Tools & MCP](concepts/tools.md) |
-| **Per-User Credentials** | Each user stores their own API keys for tools | [Tools & MCP](concepts/tools.md) |
-| **Agent-Specific Tools** | Restrict which agents can use which tools | [Add Tools](guides/add-tools.md) |
-| **Natural Language Scheduling** | "Remind me tomorrow" creates scheduled tasks | [Tools & MCP](concepts/tools.md) |
+| **1,000+ MCP Tools** | Web search, databases, APIs, file systems, and more | [Tools & MCP](concepts/tools-and-mcp.md) |
+| **Context-Efficient Loading** | Tool schemas indexed once, not dumped into every request | [Tools & MCP](concepts/tools-and-mcp.md) |
+| **Per-User Credentials** | Each user stores their own API keys for tools | [Tools & MCP](concepts/tools-and-mcp.md) |
+| **Agent-Specific Tools** | Restrict which agents can use which tools | [Add Tools](guides/add-mcp-tools.md) |
+| **Natural Language Scheduling** | "Remind me tomorrow" creates scheduled tasks | [Tools & MCP](concepts/tools-and-mcp.md) |
 
 ---
 
@@ -65,7 +65,7 @@ MUXI provides everything you need to build and deploy production AI agents: mult
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
-| **Webhook Triggers** | External systems trigger agent actions via HTTP | [Create Triggers](guides/triggers.md) |
+| **Webhook Triggers** | External systems trigger agent actions via HTTP | [Create Triggers](guides/create-triggers.md) |
 | **Scheduled Tasks** | Cron-style or natural language scheduling | [Triggers](reference/triggers.md) |
 | **Event-Driven** | Agents respond to system events automatically | [Observability](deep-dives/observability.md) |
 
@@ -75,9 +75,9 @@ MUXI provides everything you need to build and deploy production AI agents: mult
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
-| **SSE Streaming** | Server-sent events for real-time responses | [Real-Time Streaming](deep-dives/streaming.md) |
-| **WebSocket Support** | Bidirectional real-time communication | [Real-Time Streaming](deep-dives/streaming.md) |
-| **Async Operations** | Long tasks run in background with status updates | [Async Operations](deep-dives/async.md) |
+| **SSE Streaming** | Server-sent events for real-time responses | [Real-Time Streaming](deep-dives/real-time-streaming.md) |
+| **WebSocket Support** | Bidirectional real-time communication | [Real-Time Streaming](deep-dives/real-time-streaming.md) |
+| **Async Operations** | Long tasks run in background with status updates | [Async Operations](deep-dives/async-operations.md) |
 
 ## Real-Time Streaming
 
@@ -85,7 +85,7 @@ Low-latency experiences for chat and dashboards. Stream tokens as the model thin
 
 - **Protocols:** SSE and WebSockets
 - **When to use:** Chat UIs, live dashboards, long-running jobs with progress
-- **See also:** [Response Formats](deep-dives/response-formats.md), [Async Operations](deep-dives/async.md), [Streaming](deep-dives/streaming.md)
+- **See also:** [Response Formats](deep-dives/response-formats.md), [Async Operations](deep-dives/async-operations.md), [Streaming](deep-dives/real-time-streaming.md)
 
 ---
 
@@ -93,10 +93,10 @@ Low-latency experiences for chat and dashboards. Stream tokens as the model thin
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
-| **Encrypted Secrets** | API keys encrypted at rest, never in plain text | [Secrets & Security](concepts/secrets.md) |
+| **Encrypted Secrets** | API keys encrypted at rest, never in plain text | [Secrets & Security](concepts/secrets-and-security.md) |
 | **HMAC Authentication** | Signed requests between CLI, SDKs, and server | [Authentication](server/authentication.md) |
 | **User Isolation** | Complete data separation between users | [Multi-Tenancy](deep-dives/multi-tenancy.md) |
-| **Path Restrictions** | Limit file system access per tool | [Security Model](deep-dives/security.md) |
+| **Path Restrictions** | Limit file system access per tool | [Security Model](deep-dives/security-model.md) |
 
 ---
 
@@ -104,9 +104,9 @@ Low-latency experiences for chat and dashboards. Stream tokens as the model thin
 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
-| **One Command Deploy** | `muxi deploy` pushes to production | [Deploy to Production](guides/deploy.md) |
+| **One Command Deploy** | `muxi deploy` pushes to production | [Deploy to Production](guides/deploy-to-production.md) |
 | **Single Binary Server** | No dependencies, just download and run | [Installation](installation/README.md) |
-| **GitOps Workflow** | Version control formations, PR reviews for changes | [Set Up CI/CD](guides/ci-cd.md) |
+| **GitOps Workflow** | Version control formations, PR reviews for changes | [Set Up CI/CD](guides/setup-ci-cd.md) |
 | **Built-in Observability** | Metrics, logs, and traces out of the box | [Observability](deep-dives/observability.md) |
 | **Auto-Restart** | Crashed formations restart automatically | [Server Configuration](server/configuration.md) |
 
@@ -124,7 +124,7 @@ Reliability patterns baked in: circuit breakers, retries with backoff, graceful 
 
 - **Patterns:** Circuit breakers, exponential backoff, fallback behaviors
 - **Where it applies:** Tools, LLM calls, external APIs, streaming paths
-- **See also:** [Security](deep-dives/security.md), [Async Operations](deep-dives/async.md)
+- **See also:** [Security](deep-dives/security-model.md), [Async Operations](deep-dives/async-operations.md)
 
 ---
 
@@ -133,7 +133,7 @@ Reliability patterns baked in: circuit breakers, retries with backoff, graceful 
 | Feature | Description | Learn More |
 |---------|-------------|------------|
 | **Pull Formations** | `muxi pull @muxi/starter` gets you started instantly | [Registry](concepts/registry.md) |
-| **Publish Formations** | Share your formations with the community | [Publish Formations](registry/publishing.md) |
+| **Publish Formations** | Share your formations with the community | [Publish Formations](registry/publish-formations.md) |
 | **Semantic Versioning** | Version control with instant rollbacks | [Versioning](registry/versioning.md) |
 | **Private Formations** | Keep formations private or share with your org | [Your Account](registry/account.md) |
 
@@ -146,7 +146,7 @@ Reliability patterns baked in: circuit breakers, retries with backoff, graceful 
 | **Local Development** | `muxi dev` runs formations locally with hot reload | [Quickstart](quickstart.md) |
 | **Native SDKs** | Python, TypeScript, and Go libraries | [SDKs](sdks/README.md) |
 | **CLI** | Full control from the command line | [CLI Cheatsheet](cli/cheatsheet.md) |
-| **Embeddable Runtime** | Run MUXI inside your own application | [Embed in Your App](runtime/embedding.md) |
+| **Embeddable Runtime** | Run MUXI inside your own application | [Embed in Your App](runtime/embed-in-your-app.md) |
 
 ---
 

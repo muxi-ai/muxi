@@ -90,7 +90,7 @@ This is the simplest formation. Try:
 - [02-customer-support](../02-customer-support/) - Add memory and knowledge
 - [03-research-assistant](../03-research-assistant/) - Add web search tools
 - [Add Memory Guide](../../guides/add-memory.md) - Persist conversations
-- [Add Tools Guide](../../guides/add-tools.md) - Give agent capabilities
+- [Add Tools Guide](../../guides/add-mcp-tools.md) - Give agent capabilities
 
 ## Common Issues
 
@@ -119,5 +119,5 @@ muxi-server start
 ## Learn More
 
 [+] [Agent Reference](../../reference/agents.md) - Complete agent configuration
-[+] [LLM Configuration](../../reference/schema.md#llm) - Model settings
+[+] [LLM Configuration](../../reference/formation-schema.md#llm) - Model settings
 [+] [Quickstart Guide](../../quickstart.md) - Getting started tutorial

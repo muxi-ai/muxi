@@ -10,7 +10,7 @@ description: Give agents persistent memory across conversations
 MUXI's three-tier memory system lets agents remember context within conversations and across sessions.
 
 > [!TIP]
-> **New to memory?** Read [Memory Concepts →](../concepts/memory.md) first to understand how the three-tier architecture works.
+> **New to memory?** Read [Memory Concepts →](../concepts/memory-system.md) first to understand how the three-tier architecture works.
 >
 > **API Reference:** [GET /v1/memory](api/formation#tag/Memory/GET/memory) | [DELETE /v1/memory/buffer](api/formation#tag/Memory/DELETE/memory/buffer)
 

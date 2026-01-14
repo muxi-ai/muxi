@@ -97,7 +97,7 @@ formation = FormationClient(
 for event in formation.chat_stream({"message": "What's the weather?"}, user_id="user_123"):
     print(event)
 ```
-[Python SDK Documentation →](../sdks/python.md)
+[Python SDK Documentation →](../sdks/python-sdk.md)
 
 **For JavaScript/TypeScript developers:**
 ```typescript
@@ -113,7 +113,7 @@ for await (const chunk of await formation.chatStream({ message: "What's the weat
 }
 ```
 
-[TypeScript SDK Documentation →](../sdks/typescript.md)
+[TypeScript SDK Documentation →](../sdks/typescript-sdk.md)
 
 **For deployment automation:**
 ```bash

@@ -327,4 +327,4 @@ system_message: Research specialist with web access.
 ## Learn More
 
 - [Configure tools](../reference/tools.md) - YAML syntax
-- [Add Tools Guide](../guides/add-tools.md) - Step-by-step tutorial
+- [Add Tools Guide](../guides/add-mcp-tools.md) - Step-by-step tutorial

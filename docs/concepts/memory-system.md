@@ -417,4 +417,4 @@ That's it. Three-tier memory, semantic search, automatic management.
 
 - [Configure memory](../reference/memory.md) - YAML syntax
 - [Add Memory Guide](../guides/add-memory.md) - Step-by-step tutorial
-- [Memory Internals](../deep-dives/memory.md) - Technical deep dive
+- [Memory Internals](../deep-dives/memory-internals.md) - Technical deep dive

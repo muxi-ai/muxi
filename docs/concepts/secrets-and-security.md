@@ -256,4 +256,4 @@ muxi dev
 ## Next Steps
 
 [+] [Secrets Reference](../reference/secrets.md) - How to manage secrets
-[+] [Security Model](../deep-dives/security.md) - Full security architecture
+[+] [Security Model](../deep-dives/security-model.md) - Full security architecture

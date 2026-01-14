@@ -376,4 +376,4 @@ if err != nil {
 - [Python SDK →](python.md)
 - [TypeScript SDK →](typescript.md)
 - [Go SDK →](go.md)
-- [API Reference →](../reference/api.md)
+- [API Reference →](../reference/api-reference.md)

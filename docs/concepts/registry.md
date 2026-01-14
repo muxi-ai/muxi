@@ -182,5 +182,5 @@ muxi push
 ## Learn More
 
 - [Registry: Your Account](../registry/account.md) - Setup and authentication
-- [Registry: Publishing](../registry/publishing.md) - Publish your formations
+- [Registry: Publishing](../registry/publish-formations.md) - Publish your formations
 - [Registry: Versioning](../registry/versioning.md) - Version management

@@ -8,7 +8,7 @@
 ## Priority 1: API Behavior vs Documentation
 
 ### 1.1 Session Creation Endpoint
-**File:** `sdks/python.md`, `sdks/typescript.md`, `reference/api.md`
+**File:** `sdks/python-sdk.md`, `sdks/typescript-sdk.md`, `reference/api-reference.md`
 
 **Issue:** Docs show `POST /sessions` to create sessions, but runtime returns 405 Method Not Allowed.
 
@@ -21,7 +21,7 @@
 ---
 
 ### 1.2 Agent Response Fields
-**File:** `reference/agents.md`, `reference/schema.md`
+**File:** `reference/agents.md`, `reference/formation-schema.md`
 
 **Observed in runtime response:**
 ```json
@@ -40,7 +40,7 @@
 ---
 
 ### 1.3 Chat Response Event Types
-**File:** `reference/api.md`, `deep-dives/streaming.md`
+**File:** `reference/api-reference.md`, `deep-dives/real-time-streaming.md`
 
 **Observed SSE event types:**
 - `progress` - General progress updates
@@ -58,7 +58,7 @@
 ## Priority 2: Feature Implementation Verification
 
 ### 2.1 A2A Protocol
-**Files:** `concepts/agents.md` (A2A section), `deep-dives/orchestration.md`
+**Files:** `concepts/agents-and-orchestration.md` (A2A section), `deep-dives/how-orchestration-works.md`
 
 **Questions:**
 - [ ] Is cross-formation A2A actually implemented?
@@ -101,7 +101,7 @@
 ---
 
 ### 2.5 User Synopsis Caching
-**File:** `concepts/memory.md`
+**File:** `concepts/memory-system.md`
 
 **Claims to verify:**
 - [ ] Synopsis is actually LLM-generated
@@ -114,7 +114,7 @@
 ## Priority 3: Configuration Accuracy
 
 ### 3.1 Formation Schema Fields
-**File:** `reference/schema.md`, `concepts/formation-schema.md`
+**File:** `reference/formation-schema.md`, `concepts/formation-schema.md`
 
 **Questions:**
 - [ ] Is `overlord.workflow.complexity_threshold` actually used? (default 7.0)
@@ -125,7 +125,7 @@
 ---
 
 ### 3.2 Memory Configuration
-**File:** `concepts/memory.md`, `concepts/multi-tenancy.md`
+**File:** `concepts/memory-system.md`, `concepts/multi-tenancy.md`
 
 **Questions:**
 - [ ] Does SQLite work for single-user? (docs say PostgreSQL required for multi-tenant)
@@ -135,7 +135,7 @@
 ---
 
 ### 3.3 MCP Configuration
-**File:** `concepts/tools.md`, `reference/tools.md`
+**File:** `concepts/tools-and-mcp.md`, `reference/tools.md`
 
 **Questions:**
 - [ ] Does `type: http` MCP work? (vs `type: command`)
@@ -147,7 +147,7 @@
 ## Priority 4: Security Claims
 
 ### 4.1 Secrets Encryption
-**File:** `concepts/secrets.md`, `deep-dives/security.md`
+**File:** `concepts/secrets-and-security.md`, `deep-dives/security-model.md`
 
 **Claims to verify:**
 - [ ] AES-256-GCM encryption is used
@@ -168,7 +168,7 @@
 ---
 
 ### 4.3 HMAC Authentication
-**File:** `deep-dives/security.md`, `server/authentication.md`
+**File:** `deep-dives/security-model.md`, `server/authentication.md`
 
 **Claims to verify:**
 - [ ] 5-minute timestamp window is enforced

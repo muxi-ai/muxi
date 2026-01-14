@@ -255,4 +255,4 @@ MUXI ships secure by default:
 
 [+] [Authentication](../server/authentication.md) - HMAC setup details
 [+] [Secrets](../reference/secrets.md) - Managing credentials
-[+] [Production](../server/production.md) - Deployment hardening
+[+] [Production](../server/production-checklist.md) - Deployment hardening

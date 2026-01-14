@@ -440,4 +440,4 @@ agents:
 
 - [Deep Dive: Response Formats](../deep-dives/response-formats.md) - Technical implementation
 - [Tools & MCP](tools.md) - Tools can also return structured data
-- [Build Custom UI](../guides/custom-ui.md) - Using structured output in UIs
+- [Build Custom UI](../guides/build-custom-ui.md) - Using structured output in UIs

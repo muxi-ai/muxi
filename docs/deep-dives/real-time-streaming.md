@@ -255,5 +255,5 @@ Returns complete JSON:
 
 ## Next Steps
 
-[+] [Build Custom UI](../guides/custom-ui.md) - Frontend streaming integration
+[+] [Build Custom UI](../guides/build-custom-ui.md) - Frontend streaming integration
 [+] [Async Operations](async.md) - Background task processing

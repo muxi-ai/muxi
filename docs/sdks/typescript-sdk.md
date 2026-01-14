@@ -382,4 +382,4 @@ export async function POST(req: Request) {
 
 - [Python SDK](python.md)
 - [Go SDK](go.md)
-- [API Reference](../reference/api.md)
+- [API Reference](../reference/api-reference.md)

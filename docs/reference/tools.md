@@ -320,4 +320,4 @@ Common issues:
 
 - [Secrets](secrets.md) - Manage tool credentials
 - [Agents](agents.md) - Assign tools to agents
-- [Add Tools Guide](../guides/add-tools.md) - Step-by-step tutorial
+- [Add Tools Guide](../guides/add-mcp-tools.md) - Step-by-step tutorial
