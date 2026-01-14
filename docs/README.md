@@ -16,7 +16,7 @@ MUXI is **The Agent Server** - production infrastructure for running AI agents. 
 
 ### ▶ Watch the Demo
 
-<div class="aspect-video bg-black"></div>
+![image info](https://placehold.co/600x400)
 
 From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
@@ -27,7 +27,7 @@ From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 - **Ship with one command** - `muxi deploy`. Done.
 - **Actually production-ready** - Multi-tenancy, observability, and enterprise features included
 
-Think: **Kubernetes for AI agents.**
+Think: **Docker for AI agents.**
 
 Self-hosted, LLM-agnostic, Open-source.
 
