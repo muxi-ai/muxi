@@ -22,10 +22,10 @@ From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
 [[/boxed]]
 
-- **Declare in YAML** - Define agents, tools, memory, knowledge, SOPs, triggers and settings in `.afs` files (**A**gent **F**ormation **S**chema)
-- **Scale with built-in orchestration** - An intelligent [Overlord](concepts/overlord.md) orchestrates requests, create workflows, handles clarifications, and coordinates agents
-- **Deploy with one command** - `muxi deploy` and you're live
-- **Ready for real-world use** - Multi-tenancy, observability, logging, metrics, tracing, and more
+- **Define everything in YAML** - Agents, tools, memory, knowledge, triggers—all in `.afs` files. Zero framework code.
+- **Let the Overlord handle it** - Smart [orchestration](concepts/overlord.md) that routes, decomposes, clarifies, and coordinates
+- **Ship with one command** - `muxi deploy`. Done.
+- **Actually production-ready** - Multi-tenancy, observability, and enterprise features included
 
 Think: **Kubernetes for AI agents.**
 
