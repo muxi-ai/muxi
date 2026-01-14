@@ -25,15 +25,24 @@ You completed the quickstart. Here's what you actually built:
 │     Your AI system: agents + memory + tools + knowledge     │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │                     Overlord                        │   │
+│   │  • Loads memory context    • Routes to agents       │   │
+│   │  • Applies persona         • Updates memory         │   │
+│   └───────────────────────┬─────────────────────────────┘   │
+│                           ↓                                 │
 │   ┌───────────┐    ┌───────────┐    ┌───────────┐          │
-│   │  Overlord │───▶│   Agent   │───▶│    LLM    │          │
-│   │(orchestr.)│    │           │    │ (OpenAI)  │          │
-│   └───────────┘    └─────┬─────┘    └───────────┘          │
-│                          │                                  │
+│   │   Agent   │    │   Agent   │    │   Agent   │          │
+│   │           │    │           │    │           │          │
+│   └─────┬─────┘    └─────┬─────┘    └─────┬─────┘          │
+│         │                │                │                 │
+│         └────────────────┼────────────────┘                 │
+│                          ↓                                  │
 │         ┌────────────────┼────────────────┐                 │
 │         ↓                ↓                ↓                 │
 │   ┌──────────┐    ┌──────────┐    ┌──────────┐             │
-│   │  Memory  │    │  Tools   │    │Knowledge │             │
+│   │   LLM    │    │  Tools   │    │Knowledge │             │
+│   │ (OpenAI) │    │  (MCP)   │    │  (RAG)   │             │
 │   └──────────┘    └──────────┘    └──────────┘             │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
@@ -42,8 +51,8 @@ You completed the quickstart. Here's what you actually built:
 **Think of it as:**
 - **Server** = Traffic controller (like Nginx for AI)
 - **Formation** = Your complete AI system (like a Docker container)
-- **Overlord** = The brain that routes requests to the right agent
-- **Agent** = A specialized worker with a specific role
+- **Overlord** = The brain that manages memory, routes requests, and applies persona
+- **Agent** = A specialized worker that uses tools and knowledge to complete tasks
 
 ---
 
@@ -58,41 +67,56 @@ curl -X POST http://localhost:8001/v1/chat \
   -d '{"message": "What can you help me with?"}'
 ```
 
-The request hits your formation's API.
+The request hits your formation's API and goes to the **Overlord**.
 
 [[/step]]
 
-[[step The Overlord picks an agent]]
+[[step The Overlord builds context]]
 
-If you have multiple agents, the Overlord analyzes your message and routes it to the best one. With a single agent, it goes directly there.
+The Overlord loads context from three memory tiers:
+
+- **Buffer memory** - Recent conversation messages
+- **Long-term memory** - User preferences and history (if enabled)
+- **Working memory** - Current session state
+
+This context is attached to your message before any agent sees it.
+
+[[/step]]
+
+[[step The Overlord routes to an agent]]
+
+The Overlord decides how to handle your request:
+
+1. **SOP match?** → Execute the standard procedure
+2. **Complex request?** → Decompose into multi-agent workflow
+3. **Simple request?** → Route to the best-suited agent
 
 ```
 User: "What can you help me with?"
   ↓
-Overlord: "This is a general question → route to 'assistant' agent"
+Overlord: "Simple question → route to 'assistant' agent"
 ```
 
 [[/step]]
 
-[[step The agent builds context]]
+[[step The agent processes with tools]]
 
-Before calling the LLM, the agent gathers:
+The selected agent:
 
-- **Memory** - Previous conversations with this user
-- **Knowledge** - Relevant documents from your knowledge base
-- **Tools** - Available capabilities (web search, databases, etc.)
-
-[[/step]]
-
-[[step The LLM responds]]
-
-The agent sends everything to the LLM (OpenAI, Anthropic, etc.) and streams the response back to your app.
+- Receives the message + context from the Overlord
+- Calls MCP tools if needed (web search, databases, etc.)
+- Retrieves relevant knowledge (RAG)
+- Sends everything to the LLM
 
 [[/step]]
 
-[[step Memory is updated]]
+[[step The Overlord applies persona and responds]]
 
-The conversation is saved so the agent remembers it next time.
+The Overlord:
+
+- Applies the configured persona (tone, style) to the response
+- Streams the response back to your app
+- Updates all memory tiers with the conversation
 
 [[/step]]
 
