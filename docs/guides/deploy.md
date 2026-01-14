@@ -9,10 +9,6 @@ description: Move your formation from localhost to a production server
 
 Take your local formation to production with TLS, authentication, and proper service management.
 
-<!-- TODO: Add architecture diagram -->
-<!-- [Image placeholder: Local → Production deployment flow] -->
-
-
 ## What You'll Set Up
 
 ```mermaid

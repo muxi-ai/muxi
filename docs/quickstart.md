@@ -194,34 +194,80 @@ Output:
 
 [[tabs]]
 
+[[tab Python]]
+```bash
+pip install muxi-client
+```
+
+```python
+from muxi import FormationClient
+
+client = FormationClient(url="http://localhost:8001")
+
+# Streaming chat
+for event in client.chat_stream({"message": "Hello!"}):
+    if event.get("type") == "text":
+        print(event.get("text"), end="")
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```bash
+npm install @muxi-ai/muxi-typescript
+```
+
+```typescript
+import { FormationClient } from "@muxi-ai/muxi-typescript";
+
+const client = new FormationClient({
+  url: "http://localhost:8001",
+});
+
+// Streaming chat
+for await (const event of client.chatStream({ message: "Hello!" })) {
+  if (event.type === "text") process.stdout.write(event.text);
+}
+```
+[[/tab]]
+
+[[tab Go]]
+```bash
+go get github.com/muxi-ai/muxi-go
+```
+
+```go
+client := muxi.NewFormationClient(&muxi.FormationConfig{
+    URL: "http://localhost:8001",
+})
+
+// Streaming chat
+stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{
+    Message: "Hello!",
+})
+for chunk := range stream {
+    if chunk.Type == "text" {
+        fmt.Print(chunk.Text)
+    }
+}
+```
+[[/tab]]
+
 [[tab curl]]
 ```bash
 curl -X POST http://localhost:8001/v1/chat \
   -H "Content-Type: application/json" \
   -d '{"message": "Hello!"}'
 ```
-
-See the [complete chat API reference](api/formation#tag/Chat/POST/chat) for streaming, async, and advanced options.
-
 [[/tab]]
-
 
 [[tab Browser]]
 Open `http://localhost:8001/chat` in your browser for an interactive chat UI.
 [[/tab]]
 
-[[tab Python]]
-```python
-from muxi import FormationClient
-
-formation = FormationClient(url="http://localhost:8001", client_key="...")
-for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
-    if event.get("type") == "text":
-        print(event.get("text"), end="")
-```
-[[/tab]]
-
 [[/tabs]]
+
+> [!TIP]
+> See the [complete chat API reference](api/formation#tag/Chat/POST/chat) for streaming, async, and advanced options.
 
 [[/step]]
 
@@ -259,6 +305,56 @@ You now have:
 - A **MUXI Server** managing formations
 - A **Formation** with one agent
 - An **API** ready for integration
+
+> [!TIP]
+> **Want to understand how this all works?** See [How MUXI Works](how-it-works.md) for the full architecture and request flow.
+
+---
+
+## Common First Issues
+
+[[toggle Port already in use]]
+```bash
+# Find what's using the port
+lsof -i :7890
+
+# Use a different port
+muxi-server --port 7891
+```
+[[/toggle]]
+
+[[toggle Command not found after install]]
+Restart your terminal, or check your PATH:
+```bash
+# macOS/Linux
+echo $PATH | grep -E "(homebrew|local/bin)"
+
+# Add to PATH if needed
+export PATH="$PATH:/usr/local/bin"
+```
+[[/toggle]]
+
+[[toggle Server won't start]]
+```bash
+# Check if already running
+ps aux | grep muxi-server
+
+# View logs
+muxi-server logs
+```
+[[/toggle]]
+
+[[toggle API key errors]]
+```bash
+# Verify secret is set
+muxi secrets get OPENAI_API_KEY
+
+# Re-run setup
+muxi secrets setup
+```
+[[/toggle]]
+
+For more issues, see the [Troubleshooting Guide](guides/troubleshooting.md).
 
 ---
 
