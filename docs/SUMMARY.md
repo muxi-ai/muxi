@@ -8,21 +8,21 @@ description: Complete guide to building AI agents with MUXI
 
 * [What is MUXI](what-is-muxi.md)
 * [Quickstart](quickstart.md)
-* [How MUXI Works](how-it-works.md)
-* [Examples](examples/README.md)
 * [Installation](installation/README.md)
+* [How It Works](how-it-works.md)
+* [Examples](examples/README.md)
 * [How Do I...?](faq.md)
 
 ## Core Concepts
 
-* [Architecture](concepts/architecture.md)
+* [How It All Fits](concepts/architecture.md)
 * [The Overlord](concepts/overlord.md)
 * [Formation Schema](concepts/formation-schema.md)
 * [LLM Providers](concepts/llm-providers.md)
 * [Agents & Orchestration](concepts/agents-and-orchestration.md)
-* [Workflows & Task Decomposition](concepts/workflows-and-task-decomposition.md)
+* [Workflows](concepts/workflows-and-task-decomposition.md)
 * [Human-in-the-Loop](concepts/human-in-the-loop.md)
-* [Persona & Personality](concepts/persona.md)
+* [Agent Personas](concepts/persona.md)
 * [Memory System](concepts/memory-system.md)
 * [Multi-Tenancy](concepts/multi-tenancy.md)
 * [Tools & MCP](concepts/tools-and-mcp.md)
@@ -31,11 +31,11 @@ description: Complete guide to building AI agents with MUXI
 * [Knowledge & RAG](concepts/knowledge-and-rag.md)
 * [Triggers & Webhooks](concepts/triggers-and-webhooks.md)
 * [Async Processing](concepts/async.md)
-* [Standard Operating Procedures](concepts/standard-operating-procedures.md)
-* [Formation Registry](concepts/registry.md)
+* [SOPs](concepts/standard-operating-procedures.md)
+* [The Registry](concepts/registry.md)
 * [Scheduled Tasks](concepts/scheduled-tasks.md)
-* [Artifacts & File Generation](concepts/artifacts.md)
-* [Clarification System](concepts/clarification.md)
+* [Artifacts](concepts/artifacts.md)
+* [Clarifications](concepts/clarification.md)
 * [Structured Output](concepts/structured-output.md)
 
 ## Server
@@ -68,7 +68,7 @@ description: Complete guide to building AI agents with MUXI
 * [Overview](cli/README.md)
 * [Setup](cli/setup.md)
 * [Configuration](cli/configuration.md)
-* [Cheatsheet](cli/cheatsheet.md)
+* [Quick Reference](cli/cheatsheet.md)
 
 ## Reference
 
@@ -104,7 +104,7 @@ description: Complete guide to building AI agents with MUXI
 * [Multi-Tenancy](deep-dives/multi-tenancy.md)
 * [Multi-Identity](deep-dives/multi-identity.md)
 * [Observability](deep-dives/observability.md)
-* [Observability Event Types](deep-dives/observability-events.md)
+* [Event Types](deep-dives/observability-events.md)
 * [Security Model](deep-dives/security-model.md)
 * [Resilience](deep-dives/resilience.md)
 * [Multi-Server Memory](deep-dives/multi-server-memory.md)
