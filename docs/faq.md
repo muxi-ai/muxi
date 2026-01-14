@@ -1,11 +1,11 @@
 ---
-title: Feature Overview
-description: Common questions about what MUXI can do
+title: Common Questions and Use-cases
+description: Find your question, get the answer
 ---
 
-# Feature Overview
+# Common Questions and Use-cases
 
-## What can MUXI do? Answers to common questions.
+## What can MUXI do? How do I...?
 
 Find your question, get the answer. Each section links to deeper documentation.
 
@@ -324,8 +324,7 @@ Supports semantic versioning, private formations, and organization sharing.
 
 ## Next Steps
 
-[>] [Quickstart](quickstart.md) - Build your first agent in 5 minutes
-
+[+] [Quickstart](quickstart.md) - Build your first agent in 5 minutes
 [+] [Installation](installation/README.md) - Get MUXI running on your machine
 [+] [Architecture](concepts/architecture.md) - Understand how it all fits together
 [+] [Examples](examples/README.md) - See real formations in action

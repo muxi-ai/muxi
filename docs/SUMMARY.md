@@ -11,7 +11,7 @@ description: Complete guide to building AI agents with MUXI
 * [How MUXI Works](how-it-works.md)
 * [Examples](examples/README.md)
 * [Installation](installation/README.md)
-* [Feature Overview](feature-overview.md)
+* [How Do I...?](faq.md)
 
 ## Core Concepts
 
