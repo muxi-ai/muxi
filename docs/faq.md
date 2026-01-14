@@ -332,7 +332,7 @@ Yes. **The core stack is always free and self-hostable.** No paywalls, no featur
 - Self-host on your infrastructure forever
 - No usage limits, no "free tier"
 
-**Learn more:** [Our creed](https://muxi.ai/creed)
+**Learn more:** [Our creed](https://muxi.org/creed)
 
 [[/toggle]]
 
@@ -345,24 +345,27 @@ MUXI follows the standard open-source infrastructure model:
 
 The core product stays free. Revenue comes from optional services, not from restricting features.
 
+[>] [Get Support](https://muxi.org/support)
+
 [[/toggle]]
 
 [[toggle What's the licensing model?]]
 
 | Component | License | What it means |
 |-----------|---------|---------------|
-| Server & Runtime | Elastic License 2.0 | Free to use, can't resell as a competing service |
+| Server & Runtime | Elastic License 2.0 | Free to use, can't resell as a hosted service |
 | CLI & SDKs | Apache 2.0 | Fully permissive, do anything |
 | Formations | Apache 2.0 | Your agents are yours |
 
 **You CAN:**
 - Use freely for internal projects, products, research
+- Use freely for building platforms and commercial applications
 - Build and sell products that use MUXI
 - Deploy for clients and customers
 - Self-host on your infrastructure
 
 **You CAN'T:**
-- Offer MUXI itself as a managed service (that's it)
+- Offer MUXI itself as a hosted service (that's it)
 
 [[/toggle]]
 
