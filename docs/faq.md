@@ -322,9 +322,85 @@ Supports semantic versioning, private formations, and organization sharing.
 
 ---
 
+## Business & Licensing
+
+[[toggle Is MUXI really free?]]
+
+Yes. **The core stack is always free and self-hostable.** No paywalls, no feature restrictions, no bait-and-switch licensing.
+
+- Server, Runtime, CLI, SDKs - all open source
+- Self-host on your infrastructure forever
+- No usage limits, no "free tier"
+
+**Learn more:** [Pricing](https://muxi.ai/pricing)
+
+[[/toggle]]
+
+[[toggle How do you make money?]]
+
+MUXI follows the standard open-source infrastructure model:
+
+1. **GitHub Sponsors** - Supporting OSS development
+2. **Professional services** - Priority support and deployment help for production teams
+
+The core product stays free. Revenue comes from optional services, not from restricting features.
+
+[[/toggle]]
+
+[[toggle What's the licensing model?]]
+
+| Component | License | What it means |
+|-----------|---------|---------------|
+| Server & Runtime | Elastic License 2.0 | Free to use, can't resell as a competing service |
+| CLI & SDKs | Apache 2.0 | Fully permissive, do anything |
+| Formations | Apache 2.0 | Your agents are yours |
+
+**You CAN:**
+- Use freely for internal projects, products, research
+- Build and sell products that use MUXI
+- Deploy for clients and customers
+- Self-host on your infrastructure
+
+**You CAN'T:**
+- Offer MUXI itself as a managed service (that's it)
+
+[[/toggle]]
+
+[[toggle What if you disappear tomorrow?]]
+
+You're protected:
+
+- **Self-hosted** - Runs on your infrastructure, not ours
+- **Open source** - Fork and maintain the code yourself
+- **Portable formats** - Formations are YAML, not proprietary
+- **Standard protocols** - MCP and A2A work with other systems
+
+MUXI is backed by VarOps LLC with a long-term commitment. Revenue comes from sustainable services, not VC burn rate.
+
+[[/toggle]]
+
+[[toggle How is this different from LangChain/CrewAI?]]
+
+Different layer of the stack:
+
+| | LangChain/CrewAI | MUXI |
+|---|---|---|
+| **What** | Python frameworks | Production server |
+| **How** | Write code | Declare in YAML |
+| **Deploy** | You figure it out | `muxi deploy` |
+| **Memory** | BYO | Built-in (3-tier) |
+| **Multi-tenant** | BYO | Built-in |
+| **Observability** | BYO | Built-in |
+
+LangChain helps you build agents in code. MUXI runs agents in production.
+
+[[/toggle]]
+
+---
+
 ## Next Steps
 
-[+] [Quickstart](quickstart.md) - Build your first agent in 5 minutes
+[>] [Quickstart](quickstart.md) - Build your first agent in 5 minutes
 [+] [Installation](installation/README.md) - Get MUXI running on your machine
 [+] [Architecture](concepts/architecture.md) - Understand how it all fits together
 [+] [Examples](examples/README.md) - See real formations in action
