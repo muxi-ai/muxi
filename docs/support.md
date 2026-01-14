@@ -6,7 +6,9 @@ searchable: true
 
 # Get Help & Support
 
-## Need help? Here's how to reach us.
+Whether you're stuck on a configuration, found a bug, or just want to share what you've built - we're here to help.
+
+MUXI is open source and community-driven. Most questions get answered in GitHub Discussions by maintainers and other users. For teams that need faster support, we offer priority options too.
 
 ---
 
