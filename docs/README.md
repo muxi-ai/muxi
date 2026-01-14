@@ -1,6 +1,6 @@
 ---
 title: MUXI Documentation
-description: Production infrastructure for AI agents - deploy with zero downtime
+description: Production infrastructure for AI agents
 doc-type: home
 ---
 
@@ -8,28 +8,17 @@ doc-type: home
 
 ## Production infrastructure for AI agents
 
-<!-- TODO: Add hero video showing deployment flow -->
-<!-- [Video placeholder: 60s demo of creating and deploying a formation] -->
+MUXI is infrastructure for running AI agents in production. Define multi-agent systems in YAML, deploy with one command, scale with built-in orchestration.
 
-MUXI is infrastructure for running AI agents in production. Define multi-agent systems using the **Agent Formation Schema** (`.afs` files - it's just YAML), deploy with zero downtime, scale with built-in orchestration.
+(what-is-muxi.md)[[card]]
 
-**Think: Kubernetes for AI agents.**
+#### ▶ Watch the Demo
 
-- ✅ Zero-downtime deployments
-- ✅ Multi-agent orchestration
-- ✅ Built-in memory & RAG
-- ✅ Production-ready security
+From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
-> [!TIP]
-> New to MUXI? Start with the [Quickstart](quickstart.md) to get running in 5 minutes.
+[[/card]]
 
-**Popular:**
-
-- [Quickstart](quickstart.md)
-- [Examples](examples/README.md)
-- [Formation Schema](concepts/formation-schema.md)
-- [Zero-Downtime Updates](server/formations.md#zero-downtime-updates)
-
+---
 
 ## Get Started
 
@@ -38,21 +27,21 @@ MUXI is infrastructure for running AI agents in production. Define multi-agent s
 (quickstart.md)[[card]]
 
 #### Quickstart
-Get your first formation running in 5 minutes.
+Get your first agent running in 5 minutes.
 
 [[/card]]
 
-(installation/README.md)[[card]]
+(how-it-works.md)[[card]]
 
-#### Installation
-Install MUXI on macOS, Linux, Windows, or Docker.
+#### How It Works
+Understand the architecture and request flow.
 
 [[/card]]
 
-(reference/README.md)[[card]]
+(examples/README.md)[[card]]
 
-#### Formations
-Learn how to define AI systems in YAML.
+#### Examples
+Real formations for common use cases.
 
 [[/card]]
 
@@ -60,182 +49,35 @@ Learn how to define AI systems in YAML.
 
 ---
 
-## See It In Action
-
-:::: cols=3
-
-(examples/01-simple-chatbot/README.md)[[card]]
-
-#### Simple Chatbot
-⭐ Beginner • 2 min
-
-Basic assistant with single agent.
-
-[[/card]]
-
-(examples/02-customer-support/README.md)[[card]]
-
-#### Customer Support
-⭐⭐ Intermediate • 5 min
-
-Memory + knowledge + persona.
-
-[[/card]]
-
-(examples/05-multi-agent-team/README.md)[[card]]
-
-#### Multi-Agent Team
-⭐⭐⭐ Advanced • 10 min
-
-3 specialized agents working together.
-
-[[/card]]
-
-::::
-
-[View all 5 examples →](examples/README.md)
-
----
-
-## How It Works
-
-```
-1. Define    →    2. Deploy    →    3. Use
-   (YAML)           (CLI)           (API/SDK)
-```
-
-### Define a formation
-
-```yaml
-# formation.afs
-schema: "1.0.0"
-id: my-assistant
-
-llm:
-  models:
-    - text: "openai/gpt-4o"
-
-agents: []  # Auto-discovered from agents/ directory
-```
-
-With agent file:
-
-```yaml
-# agents/assistant.afs
-schema: "1.0.0"
-id: assistant
-name: Assistant
-description: Helpful assistant
-
-system_message: You are a helpful assistant.
-```
-
-### Deploy to your server
-
-```bash
-muxi deploy
-```
-
-### Use via API or SDK
+## Install
 
 [[tabs]]
 
-[[tab curl]]
+[[tab macOS]]
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
-  -H "Content-Type: application/json" \
-  -H "X-Muxi-Client-Key: $CLIENT_KEY" \
-  -d '{"message": "Hello!"}'
+brew install muxi-ai/tap/muxi
 ```
 [[/tab]]
 
-[[tab Python]]
-```python
-from muxi import FormationClient
-
-formation = FormationClient(
-    server_url="http://localhost:7890",
-    formation_id="my-assistant",
-    client_key="...",
-)
-for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
-    if event.get("type") == "text":
-        print(event.get("text"), end="")
+[[tab Linux]]
+```bash
+curl -fsSL https://muxi.org/install | sudo bash
 ```
 [[/tab]]
 
-[[tab TypeScript]]
-```typescript
-import { FormationClient } from "@muxi-ai/muxi-typescript";
-
-const formation = new FormationClient({
-  serverUrl: "http://localhost:7890",
-  formationId: "my-assistant",
-  clientKey: "...",
-});
-for await (const chunk of await formation.chatStream({ message: "Hello!" }, "user_123")) {
-  if (chunk.type === "text") process.stdout.write(chunk.text);
-}
-```
-[[/tab]]
-
-[[tab Go]]
-```go
-client := muxi.NewFormationClient(&muxi.FormationConfig{
-    FormationID: "my-assistant",
-    ServerURL:   "http://localhost:7890",
-    ClientKey:   "...",
-})
-stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{Message: "Hello!", UserID: "user_123"})
-for chunk := range stream {
-    if chunk.Type == "text" {
-        fmt.Print(chunk.Text)
-    }
-}
+[[tab Windows]]
+```powershell
+powershell -c "irm https://muxi.org/install | iex"
 ```
 [[/tab]]
 
 [[/tabs]]
 
----
-
-## Why MUXI?
-
-:::: cols=4
-
-[[card]]
-
-#### 🚀 Zero Downtime
-Blue-green deployments. Update formations without dropping requests.
-
-[[/card]]
-
-[[card]]
-
-#### 🤖 Multi-Agent
-Auto-decompose complex tasks across specialized agents.
-
-[[/card]]
-
-[[card]]
-
-#### 🧠 Memory & RAG
-Built-in vector search, persistent memory, knowledge bases.
-
-[[/card]]
-
-[[card]]
-
-#### 🔐 Production Ready
-HMAC auth, secrets management, per-user credentials.
-
-[[/card]]
-
-::::
+[Full installation guide →](installation/README.md)
 
 ---
 
-## Explore by Topic
+## Explore
 
 :::: cols=2
 
@@ -271,24 +113,28 @@ Discover and share formations.
 
 ---
 
-## Learn More
+## Learn
 
 :::: cols=3
 
 [[card]]
 
-#### 🎓 Core Concepts
-- [Formation Schema](concepts/formation-schema.md)
+#### Core Concepts
+
+- [Architecture](concepts/architecture.md)
 - [The Overlord](concepts/overlord.md)
-- [Workflows](concepts/workflows.md)
+- [Formation Schema](concepts/formation-schema.md)
 - [Memory System](concepts/memory.md)
+- [Tools & MCP](concepts/tools.md)
 
 [[/card]]
 
 [[card]]
 
-#### 🛠️ Guides
+#### Guides
+
 - [Add Tools (MCP)](guides/add-tools.md)
+- [Add Memory](guides/add-memory.md)
 - [Build Multi-Agent Teams](guides/multi-agent.md)
 - [Deploy to Production](guides/deploy.md)
 - [Troubleshooting](guides/troubleshooting.md)
@@ -297,11 +143,13 @@ Discover and share formations.
 
 [[card]]
 
-#### 📚 Reference
-- [Agent Formation Schema](reference/schema.md)
-- [Server Configuration](server/configuration.md)
-- [CLI Commands](cli/cheatsheet.md)
+#### Reference
+
+- [Formation Schema](reference/schema.md)
+- [API Reference](reference/api.md)
+- [CLI Cheatsheet](cli/cheatsheet.md)
 - [Deep Dives](deep-dives/README.md)
+- [All Features](features.md)
 
 [[/card]]
 
@@ -309,16 +157,10 @@ Discover and share formations.
 
 ---
 
-## Next Steps
+## Popular Pages
 
-**Just starting?**
-[→ 5-minute Quickstart](quickstart.md)
-
-**Want to see code?**
-[→ Browse Examples](examples/README.md)
-
-**Ready to deploy?**
-[→ Install MUXI](installation/README.md)
-
-**Building something?**
-[→ Read the Guides](guides/README.md)
+[+] [Quickstart](quickstart.md) - 5 minutes to your first agent
+[+] [Examples](examples/README.md) - See real formations
+[+] [Formation Schema](concepts/formation-schema.md) - YAML configuration
+[+] [Add Tools (MCP)](guides/add-tools.md) - Give agents capabilities
+[+] [Deploy to Production](guides/deploy.md) - Go live
