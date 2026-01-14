@@ -332,7 +332,7 @@ Yes. **The core stack is always free and self-hostable.** No paywalls, no featur
 - Self-host on your infrastructure forever
 - No usage limits, no "free tier"
 
-**Learn more:** [Pricing](https://muxi.ai/pricing)
+**Learn more:** [Our creed](https://muxi.ai/creed)
 
 [[/toggle]]
 
@@ -400,7 +400,7 @@ LangChain helps you build agents in code. MUXI runs agents in production.
 
 ## Next Steps
 
-[>] [Quickstart](quickstart.md) - Build your first agent in 5 minutes
+[+] [Quickstart](quickstart.md) - Build your first agent in 5 minutes
 [+] [Installation](installation/README.md) - Get MUXI running on your machine
 [+] [Architecture](concepts/architecture.md) - Understand how it all fits together
 [+] [Examples](examples/README.md) - See real formations in action
