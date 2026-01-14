@@ -1,5 +1,5 @@
 ---
-title: Use Cases
+title: Common Use Cases
 description: How teams use MUXI in production
 searchable: true
 ---

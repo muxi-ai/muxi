@@ -1,6 +1,6 @@
 ---
-title: MUXI Documentation
-description: Production infrastructure for AI agents
+title: Open-source, production infrastructure for AI agents
+description: Production infrastructure that treats agents as native primitives, packaged as deployable units using the Agent Formation Schema.
 doc-type: home
 ---
 
@@ -8,7 +8,7 @@ doc-type: home
 
 ## Open-source, production infrastructure for AI agents
 
-MUXI is **The Agent Server** - production infrastructure for running AI agents. It treats agents as native primitives, and packaged as deployable units.
+MUXI is **The Agent Server** - production infrastructure for running AI agents. It treats agents as native primitives, packaged as deployable units using the Agent Formation Schema.
 
 [[boxed float-right]]
 
