@@ -8,6 +8,8 @@ doc-type: home
 
 ## Open-source, production infrastructure for AI agents
 
+MUXI is **The Agent Server** - production infrastructure for running AI agents. It treats agents as native primitives, and packaged as deployable units.
+
 [[boxed float-right]]
 
 ### Watch the Demo
@@ -17,8 +19,6 @@ doc-type: home
 From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
 [[/boxed]]
-
-MUXI is **The Agent Server** - production infrastructure for running AI agents. It treats agents as native primitives, and packaged as deployable units.
 
 - **Define everything in YAML** - Agents, tools, memory, knowledge, triggers – as a [deployable unit](concepts/formation-schema.md). Zero framework code.
 - **Ship with one command** - `muxi deploy`. Done.
