@@ -6,9 +6,15 @@ doc-type: home
 
 # MUXI Documentation
 
-## Production infrastructure for AI agents
+## Open-source, production infrastructure for AI agents
 
-MUXI is infrastructure for running AI agents in production. Define multi-agent systems in YAML, deploy with one command, scale with built-in orchestration.
+MUXI is **The Agent Server** - production infrastructure for running AI agents. Not a framework. Not a wrapper. A server.
+
+- **Declare in YAML** - Define agents, tools, memory, and knowledge in `.afs` files
+- **Deploy with one command** - `muxi deploy` and you're live
+- **Scale with built-in orchestration** - The Overlord routes requests, coordinates agents, manages memory
+
+Think: **Kubernetes for AI agents.** Self-hosted, LLM-agnostic, open-source.
 
 (what-is-muxi.md)[[card]]
 
@@ -17,6 +23,8 @@ MUXI is infrastructure for running AI agents in production. Define multi-agent s
 From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
 [[/card]]
+
+[Learn more about MUXI →](what-is-muxi.md)
 
 ---
 
