@@ -27,7 +27,7 @@ From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 - **Let the orchestration roll** - Smart [Overlord](concepts/overlord.md) that routes, decomposes, clarifies, and coordinates.
 - **Actually production-ready** - Multi-tenancy, observability, and enterprise features included, not bolted on.
 
-Think: **Docker for AI agents.**
+### Think: “Docker for AI agents”.
 
 Self-hosted, LLM-agnostic, Open-source.
 
