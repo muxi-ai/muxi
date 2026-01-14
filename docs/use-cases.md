@@ -10,7 +10,6 @@ searchable: true
 
 MUXI is production infrastructure. It's built for teams that need to run AI agents reliably, not just prototype them.
 
----
 
 ## Platform Builders
 
@@ -159,8 +158,7 @@ Run your own support agents without sending customer data to third parties.
 
 ## Not sure if MUXI fits?
 
-[>] [Talk to us](support.md) - We'll help you figure it out
-
+[+] [Talk to us](support.md) - We'll help you figure it out
 [+] [Examples](examples/README.md) - See real formations
 [+] [How Do I...?](faq.md) - Common questions
 [+] [Quickstart](quickstart.md) - Try it in 5 minutes
