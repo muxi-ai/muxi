@@ -14,6 +14,7 @@ We use **GitHub-flavored markdown (GFM)** with a few lightweight, intuitive exte
 - ✅ Toggles
 - ✅ Boxed sidebars
 - ✅ Bookmarks
+- ✅ Buttons
 - ✅ Steps
 
 Everything renders beautifully without breaking readability for humans or editors.
@@ -218,7 +219,32 @@ Each line renders with a small bookmark icon and the link text, for example:
 
 ---
 
-## 8. Steps
+## 8. Buttons
+
+Buttons create styled call-to-action links.
+
+```md
+[>] [Get Started](quickstart.md)
+[>>] [View Examples](examples/README.md)
+```
+
+### Button styles
+
+- `[>]` – primary button (`class="btn"`)
+- `[>>]` – secondary button (`class="btn-secondary"`)
+
+Renders as:
+
+```html
+<a href="quickstart.md" class="btn">Get Started</a>
+<a href="examples/README.md" class="btn-secondary">View Examples</a>
+```
+
+**Graceful degradation:** In standard markdown renderers (GitHub, VS Code), the prefix appears as text and the link remains clickable.
+
+---
+
+## 9. Steps
 
 Steps create numbered, sequential instructions for tutorials and guides.
 
