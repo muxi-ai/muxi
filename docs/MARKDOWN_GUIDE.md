@@ -226,18 +226,21 @@ Buttons create styled call-to-action links.
 ```md
 [>] [Get Started](quickstart.md)
 [>>] [View Examples](examples/README.md)
+[[>]] [Learn More](about.md)
 ```
 
 ### Button styles
 
 - `[>]` – primary button (`class="btn"`)
 - `[>>]` – secondary button (`class="btn-secondary"`)
+- `[[>]]` – outline button (`class="btn-outline"`)
 
 Renders as:
 
 ```html
 <a href="quickstart.md" class="btn">Get Started</a>
 <a href="examples/README.md" class="btn-secondary">View Examples</a>
+<a href="about.md" class="btn-outline">Learn More</a>
 ```
 
 **Graceful degradation:** In standard markdown renderers (GitHub, VS Code), the prefix appears as text and the link remains clickable.
