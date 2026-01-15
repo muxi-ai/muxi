@@ -9,6 +9,24 @@ description: Define standard procedures for consistent agent behavior
 
 SOPs (Standard Operating Procedures) ensure agents handle specific tasks consistently. When a user request matches an SOP, the agent follows that procedure.
 
+## Why SOPs?
+
+> **Key insight:** We don't believe traditional workflows are agentic.
+
+Traditional workflow automation (if X then Y) is rigid and breaks when reality doesn't match the script. Instead, MUXI's Overlord creates workflows **dynamically** based on each user request.
+
+**But sometimes you need consistency.** SOPs are predefined templates that tell agents "this is how we do things" - ensuring compliance, quality, and repeatability for specific procedures.
+
+| Dynamic Workflows | SOPs |
+|-------------------|------|
+| Created per-request by Overlord | Predefined by developers |
+| Adapts to context | Consistent execution |
+| For novel situations | For repeatable procedures |
+
+**SOPs can be strict or flexible:**
+- **Template mode**: Follow exactly as written (for compliance)
+- **Guide mode**: Use as guidelines, optimize as needed (default)
+
 ---
 
 ## Quick Start

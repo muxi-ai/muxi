@@ -46,7 +46,16 @@ Every action in the system emits structured events:
 | **Workflows** | Task decomposition, step execution |
 | **Errors** | Failures, retries, fallbacks |
 
-**349 typed events** across the full request lifecycle.
+**~350 typed events** across the full request lifecycle.
+
+### Two Types of Events
+
+| Type | Audience | Purpose | Examples |
+|------|----------|---------|----------|
+| **Request lifecycle** | Users (via SDK) | Trace what happened to their request | Agent selected, task progress, response generated |
+| **System/error** | Developers only | Debug infrastructure and errors | MCP server connected, memory operation failed |
+
+System-level events (connecting to MCP servers, error handling, file creation, memory operations) are never exposed to users - only developers can see them for debugging.
 
 ## Example: Debugging a Wrong Answer
 

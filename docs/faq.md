@@ -32,13 +32,16 @@ agents:
 
 [[toggle How do agents remember context?]]
 
-MUXI has a **three-tier memory system**:
+MUXI has a **four-layer memory system**:
 
-1. **Buffer** - Current conversation (last N messages)
-2. **Working** - Session-level context and facts extracted mid-conversation
-3. **Persistent** - Long-term memory stored in SQLite/PostgreSQL, survives restarts
+1. **Buffer** - Recent messages (fast, in-memory)
+2. **Working** - Session state and tool outputs (FAISSx vector store)
+3. **User Synopsis** - Who the user is (LLM-synthesized profile)
+4. **Persistent** - Long-term storage (Postgres for multi-tenancy, SQLite for single-user)
 
-Plus **User Synopsis Caching** - the LLM periodically synthesizes what it knows about a user, reducing token usage by 80%+ on long conversations.
+User Synopsis reduces token usage by 80%+ by replacing full history with a concise profile.
+
+> **Note:** Multi-tenancy requires Postgres. Without it, MUXI supports a single user with no long-term memory.
 
 **Learn more:** [Memory System](concepts/memory-system.md) | [Memory Internals](deep-dives/memory-internals.md) | [Add Memory](guides/add-memory.md)
 
@@ -81,18 +84,27 @@ Uses semantic search (meaning, not keywords) and incremental indexing (only re-i
 
 [[toggle Can I define workflows or procedures for agents?]]
 
-Yes - **Standard Operating Procedures (SOPs)**. Define step-by-step workflows that agents follow for specific tasks:
+Yes - **Standard Operating Procedures (SOPs)**. Create markdown files in `sops/` that define step-by-step procedures:
 
-```yaml
-sops:
-  refund-request:
-    steps:
-      - Verify purchase in system
-      - Check refund policy eligibility
-      - Process refund or explain denial
+```markdown
+<!-- sops/refund-request.md -->
+---
+type: sop
+name: Refund Processing
+mode: guide
+tags: refund, customer, payment
+---
+
+## Steps
+
+1. **Verify Purchase** - Look up order in system
+2. **Check Policy** - Verify refund eligibility  
+3. **Process or Deny** - Issue refund or explain denial
 ```
 
-Agents automatically follow SOPs when they match the user's request.
+When a user request matches an SOP (via semantic search), the agent follows that procedure. SOPs have highest routing priority.
+
+> **Note:** SOPs are predefined templates. Regular workflows are created dynamically by the Overlord for each request.
 
 **Learn more:** [SOPs](concepts/standard-operating-procedures.md) | [Create SOPs](guides/create-sops.md)
 
@@ -130,20 +142,19 @@ Artifacts are returned alongside the response and can be downloaded or processed
 
 [[toggle Can I customize the agent's personality?]]
 
-Yes - **personas**. Define how the agent communicates:
+Yes, but only the **Overlord** has a persona. Users talk to MUXI (the Overlord), not individual agents - so the persona defines how MUXI communicates:
 
 ```yaml
-agents:
-  assistant:
-    persona: |
-      You are a friendly, professional assistant.
-      Be concise but warm. Use simple language.
-      Never use jargon unless the user does first.
+overlord:
+  persona: |
+    You are a friendly, professional assistant.
+    Be concise but warm. Use simple language.
+    Never use jargon unless the user does first.
 ```
 
-Different agents can have different personas in the same formation.
+Individual agents have **system prompts** (instructions for task execution) and **capabilities** (metadata for routing) - but not personas.
 
-**Learn more:** [Agent Personas](concepts/persona.md)
+**Learn more:** [Overlord Persona](concepts/persona.md) | [The Overlord](concepts/overlord.md)
 
 [[/toggle]]
 

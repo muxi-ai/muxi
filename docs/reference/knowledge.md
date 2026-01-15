@@ -63,6 +63,10 @@ muxi dev
 
 ---
 
+## Why Knowledge Sources?
+
+Knowledge sources give agents **domain expertise**. Instead of relying only on training data, agents can answer questions using your specific documents - return policies, product manuals, internal procedures, etc.
+
 ## How It Works
 
 ```mermaid
@@ -81,10 +85,12 @@ sequenceDiagram
 ```
 
 MUXI:
-1. **Indexes** your documents at startup
-2. **Embeds** content as vectors
-3. **Searches** for relevant chunks when asked
+1. **Indexes** your documents at startup (creates embeddings once)
+2. **Caches** embeddings - only recreates if files change
+3. **Searches** for relevant chunks when asked (RAG)
 4. **Includes** context in agent prompts
+
+> **Performance note:** Embeddings are created once on initialization and cached. They're only regenerated when the underlying files change - not on every startup.
 
 ---
 

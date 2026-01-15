@@ -12,6 +12,8 @@ MUXI uses encrypted files instead of environment variables. Your API keys stay s
 
 ## Why Not Environment Variables?
 
+We decided against environment variables because they're **not portable and not secure to share**.
+
 | Problem | Environment Variables | MUXI Secrets |
 |---------|----------------------|--------------|
 | Visible in process lists | ✗ Yes | ✓ No |
@@ -19,6 +21,13 @@ MUXI uses encrypted files instead of environment variables. Your API keys stay s
 | Leak in CI/CD logs | ✗ Often | ✓ Never |
 | Portable with code | ✗ No | ✓ Yes |
 | Safe to commit | ✗ Never | ✓ Encrypted file |
+
+**The sharing problem:** You can share a formation with someone, but how do they know what secrets it needs? With MUXI's approach:
+- `secrets` is like `.env.example` - shows required keys
+- `secrets.enc` contains encrypted values - safe to commit
+- The recipient creates their own values for the same keys
+
+The GitHub Actions-style notation (`${{ secrets.KEY }}`) makes it clear exactly where each secret is used.
 
 > [!TIP]
 > Learn more about the design decision in [Why Encrypted Secrets](../concepts/secrets-and-security.md).

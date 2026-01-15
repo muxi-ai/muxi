@@ -9,6 +9,18 @@ description: Set up webhook triggers for external systems
 
 Triggers let GitHub, Slack, monitoring tools, and other systems invoke your agents automatically.
 
+## Why Triggers?
+
+MUXI needs to be valuable **outside of chat sessions**. Without triggers, MUXI only responds when users type messages. With triggers, external systems can invoke MUXI with information - making it useful in automated workflows.
+
+**Examples:**
+- GitHub issue opened → Agent triages and assigns
+- Monitoring alert fired → Agent investigates and notifies
+- Stripe payment received → Agent sends receipt and updates records
+- Slack mention → Agent responds in thread
+
+Triggers are always async (there's no one waiting) - the result is delivered via webhook callback.
+
 ---
 
 ## Quick Start

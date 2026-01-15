@@ -10,6 +10,18 @@ description: How agents handle ambiguity by asking intelligent questions
 When your request is unclear, agents don't guess - they ask. The clarification system detects ambiguity and asks focused questions to understand what you really want.
 
 
+## Why Clarification First?
+
+Clarification is the **first thing that happens** when a request hits the Overlord. Before routing, before planning, before anything else - we need to understand if the request makes sense and is actionable.
+
+The Overlord also intelligently detects whether a user's response is:
+- An answer to a clarification question → continue the flow
+- A completely new request → abandon clarification, start fresh
+
+This ensures the Overlord always has enough information before taking action.
+
+---
+
 ## The Problem: Ambiguous Requests
 
 **Common ambiguities:**

@@ -6,7 +6,23 @@ description: Official client libraries for MUXI
 
 ## Official client libraries for MUXI
 
-Native SDKs for Python, TypeScript, and Go. All SDKs provide the same core functionality: chat, streaming, sessions, memory, triggers, and formation management.
+Native SDKs for Python, TypeScript, and Go. Build custom UIs, manage user credentials, handle observability events, and control formations programmatically.
+
+## Why Use the SDKs?
+
+The SDKs are how developers build products on top of MUXI:
+
+| Use Case | What SDKs Enable |
+|----------|------------------|
+| **Custom Chat UIs** | Build your own chat interface instead of using the default |
+| **Credential Management** | Let users add API keys/tokens via your UI (not via chat) |
+| **Observability Dashboards** | Subscribe to 350+ event types for monitoring and debugging |
+| **User Management** | Manage scheduled tasks, memory, and sessions per user |
+| **Formation Control** | Deploy, start, stop, restart formations programmatically |
+
+> **Security note:** When user credentials are required for tools (GitHub, Gmail, etc.), developers can configure whether users provide them via chat or via a dedicated credentials page. The SDK lets you build that credentials page.
+
+---
 
 ## Quick Install
 
