@@ -15,7 +15,7 @@ Every MUXI formation is defined using the **Agent Formation Schema** (AFS), a YA
 
 The authoritative schema specification is maintained at:
 
-<a href="https://github.com/agent-formation/afs-spec" target="_blank" class="btn">Visit AgentFormation.org ›</a>
+<a href="https://agentformation.org" target="_blank" class="btn">Visit AgentFormation.org ›</a>
 
 This repository contains:
 
