@@ -6,7 +6,9 @@ description: Configuration and optimization for prompt caching
 
 ## Reduce costs by caching LLM responses
 
-MUXI automatically caches LLM responses using semantic similarity matching, reducing API costs by 70%+ for repeated or similar queries.
+> **Not just exact matches!** MUXI uses semantic similarity - "What's the weather?" matches "How's the weather today?" Typical savings: **70%+ cost reduction**.
+
+MUXI automatically caches LLM responses using semantic similarity matching, reducing API costs for repeated or similar queries.
 
 
 ## How It Works

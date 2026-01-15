@@ -347,11 +347,36 @@ Yes. **Enterprise resilience patterns** are baked in:
 
 [[/toggle]]
 
+[[toggle What do users see when something fails?]]
+
+**Helpful messages, not cryptic errors.** The resilience layer translates technical failures:
+
+```
+Traditional: "Error: 401 Unauthorized"
+
+MUXI: "Unable to connect to Linear. Please check that your 
+      API token is configured correctly in settings."
+```
+
+Plus automatic context-aware handling:
+- Rate limited? → "Waiting 30 seconds before retrying..."
+- Timeout? → "The service is slow, retrying..." 
+- Partial failure? → Delivers what succeeded + explains what didn't
+
+Users stay informed, not frustrated.
+
+[[/toggle]]
+
 [[toggle How do I reduce LLM costs?]]
 
 Several built-in features help:
 
-- **LLM Response Caching** - Cache identical requests, skip the API call
+- **Semantic LLM Caching** - Not just exact matches! Similar requests hit cache:
+  ```
+  "What's the weather?" ≈ "How's the weather today?" → Cache hit!
+  ```
+  Typical savings: **70%+ cost reduction**
+  
 - **User Synopsis Caching** - Compress long conversation history (80%+ token reduction)
 - **Efficient tool loading** - Tool schemas indexed once, not sent every request
 - **Model mixing** - Use cheaper models for simple tasks, expensive ones for complex

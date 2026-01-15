@@ -46,7 +46,7 @@ Every action in the system emits structured events:
 | **Workflows** | Task decomposition, step execution |
 | **Errors** | Failures, retries, fallbacks |
 
-**~350 typed events** across the full request lifecycle.
+> **~350 typed events** across the full request lifecycle. If you can't measure it, you can't improve it. Every LLM call, tool use, routing decision, memory operation, workflow step - traced and exportable.
 
 ### Two Types of Events
 
