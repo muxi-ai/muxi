@@ -299,6 +299,25 @@ Scheduled prompt: "Check email for messages from John and report findings"
 
 More concise, more effective for recurring execution.
 
+### Executes As The User
+
+At execution time, the scheduled task is sent to MUXI **as the user** who created it:
+
+```
+User (alice@acme.com): "Send me a daily summary at 9am"
+         ↓
+Every day at 9am:
+  Request sent as alice@acme.com
+  Uses Alice's credentials
+  Uses Alice's memory/context
+  Response delivered to Alice
+```
+
+This means:
+- User's credentials are used for tool access
+- User's memory and synopsis are available
+- Results are isolated to that user
+
 ### Context Preservation
 
 Scheduled tasks maintain user context:

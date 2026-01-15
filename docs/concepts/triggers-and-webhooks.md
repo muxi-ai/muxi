@@ -8,11 +8,22 @@ description: Let external systems invoke your agents via webhooks
 
 Triggers let external systems (GitHub, Slack, monitoring tools, etc.) send webhook events to your formation. MUXI renders a template with the event data and processes it like any other request.
 
+## Why Triggers?
+
+MUXI needs to be valuable outside of chat sessions. Triggers let external applications invoke formations with information, making MUXI useful in automated workflows.
+
 ## How Triggers Work
 
 ```
 External System → Webhook POST → Template Rendering → Agent Processes
 ```
+
+1. Developer creates a trigger template (MD file with placeholders)
+2. External system sends webhook with payload
+3. MUXI fills placeholders with payload data
+4. Request is processed like any normal request
+
+**Triggers are always async** - there's no one waiting on the other end. Results are delivered via webhook callback.
 
 **Examples:**
 - GitHub issue opened → Agent triages and labels

@@ -147,31 +147,47 @@ Webhook: "Task complete! Security report ready."
 
 ## Configuration
 
+### Async Modes
+
+There are three ways to control async behavior:
+
+```yaml
+# Mode 1: Let Overlord decide (RECOMMENDED)
+async:
+  mode: auto                     # Default - Overlord estimates time
+  threshold_seconds: 60          # Switch to async if estimated > 60s
+
+# Mode 2: Everything synchronous (not recommended)
+async:
+  mode: sync                     # Always wait for completion
+
+# Mode 3: Everything asynchronous (not recommended)
+async:
+  mode: async                    # Always return request_id immediately
+```
+
+**Mode 1 (auto)** is recommended because the Overlord intelligently estimates how long each request will take. Quick questions get immediate answers; complex tasks go async.
+
+**Per-request override:** You can also pass `async: true` or `async: false` in individual requests to override the formation setting.
+
 ### Threshold Configuration
 
 ```yaml
 async:
-  threshold_seconds: 30          # Default: 30 seconds
-  enable_estimation: true        # Allow overlord to estimate execution time
+  threshold_seconds: 60          # Default: 60 seconds
 ```
 
-MUXI automatically switches to async for tasks estimated to take longer than the threshold.
+The Overlord compares estimated execution time to this threshold:
+- Below threshold → synchronous (user waits)
+- Above threshold → async (immediate response with request ID)
 
-**Adjust threshold based on your needs:**
+**Adjust threshold based on UX needs:**
 
-```yaml
-# Aggressive async (for slow clients/networks)
-async:
-  threshold_seconds: 10          # Switch to async quickly
-
-# Conservative async (for fast operations)
-async:
-  threshold_seconds: 60          # Wait longer before going async
-
-# Disable automatic async (testing only)
-async:
-  threshold_seconds: 999999      # Effectively never auto-async
-```
+| Threshold | When to Use |
+|-----------|-------------|
+| 10-30s | Mobile apps, impatient users |
+| 60s | Default, balanced experience |
+| 120-300s | Desktop apps, tolerant users |
 
 ### Webhook Configuration
 

@@ -79,28 +79,39 @@ auth:
 
 ---
 
-## MCP Without the Bloat
+## Solving Context Contamination
 
-> [!TIP]
-> This solves the biggest problem with MCP today: **context window hogging**.
+> **Key insight:** MUXI solves the biggest problem with MCP today - **context contamination**.
 
-Traditional MCP implementations dump all tool schemas into every context window. Add 10 tools and you've burned 10,000+ tokens before the user even says hello.
+Traditional MCP implementations dump all tool schemas into every request. Add 10 tools and you've burned 10,000+ tokens before the user even says hello. Agents get confused about which tool to use.
 
-MUXI takes a different approach:
+**MUXI's approach:**
+
+```
+On formation init:
+  1. Load all MCP servers
+  2. Build capability registry (indexed by semantic meaning)
+  3. Cache tool schemas
+
+On each request:
+  1. Overlord analyzes task requirements
+  2. Passes ONLY relevant capabilities to agents
+  3. Agents see tools they need, nothing else
+```
 
 ```
 Traditional MCP:
-  10 tools × 1,000 tokens each = 10,000 tokens per request
-  User message + tool schemas = bloated context
-
+  Agent sees: ALL 50 tools (confusing, token-heavy)
+  
 MUXI:
-  Tool definitions loaded once at startup
-  Schemas indexed for semantic lookup
-  Subagents pull only what they need at runtime
-  ~90% token reduction
+  Agent sees: 3-5 relevant tools for this specific task
 ```
 
-The result: **use dozens of tools without burning your context window**.
+**Results:**
+- ~90% token reduction
+- Agents make better tool choices
+- No confusion from irrelevant tools
+- Dozens of tools without burning context window
 
 ---
 

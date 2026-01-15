@@ -6,16 +6,37 @@ description: How MUXI agents work together to accomplish complex tasks
 
 ## How MUXI agents work together to accomplish complex tasks
 
+Agents are workers. The Overlord delegates tasks to them, they execute with their tools and knowledge, and return results. Users never interact with agents directly - they talk to MUXI.
 
-MUXI agents are specialized workers that collaborate, delegate, and adapt. The Overlord orchestrates them automatically, routing tasks to the right agent and breaking complex requests into manageable steps.
+## Agents Are Workers
 
+Think of agents as specialized employees who:
+1. Receive task instructions from the Overlord
+2. Execute using their tools and knowledge
+3. Return results to the Overlord
+4. Can collaborate with other agents if needed
 
-## How Agents Work
+```
+User request → Overlord
+                  ↓
+         Task decomposition
+                  ↓
+         Delegate to agents
+                  ↓
+    ┌─────────┬─────────┐
+    ↓         ↓         ↓
+  Agent A   Agent B   Agent C
+    ↓         ↓         ↓
+    └─────────┴─────────┘
+                  ↓
+    Overlord synthesizes results
+                  ↓
+         Response to user
+```
 
-Each agent is a specialized AI persona with:
-- A **system_message** defining its expertise and behavior
-- Access to **MCP tools** (web search, databases, APIs)
-- **Knowledge** it can reference (documents, FAQs)
+---
+
+## Agent Definition
 
 Agents are defined in `agents/*.afs` files:
 
@@ -25,242 +46,211 @@ schema: "1.0.0"
 id: researcher
 name: Research Specialist
 description: Gathers information from web sources
+role: researcher
 
+# Instructions for how agent should behave
 system_message: |
-  Research topics thoroughly with web search.
+  Research topics thoroughly using web search.
   Always cite your sources.
+  Return structured findings.
+
+# Metadata for Overlord's routing decisions
+specialties:
+  - web research
+  - data gathering
+  - fact checking
 ```
 
-```yaml
-# agents/writer.afs
-schema: "1.0.0"
-id: writer
-name: Content Writer
-description: Creates polished content
+| Field | Purpose |
+|-------|---------|
+| `system_message` | Instructions for task execution |
+| `description` | Human-readable summary |
+| `specialties` | Routing metadata for Overlord |
+| `role` | Category (researcher, writer, etc.) |
 
-system_message: Write clear, engaging content.
-```
-
-When a request arrives, MUXI's **Overlord** decides which agent handles it - or coordinates multiple agents for complex tasks.
+> **Note:** Agents don't have personas - only the Overlord does. The `system_message` is instructions, not personality.
 
 ---
 
-## The Overlord Pattern
+## The Overlord Orchestrates
 
-```mermaid
-graph TD
-    U[User Request] --> O[Overlord]
-    O --> |Simple| A1[Single Agent]
-    O --> |Complex| W[Workflow]
-    W --> A1[Researcher]
-    W --> A2[Writer]
-    W --> A3[Reviewer]
-    A1 --> R[Response]
-    A2 --> R
-    A3 --> R
-```
+The Overlord is responsible for all orchestration:
 
-The Overlord:
-1. **Analyzes** incoming requests for complexity
-2. **Routes** to the best agent (or creates a workflow)
-3. **Coordinates** multi-agent execution
-4. **Synthesizes** the final response
-
-> [!TIP]
-> You don't need to specify which agent to use - MUXI figures it out. But you can override with `agent: researcher` in your request.
-
----
-
-## Intelligent Task Decomposition
-
-Complex requests are automatically broken into steps:
-
-```
-User: "Research AI trends and write a blog post about them"
-
-Overlord analyzes:
-  - Complexity score: 8/10
-  - Requires: research + writing
-  - Creates workflow:
-    1. Researcher gathers information
-    2. Writer creates draft
-    3. (Optional) Reviewer checks quality
-```
-
-This happens automatically based on your formation's `complexity_threshold`:
+1. **Analyzes** user requests for complexity
+2. **Creates workflows** dynamically (not predefined)
+3. **Selects agents** based on capabilities
+4. **Delegates tasks** with context and tools
+5. **Synthesizes** results into coherent response
 
 ```yaml
 overlord:
   workflow:
     auto_decomposition: true
-    complexity_threshold: 7.0
+    complexity_threshold: 7.0  # Above this, show plan for approval
+```
+
+Complex tasks are broken down automatically:
+
+```
+User: "Research AI trends and write a blog post"
+         ↓
+Overlord creates workflow:
+  Task 1: researcher → "Research current AI trends"
+  Task 2: writer → "Write blog post from research"
 ```
 
 ---
 
-## Agent Collaboration (A2A)
+## Agent-to-Agent (A2A) Collaboration
 
-Agents don't work in isolation - they collaborate. MUXI supports two levels of collaboration:
+Agents can collaborate with each other. This is enabled by default for agents within the same formation.
 
-### Within Formation (Tactical)
+### How It Works
 
-Agents in your formation consult each other directly:
+When an agent realizes it can't complete a task alone:
 
 ```
-Developer Agent: "I need security advice on this API endpoint"
+Agent working on task
          ↓
-Security Agent: "Here are the security recommendations..."
+Realizes it lacks tools/knowledge
          ↓
-Developer Agent: [Implements recommendations]
+Checks: Local agents have capability?
+         ↓ YES
+A2A request to local agent
+         ↓ NO (or not available)
+Check: External A2A configured?
+         ↓ YES
+A2A request to external formation
 ```
 
-**Tactical collaboration** (peer-to-peer):
-- **Ask for help** - Agent stuck on a problem consults a specialist
-- **Share findings** - Agent shares relevant data with teammates
-- **Seek expertise** - Agent requests domain-specific advice
-- **Coordinate work** - Agents working on related tasks sync up
+### Priority Order
 
-This happens without Overlord involvement - agents make their own tactical decisions.
+1. **Local agents first** - Fastest, no network overhead
+2. **External formations** - Only if local can't help AND configured
 
-### Across Formations (Strategic - A2A Protocol)
+### Internal A2A (Default)
 
-For cross-formation or cross-organization collaboration, MUXI implements the **A2A protocol**:
+Agents in the same formation can collaborate automatically:
 
 ```
-┌──────────────────┐           ┌───────────────────┐
-│  Your Formation  │ ←- A2A -→ │ Partner Formation │
-│  (Research Bot)  │           │   (Legal Review)  │
-└──────────────────┘           └───────────────────┘
-```
-
-**Strategic collaboration** (formation-to-formation):
-- **Delegate** complex tasks to specialists in other formations
-- **Collaborate** with external agents from partner organizations
-- **Discover** capabilities through protocol negotiation
-- **Compose** workflows that span multiple formations
-
-Example:
-
-```
-User: "Research and draft a partnership agreement"
+Developer Agent: "I need security review of this code"
          ↓
-Your Research Agent: Gathers information
+A2A to Security Agent (same formation)
          ↓
-A2A Call → Legal Review Formation
+Security Agent: Returns findings
          ↓
-Legal Agent: Reviews and drafts legal terms
-         ↓
-Returns draft to Your Formation
-         ↓
-Your Agent: Combines research with legal draft
+Developer Agent: Continues with recommendations
 ```
 
-### Division of Responsibilities
+This happens without Overlord involvement - agents make tactical decisions.
 
-**Overlord (Strategic Level):**
-- Decomposes complex tasks into subtasks
-- Assigns subtasks to appropriate agents
-- Monitors overall progress
-- Manages dependencies and sequencing
+### External A2A (Requires Config)
 
-**Agents (Tactical Level):**
-- Execute assigned subtasks
-- Consult peers when stuck
-- Share relevant findings
-- Request domain-specific advice
-- Coordinate with related work
+For cross-formation collaboration, you must configure A2A:
 
-**The difference:**
-
-| Overlord Decisions | Agent Decisions |
-|-------------------|-----------------|
-| "Break this into 3 subtasks" | "I need help with this step" |
-| "Assign Task 1 to Researcher" | "Let me ask Security Agent" |
-| "Task 2 depends on Task 1" | "I'll share these findings with Developer" |
-| Strategic planning | Tactical execution |
-
-### Example: Multi-Agent Workflow
-
-```
-User: "Build a customer analytics dashboard"
-
-Overlord decomposes:
-  1. Design database schema → Data Engineer
-  2. Build API endpoints → Backend Developer
-  3. Create frontend dashboard → Frontend Developer
-  4. Set up monitoring → DevOps Engineer
-
-During execution (peer-to-peer):
-  Backend Developer: "Hey Frontend, what data format do you need?"
-  Frontend Developer: "JSON with these fields..."
-  
-  DevOps Engineer: "Data Engineer, which metrics should I monitor?"
-  Data Engineer: "Monitor query latency on these tables..."
-  
-  Backend Developer: "I'm stuck on this SQL query"
-  Data Engineer: "Try this approach..."
+```yaml
+# formation.afs
+a2a:
+  # Allow receiving requests from external formations
+  receiver:
+    enabled: true
+    authentication:
+      type: api_key
+      allowed_sources:
+        - partner-formation-id
+    
+  # Allow sending requests to external formations  
+  sender:
+    enabled: true
+    registries:
+      - url: https://partner.example.com/a2a
+        auth: ${{ secrets.PARTNER_API_KEY }}
 ```
 
-The Overlord sets the strategy, agents execute tactically and collaborate as needed.
-
-### Why This Matters
-
-**Without peer collaboration:**
-```
-Agent stuck → Escalates to Overlord → Overlord figures it out → Responds
-Slow, bottleneck at Overlord
-```
-
-**With peer collaboration:**
-```
-Agent stuck → Asks peer directly → Gets answer immediately → Continues
-Fast, no bottleneck
-```
-
-**The result:** Agents work like human teams - strategic direction from above, tactical collaboration among peers.
-
-### A2A safety & limits
-
-- Outbound A2A requires explicit allowlisting and authentication; nothing is open by default.
-- Calls are signed with a nonce to prevent replay, and timeouts/hop limits stop runaway delegation.
-- Apply rate limits and scoped capabilities to partner formations; all A2A events flow into observability streams for audit.
+**Security is critical for external A2A:**
+- Authentication required (API keys, signed requests)
+- Rate limiting to prevent abuse
+- Scoped capabilities per partner
+- All events logged for audit
 
 ---
 
 ## Routing Priority
 
-When a request arrives, routing follows this order:
-
-1. **SOP Match** - If request matches a Standard Operating Procedure, execute it
-2. **Explicit Agent** - If request specifies an agent, use it
-3. **Complexity Analysis** - Score the request complexity
-4. **Best Agent Selection** - Route to most capable agent
+When a request arrives:
 
 ```
-Request: "onboard new customer"
+1. SOP match? → Execute SOP (highest priority)
+         ↓ No
+2. Explicit agent specified? → Use that agent
+         ↓ No
+3. Complexity analysis → Score request
          ↓
-    SOP "customer-onboarding" matches!
-         ↓
-    Execute SOP (bypass other routing)
+4. Select best agent(s) based on capabilities
 ```
+
+SOPs (Standard Operating Procedures) always take priority when matched.
+
+---
+
+## What Agents Receive
+
+When the Overlord delegates a task, the agent receives:
+
+1. **Task instructions** - What to do
+2. **Context** - Relevant information from the conversation
+3. **Available tools** - MCP tools relevant to this task (not all tools)
+4. **Global tools** - Tools available to all agents
+
+```
+Overlord → Agent:
+  "Research AI trends for a blog post"
+  + Context from user conversation
+  + web_search, browse_url tools (relevant)
+  + NOT database tools (not relevant)
+```
+
+> **Key insight:** The Overlord passes only relevant tool capabilities to each agent. This solves context contamination - agents don't get overwhelmed with irrelevant tools.
+
+---
+
+## Example: Multi-Agent Workflow
+
+```
+User: "Build a customer analytics dashboard"
+
+Overlord decomposes:
+  1. Data Engineer → Design database schema
+  2. Backend Dev → Build API endpoints  
+  3. Frontend Dev → Create dashboard UI
+  4. DevOps → Set up monitoring
+
+During execution (A2A collaboration):
+  Backend Dev: "Frontend, what data format do you need?"
+  Frontend Dev: "JSON with these fields..."
+  
+  Backend Dev: "Stuck on this SQL query"
+  Data Engineer: "Try this approach..."
+```
+
+The Overlord sets strategy, agents execute and collaborate as needed.
 
 ---
 
 ## Why This Matters
 
-| Traditional Approach | MUXI Approach |
-|---------------------|---------------|
-| One monolithic prompt | Specialized agents |
-| Manual workflow code | Automatic orchestration |
-| Static task routing | Dynamic complexity analysis |
+| Without Orchestration | With MUXI |
+|---------------------|-----------|
+| Manual routing logic | Automatic agent selection |
+| Hard-coded workflows | Dynamic task decomposition |
 | Siloed agents | Collaborative A2A |
-
-The result: **agents that work together**, not chat interfaces with different prompts.
+| One agent does everything | Right specialist for each task |
 
 ---
 
 ## Learn More
 
-- [Configure agents](../reference/agents.md) - YAML syntax for agent definitions
-- [Multi-Agent Guide](../guides/build-multi-agent-systems.md) - Build your first multi-agent system
-- [Orchestration Deep Dive](../deep-dives/how-orchestration-works.md) - Technical internals
+- [The Overlord](overlord.md) - How orchestration works
+- [SOPs](standard-operating-procedures.md) - Predefined workflow templates
+- [Configure Agents](../reference/agents.md) - Agent file syntax
+- [Multi-Agent Guide](../guides/build-multi-agent-systems.md) - Build your first system
