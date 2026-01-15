@@ -1,317 +1,198 @@
 ---
 title: SOPs
-description: Standard operating procedures for consistent workflows
+description: Reference for Standard Operating Procedures
 ---
 
-# SOPs (Standard Operating Procedures)
+# SOPs
 
-## Define repeatable workflows
+## Reference for Standard Operating Procedures
 
-SOPs ensure agents handle specific tasks the same way every time. When a request matches an SOP, the agent follows that procedure exactly.
-
-
-## How It Works
-
-```mermaid
-graph LR
-    A[User Request] --> B{SOP Match?}
-    B -->|Yes| C[Execute SOP]
-    B -->|No| D[Normal Routing]
-    C --> E[Consistent Result]
-    D --> F[Agent Decides]
-```
-
-SOPs have **highest routing priority**. When matched:
-
-- Skip complexity analysis
-- Skip agent selection
-- Execute procedure immediately
-
----
-
-## Create an SOP
-
-[[steps]]
-
-[[step Create the file]]
-
-```bash
-muxi new sop customer-onboarding
-```
-
-Creates `sops/customer-onboarding.md`:
-
-```markdown
----
-name: Customer Onboarding
-tags: [customer, onboarding, new user]
-triggers:
-  keywords: [new customer, onboard customer, setup customer]
----
-
-# Customer Onboarding Procedure
-
-1. Collect customer information:
-   - Company name
-   - Primary contact email
-   - Use case description
-
-2. Create account in system
-
-3. Send welcome email with:
-   - Login credentials
-   - Getting started guide link
-   - Support contact information
-
-4. Schedule kickoff call within 48 hours
-
-5. Document everything in CRM
-```
-[[/step]]
-
-[[step Deploy and test]]
-
-```bash
-muxi dev
-```
-
-Then try:
-
-```
-You: I need to onboard a new customer
-Agent: I'll follow the customer onboarding procedure...
-       [Executes each step in order]
-```
-[[/step]]
-
-[[/steps]]
-
----
-
-## SOP Structure
-
-### Frontmatter
-
-```yaml
----
-name: Customer Onboarding           # Display name
-tags: [customer, onboarding]        # For semantic matching
-triggers:
-  keywords: [onboard, new customer] # Exact phrase triggers
----
-```
-
-### Body
-
-Write as numbered steps:
-
-```markdown
-# Procedure Name
-
-1. First step with details
-2. Second step with substeps:
-   - Substep A
-   - Substep B
-3. Third step
-
-## Expected Output
-
-Describe what the result should look like.
-
-## Notes
-
-Any special considerations.
-```
-
----
-
-## Matching Logic
-
-SOPs match in order:
-
-1. **Keywords** - Exact phrase match (case-insensitive)
-2. **Tags** - Semantic similarity to request
-3. **Content** - Full-text semantic search (threshold: 0.7)
-
-```yaml
-triggers:
-  keywords: [generate report, create report]  # Exact match
-tags: [report, analysis, summary]              # Semantic match
-```
-
----
-
-## Example SOPs
-
-### Bug Triage
-
-```markdown
----
-name: Bug Triage
-tags: [bug, issue, priority, triage]
-triggers:
-  keywords: [triage bug, prioritize issue, bug priority]
----
-
-# Bug Triage Procedure
-
-1. Analyze the bug report:
-   - Reproduction steps
-   - Expected vs actual behavior
-   - Error messages or logs
-
-2. Assess impact:
-   - Number of users affected
-   - Severity of impact (data loss, UX issue, cosmetic)
-   - Workaround availability
-
-3. Assign priority:
-   - **P0**: Critical, blocks all users, no workaround
-   - **P1**: High, major feature broken, fix this sprint
-   - **P2**: Medium, minor feature issue, fix next sprint
-   - **P3**: Low, cosmetic or edge case, backlog
-
-4. Create tracking issue with:
-   - Clear summary
-   - Priority label
-   - Assigned team
-   - Link to original report
-```
-
-### Weekly Summary
-
-```markdown
----
-name: Weekly Summary
-tags: [weekly, summary, report, status]
-triggers:
-  keywords: [weekly summary, week in review, weekly report]
----
-
-# Weekly Summary Procedure
-
-1. Gather data from the past week:
-   - Completed tasks and deliverables
-   - Key metrics and changes
-   - Notable events or decisions
-
-2. Identify highlights:
-   - Major accomplishments
-   - Challenges overcome
-   - Lessons learned
-
-3. Note current blockers and risks:
-   - Active issues
-   - Dependencies
-   - Resource constraints
-
-4. Outline next week's priorities:
-   - Top 3 goals
-   - Key milestones
-   - Meetings or deadlines
-
-5. Format as executive summary:
-   - 1 paragraph overview
-   - Bullet points for details
-   - Clear action items
-```
-
-### Incident Response
-
-```markdown
----
-name: Incident Response
-tags: [incident, outage, emergency, response]
-triggers:
-  keywords: [incident, outage, system down, emergency]
----
-
-# Incident Response Procedure
-
-1. **Acknowledge** (within 5 minutes):
-   - Confirm incident received
-   - Assign incident commander
-   - Start incident channel
-
-2. **Assess** (within 15 minutes):
-   - Identify affected systems
-   - Determine user impact
-   - Set severity level
-
-3. **Communicate** (ongoing):
-   - Post status to status page
-   - Notify affected teams
-   - Update every 30 minutes
-
-4. **Mitigate**:
-   - Implement immediate fixes
-   - Roll back if necessary
-   - Verify resolution
-
-5. **Post-mortem** (within 48 hours):
-   - Document timeline
-   - Identify root cause
-   - Define action items
-```
-
----
-
-## SOP Priority
-
-SOPs bypass normal routing:
-
-```
-Request
-   ↓
-┌─────────────────────┐
-│ 1. Check SOP match  │ ← Highest priority
-└─────────────────────┘
-   ↓ (no match)
-┌─────────────────────┐
-│ 2. Check agent spec │
-└─────────────────────┘
-   ↓ (no agent)
-┌─────────────────────┐
-│ 3. Analyze & route  │
-└─────────────────────┘
-```
+SOPs are markdown files in `sops/` that define procedures agents follow for specific tasks.
 
 > [!TIP]
-> Use SOPs for your most important, repeatable workflows. They guarantee consistency.
+> **New to SOPs?** Read [SOPs Concept →](../concepts/standard-operating-procedures.md) first.
 
 ---
 
-## Testing SOPs
+## File Structure
 
-Verify your SOP triggers correctly:
+```markdown
+---
+type: sop
+name: Procedure Name
+description: Brief description for search matching
+mode: guide
+tags: keyword1, keyword2
+bypass_approval: true
+---
 
-```bash
-muxi dev
-```
+# Procedure Title
 
-Then test with trigger phrases:
+Description of what this procedure does.
 
-```
-You: onboard a new customer
-# Should trigger customer-onboarding SOP
+## Steps
 
-You: help me triage this bug
-# Should trigger bug-triage SOP
+1. **Step Name** [agent:optional-agent]
+   Step description.
+   [mcp:server/tool] Optional tool directive.
+
+2. **Another Step** [critical]
+   Critical steps cannot be optimized away.
+
+## Expected Outcome
+
+What happens when this SOP completes.
 ```
 
 ---
 
-## Best Practices
+## Frontmatter Fields
 
-1. **Clear trigger phrases** - Use common, natural language
-2. **Numbered steps** - Easy to follow and verify
-3. **Specific outputs** - Define what "done" looks like
-4. **Test thoroughly** - Ensure proper matching
+| Field | Required | Type | Default | Description |
+|-------|----------|------|---------|-------------|
+| `type` | Yes | string | - | Must be `"sop"` |
+| `name` | Yes | string | - | Human-readable name |
+| `description` | Yes | string | - | Description for semantic search |
+| `mode` | No | string | `"guide"` | `"template"` (strict) or `"guide"` (flexible) |
+| `tags` | No | string | - | Comma-separated keywords |
+| `bypass_approval` | No | boolean | `true` | Skip workflow approval |
 
 ---
 
-## Next Steps
+## Execution Modes
 
-[+] [Write SOPs Guide](../guides/create-sops.md) - Step-by-step tutorial
-[+] [Triggers](triggers.md) - Webhook automation
-[+] [Orchestration](../deep-dives/how-orchestration-works.md) - How routing works
+### Template Mode
+
+```yaml
+mode: template
+```
+
+- Execute every step exactly as written
+- Maintain exact order
+- All directives are mandatory
+- For compliance and regulated processes
+
+### Guide Mode
+
+```yaml
+mode: guide
+```
+
+- Use SOP as guidance
+- Optimize for efficiency
+- Combine trivial operations
+- Parallelize independent steps
+- For standard operations
+
+---
+
+## Directives
+
+Embed in step descriptions:
+
+| Directive | Syntax | Description |
+|-----------|--------|-------------|
+| Agent routing | `[agent:agent-id]` | Route step to specific agent |
+| MCP tool | `[mcp:server/tool]` | Use specific MCP tool |
+| Critical | `[critical]` | Step cannot be optimized away |
+| File reference | `[file:path/to/file.md]` | Include file content |
+
+### Examples
+
+```markdown
+1. **Code Review** [agent:senior-dev]
+   Route to senior developer agent.
+
+2. **Create Ticket** [mcp:jira/create-issue]
+   Use Jira MCP tool.
+
+3. **Audit Log** [critical]
+   This step is always executed.
+
+4. **Apply Template** [file:templates/report.md]
+   Include template file.
+```
+
+---
+
+## Directory Structure
+
+```
+sops/
+├── customer-onboarding.md
+├── incident-response.md
+├── code-review.md
+└── compliance/
+    ├── security-audit.md
+    └── data-export.md
+```
+
+SOPs are auto-discovered from `sops/` directory.
+
+---
+
+## Matching Behavior
+
+SOPs match via semantic search:
+
+1. User request is embedded
+2. Search against all SOP descriptions and tags
+3. Match if relevance score ≥ 0.7
+4. Matched SOP executes (bypasses normal routing)
+
+---
+
+## Example: Complete SOP
+
+```markdown
+---
+type: sop
+name: Customer Refund Processing
+description: Process customer refund requests
+mode: template
+tags: refund, customer, payment, return
+bypass_approval: false
+---
+
+# Customer Refund Processing
+
+Handle refund requests according to company policy.
+
+## Steps
+
+1. **Verify Purchase** [agent:support] [critical]
+   Look up order in system.
+   Confirm purchase exists and is refund-eligible.
+
+2. **Check Refund Policy** [critical]
+   Verify request meets refund criteria:
+   - Within 30-day window
+   - Item condition acceptable
+   - No previous refund on this order
+
+3. **Process Refund** [mcp:stripe/create-refund]
+   Issue refund through payment processor.
+   Amount must match original purchase.
+
+4. **Send Confirmation** [agent:support]
+   Email customer with refund confirmation.
+   Include expected timeline (3-5 business days).
+
+5. **Update Records** [critical]
+   Log refund in CRM system.
+   Update customer account status.
+
+## Expected Outcome
+
+Customer receives refund confirmation email.
+Refund processed within 24 hours.
+All records updated for audit trail.
+```
+
+---
+
+## Related
+
+- [SOPs Concept](../concepts/standard-operating-procedures.md) - Overview and examples
+- [Create SOPs](../guides/create-sops.md) - Step-by-step guide
+- [The Overlord](../concepts/overlord.md) - How SOP matching works

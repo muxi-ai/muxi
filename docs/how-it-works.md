@@ -224,8 +224,8 @@ my-assistant/
 ├── mcp/               # Tool configurations (optional)
 ├── knowledge/         # Documents for RAG (optional)
 ├── sops/              # Standard procedures (optional)
-├── triggers/          # Webhooks and schedules (optional)
-└── secrets            # Required API keys template
+├── triggers/          # Webhook templates (optional)
+└── secrets.example    # Required API keys template
 ```
 
 ### The key files

@@ -1,178 +1,301 @@
 ---
-title: Write SOPs
-description: Create standard operating procedures for consistent agent behavior
+title: Create SOPs
+description: Define standard procedures for consistent agent behavior
 ---
-# Write SOPs
 
-## Define repeatable workflows agents follow every time
+# Create SOPs
 
-SOPs (Standard Operating Procedures) ensure agents handle specific tasks consistently. When a request matches an SOP pattern, the agent follows that procedure exactly - like onboarding a customer or processing a refund.
+## Define standard procedures for your agents to follow
 
-## Overview
+SOPs (Standard Operating Procedures) ensure agents handle specific tasks consistently. When a user request matches an SOP, the agent follows that procedure.
 
-SOPs define repeatable workflows that trigger automatically when detected.
+---
 
-> [!TIP]
-> **Start with your most common task.** Identify the one thing your agents do repeatedly, document it as an SOP, and refine it. One well-tuned SOP beats ten half-baked ones.
+## Quick Start
 
-## Step 1: Create SOP
+### 1. Create SOP File
 
-```bash
-muxi new sop customer-onboarding
-```
-
-Creates `sops/customer-onboarding.md`:
+Create a markdown file in `sops/`:
 
 ```markdown
+<!-- sops/customer-onboarding.md -->
 ---
+type: sop
 name: Customer Onboarding
-tags: [customer, onboarding, new user]
-triggers:
-  keywords: [new customer, onboard, setup customer]
+description: Standard process for setting up new customers
+mode: guide
+tags: customer, onboarding, new user, setup
 ---
 
-# Customer Onboarding Procedure
+# Customer Onboarding
 
-1. Collect customer information:
-   - Company name
-   - Primary contact
-   - Email address
+Set up new customers with all required accounts.
 
-2. Create account in system
+## Steps
 
-3. Send welcome email with:
-   - Login credentials
-   - Getting started guide
+1. **Gather Information**
+   Ask for company name, contact email, and billing address.
 
-4. Schedule kickoff call
+2. **Create Account**
+   Set up customer record in the system.
 
-5. Document in CRM
+3. **Send Welcome Email**
+   Email welcome package with login credentials.
+
+4. **Schedule Follow-up**
+   Create reminder for 7-day check-in call.
+
+## Expected Outcome
+
+Customer has active account and received welcome email.
 ```
 
-## Step 2: Test
-
-```bash
-muxi dev
-```
-
-Chat:
+### 2. Test It
 
 ```
-You: I need to onboard a new customer
-Assistant: I'll follow the customer onboarding procedure...
-[Executes SOP steps]
+User: "I need to onboard a new customer"
+Agent: [Follows the onboarding SOP]
 ```
+
+The agent will follow your defined steps automatically.
+
+---
 
 ## SOP Structure
 
-### Frontmatter
+### Frontmatter (Required)
 
 ```yaml
-name: Display Name
-tags: [tag1, tag2]
-triggers:
-  keywords: [phrase1, phrase2]
+---
+type: sop                    # Must be "sop"
+name: Procedure Name         # Human-readable name
+description: Brief desc      # Used for search matching
+mode: guide                  # "guide" (flexible) or "template" (strict)
+tags: key1, key2             # Keywords for matching
+bypass_approval: true        # Skip workflow approval
 ---
 ```
 
 ### Body
 
-Write as numbered steps:
-
 ```markdown
-# Procedure Name
+# Title
 
-1. First step
-2. Second step
-3. Third step
+Description of what this procedure does.
 
-## Expected Output
+## Steps
 
-Describe what should result.
+1. **Step Name**
+   What to do in this step.
+
+2. **Another Step**
+   Next action.
+
+## Expected Outcome
+
+What happens when complete.
 ```
 
-## Matching
+---
 
-SOPs match via:
+## Execution Modes
 
-1. **Keywords** - Exact phrase match
-2. **Tags** - Semantic similarity
-3. **Content** - Semantic search (0.7 threshold)
+### Guide Mode (Default)
+
+```yaml
+mode: guide
+```
+
+- Agent uses SOP as guidance
+- Can optimize and parallelize steps
+- Best for most procedures
+
+### Template Mode
+
+```yaml
+mode: template
+```
+
+- Agent follows SOP exactly
+- Every step executed in order
+- For compliance and audits
+
+---
+
+## Directives
+
+Add directives in square brackets to control execution:
+
+### Route to Specific Agent
+
+```markdown
+1. **Code Review** [agent:senior-dev]
+   Have senior developer review the code.
+```
+
+### Use Specific Tool
+
+```markdown
+2. **Create Ticket** [mcp:jira/create-issue]
+   Create a Jira ticket for tracking.
+```
+
+### Mark Critical Steps
+
+```markdown
+3. **Audit Log** [critical]
+   This step cannot be skipped.
+```
+
+---
 
 ## Examples
 
-### Bug Triage
+### Refund Processing
 
 ```markdown
 ---
-name: Bug Triage
-tags: [bug, issue, priority]
-triggers:
-  keywords: [triage bug, prioritize issue]
+type: sop
+name: Refund Processing
+description: Process customer refund requests
+mode: template
+tags: refund, customer, payment
 ---
 
-# Bug Triage Procedure
+# Refund Processing
 
-1. Analyze the bug report
+## Steps
 
-2. Assess impact:
-   - Users affected
-   - Severity
-   - Workaround available?
+1. **Verify Purchase** [critical]
+   Look up order and confirm it exists.
 
-3. Assign priority:
-   - P0: Critical
-   - P1: High
-   - P2: Medium
-   - P3: Low
+2. **Check Policy**
+   Verify request meets refund criteria.
 
-4. Create tracking issue
+3. **Process Refund** [mcp:stripe/refund]
+   Issue refund through payment system.
+
+4. **Send Confirmation**
+   Email customer with confirmation.
 ```
 
-### Weekly Report
+### Incident Response
 
 ```markdown
 ---
-name: Weekly Report
-tags: [weekly, summary, report]
-triggers:
-  keywords: [weekly report, week summary]
+type: sop
+name: Incident Response
+description: Handle production incidents
+mode: guide
+tags: incident, outage, alert, emergency
 ---
 
-# Weekly Report Procedure
+# Incident Response
 
-1. Gather data from past week
+## Steps
 
-2. Identify highlights:
-   - Accomplishments
-   - Challenges
-   - Lessons
+1. **Acknowledge** [critical]
+   Confirm receipt of incident alert.
 
-3. Note blockers
+2. **Assess Severity** [agent:ops]
+   Determine impact and priority level.
 
-4. Plan next week
+3. **Notify Stakeholders**
+   Alert relevant teams based on severity.
 
-5. Format as executive summary
+4. **Investigate**
+   Identify root cause.
+
+5. **Remediate**
+   Apply fix or workaround.
+
+6. **Document** [critical]
+   Record incident details and resolution.
 ```
 
-## SOP Priority
+### Code Review
 
-SOPs have highest routing priority:
+```markdown
+---
+type: sop
+name: Code Review
+description: Standard PR review process
+mode: guide
+tags: code, review, pr, github
+---
 
-- Bypass complexity analysis
-- Bypass approval flows
-- Execute immediately when matched
+# Code Review
 
-## Testing SOPs
+## Steps
 
-```bash
-# Check if SOP triggers
-muxi chat "onboard a new customer"
+1. **Fetch PR** [mcp:github/get-pr]
+   Get pull request details.
 
-# Should trigger customer-onboarding SOP
+2. **Review Code**
+   Check for bugs, style issues, best practices.
+
+3. **Security Check**
+   Look for vulnerabilities.
+
+4. **Provide Feedback** [agent:senior-dev]
+   Post constructive review comments.
 ```
 
-## Next Steps
+---
 
-- [SOPs Reference](../reference/sops.md) - Full details
-- [Multi-Agent Systems](multi-agent.md) - Complex workflows
+## Organization
+
+Structure your SOPs logically:
+
+```
+sops/
+├── customer/
+│   ├── onboarding.md
+│   ├── offboarding.md
+│   └── refund.md
+├── operations/
+│   ├── incident-response.md
+│   └── deployment.md
+└── development/
+    ├── code-review.md
+    └── bug-triage.md
+```
+
+---
+
+## Best Practices
+
+1. **Clear descriptions** - Help semantic search find the right SOP
+2. **Relevant tags** - Include keywords users might say
+3. **Focused scope** - One SOP per procedure
+4. **Use guide mode** - Unless strict compliance is required
+5. **Mark critical steps** - Ensure important steps aren't skipped
+
+---
+
+## Troubleshooting
+
+### SOP Not Matching
+
+- Check description matches user intent
+- Add more relevant tags
+- Verify `type: sop` in frontmatter
+
+### Wrong Mode Behavior
+
+- Template mode: exact execution
+- Guide mode: optimized execution
+- Check `mode:` field in frontmatter
+
+### Steps Being Skipped
+
+- Use `[critical]` directive for required steps
+- Consider template mode for strict procedures
+
+---
+
+## Learn More
+
+- [SOPs Concept](../concepts/standard-operating-procedures.md) - Full overview
+- [SOPs Reference](../reference/sops.md) - Complete syntax
+- [The Overlord](../concepts/overlord.md) - How matching works

@@ -1,52 +1,38 @@
 ---
 title: Create Triggers
-description: Connect external systems to your agents via webhooks
+description: Set up webhook triggers for external systems
 ---
+
 # Create Triggers
 
-## Let external events invoke your agents
+## Connect external systems to your agents via webhooks
 
-Triggers turn webhooks into agent conversations. GitHub issues, Slack messages, monitoring alerts - any JSON payload can start a conversation with your agents.
+Triggers let GitHub, Slack, monitoring tools, and other systems invoke your agents automatically.
 
-## Overview
+---
 
-Triggers let external systems send events to your formation.
+## Quick Start
 
-## Step 1: Create Trigger Template
+### 1. Create Template
 
-```bash
-muxi new trigger github-issue
-```
-
-Creates `triggers/github-issue.md`:
+Create a markdown file in `triggers/`:
 
 ```markdown
----
-name: GitHub Issue Handler
-tags: [github, issue]
----
-
+<!-- triggers/github-issue.md -->
 New issue from ${{ data.repository }}:
 
-**Issue #${{ data.issue.number }}**: ${{ data.issue.title }}
+**#${{ data.issue.number }}**: ${{ data.issue.title }}
 **Author**: ${{ data.issue.author }}
 
-Analyze and provide:
-1. Summary
-2. Priority recommendation
-3. Suggested next steps
+${{ data.issue.body }}
+
+Please analyze this issue and suggest next steps.
 ```
 
-## Step 2: Deploy Formation
+### 2. Test Locally
 
 ```bash
-muxi deploy
-```
-
-## Step 3: Call Trigger
-
-```bash
-curl -X POST http://localhost:8001/v1/triggers/github-issue \
+curl -X POST http://localhost:8001/v1/formations/my-formation/triggers/github-issue \
   -H "X-Muxi-Client-Key: fmc_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -55,102 +41,165 @@ curl -X POST http://localhost:8001/v1/triggers/github-issue \
       "issue": {
         "number": 123,
         "title": "Bug in login",
-        "author": "alice"
+        "author": "alice",
+        "body": "Login fails when..."
       }
-    }
+    },
+    "use_async": false
   }'
 ```
 
+### 3. Configure External Webhook
+
+Point your external system to:
+```
+https://your-server/v1/formations/{formation_id}/triggers/github-issue
+```
+
+---
+
 ## Template Syntax
 
-Use `${{ data.* }}` for substitution:
-
-### Simple
+Use `${{ data.* }}` to reference webhook payload data:
 
 ```markdown
+# Simple
 Hello ${{ data.name }}!
+
+# Nested
+Issue #${{ data.issue.number }}
+
+# Deep nesting
+User: ${{ data.user.profile.name }}
 ```
 
-### Nested
+---
 
-```markdown
-Issue: ${{ data.issue.title }}
-Author: ${{ data.issue.author }}
-```
-
-## Async by Default
-
-Triggers return immediately:
-
-```json
-{
-  "request_id": "req_abc123",
-  "status": "processing"
-}
-```
-
-Poll for result:
-
-```bash
-curl http://localhost:8001/v1/requests/req_abc123
-```
-
-### Sync Mode
-
-Wait for completion:
-
-```json
-{
-  "data": {...},
-  "use_async": false
-}
-```
-
-## Webhook Integration
+## Integration Examples
 
 ### GitHub
 
-1. Create trigger template for events
-2. Set up GitHub webhook:
-   - URL: `https://your-server/v1/triggers/github-issue`
-   - Content type: `application/json`
-   - Events: Issues
+**Template:** `triggers/github-issue.md`
+```markdown
+New issue in ${{ data.repository.full_name }}:
 
-### Middleware Pattern
+**#${{ data.issue.number }}**: ${{ data.issue.title }}
+**Author**: ${{ data.issue.user.login }}
+**Labels**: ${{ data.issue.labels }}
 
-Transform webhook payloads:
+${{ data.issue.body }}
 
-```javascript
-// Express middleware
-app.post('/github-webhook', (req, res) => {
-  const payload = {
-    data: {
-      repository: req.body.repository.full_name,
-      issue: {
-        number: req.body.issue.number,
-        title: req.body.issue.title
-      }
-    }
-  };
-  
-  fetch('http://muxi:8001/v1/triggers/github-issue', {
-    method: 'POST',
-    headers: { 'X-Muxi-Client-Key': KEY },
-    body: JSON.stringify(payload)
-  });
-  
-  res.status(200).send('OK');
-});
+Please triage this issue.
 ```
 
-## List Triggers
+**GitHub Webhook Settings:**
+- Payload URL: `https://your-server/v1/formations/my-formation/triggers/github-issue`
+- Content type: `application/json`
+- Events: Issues
+
+### Slack
+
+**Template:** `triggers/slack-message.md`
+```markdown
+Message from ${{ data.event.user }} in #${{ data.event.channel }}:
+
+"${{ data.event.text }}"
+
+Please respond helpfully.
+```
+
+**Slack App Settings:**
+- Event Subscriptions → Request URL: `https://your-server/v1/formations/my-formation/triggers/slack-message`
+- Subscribe to: `message.channels`
+
+### Stripe
+
+**Template:** `triggers/stripe-payment.md`
+```markdown
+Payment received:
+
+**Amount**: ${{ data.data.object.amount }}
+**Customer**: ${{ data.data.object.customer }}
+**Status**: ${{ data.data.object.status }}
+
+Please send receipt and update records.
+```
+
+**Stripe Webhook Settings:**
+- Endpoint URL: `https://your-server/v1/formations/my-formation/triggers/stripe-payment`
+- Events: `payment_intent.succeeded`
+
+---
+
+## Async vs Sync
+
+### Async (Default, Best for Webhooks)
+
+```json
+{"data": {...}, "use_async": true}
+```
+
+- Returns immediately with `request_id`
+- Webhook caller doesn't wait
+- Best for production webhooks
+
+### Sync (For Testing)
+
+```json
+{"data": {...}, "use_async": false}
+```
+
+- Waits for agent response
+- Returns full response text
+- Use for testing templates
+
+---
+
+## Debugging
+
+### Test Template Rendering
+
+Use sync mode to see the response:
 
 ```bash
-curl http://localhost:8001/v1/triggers \
-  -H "X-Muxi-Client-Key: fmc_..."
+curl -X POST .../triggers/my-trigger \
+  -d '{"data": {...}, "use_async": false}'
 ```
 
-## Next Steps
+### Check Available Triggers
 
-- [Triggers Reference](../reference/triggers.md) - Full details
-- [Write SOPs](sops.md) - Standard procedures
+```bash
+curl http://localhost:8001/v1/formations/my-formation/triggers
+```
+
+### Common Errors
+
+**"Key not found"**: Template references data that wasn't provided
+```
+Template: ${{ data.issue.number }}
+Payload missing: issue.number
+Fix: Check webhook payload structure
+```
+
+**"Trigger not found"**: No template file exists
+```
+Fix: Create triggers/trigger-name.md
+```
+
+---
+
+## Best Practices
+
+1. **Use async mode** - Webhooks expect fast acknowledgment
+2. **Match payload structure** - Design templates around actual webhook payloads
+3. **Include context** - Give the agent enough information to act
+4. **Test with real payloads** - Use actual webhook data for testing
+5. **Monitor executions** - Track via observability
+
+---
+
+## Learn More
+
+- [Triggers & Webhooks](../concepts/triggers-and-webhooks.md) - Full concept
+- [Triggers Reference](../reference/triggers.md) - API reference
+- [Async Processing](../concepts/async.md) - Async mode details

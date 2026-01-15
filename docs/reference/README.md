@@ -18,13 +18,13 @@ A formation is everything your AI needs: agents, tools, memory, knowledge, and w
 ```
 my-formation/
 ├── formation.afs      # Main configuration
-├── agents/            # Agent definitions
-├── mcp/              # Tool configurations
-├── sops/              # Standard procedures
-├── triggers/          # Webhook templates
+├── agents/            # Agent definitions (auto-discovered)
+├── mcp/               # Tool configurations (auto-discovered)
+├── sops/              # Standard procedures (auto-discovered)
+├── triggers/          # Webhook templates (auto-discovered)
 ├── knowledge/         # RAG sources
 ├── secrets.enc        # Encrypted credentials
-└── secrets    # Template for required secrets
+└── secrets.example    # Template for required secrets
 ```
 
 ---

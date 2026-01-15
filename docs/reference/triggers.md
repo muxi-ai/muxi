@@ -1,307 +1,203 @@
 ---
 title: Triggers
-description: Invoke agents from external systems via webhooks
+description: API reference for webhook triggers
 ---
 
 # Triggers
 
-## Connect your agents to the world
+## API reference for webhook triggers
 
-Triggers let external systems invoke your agents via webhooks. GitHub issues, Slack messages, monitoring alerts - any JSON payload can become a conversation.
+Triggers provide webhook endpoints for external systems to invoke your agents.
 
 > [!TIP]
-> **New to triggers?** Read [Triggers Concept →](../concepts/triggers-and-webhooks.md) to understand the template system.
->
-> **API Reference:** [GET /v1/triggers](api/formation#tag/Triggers/GET/triggers) | [POST /v1/triggers/{id}/invoke](api/formation#tag/Triggers/POST/triggers/{trigger_id}/invoke)
-
-
-## How It Works
-
-```mermaid
-graph LR
-    A[External Event] -->|JSON| B[Trigger Endpoint]
-    B -->|Template| C[Rendered Message]
-    C --> D[Agent]
-    D --> E[Response/Action]
-```
-
-1. External system sends JSON to trigger endpoint
-2. MUXI renders a template with the data
-3. Agent processes as a regular conversation
-4. Response returned (sync) or request ID (async)
+> **New to triggers?** Read [Triggers & Webhooks →](../concepts/triggers-and-webhooks.md) first.
 
 ---
 
-## Create a Trigger
+## API Endpoints
 
-[[steps]]
+### Execute Trigger
 
-[[step Create template]]
-
-```bash
-muxi new trigger github-issue
+```http
+POST /v1/formations/{formation_id}/triggers/{trigger_name}
 ```
 
-Creates `triggers/github-issue.md`:
+**Headers:**
+| Header | Required | Description |
+|--------|----------|-------------|
+| `X-Muxi-Client-Key` | Yes | Client API key |
+| `X-Muxi-User-Id` | No | User ID (defaults to "0") |
+| `Content-Type` | Yes | `application/json` |
 
-```markdown
----
-name: GitHub Issue Handler
-tags: [github, issue]
----
-
-New issue from ${{ data.repository }}:
-
-**Issue #${{ data.issue.number }}**: ${{ data.issue.title }}
-**Author**: ${{ data.issue.author }}
-
-Analyze this issue and suggest:
-1. Priority level
-2. Potential causes
-3. Recommended next steps
-```
-[[/step]]
-
-[[step Deploy formation]]
-
-```bash
-muxi deploy
-```
-[[/step]]
-
-[[step Call the trigger]]
-
-```bash
-curl -X POST http://localhost:8001/v1/triggers/github-issue \
-  -H "X-Muxi-Client-Key: fmc_..." \
-  -H "Content-Type: application/json" \
-  -d '{
-    "data": {
-      "repository": "acme/webapp",
-      "issue": {
-        "number": 42,
-        "title": "Login button not working",
-        "author": "alice"
-      }
-    }
-  }'
-```
-[[/step]]
-
-[[/steps]]
-
----
-
-## Template Syntax
-
-Use `${{ data.* }}` for variable substitution:
-
-### Simple Values
-
-```markdown
-Repository: ${{ data.repository }}
-Author: ${{ data.author }}
-```
-
-### Nested Objects
-
-```markdown
-Issue #${{ data.issue.number }}: ${{ data.issue.title }}
-Labels: ${{ data.issue.labels }}
-```
-
-### Multi-Level
-
-```markdown
-User: ${{ data.user.profile.name }}
-Email: ${{ data.user.contact.email }}
-```
-
----
-
-## Request Format
-
+**Request Body:**
 ```json
 {
   "data": {
-    // Your event data - available as ${{ data.* }}
+    "key": "value",
+    "nested": {
+      "property": "value"
+    }
   },
   "session_id": "optional-session-id",
   "use_async": true
 }
 ```
 
-| Field | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `data` | Yes | - | Event data for template |
-| `session_id` | No | new | Session to use |
-| `use_async` | No | true | Return immediately |
-
----
-
-## Response Types
-
-### Async (Default)
-
-Returns immediately with request ID:
-
+**Response (Async):**
 ```json
 {
-  "request_id": "req_abc123",
-  "status": "processing"
+  "object": "request",
+  "type": "request.processing",
+  "request": {"id": "req_abc123"},
+  "success": true,
+  "data": {"status": "processing"}
 }
 ```
 
-Poll for result:
+**Response (Sync):**
+```json
+{
+  "object": "request",
+  "type": "request.completed",
+  "request": {"id": "req_abc123"},
+  "success": true,
+  "data": {
+    "status": "completed",
+    "response": "Agent's response text..."
+  }
+}
+```
+
+### List Triggers
+
+```http
+GET /v1/formations/{formation_id}/triggers
+```
+
+**Response:**
+```json
+{
+  "object": "list",
+  "data": {
+    "formation_id": "my-formation",
+    "triggers": ["github-issue", "slack-message"],
+    "count": 2
+  }
+}
+```
+
+---
+
+## Template Syntax
+
+Templates use `${{ data.* }}` for variable substitution:
+
+```markdown
+${{ data.name }}                    # Simple access
+${{ data.issue.number }}            # Nested access
+${{ data.user.profile.name }}       # Multi-level nesting
+```
+
+---
+
+## Directory Structure
+
+```
+triggers/
+├── github-issue.md
+├── slack-message.md
+├── stripe-payment.md
+└── monitoring-alert.md
+```
+
+Templates are auto-discovered from `triggers/` directory.
+
+---
+
+## Request Options
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `data` | object | Required | Event data for template rendering |
+| `session_id` | string | Auto-generated | Session ID for conversation context |
+| `use_async` | boolean | `true` | Return immediately or wait for completion |
+
+---
+
+## Error Responses
+
+### Template Rendering Error
+
+```json
+{
+  "object": "error",
+  "type": "error.validation",
+  "error": {
+    "code": "INVALID_REQUEST",
+    "message": "Template rendering failed: Key 'data.issue.number' not found"
+  }
+}
+```
+
+### Trigger Not Found
+
+```json
+{
+  "object": "error",
+  "type": "error.not_found",
+  "error": {
+    "code": "RESOURCE_NOT_FOUND",
+    "message": "Trigger template 'unknown' not found"
+  }
+}
+```
+
+---
+
+## Example: Complete Workflow
+
+### 1. Create Template
+
+```markdown
+<!-- triggers/github-issue.md -->
+New issue from ${{ data.repository }}:
+
+**#${{ data.issue.number }}**: ${{ data.issue.title }}
+
+${{ data.issue.body }}
+
+Please triage this issue.
+```
+
+### 2. Configure GitHub Webhook
+
+- URL: `https://your-server/v1/formations/my-formation/triggers/github-issue`
+- Content type: `application/json`
+- Events: Issues
+
+### 3. Test with curl
 
 ```bash
-curl http://localhost:8001/v1/requests/req_abc123
-```
-
-### Sync
-
-Wait for completion:
-
-```json
-{
-  "data": {...},
-  "use_async": false
-}
-```
-
-Returns full response when done.
-
----
-
-## Example Templates
-
-### Deployment Notification
-
-```markdown
----
-name: Deployment Alert
-tags: [deployment, devops]
----
-
-Deployment to ${{ data.environment }}:
-
-**Service**: ${{ data.service }}
-**Version**: ${{ data.version }}
-**Status**: ${{ data.status }}
-**Deployer**: ${{ data.user }}
-
-Monitor for issues and report any anomalies.
-```
-
-### Slack Message
-
-```markdown
----
-name: Slack Handler
-tags: [slack, message]
----
-
-Message from ${{ data.user }} in #${{ data.channel }}:
-
-${{ data.text }}
-
-Respond appropriately to help the user.
-```
-
-### Monitoring Alert
-
-```markdown
----
-name: Alert Response
-tags: [alert, monitoring]
----
-
-ALERT from ${{ data.source }}:
-
-**Severity**: ${{ data.severity }}
-**Service**: ${{ data.service }}
-**Message**: ${{ data.message }}
-
-Investigate and provide:
-1. Probable cause
-2. Impact assessment
-3. Remediation steps
-```
-
----
-
-## Webhook Integration
-
-### GitHub Setup
-
-1. Go to repo Settings → Webhooks
-2. Add webhook:
-   - **URL**: `https://your-server/v1/triggers/github-issue`
-   - **Content type**: `application/json`
-   - **Events**: Issues, Pull requests
-
-### Middleware Pattern
-
-Transform webhooks before MUXI:
-
-```javascript
-// Express middleware
-app.post('/github-webhook', (req, res) => {
-  // Transform GitHub's format to your template's expected format
-  const payload = {
-    data: {
-      repository: req.body.repository.full_name,
-      issue: {
-        number: req.body.issue.number,
-        title: req.body.issue.title,
-        author: req.body.issue.user.login,
-        body: req.body.issue.body
+curl -X POST http://localhost:8001/v1/formations/my-formation/triggers/github-issue \
+  -H "X-Muxi-Client-Key: fmc_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data": {
+      "repository": "muxi/runtime",
+      "issue": {
+        "number": 123,
+        "title": "Bug report",
+        "body": "Description..."
       }
-    }
-  };
-
-  fetch('http://muxi:8001/v1/triggers/github-issue', {
-    method: 'POST',
-    headers: {
-      'X-Muxi-Client-Key': process.env.MUXI_KEY,
-      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(payload)
-  });
-
-  res.status(200).send('OK');
-});
+    "use_async": false
+  }'
 ```
 
 ---
 
-## List Available Triggers
+## Related
 
-```bash
-curl http://localhost:8001/v1/triggers \
-  -H "X-Muxi-Client-Key: fmc_..."
-```
-
-```json
-{
-  "triggers": ["github-issue", "slack-message", "deployment"],
-  "count": 3
-}
-```
-
----
-
-## Authentication
-
-Triggers use the same auth as chat:
-
-- `X-Muxi-Client-Key` header (required)
-- `X-Muxi-User-Id` header (optional)
-
----
-
-## Next Steps
-
-[+] [Create Triggers Guide](../guides/create-triggers.md) - Step-by-step tutorial
-[+] [SOPs](sops.md) - Standard operating procedures
-[+] [Async Operations](../deep-dives/async-operations.md) - Background processing
+- [Triggers & Webhooks](../concepts/triggers-and-webhooks.md) - Concept overview
+- [Create Triggers](../guides/create-triggers.md) - Step-by-step guide
+- [Async Processing](../concepts/async.md) - Async mode details

@@ -1,14 +1,12 @@
 ---
 title: Standard Operating Procedures
-description: Guidelines that let agents adapt while maintaining consistency
+description: Predefined workflows that agents follow for consistent execution
 ---
 # Standard Operating Procedures (SOPs)
 
-## Guidelines that let agents adapt while maintaining consistency
+## Predefined workflows that agents follow for consistent execution
 
-
-SOPs are step-by-step guidelines that agents interpret for specific, repeatable tasks - like onboarding customers, processing refunds, or handling incidents. Unlike rigid workflows, SOPs allow agents to adapt to context while ensuring consistent outcomes.
-
+SOPs are markdown documents in your `sops/` directory that define step-by-step procedures for common tasks. When a user request matches an SOP (via semantic search), the agent follows that procedure instead of improvising.
 
 ## Why SOPs?
 
@@ -19,300 +17,266 @@ Without SOPs:
 
 With SOPs:
   User: "Onboard new customer"
-  Overlord: Matches "customer-onboarding" SOP
-  Agent: Follows exact 8-step process every time
+  Overlord: Finds matching SOP via semantic search
+  Agent: Follows defined procedure every time
 ```
 
 SOPs ensure:
 - **Consistency** - Same process every time
 - **Quality** - Best practices baked in
-- **Speed** - No figuring out what to do
 - **Compliance** - Required steps never skipped
+- **Efficiency** - No figuring out what to do
 
 ---
 
-## Guidelines, Not Workflows
+## SOP vs Workflows
 
-> **Key insight:** Workflows ≠ Agentic
+> **Key insight:** SOPs are intelligent guidelines, not rigid automation.
 
-Traditional workflow automation (Zapier, n8n, etc.) is **rigid**:
+**Traditional workflow automation:**
 - Fixed branching logic (`if X then Y`)
 - Hard-coded sequences
-- No adaptation to context
 - Breaks when reality doesn't match the script
 
-SOPs are **guidelines** that agents interpret:
-
-```
-Traditional Workflow:
-  1. IF premium customer THEN approve refund
-  2. ELSE IF < $50 THEN approve refund
-  3. ELSE reject
-  → Rigid, can't handle edge cases
-
-MUXI SOP:
-  1. Check customer tier and refund amount
-  2. Evaluate refund request based on policy
-  3. Use judgment for edge cases
-  → Agent adapts to context
-```
-
-**The difference:**
-- **Workflows** tell the system exactly what to do
-- **SOPs** tell the agent what outcome to achieve
-
-Agents can:
-- Skip irrelevant steps
-- Ask clarifying questions
-- Adapt to unexpected situations
-- Apply domain knowledge
-- Escalate when uncertain
-
-The result: **consistent outcomes** through adaptive behavior, not brittle automation.
-
-> [!TIP]
-> **Start with one SOP for your most common task.** Get it working well before adding more. SOPs compound - a few good ones beat many mediocre ones.
+**MUXI SOPs:**
+- Semantic matching to find relevant procedures
+- Two execution modes (strict or flexible)
+- Agents adapt to context while following guidelines
 
 ---
 
 ## How SOPs Work
 
-### Request Matching
-
-When a request arrives, the Overlord checks for SOP matches **first**, before routing to agents:
+### Matching Flow
 
 ```
 User request
      ↓
-Does it match an SOP?
+Semantic search against SOPs
+     ↓
+Match found (relevance ≥ 0.7)?
      ↓ YES
-Execute SOP (bypass normal routing)
+Execute SOP (bypasses normal routing)
      ↓ NO
 Route to agent normally
 ```
 
-SOPs have the **highest routing priority** - they override everything else.
+SOPs have **highest routing priority** - when matched, they override normal agent routing.
 
 ---
 
 ## SOP Structure
 
-SOPs are Markdown files with structured steps:
+SOPs are Markdown files with YAML frontmatter in your `sops/` directory:
 
 ```markdown
+---
+type: sop
+name: Customer Onboarding
+description: Standard process for new customer setup
+mode: guide
+tags: customer, onboarding, new user
+bypass_approval: true
+---
+
 # Customer Onboarding
 
-**Trigger phrases:**
-- "onboard new customer"
-- "add customer"
-- "new client setup"
+Set up new customers with all required accounts and configurations.
 
 ## Steps
 
-### 1. Gather Information
-Ask for:
-- Company name
-- Primary contact name and email
-- Billing address
+1. **Gather Information** [agent:support]
+   Collect company name, contact email, and billing details.
 
-### 2. Create Account
-Use the `create-customer` tool:
-- Set status: "trial"
-- Trial period: 30 days
+2. **Create Account** [mcp:crm/create-customer]
+   Set up customer record in CRM system.
 
-### 3. Send Welcome Email
-Use the `send-email` tool with template "welcome-trial"
+3. **Send Welcome Email** [critical]
+   Email welcome package with login credentials.
+   This step cannot be skipped.
 
-### 4. Schedule Follow-up
-Create reminder for 7 days: "Check in with {customer_name}"
+4. **Schedule Follow-up**
+   Create reminder for 7-day check-in.
+
+## Expected Outcome
+
+Customer has active account with welcome email sent.
 ```
 
-Each step tells the agent exactly what to do.
+### Frontmatter Fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `type` | Yes | Must be `"sop"` |
+| `name` | Yes | Human-readable name |
+| `description` | Yes | Brief description for search matching |
+| `mode` | No | `"template"` (strict) or `"guide"` (flexible) |
+| `tags` | No | Keywords for search matching |
+| `bypass_approval` | No | Skip workflow approval (default: true) |
 
 ---
 
-## Matching Requests
+## Execution Modes
 
-### Trigger Phrases
+### Template Mode (Strict)
 
-SOPs define phrases that activate them:
+```yaml
+mode: template
+```
 
+- Follow SOP exactly as written
+- Execute every step without skipping
+- Maintain exact order
+- All directives are mandatory
+
+**Use for:** Compliance procedures, safety protocols, regulated processes
+
+### Guide Mode (Flexible)
+
+```yaml
+mode: guide
+```
+
+- Use SOP as structured guidance
+- Optimize for efficiency
+- Combine trivial operations
+- Execute independent steps in parallel
+
+**Use for:** Development workflows, best practices, standard operations
+
+---
+
+## Directives
+
+Embed instructions in step descriptions:
+
+### Agent Routing
 ```markdown
-**Trigger phrases:**
-- "refund customer"
-- "process refund"
-- "issue refund"
+1. **Review Code** [agent:senior-dev]
+   Route this step to a specific agent.
 ```
 
-If a user message contains any of these, the SOP activates.
-
-### Semantic Matching
-
-MUXI also uses semantic similarity - related phrases match even if not exact:
-
+### MCP Tools
+```markdown
+2. **Create Ticket** [mcp:jira/create-issue]
+   Use specific MCP tool.
 ```
-SOP trigger: "onboard new customer"
-Matches:
-  ✓ "set up a new customer"
-  ✓ "add customer to system"
-  ✓ "start onboarding for Acme Corp"
+
+### Critical Steps
+```markdown
+3. **Audit Log** [critical]
+   This step cannot be optimized away.
+```
+
+### File References
+```markdown
+4. **Use Template** [file:templates/report.md]
+   Include external file content.
 ```
 
 ---
 
-## Multi-Agent SOPs
+## Directory Structure
 
-SOPs can coordinate multiple agents:
-
-```markdown
-# Content Production
-
-### 1. Research Phase
-**Agent:** researcher
-Gather information on {topic}
-
-### 2. Writing Phase
-**Agent:** writer
-Create 1000-word article based on research
-
-### 3. Review Phase
-**Agent:** editor
-Check for accuracy and style
+```
+my-formation/
+├── formation.afs
+├── agents/
+├── sops/
+│   ├── customer-onboarding.md
+│   ├── incident-response.md
+│   ├── code-review.md
+│   └── refund-processing.md
+└── ...
 ```
 
-The Overlord routes each step to the appropriate agent.
+SOPs are auto-discovered from the `sops/` directory.
 
 ---
 
-## Variables & Context
+## Examples
 
-SOPs can reference information from the request:
+### Compliance Audit (Template Mode)
 
 ```markdown
-### 1. Greet Customer
-Say: "Hi {customer_name}, I'll help you with {issue_type}"
-
-### 2. Check Account Status
-Look up account for {customer_email}
-```
-
-Variables are extracted from the conversation automatically.
-
+---
+type: sop
+name: Security Compliance Audit
+description: Mandatory security audit procedure
+mode: template
+tags: security, audit, compliance
+bypass_approval: false
 ---
 
-## Conditional Steps
+# Security Compliance Audit
 
-SOPs can branch based on conditions:
+## Steps
 
-```markdown
-### 3. Check Eligibility
-If customer is on "enterprise" plan:
-  → Approve immediately
-Otherwise:
-  → Require manager approval
+1. **Verify Credentials** [agent:security] [critical]
+   Authenticate user and verify audit permissions.
+
+2. **System Inventory** [mcp:inventory/scan]
+   Document all system components and versions.
+
+3. **Vulnerability Scan** [agent:security] [critical]
+   Run comprehensive vulnerability assessment.
+
+4. **Generate Report** [critical]
+   Create signed audit report with findings.
 ```
 
-Agents evaluate conditions and follow the appropriate path.
+### Code Review (Guide Mode)
 
+```markdown
+---
+type: sop
+name: Pull Request Review
+description: Standard code review workflow
+mode: guide
+tags: code, review, pr, github
+bypass_approval: true
 ---
 
-## Required vs Optional Steps
+# Pull Request Review
 
-Mark critical steps:
+## Steps
 
-```markdown
-### 3. Record Transaction [REQUIRED]
-Log all details to audit system
-**Must complete before proceeding**
+1. **Fetch PR Details** [mcp:github/pr]
+   Get pull request information and changed files.
 
-### 4. Send Survey [OPTIONAL]
-Email customer satisfaction survey if time allows
+2. **Analyze Code Quality**
+   Review code style, patterns, best practices.
+
+3. **Security Review**
+   Check for vulnerabilities.
+
+4. **Post Review** [agent:senior-dev]
+   Provide constructive feedback.
 ```
-
-Required steps block progress until completed.
 
 ---
 
 ## When to Use SOPs
 
 | Use SOPs For | Don't Use SOPs For |
-|-------------|-------------------|
-| Processes with known best practices | One-time tasks |
-| Tasks with clear outcomes | Simple questions |
-| Critical procedures that need consistency | Creative/exploratory work |
-| Compliance requirements | General conversation |
-| Common customer flows | Novel situations |
+|--------------|-------------------|
+| Repeatable procedures | One-time tasks |
+| Compliance requirements | Simple questions |
+| Multi-step workflows | Creative/exploratory work |
+| Standard operations | Novel situations |
 
-Examples of good SOP candidates:
+Good SOP candidates:
 - Customer onboarding/offboarding
-- Incident response procedures
-- Refund/return processing
+- Incident response
+- Code review procedures
+- Refund processing
 - Data export requests
-- Account verification
-- Bug report triage
-
-> [!TIP]
-> SOPs work best when there's a **repeatable pattern** but **context still matters**. The agent follows the guidelines while adapting to specifics.
-
----
-
-## SOP Library
-
-Build a library of SOPs for your organization:
-
-```
-sops/
-├── customer/
-│   ├── onboarding.md
-│   ├── offboarding.md
-│   └── upgrade.md
-├── support/
-│   ├── refund.md
-│   ├── bug-report.md
-│   └── escalation.md
-└── operations/
-    ├── incident-response.md
-    └── data-export.md
-```
-
-Agents can execute any SOP in the library.
-
----
-
-## Why This Matters
-
-| Rigid Workflows | SOPs + Agents |
-|----------------|---------------|
-| Brittle automation | Adaptive guidance |
-| Breaks on edge cases | Handles unexpected situations |
-| IF/THEN logic trees | Intelligent interpretation |
-| Can't ask questions | Seeks clarification when needed |
-| One-size-fits-all | Context-aware decisions |
-
-The result: **consistent outcomes through intelligent adaptation**, not brittle automation.
-
----
-
-## Quick Setup
-
-Create an agent file:
-
-```yaml
-# agents/support.afs
-schema: "1.0.0"
-id: support
-name: Support Agent
-description: Customer support specialist
-
-system_message: Customer support specialist.
-```
-
-Add SOP file to `sops/customer-onboarding.md`, restart - it works automatically.
+- Compliance audits
 
 ---
 
 ## Learn More
 
 - [Create SOPs Guide](../guides/create-sops.md) - Write your first SOP
-- [SOPs Reference](../reference/sops.md) - Syntax and options
-- [The Overlord](overlord.md) - How routing priority works
+- [SOPs Reference](../reference/sops.md) - Full syntax reference
+- [The Overlord](overlord.md) - How SOP matching works

@@ -34,7 +34,6 @@ description: Complete guide to building AI agents with MUXI
 * [Async Processing](concepts/async.md)
 * [SOPs](concepts/standard-operating-procedures.md)
 * [The Registry](concepts/registry.md)
-* [Scheduled Tasks](concepts/scheduled-tasks.md)
 * [Artifacts](concepts/artifacts.md)
 * [Clarifications](concepts/clarification.md)
 * [Structured Output](concepts/structured-output.md)
