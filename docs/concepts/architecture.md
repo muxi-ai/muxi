@@ -18,24 +18,22 @@ flowchart TB
         CLI[CLI]
         SDKs[SDKs]
     end
-    
+
     subgraph Infrastructure
         Server["Server (:7890)"]
-        subgraph Formations["Formations (:8001-8999)"]
+        subgraph Formations["Formation Runtimes (:8001-8999)"]
             F1[Formation A]
             F2[Formation B]
             F3[Formation C]
         end
-        Runtime[Runtime]
     end
-    
+
     Registry[Registry]
-    
+
     CLI --> Server
     SDKs --> Server
     CLI -.-> Registry
     Server --> Formations
-    Formations --> Runtime
 ```
 
 ---
@@ -167,16 +165,16 @@ flowchart TB
     subgraph Formation["Formation Runtime"]
         Overlord["Overlord (Orchestrator)"]
         Memory["Memory (3-tier)"]
-        
+
         subgraph Agents
             A1[Agent]
             A2[Agent]
             A3[Agent]
             A4[Agent]
         end
-        
+
         Tools[MCP Tools]
-        
+
         Overlord <--> Memory
         Overlord --> Agents
         Agents --> Tools

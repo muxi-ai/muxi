@@ -57,7 +57,7 @@ Content-Type: application/json
       "timestamp": "2025-10-23T10:00:00Z"
     },
     {
-      "role": "assistant", 
+      "role": "assistant",
       "content": "The weather today is sunny with a high of 72F.",
       "timestamp": "2025-10-23T10:00:15Z",
       "agent_id": "weather-assistant"
@@ -118,7 +118,7 @@ Store messages as they flow through your app:
 @app.post("/muxi-webhook")
 async def handle_muxi_webhook(payload: dict):
     message = payload["message"]
-    
+
     # Store in your database
     await db.messages.insert({
         "session_id": payload["session_id"],
@@ -223,14 +223,14 @@ result = await formation.restore_session(
 async def chat(session_id: str, message: str, user_id: str):
     # Check if this is the first message in a resumed session
     session_exists = await formation.session_exists(session_id)
-    
+
     if not session_exists:
         # New session - check if we have history for it
         history = await db.messages.find({
             "session_id": session_id,
             "user_id": user_id
         })
-        
+
         if history:
             # Restore before first message
             await formation.restore_session(
@@ -238,7 +238,7 @@ async def chat(session_id: str, message: str, user_id: str):
                 user_id=user_id,
                 messages=history
             )
-    
+
     # Now send the message
     return await formation.chat(message, session_id, user_id)
 ```
@@ -254,14 +254,14 @@ async def open_conversation(conversation_id: str, user_id: str):
         "conversation_id": conversation_id,
         "user_id": user_id
     }).limit(50)  # Only last 50
-    
+
     # Restore
     await formation.restore_session(
         session_id=conversation_id,
         user_id=user_id,
         messages=messages
     )
-    
+
     return {"status": "ready", "message_count": len(messages)}
 ```
 
@@ -467,7 +467,7 @@ const response = await formation.chat({
 ### cURL
 
 ```bash
-curl -X POST https://api.muxi.ai/v1/formations/my-formation/sessions/sess_abc123/restore \
+curl -X POST https://api.muxi.org/v1/formations/my-formation/sessions/sess_abc123/restore \
   -H "Authorization: Bearer muxi_..." \
   -H "X-Muxi-User-ID: user@example.com" \
   -H "Content-Type: application/json" \
@@ -500,11 +500,11 @@ Don't wait to batch - store as messages flow:
 @app.post("/chat")
 async def chat(message: str):
     response = await formation.chat(message, session_id, user_id)
-    
+
     # Store immediately
     await db.save_message(user_id, session_id, "user", message)
     await db.save_message(user_id, session_id, "assistant", response.content)
-    
+
     return response
 
 # ❌ Bad: Batch later (risk of data loss)
