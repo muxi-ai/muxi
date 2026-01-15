@@ -16,17 +16,17 @@ MUXI Server manages your formations - deploying, routing, monitoring, and auto-r
 ┌─────────────────────────────────────────┐
 │ MUXI Server (Port 7890)                 │
 │                                         │
-│  /rpc/*  → Management API (HMAC auth)   │
-│  /api/*  → Formation Proxy              │
-│  /health → Health check                 │
-└────────────────┬────────────────────────┘
-                 │
-    ┌────────────┼────────────┐
-    ↓            ↓            ↓
-┌────────┐  ┌────────┐  ┌────────┐
-│Form. A │  │Form. B │  │Form. C │
-│ :8001  │  │ :8002  │  │ :8003  │
-└────────┘  └────────┘  └────────┘
+│   /rpc/*  → Management API (HMAC auth)  │
+│   /api/*  → Formation Proxy             │
+│   /health → Health check                │
+└────────────────────┬────────────────────┘
+                     │
+        ┌────────────┼────────────┐
+        ↓            ↓            ↓
+   ┌─────────┐  ┌─────────┐  ┌─────────┐
+   │ Form. A │  │ Form. B │  │ Form. C │
+   │  :8001  │  │  :8002  │  │  :8003  │
+   └─────────┘  └─────────┘  └─────────┘
 ```
 
 - **Deploy** formations with one command

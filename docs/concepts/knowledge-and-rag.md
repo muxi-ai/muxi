@@ -38,7 +38,7 @@ sequenceDiagram
 
 ## Supported Formats
 
-MUXI uses [markitdown](https://github.com/microsoft/markitdown) for document conversion - any format markitdown supports works with MUXI.
+MUXI uses [MarkItDown](https://github.com/microsoft/markitdown) for document conversion - any format MarkItDown supports works with MUXI.
 
 ### Common Formats
 

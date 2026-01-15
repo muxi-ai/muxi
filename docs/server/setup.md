@@ -21,7 +21,7 @@ Configure MUXI Server and start deploying formations.
 
 [[steps]]
 
-### Step 1: Initialize Configuration
+[[step Initialize Configuration]]
 
 Run the init command to generate your config and authentication keys:
 
@@ -47,9 +47,9 @@ Save these credentials - you'll need them to connect from the CLI.
 > [!WARNING]
 > Save your secret key now - it's only shown once. You'll need it to connect from the CLI.
 
----
+[[/step ]
 
-### Step 2: Review Your Configuration
+[[step Review Your Configuration]]
 
 Open the generated config:
 
@@ -87,9 +87,9 @@ logging:
 | `logging.level: debug` | Troubleshooting |
 | `formations.port_range` | If ports conflict |
 
----
+[[/step]]
 
-### Step 3: Start the Server
+[[step Start the Server]]
 
 ```bash
 muxi-server start
@@ -116,9 +116,9 @@ sudo systemctl start muxi-server
 muxi-server start --daemon
 ```
 
----
+[[/step]]
 
-### Step 4: Verify It's Running
+[[step Verify It's Running]]
 
 ```bash
 curl http://localhost:7890/health
@@ -143,9 +143,9 @@ Uptime:     2m 34s
 Formations: 0 running
 ```
 
----
+[[/step]]
 
-### Step 5: Connect Your CLI
+[[step Connect Your CLI]]
 
 Now configure the CLI to talk to your server. You'll need the credentials from Step 1:
 
@@ -171,6 +171,8 @@ muxi formation list
 ```
 No formations deployed yet. Deploy your first with: muxi deploy
 ```
+
+[[/step]]
 
 [[/steps]]
 

@@ -112,13 +112,13 @@ muxi formation rollback my-assistant
 my-formation/
 ├── formation.afs      ✓ Published
 ├── agents/            ✓ Published
-├── mcp/              ✓ Published
+├── mcp/               ✓ Published
 ├── sops/              ✓ Published
 ├── triggers/          ✓ Published
 ├── knowledge/         ✓ Published (optional)
-├── secrets.enc        ✗ Never (encrypted secrets)
-├── .key               ✗ Never (encryption key)
-└── secrets    ✓ Published (shows required secrets)
+├── secrets.enc        ❌ Never (encrypted secrets)
+├── .key               ❌ Never (encryption key)
+└── secrets            ✓ Published (shows required secrets)
 ```
 
 Secrets never leave your machine. Users who pull must provide their own credentials.
@@ -129,7 +129,8 @@ Secrets never leave your machine. Users who pull must provide their own credenti
 
 ### Browse Online
 
-Visit [registry.muxi.org](https://registry.muxi.org):
+[>] [Visit registry.muxi.org](https://registry.muxi.org):
+
 - Browse by category (support, research, devops)
 - View documentation and examples
 - Check download stats and ratings

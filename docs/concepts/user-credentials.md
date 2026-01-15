@@ -84,7 +84,7 @@ You can have multiple accounts for the same service:
 ```
 GitHub:
   - ranaroussi (personal)
-  - lilyautomaze (work)
+  - muxi-ai (work)
 
 Slack:
   - acme-corp
@@ -95,7 +95,7 @@ The agent asks which one to use:
 
 ```
 User: "Check my GitHub notifications"
-Agent: "You have two GitHub accounts: ranaroussi and lilyautomaze. Which one?"
+Agent: "You have two GitHub accounts: ranaroussi and muxi-ai. Which one?"
 User: "ranaroussi"
 Agent: [Uses ranaroussi's credentials]
 ```
@@ -275,7 +275,7 @@ Agent: [Shows repositories from ranaroussi's account]
 
 ```
 User: "Show my GitHub PRs"
-Agent: "You have two GitHub accounts: ranaroussi (personal) and lilyautomaze (work). Which one?"
+Agent: "You have two GitHub accounts: ranaroussi (personal) and muxi-ai (work). Which one?"
 User: "Show PRs from both"
 Agent: [Fetches PRs from both accounts, labeled by account]
 ```
@@ -286,8 +286,8 @@ Agent: [Fetches PRs from both accounts, labeled by account]
 User: "Add my work GitHub account"
 Agent: "Please provide your GitHub personal access token:"
 User: [provides second token]
-Agent: "Successfully added GitHub account 'lilyautomaze'"
-Agent: "You now have 2 GitHub accounts: ranaroussi, lilyautomaze"
+Agent: "Successfully added GitHub account 'muxi-ai'"
+Agent: "You now have 2 GitHub accounts: ranaroussi, muxi-ai"
 ```
 
 ---

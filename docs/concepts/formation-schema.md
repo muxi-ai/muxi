@@ -15,9 +15,10 @@ Every MUXI formation is defined using the **Agent Formation Schema** (AFS), a YA
 
 The authoritative schema specification is maintained at:
 
-**🔗 https://github.com/agent-formation/afs-spec**
+[>] [Visit AgentFormation.org](https://github.com/agent-formation/afs-spec)
 
 This repository contains:
+
 - Complete JSON Schema definitions
 - Field specifications and defaults
 - Usage examples
@@ -110,10 +111,10 @@ llm:
     text: openai/gpt-4           # Text generation model
     streaming: openai/gpt-4o-mini # Fast streaming model
     embedding: openai/text-embedding-3-small
-  
+
   api_keys:
     openai: ${{secrets.OPENAI_API_KEY}}
-  
+
   settings:
     temperature: 0.7
     max_tokens: 1000
@@ -124,21 +125,21 @@ llm:
 ```yaml
 overlord:
   persona: "You are a professional assistant..."
-  
+
   workflow:
     auto_decomposition: true
     complexity_threshold: 7.0
     max_parallel_tasks: 5
-    
+
     timeouts:
       task_timeout: 300
       workflow_timeout: 3600
-    
+
     retry:
       max_attempts: 3
       initial_delay: 1.0
       backoff_factor: 2.0
-  
+
   clarification:
     style: "conversational"
     persist_learned_info: false
@@ -160,7 +161,7 @@ memory:
   buffer:
     size: 10                   # Recent message window
     vector_search: true
-  
+
   persistent:
     connection_string: "postgresql://..."
     embedding_model: openai/text-embedding-3-small
@@ -453,7 +454,7 @@ Key changes in 1.0:
    overlord:
      persona:
        style: "professional"
-   
+
    # New (1.0)
    overlord:
      persona: "You are a professional assistant."
@@ -464,7 +465,7 @@ Key changes in 1.0:
    # Old (0.x)
    workflow:
      complexity_threshold: 7.0
-   
+
    # New (1.0)
    overlord:
      workflow:
@@ -476,7 +477,7 @@ Key changes in 1.0:
    # Old (0.x)
    workflow:
      async_threshold: 10
-   
+
    # New (1.0)
    async:
      threshold_seconds: 30
