@@ -4,36 +4,42 @@ description: Background task execution for long-running operations
 ---
 # Async Processing
 
-## Background task execution for long-running operations
+## Let users keep working while agents handle big tasks
 
-Some tasks take too long for real-time responses. MUXI automatically handles long-running operations asynchronously - return immediately, execute in background, notify when complete.
+Some tasks take time - major research, multi-step workflows, document generation. Users shouldn't have to sit and wait. With async processing, MUXI accepts the request, works in the background, and notifies users when it's done.
 
-## The Problem
+## Why Async?
 
-**Synchronous (blocking):**
+It's a productivity feature, not a technical workaround.
+
+**Synchronous (user waits):**
 ```
 User: "Research AI trends and create comprehensive report"
          ↓
-Client waits... (30 seconds)
+User waits... (30 seconds)
          ↓
-Client waits... (60 seconds)
+User waits... (60 seconds)
          ↓
-Client times out ❌
+User waits... (2 minutes)
+         ↓
+Finally: "Here's your report"
 
-User sees: "Request timeout error"
+User: lost 2 minutes staring at a spinner
 ```
 
-**Asynchronous (non-blocking):**
+**Asynchronous (user keeps working):**
 ```
 User: "Research AI trends and create comprehensive report"
          ↓
-MUXI: "Started task. ID: req_abc123"
+MUXI: "Got it. I'll notify you when it's ready."
          ↓
-User continues working
+User continues with other work
          ↓
-[Task completes in background]
+[MUXI works in background]
          ↓
-Webhook notification: "Task complete! Here's your report..."
+Webhook/notification: "Your report is ready!"
+
+User: stayed productive the whole time
 ```
 
 ## When MUXI Uses Async

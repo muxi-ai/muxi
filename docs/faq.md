@@ -98,6 +98,76 @@ Agents automatically follow SOPs when they match the user's request.
 
 [[/toggle]]
 
+[[toggle Can agents ask clarifying questions?]]
+
+Yes. When a request is ambiguous, agents can **ask for clarification** instead of guessing:
+
+```
+User: "Book a flight"
+Agent: "I'd be happy to help. Where are you flying to, and what dates work for you?"
+```
+
+Configure clarification behavior per agent - when to ask, what to ask, how many times.
+
+**Learn more:** [Clarifications](concepts/clarification.md)
+
+[[/toggle]]
+
+[[toggle Can agents generate files?]]
+
+Yes - **artifacts**. Agents can create documents, images, code files, reports, and more:
+
+```
+User: "Create a sales report for Q4"
+Agent: "Here's your Q4 sales report" + [sales-report-q4.pdf]
+```
+
+Artifacts are returned alongside the response and can be downloaded or processed by your app.
+
+**Learn more:** [Artifacts](concepts/artifacts.md)
+
+[[/toggle]]
+
+[[toggle Can I customize the agent's personality?]]
+
+Yes - **personas**. Define how the agent communicates:
+
+```yaml
+agents:
+  assistant:
+    persona: |
+      You are a friendly, professional assistant.
+      Be concise but warm. Use simple language.
+      Never use jargon unless the user does first.
+```
+
+Different agents can have different personas in the same formation.
+
+**Learn more:** [Agent Personas](concepts/persona.md)
+
+[[/toggle]]
+
+[[toggle Can I get structured JSON responses?]]
+
+Yes - **structured output**. Define a schema and get validated JSON back:
+
+```yaml
+agents:
+  extractor:
+    output_format:
+      type: object
+      properties:
+        name: { type: string }
+        email: { type: string }
+        sentiment: { type: string, enum: [positive, neutral, negative] }
+```
+
+Response is guaranteed to match your schema.
+
+**Learn more:** [Structured Output](concepts/structured-output.md)
+
+[[/toggle]]
+
 ---
 
 ## Multi-Agent Systems
@@ -193,6 +263,57 @@ Yes. **Enterprise resilience patterns** are baked in:
 
 [[/toggle]]
 
+[[toggle How do I reduce LLM costs?]]
+
+Several built-in features help:
+
+- **LLM Response Caching** - Cache identical requests, skip the API call
+- **User Synopsis Caching** - Compress long conversation history (80%+ token reduction)
+- **Efficient tool loading** - Tool schemas indexed once, not sent every request
+- **Model mixing** - Use cheaper models for simple tasks, expensive ones for complex
+
+**Learn more:** [LLM Caching](reference/llm-caching.md) | [Memory Internals](deep-dives/memory-internals.md)
+
+[[/toggle]]
+
+[[toggle Can I schedule recurring tasks?]]
+
+Yes - **scheduled tasks**. Cron-style or natural language:
+
+```yaml
+triggers:
+  daily-report:
+    schedule: "0 9 * * *"    # Every day at 9am
+    action: "Generate daily analytics summary"
+  
+  weekly-cleanup:
+    schedule: "every monday at 6am"
+    action: "Archive old conversations"
+```
+
+**Learn more:** [Scheduled Tasks](concepts/scheduled-tasks.md) | [Triggers & Webhooks](concepts/triggers-and-webhooks.md)
+
+[[/toggle]]
+
+[[toggle What if I need human approval for certain actions?]]
+
+Use **human-in-the-loop** (HITL). Define which actions require approval:
+
+```yaml
+agents:
+  finance:
+    approvals:
+      - action: "process_refund"
+        when: "amount > 1000"
+        notify: "finance-team@company.com"
+```
+
+The agent pauses, notifies the approver, and continues only after approval.
+
+**Learn more:** [Human-in-the-Loop](concepts/human-in-the-loop.md)
+
+[[/toggle]]
+
 ---
 
 ## Real-Time & Async
@@ -247,6 +368,24 @@ Yes - **triggers and webhooks**:
 **HMAC-signed requests** between CLI, SDKs, and server. Plus complete user isolation - data never leaks between users.
 
 **Learn more:** [Authentication](server/authentication.md) | [Security Model](deep-dives/security-model.md)
+
+[[/toggle]]
+
+[[toggle Can users bring their own API keys?]]
+
+Yes - **per-user credentials**. Each user can store their own API keys for tools:
+
+```python
+# User stores their own OpenAI key
+client.set_user_secret("openai_api_key", "sk-...")
+
+# Agent uses user's key for their requests
+# Other users' requests use other keys (or formation default)
+```
+
+Great for platforms where users pay for their own LLM usage.
+
+**Learn more:** [User Credentials](concepts/user-credentials.md) | [Secrets & Security](concepts/secrets-and-security.md)
 
 [[/toggle]]
 

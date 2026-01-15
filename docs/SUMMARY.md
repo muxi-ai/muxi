@@ -38,6 +38,7 @@ description: Complete guide to building AI agents with MUXI
 * [Artifacts](concepts/artifacts.md)
 * [Clarifications](concepts/clarification.md)
 * [Structured Output](concepts/structured-output.md)
+* [Observability](concepts/observability.md)
 
 ## Server
 
