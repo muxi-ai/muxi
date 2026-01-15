@@ -117,44 +117,43 @@ Everything your AI needs in one directory:
 ```
 my-formation/
 ├── formation.afs      # Main configuration
-├── agents/            # Agent definitions
+├── agents/            # Agent definitions (auto-discovered)
 │   ├── researcher.afs
 │   └── writer.afs
-├── mcp/              # Tool configurations
+├── mcp/               # MCP tool servers (auto-discovered)
 │   └── web-search.afs
-├── sops/              # Standard procedures
-│   └── onboarding.md
-├── triggers/          # Webhook templates
-│   └── github-issue.md
-├── knowledge/         # RAG sources
+├── a2a/               # Agent-to-agent services (auto-discovered)
+│   └── external-api.afs
+├── skills/            # Agent skills with SKILL.md files
+│   └── data-analysis/
+│       └── SKILL.md
+├── knowledge/         # RAG sources (any location in formation)
 │   └── docs/
 ├── secrets.enc        # Encrypted credentials
-└── secrets    # Template
+└── secrets.example    # Template for required secrets
 ```
 
 ### Formation placement (concepts → files/dirs)
 
-| Concept | Where it lives in a formation |
-|---------|--------------------------------|
-| LLMs | `formation.afs` (defaults) and `agents/*.afs` (`llm:` per agent) |
-| Agents & Orchestration | `agents/*.afs` (roles, routing, task decomposition) |
-| Workflows | `agents/*.afs` (plans/steps), optionally `formation.afs` defaults |
-| Approvals (HITL) | `agents/*.afs` (`approvals:` per action/workflow) |
-| Persona | `agents/*.afs` (`persona:`) |
-| Memory (3-tier) | `formation.afs` (`memory:` backend/limits) |
-| Multi-Tenancy | `formation.afs` (`security/users`, namespaces), secrets scoped per user |
-| Tools & MCP | `mcp/*.afs` (server defs, auto-discovered); agents use `mcp_servers:` for agent-specific tools |
-| Secrets & Security | `secrets.enc` (referenced as `${{ secrets.* }}` / `${{ user.secrets.* }}` in formation/agents/mcps) |
-| User Credentials | `secrets.enc` / `user.secrets.*`, bound at runtime per caller |
-| Knowledge & RAG | `knowledge/` files, referenced in `agents/*.afs` (`knowledge:`) |
-| Triggers & Webhooks | `triggers/` definitions (including schedules); referenced in `formation.afs`/agents |
-| Async Processing | `formation.afs` (`async`/timeouts), trigger workflows in `triggers/` |
-| SOPs | `sops/` documents linked from `agents/*.afs` |
-| Registry/Versioning | Metadata in `formation.afs` (name/version); published via CLI/registry |
-| Scheduled Tasks | `triggers/` entries with `schedule:`; optional `formation.afs` defaults |
-| Artifacts | Produced by agents; configuration in `agents/*.afs` (outputs/format) |
-| Clarification | `agents/*.afs` (clarification prompts/steps) |
-| Structured Output | `agents/*.afs` (response format/persona), validated by runtime |
+| Concept | Where it lives |
+|---------|----------------|
+| LLM Config | `formation.afs` (`llm:` section) with per-agent overrides in `agents/*.afs` |
+| Agents | `agents/*.afs` - auto-discovered, define persona, role, specialties |
+| Overlord | `formation.afs` (`overlord:` persona, workflow, clarification settings) |
+| Workflows | `formation.afs` (`overlord.workflow:` auto-decomposition, timeouts) |
+| Memory | `formation.afs` (`memory:` buffer, working, persistent config) |
+| Tools & MCP | `mcp/*.afs` - auto-discovered; `formation.afs` (`mcp:` global settings) |
+| Agent-to-Agent | `a2a/*.afs` - auto-discovered; `formation.afs` (`a2a:` config) |
+| Skills | `skills/*/SKILL.md` files with scripts, references, assets |
+| Knowledge | `knowledge/` files, referenced in `agents/*.afs` (`knowledge:` section) |
+| Scheduled Tasks | `formation.afs` (`scheduler:` config) - users schedule via natural language |
+| Async Processing | `formation.afs` (`async:` threshold, webhooks) |
+| Secrets | `secrets.enc` - referenced as `${{ secrets.NAME }}` anywhere |
+| User Credentials | `${{ user.secrets.NAME }}` - per-user secrets bound at runtime |
+| Clarification | `formation.afs` (`overlord.clarification:` settings) |
+| Server/API | `formation.afs` (`server:` host, port, API keys) |
+| Logging | `formation.afs` (`logging:` destinations, formats) |
+| Versioning | `formation.afs` (`schema:`, `version:`, `runtime:` fields) |
 
 ---
 
