@@ -261,35 +261,77 @@ auth:
 
 ---
 
-## Tool Chaining & Error Recovery
+## Self-Healing Agents: Tool Chaining
 
-Agents don't give up on first error - they intelligently retry and recover.
+> **Key differentiator:** Agents don't give up on first error - they analyze failures and take corrective action automatically.
 
-### Automatic Error Recovery
+### How It Works
 
-When a tool fails, agents analyze the error and attempt to fix it:
+When a tool fails, the agent:
+1. Analyzes the error message
+2. Determines if it can fix the problem
+3. Makes corrective tool calls
+4. Retries the original operation
 
 ```
-User: "Create a GitHub repo called 'my-project'"
-Agent: Calls create_repo("my-project")
-GitHub: Error - "Repository already exists"
-Agent: Analyzes error
-Agent: Calls delete_repo("my-project")
-Agent: Calls create_repo("my-project")
-Success!
+User: "Create a file at /reports/q4/summary.txt"
+
+Agent: write_file("/reports/q4/summary.txt", content)
+Tool:  Error - "Directory /reports/q4 does not exist"
+
+Agent: [Analyzes error: missing directory]
+Agent: create_directory("/reports/q4")
+Tool:  Success
+
+Agent: write_file("/reports/q4/summary.txt", content)
+Tool:  Success!
 ```
+
+**The user never sees the error** - the agent just handles it.
+
+### Common Self-Healing Patterns
+
+| Error | Automatic Resolution |
+|-------|---------------------|
+| Directory doesn't exist | Create the directory |
+| Resource already exists | Delete and recreate, or update |
+| Authentication expired | Trigger re-auth flow |
+| Rate limited | Wait and retry |
+| Missing dependency | Install or create dependency |
+
+### Why This Matters
+
+**Traditional agents:**
+```
+User: "Create a file in /new/path/"
+Agent: "Error: Directory does not exist"
+User: "Create the directory first"
+Agent: "Done"
+User: "Now create the file"
+Agent: "Done"
+```
+Three turns, user has to troubleshoot.
+
+**MUXI agents:**
+```
+User: "Create a file in /new/path/"
+Agent: "Done - created the directory and file"
+```
+One turn, agent handled it.
 
 ### Safety Mechanisms
 
-Configure in `formation.afs`:
+Tool chaining has built-in limits to prevent infinite loops:
 
 ```yaml
 mcp:
-  max_tool_iterations: 10     # Max retry attempts per chain
-  max_tool_calls: 50          # Total tool calls across all chains
+  max_tool_iterations: 10     # Max correction attempts per chain
+  max_tool_calls: 50          # Total tool calls allowed
   max_repeated_errors: 3      # Stop if same error repeats
-  max_timeout_in_seconds: 120 # 2 minutes max
+  max_timeout_in_seconds: 120 # Total time limit
 ```
+
+Each chain gets a unique ID (`chn_xxx`) for observability tracking.
 
 ---
 

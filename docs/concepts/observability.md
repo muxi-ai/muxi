@@ -104,6 +104,43 @@ observability:
     routing: true          # Agent selection decisions
 ```
 
+## Topic Tagging (Analytics)
+
+Every request automatically gets 1-5 semantic topic tags:
+
+```
+Request: "Analyze customer feedback survey data from last quarter"
+Topics: ["data-analysis", "customer-feedback", "surveys", "insights"]
+```
+
+**No extra LLM calls** - topics are extracted during request analysis that already happens.
+
+### What Topics Enable
+
+| Use Case | Example |
+|----------|---------|
+| **Dashboards** | "What are users asking about this week?" |
+| **Filtering** | "Show me all debugging-related requests" |
+| **Trends** | "API questions up 40% this month" |
+| **Alerting** | "Alert if >10 'authentication' requests fail" |
+
+### Event Format
+
+```json
+{
+  "event": "request.topics.extracted",
+  "data": {
+    "topics": ["data-analysis", "customer-feedback", "surveys"],
+    "topic_count": 3,
+    "complexity_score": 7.5
+  }
+}
+```
+
+Topics are normalized to lowercase-with-hyphens for consistency.
+
+---
+
 ## Use Cases
 
 ### Debugging

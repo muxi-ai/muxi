@@ -64,6 +64,23 @@ Tools are loaded efficiently - schemas indexed once, not dumped into every reque
 
 [[/toggle]]
 
+[[toggle What happens when tools fail?]]
+
+Agents **self-heal**. When a tool fails, agents analyze the error and take corrective action:
+
+```
+User: "Create file at /reports/q4/summary.txt"
+Agent: write_file(...) → Error: "Directory doesn't exist"
+Agent: create_directory("/reports/q4") → Success
+Agent: write_file(...) → Success!
+```
+
+The user never sees the error - the agent just handles it. This works for missing directories, authentication issues, rate limits, and more.
+
+**Learn more:** [Tools & MCP](concepts/tools-and-mcp.md#self-healing-agents-tool-chaining)
+
+[[/toggle]]
+
 [[toggle How do I give agents domain knowledge?]]
 
 Point agents at documents. MUXI indexes PDFs, Markdown, Word, Excel, images, and more. Each agent can have its own knowledge set.
@@ -231,6 +248,47 @@ One server, many users, complete isolation.
 
 [[/toggle]]
 
+[[toggle Can the same user chat on Slack AND web?]]
+
+Yes - **multi-identity** lets you link multiple identifiers to one user:
+
+```python
+# Same user, different platforms
+formation.associate_user_identifiers(
+    identifiers=[
+        "alice@email.com",          # Email
+        "U12345ABC",                 # Slack ID
+        "user_123"                   # Your internal ID
+    ]
+)
+
+# Now they all share the same memory
+formation.chat("Hi", user_id="alice@email.com")  # Same user
+formation.chat("Hi", user_id="U12345ABC")        # Same user
+```
+
+User chats on Slack, email, or web - same context everywhere.
+
+**Learn more:** [Multi-Identity Users](concepts/multi-identity.md) | [SDKs](sdks/README.md)
+
+[[/toggle]]
+
+[[toggle Can users recall past conversations?]]
+
+Yes - **cross-session memory**. Working memory spans sessions:
+
+```
+User: "Remember when we discussed Japan last week?"
+MUXI: "Yes! You mentioned a 2-week trip in March..."
+↑ Found in working memory from previous session
+```
+
+Sessions are separate conversation threads, but memory flows across them. Users can reference past chats without specifying which session.
+
+**Learn more:** [Sessions](concepts/sessions.md) | [Memory System](concepts/memory-system.md)
+
+[[/toggle]]
+
 [[toggle How do I deploy to production?]]
 
 One command:
@@ -257,6 +315,21 @@ MUXI is a **single binary** - no dependencies, no Docker required (though Docker
 Export to Datadog, Elastic, Splunk, OpenTelemetry, or webhooks - no sidecars needed.
 
 **Learn more:** [Observability](deep-dives/observability.md) | [Observability Events](deep-dives/observability-events.md) | [Set Up Monitoring](guides/setup-monitoring.md)
+
+[[/toggle]]
+
+[[toggle Can I see what users are asking about?]]
+
+Yes - **automatic topic tagging**. Every request gets 1-5 semantic topic tags:
+
+```
+Request: "Debug the OAuth authentication flow"
+Topics: ["debugging", "oauth", "authentication", "api"]
+```
+
+No extra LLM calls - topics are extracted during request analysis. Use topics for dashboards, filtering, trend analysis, and alerting.
+
+**Learn more:** [Observability](concepts/observability.md#topic-tagging-analytics)
 
 [[/toggle]]
 

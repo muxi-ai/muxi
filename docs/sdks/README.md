@@ -303,6 +303,121 @@ server.StartFormation(ctx, "my-bot")
 
 [[/tabs]]
 
+### Multi-Identity Users
+
+Link multiple identifiers (email, Slack ID, etc.) to a single user:
+
+[[tabs]]
+
+[[tab Python]]
+```python
+# Link email, Slack ID, and internal ID to same user
+result = formation.associate_user_identifiers(
+    identifiers=[
+        "alice@email.com",
+        {"identifier": "U12345ABC", "type": "slack"},
+        ("user_123", "internal"),
+    ],
+    user_id=None,  # Create new user (or pass existing user ID)
+)
+print(f"User ID: {result['muxi_user_id']}")
+
+# Now all identifiers resolve to the same user
+formation.chat("Hello", user_id="alice@email.com")  # Same user
+formation.chat("Hello", user_id="U12345ABC")        # Same user
+formation.chat("Hello", user_id="user_123")         # Same user
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+// Link identifiers to same user
+const result = await formation.associateUserIdentifiers({
+  identifiers: [
+    "alice@email.com",
+    { identifier: "U12345ABC", type: "slack" },
+  ],
+  userId: null,  // Create new user
+});
+console.log(`User ID: ${result.muxiUserId}`);
+```
+[[/tab]]
+
+[[tab Go]]
+```go
+result, _ := client.AssociateUserIdentifiers(ctx, &muxi.AssociateRequest{
+    Identifiers: []interface{}{
+        "alice@email.com",
+        muxi.TypedIdentifier{Identifier: "U12345ABC", Type: "slack"},
+    },
+    UserID: nil,
+})
+fmt.Printf("User ID: %s\n", result.MuxiUserID)
+```
+[[/tab]]
+
+[[/tabs]]
+
+**Why?** Users interact via multiple channels (Slack, email, web). Multi-identity ensures they get the same memory and context everywhere.
+
+[Learn more: Multi-Identity Users →](../concepts/multi-identity.md)
+
+### Session Restore
+
+Restore conversation history from your external storage:
+
+[[tabs]]
+
+[[tab Python]]
+```python
+# Restore session from your database
+messages = your_db.get_messages(session_id="sess_abc123")
+
+formation.restore_session(
+    session_id="sess_abc123",
+    messages=[
+        {"role": "user", "content": "Hello", "timestamp": "..."},
+        {"role": "assistant", "content": "Hi!", "timestamp": "..."},
+    ],
+    user_id="alice@email.com"
+)
+
+# User continues with full context
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+await formation.restoreSession({
+  sessionId: "sess_abc123",
+  messages: [
+    { role: "user", content: "Hello", timestamp: "..." },
+    { role: "assistant", content: "Hi!", timestamp: "..." },
+  ],
+  userId: "alice@email.com",
+});
+```
+[[/tab]]
+
+[[tab Go]]
+```go
+client.RestoreSession(ctx, &muxi.RestoreRequest{
+    SessionID: "sess_abc123",
+    Messages: []muxi.Message{
+        {Role: "user", Content: "Hello", Timestamp: "..."},
+        {Role: "assistant", Content: "Hi!", Timestamp: "..."},
+    },
+    UserID: "alice@email.com",
+})
+```
+[[/tab]]
+
+[[/tabs]]
+
+**Why?** MUXI's buffer is ephemeral. For persistent chat history (like ChatGPT's sidebar), persist messages yourself and restore when users return.
+
+[Learn more: Sessions →](../concepts/sessions.md)
+
 ---
 
 ## Error Handling
