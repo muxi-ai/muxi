@@ -9,115 +9,30 @@ description: Understand what you just built and how the pieces connect
 
 You completed the quickstart. Here's what you actually built:
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 950" width="500" height="950">
-  <defs>
-    <!-- Arrow marker -->
-    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#000"/>
-    </marker>
-  </defs>
+```mermaid
+---
+config:
+  layout: elk
+  elk:
+    mergeEdges: true
+    nodePlacementStrategy: LINEAR_SEGMENTS
+---
+flowchart TB
+    Request(["Your Request"])
+    Server["MUXI Server :7890"]
+    Overlord["Overlord"]
+    A1["Agent"] & A2["Agent"] & A3["Agent"]
+    LLM["LLM"] & Tools["Tools"] & RAG["Knowledge"]
+    Response(["Response"])
 
-  <!-- Background -->
-  <rect width="500" height="950" fill="#fff"/>
+    Request --> Server
+    Server --> Overlord
+    Overlord --> A1 & A2 & A3
+    A1 & A2 & A3 --> LLM & Tools & RAG
+    LLM & Tools & RAG --> Response
+```
 
-  <!-- YOUR REQUEST (top) -->
-  <ellipse cx="250" cy="50" rx="80" ry="30" fill="none" stroke="#000" stroke-width="1.5"/>
-  <text x="250" y="45" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="11" font-weight="bold">YOUR</text>
-  <text x="250" y="58" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="11" font-weight="bold">REQUEST</text>
-
-  <!-- Smooth curve: Request to Server -->
-  <path d="M 250 80 C 250 100, 250 110, 250 130" fill="none" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <!-- MUXI SERVER -->
-  <ellipse cx="250" cy="170" rx="90" ry="32" fill="none" stroke="#000" stroke-width="1.5"/>
-  <text x="250" y="165" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="11" font-weight="bold">MUXI SERVER</text>
-  <text x="250" y="180" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="9">:7890</text>
-
-  <!-- Label for server -->
-  <text x="250" y="220" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="8">ROUTES REQUESTS, MANAGES FORMATIONS</text>
-
-  <!-- Smooth curve: Server to Formation -->
-  <path d="M 250 202 C 250 230, 250 245, 250 265" fill="none" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <!-- FORMATION RUNTIME (large circle, no fill) -->
-  <circle cx="250" cy="420" r="130" fill="none" stroke="#000" stroke-width="1.5"/>
-
-  <!-- Formation label at top of circle -->
-  <text x="250" y="305" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="10" font-weight="bold">FORMATION RUNTIME</text>
-  <text x="250" y="318" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="8">:8001-8999</text>
-
-  <!-- Side label -->
-  <text x="30" y="420" text-anchor="start" fill="#000" font-family="'Courier New', monospace" font-size="8">YOUR AI SYSTEM:</text>
-  <text x="30" y="433" text-anchor="start" fill="#000" font-family="'Courier New', monospace" font-size="8">AGENTS + MEMORY</text>
-  <text x="30" y="446" text-anchor="start" fill="#000" font-family="'Courier New', monospace" font-size="8">+ TOOLS + KNOWLEDGE</text>
-
-  <!-- Curved line pointing to formation -->
-  <path d="M 118 420 C 105 420, 100 420, 95 420" fill="none" stroke="#000" stroke-width="1"/>
-
-  <!-- OVERLORD (inside formation) -->
-  <ellipse cx="250" cy="370" rx="70" ry="25" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="250" y="374" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="11" font-weight="bold">OVERLORD</text>
-
-  <!-- Smooth curves: Overlord to Agents -->
-  <path d="M 200 390 C 190 410, 175 425, 170 445" fill="none" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <path d="M 250 395 C 250 415, 250 430, 250 445" fill="none" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <path d="M 300 390 C 310 410, 325 425, 330 445" fill="none" stroke="#000" stroke-width="1.2" marker-end="url(#arrow)"/>
-
-  <!-- AGENTS (three circles inside formation) -->
-  <circle cx="170" cy="475" r="25" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="170" y="479" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="9" font-weight="bold">AGENT</text>
-
-  <circle cx="250" cy="475" r="25" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="250" y="479" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="9" font-weight="bold">AGENT</text>
-
-  <circle cx="330" cy="475" r="25" fill="#fff" stroke="#000" stroke-width="1.5"/>
-  <text x="330" y="479" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="9" font-weight="bold">AGENT</text>
-
-  <!-- Smooth curves: Agents converge and exit formation -->
-  <path d="M 170 500 C 170 530, 200 555, 250 570" fill="none" stroke="#000" stroke-width="1.2"/>
-  <path d="M 250 500 C 250 530, 250 545, 250 570" fill="none" stroke="#000" stroke-width="1.2"/>
-  <path d="M 330 500 C 330 530, 300 555, 250 570" fill="none" stroke="#000" stroke-width="1.2"/>
-
-  <!-- Arrow exiting formation -->
-  <path d="M 250 550 C 250 580, 250 600, 250 620" fill="none" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <!-- Bottom layer - smooth branching curves -->
-  <path d="M 250 640 C 200 660, 130 680, 100 700" fill="none" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <path d="M 250 640 C 250 660, 250 680, 250 700" fill="none" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <path d="M 250 640 C 300 660, 370 680, 400 700" fill="none" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <!-- LLM -->
-  <ellipse cx="100" cy="740" rx="55" ry="28" fill="none" stroke="#000" stroke-width="1.5"/>
-  <text x="100" y="736" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="11" font-weight="bold">LLM</text>
-  <text x="100" y="750" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="8">(OpenAI, etc.)</text>
-
-  <!-- TOOLS -->
-  <ellipse cx="250" cy="740" rx="50" ry="28" fill="none" stroke="#000" stroke-width="1.5"/>
-  <text x="250" y="736" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="11" font-weight="bold">TOOLS</text>
-  <text x="250" y="750" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="8">(MCP)</text>
-
-  <!-- KNOWLEDGE -->
-  <ellipse cx="400" cy="740" rx="60" ry="28" fill="none" stroke="#000" stroke-width="1.5"/>
-  <text x="400" y="736" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="10" font-weight="bold">KNOWLEDGE</text>
-  <text x="400" y="750" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="8">(RAG)</text>
-
-  <!-- Smooth curves converging to Response -->
-  <path d="M 100 768 C 100 800, 180 840, 250 855" fill="none" stroke="#000" stroke-width="1.2"/>
-  <path d="M 250 768 C 250 800, 250 830, 250 855" fill="none" stroke="#000" stroke-width="1.2"/>
-  <path d="M 400 768 C 400 800, 320 840, 250 855" fill="none" stroke="#000" stroke-width="1.2"/>
-
-  <!-- Arrow to Response -->
-  <path d="M 250 855 C 250 865, 250 875, 250 885" fill="none" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-  <!-- RESPONSE (pink circle) -->
-  <circle cx="250" cy="915" r="25" fill="#FF6B8A" stroke="none"/>
-  <text x="250" y="919" text-anchor="middle" fill="#000" font-family="'Courier New', monospace" font-size="9" font-weight="bold">RESPONSE</text>
-
-  <!-- Feedback loop - smooth curve back up -->
-  <path d="M 275 915 C 450 915, 470 500, 470 170 C 470 80, 400 50, 330 50" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arrow)"/>
-
-  <text x="480" y="500" text-anchor="start" fill="#000" font-family="'Courier New', monospace" font-size="7" writing-mode="vertical-rl">CONVERSATION CONTINUES</text>
-</svg>
+asdasd
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
