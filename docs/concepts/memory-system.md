@@ -24,28 +24,6 @@ flowchart TB
     C --> D
 ```
 
-```
-┌──────────────────────────────────────────┐
-│              Buffer Memory               │
-│    Recent messages (fast, in-memory)     │
-└───────────────────┬──────────────────────┘
-                    ↓
-┌──────────────────────────────────────────┐
-│              Working Memory              │
-│     Active session state (FAISSx)        │
-└───────────────────┬──────────────────────┘
-                    ↓
-┌──────────────────────────────────────────┐
-│              User Synopsis               │
-│    Who is this user? (LLM-synthesized)   │
-└───────────────────┬──────────────────────┘
-                    ↓
-┌──────────────────────────────────────────┐
-│            Persistent Memory             │
-│    Long-term storage (Postgres/SQLite)   │
-└──────────────────────────────────────────┘
-```
-
 | Layer | Purpose | Storage |
 |-------|---------|---------|
 | **Buffer** | Recent messages | In-memory |
@@ -68,7 +46,7 @@ MUXI uses **FAISSx** - our wrapper around Meta's FAISS library - for vector stor
 memory:
   working:
     provider: faissx
-    server: "http://faissx.internal:8080"  # Optional: shared server
+    server: "tcp://faissx.internal:45678"  # Optional: shared server
 ```
 
 ---
@@ -231,7 +209,7 @@ memory:
 
   working:
     provider: faissx
-    server: "http://faissx.internal:8080"
+    server: "tcp://faissx.internal:45678"
 
   persistent:
     provider: postgres
