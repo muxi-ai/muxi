@@ -116,8 +116,8 @@ my-formation/
 ├── sops/              ✓ Published
 ├── triggers/          ✓ Published
 ├── knowledge/         ✓ Published (optional)
-├── secrets.enc        ❌ Never (encrypted secrets)
-├── .key               ❌ Never (encryption key)
+├── secrets.enc       ❌ Never (encrypted secrets)
+├── .key              ❌ Never (encryption key)
 └── secrets            ✓ Published (shows required secrets)
 ```
 
