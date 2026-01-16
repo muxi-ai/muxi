@@ -214,6 +214,9 @@ mcp:
 
 ## Agent-Specific Tools
 
+> [!TIP]
+> **Prefer per-agent tools.** Defining tools per-agent improves Overlord's agent selection and each agent's tool selection. Use global MCP servers only for tools ALL agents need.
+
 Formation-level MCP servers (in `mcp/*.afs`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
 
 ```yaml

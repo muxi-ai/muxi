@@ -205,6 +205,13 @@ auth:
 
 ## Agent-Specific Tools
 
+> [!IMPORTANT]
+> **Prefer per-agent tools over global tools.** This produces better results:
+> - **Overlord routes smarter** - Uses tool capabilities to pick the right agent
+> - **Agents choose tools better** - Only see tools relevant to their role
+>
+> Reserve global MCP servers (in `mcp/*.afs`) for tools that genuinely apply to ALL agents.
+
 Formation-level MCP servers (in `mcp/*.afs`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
 
 ```yaml

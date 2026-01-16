@@ -102,7 +102,7 @@ On each request:
 ```
 Traditional MCP:
   Agent sees: ALL 50 tools (confusing, token-heavy)
-  
+
 MUXI:
   Agent sees: 3-5 relevant tools for this specific task
 ```
@@ -137,20 +137,30 @@ command: npx
 args: ["-y", "@modelcontextprotocol/server-github"]
 auth:
   type: env
-  GITHUB_TOKEN: "${{ user.secrets.GITHUB_TOKEN }}"
+  GITHUB_TOKEN: "${{ user.credentials.GITHUB_TOKEN }}"
 ```
 
 Credentials encrypted at rest. Complete isolation between users.
 
 **Formation structure:**
 - Server definitions live in `mcp/*.afs` files (auto-discovered)
-- Per-user secrets referenced as `user.secrets.*`
+- Per-user secrets referenced as `user.credentials.*`
 - All agents have access to formation-level MCP servers
 - Agent-specific tools use `mcp_servers:` in agent files
 
 ---
 
 ## Agent-Specific Tools
+
+> [!IMPORTANT]
+> **Prefer per-agent tools over global tools.** Define MCP servers in agent files (`mcp_servers:`) rather than formation-level (`mcp/*.afs`) whenever possible.
+>
+> **Why this matters:**
+> - **Better agent selection** - Overlord uses tool capabilities to route requests to the right agent
+> - **Better tool selection** - Agents only see tools relevant to their role, reducing confusion
+> - **Cleaner architecture** - Each agent has exactly what it needs, nothing more
+>
+> Only use formation-level MCP servers for tools that genuinely apply to ALL agents (e.g., a shared logging service).
 
 Formation-level MCP servers (in `mcp/*.afs`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
 
