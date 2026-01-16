@@ -8,7 +8,8 @@ description: Configure MUXI's personality, communication style, and tone
 
 The Overlord persona defines how MUXI communicates with users. Since users talk to MUXI (not individual agents), this persona shapes the entire user experience.
 
-> **Important:** Only the Overlord has a persona. Agents have **system prompts** (instructions) and **capabilities** (metadata) - but not personas.
+> [!IMPORTANT]
+> As the main entity users users interact with, the Overlord uses its persona to synthesize all communication with the same tone and style.
 
 ## Why Persona Matters
 
@@ -107,7 +108,7 @@ overlord:
 ```
 Analysis results (Q3 2024):
 - Revenue: +15% QoQ ($2.3M → $2.65M)
-- CAC: -8% ($120 → $110)  
+- CAC: -8% ($120 → $110)
 - Retention: 94% (industry avg: 87%)
 ```
 

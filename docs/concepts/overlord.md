@@ -70,7 +70,7 @@ User: "I need a report about bicycles"
          ↓
 Overlord: Is this actionable? Do I have enough info?
          ↓
-Overlord: "What should the report include? Financial analysis? 
+Overlord: "What should the report include? Financial analysis?
           Buyer's guide? Specific brands?"
          ↓
 User: "A buyer's guide for mountain bikes under $1000"
@@ -95,7 +95,7 @@ User: "Research our competitors, analyze their pricing, and create a presentatio
 
 Overlord creates workflow on-the-fly:
   Task 1: researcher → "Research competitor companies"
-  Task 2: analyst → "Analyze pricing strategies"  
+  Task 2: analyst → "Analyze pricing strategies"
   Task 3: writer → "Create presentation"
 ```
 
@@ -133,7 +133,7 @@ Overlord: "This is complex. Here's my plan:
           2. Analyze competitor data
           3. Create visualizations
           4. Write executive summary
-          
+
           Do you approve? Any adjustments?"
          ↓
 User: "Looks good, go ahead"
@@ -168,8 +168,6 @@ The Overlord reads this metadata and routes research tasks to this agent.
 ---
 
 ## Persona (Overlord Only)
-
-> **Note:** Agent personas don't exist. Only the Overlord has a persona.
 
 The persona defines how MUXI communicates with users:
 
@@ -214,13 +212,13 @@ SOPs always win - if a request matches an SOP, it executes regardless of complex
 overlord:
   # Persona
   persona: "You are a helpful professional assistant."
-  
+
   # Workflow settings
   workflow:
     auto_decomposition: true
     complexity_threshold: 7.0
     max_parallel_tasks: 5
-    
+
   # Clarification
   clarification:
     style: conversational
