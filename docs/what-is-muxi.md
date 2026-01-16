@@ -18,18 +18,16 @@ Think of it this way:
 - APIs have **application servers** (Express, FastAPI)
 - Agents now have **MUXI**
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    The MUXI Stack                           │
-├─────────────────────────────────────────────────────────────┤
-│   SDKs        Python, TypeScript, Go, Swift, Java...        │
-├─────────────────────────────────────────────────────────────┤
-│   APIs        REST endpoints for chat, deploy, stream       │
-├─────────────────────────────────────────────────────────────┤
-│   Runtime     Agents, memory, tools, orchestration          │
-├─────────────────────────────────────────────────────────────┤
-│   Server      Multi-formation deployments, auth, routing    │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+block-beta
+    block:stack
+        columns 1
+        A["The MUXI Stack"]
+        B["<b>SDKs:</b> Python, TypeScript, Go, Swift, Java..."]
+        C["<b>APIs:</b> REST endpoints for chat, deploy, stream"]
+        D["<b>Runtime:</b> Agents, memory, tools, orchestration"]
+        E["<b>Server:</b> Multi-formation deployments, auth, routing"]
+    end
 ```
 
 ---

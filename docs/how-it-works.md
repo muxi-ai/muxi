@@ -10,15 +10,26 @@ description: Understand what you just built and how the pieces connect
 You completed the quickstart. Here's what you actually built:
 
 ```mermaid
-block-beta
-    block:stack
-        columns 1
-        A["The MUXI Stack"]
-        B["<b>SDKs:</b> Python, TypeScript, Go, Swift, Java..."]
-        C["<b>APIs:</b> REST endpoints for chat, deploy, stream"]
-        D["<b>Runtime:</b> Agents, memory, tools, orchestration"]
-        E["<b>Server:</b> Multi-formation deployments, auth, routing"]
-    end
+---
+config:
+  layout: elk
+  elk:
+    mergeEdges: true
+    nodePlacementStrategy: LINEAR_SEGMENTS
+---
+flowchart TB
+    Request(["<strong>Your Request</strong>\n<small>“Hello, assistant!”</small>"])
+    Server["<strong>MUXI Server :7890</strong>\n<small>Routes requests / Manages formations / Handles auth</small>"]
+    Overlord["<strong>Overlord</strong>\n<small>Loads memory context / Routes to agents / Applies persona / Updates memory</small>"]
+    A1["Agent"] & A2["Agent"] & A3["Agent"]
+    LLM["LLM\n(OpenAI)"] & Tools["Tools\n(MCP)"] & RAG["Knowledge\n(RAG)"]
+    Response(["Response"])
+
+    Request --> Server
+    Server --> Overlord
+    Overlord --> A1 & A2 & A3
+    A1 & A2 & A3 --> LLM & Tools & RAG
+    LLM & Tools & RAG --> Response
 ```
 
 **Think of it as:**
