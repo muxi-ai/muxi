@@ -10,13 +10,19 @@ description: Understand what you just built and how the pieces connect
 You completed the quickstart. Here's what you actually built:
 
 ```mermaid
-%%{init: {"flowchart": {"defaultRenderer": "elk", "elk": {"mergeEdges": true, "nodePlacementStrategy": "LINEAR_SEGMENTS"}}} }%%
+---
+config:
+  layout: elk
+  elk:
+    mergeEdges: true
+    nodePlacementStrategy: LINEAR_SEGMENTS
+---
 flowchart TB
-    Request(["Your Request"])
-    Server["MUXI Server :7890"]
-    Overlord["Overlord"]
+    Request(["<strong>Your Request</strong>\n<small>“Hello, assistant!”</small>"])
+    Server["<strong>MUXI Server :7890</strong>\n<small>Routes requests / Manages formations / Handles auth</small>"]
+    Overlord["<strong>Overlord</strong>\n<small>Loads memory context / Routes to agents / Applies persona / Updates memory</small>"]
     A1["Agent"] & A2["Agent"] & A3["Agent"]
-    LLM["LLM"] & Tools["Tools"] & RAG["Knowledge"]
+    LLM["LLM\n(OpenAI)"] & Tools["Tools\n(MCP)"] & RAG["Knowledge\n(RAG)"]
     Response(["Response"])
 
     Request --> Server
@@ -24,47 +30,6 @@ flowchart TB
     Overlord --> A1 & A2 & A3
     A1 & A2 & A3 --> LLM & Tools & RAG
     LLM & Tools & RAG --> Response
-```
-
-asdasd
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        Your Request                         │
-│                     "Hello, assistant!"                     │
-└──────────────────────────────┬──────────────────────────────┘
-                               ↓
-┌─────────────────────────────────────────────────────────────┐
-│                   MUXI Server (:7890)                       │
-│         Routes requests, manages formations, handles auth   │
-└──────────────────────────────┬──────────────────────────────┘
-                               ↓
-┌─────────────────────────────────────────────────────────────┐
-│               Formation Runtime (:8001-8999)                │
-│     Your AI system: agents + memory + tools + knowledge     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │                     Overlord                        │   │
-│   │  • Loads memory context    • Routes to agents       │   │
-│   │  • Applies persona         • Updates memory         │   │
-│   └──────────────────────────┬──────────────────────────┘   │
-│                              ↓                              │
-│       ┌───────────┐    ┌───────────┐    ┌───────────┐       │
-│       │   Agent   │    │   Agent   │    │   Agent   │       │
-│       │           │    │           │    │           │       │
-│       └─────┬─────┘    └─────┬─────┘    └─────┬─────┘       │
-│             │                │                │             │
-│             └────────────────┼────────────────┘             │
-│                              ↓                              │
-│             ┌────────────────┼────────────────┐             │
-│             ↓                ↓                ↓             │
-│       ┌───────────┐    ┌───────────┐    ┌───────────┐       │
-│       │    LLM    │    │   Tools   │    │ Knowledge │       │
-│       │  (OpenAI) │    │   (MCP)   │    │   (RAG)   │       │
-│       └───────────┘    └───────────┘    └───────────┘       │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
 ```
 
 **Think of it as:**
