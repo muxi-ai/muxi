@@ -142,7 +142,7 @@ Discover and share formations.
 </svg>
 
 
-#### Core Concepts
+### Core Concepts
 
 - [Architecture](concepts/architecture.md)
 - [The Overlord](concepts/overlord.md)
