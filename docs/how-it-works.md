@@ -10,13 +10,7 @@ description: Understand what you just built and how the pieces connect
 You completed the quickstart. Here's what you actually built:
 
 ```mermaid
----
-config:
-  layout: elk
-  elk:
-    mergeEdges: true
-    nodePlacementStrategy: LINEAR_SEGMENTS
----
+%%{init: {"flowchart": {"defaultRenderer": "elk", "elk": {"mergeEdges": true, "nodePlacementStrategy": "LINEAR_SEGMENTS"}}} }%%
 flowchart TB
     Request(["Your Request"])
     Server["MUXI Server :7890"]
