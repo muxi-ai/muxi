@@ -112,6 +112,9 @@ Creates formations, deploys to servers, manages secrets. Written in Go.
 Python, TypeScript, Go, etc. Build apps, chat with formations, manage sessions, fire triggers.
 [[/card]]
 
+::::
+
+
 [[card]]
 
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -130,7 +133,6 @@ Python, TypeScript, Go, etc. Build apps, chat with formations, manage sessions, 
 Share and discover formations. Version management. Like npm for agents.
 [[/card]]
 
-::::
 
 > [!NOTE]
 > The runtime ships as a native SIF image for Linux. On macOS/Windows, run via Docker; on Linux, run SIF directly (or Docker if preferred).
