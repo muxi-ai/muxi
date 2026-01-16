@@ -63,7 +63,7 @@ flowchart TB
 
 Manages formation lifecycle, routes requests, handles auth, monitors health. Written in Go.
 
-Port: 7890
+Default port: `7890`
 [[/card]]
 
 [[card]]
@@ -84,7 +84,7 @@ Port: 7890
 
 Runs agent logic, manages memory, calls LLMs, executes tools. Written in Python (FastAPI*).
 
-Ports: 8001-8999
+Default ports: `8001-8999`
 [[/card]]
 
 [[card]]
@@ -113,7 +113,7 @@ Creates formations, deploys to servers, manages secrets. Written in Go.
 #### SDKs
 **Client libraries**
 
-Python, TypeScript, Go. Chat with formations, manage sessions, fire triggers.
+Python, TypeScript, Go, etc. Build apps, chat with formations, manage sessions, fire triggers.
 [[/card]]
 
 [[card]]
