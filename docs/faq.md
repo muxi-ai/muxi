@@ -41,7 +41,7 @@ MUXI has a **four-layer memory system**:
 
 User Synopsis reduces token usage by 80%+ by replacing full history with a concise profile.
 
-> **Note:** Multi-tenancy requires Postgres. Without it, MUXI supports a single user with no long-term memory.
+> **Note:** Long-term memory requires either Postgres (multi-tenant) or SQLite (single-user).
 
 **Learn more:** [Memory System](concepts/memory-system.md) | [Memory Internals](deep-dives/memory-internals.md) | [Add Memory](guides/add-memory.md)
 
@@ -115,7 +115,7 @@ tags: refund, customer, payment
 ## Steps
 
 1. **Verify Purchase** - Look up order in system
-2. **Check Policy** - Verify refund eligibility  
+2. **Check Policy** - Verify refund eligibility
 3. **Process or Deny** - Issue refund or explain denial
 ```
 
@@ -354,13 +354,13 @@ Yes. **Enterprise resilience patterns** are baked in:
 ```
 Traditional: "Error: 401 Unauthorized"
 
-MUXI: "Unable to connect to Linear. Please check that your 
+MUXI: "Unable to connect to Linear. Please check that your
       API token is configured correctly in settings."
 ```
 
 Plus automatic context-aware handling:
 - Rate limited? → "Waiting 30 seconds before retrying..."
-- Timeout? → "The service is slow, retrying..." 
+- Timeout? → "The service is slow, retrying..."
 - Partial failure? → Delivers what succeeded + explains what didn't
 
 Users stay informed, not frustrated.
@@ -376,7 +376,7 @@ Several built-in features help:
   "What's the weather?" ≈ "How's the weather today?" → Cache hit!
   ```
   Typical savings: **70%+ cost reduction**
-  
+
 - **User Synopsis Caching** - Compress long conversation history (80%+ token reduction)
 - **Efficient tool loading** - Tool schemas indexed once, not sent every request
 - **Model mixing** - Use cheaper models for simple tasks, expensive ones for complex
@@ -394,7 +394,7 @@ triggers:
   daily-report:
     schedule: "0 9 * * *"    # Every day at 9am
     action: "Generate daily analytics summary"
-  
+
   weekly-cleanup:
     schedule: "every monday at 6am"
     action: "Archive old conversations"

@@ -13,6 +13,12 @@ MUXI is a layered system: CLI and SDKs talk to Servers, which manage Formations 
 ## System Overview
 
 ```mermaid
+---
+config:
+  layout: elk
+  elk:
+    nodePlacementStrategy: LINEAR_SEGMENTS
+---
 flowchart TB
     subgraph Clients
         CLI[CLI]
@@ -21,7 +27,7 @@ flowchart TB
 
     subgraph Infrastructure
         Server["Server (:7890)"]
-        subgraph Formations["Formation Runtimes (:8001-8999)"]
+        subgraph Formations["Formation Runtimes\n(:8001-8999)"]
             F1[Formation A]
             F2[Formation B]
             F3[Formation C]
