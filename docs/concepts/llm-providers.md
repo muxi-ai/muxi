@@ -8,7 +8,8 @@ description: How MUXI works with any language model
 
 MUXI is LLM-agnostic. You can run proprietary APIs (OpenAI, Anthropic, Google), managed services (Bedrock, Vertex), or self-hosted models (Ollama, vLLM, llama.cpp) in the same formation.
 
----
+> [!TIP]
+> **Test different models.** LLM performance varies significantly by task. A model that excels at reasoning may struggle with creative writing. Run your actual prompts through several models to find the best fit for each agent's role.
 
 ## Powered by OneLLM
 
@@ -19,9 +20,6 @@ Under the hood, MUXI uses [OneLLM](https://github.com/muxi-ai/onellm) - a unifie
 - **Cloud platforms:** AWS Bedrock, Google Vertex AI, Azure OpenAI
 - **Self-hosted:** Ollama, vLLM, llama.cpp, LM Studio, text-generation-webui
 - **Any OpenAI-compatible endpoint**
-
-> [!TIP]
-> **Test different models.** LLM performance varies significantly by task. A model that excels at reasoning may struggle with creative writing. Run your actual prompts through several models to find the best fit for each agent's role.
 
 ---
 

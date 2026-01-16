@@ -139,7 +139,7 @@
 
 **Questions:**
 - [ ] Does `type: http` MCP work? (vs `type: command`)
-- [ ] Is `${{ user.secrets.* }}` interpolation working?
+- [ ] Is `${{ user.credentials.* }}` interpolation working?
 - [ ] Are timeout and retry settings respected?
 
 ---

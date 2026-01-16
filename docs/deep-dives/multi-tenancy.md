@@ -90,14 +90,14 @@ Sessions are **always** bound to a user. Attempting to access another user's ses
 ```python
 def get_session(session_id: str, user_id: str) -> Session:
     session = sessions.get(session_id)
-    
+
     if session is None:
         raise NotFoundError("Session not found")
-    
+
     if session.user_id != user_id:
         # Don't reveal session exists
         raise NotFoundError("Session not found")
-    
+
     return session
 ```
 
@@ -131,7 +131,7 @@ Every query includes user context:
 def search_memories(query: str, user_id: str):
     # Set session context for RLS
     db.execute(f"SET app.current_user_id = '{user_id}'")
-    
+
     # Query automatically filtered by RLS
     return db.query(
         "SELECT * FROM memories WHERE embedding <-> %s < 0.5",
@@ -147,7 +147,7 @@ For large deployments, separate FAISS indices per tenant:
 class TenantMemoryManager:
     def __init__(self):
         self.indices = {}  # tenant_id → FAISS index
-    
+
     def get_index(self, tenant_id: str):
         if tenant_id not in self.indices:
             self.indices[tenant_id] = faiss.IndexFlatIP(1536)
@@ -199,7 +199,7 @@ command: npx
 args: ["-y", "@modelcontextprotocol/server-github"]
 auth:
   type: env
-  GITHUB_TOKEN: "${{ user.secrets.GITHUB_TOKEN }}"
+  GITHUB_TOKEN: "${{ user.credentials.GITHUB_TOKEN }}"
 ```
 
 At runtime:
@@ -244,11 +244,11 @@ access:
 ```python
 def check_permission(user_id: str, action: str) -> bool:
     roles = get_user_roles(user_id)
-    
+
     for role in roles:
         if action in role.permissions:
             return True
-    
+
     return False
 ```
 

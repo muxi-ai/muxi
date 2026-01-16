@@ -201,7 +201,7 @@ my-formation/
 | Scheduled Tasks | `formation.afs` (`scheduler:` config) - users schedule via natural language |
 | Async Processing | `formation.afs` (`async:` threshold, webhooks) |
 | Secrets | `secrets.enc` - referenced as `${{ secrets.NAME }}` anywhere |
-| User Credentials | `${{ user.secrets.NAME }}` - per-user secrets bound at runtime |
+| User Credentials | `${{ user.credentials.NAME }}` - per-user secrets bound at runtime |
 | Clarification | `formation.afs` (`overlord.clarification:` settings) |
 | Server/API | `formation.afs` (`server:` host, port, API keys) |
 | Logging | `formation.afs` (`logging:` destinations, formats) |
