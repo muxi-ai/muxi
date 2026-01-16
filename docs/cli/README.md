@@ -67,7 +67,7 @@ muxi formation restart <id>
 [[card]]
 #### Registry
 ```bash
-muxi pull @muxi/starter
+muxi pull @acme/starter
 muxi push
 muxi search <query>
 ```
@@ -107,7 +107,7 @@ muxi logs my-assistant --follow
 ### Pull from Registry
 
 ```bash
-muxi pull @muxi/research-agent
+muxi pull @acme/research-agent
 cd research-agent
 muxi secrets setup
 muxi dev

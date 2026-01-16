@@ -64,23 +64,23 @@ MUXI follows [semver](https://semver.org):
 ### Latest (Default)
 
 ```bash
-muxi pull @muxi/starter
+muxi pull @acme/starter
 # Gets latest version
 ```
 
 ### Exact Version
 
 ```bash
-muxi pull @muxi/starter@1.0.0
+muxi pull @acme/starter@1.0.0
 # Gets exactly v1.0.0
 ```
 
 ### Version Ranges
 
 ```bash
-muxi pull @muxi/starter@^1.0.0    # Latest 1.x.x
-muxi pull @muxi/starter@~1.0.0    # Latest 1.0.x
-muxi pull @muxi/starter@>=1.0.0   # 1.0.0 or higher
+muxi pull @acme/starter@^1.0.0    # Latest 1.x.x
+muxi pull @acme/starter@~1.0.0    # Latest 1.0.x
+muxi pull @acme/starter@>=1.0.0   # 1.0.0 or higher
 ```
 
 | Pattern | Matches |
@@ -166,7 +166,7 @@ muxi formation rollback my-formation --to 1.0.0
 Pin production to specific versions:
 
 ```bash
-muxi pull @muxi/starter@1.0.0
+muxi pull @acme/starter@1.0.0
 muxi deploy
 ```
 

@@ -194,7 +194,7 @@
 **File:** `concepts/registry.md`
 
 - [ ] Is registry.muxi.org live?
-- [ ] Does `muxi pull @muxi/starter` work?
+- [ ] Does `muxi pull @acme/starter` work?
 - [ ] Are private registries actually "planned"?
 
 ---

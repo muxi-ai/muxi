@@ -19,7 +19,7 @@ muxi search <query>        # Search registry
 ## Pull Formation
 
 ```bash
-muxi pull @muxi/starter-assistant
+muxi pull @acme/starter-assistant
 ```
 
 Downloads to current directory:
@@ -37,13 +37,13 @@ muxi dev
 ### Pull Specific Version
 
 ```bash
-muxi pull @muxi/starter-assistant@1.0.0
+muxi pull @acme/starter-assistant@1.0.0
 ```
 
 ### Pull to Custom Path
 
 ```bash
-muxi pull @muxi/starter-assistant --output /path/to/dir
+muxi pull @acme/starter-assistant --output /path/to/dir
 ```
 
 ## Search Registry
@@ -151,7 +151,7 @@ registry:
 
 ```bash
 # Pull official starter
-muxi pull @muxi/starter
+muxi pull @acme/starter
 
 # Search for research agents
 muxi search research
@@ -160,5 +160,5 @@ muxi search research
 muxi push --public
 
 # Pull specific version
-muxi pull @muxi/support@2.0.0
+muxi pull @acme/support@2.0.0
 ```

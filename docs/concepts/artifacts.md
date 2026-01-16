@@ -150,13 +150,13 @@ Artifacts are organized by session:
 
 ```
 artifacts/
-├── session_xyz/
-│   ├── art_ABC123/
-│   │   ├── file.pdf
-│   │   └── metadata.json
-│   └── art_DEF456/
-│       ├── chart.png
-│       └── metadata.json
+└── session_xyz/
+    ├── art_ABC123/
+    │   ├── file.pdf
+    │   └── metadata.json
+    └── art_DEF456/
+        ├── chart.png
+        └── metadata.json
 ```
 
 **Metadata includes:**

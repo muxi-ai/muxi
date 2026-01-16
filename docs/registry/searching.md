@@ -71,7 +71,7 @@ Requirements:
 ## Pull Formation
 
 ```bash
-muxi pull @muxi/support-bot
+muxi pull @acme/support-bot
 ```
 
 Downloads to current directory.
@@ -79,13 +79,13 @@ Downloads to current directory.
 ### Specific Version
 
 ```bash
-muxi pull @muxi/support-bot@1.0.0
+muxi pull @acme/support-bot@1.0.0
 ```
 
 ### Custom Path
 
 ```bash
-muxi pull @muxi/support-bot --output ~/formations/
+muxi pull @acme/support-bot --output ~/formations/
 ```
 
 ## Categories

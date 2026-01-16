@@ -133,9 +133,9 @@ muxi search "customer support"
 muxi search --tag research
 
 # Pull
-muxi pull @muxi/starter
-muxi pull @muxi/starter@1.0.0
-muxi pull @muxi/starter --output ~/formations/
+muxi pull @acme/starter
+muxi pull @acme/starter@1.0.0
+muxi pull @acme/starter --output ~/formations/
 
 # Info
 muxi info @muxi/starter

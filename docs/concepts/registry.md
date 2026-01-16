@@ -10,7 +10,7 @@ description: Share and distribute formations like Docker images
 The MUXI Registry is a distribution hub for formations. Pull community formations with one command. Publish your own. Version control, rollbacks, and namespaces built in.
 
 When to use the registry:
-- Start from a proven template (`muxi pull @muxi/starter`)
+- Start from a proven template (`muxi pull @acme/starter`)
 - Share formations with the community
 - Version and roll back formations safely
 
@@ -21,7 +21,7 @@ If you know Docker, you know MUXI:
 
 | Docker | MUXI |
 |--------|------|
-| `docker pull nginx` | `muxi pull @muxi/starter` |
+| `docker pull nginx` | `muxi pull @acme/starter` |
 | `docker push myapp` | `muxi push` |
 | `Dockerfile` | `formation.afs` |
 | Docker Hub | MUXI Registry |
@@ -36,7 +36,7 @@ Formations are **portable, versioned, shareable** - just like container images.
 ### Pull a Formation
 
 ```bash
-muxi pull @muxi/research-agent
+muxi pull @acme/research-agent
 cd research-agent
 muxi secrets setup
 muxi dev
@@ -87,9 +87,9 @@ muxi push
 ### Pull Specific Versions
 
 ```bash
-muxi pull @muxi/starter@1.0.0      # Exact version
-muxi pull @muxi/starter@^1.0.0     # Latest 1.x.x
-muxi pull @muxi/starter@latest     # Latest (default)
+muxi pull @acme/starter@1.0.0      # Exact version
+muxi pull @acme/starter@^1.0.0     # Latest 1.x.x
+muxi pull @acme/starter@latest     # Latest (default)
 ```
 
 ### Instant Rollback
@@ -116,8 +116,8 @@ my-formation/
 ├── sops/              ✓ Published
 ├── triggers/          ✓ Published
 ├── knowledge/         ✓ Published (optional)
-├── secrets.enc       ❌ Never (encrypted secrets)
-├── .key              ❌ Never (encryption key)
+├── secrets.enc        ❌ Never (encrypted secrets)
+├── .key               ❌ Never (encryption key)
 └── secrets            ✓ Published (shows required secrets)
 ```
 
@@ -167,7 +167,7 @@ The result: **formations that spread**, not code that rots in private repos.
 
 ```bash
 # Try an official formation
-muxi pull @muxi/starter
+muxi pull @acme/starter
 cd starter
 muxi secrets setup
 muxi dev

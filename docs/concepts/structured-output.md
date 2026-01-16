@@ -206,16 +206,60 @@ agents:
 
 ### API Responses
 
-```python
-# REST API endpoint
-@app.post("/api/analyze")
-async def analyze(text: str):
-    formation = Formation()
-    formation.overlord.response_format = "json"
+[[tabs]]
 
-    response = await formation.overlord.chat(f"Analyze: {text}")
-    return JSONResponse(response.content)  # Already JSON!
+[[tab Python]]
+```python
+from muxi import Muxi
+
+client = Muxi()
+
+# Request JSON format
+response = client.chat(
+    message="Analyze: " + text,
+    format="json"
+)
+
+# response.content is already JSON!
+return response.content
 ```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+import { Muxi } from '@muxi/sdk';
+
+const client = new Muxi();
+
+// Request JSON format
+const response = await client.chat({
+  message: `Analyze: ${text}`,
+  format: 'json'
+});
+
+// response.content is already JSON!
+return response.content;
+```
+[[/tab]]
+
+[[tab Go]]
+```go
+import "github.com/muxi-ai/muxi-go"
+
+client := muxi.NewClient()
+
+// Request JSON format
+response, _ := client.Chat(ctx, &muxi.ChatRequest{
+    Message: "Analyze: " + text,
+    Format:  "json",
+})
+
+// response.Content is already JSON!
+return response.Content
+```
+[[/tab]]
+
+[[/tabs]]
 
 ### Form Filling
 
@@ -244,16 +288,68 @@ agents:
 
 ### Database Inserts
 
+[[tabs]]
+
+[[tab Python]]
 ```python
-# Extract data and insert into database
-response = await overlord.chat(
-    "Extract product info from this description: ..."
+from muxi import Muxi
+import json
+
+client = Muxi()
+
+# Extract data
+response = client.chat(
+    message="Extract product info from this description: ...",
+    format="json"
 )
 
 # response.content is already JSON
 product_data = json.loads(response.content)
 db.insert("products", product_data)
 ```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+import { Muxi } from '@muxi/sdk';
+
+const client = new Muxi();
+
+// Extract data
+const response = await client.chat({
+  message: 'Extract product info from this description: ...',
+  format: 'json'
+});
+
+// response.content is already JSON
+const productData = JSON.parse(response.content);
+await db.insert('products', productData);
+```
+[[/tab]]
+
+[[tab Go]]
+```go
+import (
+    "encoding/json"
+    "github.com/muxi-ai/muxi-go"
+)
+
+client := muxi.NewClient()
+
+// Extract data
+response, _ := client.Chat(ctx, &muxi.ChatRequest{
+    Message: "Extract product info from this description: ...",
+    Format:  "json",
+})
+
+// response.Content is already JSON
+var productData map[string]interface{}
+json.Unmarshal([]byte(response.Content), &productData)
+db.Insert("products", productData)
+```
+[[/tab]]
+
+[[/tabs]]
 
 ---
 
@@ -270,17 +366,49 @@ overlord:
 
 ### Runtime Override
 
+[[tabs]]
+
+[[tab Python]]
 ```python
-# Override for specific requests
-overlord.response_format = "json"
-response1 = await overlord.chat("Extract data...")
+from muxi import Muxi
 
-overlord.response_format = "text"
-response2 = await overlord.chat("Summarize...")
+client = Muxi()
 
-# Reset to formation default
-overlord.response_format = None
+# JSON format for this request
+response1 = client.chat(message="Extract data...", format="json")
+
+# Text format for this request
+response2 = client.chat(message="Summarize...", format="text")
 ```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+import { Muxi } from '@muxi/sdk';
+
+const client = new Muxi();
+
+// JSON format for this request
+const response1 = await client.chat({ message: 'Extract data...', format: 'json' });
+
+// Text format for this request
+const response2 = await client.chat({ message: 'Summarize...', format: 'text' });
+```
+[[/tab]]
+
+[[tab Go]]
+```go
+client := muxi.NewClient()
+
+// JSON format for this request
+response1, _ := client.Chat(ctx, &muxi.ChatRequest{Message: "Extract data...", Format: "json"})
+
+// Text format for this request
+response2, _ := client.Chat(ctx, &muxi.ChatRequest{Message: "Summarize...", Format: "text"})
+```
+[[/tab]]
+
+[[/tabs]]
 
 ### Per-Request Format
 
@@ -300,24 +428,51 @@ curl -X POST http://localhost:8001/v1/chat \
 
 All formats work with streaming:
 
+[[tabs]]
+
+[[tab Python]]
 ```python
+from muxi import Muxi
+
+client = Muxi()
+
 # Stream JSON response
-overlord.response_format = "json"
-async for chunk in overlord.chat_stream("Analyze this..."):
+for chunk in client.chat_stream(message="Analyze this...", format="json"):
     print(chunk.text, end="", flush=True)
 ```
+[[/tab]]
 
-The agent streams the JSON as it's generated:
+[[tab TypeScript]]
+```typescript
+import { Muxi } from '@muxi/sdk';
 
-```
-{"
-"name": "John"
-, "email": "john@ex
-ample.com"
+const client = new Muxi();
+
+// Stream JSON response
+for await (const chunk of client.chatStream({ message: 'Analyze this...', format: 'json' })) {
+  process.stdout.write(chunk.text);
 }
 ```
+[[/tab]]
 
-Collect chunks and parse at the end.
+[[tab Go]]
+```go
+client := muxi.NewClient()
+
+// Stream JSON response
+stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{
+    Message: "Analyze this...",
+    Format:  "json",
+})
+for chunk := range stream {
+    fmt.Print(chunk.Text)
+}
+```
+[[/tab]]
+
+[[/tabs]]
+
+The agent streams the JSON as it's generated - collect chunks and parse at the end.
 
 ---
 
@@ -338,7 +493,15 @@ Clear instructions → better structured output.
 
 ### Schema in Prompt
 
+[[tabs]]
+
+[[tab Python]]
 ```python
+from muxi import Muxi
+import json
+
+client = Muxi()
+
 schema = {
     "name": "string",
     "email": "string",
@@ -346,25 +509,71 @@ schema = {
     "company": "string | null"
 }
 
-response = await overlord.chat(f"""
-Extract customer info. Return JSON matching this schema:
+response = client.chat(
+    message=f"""Extract customer info. Return JSON matching this schema:
 {json.dumps(schema, indent=2)}
 
-Text: {input_text}
-""")
+Text: {input_text}""",
+    format="json"
+)
 ```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+import { Muxi } from '@muxi/sdk';
+
+const client = new Muxi();
+
+const schema = {
+  name: 'string',
+  email: 'string',
+  phone: 'string | null',
+  company: 'string | null'
+};
+
+const response = await client.chat({
+  message: `Extract customer info. Return JSON matching this schema:
+${JSON.stringify(schema, null, 2)}
+
+Text: ${inputText}`,
+  format: 'json'
+});
+```
+[[/tab]]
+
+[[/tabs]]
 
 Providing schema improves accuracy.
 
 ### Error Handling
 
+[[tabs]]
+
+[[tab Python]]
 ```python
+import json
+
 try:
     data = json.loads(response.content)
 except json.JSONDecodeError:
     # Invalid JSON - retry or use fallback
     logger.error("Agent returned invalid JSON")
 ```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+try {
+  const data = JSON.parse(response.content);
+} catch (e) {
+  // Invalid JSON - retry or use fallback
+  console.error('Agent returned invalid JSON');
+}
+```
+[[/tab]]
+
+[[/tabs]]
 
 Always validate, even with structured output.
 

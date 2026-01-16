@@ -209,7 +209,7 @@ Discover and share formations through the [MUXI Registry](https://registry.muxi.
 
 ```bash
 # Pull a pre-built formation
-muxi pull @muxi/customer-support
+muxi pull @acme/customer-support
 
 # Publish your own
 muxi publish my-agent:1.0.0

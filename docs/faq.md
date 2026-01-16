@@ -545,8 +545,8 @@ Yes. The **embeddable runtime** lets you run MUXI inside your application - no s
 Yes. Pull formations from the **MUXI Registry**:
 
 ```bash
-muxi pull @muxi/customer-support
-muxi pull @muxi/code-reviewer
+muxi pull @acme/customer-support
+muxi pull @acme/code-reviewer
 ```
 
 **Learn more:** [Registry](concepts/registry.md) | [Examples](examples/README.md)

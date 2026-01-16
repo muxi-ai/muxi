@@ -16,30 +16,39 @@ description: Complete guide to building AI agents with MUXI
 
 ## Core Concepts
 
+### Foundation
 * [How It All Fits](concepts/architecture.md)
-* [The Overlord](concepts/overlord.md)
 * [Formation Schema](concepts/formation-schema.md)
-* [LLM Providers](concepts/llm-providers.md)
+* [The Overlord](concepts/overlord.md)
+
+### Building Blocks
 * [Agents & Orchestration](concepts/agents-and-orchestration.md)
-* [Workflows](concepts/workflows-and-task-decomposition.md)
-* [Human-in-the-Loop](concepts/human-in-the-loop.md)
-* [Overlord Persona](concepts/persona.md)
+* [Tools & MCP](concepts/tools-and-mcp.md)
 * [Memory System](concepts/memory-system.md)
 * [Sessions](concepts/sessions.md)
-* [Multi-Tenancy](concepts/multi-tenancy.md)
-* [Multi-Identity Users](concepts/multi-identity.md)
-* [Tools & MCP](concepts/tools-and-mcp.md)
-* [Secrets & Security](concepts/secrets-and-security.md)
-* [User Credentials](concepts/user-credentials.md)
 * [Knowledge & RAG](concepts/knowledge-and-rag.md)
-* [Triggers & Webhooks](concepts/triggers-and-webhooks.md)
+
+### Communication
+* [Clarifications](concepts/clarification.md)
+* [Overlord Persona](concepts/persona.md)
+* [Structured Output](concepts/structured-output.md)
+* [Artifacts](concepts/artifacts.md)
+
+### Advanced Features
+* [Workflows](concepts/workflows-and-task-decomposition.md)
+* [Human-in-the-Loop](concepts/human-in-the-loop.md)
 * [Async Processing](concepts/async.md)
+* [Triggers & Webhooks](concepts/triggers-and-webhooks.md)
 * [Scheduled Tasks](concepts/scheduled-tasks.md)
 * [SOPs](concepts/standard-operating-procedures.md)
+
+### Production
+* [LLM Providers](concepts/llm-providers.md)
+* [Secrets & Security](concepts/secrets-and-security.md)
+* [User Credentials](concepts/user-credentials.md)
+* [Multi-Tenancy](concepts/multi-tenancy.md)
+* [Multi-Identity Users](concepts/multi-identity.md)
 * [The Registry](concepts/registry.md)
-* [Artifacts](concepts/artifacts.md)
-* [Clarifications](concepts/clarification.md)
-* [Structured Output](concepts/structured-output.md)
 * [Observability](concepts/observability.md)
 
 ## Server
