@@ -164,7 +164,7 @@ Command-line tool for managing MUXI.
 
 #### SDKs
 
-Client libraries for Python, TypeScript, Go, and more.
+Libraries for Python, TypeScript, Go, and more.
 
 - Chat streaming and sessions
 - Multi-identity user management
