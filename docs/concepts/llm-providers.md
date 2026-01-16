@@ -18,7 +18,7 @@ Under the hood, MUXI uses [OneLLM](https://github.com/muxi-ai/onellm) - a unifie
 **Supported providers include:**
 - **Proprietary APIs:** OpenAI, Anthropic, Google (Gemini), Mistral, Cohere, AI21
 - **Cloud platforms:** AWS Bedrock, Google Vertex AI, Azure OpenAI
-- **Self-hosted:** Ollama, vLLM, llama.cpp, LM Studio, text-generation-webui
+- **Self-hosted:** Any model supported via Ollama or llama.cpp
 - **Any OpenAI-compatible endpoint**
 
 ---
