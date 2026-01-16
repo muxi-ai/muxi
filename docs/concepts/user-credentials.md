@@ -351,6 +351,73 @@ auth:
 
 ---
 
+## Programmatic Management (CLI & SDK)
+
+Developers can manage user credentials programmatically:
+
+[[tabs]]
+
+[[tab CLI]]
+```bash
+# List all credentials for a user
+muxi credentials list --user alice@acme.com
+
+# Add a credential for a user
+muxi credentials set GITHUB_TOKEN --user alice@acme.com
+
+# Delete a credential
+muxi credentials delete GITHUB_TOKEN --user alice@acme.com
+
+# Check credential status
+muxi credentials status --user alice@acme.com
+```
+[[/tab]]
+
+[[tab Python]]
+```python
+from muxi import Muxi
+
+client = Muxi()
+
+# List all credentials for a user
+credentials = client.credentials.list(user_id="alice@acme.com")
+
+# Add a credential for a user
+client.credentials.set(
+    "GITHUB_TOKEN",
+    value="ghp_xxx",
+    user_id="alice@acme.com"
+)
+
+# Delete a credential
+client.credentials.delete("GITHUB_TOKEN", user_id="alice@acme.com")
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+import { Muxi } from '@muxi/sdk';
+
+const client = new Muxi();
+
+// List all credentials for a user
+const credentials = await client.credentials.list({ userId: 'alice@acme.com' });
+
+// Add a credential for a user
+await client.credentials.set('GITHUB_TOKEN', {
+  value: 'ghp_xxx',
+  userId: 'alice@acme.com'
+});
+
+// Delete a credential
+await client.credentials.delete('GITHUB_TOKEN', { userId: 'alice@acme.com' });
+```
+[[/tab]]
+
+[[/tabs]]
+
+---
+
 ## When to Use User Credentials
 
 | Use User Credentials For | Use Formation Secrets For |

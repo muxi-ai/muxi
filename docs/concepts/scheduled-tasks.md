@@ -271,6 +271,86 @@ User:  "Change API health check to every 10 minutes"
 Agent: "Updated API health check frequency to every 10 minutes."
 ```
 
+### Programmatic Management (CLI & SDK)
+
+Developers can manage scheduled tasks programmatically:
+
+[[tabs]]
+
+[[tab CLI]]
+```bash
+# List all scheduled tasks for a user
+muxi schedules list --user alice@acme.com
+
+# Pause a scheduled task
+muxi schedules pause github-notifications --user alice@acme.com
+
+# Resume a scheduled task
+muxi schedules resume github-notifications --user alice@acme.com
+
+# Delete a scheduled task
+muxi schedules delete weekly-report --user alice@acme.com
+
+# Update schedule frequency
+muxi schedules update api-health --cron "*/10 * * * *" --user alice@acme.com
+```
+[[/tab]]
+
+[[tab Python]]
+```python
+from muxi import Muxi
+
+client = Muxi()
+
+# List all scheduled tasks for a user
+tasks = client.schedules.list(user_id="alice@acme.com")
+
+# Pause a scheduled task
+client.schedules.pause("github-notifications", user_id="alice@acme.com")
+
+# Resume a scheduled task
+client.schedules.resume("github-notifications", user_id="alice@acme.com")
+
+# Delete a scheduled task
+client.schedules.delete("weekly-report", user_id="alice@acme.com")
+
+# Update schedule frequency
+client.schedules.update(
+    "api-health",
+    user_id="alice@acme.com",
+    cron="*/10 * * * *"
+)
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+import { Muxi } from '@muxi/sdk';
+
+const client = new Muxi();
+
+// List all scheduled tasks for a user
+const tasks = await client.schedules.list({ userId: 'alice@acme.com' });
+
+// Pause a scheduled task
+await client.schedules.pause('github-notifications', { userId: 'alice@acme.com' });
+
+// Resume a scheduled task
+await client.schedules.resume('github-notifications', { userId: 'alice@acme.com' });
+
+// Delete a scheduled task
+await client.schedules.delete('weekly-report', { userId: 'alice@acme.com' });
+
+// Update schedule frequency
+await client.schedules.update('api-health', {
+  userId: 'alice@acme.com',
+  cron: '*/10 * * * *'
+});
+```
+[[/tab]]
+
+[[/tabs]]
+
 ---
 
 ## Behind the Scenes
