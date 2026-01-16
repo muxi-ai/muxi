@@ -279,7 +279,7 @@ Open `http://localhost:8001/chat` in your browser for an interactive chat UI.
 Pull a pre-built formation instead of creating from scratch:
 
 ```bash
-muxi pull @acme/starter
+muxi pull @muxi/starter
 cd starter-assistant
 muxi secrets setup
 muxi dev

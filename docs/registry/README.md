@@ -18,7 +18,7 @@ Find pre-built formations, share your own, and manage versions - all from the co
 ### Pull a Formation
 
 ```bash
-muxi pull @acme/starter-assistant
+muxi pull @muxi/starter-assistant
 cd starter-assistant
 muxi secrets setup
 muxi dev
@@ -71,7 +71,7 @@ NAME                      DESCRIPTION                 DOWNLOADS
 #### @muxi/starter
 Minimal assistant - perfect starting point.
 ```bash
-muxi pull @acme/starter
+muxi pull @muxi/starter
 ```
 [[/card]]
 
@@ -108,14 +108,14 @@ muxi pull @acme/devops
 ### Pull Specific Version
 
 ```bash
-muxi pull @acme/starter@1.0.0
+muxi pull @muxi/starter@1.0.0
 ```
 
 ### Version Ranges
 
 ```bash
-muxi pull @acme/starter@^1.0.0   # Latest 1.x.x
-muxi pull @acme/starter@~1.0.0   # Latest 1.0.x
+muxi pull @muxi/starter@^1.0.0   # Latest 1.x.x
+muxi pull @muxi/starter@~1.0.0   # Latest 1.0.x
 ```
 
 ---

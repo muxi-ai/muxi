@@ -67,7 +67,7 @@ muxi formation restart <id>
 [[card]]
 #### Registry
 ```bash
-muxi pull @acme/starter
+muxi pull @muxi/starter
 muxi push
 muxi search <query>
 ```
