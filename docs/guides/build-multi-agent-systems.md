@@ -118,7 +118,7 @@ Each agent has a specialized `system_message` in `agents/*.afs`:
 
 ```yaml
 # agents/support.afs - Customer support focus
-# agents/sales.afs - Sales advisor focus  
+# agents/sales.afs - Sales advisor focus
 # agents/technical.afs - Technical expert focus
 ```
 
@@ -143,7 +143,9 @@ id: product-expert
 name: Product Expert
 description: Product knowledge expert
 
-system_message: "You are a product expert. Your job is to answer questions about our products..."
+system_message: |
+  You are a product expert.
+  Your job is to answer questions about our products...
 
 knowledge:
   enabled: true

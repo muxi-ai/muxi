@@ -288,7 +288,7 @@ id: assistant
 name: Assistant
 description: General purpose helper
 
-system_message: "General purpose helper"
+system_message: "General purpose helper. Your job is to ..."
 ```
 
 ### Multi-Agent Formation

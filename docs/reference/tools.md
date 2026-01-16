@@ -226,7 +226,9 @@ id: researcher
 name: Researcher
 description: Research topics
 
-system_message: "You are a research specialist. Your job is to gather accurate information..."
+system_message: |
+  You are a research specialist.
+  Your job is to gather accurate information...
 
 mcp_servers:
   - id: web-search
@@ -237,13 +239,15 @@ mcp_servers:
 ```
 
 ```yaml
-# agents/developer.afs  
+# agents/developer.afs
 schema: "1.0.0"
 id: developer
 name: Developer
 description: Code assistant
 
-system_message: "You are a software developer. Your job is to write, review, and debug code..."
+system_message: |
+  You are a software developer.
+  Your job is to write, review, and debug code...
 
 mcp_servers:
   - id: filesystem
