@@ -10,6 +10,20 @@ MUXI's four-layer memory system handles everything from immediate conversation c
 
 ## The Four Layers
 
+```mermaid
+flowchart TB
+    subgraph "Memory System"
+        direction TB
+        A["<b>Buffer Memory:</b><br>Recent messages (fast, in-memory)"]
+        B["<b>Working Memory:</b><br>Active session state (FAISSx)"]
+        C["<b>User Synopsis:</b><br>Who is this user? (LLM-synthesized)"]
+        D["<b>Persistent Memory:</b><br>Long-term storage (Postgres/SQLite)"]
+    end
+    A --> B
+    B --> C
+    C --> D
+```
+
 ```
 ┌──────────────────────────────────────────┐
 │              Buffer Memory               │
@@ -214,11 +228,11 @@ memory:
 memory:
   buffer:
     size: 50
-    
+
   working:
     provider: faissx
     server: "http://faissx.internal:8080"
-    
+
   persistent:
     provider: postgres
     connection_string: ${{ secrets.POSTGRES_URL }}

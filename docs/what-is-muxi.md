@@ -19,15 +19,17 @@ Think of it this way:
 - Agents now have **MUXI**
 
 ```mermaid
-block-beta
-    block:stack
-        columns 1
-        A["The MUXI Stack"]
-        B["<b>SDKs:</b> Python, TypeScript, Go, Swift, Java..."]
-        C["<b>APIs:</b> REST endpoints for chat, deploy, stream"]
-        D["<b>Runtime:</b> Agents, memory, tools, orchestration"]
-        E["<b>Server:</b> Multi-formation deployments, auth, routing"]
+flowchart TB
+    subgraph "The MUXI Stack"
+        direction TB
+        A["<b>SDKs:</b><br>Python, TypeScript, Go, Swift, Java..."]
+        B["<b>APIs:</b><br>REST endpoints for chat, deploy, stream"]
+        C["<b>Runtime:</b><br>Agents, memory, tools, orchestration"]
+        D["<b>Server:</b><br>Multi-formation deployments, auth, routing"]
     end
+    A --> B
+    B --> C
+    C --> D
 ```
 
 ---
