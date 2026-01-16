@@ -56,7 +56,7 @@ MUXI agents **clarify intelligently**.
 The system uses LLM analysis to detect what's ambiguous:
 
 ```
-User: "Deploy the app to production"
+User:  "Deploy the app to production"
          ↓
 LLM analyzes request
          ↓
@@ -73,7 +73,7 @@ Agents ask **only what they need**:
 
 ```
 Bad (traditional):
-  "What app? What environment? What version? What branch? 
+  "What app? What environment? What version? What branch?
    What tag? Should I run tests? Migrate database? ..."
 
 Good (MUXI):
@@ -93,11 +93,11 @@ One question at a time, minimal friction.
 When required details are absent:
 
 ```
-User: "Send an email"
+User:  "Send an email"
 Agent: "Who should I send the email to?"
-User: "alice@example.com"
+User:  "alice@example.com"
 Agent: "What should the subject be?"
-User: "Project Update"
+User:  "Project Update"
 Agent: [Sends email]
 ```
 
@@ -108,10 +108,10 @@ The agent builds up the complete picture step by step.
 When multiple options exist:
 
 ```
-User: "Check my GitHub repos"
-Agent: "You have two GitHub accounts: ranaroussi (personal) and 
+User:  "Check my GitHub repos"
+Agent: "You have two GitHub accounts: ranaroussi (personal) and
        lilyautomaze (work). Which one?"
-User: "ranaroussi"
+User:  "ranaroussi"
 Agent: [Shows ranaroussi's repositories]
 ```
 
@@ -122,12 +122,12 @@ Clear selection from available options.
 When requests don't make sense:
 
 ```
-User: "Deploy to production without testing"
+User:  "Deploy to production without testing"
 Agent: "Production deployments require tests to pass. Should I:
        1. Run tests first, then deploy
        2. Deploy to staging instead
        3. Cancel deployment"
-User: "Run tests first"
+User:  "Run tests first"
 Agent: [Runs tests, then deploys]
 ```
 
@@ -138,12 +138,12 @@ The agent explains the conflict and offers solutions.
 When the request needs more background:
 
 ```
-User: "Fix the bug"
+User:  "Fix the bug"
 Agent: "Which bug are you referring to? I see:
        - Issue #42: Login timeout
        - Issue #51: Chart rendering
        - Issue #63: Email formatting"
-User: "Issue #51"
+User:  "Issue #51"
 Agent: [Investigates chart rendering bug]
 ```
 
@@ -154,10 +154,10 @@ The agent helps you be specific.
 When the action has serious consequences:
 
 ```
-User: "Delete all old logs"
-Agent: "This will delete 15,234 log files (45 GB) permanently. 
+User:  "Delete all old logs"
+Agent: "This will delete 15,234 log files (45 GB) permanently.
        Are you sure?"
-User: "Yes"
+User:  "Yes"
 Agent: [Deletes logs]
 ```
 
@@ -176,13 +176,13 @@ Safety confirmation for destructive operations.
 Complex requests may need multiple clarifications:
 
 ```
-User: "Generate a report"
+User:  "Generate a report"
 Agent: "What type of report?"
-User: "Sales report"
+User:  "Sales report"
 Agent: "For which time period?"
-User: "Last quarter"
+User:  "Last quarter"
 Agent: "Which format would you like?"
-User: "PDF"
+User:  "PDF"
 Agent: [Generates Q4 2025 sales report as PDF]
 ```
 
@@ -193,13 +193,13 @@ The conversation builds context naturally.
 The system remembers what's been clarified:
 
 ```
-User: "Generate a report"
+User:  "Generate a report"
 Agent: "What type of report?"
-User: "Sales"
+User:  "Sales"
 Agent: "For which period?"
-User: "Last quarter"
+User:  "Last quarter"
 Agent: [Knows: type=sales, period=Q4]
-User: "Actually, make it monthly"
+User:  "Actually, make it monthly"
 Agent: [Updates: period=monthly, still knows type=sales]
 ```
 
@@ -216,7 +216,7 @@ The agent knows when you change topics:
 ```
 [Clarifying deployment]
 Agent: "Which environment?"
-User: "Actually, can you help me with something else?"
+User:  "Actually, can you help me with something else?"
 Agent: [Abandons deployment clarification]
 Agent: "Sure, what do you need?"
 ```
@@ -229,7 +229,7 @@ Different communication styles for different situations:
 
 **Conversational** (default):
 ```
-Agent: "I need a bit more info! Which GitHub account should I use - 
+Agent: "I need a bit more info! Which GitHub account should I use -
        ranaroussi or lilyautomaze?"
 ```
 
@@ -264,25 +264,25 @@ Smart defaults reduce clarification burden.
 ```mermaid
 flowchart TD
     Start([User Request]) --> Analyze[LLM analyzes request]
-    
+
     Analyze --> Check{Ambiguous?}
     Check -->|No| Process[Process normally]
     Check -->|Yes| Classify[Classify ambiguity type]
-    
+
     Classify --> Generate[Generate clarification question]
     Generate --> Ask[Ask user]
-    
+
     Ask --> Wait[Wait for response]
     Wait --> Response[User responds]
-    
+
     Response --> ContextSwitch{Changed topic?}
     ContextSwitch -->|Yes| Abandon[Abandon clarification]
     ContextSwitch -->|No| Update[Update context]
-    
+
     Update --> Recheck{Still ambiguous?}
     Recheck -->|Yes| Classify
     Recheck -->|No| Process
-    
+
     Abandon --> Start
     Process --> Done([Execute task])
 ```
@@ -308,13 +308,13 @@ clarification:
 clarification:
   # Auto-confirm for non-destructive operations
   auto_confirm: true
-  
+
   # Require confirmation for these operations
   require_confirmation:
     - delete
     - deploy_production
     - send_email
-  
+
   # Default values
   defaults:
     environment: staging
@@ -381,9 +381,9 @@ if ambiguity:
 ### Deployment Clarification
 
 ```
-User: "Deploy to production"
+User:  "Deploy to production"
 Agent: "Which formation should I deploy?"
-User: "The API"
+User:  "The API"
 Agent: [Checks: API tests passing? Yes]
 Agent: "Deploying api-formation to production..."
 Agent: [If tests were failing:]
@@ -396,24 +396,24 @@ Agent: [If tests were failing:]
 ### Data Request Clarification
 
 ```
-User: "Show me customer data"
+User:  "Show me customer data"
 Agent: "How many customers?"
-User: "Last 100"
+User:  "Last 100"
 Agent: "Which fields do you need?"
-User: "Just name and email"
+User:  "Just name and email"
 Agent: [Returns CSV with name and email for last 100 customers]
 ```
 
 ### Account Selection Clarification
 
 ```
-User: "Check my Slack messages"
+User:  "Check my Slack messages"
 Agent: "You have 3 Slack workspaces:
        - acme-corp (work)
        - freelance-clients
        - personal
        Which one?"
-User: "acme-corp"
+User:  "acme-corp"
 Agent: [Shows messages from acme-corp workspace]
 ```
 

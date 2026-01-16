@@ -529,7 +529,7 @@ result = await formation.restore_session(...)
 
 if result.messages_dropped > 0:
     logger.warning(f"Dropped {result.messages_dropped} oldest messages")
-    # Maybe notify user: "Showing last 50 messages"
+    # Maybe notify User:  "Showing last 50 messages"
 ```
 
 ### 4. Validate Timestamps

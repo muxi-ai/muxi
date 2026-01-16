@@ -12,7 +12,7 @@ Complex tasks need multiple agents with different skills. MUXI automatically dec
 
 **Traditional approach:**
 ```
-User: "Research AI trends, write blog post, create social media posts"
+User:  "Research AI trends, write blog post, create social media posts"
 
 You manually:
 1. Call researcher agent
@@ -27,7 +27,7 @@ Manual orchestration, error-prone, slow.
 
 **MUXI approach:**
 ```
-User: "Research AI trends, write blog post, create social media posts"
+User:  "Research AI trends, write blog post, create social media posts"
 
 MUXI automatically:
 1. Analyzes complexity
@@ -84,7 +84,7 @@ overlord:
 **When complexity ≥ threshold:**
 
 ```
-User: "Analyze our codebase, create security audit, file GitHub issues"
+User:  "Analyze our codebase, create security audit, file GitHub issues"
          ↓
 Overlord analyzes:
   - Multiple steps mentioned
@@ -160,7 +160,7 @@ Return combined result to user
 
 ### Simple Request (Score: 4)
 ```
-User: "What's the capital of France?"
+User:  "What's the capital of France?"
 
 Overlord:
   - Score: 4 (factual question)
@@ -172,7 +172,7 @@ Response: "The capital of France is Paris."
 
 ### Complex Request (Score: 9)
 ```
-User: "Research top 5 project management tools, compare features,
+User:  "Research top 5 project management tools, compare features,
        create a recommendation report"
 
 Overlord:

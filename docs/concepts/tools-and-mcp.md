@@ -288,7 +288,7 @@ When a tool fails, the agent:
 4. Retries the original operation
 
 ```
-User: "Create a file at /reports/q4/summary.txt"
+User:  "Create a file at /reports/q4/summary.txt"
 
 Agent: write_file("/reports/q4/summary.txt", content)
 Tool:  Error - "Directory /reports/q4 does not exist"
@@ -317,18 +317,18 @@ Tool:  Success!
 
 **Traditional agents:**
 ```
-User: "Create a file in /new/path/"
+User:  "Create a file in /new/path/"
 Agent: "Error: Directory does not exist"
-User: "Create the directory first"
+User:  "Create the directory first"
 Agent: "Done"
-User: "Now create the file"
+User:  "Now create the file"
 Agent: "Done"
 ```
 Three turns, user has to troubleshoot.
 
 **MUXI agents:**
 ```
-User: "Create a file in /new/path/"
+User:  "Create a file in /new/path/"
 Agent: "Done - created the directory and file"
 ```
 One turn, agent handled it.

@@ -12,23 +12,23 @@ Give users control over complex operations. MUXI can present execution plans and
 
 **Without approvals:**
 ```
-User: "Deploy to production"
+User:  "Deploy to production"
          ↓
 MUXI immediately deploys
          ↓
-User: "Wait, I didn't mean NOW!"
+User:  "Wait, I didn't mean NOW!"
 ```
 
 Too late - deployment already happened.
 
 **With approvals:**
 ```
-User: "Deploy to production"
+User:  "Deploy to production"
          ↓
 MUXI: "I'll deploy version 2.1.0 to production.
        This affects 10,000 users. Proceed? [y/N]"
          ↓
-User: "Actually, let me check something first..."
+User:  "Actually, let me check something first..."
          ↓
 Deployment prevented
 ```
@@ -121,7 +121,7 @@ overlord:
 
 ### Simple Request (No Approval)
 ```
-User: "What's the weather in SF?"
+User:  "What's the weather in SF?"
 
 Complexity: 2/10 (below threshold)
          ↓
@@ -132,7 +132,7 @@ Response: "It's 68°F and sunny in San Francisco."
 
 ### Complex Request (Approval Required)
 ```
-User: "Research competitors, create comparison report, post to Slack"
+User:  "Research competitors, create comparison report, post to Slack"
 
 Overlord analyzes:
   - Multiple steps required
@@ -256,7 +256,7 @@ All cancel execution.
 
 ### Modify
 ```
-User: "Actually, skip the Slack post"
+User:  "Actually, skip the Slack post"
          ↓
 MUXI: "Updated plan:
        1. Research competitors
@@ -297,11 +297,11 @@ overlord:
 
 ### Synchronous (Default)
 ```
-User: "Complex task"
+User:  "Complex task"
          ↓
 MUXI: "Plan... Proceed? [y/N]"
          ↓
-User: "y"
+User:  "y"
          ↓
 MUXI executes and returns result
 ```
@@ -310,13 +310,13 @@ Connection stays open, user waits.
 
 ### Asynchronous
 ```
-User: "Complex task" (async: true)
+User:  "Complex task" (async: true)
          ↓
 MUXI: "Plan... Proceed? [y/N]"
          ↓
 MUXI: Returns request_id immediately
          ↓
-User: "y" (to /requests/{id}/approve)
+User:  "y" (to /requests/{id}/approve)
          ↓
 MUXI executes in background
          ↓
@@ -422,7 +422,7 @@ overlord:
 
 **Flow:**
 ```
-User: "Deploy version 2.1.0 to production"
+User:  "Deploy version 2.1.0 to production"
 MUXI: Shows deployment plan with impact analysis
 User: Reviews and approves
 MUXI: Executes deployment
@@ -440,9 +440,9 @@ overlord:
 
 **Flow:**
 ```
-User: "Delete all test users"
+User:  "Delete all test users"
 MUXI: "This will delete 1,234 users. Type 'CONFIRM' to proceed:"
-User: "CONFIRM"
+User:  "CONFIRM"
 MUXI: Executes deletion
 ```
 
@@ -458,7 +458,7 @@ overlord:
 
 **Flow:**
 ```
-User: "Send weekly update email to customers"
+User:  "Send weekly update email to customers"
 MUXI: Shows email preview and recipient count
 User: Approves
 MUXI: Sends emails
@@ -476,9 +476,9 @@ overlord:
 
 **Flow:**
 ```
-User: "Process refund for order #12345"
+User:  "Process refund for order #12345"
 MUXI: "This will refund $249.99 to customer. Proceed? [y/N]"
-User: "y"
+User:  "y"
 MUXI: Processes refund
 ```
 

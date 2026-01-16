@@ -44,7 +44,7 @@ graph TD
 > **Key concept:** From the UX standpoint, users are talking to MUXI - one entity. They don't know or care about individual agents.
 
 ```
-User: "Help me write a blog post about AI trends"
+User:  "Help me write a blog post about AI trends"
 
 What user sees:
   MUXI: "I'll research the latest trends and draft something for you..."
@@ -66,14 +66,14 @@ The SDK does allow talking to specific agents directly, but that's for debugging
 The first thing that happens when a request arrives:
 
 ```
-User: "I need a report about bicycles"
+User:  "I need a report about bicycles"
          ↓
 Overlord: Is this actionable? Do I have enough info?
          ↓
 Overlord: "What should the report include? Financial analysis?
           Buyer's guide? Specific brands?"
          ↓
-User: "A buyer's guide for mountain bikes under $1000"
+User:  "A buyer's guide for mountain bikes under $1000"
          ↓
 Overlord: Now I have enough info → proceed
 ```
@@ -91,7 +91,7 @@ This ensures the Overlord always has enough information before acting.
 > **Key insight:** Workflows are NOT predefined. The Overlord creates them dynamically based on each request.
 
 ```
-User: "Research our competitors, analyze their pricing, and create a presentation"
+User:  "Research our competitors, analyze their pricing, and create a presentation"
 
 Overlord creates workflow on-the-fly:
   Task 1: researcher → "Research competitor companies"
@@ -126,7 +126,7 @@ overlord:
 
 **Above threshold:**
 ```
-User: "Research and create comprehensive market analysis"
+User:  "Research and create comprehensive market analysis"
          ↓
 Overlord: "This is complex. Here's my plan:
           1. Research market trends
@@ -136,7 +136,7 @@ Overlord: "This is complex. Here's my plan:
 
           Do you approve? Any adjustments?"
          ↓
-User: "Looks good, go ahead"
+User:  "Looks good, go ahead"
          ↓
 Overlord: Executes plan
 ```

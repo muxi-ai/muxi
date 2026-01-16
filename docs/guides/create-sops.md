@@ -71,7 +71,7 @@ Customer has active account and received welcome email.
 ### 2. Test It
 
 ```
-User: "I need to onboard a new customer"
+User:  "I need to onboard a new customer"
 Agent: [Follows the onboarding SOP]
 ```
 

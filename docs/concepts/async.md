@@ -14,7 +14,7 @@ It's a productivity feature, not a technical workaround.
 
 **Synchronous (user waits):**
 ```
-User: "Research AI trends and create comprehensive report"
+User:  "Research AI trends and create comprehensive report"
          ↓
 User waits... (30 seconds)
          ↓
@@ -29,7 +29,7 @@ User: lost 2 minutes staring at a spinner
 
 **Asynchronous (user keeps working):**
 ```
-User: "Research AI trends and create comprehensive report"
+User:  "Research AI trends and create comprehensive report"
          ↓
 MUXI: "Got it. I'll notify you when it's ready."
          ↓
@@ -120,7 +120,7 @@ Total estimate: 60s ≥ 10s threshold
 
 **Example:**
 ```
-User: "What's the weather in SF?"
+User:  "What's the weather in SF?"
          ↓
 MUXI executes immediately
          ↓
@@ -136,7 +136,7 @@ Response: "It's 68°F and sunny" (2 seconds)
 
 **Example:**
 ```
-User: "Analyze entire codebase and create security report"
+User:  "Analyze entire codebase and create security report"
          ↓
 MUXI: "Task started. ID: req_abc123"
          ↓
@@ -335,11 +335,11 @@ for event in formation.chat_stream(
 # Poll for completion
 while True:
     status = formation.get_request_status(request_id)
-    
+
     if status.get("status") == "completed":
         print(status.get("result"))
         break
-    
+
     print(f"Status: {status.get('status')}")
     time.sleep(2)
 ```
@@ -394,12 +394,12 @@ for await (const chunk of await formation.chatStream(
 // Poll for completion
 while (true) {
   const status = await formation.getRequestStatus(requestId);
-  
+
   if (status.status === "completed") {
     console.log(status.result);
     break;
   }
-  
+
   console.log(`Status: ${status.status}`);
   await new Promise(resolve => setTimeout(resolve, 2000));
 }

@@ -15,8 +15,8 @@ Agents can return structured data - not just text. Define schemas, get validated
 Traditional agents return unstructured text:
 
 ```
-User: "Extract customer info from this email"
-Agent: "The customer's name is John Smith, email is john@example.com, 
+User:  "Extract customer info from this email"
+Agent: "The customer's name is John Smith, email is john@example.com,
         and phone is 555-0123."
 ```
 
@@ -156,11 +156,11 @@ MUXI adds format-specific instructions to the agent's prompt:
 
 ```
 For JSON mode:
-"Format your response as valid JSON. Use appropriate data structures 
+"Format your response as valid JSON. Use appropriate data structures
  (objects, arrays, strings, numbers, booleans) for the content."
 
 For Plain Text:
-"Format your response as plain text with no markdown, HTML, or special 
+"Format your response as plain text with no markdown, HTML, or special
  characters. Use simple line breaks and spacing only."
 ```
 
@@ -198,7 +198,7 @@ agents:
 ```json
 {
   "name": "John Smith",
-  "email": "john@acme.com", 
+  "email": "john@acme.com",
   "phone": "555-0123",
   "company": "Acme Corp"
 }
@@ -212,7 +212,7 @@ agents:
 async def analyze(text: str):
     formation = Formation()
     formation.overlord.response_format = "json"
-    
+
     response = await formation.overlord.chat(f"Analyze: {text}")
     return JSONResponse(response.content)  # Already JSON!
 ```

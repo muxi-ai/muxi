@@ -76,7 +76,7 @@ The Overlord decides how to handle your request:
 3. **Simple request?** → Route to the best-suited agent
 
 ```
-User: "What can you help me with?"
+User:  "What can you help me with?"
   ↓
 Overlord: "Simple question → route to 'assistant' agent"
 ```

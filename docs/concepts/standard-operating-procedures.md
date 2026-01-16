@@ -12,11 +12,11 @@ SOPs are markdown documents in your `sops/` directory that define step-by-step p
 
 ```
 Without SOPs:
-  User: "Onboard new customer"
+  User:  "Onboard new customer"
   Agent: Improvises each time, inconsistent results
 
 With SOPs:
-  User: "Onboard new customer"
+  User:  "Onboard new customer"
   Overlord: Finds matching SOP via semantic search
   Agent: Follows defined procedure every time
 ```

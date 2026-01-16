@@ -15,7 +15,7 @@ Agents don't just chat - they create files. PDFs, charts, CSVs, images, code - a
 Artifacts work similar to Claude's artifacts or ChatGPT's Canvas - when you ask MUXI to create something that results in a file (report, image, chart, code), it generates the file using its coding capabilities.
 
 ```
-User: "Create a sales report as PDF"
+User:  "Create a sales report as PDF"
 Agent: [Generates report.pdf]
 Agent: "Here's your sales report: [Download PDF]"
 ```
@@ -185,7 +185,7 @@ Old artifacts are automatically purged to save storage.
 ### Data Visualizations
 
 ```
-User: "Show me sales trends as a line chart"
+User:  "Show me sales trends as a line chart"
 Agent: [Creates matplotlib chart]
 Agent: [Returns PNG artifact]
 ```
@@ -199,7 +199,7 @@ Agent: [Returns PNG artifact]
 ### Documents
 
 ```
-User: "Generate a project report as PDF"
+User:  "Generate a project report as PDF"
 Agent: [Uses ReportLab or Weasyprint]
 Agent: [Returns PDF artifact]
 ```
@@ -213,7 +213,7 @@ Agent: [Returns PDF artifact]
 ### Data Files
 
 ```
-User: "Export customer data as CSV"
+User:  "Export customer data as CSV"
 Agent: [Formats data as CSV]
 Agent: [Returns CSV artifact]
 ```
@@ -228,7 +228,7 @@ Agent: [Returns CSV artifact]
 ### Images
 
 ```
-User: "Generate a logo with text 'ACME Corp'"
+User:  "Generate a logo with text 'ACME Corp'"
 Agent: [Uses PIL/Pillow]
 Agent: [Returns PNG artifact]
 ```
@@ -275,7 +275,7 @@ Determines how the artifact is displayed/downloaded.
 ### Single Artifact
 
 ```
-User: "Create a bar chart of sales by region"
+User:  "Create a bar chart of sales by region"
 Agent: [Generates chart.png]
 Response: "Here's your chart: [Download]"
 ```
@@ -283,7 +283,7 @@ Response: "Here's your chart: [Download]"
 ### Multiple Artifacts
 
 ```
-User: "Generate quarterly reports for Q1-Q4"
+User:  "Generate quarterly reports for Q1-Q4"
 Agent: [Generates q1.pdf, q2.pdf, q3.pdf, q4.pdf]
 Response: "Created 4 reports:
   - Q1 Report [Download]
@@ -295,8 +295,8 @@ Response: "Created 4 reports:
 ### Complex Workflows
 
 ```
-User: "Analyze data and create visualizations"
-Agent: 
+User:  "Analyze data and create visualizations"
+Agent:
   1. Reads data
   2. Performs analysis
   3. Generates 3 charts (line, bar, pie)
@@ -315,7 +315,7 @@ Response: "Analysis complete:
 ### Before (chat-only agents)
 
 ```
-User: "Show me a chart"
+User:  "Show me a chart"
 Agent: "I can't generate images, but here's ASCII art:
   *****
   ****
@@ -327,7 +327,7 @@ Useless for real work.
 ### After (with artifacts)
 
 ```
-User: "Show me a chart"
+User:  "Show me a chart"
 Agent: [Generates professional matplotlib chart]
 Response: "Here's your chart [Download PNG]"
 ```
@@ -407,7 +407,7 @@ artifacts:
 ### Business Reports
 
 ```
-User: "Generate monthly sales report"
+User:  "Generate monthly sales report"
 Agent:
   - Pulls sales data
   - Calculates metrics
@@ -419,14 +419,14 @@ Artifact: sales_report_nov_2025.pdf
 ### Data Analysis
 
 ```
-User: "Analyze customer churn and visualize trends"
+User:  "Analyze customer churn and visualize trends"
 Agent:
   - Loads customer data
   - Calculates churn rate
   - Creates line chart (trend)
   - Creates pie chart (reasons)
   - Creates bar chart (by segment)
-Artifacts: 
+Artifacts:
   - churn_analysis.png
   - churn_by_reason.png
   - churn_by_segment.png
@@ -435,7 +435,7 @@ Artifacts:
 ### Automated Exports
 
 ```
-User: "Export last 30 days of logs as CSV"
+User:  "Export last 30 days of logs as CSV"
 Agent:
   - Queries log database
   - Formats as CSV
@@ -446,7 +446,7 @@ Artifact: logs_2025_11.csv
 ### Code Generation
 
 ```
-User: "Generate a Python script to process invoices"
+User:  "Generate a Python script to process invoices"
 Agent:
   - Writes invoice_processor.py
   - Includes error handling

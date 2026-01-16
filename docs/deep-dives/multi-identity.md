@@ -97,7 +97,7 @@ CREATE TABLE user_identifiers (
     identifier_type VARCHAR(50),      -- Optional type hint
     formation_id VARCHAR(255),        -- Formation isolation
     created_at TIMESTAMP,
-    
+
     FOREIGN KEY(user_id) REFERENCES users(id),
     UNIQUE(identifier, formation_id)  -- One identifier per formation
 );
@@ -192,7 +192,7 @@ When a user provides a new identifier:
 # User interacts via email
 User: alice@example.com
 Agent: "What's your Slack username so I can notify you?"
-User: "U123ABC456"
+User:  "U123ABC456"
          ↓
 System automatically links:
   - alice@example.com → user 123
@@ -448,11 +448,11 @@ async function linkIdentifiers(muxiUserId: string, identifiers: Array<string | [
 
 ```sql
 -- Fast identifier lookup
-CREATE INDEX idx_user_identifiers_lookup 
+CREATE INDEX idx_user_identifiers_lookup
 ON user_identifiers(identifier, formation_id);
 
 -- Fast user reverse lookup
-CREATE INDEX idx_user_identifiers_user 
+CREATE INDEX idx_user_identifiers_user
 ON user_identifiers(user_id);
 ```
 
@@ -587,9 +587,9 @@ logging.getLogger('muxi.identity').setLevel(logging.DEBUG)
 
 ```python
 # Ask for additional identifiers early
-User: "Hello" (via email)
+User:  "Hello" (via email)
 Agent: "To help you better across platforms, what's your Slack username?"
-User: "U123ABC"
+User:  "U123ABC"
 Agent: [Links identifiers automatically]
 ```
 

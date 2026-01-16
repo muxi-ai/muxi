@@ -69,7 +69,7 @@ Tools are loaded efficiently - schemas indexed once, not dumped into every reque
 Agents **self-heal**. When a tool fails, agents analyze the error and take corrective action:
 
 ```
-User: "Create file at /reports/q4/summary.txt"
+User:  "Create file at /reports/q4/summary.txt"
 Agent: write_file(...) → Error: "Directory doesn't exist"
 Agent: create_directory("/reports/q4") → Success
 Agent: write_file(...) → Success!
@@ -132,7 +132,7 @@ When a user request matches an SOP (via semantic search), the agent follows that
 Yes. When a request is ambiguous, agents can **ask for clarification** instead of guessing:
 
 ```
-User: "Book a flight"
+User:  "Book a flight"
 Agent: "I'd be happy to help. Where are you flying to, and what dates work for you?"
 ```
 
@@ -147,7 +147,7 @@ Configure clarification behavior per agent - when to ask, what to ask, how many 
 Yes - **artifacts**. Agents can create documents, images, code files, reports, and more:
 
 ```
-User: "Create a sales report for Q4"
+User:  "Create a sales report for Q4"
 Agent: "Here's your Q4 sales report" + [sales-report-q4.pdf]
 ```
 
@@ -278,7 +278,7 @@ User chats on Slack, email, or web - same context everywhere.
 Yes - **cross-session memory**. Working memory spans sessions:
 
 ```
-User: "Remember when we discussed Japan last week?"
+User:  "Remember when we discussed Japan last week?"
 MUXI: "Yes! You mentioned a 2-week trip in March..."
 ↑ Found in working memory from previous session
 ```

@@ -352,9 +352,9 @@ User has credentials?
 
 **For multiple accounts:**
 ```
-User: "Check my GitHub repos"
+User:  "Check my GitHub repos"
 Agent: "You have 2 GitHub accounts: ranaroussi, lilyautomaze. Which one?"
-User: "ranaroussi"
+User:  "ranaroussi"
 Agent: [Uses ranaroussi's credentials]
 ```
 
@@ -382,11 +382,11 @@ Needs clarification?
 
 **Multi-turn clarification:**
 ```
-User: "Deploy the app"
+User:  "Deploy the app"
 Agent: "Which app? You have 3: web-api, mobile-backend, admin-panel"
-User: "web-api"
+User:  "web-api"
 Agent: "Which environment?"
-User: "production"
+User:  "production"
 Agent: [Deploys web-api to production]
 ```
 
@@ -396,7 +396,7 @@ All turns share same `request_id` for complete trace.
 ```
 [Clarifying deployment]
 Agent: "Which environment?"
-User: "Actually, can you help me with something else?"
+User:  "Actually, can you help me with something else?"
 Agent: [Abandons clarification, starts fresh]
 ```
 
@@ -454,7 +454,7 @@ Done (no agent processing needed)
 #### Agent Specification
 
 ```yaml
-User: "@researcher search for AI trends"
+User:  "@researcher search for AI trends"
      ↓
 Route directly to researcher agent
 Skip SOP matching and complexity analysis
@@ -964,7 +964,7 @@ Attach to response:
 ### Example 1: Simple Query
 
 ```
-User: "What's the weather in SF?"
+User:  "What's the weather in SF?"
          ↓
 Session: Load/create
 Memory: Load buffer (recent messages)
@@ -985,16 +985,16 @@ Total time: ~2 seconds
 ### Example 2: Ambiguous Request
 
 ```
-User: "Deploy the app"
+User:  "Deploy the app"
          ↓
 Session: Existing
 Memory: Load context
 Credentials: None needed
 Clarification: Multiple apps exist
 Agent: "Which app? web-api, mobile-backend, admin-panel"
-User: "web-api"
+User:  "web-api"
 Clarification: "Which environment?"
-User: "production"
+User:  "production"
 Actionability: Now clear
 Routing: Auto-route to devops agent
 Agent: Runs deployment
@@ -1009,7 +1009,7 @@ Total time: ~15 seconds (with clarifications)
 ### Example 3: Complex Multi-Agent Workflow
 
 ```
-User: "Analyze my codebase, run security audit, create issues for problems"
+User:  "Analyze my codebase, run security audit, create issues for problems"
          ↓
 Session: Existing
 Memory: Load context + user preferences
@@ -1038,14 +1038,14 @@ Total time: ~45 seconds (async mode)
 ### Example 4: Credential Collection
 
 ```
-User: "Show my GitHub repos"
+User:  "Show my GitHub repos"
          ↓
 Session: New
 Memory: Empty buffer
 Credentials: Check → User has no GitHub credentials
 Mode: Dynamic
 Agent: "I need access to GitHub. Please provide your personal access token:"
-User: "ghp_xxxxxxxxxxxxx"
+User:  "ghp_xxxxxxxxxxxxx"
 Validation: Connects to GitHub, validates token
 Identity: Discovers username: "ranaroussi"
 Storage: Encrypts and stores credential

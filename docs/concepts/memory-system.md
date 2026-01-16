@@ -140,7 +140,7 @@ You don't manage this manually - MUXI handles tiering automatically.
 When agents need context, MUXI searches across memory layers:
 
 ```
-User: "What's my API key?"
+User:  "What's my API key?"
          ↓
 MUXI searches:
   - Buffer: recent conversation

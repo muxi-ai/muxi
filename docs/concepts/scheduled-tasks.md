@@ -15,7 +15,7 @@ Schedule recurring tasks using natural language. Say "check my email every hour"
 Scheduled tasks transform one-time requests into recurring agent actions:
 
 ```
-User: "Check my email every hour for messages from my boss"
+User:  "Check my email every hour for messages from my boss"
          ↓
 System creates scheduled task
          ↓
@@ -31,7 +31,7 @@ Every hour: Agent checks email, reports findings
 ### Natural Language → Schedule
 
 ```
-User: "Remind me every weekday at 2pm to review open issues"
+User:  "Remind me every weekday at 2pm to review open issues"
          ↓
 System understands:
   - Frequency: Every weekday
@@ -78,11 +78,11 @@ No cron syntax needed - the agent figures it out.
 Just ask:
 
 ```
-User: "Check my GitHub notifications every hour"
-Agent: "I've created a scheduled task to check your GitHub notifications 
+User:  "Check my GitHub notifications every hour"
+Agent: "I've created a scheduled task to check your GitHub notifications
         every hour. Would you like me to start it now?"
-User: "Yes"
-Agent: "Started! I'll check notifications every hour and notify you of 
+User:  "Yes"
+Agent: "Started! I'll check notifications every hour and notify you of
         anything important."
 ```
 
@@ -91,7 +91,7 @@ That's it. The schedule is active.
 ### Verify Creation
 
 ```
-User: "Show my scheduled tasks"
+User:  "Show my scheduled tasks"
 Agent: "You have 3 scheduled tasks:
         1. Check GitHub notifications (every hour)
         2. Daily standup summary (weekdays at 9am)
@@ -101,7 +101,7 @@ Agent: "You have 3 scheduled tasks:
 ### Modify Schedule
 
 ```
-User: "Change the GitHub check to every 2 hours"
+User:  "Change the GitHub check to every 2 hours"
 Agent: "Updated! Now checking GitHub notifications every 2 hours."
 ```
 
@@ -174,9 +174,9 @@ Each user's schedule runs in their timezone.
 ### Changing Timezones
 
 ```
-User: "I'm traveling to Tokyo next week"
+User:  "I'm traveling to Tokyo next week"
 Agent: "Would you like me to adjust your scheduled tasks to Tokyo time?"
-User: "Yes"
+User:  "Yes"
 Agent: "Updated all schedules to JST timezone."
 ```
 
@@ -226,7 +226,7 @@ Complete isolation - no data leakage.
 ### Dynamic Rescheduling
 
 ```
-User: "If the report fails, retry in 30 minutes"
+User:  "If the report fails, retry in 30 minutes"
 Agent: Creates schedule with retry logic
 ```
 
@@ -237,7 +237,7 @@ Agent: Creates schedule with retry logic
 ### List All Tasks
 
 ```
-User: "What are my scheduled tasks?"
+User:  "What are my scheduled tasks?"
 Agent: "You have 5 active schedules:
         1. GitHub notifications (every hour) - Next: 2:00pm
         2. Daily summary (9am weekdays) - Next: Tomorrow 9am
@@ -249,25 +249,25 @@ Agent: "You have 5 active schedules:
 ### Pause/Resume
 
 ```
-User: "Pause the GitHub notifications while I'm on vacation"
+User:  "Pause the GitHub notifications while I'm on vacation"
 Agent: "Paused GitHub notifications. Enjoy your vacation!"
 
 [Later]
-User: "Resume GitHub notifications"
+User:  "Resume GitHub notifications"
 Agent: "Resumed. Next check at 3pm."
 ```
 
 ### Delete Tasks
 
 ```
-User: "Cancel the weekly report"
+User:  "Cancel the weekly report"
 Agent: "Deleted weekly report schedule."
 ```
 
 ### Modify Tasks
 
 ```
-User: "Change API health check to every 10 minutes"
+User:  "Change API health check to every 10 minutes"
 Agent: "Updated API health check frequency to every 10 minutes."
 ```
 
@@ -323,7 +323,7 @@ This means:
 Scheduled tasks maintain user context:
 
 ```
-User: "Use my work email, not personal"
+User:  "Use my work email, not personal"
 [Later, scheduled task runs]
 Agent: [Uses work email as instructed]
 ```
@@ -431,7 +431,7 @@ memory:
 ### Execution History
 
 ```
-User: "Show me the last 5 executions of my daily summary"
+User:  "Show me the last 5 executions of my daily summary"
 Agent: "Last 5 executions:
         1. Today 9:00am - Success (2 new items)
         2. Yesterday 9:00am - Success (5 new items)
@@ -445,8 +445,8 @@ Agent: "Last 5 executions:
 When a scheduled task fails:
 
 ```
-Agent: "Your daily summary failed to run at 9am due to API timeout. 
-        I'll retry in 30 minutes. Would you like me to adjust the 
+Agent: "Your daily summary failed to run at 9am due to API timeout.
+        I'll retry in 30 minutes. Would you like me to adjust the
         retry schedule?"
 ```
 
@@ -455,7 +455,7 @@ Automatic retry with intelligent backoff.
 ### Success Notifications
 
 ```
-User: "Notify me when scheduled tasks succeed"
+User:  "Notify me when scheduled tasks succeed"
 Agent: "I'll send you a notification after each successful execution."
 
 [Later]
@@ -493,7 +493,7 @@ memory:
 Then just ask:
 
 ```
-User: "Check my email every hour for urgent messages"
+User:  "Check my email every hour for urgent messages"
 Agent: "Done! I'll check your email hourly and notify you of anything urgent."
 ```
 

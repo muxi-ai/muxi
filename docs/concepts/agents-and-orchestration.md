@@ -92,7 +92,7 @@ overlord:
 Complex tasks are broken down automatically:
 
 ```
-User: "Research AI trends and write a blog post"
+User:  "Research AI trends and write a blog post"
          ↓
 Overlord creates workflow:
   Task 1: researcher → "Research current AI trends"
@@ -217,7 +217,7 @@ Overlord → Agent:
 ## Example: Multi-Agent Workflow
 
 ```
-User: "Build a customer analytics dashboard"
+User:  "Build a customer analytics dashboard"
 
 Overlord decomposes:
   1. Data Engineer → Design database schema

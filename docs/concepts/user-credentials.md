@@ -41,7 +41,7 @@ Each user brings their own credentials. Agents automatically use the right ones.
 Agents know when they need credentials:
 
 ```
-User: "Show my GitHub repos"
+User:  "Show my GitHub repos"
 Agent: Detects GitHub tool needs credentials
 Agent: Checks if user has GitHub token stored
   → Yes: Uses it automatically
@@ -94,9 +94,9 @@ Slack:
 The agent asks which one to use:
 
 ```
-User: "Check my GitHub notifications"
+User:  "Check my GitHub notifications"
 Agent: You have two GitHub accounts: ranaroussi and muxi-ai. Which one?
-User: "ranaroussi"
+User:  "ranaroussi"
 Agent: [Uses ranaroussi's credentials]
 ```
 
@@ -125,7 +125,7 @@ Agent: Please configure GitHub credentials in the company portal at
 For individual use and development:
 
 ```
-User: "Add my GitHub token"
+User:  "Add my GitHub token"
 Agent: Please provide your GitHub personal access token:
 User: [provides token]
 Agent: [Validates, discovers identity]

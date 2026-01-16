@@ -14,11 +14,11 @@ Without multi-identity:
 
 ```
 Web chat (user_123):
-  User: "My budget is $5,000"
+  User:  "My budget is $5,000"
   MUXI: Stores preference for user_123
 
 Slack (U98765ABC):
-  User: "What's my budget?"
+  User:  "What's my budget?"
   MUXI: "I don't have that information"
   ↑ Different identifier = different user = lost context
 ```
@@ -33,11 +33,11 @@ U98765ABC ───────┼──► Same user (usr_alice)
 user_123 ────────┘
 
 Web chat:
-  User: "My budget is $5,000"
+  User:  "My budget is $5,000"
   MUXI: Stores for usr_alice
 
 Slack:
-  User: "What's my budget?"
+  User:  "What's my budget?"
   MUXI: "$5,000" ← Found it!
 ```
 

@@ -14,17 +14,17 @@ A session is one continuous conversation:
 
 ```
 Session 1 (Monday):
-  User: "Help me plan a trip to Japan"
+  User:  "Help me plan a trip to Japan"
   MUXI: "I'd love to help! When are you thinking of going?"
-  User: "March, for 2 weeks"
+  User:  "March, for 2 weeks"
   MUXI: "Great! Cherry blossom season..."
 
 Session 2 (Wednesday):
-  User: "What's the weather in Tokyo?"
+  User:  "What's the weather in Tokyo?"
   MUXI: "Currently 15°C and sunny..."
 
 Session 3 (Friday):
-  User: "Following up on our trip planning from Monday..."
+  User:  "Following up on our trip planning from Monday..."
   MUXI: "Of course! For your 2-week Japan trip in March..."
   ↑ MUXI recalls info from Session 1
 ```
@@ -40,7 +40,7 @@ Each session has its own ID and message history, but memory spans across session
 When a user says "remember our chat about X" or "following up on...", MUXI searches across all of that user's sessions:
 
 ```
-User: "What did we discuss about the budget last week?"
+User:  "What did we discuss about the budget last week?"
          ↓
 MUXI searches working memory across sessions
          ↓
@@ -129,11 +129,11 @@ Working memory stores facts that can be recalled later:
 
 ```
 Session 1:
-  User: "My budget is $5,000"
+  User:  "My budget is $5,000"
   → Stored in working memory: "User's budget is $5,000"
 
 Session 2 (days later):
-  User: "What was my budget again?"
+  User:  "What was my budget again?"
   → Working memory search finds the fact
   MUXI: "Your budget is $5,000"
 ```
@@ -272,10 +272,10 @@ def on_user_return(user_id, session_id):
 memory:
   buffer:
     size: 50                    # Messages per session
-    
+
   working:
     provider: faissx            # Vector store for cross-session search
-    
+
   persistent:
     provider: postgres          # Required for multi-user
     user_synopsis:

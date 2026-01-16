@@ -135,10 +135,10 @@ graph LR
 MUXI analyzes requests and picks the right agent:
 
 ```
-User: "Find information about AI trends"
+User:  "Find information about AI trends"
 → Routes to: researcher (has web-search)
 
-User: "Write a blog post about our product"
+User:  "Write a blog post about our product"
 → Routes to: writer (writing role)
 ```
 

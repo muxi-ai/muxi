@@ -74,7 +74,7 @@ knowledge/
 When a user asks about your architecture, the agent can reference the diagram directly:
 
 ```
-User: "How does data flow through our system?"
+User:  "How does data flow through our system?"
 Agent: "Based on the architecture diagram, data flows from..."
 ```
 
