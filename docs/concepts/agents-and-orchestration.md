@@ -17,7 +17,9 @@ Think of agents as specialized employees who:
 4. Can collaborate with other agents if needed
 
 ```plain
-User request → Overlord
+            User request
+                  ↓
+              Overlord
                   ↓
          Task decomposition
                   ↓
