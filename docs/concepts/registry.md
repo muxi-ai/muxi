@@ -129,11 +129,11 @@ Secrets never leave your machine. Users who pull must provide their own credenti
 
 ### Browse Online
 
-[>] [Visit registry.muxi.org](https://registry.muxi.org):
-
 - Browse by category (support, research, devops)
 - View documentation and examples
 - Check download stats and ratings
+
+[>] [Visit registry.muxi.org](https://registry.muxi.org)
 
 ### Search from CLI
 
