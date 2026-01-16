@@ -188,7 +188,7 @@ id: researcher
 name: Researcher
 description: Research topics with web search
 
-system_message: Research topics thoroughly with web search.
+system_message: "You are a research specialist. Your job is to gather accurate information..."
 ```
 
 ```yaml
@@ -198,7 +198,7 @@ id: writer
 name: Writer
 description: Creates content
 
-system_message: Write clear, engaging content.
+system_message: "You are a content writer. Your job is to create clear, engaging content..."
 ```
 
 ---

@@ -221,7 +221,7 @@ id: researcher
 name: Researcher
 description: Research and gather information
 
-system_message: Research and gather information.
+system_message: "You are a research specialist. Your job is to gather accurate information..."
 
 mcp_servers:
   - id: web-search
@@ -238,7 +238,7 @@ id: developer
 name: Developer
 description: Code and database work
 
-system_message: Code and database work.
+system_message: "You are a software developer. Your job is to write code and manage data..."
 
 mcp_servers:
   - id: filesystem

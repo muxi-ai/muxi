@@ -95,7 +95,7 @@ The agent asks which one to use:
 
 ```
 User: "Check my GitHub notifications"
-Agent: "You have two GitHub accounts: ranaroussi and muxi-ai. Which one?"
+Agent: You have two GitHub accounts: ranaroussi and muxi-ai. Which one?
 User: "ranaroussi"
 Agent: [Uses ranaroussi's credentials]
 ```
@@ -109,8 +109,9 @@ Agent: [Uses ranaroussi's credentials]
 For organizations with existing credential management:
 
 ```
-User: "I need to add my GitHub token"
-Agent: "Please configure GitHub credentials in the company portal at https://credentials.company.com"
+User:  I need to add my GitHub token
+Agent: Please configure GitHub credentials in the company portal at
+       https://credentials.company.com
 ```
 
 **Best for:**
@@ -125,10 +126,10 @@ For individual use and development:
 
 ```
 User: "Add my GitHub token"
-Agent: "Please provide your GitHub personal access token:"
+Agent: Please provide your GitHub personal access token:
 User: [provides token]
 Agent: [Validates, discovers identity]
-Agent: "Successfully added GitHub account 'ranaroussi'"
+Agent: Successfully added GitHub account 'ranaroussi'
 ```
 
 **Best for:**
@@ -192,7 +193,7 @@ command: npx
 args: ["-y", "@modelcontextprotocol/server-github"]
 auth:
   type: env
-  GITHUB_TOKEN: "${{ user.credentials.github }}"
+  GITHUB_TOKEN: "${{ user.credentials.GITHUB }}"
 ```
 
 The runtime automatically:
@@ -245,10 +246,10 @@ User B's credentials are never accessible to User A, even if they use the same f
 MUXI prevents storing the same token twice:
 
 ```
-User: "Add my GitHub token ghp_abc123"
+User:  Add my GitHub token ghp_abc123
 Agent: [Checks if token already exists]
-  → Found duplicate
-Agent: "That GitHub token is already stored in your account. You're all set!"
+        → Found duplicate
+Agent: That GitHub token is already stored in your account. You're all set!
 ```
 
 **Benefits:**
@@ -263,31 +264,31 @@ Agent: "That GitHub token is already stored in your account. You're all set!"
 ### First-Time Setup (Dynamic Mode)
 
 ```
-User: "Show my GitHub repositories"
-Agent: "I need access to GitHub. Please provide your personal access token:"
-User: [provides token: ghp_xxxxxx]
-Agent: "Validating..."
-Agent: "Successfully added GitHub account 'ranaroussi'"
+User:  Show my GitHub repositories
+Agent: I need access to GitHub. Please provide your personal access token:
+User:  [provides token: ghp_xxxxxx]
+Agent: Validating...
+Agent: Successfully added GitHub account 'ranaroussi'
 Agent: [Shows repositories from ranaroussi's account]
 ```
 
 ### Using Multiple Accounts
 
 ```
-User: "Show my GitHub PRs"
-Agent: "You have two GitHub accounts: ranaroussi (personal) and muxi-ai (work). Which one?"
-User: "Show PRs from both"
+User:  Show my GitHub PRs
+Agent: You have two GitHub accounts: ranaroussi (personal) and muxi-ai (work). Which one?
+User:  Show PRs from both
 Agent: [Fetches PRs from both accounts, labeled by account]
 ```
 
 ### Adding Second Account
 
 ```
-User: "Add my work GitHub account"
-Agent: "Please provide your GitHub personal access token:"
-User: [provides second token]
-Agent: "Successfully added GitHub account 'muxi-ai'"
-Agent: "You now have 2 GitHub accounts: ranaroussi, muxi-ai"
+User:  Add my work GitHub account
+Agent: Please provide your GitHub personal access token:
+User:  [provides second token]
+Agent: Successfully added GitHub account 'muxi-ai'
+Agent: You now have 2 GitHub accounts: ranaroussi, muxi-ai
 ```
 
 ---
@@ -319,7 +320,7 @@ The system is extensible - new services work automatically if they're configured
 ```yaml
 # User credential settings
 user_credentials:
-  mode: "dynamic"           # "redirect" or "dynamic"
+  mode: "dynamic"  # "redirect" or "dynamic"
   redirect_message: |
     Configure credentials at: https://credentials.example.com
 ```
@@ -334,7 +335,7 @@ args: ["-y", "@modelcontextprotocol/server-github"]
 auth:
   type: bearer
   accept_inline: true   # Allow dynamic credential collection
-  token: "${{ user.credentials.github }}"
+  token: "${{ user.credentials.GITHUB }}"
 ```
 
 ### Mode Comparison
@@ -397,7 +398,7 @@ command: npx
 args: ["-y", "@modelcontextprotocol/server-github"]
 auth:
   accept_inline: true
-  token: "${{ user.credentials.github }}"
+  token: "${{ user.credentials.GITHUB }}"
 ```
 
 That's it. The agent handles the rest.

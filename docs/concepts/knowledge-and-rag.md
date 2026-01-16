@@ -91,7 +91,7 @@ id: support
 name: Support Agent
 description: Customer support
 
-system_message: Customer support specialist.
+system_message: You're a customer support specialist...
 
 knowledge:
   enabled: true
@@ -107,7 +107,7 @@ id: sales
 name: Sales Agent
 description: Sales advisor
 
-system_message: Sales advisor.
+system_message: You're a sales advisor....
 
 knowledge:
   enabled: true

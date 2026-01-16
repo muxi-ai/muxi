@@ -143,7 +143,7 @@ id: product-expert
 name: Product Expert
 description: Product knowledge expert
 
-system_message: Product knowledge expert.
+system_message: "You are a product expert. Your job is to answer questions about our products..."
 
 knowledge:
   enabled: true

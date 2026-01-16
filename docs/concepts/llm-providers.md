@@ -41,7 +41,7 @@ id: researcher
 name: Researcher
 description: Research specialist
 
-system_message: Research specialist.
+system_message: "You are a research specialist. Your job is to gather accurate information..."
 
 llm_models:
   - text: "openai/gpt-4.1"
@@ -54,7 +54,7 @@ id: writer
 name: Writer
 description: Content writer
 
-system_message: Content writer.
+system_message: "You are a content writer. Your job is to create clear, engaging content..."
 
 llm_models:
   - text: "anthropic/claude-3.5-sonnet"
@@ -67,7 +67,7 @@ id: high-volume
 name: High Volume Agent
 description: High volume processing
 
-system_message: High volume processing agent.
+system_message: "You are a data processor. Your job is to handle high-volume tasks efficiently..."
 
 llm_models:
   - text: "http://llama.example.com/v1/llama-3-70b-instruct"

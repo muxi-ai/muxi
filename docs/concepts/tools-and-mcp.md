@@ -137,7 +137,7 @@ command: npx
 args: ["-y", "@modelcontextprotocol/server-github"]
 auth:
   type: env
-  GITHUB_TOKEN: "${{ user.credentials.GITHUB_TOKEN }}"
+  GITHUB_TOKEN: "${{ user.credentials.GITHUB }}"
 ```
 
 Credentials encrypted at rest. Complete isolation between users.
@@ -171,7 +171,7 @@ id: researcher
 name: Researcher
 description: Research specialist
 
-system_message: Research specialist with web search.
+system_message: "You are a research specialist. Your job is to gather accurate, up-to-date information..."
 
 mcp_servers:
   - id: web-search
@@ -188,7 +188,7 @@ id: developer
 name: Developer
 description: Code assistant
 
-system_message: Code assistant.
+system_message: "You are a software developer. Your job is to write, review, and debug code..."
 
 mcp_servers:
   - id: filesystem
@@ -382,7 +382,7 @@ id: researcher
 name: Researcher
 description: Research specialist
 
-system_message: Research specialist with web access.
+system_message: "You are a research specialist. Your job is to gather accurate information..."
 ```
 
 ---

@@ -226,7 +226,7 @@ id: researcher
 name: Researcher
 description: Research topics
 
-system_message: Research topics with web access.
+system_message: "You are a research specialist. Your job is to gather accurate information..."
 
 mcp_servers:
   - id: web-search
@@ -243,7 +243,7 @@ id: developer
 name: Developer
 description: Code assistant
 
-system_message: Code assistant with file and database access.
+system_message: "You are a software developer. Your job is to write, review, and debug code..."
 
 mcp_servers:
   - id: filesystem

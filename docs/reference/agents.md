@@ -84,7 +84,7 @@ id: researcher
 name: Researcher
 description: Gathers accurate information
 
-system_message: Research topics and gather accurate information.
+system_message: "You are a research specialist. Your job is to gather accurate information..."
 ```
 
 ```yaml
@@ -94,7 +94,7 @@ id: writer
 name: Writer
 description: Creates content
 
-system_message: Write clear, engaging content based on research.
+system_message: "You are a content writer. Your job is to create clear, engaging content..."
 ```
 
 ```yaml
@@ -104,7 +104,7 @@ id: reviewer
 name: Reviewer
 description: Reviews content quality
 
-system_message: Review content for accuracy, clarity, and tone.
+system_message: "You are an editor. Your job is to review content for accuracy, clarity, and tone..."
 ```
 
 ```mermaid
@@ -195,7 +195,7 @@ id: researcher
 name: Researcher
 description: Research specialist
 
-system_message: Research specialist with web access.
+system_message: "You are a research specialist. Your job is to gather accurate information..."
 
 # Agent-specific MCP server
 mcp_servers:
@@ -216,7 +216,7 @@ id: developer
 name: Developer
 description: Code assistant
 
-system_message: Code assistant with file and database access.
+system_message: "You are a software developer. Your job is to write, review, and debug code..."
 
 mcp_servers:
   - id: filesystem
@@ -241,7 +241,7 @@ id: writer
 name: Writer
 description: Content writer
 
-system_message: Content writer - no tools, pure writing focus.
+system_message: "You are a content writer. Your job is to create compelling written content..."
 # No mcp_servers - focuses purely on writing
 ```
 
@@ -276,7 +276,7 @@ id: sales
 name: Sales Agent
 description: Sales advisor
 
-system_message: Sales advisor with pricing knowledge.
+system_message: "You are a sales advisor. Your job is to help customers find the right products..."
 
 knowledge:
   enabled: true

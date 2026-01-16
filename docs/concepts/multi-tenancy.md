@@ -100,7 +100,7 @@ command: npx
 args: ["-y", "@modelcontextprotocol/server-github"]
 auth:
   type: env
-  GITHUB_TOKEN: "${{ user.credentials.GITHUB_TOKEN }}"
+  GITHUB_TOKEN: "${{ user.credentials.GITHUB }}"
 ```
 
 At runtime:
