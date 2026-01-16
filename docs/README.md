@@ -126,8 +126,12 @@ powershell -c "irm https://muxi.org/install | iex"
     <path d="M17.5 6C17.5 6.27614 17.2761 6.5 17 6.5C16.7239 6.5 16.5 6.27614 16.5 6M17.5 6C17.5 5.72386 17.2761 5.5 17 5.5C16.7239 5.5 16.5 5.72386 16.5 6M17.5 6H16.5M17.5 17C17.5 17.2761 17.2761 17.5 17 17.5C16.7239 17.5 16.5 17.2761 16.5 17M17.5 17C17.5 16.7239 17.2761 16.5 17 16.5C16.7239 16.5 16.5 16.7239 16.5 17M17.5 17H16.5M7 21H17C17.93 21 18.395 21 18.7765 20.8978C19.8117 20.6204 20.6204 19.8117 20.8978 18.7765C21 18.395 21 17.93 21 17V17C21 16.07 21 15.605 20.8978 15.2235C20.6204 14.1883 19.8117 13.3796 18.7765 13.1022C18.395 13 17.93 13 17 13H7C6.07003 13 5.60504 13 5.22354 13.1022C4.18827 13.3796 3.37962 14.1883 3.10222 15.2235C3 15.605 3 16.07 3 17V17C3 17.93 3 18.395 3.10222 18.7765C3.37962 19.8117 4.18827 20.6204 5.22354 20.8978C5.60504 21 6.07003 21 7 21ZM7 10H17C17.93 10 18.395 10 18.7765 9.89778C19.8117 9.62038 20.6204 8.81173 20.8978 7.77646C21 7.39496 21 6.92997 21 6V6C21 5.07003 21 4.60504 20.8978 4.22354C20.6204 3.18827 19.8117 2.37962 18.7765 2.10222C18.395 2 17.93 2 17 2H7C6.07003 2 5.60504 2 5.22354 2.10222C4.18827 2.37962 3.37962 3.18827 3.10222 4.22354C3 4.60504 3 5.07003 3 6V6C3 6.92997 3 7.39496 3.10222 7.77646C3.37962 8.81173 4.18827 9.62038 5.22354 9.89778C5.60504 10 6.07003 10 7 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 </svg>
 
-#### Server
+#### The AI Server
 Orchestration platform for running formations.
+
+- Run multiple formation runtimes
+- Zero-downtime deployment
+- Self-healing resilience
 
 [[/card]]
 
@@ -138,8 +142,13 @@ Orchestration platform for running formations.
     <path d="M7.00006 10L10.0001 13.0001L7 16.0001M13.0001 16H17.0001M11.6 22H12.4C15.7603 22 17.4405 22 18.7239 21.346C19.8529 20.7708 20.7708 19.8529 21.346 18.7239C22 17.4405 22 15.7603 22 12.4V11.6C22 8.23969 22 6.55953 21.346 5.27606C20.7708 4.14708 19.8529 3.2292 18.7239 2.65396C17.4405 2 15.7603 2 12.4 2H11.6C8.23969 2 6.55953 2 5.27606 2.65396C4.14708 3.2292 3.2292 4.14708 2.65396 5.27606C2 6.55953 2 8.23969 2 11.6V12.4C2 15.7603 2 17.4405 2.65396 18.7239C3.2292 19.8529 4.14708 20.7708 5.27606 21.346C6.55953 22 8.23969 22 11.6 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 </svg>
 
-#### CLI
+#### CLI Tool
+
 Command-line tool for managing MUXI.
+
+- `muxi deploy` for local development
+- Manage secrets and formations
+- One-command deployment
 
 [[/card]]
 
@@ -154,7 +163,12 @@ Command-line tool for managing MUXI.
 </svg>
 
 #### SDKs
-Python, TypeScript, and Go client libraries.
+
+Client libraries for Python, TypeScript, Go, and more.
+
+- Chat streaming and sessions
+- Multi-identity user management
+- Credential and memory APIs
 
 [[/card]]
 
@@ -172,7 +186,12 @@ Python, TypeScript, and Go client libraries.
 </svg>
 
 #### Registry
+
 Discover and share formations.
+
+- Pull pre-built agents
+- Publish your own
+- Semantic versioning
 
 [[/card]]
 
