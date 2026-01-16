@@ -539,7 +539,7 @@ Still stuck? Here's how to get help:
    https://github.com/muxi-ai/muxi/issues
 
 3. **Ask the community:**
-   https://community.muxi.org
+   https://muxi.org/community
 
 4. **Report a bug:**
    https://github.com/muxi-ai/muxi/issues/new
