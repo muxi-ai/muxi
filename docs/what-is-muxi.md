@@ -21,15 +21,11 @@ Think of it this way:
 ```mermaid
 flowchart TB
     subgraph "The MUXI Stack"
-        direction TB
         A["<b>SDKs:</b><br>Python, TypeScript, Go, Swift, Java..."]
         B["<b>APIs:</b><br>REST endpoints for chat, deploy, stream"]
         C["<b>Runtime:</b><br>Agents, memory, tools, orchestration"]
         D["<b>Server:</b><br>Multi-formation deployments, auth, routing"]
     end
-    A --> B
-    B --> C
-    C --> D
 ```
 
 ---
