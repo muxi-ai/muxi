@@ -25,7 +25,7 @@ User request → Overlord
                   ↓
         ┌─────────┬─────────┐
         ↓         ↓         ↓
-      Agent A   Agent B   Agent C
+      Agent A   Agent B   Agent N
         ↓         ↓         ↓
         └─────────┴─────────┘
                   ↓
