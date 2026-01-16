@@ -16,22 +16,22 @@ Think of agents as specialized employees who:
 3. Return results to the Overlord
 4. Can collaborate with other agents if needed
 
-```
+```plain
 User request → Overlord
                   ↓
          Task decomposition
                   ↓
          Delegate to agents
                   ↓
-    ┌─────────┬─────────┐
-    ↓         ↓         ↓
-  Agent A   Agent B   Agent C
-    ↓         ↓         ↓
-    └─────────┴─────────┘
+        ┌─────────┬─────────┐
+        ↓         ↓         ↓
+      Agent A   Agent B   Agent C
+        ↓         ↓         ↓
+        └─────────┴─────────┘
                   ↓
-    Overlord synthesizes results
+     Overlord synthesizes results
                   ↓
-         Response to user
+          Response to user
 ```
 
 ---
@@ -158,8 +158,8 @@ a2a:
       type: api_key
       allowed_sources:
         - partner-formation-id
-    
-  # Allow sending requests to external formations  
+
+  # Allow sending requests to external formations
   sender:
     enabled: true
     registries:
@@ -221,14 +221,14 @@ User: "Build a customer analytics dashboard"
 
 Overlord decomposes:
   1. Data Engineer → Design database schema
-  2. Backend Dev → Build API endpoints  
+  2. Backend Dev → Build API endpoints
   3. Frontend Dev → Create dashboard UI
   4. DevOps → Set up monitoring
 
 During execution (A2A collaboration):
   Backend Dev: "Frontend, what data format do you need?"
   Frontend Dev: "JSON with these fields..."
-  
+
   Backend Dev: "Stuck on this SQL query"
   Data Engineer: "Try this approach..."
 ```
