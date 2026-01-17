@@ -1,6 +1,6 @@
 ---
 title: Glossary
-description: Key terms and concepts in the MUXI ecosystem
+description: Key terms and concepts in the MUXI and AI ecosystem
 ---
 # Glossary
 
@@ -35,15 +35,38 @@ Short-term conversation storage within a session. Holds recent messages for cont
 
 ## C
 
+### Chain-of-Thought (CoT)
+Prompting technique where the LLM reasons step-by-step before answering. Improves accuracy on complex tasks. MUXI's Overlord uses this for task decomposition.
+
 ### Clarification
 When the Overlord needs more information to complete a task, it asks the user follow-up questions. Supports multi-turn clarification flows with context preservation.
+
+### Context Window
+The maximum number of tokens an LLM can process in a single request. MUXI manages context automatically via memory layers and user synopsis to stay within limits.
 
 ### Credential (User)
 Per-user API keys/tokens for external services (GitHub, Slack, etc.). Stored encrypted, isolated per user. Enables personalized tool access.
 
 ---
 
+## D
+
+### DAG (Directed Acyclic Graph)
+Data structure used for workflow execution. Tasks flow in one direction with no cycles. MUXI uses DAGs internally to manage complex multi-step workflows.
+
+---
+
+## E
+
+### Embedding
+Dense vector representation of text. Captures semantic meaning so similar concepts have similar vectors. Used for memory retrieval, knowledge search, and semantic caching.
+
+---
+
 ## F
+
+### FAISS
+Facebook AI Similarity Search. Open-source library for efficient similarity search of dense vectors. Foundation for FAISSx.
 
 ### FAISSx
 MUXI's FAISS wrapper for vector similarity search. Can run embedded or as a standalone server for shared memory across multiple formation instances.
@@ -51,9 +74,22 @@ MUXI's FAISS wrapper for vector similarity search. Can run embedded or as a stan
 ### Formation
 A deployable unit containing agents, tools, memory configuration, and behavior definitions. The atomic unit of deployment in MUXI. Defined in `.afs` files.
 
+### Function Calling
+LLM capability to output structured tool invocations instead of plain text. MUXI uses this for MCP tool execution.
+
+---
+
+## G
+
+### Grounding
+Connecting LLM responses to factual data sources. MUXI grounds responses via knowledge retrieval (RAG) and tool access to reduce hallucinations.
+
 ---
 
 ## H
+
+### Hallucination
+When an LLM generates plausible-sounding but incorrect or fabricated information. MUXI mitigates this through RAG, tool verification, and memory grounding.
 
 ### Human-in-the-Loop (HITL)
 Approval workflow requiring human confirmation before executing sensitive actions. Configurable per action type with timeout and escalation rules.
@@ -64,6 +100,13 @@ Approval workflow requiring human confirmation before executing sensitive action
 
 ### Knowledge
 RAG (Retrieval-Augmented Generation) system. Embeds documents and retrieves relevant context for agent responses. Supports PDF, Markdown, text files.
+
+---
+
+## L
+
+### LLM (Large Language Model)
+AI model trained on vast text data to understand and generate human language. Examples: GPT-4, Claude, Llama. MUXI orchestrates LLMs via OneLLM.
 
 ---
 
@@ -82,6 +125,9 @@ User isolation in shared deployments. Each user has separate memory, credentials
 
 ## O
 
+### OneLLM
+MUXI's unified LLM interface library. Provides consistent API across 15+ providers (OpenAI, Anthropic, etc.) with built-in semantic caching.
+
 ### Overlord
 The central orchestrator and "brain" of a formation. Routes requests to agents, manages workflows, handles clarifications, synthesizes responses. Users talk to MUXI through the Overlord - never directly to agents.
 
@@ -95,9 +141,21 @@ Long-term storage that survives across sessions. Stores facts, preferences, and 
 ### Persona
 The Overlord's personality and communication style. Only the Overlord has a persona - agents have system prompts instead.
 
+### pgvector
+PostgreSQL extension for vector similarity search. Alternative to FAISS for production deployments requiring SQL database features.
+
+### PostgreSQL
+Relational database used by MUXI for production deployments. Required for multi-tenancy, persistent memory, and user management at scale.
+
+### Prompt
+Text input to an LLM. In MUXI, the Overlord constructs prompts by combining user messages, memory context, system instructions, and tool schemas.
+
 ---
 
 ## R
+
+### RAG (Retrieval-Augmented Generation)
+Pattern combining retrieval (searching documents) with generation (LLM response). MUXI's Knowledge system implements RAG for grounded responses.
 
 ### Registry
 Central hub for discovering and sharing formations. Like npm/Docker Hub for MUXI formations. Supports semantic versioning.
@@ -115,18 +173,36 @@ Recurring or one-time tasks created via natural language. Executes as the user w
 ### Secret
 Formation-level configuration values (API keys, connection strings). Stored encrypted, referenced as `${{ secrets.NAME }}` in AFS files.
 
+### Semantic Cache
+Cache that matches by meaning, not exact strings. "What's the weather?" matches "How's the weather today?" MUXI's OneLLM provides 50-80% cost savings via semantic caching.
+
 ### Session
 One conversation thread with a user. Has its own working memory. Multiple sessions can exist per user.
 
 ### SOP (Standard Operating Procedure)
 Predefined workflow template in Markdown. Triggered by specific phrases or conditions. Different from dynamic workflows which Overlord creates per-request.
 
+### Streaming
+Delivering LLM responses token-by-token as they're generated. Provides faster perceived response time. MUXI supports streaming across all SDKs.
+
 ### Structured Output
 JSON or typed responses from agents. Enables programmatic processing of agent outputs. Supports JSON, HTML, Markdown, plain text formats.
+
+### System Prompt
+Instructions that define an agent's behavior, role, and constraints. Set in the `system_message` field of agent configuration.
 
 ---
 
 ## T
+
+### Temperature
+LLM parameter controlling randomness. 0 = deterministic, 1 = creative. MUXI allows per-agent temperature configuration.
+
+### Token
+Basic unit of text for LLMs. Roughly 4 characters or 0.75 words in English. Used for billing and context window limits.
+
+### Tool
+External capability an agent can invoke (web search, file access, API calls). MUXI integrates tools via MCP protocol.
 
 ### Trigger
 Webhook endpoint that activates formation behavior from external events. Uses Markdown templates with `${{ data.* }}` placeholders. Always executes asynchronously.
@@ -140,7 +216,20 @@ LLM-generated summary of a user's identity, preferences, and context. Cached and
 
 ---
 
+## V
+
+### Vector
+Array of numbers representing semantic meaning. Similar concepts have similar vectors (close in vector space). Foundation of semantic search and memory retrieval.
+
+### Vector Database
+Database optimized for storing and searching vectors. MUXI supports FAISSx (embedded) and PostgreSQL with pgvector (production).
+
+---
+
 ## W
+
+### Webhook
+HTTP callback triggered by external events. MUXI uses webhooks for triggers (incoming) and async result delivery (outgoing).
 
 ### Working Memory
 Active context during a request. Includes retrieved memories, current conversation, and task state. Scoped to the current session.
