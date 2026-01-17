@@ -103,6 +103,7 @@ Generated credentials:
   Secret:     muxi_secret_xyz789...
 
 ⚠️  Save these credentials securely!
+
 Config saved to: ~/.muxi/server/config.yaml
 ```
 
