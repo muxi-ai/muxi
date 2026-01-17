@@ -82,12 +82,19 @@ description: Complete guide to building AI agents with MUXI
   * [Set Up Monitoring](guides/setup-monitoring.md)
   * [Troubleshooting](guides/troubleshooting.md)
 
-## CLI
+## CLI & SDKs
 
-* [Overview](cli/README.md)
-* [Setup](cli/setup.md)
-* [Configuration](cli/configuration.md)
-* [Quick Reference](cli/cheatsheet.md)
+* CLI
+  * [Overview](cli/README.md)
+  * [Setup](cli/setup.md)
+  * [Configuration](cli/configuration.md)
+  * [Quick Reference](cli/cheatsheet.md)
+
+* SDKs
+  * [Overview](sdks/README.md)
+  * [Python](sdks/python-sdk.md)
+  * [TypeScript](sdks/typescript-sdk.md)
+  * [Go](sdks/go-sdk.md)
 
 ## Reference
 
@@ -133,13 +140,6 @@ description: Complete guide to building AI agents with MUXI
 * [Security Model](deep-dives/security-model.md)
 * [Resilience](deep-dives/resilience.md)
 * [Multi-Server Memory](deep-dives/multi-server-memory.md)
-
-## SDKs
-
-* [Overview](sdks/README.md)
-* [Python](sdks/python-sdk.md)
-* [TypeScript](sdks/typescript-sdk.md)
-* [Go](sdks/go-sdk.md)
 
 ## Registry
 
