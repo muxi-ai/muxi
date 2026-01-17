@@ -51,15 +51,30 @@ description: Complete guide to building AI agents with MUXI
   * [The Registry](concepts/registry.md)
   * [Observability](concepts/observability.md)
 
-## Server
+## Components
 
-* [Overview](server/README.md)
-* [Setup](server/setup.md)
-* [Configuration](server/configuration.md)
-* [Authentication](server/authentication.md)
-* [Managing Formations](server/managing-formations.md)
-* [Monitoring](server/monitoring.md)
-* [Production Checklist](server/production-checklist.md)
+* [Server](server/README.md)
+  * [Setup](server/setup.md)
+  * [Configuration](server/configuration.md)
+  * [Authentication](server/authentication.md)
+  * [Managing Formations](server/managing-formations.md)
+  * [Monitoring](server/monitoring.md)
+  * [Production Checklist](server/production-checklist.md)
+* [CLI](cli/README.md)
+  * [Setup](cli/setup.md)
+  * [Configuration](cli/configuration.md)
+  * [Quick Reference](cli/cheatsheet.md)
+* [SDKs](sdks/README.md)
+  * [Python](sdks/python-sdk.md)
+  * [TypeScript](sdks/typescript-sdk.md)
+  * [Go](sdks/go-sdk.md)
+* [Registry](registry/README.md)
+  * [Your Account](registry/account.md)
+  * [Publish Formations](registry/publish-formations.md)
+  * [Versioning](registry/versioning.md)
+* [Runtime](runtime/README.md)
+  * [Embed in Your App](runtime/embed-in-your-app.md)
+
 
 ## Guides
 
@@ -81,17 +96,6 @@ description: Complete guide to building AI agents with MUXI
   * [Set Up CI/CD](guides/setup-ci-cd.md)
   * [Set Up Monitoring](guides/setup-monitoring.md)
   * [Troubleshooting](guides/troubleshooting.md)
-
-## CLI & SDKs
-
-* [CLI](cli/README.md)
-  * [Setup](cli/setup.md)
-  * [Configuration](cli/configuration.md)
-  * [Quick Reference](cli/cheatsheet.md)
-* [SDKs](sdks/README.md)
-  * [Python](sdks/python-sdk.md)
-  * [TypeScript](sdks/typescript-sdk.md)
-  * [Go](sdks/go-sdk.md)
 
 ## Reference
 
@@ -136,15 +140,3 @@ description: Complete guide to building AI agents with MUXI
 * [Security Model](deep-dives/security-model.md)
 * [Resilience](deep-dives/resilience.md)
 * [Multi-Server Memory](deep-dives/multi-server-memory.md)
-
-## Registry
-
-* [Overview](registry/README.md)
-* [Your Account](registry/account.md)
-* [Publish Formations](registry/publish-formations.md)
-* [Versioning](registry/versioning.md)
-
-## Runtime
-
-* [Overview](runtime/README.md)
-* [Embed in Your App](runtime/embed-in-your-app.md)
