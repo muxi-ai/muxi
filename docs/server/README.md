@@ -12,7 +12,7 @@ MUXI Server manages your formations - deploying, routing, monitoring, and auto-r
 
 ## What It Does
 
-```
+```plain
 ┌─────────────────────────────────────────┐
 │ MUXI Server (Port 7890)                 │
 │                                         │
