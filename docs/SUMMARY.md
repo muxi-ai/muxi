@@ -139,3 +139,11 @@ description: Complete guide to building AI agents with MUXI
 * [Security Model](deep-dives/security-model.md)
 * [Resilience](deep-dives/resilience.md)
 * [Multi-Server Memory](deep-dives/multi-server-memory.md)
+
+## Miscellaneous
+
+* [Glossary](glossary.md)
+* [Changelog](changelog.md)
+* [Contributing](contributing.md)
+* [OneLLM](https://github.com/muxi-ai/onellm)
+* [FAISSx](https://github.com/muxi-ai/faissx)
