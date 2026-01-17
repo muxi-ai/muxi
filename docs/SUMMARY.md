@@ -60,6 +60,7 @@ description: Complete guide to building AI agents with MUXI
   * [Managing Formations](server/managing-formations.md)
   * [Monitoring](server/monitoring.md)
   * [Production Checklist](server/production-checklist.md)
+  * [Server API](api/server)
 * [CLI](cli/README.md)
   * [Setup](cli/setup.md)
   * [Configuration](cli/configuration.md)
@@ -73,7 +74,11 @@ description: Complete guide to building AI agents with MUXI
   * [Publish Formations](registry/publish-formations.md)
   * [Versioning](registry/versioning.md)
 * [Runtime](runtime/README.md)
+  * [LLM Caching](reference/llm-caching.md)
+  * [Request Cancellation](reference/request-cancellation.md)
+  * [Session Restore](reference/session-restore.md)
   * [Embed in Your App](runtime/embed-in-your-app.md)
+  * [Formation API](api/formation)
 
 
 ## Guides
@@ -97,9 +102,12 @@ description: Complete guide to building AI agents with MUXI
   * [Set Up Monitoring](guides/setup-monitoring.md)
   * [Troubleshooting](guides/troubleshooting.md)
 
-## Reference
+* [API Reference](reference/api-reference.md)
+
+## Formation Reference
 
 * [Overview](reference/README.md)
+* [Examples](reference/examples.md)
 
 * Schema Files
   * [Formation Schema](reference/formation-schema.md)
@@ -114,15 +122,6 @@ description: Complete guide to building AI agents with MUXI
   * [Workflows](reference/workflows.md)
   * [Approvals](reference/approvals.md)
 
-* Runtime Features
-  * [LLM Caching](reference/llm-caching.md)
-  * [Request Cancellation](reference/request-cancellation.md)
-  * [Session Restore](reference/session-restore.md)
-
-* [API Reference](reference/api-reference.md)
-  * [Server API](api/server)
-  * [Formation API](api/formation)
-* [Examples](reference/examples.md)
 
 ## Deep Dives
 
