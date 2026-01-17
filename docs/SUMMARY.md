@@ -10,9 +10,9 @@ description: Complete guide to building AI agents with MUXI
 * [Quickstart](quickstart.md)
 * [Installation](installation/README.md)
 * [How It Works](how-it-works.md)
+* [Use-Cases](use-cases.md)
 * [Examples](examples/README.md)
 * [How Do I...?](faq.md)
-* [Use-Cases](use-cases.md)
 
 ## Core Concepts
 
@@ -64,13 +64,19 @@ description: Complete guide to building AI agents with MUXI
 ## Guides
 
 * [Overview](guides/README.md)
+
+### Basics
 * [Add Tools (MCP)](guides/add-mcp-tools.md)
 * [Add Memory](guides/add-memory.md)
 * [Add Knowledge](guides/add-knowledge.md)
+
+### Building Features
 * [Create Triggers](guides/create-triggers.md)
 * [Create SOPs](guides/create-sops.md)
 * [Build Multi-Agent Teams](guides/build-multi-agent-systems.md)
 * [Build Custom UI](guides/build-custom-ui.md)
+
+### Going Live
 * [Deploy to Production](guides/deploy-to-production.md)
 * [Set Up CI/CD](guides/setup-ci-cd.md)
 * [Set Up Monitoring](guides/setup-monitoring.md)
@@ -86,7 +92,9 @@ description: Complete guide to building AI agents with MUXI
 ## Reference
 
 * [Overview](reference/README.md)
-* [Agent Formation Schema](reference/formation-schema.md)
+
+### Schema Files
+* [Formation Schema](reference/formation-schema.md)
 * [Agents](reference/agents.md)
 * [Tools](reference/tools.md)
 * [Memory](reference/memory.md)
@@ -94,12 +102,16 @@ description: Complete guide to building AI agents with MUXI
 * [Triggers](reference/triggers.md)
 * [SOPs](reference/sops.md)
 * [Secrets](reference/secrets.md)
-* [Persona Configuration](reference/persona.md)
-* [Workflow Configuration](reference/workflows.md)
-* [Approval Configuration](reference/approvals.md)
+* [Persona](reference/persona.md)
+* [Workflows](reference/workflows.md)
+* [Approvals](reference/approvals.md)
+
+### Runtime Features
 * [LLM Caching](reference/llm-caching.md)
 * [Request Cancellation](reference/request-cancellation.md)
 * [Session Restore](reference/session-restore.md)
+
+### API
 * [API Reference](reference/api-reference.md)
   * [Server API](api/server)
   * [Formation API](api/formation)
