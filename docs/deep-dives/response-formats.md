@@ -46,21 +46,21 @@ def _get_format_instruction(format: str) -> str:
         bullet points, bold/italic text, and code blocks where appropriate.
         Use markdown syntax for structure and emphasis.
         """
-    
+
     elif format == "text":
         return """
         Format your response as plain text with no markdown formatting,
         special characters, or HTML. Use simple text formatting like
         line breaks and spacing for structure.
         """
-    
+
     elif format == "json":
         return """
         Format your response as valid JSON. Use appropriate data structures
         (objects, arrays, strings, numbers, booleans). Ensure all JSON is
         properly formatted and parseable.
         """
-    
+
     elif format == "html":
         return """
         Format your response as valid HTML with proper semantic tags like
@@ -95,10 +95,10 @@ def validate_json_response(content: str) -> str:
     try:
         # Parse to ensure validity
         parsed = json.loads(content)
-        
+
         # Re-serialize with consistent formatting
         return json.dumps(parsed, indent=2, ensure_ascii=False)
-    
+
     except json.JSONDecodeError as e:
         # Invalid JSON - log and return as-is
         logger.warning(f"Invalid JSON response: {e}")
@@ -120,14 +120,14 @@ def validate_html_response(content: str) -> str:
     try:
         # Parse with BeautifulSoup
         soup = BeautifulSoup(content, 'html.parser')
-        
+
         # Validate structure
         if not soup.find():
             raise ValueError("No valid HTML tags found")
-        
+
         # Return prettified HTML
         return soup.prettify()
-    
+
     except Exception as e:
         logger.warning(f"Invalid HTML response: {e}")
         return content
@@ -203,7 +203,7 @@ Key Findings:
 2. Cost reduced by 40%
 
 Recommendations:
-- Optimize caching strategy  
+- Optimize caching strategy
 - Scale horizontally for peak loads
 
 Deployment: kubectl apply -f deployment.yaml
@@ -246,18 +246,18 @@ if validation_fails:
 **Validated with BeautifulSoup.**
 
 **Allowed tags:**
-- Structural: `<div>`, `<span>`, `<section>`
-- Headers: `<h1>` through `<h6>`
-- Text: `<p>`, `<strong>`, `<em>`, `<code>`
-- Lists: `<ul>`, `<ol>`, `<li>`
-- Links: `<a>`
-- Pre-formatted: `<pre>`, `<code>`
+- Structural: `div`, `span`, `section`
+- Headers: `h1` through `h6`
+- Text: `p`, `strong`, `em`, `code`
+- Lists: `ul`, `ol`, `li`
+- Links: `a`
+- Pre-formatted: `pre`, `code`
 
 **Not allowed:**
-- Scripts: `<script>`
-- Styles: `<style>` (inline styles ok)
-- Forms: `<form>`, `<input>` (security)
-- Iframes: `<iframe>` (security)
+- Scripts: `script`
+- Styles: `style` (inline styles ok)
+- Forms: `form`, `input` (security)
+- Iframes: `iframe` (security)
 
 **Validation:**
 ```python
@@ -281,7 +281,7 @@ if validation_fails:
 # formation.afs
 overlord:
   persona: "You are a helpful assistant"
-  
+
   response:
     format: "markdown"           # Default format
     streaming: true              # Works with all formats
@@ -343,7 +343,7 @@ data: {"text": "{\"name\": "}
 event: chunk
 data: {"text": "\"John\""}
 
-event: chunk  
+event: chunk
 data: {"text": ", \"email\": "}
 
 event: chunk
@@ -448,7 +448,7 @@ agents:
       - email (string, required)
       - phone (string, optional)
       - company (string, optional)
-      
+
       Use null for missing optional fields.
 ```
 
@@ -475,7 +475,7 @@ customer = Customer(**data)  # Validates schema
 max_retries = 3
 for attempt in range(max_retries):
     response = await overlord.chat(message)
-    
+
     try:
         data = json.loads(response.content)
         break  # Success
