@@ -146,6 +146,6 @@ description: Complete guide to building AI agents with MUXI
 
 * [Glossary](glossary.md)
 * [Changelog](changelog.md)
-* [Contributing](contributing.md)
+* [Contributing](https://muxi.org/contributing)
 * [OneLLM](https://github.com/muxi-ai/onellm)
 * [FAISSx](https://github.com/muxi-ai/faissx)
