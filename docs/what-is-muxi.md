@@ -184,7 +184,7 @@ MUXI isn't a prototype tool – it's production infrastructure with the numbers 
 | Metric | Value |
 |--------|-------|
 | Response Time | <100ms |
-| Test Coverage | 88.9% |
+| Test Coverage | 80%+ test coverage across core components |
 | Observability Events | 349 typed events |
 | LLM Cache Hit Rate | ~72% |
 
