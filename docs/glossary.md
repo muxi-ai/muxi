@@ -4,9 +4,8 @@ description: Key terms and concepts in the MUXI ecosystem
 ---
 # Glossary
 
-Quick reference for MUXI terminology.
+## Quick reference for MUXI terminology.
 
----
 
 ## A
 
