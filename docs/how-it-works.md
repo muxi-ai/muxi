@@ -57,10 +57,11 @@ The request hits your formation's API and goes to the **Overlord**.
 
 [[step The Overlord builds context]]
 
-The Overlord loads context from three memory tiers:
+The Overlord loads context from four memory layers:
 
 - **Buffer memory** - Recent conversation messages
 - **Long-term memory** - User preferences and history (if enabled)
+- **User Synopsis** - Who the user is (derived from persistent memory)
 - **Working memory** - Current session state
 
 This context is attached to your message before any agent sees it.
@@ -100,7 +101,7 @@ The Overlord:
 
 - Applies the configured persona (tone, style) to the response
 - Streams the response back to your app
-- Updates all memory tiers with the conversation
+- Updates all memory layers with the conversation
 
 [[/step]]
 

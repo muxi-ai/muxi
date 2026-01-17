@@ -27,7 +27,7 @@ MUXI isn't just a request-response system. It's an intelligent processing pipeli
 
 A request passing through MUXI undergoes:
 
-1. **Session & Memory Initialization** - Context loading from three memory tiers
+1. **Session & Memory Initialization** - Context loading from four memory layers
 2. **Credential Detection** - Intercepts credential-related requests before processing
 3. **Clarification & Actionability** - Resolves unclear requests via multi-turn dialog
 4. **Intelligent Routing** - Priority-based: agent specification → SOP match → complexity analysis

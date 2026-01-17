@@ -10,7 +10,7 @@ Enable memory so agents remember what users told them - within a conversation an
 
 ## Overview
 
-MUXI memory tiers:
+MUXI memory layers:
 
 1. **Buffer** - Recent messages (in-memory)
 2. **Vector Search** - Semantic similarity
@@ -95,7 +95,7 @@ memory:
     size: 50
     multiplier: 10
     vector_search: true
-  
+
   persistent:
     enabled: true
     provider: postgresql
