@@ -107,7 +107,7 @@ muxi logs --follow             # Stream logs
 
 [[card]]
 #### HMAC Authentication
-Cryptographically signed requests prevent unauthorized access. Time-limited, replay-resistant.
+Cryptographically signed requests prevent unauthorized access. Replay-resistant.
 [[/card]]
 
 [[card]]
@@ -174,9 +174,9 @@ Deploy, stop, restart, rollback.
 Health checks, logs, metrics.
 [[/card]]
 
+::::
+
 (production.md)[[card]]
 #### Production
 TLS, systemd, best practices.
 [[/card]]
-
-::::
