@@ -111,6 +111,7 @@ description: Complete guide to building AI agents with MUXI
 
 * Schema Files
   * [Formation Schema](reference/formation-schema.md)
+  * [Full Schema Guide](reference/schema-guide.md)
   * [Agents](reference/agents.md)
   * [Tools (MCP)](reference/tools.md)
   * [A2A Services](reference/a2a.md)

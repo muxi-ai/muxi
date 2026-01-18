@@ -143,41 +143,24 @@ muxi deploy
 
 ---
 
-## Complete Example
+## Minimal Example
+
+The simplest multi-agent formation:
 
 ```yaml
+# formation.afs
 schema: "1.0.0"
 id: research-assistant
-name: Research Assistant
 description: AI research and writing team
 
 llm:
   models:
     - text: "openai/gpt-4o"
-    - embedding: "openai/text-embedding-3-small"
   api_keys:
     openai: "${{ secrets.OPENAI_API_KEY }}"
 
-memory:
-  buffer:
-    size: 50
-    vector_search: true
-  persistent:
-    enabled: true
-    provider: sqlite
-
-overlord:
-  workflow:
-    auto_decomposition: true
-  response:
-    streaming: true
-
-# MCP servers auto-discovered from mcp/ directory
-# Agents auto-discovered from agents/ directory
-agents: []
+agents: []  # Auto-discovered from agents/ directory
 ```
-
-With separate agent files:
 
 ```yaml
 # agents/researcher.afs
@@ -203,11 +186,14 @@ system_message: |
   Your job is to create clear, engaging content...
 ```
 
+> [!TIP]
+> This minimal example works! MUXI provides sensible defaults for memory, workflows, and more. Add configuration as needed.
+
 ---
 
 ## Next Steps
 
-[+] [Schema Reference](schema.md) - Complete YAML specification
+[+] [Full Schema Guide](schema-guide.md) - Complete configuration reference with all options
 [+] [Agents](agents.md) - Configure AI personas
 [+] [Tools](tools.md) - Add MCP integrations
 [+] [Examples](examples.md) - Real-world formations
