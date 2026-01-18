@@ -244,7 +244,7 @@ for await (const chunk of client.chatStream({ message: 'Write a long essay...', 
 [[tabs]]
 
 [[tab React]]
-```tsx
+```typescript
 import { useState } from 'react';
 import { Muxi } from '@muxi/sdk';
 

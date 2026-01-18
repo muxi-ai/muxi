@@ -169,7 +169,7 @@ This lets you show users what's happening:
 
 ## React Integration
 
-```tsx
+```typescript
 function Chat() {
   const [messages, setMessages] = useState<string[]>([]);
   const [currentMessage, setCurrentMessage] = useState('');

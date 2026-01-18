@@ -35,7 +35,7 @@ npm install
 
 ### Chat Component
 
-```tsx
+```typescript
 import { useState } from 'react';
 
 const MUXI_URL = 'http://localhost:8001';
@@ -99,7 +99,7 @@ export function Chat() {
 
 ### Streaming
 
-```tsx
+```typescript
 const sendStreaming = async () => {
   setLoading(true);
 
@@ -139,7 +139,7 @@ const sendStreaming = async () => {
 
 ## Session Management
 
-```tsx
+```typescript
 // Create session
 const createSession = async () => {
   const response = await fetch(`${MUXI_URL}/v1/sessions`, {
@@ -169,7 +169,7 @@ const sendWithSession = async (sessionId: string, message: string) => {
 
 Simpler with the TypeScript SDK:
 
-```tsx
+```typescript
 import { Formation } from '@muxi/sdk';
 
 const formation = new Formation({
