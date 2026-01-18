@@ -236,6 +236,42 @@ await client.sessions.restore({
 ```
 [[/tab]]
 
+[[tab Go]]
+```go
+// Only restore messages from last 7 days
+cutoff := time.Now().AddDate(0, 0, -7)
+
+messages, _ := db.Messages.Find(ctx, sessionID, userID, cutoff)
+
+// Take last 50 only
+if len(messages) > 50 {
+    messages = messages[len(messages)-50:]
+}
+
+client.Sessions.Restore(ctx, &muxi.RestoreRequest{
+    SessionID: sessionID,
+    UserID:    userID,
+    Messages:  messages,
+})
+```
+[[/tab]]
+
+[[tab cURL]]
+```bash
+# Restore with time-filtered messages from your database
+curl -X POST 'https://api.muxi.ai/v1/sessions/sess_abc123/restore' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'X-Muxi-User-Id: user@example.com' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "messages": [
+      {"role": "user", "content": "Recent message", "timestamp": "2025-01-08T10:00:00Z"},
+      {"role": "assistant", "content": "Recent reply", "timestamp": "2025-01-08T10:00:15Z"}
+    ]
+  }'
+```
+[[/tab]]
+
 [[/tabs]]
 
 ---
