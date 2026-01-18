@@ -41,7 +41,7 @@ If you don't see this, [install the CLI first](installation/README.md).
 Add a server profile. You'll need credentials from your server admin (or from `muxi-server init` if you set up the server yourself):
 
 ```bash
-muxi profile add
+muxi profiles add
 ```
 
 ```
@@ -63,7 +63,7 @@ Secret Key: ••••••••••••••••
 ### Step 3: Test the Connection
 
 ```bash
-muxi formation list
+muxi server list
 ```
 
 ```
@@ -203,20 +203,20 @@ Teach your agent from your documents
 Add profiles for different environments:
 
 ```bash
-muxi profile add staging
-muxi profile add production
+muxi profiles add staging
+muxi profiles add production
 ```
 
 ### Switch Default
 
 ```bash
-muxi profile use production
+muxi set default profile production
 ```
 
 ### List Profiles
 
 ```bash
-muxi profile list
+muxi profiles list
 ```
 
 ```
@@ -237,7 +237,7 @@ muxi deploy --profile production
 [[toggle Connection refused]]
 
 1. Check server is running: contact your server admin or check `muxi-server status`
-2. Verify the URL: `muxi profile list`
+2. Verify the URL: `muxi profiles list`
 3. Check firewall/network allows connection
 
 [[/toggle]]
@@ -245,7 +245,7 @@ muxi deploy --profile production
 [[toggle Authentication failed]]
 
 1. Verify credentials with your server admin
-2. Re-add the profile: `muxi profile add local`
+2. Re-add the profile: `muxi profiles add local`
 3. Check for typos in key ID or secret
 
 [[/toggle]]

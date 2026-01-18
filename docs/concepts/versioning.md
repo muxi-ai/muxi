@@ -137,7 +137,7 @@ Major version migrations documented at:
 Revert to previous version:
 
 ```bash
-muxi formation rollback my-assistant
+muxi server rollback my-assistant
 ```
 
 Shows available versions and reverts.

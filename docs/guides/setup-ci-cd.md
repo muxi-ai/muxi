@@ -44,7 +44,7 @@ jobs:
           MUXI_SECRET_KEY: ${{ secrets.MUXI_SECRET_KEY }}
           MUXI_SERVER_URL: ${{ secrets.MUXI_SERVER_URL }}
         run: |
-          muxi profile add ci \
+          muxi profiles add ci \
             --url "$MUXI_SERVER_URL" \
             --key-id "$MUXI_KEY_ID" \
             --secret-key "$MUXI_SECRET_KEY"
@@ -82,7 +82,7 @@ deploy:
   image: ubuntu:latest
   script:
     - curl -fsSL https://muxi.org/install | bash
-    - muxi profile add ci --url "$MUXI_URL" --key-id "$MUXI_KEY_ID" --secret-key "$MUXI_SECRET"
+    - muxi profiles add ci --url "$MUXI_URL" --key-id "$MUXI_KEY_ID" --secret-key "$MUXI_SECRET"
     - muxi deploy --profile ci
   only:
     - main
@@ -127,7 +127,7 @@ jobs:
 
 - name: Rollback on Failure
   if: failure() && steps.deploy.outcome == 'failure'
-  run: muxi formation rollback $FORMATION_ID --profile production
+  run: muxi server rollback $FORMATION_ID --profile production
 ```
 
 ## Best Practices

@@ -28,7 +28,7 @@ muxi dev
 
 ```bash
 cd my-formation
-muxi auth login
+muxi login
 muxi push
 ```
 

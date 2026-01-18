@@ -17,7 +17,7 @@ Publish formations to the MUXI Registry so others can use them. Once published, 
 ## Authenticate
 
 ```bash
-muxi auth login
+muxi login
 ```
 
 Opens browser for authentication.

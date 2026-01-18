@@ -92,7 +92,7 @@ muxi pull @muxi/starter@latest     # Latest (default)
 ### Instant Rollback
 
 ```bash
-muxi formation rollback my-assistant
+muxi server rollback my-assistant
 # Shows available versions, reverts instantly
 ```
 
@@ -167,7 +167,7 @@ muxi dev
 
 # Publish your own
 cd my-formation
-muxi auth login
+muxi login
 muxi push
 ```
 

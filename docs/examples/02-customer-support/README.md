@@ -153,7 +153,7 @@ overlord:
 
 ```bash
 # 1. Create profile
-muxi profile add production \
+muxi profiles add production \
   --server https://muxi.yourcompany.com:7890
 
 # 2. Deploy
@@ -176,7 +176,7 @@ ls knowledge/
 
 Re-index knowledge:
 ```bash
-muxi formation restart my-support-bot
+muxi server restart my-support-bot
 ```
 
 ### "Memory not persisting"

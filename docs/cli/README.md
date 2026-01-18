@@ -58,8 +58,8 @@ muxi secrets list
 #### Deploy
 ```bash
 muxi deploy
-muxi formation list
-muxi formation restart <id>
+muxi server list
+muxi server restart <id>
 ```
 [[/card]]
 
@@ -76,7 +76,7 @@ muxi search <query>
 #### Monitor
 ```bash
 muxi logs <formation>
-muxi formation get <id>
+muxi server get <id>
 ```
 [[/card]]
 
@@ -98,7 +98,7 @@ muxi dev
 
 ```bash
 muxi deploy --profile production
-muxi formation list
+muxi server list
 muxi logs my-assistant --follow
 ```
 
@@ -119,13 +119,13 @@ muxi dev
 | `muxi new` | Create formations, agents, MCPs, SOPs, triggers |
 | `muxi dev` | Run formation locally |
 | `muxi deploy` | Deploy to server |
-| `muxi formation` | Manage deployed formations |
+| `muxi server` | Manage deployed formations |
 | `muxi secrets` | Manage encrypted secrets |
 | `muxi logs` | View formation logs |
 | `muxi chat` | Interactive chat with formation |
 | `muxi pull` | Download from registry |
 | `muxi push` | Publish to registry |
-| `muxi profile` | Manage server profiles |
+| `muxi profiles` | Manage server profiles |
 | `muxi validate` | Validate formation config |
 
 
@@ -160,8 +160,8 @@ Deploy formations to servers.
 Manage encrypted secrets.
 [[/card]]
 
-(formation.md)[[card]]
-#### muxi formation
+(server.md)[[card]]
+#### muxi server
 Manage deployed formations.
 [[/card]]
 

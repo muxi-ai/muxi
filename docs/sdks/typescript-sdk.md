@@ -18,6 +18,18 @@ npm install @muxi-ai/muxi-typescript
 yarn add @muxi-ai/muxi-typescript
 ```
 
+## Platform Support
+
+| Platform | Support |
+|----------|---------|
+| Node.js | Full support (v18+) |
+| Browser | Full support (modern browsers) |
+| Deno | Compatible |
+| Bun | Compatible |
+| Edge runtimes | Compatible (Vercel Edge, Cloudflare Workers) |
+
+The SDK uses the standard `fetch` API internally, making it compatible with any JavaScript runtime that supports `fetch`.
+
 ## Quick Start
 
 ```typescript
@@ -292,6 +304,36 @@ function prompt() {
 
 prompt();
 ```
+
+### Browser Usage
+
+The SDK works directly in browsers. Use the client key (not admin key) for browser applications:
+
+```typescript
+// In your frontend code
+import { FormationClient } from "@muxi-ai/muxi-typescript";
+
+const formation = new FormationClient({
+  serverUrl: "https://api.yourapp.com",  // Your MUXI server
+  formationId: "my-assistant",
+  clientKey: "your_client_key",  // Safe to expose in browser
+});
+
+// Chat with streaming
+async function chat(message: string, userId: string) {
+  const response = [];
+  for await (const chunk of await formation.chatStream({ message }, userId)) {
+    if (chunk.type === "text") {
+      response.push(chunk.text);
+      // Update your UI here
+    }
+  }
+  return response.join("");
+}
+```
+
+> [!IMPORTANT]
+> **Security:** Only use the `clientKey` in browser code. Never expose your `adminKey` in client-side applications. The client key has limited permissions (chat, sessions, memory) while admin operations require server-side code.
 
 ### React Hook
 

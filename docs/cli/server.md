@@ -1,8 +1,8 @@
 ---
-title: muxi formation
+title: muxi server
 description: Manage deployed formations on MUXI Server
 ---
-# muxi formation
+# muxi server
 
 ## Control your running formations
 
@@ -11,7 +11,7 @@ List, inspect, restart, and remove formations running on MUXI Server. Monitor he
 ## Usage
 
 ```bash
-muxi formation <command> [options]
+muxi server <command> [options]
 ```
 
 ## Commands
@@ -29,7 +29,7 @@ muxi formation <command> [options]
 ## List Formations
 
 ```bash
-muxi formation list
+muxi server list
 ```
 
 Output:
@@ -44,14 +44,14 @@ research-bot    stopped   -      1.0.0     -
 ### Filter by Status
 
 ```bash
-muxi formation list --status running
-muxi formation list --status stopped
+muxi server list --status running
+muxi server list --status stopped
 ```
 
 ## Get Formation
 
 ```bash
-muxi formation get my-assistant
+muxi server get my-assistant
 ```
 
 Output:
@@ -80,7 +80,7 @@ Endpoints:
 ## Stop Formation
 
 ```bash
-muxi formation stop my-assistant
+muxi server stop my-assistant
 ```
 
 Output:
@@ -93,7 +93,7 @@ Stopping my-assistant...
 ## Start Formation
 
 ```bash
-muxi formation start my-assistant
+muxi server start my-assistant
 ```
 
 Output:
@@ -107,7 +107,7 @@ Starting my-assistant...
 ## Restart Formation
 
 ```bash
-muxi formation restart my-assistant
+muxi server restart my-assistant
 ```
 
 Output:
@@ -120,7 +120,7 @@ Restarting my-assistant...
 ## Delete Formation
 
 ```bash
-muxi formation delete my-assistant
+muxi server delete my-assistant
 ```
 
 Output:
@@ -133,7 +133,7 @@ Delete formation my-assistant? [y/N] y
 ### Force Delete
 
 ```bash
-muxi formation delete my-assistant --force
+muxi server delete my-assistant --force
 ```
 
 ## Rollback
@@ -141,7 +141,7 @@ muxi formation delete my-assistant --force
 Rollback to previous version:
 
 ```bash
-muxi formation rollback my-assistant
+muxi server rollback my-assistant
 ```
 
 Output:
@@ -166,17 +166,17 @@ Rollback to 1.1.0? [y/N] y
 
 ```bash
 # List all formations
-muxi formation list
+muxi server list
 
 # Get details
-muxi formation get my-bot
+muxi server get my-bot
 
 # Restart after config change
-muxi formation restart my-bot
+muxi server restart my-bot
 
 # Delete with confirmation
-muxi formation delete old-bot
+muxi server delete old-bot
 
 # Force delete
-muxi formation delete old-bot --force
+muxi server delete old-bot --force
 ```

@@ -148,10 +148,10 @@ The CLI handles authentication automatically:
 
 ```bash
 # Configure server profile
-muxi profile add production
+muxi profiles add production
 
 # CLI signs requests automatically
-muxi formation list
+muxi server list
 ```
 
 Profiles stored in `~/.muxi/cli/servers.afs`.

@@ -90,9 +90,9 @@ Use the CLI to manage deployed formations:
 
 ```bash
 muxi deploy                    # Deploy a formation
-muxi formation list            # List all formations
-muxi formation stop <id>       # Stop a formation
-muxi formation restart <id>    # Restart a formation
+muxi server list            # List all formations
+muxi server stop <id>       # Stop a formation
+muxi server restart <id>    # Restart a formation
 muxi logs --follow             # Stream logs
 ```
 

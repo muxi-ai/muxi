@@ -79,16 +79,16 @@ profiles:
 
 ```bash
 # Add a profile
-muxi profile add production
+muxi profiles add production
 
 # List profiles
-muxi profile list
+muxi profiles list
 
 # Switch default
-muxi profile use production
+muxi set default profile production
 
 # Remove profile
-muxi profile remove old-server
+muxi profiles remove old-server
 ```
 
 ### Using Profiles
@@ -101,7 +101,7 @@ muxi deploy
 muxi deploy --profile production
 
 # Override for one command
-muxi formation list --profile staging
+muxi server list --profile staging
 ```
 
 
@@ -119,7 +119,7 @@ Override config with environment variables:
 
 ```bash
 # One-off override
-MUXI_PROFILE=production muxi formation list
+MUXI_PROFILE=production muxi server list
 
 # CI/CD usage
 export MUXI_SERVER_URL=https://muxi.example.com:7890

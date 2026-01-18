@@ -147,7 +147,7 @@ Formations: 0 running
 Now configure the CLI to talk to your server. You'll need the credentials from Step 1:
 
 ```bash
-muxi profile add local
+muxi profiles add local
 ```
 
 ```
@@ -162,7 +162,7 @@ Secret Key: sk_9f2e8d7c6b5a4e3f2d1c0b9a8e7f6d5c
 Test the connection:
 
 ```bash
-muxi formation list
+muxi server list
 ```
 
 ```
@@ -219,7 +219,7 @@ Then restart and update your CLI profile.
 [[toggle Connection refused from CLI]]
 
 1. Check the server is running: `muxi-server status`
-2. Verify the URL in your profile: `muxi profile list`
+2. Verify the URL in your profile: `muxi profiles list`
 3. Check firewall allows port 7890
 
 [[/toggle]]

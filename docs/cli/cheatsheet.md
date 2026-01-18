@@ -88,23 +88,33 @@ muxi deploy --dry-run
 
 ```bash
 # List formations
-muxi formation list
-muxi formation list --profile production
+muxi server list
+muxi server list --profile production
 
 # Get details
-muxi formation get my-assistant
+muxi server get my-assistant
+# Or from formation directory:
+muxi get
 
 # Lifecycle
-muxi formation stop my-assistant
-muxi formation start my-assistant
-muxi formation restart my-assistant
+muxi server stop my-assistant
+muxi server start my-assistant
+muxi server restart my-assistant
+# Or from formation directory:
+muxi stop
+muxi start
+muxi restart
 
 # Delete
-muxi formation delete my-assistant
-muxi formation delete my-assistant --force
+muxi server delete my-assistant
+muxi server delete my-assistant --force
+# Or from formation directory:
+muxi delete
 
 # Rollback
-muxi formation rollback my-assistant
+muxi server rollback my-assistant
+# Or from formation directory:
+muxi rollback
 ```
 
 
@@ -131,11 +141,11 @@ muxi pull @muxi/starter
 muxi pull @muxi/starter@1.0.0
 muxi pull @muxi/starter --output ~/formations/
 
-# Info
-muxi info @muxi/starter
+# Show details
+muxi show @muxi/starter
 
 # Push
-muxi auth login
+muxi login
 muxi push
 muxi push --tag v1.0.0
 muxi push --dry-run
@@ -146,10 +156,12 @@ muxi push --dry-run
 
 ```bash
 # Manage profiles
-muxi profile add production
-muxi profile list
-muxi profile use production
-muxi profile remove old-server
+muxi profiles add production
+muxi profiles list
+muxi profiles remove old-server
+
+# Set default profile
+muxi set default profile production
 ```
 
 
@@ -171,7 +183,7 @@ muxi profile remove old-server
 |---------|------|-------------|
 | `deploy` | `--validate` | Validate only |
 | `deploy` | `--dry-run` | Show what would deploy |
-| `formation delete` | `--force` | Skip confirmation |
+| `server delete` | `--force` | Skip confirmation |
 | `logs` | `--follow` | Stream logs |
 | `logs` | `--lines <n>` | Number of lines |
 | `pull` | `--output <dir>` | Output directory |
@@ -207,7 +219,7 @@ muxi logs my-bot --follow
 # In CI pipeline
 muxi deploy --validate
 muxi deploy --profile production
-muxi formation get my-bot
+muxi server get my-bot
 ```
 
 ### Registry Workflow
@@ -216,7 +228,7 @@ muxi formation get my-bot
 # Contribute a formation
 muxi new formation awesome-agent
 # ... build it ...
-muxi auth login
+muxi login
 muxi push
 
 # Use someone else's

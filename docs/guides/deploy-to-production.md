@@ -175,7 +175,7 @@ sudo systemctl start muxi-server
 On your **local machine**:
 
 ```bash
-muxi profile add production
+muxi profiles add production
 ```
 
 Enter when prompted:
@@ -196,7 +196,7 @@ muxi deploy --profile production
 Verify:
 
 ```bash
-muxi formation list --profile production
+muxi server list --profile production
 ```
 
 [[/step]]

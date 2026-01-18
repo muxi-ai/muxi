@@ -94,7 +94,7 @@ muxi pull @muxi/starter@>=1.0.0   # 1.0.0 or higher
 ### View Versions
 
 ```bash
-muxi info @alice/my-formation --versions
+muxi show @alice/my-formation --versions
 ```
 
 ```
@@ -119,7 +119,7 @@ Shows changes between versions.
 ### Check Running Version
 
 ```bash
-muxi formation get my-formation
+muxi server get my-formation
 ```
 
 ```
@@ -132,7 +132,7 @@ Source:    @alice/my-formation@1.1.0
 ### Rollback
 
 ```bash
-muxi formation rollback my-formation
+muxi server rollback my-formation
 ```
 
 ```
@@ -150,7 +150,7 @@ Rolling back to v1.1.1...
 Or directly:
 
 ```bash
-muxi formation rollback my-formation --to 1.0.0
+muxi server rollback my-formation --to 1.0.0
 ```
 
 

@@ -111,7 +111,7 @@ memory:
 
 Or restart:
 ```bash
-muxi formation restart my-assistant
+muxi server restart my-assistant
 ```
 
 ### Memory Not Persisting
@@ -173,9 +173,9 @@ Error: Connection refused to localhost:8001
 ```
 
 **Solution:**
-1. Check formation is running: `muxi formation list`
+1. Check formation is running: `muxi server list`
 2. Check port is correct
-3. Start formation: `muxi formation start my-assistant`
+3. Start formation: `muxi server start my-assistant`
 
 ### Timeout
 
@@ -396,7 +396,7 @@ muxi secrets get BRAVE_SEARCH_API_KEY
 muxi secrets set BRAVE_SEARCH_API_KEY BSA...
 
 # Restart formation
-muxi formation restart my-formation
+muxi server restart my-formation
 ```
 
 ---
@@ -413,15 +413,15 @@ Error: SQLITE_BUSY: database is locked
 **Solution:**
 ```bash
 # Stop all formations using this database
-muxi formation list
-muxi formation stop my-formation
+muxi server list
+muxi server stop my-formation
 
 # Check for stale lock files
 rm data/memory.db-wal
 rm data/memory.db-shm
 
 # Restart formation
-muxi formation start my-formation
+muxi server start my-formation
 ```
 
 ---

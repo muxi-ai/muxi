@@ -13,7 +13,7 @@ Your GitHub handle is your registry namespace. Authenticate with GitHub - no sep
 ## Authentication
 
 ```bash
-muxi auth login
+muxi login
 ```
 
 This opens your browser to authenticate with GitHub. Once complete:
@@ -56,20 +56,19 @@ Update these on GitHub; they sync automatically.
 
 ## Check Authentication
 
+To verify your authentication, you can try to push (with `--dry-run`) or list your formations:
+
 ```bash
-muxi auth status
+muxi push --dry-run
 ```
 
-```
-Authenticated as: @alice
-Email: alice@example.com
-```
+If authenticated, you'll see your username in the output.
 
 
 ## Logout
 
 ```bash
-muxi auth logout
+muxi logout
 ```
 
 Revokes the stored token. You'll need to re-authenticate to push.

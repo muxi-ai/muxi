@@ -45,6 +45,8 @@ Learn more & download ›
 npm install @muxi-ai/muxi-typescript
 ```
 
+Works in Node.js, browsers, and edge runtimes.
+
 Learn more & download ›
 
 [[/card]]
@@ -138,6 +140,9 @@ For interacting with a running formation:
 - Agent configuration
 
 **Authentication:** Client key (`X-Muxi-Client-Key`) or Admin key (`X-Muxi-Admin-Key`)
+
+> [!TIP]
+> **Browser usage:** The TypeScript SDK's FormationClient works directly in browsers. Use the `clientKey` for browser apps - it's safe to expose and has limited permissions. Keep the `adminKey` server-side only.
 
 ### ServerClient
 

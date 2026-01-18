@@ -43,7 +43,7 @@ Visit [registry.muxi.org](https://registry.muxi.org) to:
 ## Formation Details
 
 ```bash
-muxi info @muxi/support-bot
+muxi show @muxi/support-bot
 ```
 
 Output:

@@ -89,10 +89,10 @@ Available at: https://registry.muxi.org/my-formation
 ### First-Time Setup
 
 ```bash
-muxi auth login
+muxi login
 ```
 
-Authenticates with registry.
+Authenticates with registry via GitHub OAuth.
 
 ### Publish Options
 

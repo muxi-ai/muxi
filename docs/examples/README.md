@@ -230,7 +230,7 @@ All examples can be deployed:
 
 ```bash
 # 1. Create profile
-muxi profile add production \
+muxi profiles add production \
   --server https://muxi.yourcompany.com:7890 \
   --key-id $KEY_ID \
   --secret $SECRET
