@@ -7,8 +7,27 @@ description: Give your agents capabilities with MCP servers
 
 ## Give your agents superpowers
 
-Tools let agents interact with the real world - search the web, access files, query databases, call APIs. This guide adds web search to your formation.
+Tools let agents interact with the real world - search the web, access files, query databases, call APIs. MUXI uses the **Model Context Protocol (MCP)** standard for tools.
 
+> [!NOTE]
+> **This guide uses Brave Search as an example.** You can use any MCP-compatible tool server. The patterns shown here apply to all MCP integrations.
+
+---
+
+## MCP Protocol Support
+
+MUXI supports both MCP transport protocols:
+
+| Protocol | Use Case | Example |
+|----------|----------|---------|
+| **stdio** (command) | Local tools, CLI wrappers | `npx @modelcontextprotocol/server-brave-search` |
+| **HTTP** (sse) | Remote services, hosted tools | `https://mcp.example.com/tools` |
+
+Both protocols support authentication via environment variables, headers, or OAuth.
+
+[Tools Schema Reference →](../reference/tools.md) - Full configuration options for both protocols
+
+---
 
 ## What You'll Build
 
@@ -22,7 +41,7 @@ By the end of this guide, your agent will:
 ## Prerequisites
 
 - A working formation (`muxi dev` succeeds)
-- Brave Search API key ([get one free](https://brave.com/search/api/))
+- **For this example:** Brave Search API key ([get one free](https://brave.com/search/api/))
 
 > [!TIP]
 > **Test tools in isolation first.** Before adding a new MCP server to your formation, run it standalone and verify it works with direct calls. This saves debugging time.
