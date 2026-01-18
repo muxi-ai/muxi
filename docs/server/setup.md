@@ -182,27 +182,33 @@ No formations deployed yet. Deploy your first with: muxi deploy
 
 Your server is configured and the CLI is connected. Next steps:
 
-<div class="cards">
-  <a href="quickstart" class="card">
-    <h3>Deploy Your First Formation</h3>
-    <p>Create and deploy an agent in 5 minutes</p>
-  </a>
-  <a href="configuration" class="card">
-    <h3>Configuration Reference</h3>
-    <p>All server configuration options</p>
-  </a>
-  <a href="production" class="card">
-    <h3>Production Setup</h3>
-    <p>SSL, firewalls, and scaling</p>
-  </a>
-</div>
+:::: cols=3
+
+(quickstart.md)[[card]]
+### Deploy Your First Formation
+
+Create and deploy an agent in 5 minutes
+[[/card]]
+
+(configuration.md)[[card]]
+### Configuration Reference
+
+All server configuration options
+[[/card]]
+
+(production.md)[[card]]
+### Production Setup
+
+SSL, firewalls, and scaling
+[[/card]]
+
+::::
 
 ---
 
 ## Troubleshooting
 
-<details>
-<summary>Port 7890 is already in use</summary>
+[[toggle Port 7890 is already in use]]
 
 Change the port in your config:
 
@@ -212,23 +218,24 @@ server:
 ```
 
 Then restart and update your CLI profile.
-</details>
 
-<details>
-<summary>Connection refused from CLI</summary>
+[[/toggle]]
+
+[[toggle Connection refused from CLI]]
 
 1. Check the server is running: `muxi-server status`
 2. Verify the URL in your profile: `muxi profile list`
 3. Check firewall allows port 7890
-</details>
 
-<details>
-<summary>Authentication failed</summary>
+[[/toggle]]
+
+[[toggle Authentication failed]]
 
 1. Verify key ID and secret match between server and CLI
 2. Check `auth.enabled: true` in server config
 3. Re-run `muxi-server init` to generate new keys if needed
-</details>
+
+[[/toggle]]
 
 ---
 
