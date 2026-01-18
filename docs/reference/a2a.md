@@ -26,8 +26,6 @@ auth:
   token: "${{ secrets.ANALYTICS_TOKEN }}"
 ```
 
----
-
 ## Configuration Fields
 
 ### Required Fields
@@ -61,8 +59,6 @@ retry_backoff_multiplier: 2.0
 | `retry_attempts` | int | `3` | Number of retries (0-10) |
 | `retry_delay_seconds` | int | `1` | Initial delay between retries |
 | `retry_backoff_multiplier` | float | `2.0` | Exponential backoff multiplier |
-
----
 
 ## Authentication
 
@@ -104,8 +100,6 @@ auth:
     scopes: ["read", "write"]
 ```
 
----
-
 ## Health Checks
 
 Monitor service availability:
@@ -120,8 +114,6 @@ health_check:
   healthy_threshold: 2     # Successes before marking healthy
 ```
 
----
-
 ## Circuit Breaker
 
 Prevent cascade failures:
@@ -133,8 +125,6 @@ circuit_breaker:
   success_threshold: 2     # Successes before closing circuit
   timeout_seconds: 60      # Time in open state before retry
 ```
-
----
 
 ## Rate Limiting
 
@@ -150,8 +140,6 @@ rate_limiting:
   strategy: "sliding_window"  # sliding_window, fixed_window, token_bucket
 ```
 
----
-
 ## Capabilities
 
 Describe what the service offers:
@@ -165,8 +153,6 @@ capabilities:
   webhooks: true
 ```
 
----
-
 ## Service Discovery
 
 Routing and load balancing:
@@ -178,8 +164,6 @@ discovery:
   priority: 10      # Higher = higher priority
   weight: 100       # 0-100 for load balancing
 ```
-
----
 
 ## Metadata
 
@@ -195,8 +179,6 @@ metadata:
     uptime_percentage: 99.9
     response_time_ms: 500
 ```
-
----
 
 ## Full Example
 
@@ -245,8 +227,6 @@ metadata:
   documentation: "https://docs.analytics.company.com"
   environment: "production"
 ```
-
----
 
 ## Learn More
 

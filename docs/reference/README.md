@@ -27,8 +27,6 @@ my-formation/
 └── secrets.example    # Template for required secrets
 ```
 
----
-
 ## Basic Formation
 
 The simplest formation that works:
@@ -50,6 +48,7 @@ agents: []  # Auto-discovered from agents/ directory
 
 > [!TIP]
 > File extension `.afs` stands for **Agent Formation Schema**. You can also use `.afs` or `.yml`.
+
 
 ## Formation Components
 
@@ -86,8 +85,6 @@ Standard operating procedures for consistent workflows.
 [[/card]]
 
 ::::
-
----
 
 ## Create Your First Formation
 
@@ -126,8 +123,6 @@ muxi deploy
 
 [[/steps]]
 
----
-
 ## Quick Reference
 
 | Section | Purpose | Required |
@@ -140,8 +135,6 @@ muxi deploy
 | `mcps` | MCP tool integrations | No |
 | `triggers` | Webhook triggers | No |
 | `knowledge` | RAG sources | No |
-
----
 
 ## Minimal Example
 
@@ -188,8 +181,6 @@ system_message: |
 
 > [!TIP]
 > This minimal example works! MUXI provides sensible defaults for memory, workflows, and more. Add configuration as needed.
-
----
 
 ## Next Steps
 

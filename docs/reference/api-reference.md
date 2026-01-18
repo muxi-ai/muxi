@@ -65,8 +65,6 @@ MUXI provides two complementary APIs that work together to orchestrate and run A
 
 ::::
 
----
-
 ## Quick Decision Guide
 
 [[steps]]
@@ -143,8 +141,6 @@ Great! Here's what to know:
 
 [[/steps]]
 
----
-
 ## API Comparison
 
 | Feature | Server API | Formation API |
@@ -155,8 +151,6 @@ Great! Here's what to know:
 | **Base Port** | 7890 | 8000-9000 (per formation) |
 | **Use Cases** | Deploy, update, monitor | Chat, sessions, configuration |
 | **Best For** | Automation pipelines | User-facing applications |
-
----
 
 ## Authentication Overview
 
@@ -188,8 +182,6 @@ curl -X POST http://localhost:7890/rpc/formations \
 
 [Learn more about HMAC authentication →](server/authentication)
 
----
-
 ### Formation API: API Keys
 
 The Formation API uses two types of keys:
@@ -219,8 +211,6 @@ curl http://localhost:8271/v1/chat \
 
 [Learn more about API keys →](server/authentication.md)
 
----
-
 ## Response Formats
 
 ### Server API Response Format
@@ -243,8 +233,6 @@ curl http://localhost:8271/v1/chat \
   "code": 409
 }
 ```
-
----
 
 ### Formation API Response Format
 
@@ -287,8 +275,6 @@ curl http://localhost:8271/v1/chat \
 }
 ```
 
----
-
 ## Common Use Cases
 
 ### Deploying a Formation (Server API)
@@ -304,8 +290,6 @@ curl -X POST http://localhost:7890/rpc/formations \
 
 [Full endpoint documentation →](api/server#deploy-formation)
 
----
-
 ### Sending a Chat Message (Formation API)
 
 ```bash
@@ -319,8 +303,6 @@ curl -X POST http://localhost:8271/v1/chat \
 ```
 
 [Full endpoint documentation →](api/formation#chat)
-
----
 
 ### Streaming Responses (Formation API)
 
@@ -352,8 +334,6 @@ data: {"finished": true}
 
 [Learn about streaming →](api/formation#streaming)
 
----
-
 ## Next Steps
 
 ### View Full API References
@@ -373,8 +353,6 @@ data: {"finished": true}
 - [Authentication Guide →](server/authentication.md)
 - [Server Setup →](server/setup.md)
 - [Formation Configuration →](schema.md)
-
----
 
 > [!TIP]
 > **Building an SDK for a new language?**

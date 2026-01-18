@@ -12,8 +12,6 @@ SOPs are markdown files in `sops/` that define procedures agents follow for spec
 > [!TIP]
 > **New to SOPs?** Read [SOPs Concept →](concepts/standard-operating-procedures.md) first.
 
----
-
 ## File Structure
 
 ```markdown
@@ -44,8 +42,6 @@ Description of what this procedure does.
 What happens when this SOP completes.
 ```
 
----
-
 ## Frontmatter Fields
 
 | Field | Required | Type | Default | Description |
@@ -56,8 +52,6 @@ What happens when this SOP completes.
 | `mode` | No | string | `"guide"` | `"template"` (strict) or `"guide"` (flexible) |
 | `tags` | No | string | - | Comma-separated keywords |
 | `bypass_approval` | No | boolean | `true` | Skip workflow approval |
-
----
 
 ## Execution Modes
 
@@ -83,8 +77,6 @@ mode: guide
 - Combine trivial operations
 - Parallelize independent steps
 - For standard operations
-
----
 
 ## Directives
 
@@ -113,8 +105,6 @@ Embed in step descriptions:
    Include template file.
 ```
 
----
-
 ## Directory Structure
 
 ```
@@ -129,8 +119,6 @@ sops/
 
 SOPs are auto-discovered from `sops/` directory.
 
----
-
 ## Matching Behavior
 
 SOPs match via semantic search:
@@ -139,8 +127,6 @@ SOPs match via semantic search:
 2. Search against all SOP descriptions and tags
 3. Match if relevance score ≥ 0.7
 4. Matched SOP executes (bypasses normal routing)
-
----
 
 ## Example: Complete SOP
 
@@ -188,8 +174,6 @@ Customer receives refund confirmation email.
 Refund processed within 24 hours.
 All records updated for audit trail.
 ```
-
----
 
 ## Related
 

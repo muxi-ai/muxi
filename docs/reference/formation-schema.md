@@ -39,8 +39,6 @@ description: A helpful assistant
 system_message: You are a helpful assistant.
 ```
 
----
-
 ## Top-Level Structure
 
 ```yaml
@@ -59,8 +57,6 @@ scheduler: {...}                   # Scheduled tasks
 a2a: {...}                         # Agent-to-agent
 user_credentials: {...}            # User credential handling
 ```
-
----
 
 ## LLM Configuration
 
@@ -102,8 +98,6 @@ llm:
 | Google | `google/{model}` | `google/gemini-pro` |
 | Ollama | `ollama/{model}` | `ollama/llama3` |
 
----
-
 ## Agents
 
 Agents are defined in separate files in `agents/` directory (auto-discovered):
@@ -137,8 +131,6 @@ knowledge:
 | `llm_models` | list | No | Override formation LLM |
 | `mcp_servers` | list | No | Agent-specific MCP servers |
 
----
-
 ## Memory
 
 ```yaml
@@ -159,8 +151,6 @@ memory:
       enabled: true
       cache_ttl: 3600
 ```
-
----
 
 ## MCP Configuration
 
@@ -198,8 +188,6 @@ mcp:
   max_tool_calls: 50
 ```
 
----
-
 ## Overlord (Orchestration)
 
 ```yaml
@@ -229,8 +217,6 @@ overlord:
       brainstorm: 10
 ```
 
----
-
 ## Server Configuration
 
 ```yaml
@@ -243,8 +229,6 @@ server:
     client_key: "${{ secrets.CLIENT_KEY }}"
 ```
 
----
-
 ## Async Configuration
 
 ```yaml
@@ -255,8 +239,6 @@ async:
   webhook_retries: 3
 ```
 
----
-
 ## Include Directive
 
 Reference external files:
@@ -266,8 +248,6 @@ agents:
   - $include: agents/researcher.afs
   - $include: agents/writer.afs
 ```
-
----
 
 ## Secrets Reference
 
@@ -284,8 +264,6 @@ auth:
   API_KEY: "${{ secrets.API_KEY }}"
 ```
 
----
-
 ## Validation
 
 Validate your formation:
@@ -293,8 +271,6 @@ Validate your formation:
 ```bash
 muxi validate
 ```
-
----
 
 ## Complete Example
 
@@ -380,8 +356,6 @@ auth:
   type: env
   BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
-
----
 
 ## Next Steps
 

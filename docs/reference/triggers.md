@@ -12,8 +12,6 @@ Triggers provide webhook endpoints for external systems to invoke your agents.
 > [!TIP]
 > **New to triggers?** Read [Triggers & Webhooks →](concepts/triggers-and-webhooks.md) first.
 
----
-
 ## API Endpoints
 
 ### Execute Trigger
@@ -86,8 +84,6 @@ GET /v1/formations/{formation_id}/triggers
 }
 ```
 
----
-
 ## Template Syntax
 
 Templates use `${{ data.* }}` for variable substitution:
@@ -97,8 +93,6 @@ ${{ data.name }}                    # Simple access
 ${{ data.issue.number }}            # Nested access
 ${{ data.user.profile.name }}       # Multi-level nesting
 ```
-
----
 
 ## Directory Structure
 
@@ -112,8 +106,6 @@ triggers/
 
 Templates are auto-discovered from `triggers/` directory.
 
----
-
 ## Request Options
 
 | Field | Type | Default | Description |
@@ -121,8 +113,6 @@ Templates are auto-discovered from `triggers/` directory.
 | `data` | object | Required | Event data for template rendering |
 | `session_id` | string | Auto-generated | Session ID for conversation context |
 | `use_async` | boolean | `true` | Return immediately or wait for completion |
-
----
 
 ## Error Responses
 
@@ -151,8 +141,6 @@ Templates are auto-discovered from `triggers/` directory.
   }
 }
 ```
-
----
 
 ## Example: Complete Workflow
 
@@ -193,8 +181,6 @@ curl -X POST http://localhost:8001/v1/formations/my-formation/triggers/github-is
     "use_async": false
   }'
 ```
-
----
 
 ## Related
 

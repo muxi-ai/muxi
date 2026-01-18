@@ -43,8 +43,6 @@ description: A helpful assistant
 system_message: You are a helpful, friendly assistant.
 ```
 
----
-
 ## Research Assistant
 
 Agent with web search capabilities:
@@ -95,8 +93,6 @@ auth:
   type: env
   BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
-
----
 
 ## Customer Support
 
@@ -150,8 +146,6 @@ knowledge:
     - path: knowledge/docs/
     - path: knowledge/troubleshooting/
 ```
-
----
 
 ## Multi-Agent Content Team
 
@@ -232,8 +226,6 @@ auth:
   BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
 ```
 
----
-
 ## DevOps Assistant
 
 System management with GitHub tools:
@@ -297,8 +289,6 @@ command: npx
 args: ["-y", "@modelcontextprotocol/server-filesystem", "./repos"]
 ```
 
----
-
 ## Alert Responder
 
 Async processing with webhooks:
@@ -357,8 +347,6 @@ auth:
   DATABASE_URL: "${{ secrets.DATABASE_URL }}"
 ```
 
----
-
 ## Enterprise Ready
 
 Full production setup:
@@ -412,8 +400,6 @@ logging:
   conversation:
     enabled: true
 ```
-
----
 
 ## Next Steps
 

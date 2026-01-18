@@ -61,8 +61,6 @@ muxi dev
 
 [[/steps]]
 
----
-
 ## Why Knowledge Sources?
 
 Knowledge sources give agents **domain expertise**. Instead of relying only on training data, agents can answer questions using your specific documents - return policies, product manuals, internal procedures, etc.
@@ -91,8 +89,6 @@ MUXI:
 4. **Includes** context in agent prompts
 
 > **Performance note:** Embeddings are created once on initialization and cached. They're only regenerated when the underlying files change - not on every startup.
-
----
 
 ## Configuration
 
@@ -140,8 +136,6 @@ agents:
 | `file_limit` | 5 | Max files from this source |
 | `max_file_size` | 1MB | Skip files larger than this |
 
----
-
 ## Supported Formats
 
 ### Text
@@ -161,8 +155,6 @@ agents:
 
 ### Images (with OCR)
 - `.jpg`, `.png`, `.gif` - Text extraction
-
----
 
 ## Agent-Specific Knowledge
 
@@ -222,8 +214,6 @@ knowledge:
       description: System architecture
 ```
 
----
-
 ## File Organization
 
 ```
@@ -246,8 +236,6 @@ my-formation/
 > [!TIP]
 > Organize by topic or audience. Each agent can reference the directories relevant to their role.
 
----
-
 ## Caching
 
 MUXI caches embeddings to avoid re-indexing:
@@ -266,8 +254,6 @@ Force reindex:
 muxi dev --reindex
 ```
 
----
-
 ## Performance Tips
 
 1. **Limit file count** - Use `max_files_per_source`
@@ -275,8 +261,6 @@ muxi dev --reindex
 3. **Filter extensions** - Only include relevant file types
 4. **Organize by topic** - Smaller, focused directories
 5. **Use descriptions** - Help the agent understand each source
-
----
 
 ## Troubleshooting
 
@@ -313,8 +297,6 @@ knowledge:
       max_file_size: 1048576  # 1MB
 ```
 [[/toggle]]
-
----
 
 ## Next Steps
 

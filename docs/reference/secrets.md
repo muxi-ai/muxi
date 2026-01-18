@@ -38,8 +38,6 @@ The GitHub Actions-style notation (`${{ secrets.KEY }}`) makes it clear exactly 
 > - [`PUT /v1/secrets/{key}`](api/formation#tag/Secrets/PUT/secrets/{key}) - Update secret
 > - [`DELETE /v1/secrets/{key}`](api/formation#tag/Secrets/DELETE/secrets/{key}) - Delete secret
 
----
-
 ## How It Works
 
 ```
@@ -70,8 +68,6 @@ auth:
   type: env
   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
-
----
 
 ## Set Up Secrets
 
@@ -115,8 +111,6 @@ BRAVE_API_KEY
 
 [[/steps]]
 
----
-
 ## Manage Individual Secrets
 
 ### Set a Secret
@@ -144,8 +138,6 @@ muxi secrets get OPENAI_API_KEY
 ```bash
 muxi secrets delete OLD_API_KEY
 ```
-
----
 
 ## File Structure
 
@@ -178,8 +170,6 @@ OPENAI_API_KEY=
 BRAVE_API_KEY=
 DATABASE_URL=
 ```
-
----
 
 ## Using Secrets in Formations
 
@@ -218,8 +208,6 @@ auth:
   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
----
-
 ## Team Sharing
 
 To share a formation with teammates:
@@ -227,8 +215,6 @@ To share a formation with teammates:
 1. **Commit** `secrets.enc` and `secrets` to git
 2. **Share `.key` securely** (password manager, secure channel)
 3. **Or** have teammates run `muxi secrets setup` with their own keys
-
----
 
 ## Backup and Recovery
 
@@ -253,8 +239,6 @@ muxi secrets setup
 
 > [!IMPORTANT]
 > There's no backdoor. Lost key = re-enter all secrets. This is intentional security.
-
----
 
 ## Troubleshooting
 
@@ -284,8 +268,6 @@ ls -la secrets.enc .key
 ```
 [[/toggle]]
 
----
-
 ## Best Practices
 
 1. **Never commit `.key`** - Add to `.gitignore`
@@ -294,8 +276,6 @@ ls -la secrets.enc .key
 4. **Use descriptive names** - `OPENAI_API_KEY` not `KEY1`
 5. **Rotate periodically** - Update secrets regularly
 6. **Least privilege** - Each tool gets only the secrets it needs
-
----
 
 ## Next Steps
 

@@ -30,8 +30,6 @@ system_message: You are a helpful assistant who answers questions clearly.
 
 That's it. One agent, ready to chat.
 
----
-
 ## Agent Configuration
 
 ### Full Example
@@ -178,8 +176,6 @@ metadata:
   icon: "🤖"
 ```
 
----
-
 ## Multi-Agent Formations
 
 The real power comes from multiple specialized agents:
@@ -232,8 +228,6 @@ graph LR
 
 > [!TIP]
 > MUXI's **Overlord** automatically routes requests to the best agent based on the task. You can also specify agents explicitly.
-
----
 
 ## Agent Routing
 
@@ -294,8 +288,6 @@ response, _ := formation.ChatWithOptions("Find info about AI trends", muxi.ChatO
 [[/tab]]
 
 [[/tabs]]
-
----
 
 ## Agent-Specific Tools
 
@@ -364,8 +356,6 @@ system_message: |
 # No mcp_servers - focuses purely on writing
 ```
 
----
-
 ## Agent-Specific Knowledge
 
 Different agents can access different knowledge bases:
@@ -408,8 +398,6 @@ knowledge:
       description: Product features
 ```
 
----
-
 ## Separate Agent Files
 
 Agents are auto-discovered from `agents/*.afs` files:
@@ -442,8 +430,6 @@ In your formation, just leave agents empty - they're auto-discovered:
 agents: []  # Auto-discovered from agents/ directory
 ```
 
----
-
 ## Best Practices
 
 > [!IMPORTANT]
@@ -453,8 +439,6 @@ agents: []  # Auto-discovered from agents/ directory
 2. **Match tools to roles** - Researchers get search, developers get filesystem
 3. **One specialty per agent** - Let each agent focus on what they do best
 4. **Use separate files** - Keep complex agent definitions organized
-
----
 
 ## Next Steps
 

@@ -20,8 +20,6 @@ All configuration files **must** include:
 schema: "1.0.0"
 ```
 
----
-
 ## Formation Schema (`formation.afs`)
 
 ### Basic Information
@@ -297,8 +295,6 @@ logging:
       url: "https://logs.example.com"
 ```
 
----
-
 ## Agent Schema (`agents/*.afs`)
 
 ### Basic Information
@@ -434,8 +430,6 @@ timeout:
   max: 600
 ```
 
----
-
 ## MCP Server Schema (`mcp/*.afs`)
 
 ### Command-Based Server
@@ -498,8 +492,6 @@ health_check:
 
 [More: Tools (MCP) Reference →](tools.md)
 
----
-
 ## A2A Service Schema (`a2a/*.afs`)
 
 ```yaml
@@ -545,8 +537,6 @@ capabilities:
 
 [More: A2A Services Reference →](a2a.md)
 
----
-
 ## Secrets Interpolation
 
 ### Formation Secrets
@@ -566,8 +556,6 @@ token: "${{ user.credentials.GITHUB_TOKEN }}"
 > **User credentials** are per-user, loaded on-demand.
 
 [More: Secrets Reference →](secrets.md)
-
----
 
 ## Override Hierarchy
 
@@ -590,8 +578,6 @@ llm:
     temperature: 1.0  # Override for this agent only
 ```
 
----
-
 ## Validation Requirements
 
 ### Formation
@@ -607,8 +593,6 @@ llm:
 - Must have `schema`, `id`, `type`
 - Command servers must have `command`
 - HTTP servers must have `endpoint`
-
----
 
 ## Learn More
 

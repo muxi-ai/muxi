@@ -34,8 +34,6 @@ MUXI's three-tier memory system lets agents remember context within conversation
 └─────────────────────────────────────┘
 ```
 
----
-
 ## Quick Setup
 
 ### Conversation Memory (Default)
@@ -67,8 +65,6 @@ memory:
     provider: sqlite      # Survives restarts
 ```
 
----
-
 ## Buffer Memory
 
 Stores recent conversation messages in memory:
@@ -89,8 +85,6 @@ memory:
 > [!TIP]
 > When the buffer fills, older messages are automatically summarized to preserve context while saving space.
 
----
-
 ## Vector Search
 
 Find semantically related past conversations:
@@ -108,8 +102,6 @@ When enabled, MUXI:
 3. Includes relevant context in prompts
 
 This helps agents recall related information even from distant conversations.
-
----
 
 ## Persistent Memory
 
@@ -142,8 +134,6 @@ Best for: Multi-user, production deployments
 [[/tab]]
 
 [[/tabs]]
-
----
 
 ## Multi-User Memory
 
@@ -199,8 +189,6 @@ response, _ := formation.ChatWithOptions("Remember I prefer Python", muxi.ChatOp
 
 Each user's memory is completely isolated.
 
----
-
 ## Complete Configuration
 
 ```yaml
@@ -225,8 +213,6 @@ memory:
     user_isolation: true
 ```
 
----
-
 ## Disable Memory
 
 For stateless interactions (no context between messages):
@@ -238,8 +224,6 @@ memory:
   persistent:
     enabled: false
 ```
-
----
 
 ## How It Works
 
@@ -261,8 +245,6 @@ sequenceDiagram
     M->>V: Index new message
     M->>P: Persist to database
 ```
-
----
 
 ## Next Steps
 

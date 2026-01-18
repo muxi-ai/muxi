@@ -54,8 +54,6 @@ muxi dev
 
 [[/steps]]
 
----
-
 ## MCP Server Types
 
 ### Command-based (Local)
@@ -90,8 +88,6 @@ auth:
   type: bearer
   token: "${{ secrets.API_TOKEN }}"
 ```
-
----
 
 ## MCP File Fields
 
@@ -169,8 +165,6 @@ metadata:
   tags: ["search", "web"]
 ```
 
----
-
 ## Popular MCP Servers
 
 | Server | What It Does | Type |
@@ -180,8 +174,6 @@ metadata:
 | `@modelcontextprotocol/server-github` | GitHub API | command |
 | `@modelcontextprotocol/server-postgres` | PostgreSQL | command |
 | `@modelcontextprotocol/server-sqlite` | SQLite | command |
-
----
 
 ## Configuration Examples
 
@@ -259,8 +251,6 @@ auth:
   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
----
-
 ## Formation-Level MCP Settings
 
 Configure global MCP behavior in `formation.afs`:
@@ -272,8 +262,6 @@ mcp:
   max_tool_calls: 50
   max_repeated_errors: 3
 ```
-
----
 
 ## Agent-Specific Tools
 
@@ -320,8 +308,6 @@ mcp_servers:
     args: ["-y", "@modelcontextprotocol/server-filesystem"]
 ```
 
----
-
 ## Authentication Types
 
 ### Environment Variables
@@ -359,8 +345,6 @@ auth:
   key: "${{ secrets.API_KEY }}"
 ```
 
----
-
 ## Troubleshooting
 
 [[toggle Tool Not Available]]
@@ -383,8 +367,6 @@ Common issues:
 - Network connectivity
 - Server not running
 [[/toggle]]
-
----
 
 ## Next Steps
 
