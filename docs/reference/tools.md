@@ -95,16 +95,79 @@ auth:
 
 ## MCP File Fields
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `schema` | Yes | Schema version (`"1.0.0"`) |
-| `id` | Yes | Unique identifier |
-| `type` | Yes | `command` or `http` |
-| `command` | Yes (command) | Command to execute |
-| `args` | No | Command arguments |
-| `endpoint` | Yes (http) | Remote server URL |
-| `timeout_seconds` | No | Request timeout |
-| `auth` | No | Authentication config |
+### Required Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `schema` | string | Schema version (`"1.0.0"`) |
+| `id` | string | Unique identifier |
+| `description` | string | What this MCP server does |
+| `type` | enum | `command` (stdio) or `http` |
+
+### Command Type Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `command` | string | Command to execute (`npx`, `python`, `node`) |
+| `args` | array | Command arguments |
+| `env` | object | Environment variables for the command |
+| `cwd` | string | Working directory for the command |
+
+### HTTP Type Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `endpoint` | string | HTTP endpoint URL |
+| `protocol` | enum | `http` or `https` |
+| `method` | enum | `GET`, `POST`, `PUT`, `DELETE` (default: `POST`) |
+| `headers` | object | Additional HTTP headers |
+
+### Common Optional Fields
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `active` | bool | `true` | Enable/disable this server |
+| `timeout_seconds` | int | - | Request timeout |
+| `retry_attempts` | int | - | Number of retries (0-10) |
+
+### Capabilities
+
+```yaml
+capabilities:
+  tools: ["list_repos", "create_issue"]  # Tool names provided
+  streaming: false                        # Supports streaming?
+  async: false                            # Supports async?
+```
+
+### Health Check (HTTP only)
+
+```yaml
+health_check:
+  enabled: true
+  endpoint: "/health"
+  interval_seconds: 60
+  timeout_seconds: 5
+```
+
+### Rate Limiting
+
+```yaml
+rate_limiting:
+  requests_per_minute: 60
+  requests_per_hour: 1000
+  burst_limit: 10
+```
+
+### Metadata
+
+```yaml
+metadata:
+  version: "1.0.0"
+  author: "Your Team"
+  homepage: "https://example.com"
+  documentation: "https://docs.example.com"
+  tags: ["search", "web"]
+```
 
 ---
 

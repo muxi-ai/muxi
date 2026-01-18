@@ -29,14 +29,22 @@ Researcher  Writer   Reviewer
 
 ## Step 1: Define Agents
 
-Create agent files in `agents/` directory:
+Create agent files in `agents/` directory.
+
+> [!IMPORTANT]
+> **Be specific about roles and specialties.** The Overlord uses `description`, `role`, and `specialization` fields to route requests to the right agent. Vague descriptions lead to poor routing.
 
 ```yaml
 # agents/researcher.afs
 schema: "1.0.0"
 id: researcher
 name: Research Specialist
-description: Gathers information from sources
+description: Gathers accurate information from web searches and documents
+
+role: researcher
+specialization:
+  domain: research
+  keywords: [search, investigate, find, gather, sources]
 
 system_message: |
   You research topics thoroughly.
@@ -48,7 +56,12 @@ system_message: |
 schema: "1.0.0"
 id: writer
 name: Content Writer
-description: Creates content
+description: Creates blog posts, articles, and marketing copy
+
+role: executor
+specialization:
+  domain: content-writing
+  keywords: [write, draft, compose, article, blog, copy]
 
 system_message: |
   You write clear, engaging content.
@@ -60,12 +73,22 @@ system_message: |
 schema: "1.0.0"
 id: reviewer
 name: Content Reviewer
-description: Reviews content
+description: Reviews and edits content for accuracy, clarity, and tone
+
+role: specialist
+specialization:
+  domain: editing
+  keywords: [review, edit, proofread, check, quality]
 
 system_message: |
   You review content for accuracy.
   Check clarity and tone.
 ```
+
+**Why this matters:**
+- **`description`** - The Overlord reads this to understand what the agent does
+- **`role`** - Categorizes the agent (specialist, generalist, coordinator, researcher, executor)
+- **`specialization.keywords`** - Helps match user requests to the right agent
 
 ## Step 2: Add Tools
 

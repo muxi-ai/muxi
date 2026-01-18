@@ -557,7 +557,7 @@ overlord:
 
 ## Learn More
 
-- **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official formation schema specification
+- [Approvals Reference](../reference/approvals.md) - Full approval configuration
 - [Workflows & Task Decomposition](workflows.md) - How workflows are created
 - [The Overlord](overlord.md) - Orchestration engine
 - [Async Processing](async.md) - Background task execution

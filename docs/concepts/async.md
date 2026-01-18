@@ -651,7 +651,7 @@ while True:
 
 ## Learn More
 
-- **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official formation schema specification
+- [Workflows Reference](../reference/workflows.md) - Async and workflow configuration
 - [Workflows & Task Decomposition](workflows.md) - Complex task execution
 - [Triggers & Webhooks](triggers.md) - Webhook integrations
 - [Request Cancellation](../runtime/request-cancellation.md) - Cancel in-flight requests

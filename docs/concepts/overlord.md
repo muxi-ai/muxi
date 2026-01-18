@@ -241,6 +241,8 @@ overlord:
 
 ## Learn More
 
+- [Workflows Reference](../reference/workflows.md) - Full Overlord workflow configuration
+- [Formation Schema Reference](../reference/formation-schema.md) - Overlord settings in formation.afs
 - [Agents & Orchestration](agents-and-orchestration.md) - How agents work with the Overlord
 - [SOPs](standard-operating-procedures.md) - Predefined workflow templates
 - [Clarifications](clarification.md) - The clarification system

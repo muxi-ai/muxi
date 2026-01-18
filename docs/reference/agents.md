@@ -12,7 +12,7 @@ Agents are the workers in your formation. Each has a role, personality, and set 
 > [!TIP]
 > **New to agents?** Read [Agent Concepts →](../concepts/agents-and-orchestration.md) first for an overview of how agents work in MUXI.
 >
-> **API Reference:** [GET /v1/agents](api/formation#tag/Agents/GET/agents) | [GET /v1/agents/{id}](api/formation#tag/Agents/GET/agents/{agent_id})
+> **API Reference:** [`GET /v1/agents`](api/formation#tag/Agents/GET/agents) | [`GET /v1/agents/{id}`](api/formation#tag/Agents/GET/agents/{agent_id})
 
 
 ## Your First Agent
@@ -61,15 +61,122 @@ llm_models:
 
 ### Configuration Fields
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `schema` | string | Yes | Schema version ("1.0.0") |
-| `id` | string | Yes | Unique identifier (used in routing) |
-| `name` | string | Yes | Display name |
-| `description` | string | Yes | What the agent does |
-| `system_message` | string | No | System prompt defining behavior |
-| `knowledge` | object | No | RAG sources for this agent |
-| `llm_models` | list | No | Override formation LLM settings |
+#### Required Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `schema` | string | Schema version (`"1.0.0"`) |
+| `id` | string | Unique identifier (used in routing) |
+| `description` | string | What the agent does - **used by Overlord for routing** |
+
+#### Identity & Behavior
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | string | - | Human-readable display name |
+| `system_message` | string | - | System prompt defining behavior |
+| `role` | enum | - | Agent's role: `specialist`, `generalist`, `coordinator`, `researcher`, `executor` |
+| `a2a_enabled` | bool | `true` | Enable agent-to-agent communication |
+| `enable_direct_delegation` | bool | `true` | Allow direct task delegation to other agents |
+| `delegation_strategy` | enum | `automatic` | How delegation works: `automatic`, `ask_user`, `never` |
+
+#### Specialization (for better routing)
+
+```yaml
+specialization:
+  domain: "customer-support"      # Primary expertise area
+  subdomain: "technical-support"  # Specific focus
+  expertise_level: "expert"       # junior, intermediate, senior, expert
+  keywords: ["help", "issue", "troubleshoot"]  # Routing keywords
+```
+
+#### System Behavior (advanced)
+
+```yaml
+system_behavior:
+  constraints:
+    - "Only answer questions about weather"
+    - "Do not provide medical advice"
+  capabilities:
+    - "Weather forecasting"
+    - "Climate data analysis"
+  interaction_style: "friendly"    # formal, casual, technical, friendly, professional
+  response_length: "moderate"      # concise, moderate, detailed, comprehensive
+  error_handling: "user-friendly"  # graceful, explicit, technical, user-friendly
+```
+
+#### LLM Overrides
+
+```yaml
+llm:
+  settings:
+    temperature: 0.7
+    max_tokens: 4096
+    timeout_seconds: 60
+    max_retries: 3
+    fallback_model: "openai/gpt-4o-mini"
+  models:
+    - text: "openai/gpt-4o"
+    - vision: "openai/gpt-4o"
+    - embedding: "openai/text-embedding-3-small"
+```
+
+#### Memory Overrides
+
+```yaml
+memory:
+  buffer:
+    size: 50              # Context window size
+    multiplier: 2         # Buffer multiplier
+    vector_search: true   # Enable vector search
+```
+
+#### Knowledge
+
+```yaml
+knowledge:
+  files: ["knowledge/faq.md"]
+  directories: ["knowledge/docs/"]
+  auto_update: true
+  embedding_model: "openai/text-embedding-3-small"
+  chunk_size: 1000
+  chunk_overlap: 100
+```
+
+#### Agent-Specific MCP Servers
+
+```yaml
+mcp_servers:
+  - id: web-search
+    description: Web search
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+```
+
+#### Rate Limiting & Timeouts
+
+```yaml
+rate_limiting:
+  requests_per_minute: 60
+  requests_per_hour: 1000
+  requests_per_day: 10000
+  burst_limit: 10
+
+timeout:
+  default: 300   # seconds
+  max: 600       # seconds
+```
+
+#### Metadata
+
+```yaml
+metadata:
+  version: "1.0.0"
+  author: "Your Team"
+  tags: ["support", "customer-facing"]
+  icon: "🤖"
+```
 
 ---
 

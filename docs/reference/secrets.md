@@ -33,10 +33,10 @@ The GitHub Actions-style notation (`${{ secrets.KEY }}`) makes it clear exactly 
 > Learn more about the design decision in [Why Encrypted Secrets](../concepts/secrets-and-security.md).
 >
 > **API Reference:**
-> - [GET /v1/secrets](api/formation#tag/Secrets/GET/secrets) - List secrets
-> - [POST /v1/secrets](api/formation#tag/Secrets/POST/secrets) - Create secret
-> - [PUT /v1/secrets/{key}](api/formation#tag/Secrets/PUT/secrets/{key}) - Update secret
-> - [DELETE /v1/secrets/{key}](api/formation#tag/Secrets/DELETE/secrets/{key}) - Delete secret
+> - [`GET /v1/secrets`](api/formation#tag/Secrets/GET/secrets) - List secrets
+> - [`POST /v1/secrets`](api/formation#tag/Secrets/POST/secrets) - Create secret
+> - [`PUT /v1/secrets/{key}`](api/formation#tag/Secrets/PUT/secrets/{key}) - Update secret
+> - [`DELETE /v1/secrets/{key}`](api/formation#tag/Secrets/DELETE/secrets/{key}) - Delete secret
 
 ---
 

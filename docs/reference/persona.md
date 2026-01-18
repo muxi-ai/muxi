@@ -11,7 +11,7 @@ The `overlord.persona` field defines your formation's communication style and be
 > [!TIP]
 > **New to personas?** Read [Persona Concept →](../concepts/persona.md) to learn how to write effective personas.
 >
-> **API Reference:** [GET /v1/overlord/persona](api/formation#tag/Overlord/GET/overlord/persona)
+> **API Reference:** [`GET /v1/overlord/persona`](api/formation#tag/Overlord/GET/overlord/persona)
 
 ## Configuration Location
 

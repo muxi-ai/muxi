@@ -433,6 +433,7 @@ muxi validate formation.afs
 
 ## Learn More
 
+- [Formation Schema Reference](../reference/formation-schema.md) - Full YAML reference
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official specification
 - [Persona Configuration](persona.md) - Configure agent personality
 - [Workflows & Task Decomposition](workflows.md) - Complex task handling
