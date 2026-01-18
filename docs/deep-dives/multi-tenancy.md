@@ -163,15 +163,15 @@ class TenantMemoryManager:
 Users can store their own API keys:
 
 ```plain
-┌─────────────────────────────────────────────┐
-│  User: alice                                 │
-│  ├── GITHUB_TOKEN: ghp_alice...             │
-│  └── SLACK_TOKEN: xoxb_alice...             │
-├─────────────────────────────────────────────┤
-│  User: bob                                   │
-│  ├── GITHUB_TOKEN: ghp_bob...               │
-│  └── NOTION_TOKEN: secret_bob...            │
-└─────────────────────────────────────────────┘
+┌───────────────────────────────────┐
+│  User: alice                      │
+│  ├── GITHUB_TOKEN: ghp_alice...   │
+│  └── SLACK_TOKEN: xoxb_alice...   │
+├───────────────────────────────────┤
+│  User: bob                        │
+│  ├── GITHUB_TOKEN: ghp_bob...     │
+│  └── NOTION_TOKEN: secret_bob...  │
+└───────────────────────────────────┘
 ```
 
 ### Storage
