@@ -206,7 +206,11 @@ Build with MUXI in your language of choice.
 
 #### Python
 
-The MUXI Python SDK is a wrapper around the Server and Formation APIs written in Python to make it easier to integrate MUXI into your backend.
+```bash
+pip install muxi-sdk
+```
+
+A Python wrapper around the MUXI Server and Formation APIs to make it easier to integrate MUXI into your backend.
 
 [[/card]]
 
