@@ -51,8 +51,7 @@ Learn more & install ›
 
 #### TypeScript
 
-Works in Node.js, Bun, browsers, and edge runtimes.
-
+Works on your server (Node.js/Bun), in your browsers, and edge.
 ```
 npm install @muxi/sdk
 ```
