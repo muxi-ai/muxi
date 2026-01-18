@@ -83,7 +83,7 @@ description: Complete guide to building AI agents with MUXI
 
 ## Guides
 
-* [Overview](guides/README.md)
+* [All Guides](guides/README.md)
 
 * Basics
   * [Add Tools (MCP)](guides/add-mcp-tools.md)
@@ -106,7 +106,7 @@ description: Complete guide to building AI agents with MUXI
 
 ## Formation Reference
 
-* [Overview](reference/README.md)
+* [Understanding Formations](reference/README.md)
 * [Full Schema Guide](reference/schema-guide.md)
 * Component Reference
   * [Formation](reference/formation-schema.md)
@@ -126,7 +126,7 @@ description: Complete guide to building AI agents with MUXI
 
 ## Deep Dives
 
-* [Overview](deep-dives/README.md)
+* [Under the Hood](deep-dives/README.md)
 * [Request Lifecycle](deep-dives/request-lifecycle.md)
 * [How Orchestration Works](deep-dives/how-orchestration-works.md)
 * [Memory Internals](deep-dives/memory-internals.md)
