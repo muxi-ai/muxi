@@ -220,7 +220,7 @@ pip install muxi-sdk
 
 #### TypeScript
 
-A TypeScript client for the Server and Formation APIs to make it easier to integrate MUXI into your backend and browser.
+A TS client for the Server and Formation APIs to make it easier to integrate MUXI into your backend and browser.
 
 ```
 npm install @muxi/sdk
