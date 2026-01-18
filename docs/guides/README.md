@@ -15,7 +15,7 @@ Practical guides that take you from start to finish on common tasks.
 
 :::: cols=2
 
-(deploy.md)[[card]]
+(deploy-to-production.md)[[card]]
 #### Deploy to Production
 Move your formation from localhost to a real server with TLS, authentication, and systemd.
 [[/card]]

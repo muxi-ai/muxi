@@ -114,6 +114,7 @@ The runtime can be embedded directly in your Python application as a framework.
 > - **No health monitoring** - Server provides `/health`, auto-restart
 > - **More deployment complexity** - You manage the Python process lifecycle
 >
+> ---
 >
 > **When embedding makes sense:** Custom hosting environments, serverless functions, or tight integration requirements where HTTP isn't viable.
 >

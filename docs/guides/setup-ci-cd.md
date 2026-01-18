@@ -34,10 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install MUXI CLI
         run: curl -fsSL https://muxi.org/install | bash
-      
+
       - name: Configure Profile
         env:
           MUXI_KEY_ID: ${{ secrets.MUXI_KEY_ID }}
@@ -48,7 +48,7 @@ jobs:
             --url "$MUXI_SERVER_URL" \
             --key-id "$MUXI_KEY_ID" \
             --secret-key "$MUXI_SECRET_KEY"
-      
+
       - name: Deploy
         run: muxi deploy --profile ci
 ```
@@ -140,5 +140,5 @@ jobs:
 
 ## Next Steps
 
-- [Deploy to Production](deploy.md) - Manual deployment
+- [Deploy to Production](deploy-to-production.md) - Manual deployment
 - [Monitoring](monitoring.md) - Post-deploy monitoring
