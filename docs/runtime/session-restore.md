@@ -190,6 +190,49 @@ async function chat(sessionId: string, message: string, userId: string) {
 ```
 [[/tab]]
 
+[[tab Go]]
+```go
+func chat(ctx context.Context, sessionID, message, userID string) (*muxi.Response, error) {
+    // Check if we have stored history for this session
+    history, _ := db.Messages.Find(ctx, sessionID, userID)
+    
+    if len(history) > 0 {
+        // Restore before sending message
+        client.Sessions.Restore(ctx, &muxi.RestoreRequest{
+            SessionID: sessionID,
+            UserID:    userID,
+            Messages:  history,
+        })
+    }
+    
+    // Send message with full context
+    return client.Chat(ctx, &muxi.ChatRequest{
+        Message:   message,
+        SessionID: sessionID,
+        UserID:    userID,
+    })
+}
+```
+[[/tab]]
+
+[[tab cURL]]
+```bash
+# Step 1: Restore session with history from your database
+curl -X POST 'https://api.muxi.ai/v1/sessions/sess_abc123/restore' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'X-Muxi-User-Id: user@example.com' \
+  -H 'Content-Type: application/json' \
+  -d '{"messages": [...]}'
+
+# Step 2: Send new message with full context
+curl -X POST 'https://api.muxi.ai/v1/chat' \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'X-Muxi-User-Id: user@example.com' \
+  -H 'Content-Type: application/json' \
+  -d '{"message": "Continue our conversation", "session_id": "sess_abc123"}'
+```
+[[/tab]]
+
 [[/tabs]]
 
 ### Time-Windowed Restore
