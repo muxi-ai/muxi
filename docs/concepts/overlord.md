@@ -37,8 +37,6 @@ graph TD
 7. **Persona Application** - Formats response with configured personality
 8. **Credential Handling** - Manages user credentials and access
 
----
-
 ## Users Talk to MUXI, Not Agents
 
 > **Key concept:** From the UX standpoint, users are talking to MUXI - one entity. They don't know or care about individual agents.
@@ -58,8 +56,6 @@ What actually happens:
 ```
 
 The SDK does allow talking to specific agents directly, but that's for debugging - not the intended UX.
-
----
 
 ## Clarification System
 
@@ -84,8 +80,6 @@ The Overlord also detects whether a user's response is:
 
 This ensures the Overlord always has enough information before acting.
 
----
-
 ## Dynamic Workflow Creation
 
 > **Key insight:** Workflows are NOT predefined. The Overlord creates them dynamically based on each request.
@@ -106,8 +100,6 @@ This is different from SOPs (Standard Operating Procedures), which ARE predefine
 | Created dynamically per request | Predefined templates |
 | Overlord decides structure | Developer defines structure |
 | Adapts to context | Consistent execution |
-
----
 
 ## Complexity Threshold & Approval
 
@@ -141,8 +133,6 @@ User:  "Looks good, go ahead"
 Overlord: Executes plan
 ```
 
----
-
 ## Agent Selection
 
 The Overlord picks the best agent for each task based on:
@@ -165,8 +155,6 @@ specialties:
 
 The Overlord reads this metadata and routes research tasks to this agent.
 
----
-
 ## Persona (Overlord Only)
 
 The persona defines how MUXI communicates with users:
@@ -186,8 +174,6 @@ This affects:
 
 Agents have **system prompts** (instructions) and **capabilities** (metadata), but not personas.
 
----
-
 ## Routing Priority
 
 When a request arrives, the Overlord follows this order:
@@ -203,8 +189,6 @@ When a request arrives, the Overlord follows this order:
 ```
 
 SOPs always win - if a request matches an SOP, it executes regardless of complexity.
-
----
 
 ## Configuration
 
@@ -236,8 +220,6 @@ overlord:
   llm:
     text: "anthropic/claude-sonnet-4-20250514"  # For planning/reasoning
 ```
-
----
 
 ## Learn More
 
