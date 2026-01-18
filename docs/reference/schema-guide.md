@@ -12,8 +12,6 @@ This guide documents every configuration option available in Agent Formation Sch
 > [!TIP]
 > **Start minimal.** Most fields have sensible defaults. Add configuration only when you need to customize behavior.
 
----
-
 ## Schema Version
 
 All configuration files **must** include:
@@ -81,14 +79,14 @@ llm:
   api_keys:
     openai: "${{ secrets.OPENAI_API_KEY }}"
     anthropic: "${{ secrets.ANTHROPIC_API_KEY }}"
-  
+
   settings:
     temperature: 0.7
     max_tokens: 4096
     timeout_seconds: 60
     max_retries: 3
     fallback_model: "openai/gpt-4o-mini"
-  
+
   models:
     - text: "openai/gpt-4o"
     - vision: "openai/gpt-4o"
@@ -126,29 +124,29 @@ overlord:
   persona: |
     You are a helpful assistant. You communicate clearly
     and concisely. You never make up information.
-  
+
   llm:
     text: "anthropic/claude-sonnet-4-20250514"
     settings:
       temperature: 0.3
-  
+
   routing:
     enabled: true
     settings:
       temperature: 0.1
       max_tokens: 500
-  
+
   workflow:
     enabled: true
     auto_decomposition: true
     complexity_threshold: 5.0
     plan_approval_threshold: 8.0
-  
+
   clarification:
     enabled: true
     max_questions: 3
     question_style: "conversational"
-  
+
   response:
     streaming: true
     format: "markdown"
@@ -180,12 +178,12 @@ memory:
     size: 50
     multiplier: 2
     vector_search: true
-  
+
   working:
     enabled: true
     max_entries: 1000
     ttl_hours: 168  # 7 days
-  
+
   persistent:
     enabled: true
     provider: "sqlite"  # or "postgres"
