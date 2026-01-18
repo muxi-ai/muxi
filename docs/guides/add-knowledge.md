@@ -91,10 +91,16 @@ knowledge:
 
 ## Supported Formats
 
-- `.md`, `.txt` - Text
-- `.pdf` - PDFs
-- `.docx` - Word documents
-- `.csv`, `.json` - Data files
+MUXI uses [MarkItDown](https://github.com/microsoft/markitdown) for document conversion - any format MarkItDown supports works with MUXI.
+
+| Category | Formats | Notes |
+|----------|---------|-------|
+| **Text & Documents** | `.md`, `.txt`, `.pdf`, `.docx`, `.pptx`, `.xlsx` | Structure preserved |
+| **Data** | `.csv`, `.json`, `.html` | Structure-aware chunking |
+| **Images** | `.jpg`, `.png`, `.gif` | OCR + vision model analysis |
+
+> [!TIP]
+> Vision models (GPT-4V, Claude, Gemini) can analyze screenshots, diagrams, and charts in your knowledge base.
 
 ## Agent-Specific Knowledge
 
