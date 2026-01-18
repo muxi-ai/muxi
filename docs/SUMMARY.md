@@ -107,22 +107,21 @@ description: Complete guide to building AI agents with MUXI
 ## Formation Reference
 
 * [Overview](reference/README.md)
-* [Examples](reference/examples.md)
-
-* Schema Files
-  * [Formation Schema](reference/formation-schema.md)
-  * [Full Schema Guide](reference/schema-guide.md)
+* [Full Schema Guide](reference/schema-guide.md)
+* Component Reference
+  * [Formation](reference/formation-schema.md)
   * [Agents](reference/agents.md)
   * [Tools (MCP)](reference/tools.md)
   * [A2A Services](reference/a2a.md)
   * [Memory](reference/memory.md)
   * [Knowledge](reference/knowledge.md)
-  * [Triggers](reference/triggers.md)
-  * [SOPs](reference/sops.md)
-  * [Secrets](reference/secrets.md)
   * [Persona](reference/persona.md)
   * [Workflows](reference/workflows.md)
+  * [SOPs](reference/sops.md)
+  * [Triggers](reference/triggers.md)
   * [Approvals](reference/approvals.md)
+  * [Secrets](reference/secrets.md)
+* [Examples](reference/examples.md)
 
 
 ## Deep Dives
