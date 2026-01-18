@@ -29,12 +29,14 @@ The SDKs are how developers build products on top of MUXI:
 :::: cols=3
 
 (python.md)[[card]]
+
 #### Python
 ```bash
 pip install muxi-client
 ```
 
-[GitHub](https://github.com/muxi-ai/muxi-python)
+[>] [`github.com/muxi-ai/muxi-python`](https://github.com/muxi-ai/muxi-python)
+
 [[/card]]
 
 (typescript.md)[[card]]
@@ -43,7 +45,8 @@ pip install muxi-client
 npm install @muxi-ai/muxi-typescript
 ```
 
-[GitHub](https://github.com/muxi-ai/muxi-typescript)
+[>] [GitHub](https://github.com/muxi-ai/muxi-typescript)
+
 [[/card]]
 
 (go.md)[[card]]
@@ -52,7 +55,8 @@ npm install @muxi-ai/muxi-typescript
 go get github.com/muxi-ai/muxi-go
 ```
 
-[GitHub](https://github.com/muxi-ai/muxi-go)
+[>] [GitHub](https://github.com/muxi-ai/muxi-go)
+
 [[/card]]
 
 ::::
@@ -475,7 +479,7 @@ resp, err := client.Chat(ctx, &muxi.ChatRequest{Message: "Hello!", UserID: "u1"}
 if err != nil {
     var authErr *muxi.AuthenticationError
     var rateLimit *muxi.RateLimitError
-    
+
     switch {
     case errors.As(err, &authErr):
         log.Println("Invalid API key")
