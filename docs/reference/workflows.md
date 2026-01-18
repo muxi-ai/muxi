@@ -9,7 +9,7 @@ description: Complete reference for overlord workflow settings
 Configure how MUXI decomposes complex tasks, routes work to agents, handles errors, and executes workflows. All workflow settings are under `overlord.workflow` in your formation.
 
 > [!TIP]
-> **New to workflows?** Read [Workflows Concept →](../concepts/workflows-and-task-decomposition.md) to understand task decomposition and routing.
+> **New to workflows?** Read [Workflows Concept →](concepts/workflows-and-task-decomposition.md) to understand task decomposition and routing.
 
 **Official Schema:** https://github.com/agent-formation/afs-spec
 
@@ -26,8 +26,8 @@ overlord:
 
 ### auto_decomposition
 
-**Type:** `boolean`  
-**Default:** `true`  
+**Type:** `boolean`
+**Default:** `true`
 
 Enable automatic task decomposition for complex requests.
 
@@ -41,8 +41,8 @@ When enabled, MUXI automatically breaks complex tasks into subtasks and coordina
 
 ### plan_approval_threshold
 
-**Type:** `integer` (1-10)  
-**Default:** `7`  
+**Type:** `integer` (1-10)
+**Default:** `7`
 
 Complexity threshold for requiring plan approval before execution.
 
@@ -54,15 +54,15 @@ overlord:
 
 Requests with complexity scores at or above this threshold will present an execution plan and wait for user approval before proceeding.
 
-See [Human-in-the-Loop](../concepts/human-in-the-loop.md) for details.
+See [Human-in-the-Loop](concepts/human-in-the-loop.md) for details.
 
 ## Complexity Calculation
 
 ### complexity_method
 
-**Type:** `string`  
-**Options:** `heuristic`, `llm`, `custom`, `hybrid`  
-**Default:** `heuristic`  
+**Type:** `string`
+**Options:** `heuristic`, `llm`, `custom`, `hybrid`
+**Default:** `heuristic`
 
 Method for calculating request complexity.
 
@@ -80,8 +80,8 @@ overlord:
 
 ### complexity_threshold
 
-**Type:** `number` (1.0-10.0)  
-**Default:** `7.0`  
+**Type:** `number` (1.0-10.0)
+**Default:** `7.0`
 
 Complexity threshold for triggering workflow decomposition.
 
@@ -95,8 +95,8 @@ Requests scoring at or above this threshold trigger automatic workflow creation.
 
 ### complexity_weights
 
-**Type:** `object`  
-**Default:** See example  
+**Type:** `object`
+**Default:** See example
 
 Weights for hybrid complexity calculation (only used when `complexity_method: "hybrid"`).
 
@@ -116,9 +116,9 @@ Weights must sum to 1.0.
 
 ### routing_strategy
 
-**Type:** `string`  
-**Options:** `capability_based`, `load_balanced`, `priority_based`, `custom`, `round_robin`, `specialized`  
-**Default:** `capability_based`  
+**Type:** `string`
+**Options:** `capability_based`, `load_balanced`, `priority_based`, `custom`, `round_robin`, `specialized`
+**Default:** `capability_based`
 
 Strategy for routing tasks to agents.
 
@@ -138,8 +138,8 @@ overlord:
 
 ### enable_agent_affinity
 
-**Type:** `boolean`  
-**Default:** `true`  
+**Type:** `boolean`
+**Default:** `true`
 
 Prefer agents that successfully completed similar tasks.
 
@@ -155,9 +155,9 @@ When enabled, MUXI tracks which agents succeeded at specific task types and pref
 
 ### error_recovery
 
-**Type:** `string`  
-**Options:** `fail_fast`, `retry_with_backoff`, `retry_with_alternate`, `skip_and_continue`, `compensate`, `manual_intervention`  
-**Default:** `retry_with_backoff`  
+**Type:** `string`
+**Options:** `fail_fast`, `retry_with_backoff`, `retry_with_alternate`, `skip_and_continue`, `compensate`, `manual_intervention`
+**Default:** `retry_with_backoff`
 
 Strategy for recovering from task failures.
 
@@ -177,7 +177,7 @@ overlord:
 
 ### retry
 
-**Type:** `object`  
+**Type:** `object`
 
 Retry configuration for failed tasks.
 
@@ -202,14 +202,14 @@ overlord:
 | `backoff_factor` | number | 2.0 | Exponential backoff multiplier |
 | `retry_on_errors` | array | - | Error types to retry on |
 
-**Backoff calculation:**  
+**Backoff calculation:**
 `delay = min(initial_delay * (backoff_factor ^ attempt), max_delay)`
 
 ## Timeouts
 
 ### timeouts
 
-**Type:** `object`  
+**Type:** `object`
 
 Timeout configuration for tasks and workflows.
 
@@ -232,8 +232,8 @@ overlord:
 
 ### max_timeout_seconds
 
-**Type:** `integer`  
-**Default:** `7200`  
+**Type:** `integer`
+**Default:** `7200`
 
 Hard ceiling for entire workflow execution (2 hours).
 
@@ -249,8 +249,8 @@ Workflows exceeding this limit will fail with a timeout error. This prevents run
 
 ### parallel_execution
 
-**Type:** `boolean`  
-**Default:** `true`  
+**Type:** `boolean`
+**Default:** `true`
 
 Execute independent tasks in parallel.
 
@@ -264,8 +264,8 @@ When enabled, tasks without dependencies run simultaneously, reducing total work
 
 ### max_parallel_tasks
 
-**Type:** `integer` (1-20)  
-**Default:** `5`  
+**Type:** `integer` (1-20)
+**Default:** `5`
 
 Maximum number of tasks to execute in parallel.
 
@@ -279,8 +279,8 @@ Limits concurrent task execution to prevent overwhelming the system or hitting r
 
 ### partial_results
 
-**Type:** `boolean`  
-**Default:** `true`  
+**Type:** `boolean`
+**Default:** `true`
 
 Return partial results if some tasks fail.
 
@@ -300,18 +300,18 @@ overlord:
     # Core settings
     auto_decomposition: true
     plan_approval_threshold: 7
-    
+
     # Complexity calculation
     complexity_method: "hybrid"
     complexity_threshold: 7.0
     complexity_weights:
       heuristic: 0.5
       llm: 0.5
-    
+
     # Routing
     routing_strategy: "capability_based"
     enable_agent_affinity: true
-    
+
     # Error handling
     error_recovery: "retry_with_backoff"
     retry:
@@ -320,14 +320,14 @@ overlord:
       max_delay: 60.0
       backoff_factor: 2.0
       retry_on_errors: ["timeout", "rate_limit"]
-    
+
     # Timeouts
     timeouts:
       task_timeout: 300
       workflow_timeout: 3600
       enable_adaptive_timeout: true
     max_timeout_seconds: 7200
-    
+
     # Execution
     parallel_execution: true
     max_parallel_tasks: 5
@@ -380,6 +380,6 @@ overlord:
 ## Learn More
 
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official schema specification
-- [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - Concept guide
-- [Human-in-the-Loop](../concepts/human-in-the-loop.md) - Plan approvals
-- [The Overlord](../concepts/overlord.md) - How orchestration works
+- [Workflows & Task Decomposition](concepts/workflows-and-task-decomposition.md) - Concept guide
+- [Human-in-the-Loop](concepts/human-in-the-loop.md) - Plan approvals
+- [The Overlord](concepts/overlord.md) - How orchestration works

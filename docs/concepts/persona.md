@@ -227,7 +227,7 @@ persona: |
 
 ## Learn More
 
-- [Persona Reference](../reference/persona.md) - Full configuration options
+- [Persona Reference](reference/persona.md) - Full configuration options
 - [The Overlord](overlord.md) - How the Overlord works
 - [Agents & Orchestration](agents-and-orchestration.md) - Agent system prompts
 - [Structured Output](structured-output.md) - Control output format

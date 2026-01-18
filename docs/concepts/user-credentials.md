@@ -474,8 +474,8 @@ That's it. The agent handles the rest.
 
 ## Learn More
 
-- [Secrets Reference](../reference/secrets.md) - Full secrets and credentials configuration
+- [Secrets Reference](reference/secrets.md) - Full secrets and credentials configuration
 - [Tools & MCP](tools.md) - How tools use credentials
 - [Secrets & Security](secrets.md) - Formation-level secrets
-- [Multi-Tenancy Deep Dive](../deep-dives/multi-tenancy.md) - Technical implementation
-- [CLI Secrets Management](../cli/secrets.md) - Managing credentials via CLI
+- [Multi-Tenancy Deep Dive](deep-dives/multi-tenancy.md) - Technical implementation
+- [CLI Secrets Management](cli/secrets.md) - Managing credentials via CLI

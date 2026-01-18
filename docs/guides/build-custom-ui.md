@@ -186,8 +186,8 @@ const send = async (message: string) => {
 
 ## Learn More
 
-- [Python SDK →](../sdks/python-sdk.md) - Full Python reference
-- [TypeScript SDK →](../sdks/typescript-sdk.md) - Full TypeScript reference
-- [API Reference →](../reference/api-reference.md) - Direct API access
-- [Deep Dive: Streaming →](../deep-dives/real-time-streaming.md) - Real-time responses
-- [Deep Dive: Response Formats →](../deep-dives/response-formats.md) - Understanding responses
+- [Python SDK →](sdks/python-sdk.md) - Full Python reference
+- [TypeScript SDK →](sdks/typescript-sdk.md) - Full TypeScript reference
+- [API Reference →](reference/api-reference.md) - Direct API access
+- [Deep Dive: Streaming →](deep-dives/real-time-streaming.md) - Real-time responses
+- [Deep Dive: Response Formats →](deep-dives/response-formats.md) - Understanding responses

@@ -266,6 +266,6 @@ sequenceDiagram
 
 ## Next Steps
 
-[+] [Add Memory Guide](../guides/add-memory.md) - Step-by-step tutorial
-[+] [Multi-User Support](../deep-dives/multi-user.md) - User isolation details
+[+] [Add Memory Guide](guides/add-memory.md) - Step-by-step tutorial
+[+] [Multi-User Support](deep-dives/multi-user.md) - User isolation details
 [+] [Knowledge](knowledge.md) - Add document-based RAG

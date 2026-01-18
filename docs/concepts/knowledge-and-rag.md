@@ -185,5 +185,5 @@ Add your docs to `knowledge/docs/`, restart, done.
 
 ## Learn More
 
-- [Configure knowledge](../reference/knowledge.md) - YAML syntax
-- [Add Knowledge Guide](../guides/add-knowledge.md) - Step-by-step tutorial
+- [Configure knowledge](reference/knowledge.md) - YAML syntax
+- [Add Knowledge Guide](guides/add-knowledge.md) - Step-by-step tutorial

@@ -497,4 +497,4 @@ The result: **agents that deliver results**, not just advice.
 ## Learn More
 
 - [Tools & MCP](tools.md) - How agents use tools to generate artifacts
-- [Deep Dive: Request Lifecycle](../deep-dives/request-lifecycle.md) - How artifact generation fits into request processing
+- [Deep Dive: Request Lifecycle](deep-dives/request-lifecycle.md) - How artifact generation fits into request processing

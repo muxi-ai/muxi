@@ -112,5 +112,5 @@ launchctl load ~/Library/LaunchAgents/ai.muxi.server.plist
 
 ## Next Steps
 
-- [Quickstart](../quickstart.md) - Create your first formation
-- [Server Configuration](../server/configuration.md) - Customize settings
+- [Quickstart](quickstart.md) - Create your first formation
+- [Server Configuration](server/configuration.md) - Customize settings

@@ -365,7 +365,7 @@ fmt.Printf("User ID: %s\n", result.MuxiUserID)
 
 **Why?** Users interact via multiple channels (Slack, email, web). Multi-identity ensures they get the same memory and context everywhere.
 
-[Learn more: Multi-Identity Users →](../concepts/multi-identity.md)
+[Learn more: Multi-Identity Users →](concepts/multi-identity.md)
 
 ### Session Restore
 
@@ -421,7 +421,7 @@ client.RestoreSession(ctx, &muxi.RestoreRequest{
 
 **Why?** MUXI's buffer is ephemeral. For persistent chat history (like ChatGPT's sidebar), persist messages yourself and restore when users return.
 
-[Learn more: Sessions →](../concepts/sessions.md)
+[Learn more: Sessions →](concepts/sessions.md)
 
 ---
 
@@ -512,4 +512,4 @@ if err != nil {
 - [Python SDK →](python.md)
 - [TypeScript SDK →](typescript.md)
 - [Go SDK →](go.md)
-- [API Reference →](../reference/api-reference.md)
+- [API Reference →](reference/api-reference.md)

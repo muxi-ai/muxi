@@ -395,5 +395,5 @@ system_message: |
 
 ## Learn More
 
-- [Configure tools](../reference/tools.md) - YAML syntax
-- [Add Tools Guide](../guides/add-mcp-tools.md) - Step-by-step tutorial
+- [Configure tools](reference/tools.md) - YAML syntax
+- [Add Tools Guide](guides/add-mcp-tools.md) - Step-by-step tutorial

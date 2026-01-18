@@ -126,7 +126,7 @@ client = Muxi()
 
 async def chat_with_timeout(message: str, timeout_seconds: int = 30):
     request_id = f"req_{uuid.uuid4()}"
-    
+
     try:
         response = await asyncio.wait_for(
             client.chat_async(message, request_id=request_id),
@@ -148,14 +148,14 @@ const client = new Muxi();
 
 async function chatWithTimeout(message: string, timeoutMs = 30000) {
   const requestId = `req_${Date.now()}`;
-  
+
   const timeoutPromise = new Promise((_, reject) => {
     setTimeout(async () => {
       await client.cancelRequest(requestId);
       reject(new Error(`Request timed out after ${timeoutMs}ms`));
     }, timeoutMs);
   });
-  
+
   return Promise.race([
     client.chat({ message, requestId }),
     timeoutPromise
@@ -168,20 +168,20 @@ async function chatWithTimeout(message: string, timeoutMs = 30000) {
 ```go
 func chatWithTimeout(ctx context.Context, message string, timeout time.Duration) (*muxi.Response, error) {
     requestID := fmt.Sprintf("req_%d", time.Now().UnixNano())
-    
+
     ctx, cancel := context.WithTimeout(ctx, timeout)
     defer cancel()
-    
+
     response, err := client.Chat(ctx, &muxi.ChatRequest{
         Message:   message,
         RequestID: requestID,
     })
-    
+
     if ctx.Err() == context.DeadlineExceeded {
         client.CancelRequest(context.Background(), requestID, userID)
         return nil, fmt.Errorf("request timed out after %v", timeout)
     }
-    
+
     return response, err
 }
 ```
@@ -205,7 +205,7 @@ chunks_received = 0
 for chunk in client.chat_stream(message="Write a long essay...", request_id=request_id):
     print(chunk.text, end="")
     chunks_received += 1
-    
+
     # Cancel after receiving 10 chunks
     if chunks_received >= 10:
         client.cancel_request(request_id)
@@ -226,7 +226,7 @@ let chunksReceived = 0;
 for await (const chunk of client.chatStream({ message: 'Write a long essay...', requestId })) {
   process.stdout.write(chunk.text);
   chunksReceived++;
-  
+
   // Cancel after receiving 10 chunks
   if (chunksReceived >= 10) {
     await client.cancelRequest(requestId);
@@ -258,7 +258,7 @@ function ChatInterface() {
     const id = `req_${Date.now()}`;
     setRequestId(id);
     setIsProcessing(true);
-    
+
     try {
       const response = await client.chat({ message, requestId: id });
       // Handle response...
@@ -367,6 +367,6 @@ Saved: ~$0.17 (at $0.02/1K tokens)
 
 ## Learn More
 
-- [Async Operations](../deep-dives/async-operations.md) - Background task management
-- [Streaming](../deep-dives/real-time-streaming.md) - Cancel streaming responses
-- [Observability](../deep-dives/observability.md) - Monitor cancellations
+- [Async Operations](deep-dives/async-operations.md) - Background task management
+- [Streaming](deep-dives/real-time-streaming.md) - Cancel streaming responses
+- [Observability](deep-dives/observability.md) - Monitor cancellations

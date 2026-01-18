@@ -274,6 +274,6 @@ muxi formation exec code-reviewer \
 
 ## Next Steps
 
-- [Multi-Agent Team](../05-multi-agent-team/) - Add security specialist, performance expert
-- [SOPs Guide](../../guides/create-sops.md) - Create standard review workflows
-- [Triggers Guide](../../guides/create-triggers.md) - Add more GitHub events
+- [Multi-Agent Team](05-multi-agent-team/) - Add security specialist, performance expert
+- [SOPs Guide](../guides/create-sops.md) - Create standard review workflows
+- [Triggers Guide](../guides/create-triggers.md) - Add more GitHub events

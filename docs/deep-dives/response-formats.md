@@ -538,6 +538,6 @@ print("Validated:", response.content)    # After validation
 
 ## Learn More
 
-- [Structured Output Concept](../concepts/structured-output.md) - User-facing explanation
-- [Tools & MCP](../concepts/tools-and-mcp.md) - Tools also return structured data
-- [API Reference](../reference/api-reference.md) - Complete API documentation
+- [Structured Output Concept](concepts/structured-output.md) - User-facing explanation
+- [Tools & MCP](concepts/tools-and-mcp.md) - Tools also return structured data
+- [API Reference](reference/api-reference.md) - Complete API documentation

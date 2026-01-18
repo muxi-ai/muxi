@@ -249,11 +249,11 @@ curl https://muxi.yourcompany.com:7890/formations/my-formation/v1/chat \
 
 After trying examples:
 
-- **[Formation Reference](../reference/formation-schema.md)** - Complete YAML spec
-- **[Add Tools Guide](../guides/add-mcp-tools.md)** - Integrate more capabilities
-- **[Add Memory Guide](../guides/add-memory.md)** - Persistence options
-- **[Deploy Guide](../guides/deploy-to-production.md)** - Production deployment
-- **[Multi-Agent Guide](../guides/build-multi-agent-systems.md)** - Build teams
+- **[Formation Reference](reference/formation-schema.md)** - Complete YAML spec
+- **[Add Tools Guide](guides/add-mcp-tools.md)** - Integrate more capabilities
+- **[Add Memory Guide](guides/add-memory.md)** - Persistence options
+- **[Deploy Guide](guides/deploy-to-production.md)** - Production deployment
+- **[Multi-Agent Guide](guides/build-multi-agent-systems.md)** - Build teams
 
 ## Contributing Examples
 
@@ -266,7 +266,7 @@ Have a great formation example? Share it!
 
 ## Troubleshooting
 
-See [Troubleshooting Guide](../guides/troubleshooting.md) for common issues.
+See [Troubleshooting Guide](guides/troubleshooting.md) for common issues.
 
 **Quick fixes:**
 ```bash

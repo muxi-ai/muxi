@@ -228,4 +228,4 @@ muxi logs my-assistant | grep -i slow
 ## Next Steps
 
 - [Production](production.md) - Production deployment
-- [Deep Dives: Observability](../deep-dives/observability.md) - Event details
+- [Deep Dives: Observability](deep-dives/observability.md) - Event details

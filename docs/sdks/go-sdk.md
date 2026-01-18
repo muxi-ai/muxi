@@ -375,4 +375,4 @@ func main() {
 
 - [Python SDK](python.md)
 - [TypeScript SDK](typescript.md)
-- [API Reference](../reference/api-reference.md)
+- [API Reference](reference/api-reference.md)

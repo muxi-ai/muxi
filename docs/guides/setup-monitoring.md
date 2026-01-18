@@ -168,5 +168,5 @@ muxi logs my-assistant | grep -i slow
 
 ## Next Steps
 
-- [Observability Deep Dive](../deep-dives/observability.md) - Events system
+- [Observability Deep Dive](deep-dives/observability.md) - Events system
 - [Troubleshooting](troubleshooting.md) - Common issues

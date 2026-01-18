@@ -23,13 +23,13 @@ overlord:
 
 ### plan_approval_threshold
 
-**Type:** `integer` (1-10)  
-**Required:** No  
-**Default:** `7`  
+**Type:** `integer` (1-10)
+**Required:** No
+**Default:** `7`
 
 Complexity threshold for requiring plan approval before execution.
 
-**Description:**  
+**Description:**
 When MUXI calculates a request's complexity score, it compares the score to this threshold. If the score is at or above the threshold, MUXI presents an execution plan and waits for user approval before proceeding.
 
 ```yaml
@@ -134,7 +134,7 @@ MUXI calculates complexity based on:
 - **Dependencies** - Task dependencies = higher complexity
 - **Estimated time** - Longer operations = higher complexity
 
-See [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) for details on complexity calculation.
+See [Workflows & Task Decomposition](concepts/workflows-and-task-decomposition.md) for details on complexity calculation.
 
 ## Configuration with Other Settings
 
@@ -175,7 +175,7 @@ overlord:
     When presenting execution plans for approval, clearly explain the impact
     of each step. Highlight any irreversible actions or operations that affect
     production systems. Use clear language and provide time estimates.
-  
+
   workflow:
     plan_approval_threshold: 6  # Slightly lower for sensitive operations
 ```
@@ -352,7 +352,7 @@ If user doesn't approve within the timeout, the request is cancelled.
 ## Learn More
 
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official schema specification
-- [Human-in-the-Loop](../concepts/human-in-the-loop.md) - Concept guide
-- [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - Workflow configuration
+- [Human-in-the-Loop](concepts/human-in-the-loop.md) - Concept guide
+- [Workflows & Task Decomposition](concepts/workflows-and-task-decomposition.md) - Workflow configuration
 - [Workflow Configuration Reference](workflows.md) - All workflow settings
-- [The Overlord](../concepts/overlord.md) - How orchestration works
+- [The Overlord](concepts/overlord.md) - How orchestration works

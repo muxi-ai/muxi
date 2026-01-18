@@ -66,7 +66,7 @@ User reports: "The agent gave me incorrect information about our refund policy."
 **With observability:**
 ```
 1. Request received → routed to "support" agent ✓
-2. Knowledge retrieval → searched "refund policy" 
+2. Knowledge retrieval → searched "refund policy"
    → Retrieved: outdated-policy-2023.md ❌ (found the bug!)
 3. LLM call → generated response based on wrong doc
 4. Response sent
@@ -95,7 +95,7 @@ observability:
     type: datadog          # datadog, elastic, splunk, otlp, webhook
     endpoint: "https://..."
     api_key: ${{ secrets.DATADOG_API_KEY }}
-  
+
   # What to track
   events:
     llm_calls: true        # Token usage, latency, cost
@@ -174,6 +174,6 @@ In AI systems:
 
 ## Learn More
 
-[+] [Observability Deep Dive](../deep-dives/observability.md) - Full event reference and configuration
-[+] [Event Types](../deep-dives/observability-events.md) - All 349 event types
-[+] [Set Up Monitoring](../guides/setup-monitoring.md) - Step-by-step guide
+[+] [Observability Deep Dive](deep-dives/observability.md) - Full event reference and configuration
+[+] [Event Types](deep-dives/observability-events.md) - All 349 event types
+[+] [Set Up Monitoring](guides/setup-monitoring.md) - Step-by-step guide

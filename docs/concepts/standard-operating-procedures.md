@@ -277,6 +277,6 @@ Good SOP candidates:
 
 ## Learn More
 
-- [Create SOPs Guide](../guides/create-sops.md) - Write your first SOP
-- [SOPs Reference](../reference/sops.md) - Full syntax reference
+- [Create SOPs Guide](guides/create-sops.md) - Write your first SOP
+- [SOPs Reference](reference/sops.md) - Full syntax reference
 - [The Overlord](overlord.md) - How SOP matching works

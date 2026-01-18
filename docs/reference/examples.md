@@ -419,4 +419,4 @@ logging:
 
 - [Schema Reference](schema.md) - Full schema documentation
 - [Tools](tools.md) - MCP configuration
-- [Example Formations](../examples/) - Runnable examples
+- [Example Formations](examples/) - Runnable examples

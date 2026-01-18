@@ -113,7 +113,7 @@ agents:
       sources:
         - path: knowledge/support/
           description: Support FAQs
-  
+
   - id: sales
     knowledge:
       sources:
@@ -162,5 +162,5 @@ knowledge:
 
 ## Next Steps
 
-- [Knowledge Reference](../reference/knowledge.md) - Full configuration
+- [Knowledge Reference](reference/knowledge.md) - Full configuration
 - [Add Memory](add-memory.md) - Conversation memory

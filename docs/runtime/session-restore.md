@@ -155,7 +155,7 @@ client = Muxi()
 async def chat(session_id: str, message: str, user_id: str):
     # Check if we have stored history for this session
     history = await db.messages.find(session_id=session_id, user_id=user_id)
-    
+
     if history:
         # Restore before sending message
         client.sessions.restore(
@@ -163,7 +163,7 @@ async def chat(session_id: str, message: str, user_id: str):
             user_id=user_id,
             messages=history
         )
-    
+
     # Send message with full context
     return client.chat(message=message, session_id=session_id, user_id=user_id)
 ```
@@ -178,12 +178,12 @@ const client = new Muxi();
 async function chat(sessionId: string, message: string, userId: string) {
   // Check if we have stored history for this session
   const history = await db.messages.find({ sessionId, userId });
-  
+
   if (history.length > 0) {
     // Restore before sending message
     await client.sessions.restore({ sessionId, userId, messages: history });
   }
-  
+
   // Send message with full context
   return client.chat({ message, sessionId, userId });
 }
@@ -195,7 +195,7 @@ async function chat(sessionId: string, message: string, userId: string) {
 func chat(ctx context.Context, sessionID, message, userID string) (*muxi.Response, error) {
     // Check if we have stored history for this session
     history, _ := db.Messages.Find(ctx, sessionID, userID)
-    
+
     if len(history) > 0 {
         // Restore before sending message
         client.Sessions.Restore(ctx, &muxi.RestoreRequest{
@@ -204,7 +204,7 @@ func chat(ctx context.Context, sessionID, message, userID string) (*muxi.Respons
             Messages:  history,
         })
     }
-    
+
     // Send message with full context
     return client.Chat(ctx, &muxi.ChatRequest{
         Message:   message,
@@ -398,5 +398,5 @@ if result.messages_dropped > 0:
 
 ## Learn More
 
-- [Sessions Concept](../concepts/sessions.md) - How sessions work
-- [Memory System](../concepts/memory-system.md) - Buffer and persistent memory
+- [Sessions Concept](concepts/sessions.md) - How sessions work
+- [Memory System](concepts/memory-system.md) - Buffer and persistent memory

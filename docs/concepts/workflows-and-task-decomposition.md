@@ -474,5 +474,5 @@ Configure logging streams to capture workflow details (see [Logging Configuratio
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official formation schema specification
 - [The Overlord](overlord.md) - How orchestration works
 - [Human-in-the-Loop](approvals.md) - Plan approval workflow
-- [Workflow Configuration Reference](../reference/workflows.md) - Complete workflow settings
-- [Request Lifecycle](../deep-dives/request-lifecycle.md) - See workflows in action
+- [Workflow Configuration Reference](reference/workflows.md) - Complete workflow settings
+- [Request Lifecycle](deep-dives/request-lifecycle.md) - See workflows in action

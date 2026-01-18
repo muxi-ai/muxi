@@ -128,7 +128,8 @@ Complex request:
 You: Research AI trends and write a blog post about them
 ```
 
-MUXI:
+**MUXI:**
+
 1. Routes to researcher (gathers info)
 2. Routes to writer (creates draft)
 3. (Optionally) Routes to reviewer
@@ -197,9 +198,9 @@ curl -d '{"message": "...", "agent": "researcher"}'
 
 ## Learn More
 
-[+] [Agents Reference](../reference/agents.md) - Configuration
-[+] [Agents Concept](../concepts/agents-and-orchestration.md) - Architecture
-[+] [Workflows Reference](../reference/workflows.md) - Routing configuration
-[+] [Deep Dive: Orchestration](../deep-dives/how-orchestration-works.md) - How routing works
+[+] [Agents Reference](reference/agents.md) - Configuration
+[+] [Agents Concept](concepts/agents-and-orchestration.md) - Architecture
+[+] [Workflows Reference](reference/workflows.md) - Routing configuration
+[+] [Deep Dive: Orchestration](deep-dives/how-orchestration-works.md) - How routing works
 [+] [Write SOPs](sops.md) - Standard procedures
-[+] [Example: Multi-Agent Team](../examples/05-multi-agent-team/) - Working example
+[+] [Example: Multi-Agent Team](examples/05-multi-agent-team/) - Working example

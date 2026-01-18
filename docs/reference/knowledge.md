@@ -318,6 +318,6 @@ knowledge:
 
 ## Next Steps
 
-[+] [Add Knowledge Guide](../guides/add-knowledge.md) - Step-by-step tutorial
+[+] [Add Knowledge Guide](guides/add-knowledge.md) - Step-by-step tutorial
 [+] [Memory](memory.md) - Conversation memory
 [+] [Agents](agents.md) - Agent configuration

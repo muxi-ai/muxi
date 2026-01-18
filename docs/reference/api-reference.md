@@ -97,7 +97,7 @@ formation = FormationClient(
 for event in formation.chat_stream({"message": "What's the weather?"}, user_id="user_123"):
     print(event)
 ```
-[Python SDK Documentation →](../sdks/python-sdk.md)
+[Python SDK Documentation →](sdks/python-sdk.md)
 
 **For JavaScript/TypeScript developers:**
 ```typescript
@@ -113,7 +113,7 @@ for await (const chunk of await formation.chatStream({ message: "What's the weat
 }
 ```
 
-[TypeScript SDK Documentation →](../sdks/typescript-sdk.md)
+[TypeScript SDK Documentation →](sdks/typescript-sdk.md)
 
 **For deployment automation:**
 ```bash
@@ -217,7 +217,7 @@ curl http://localhost:8271/v1/chat \
   -d '{"message": "Hello!"}'
 ```
 
-[Learn more about API keys →](../server/authentication.md)
+[Learn more about API keys →](server/authentication.md)
 
 ---
 
@@ -363,15 +363,15 @@ data: {"finished": true}
 
 ### Prefer High-Level Tools?
 
-- [Python SDK →](../sdks/python)
-- [JavaScript/TypeScript SDK →](../sdks/javascript)
-- [Go SDK →](../sdks/go)
-- [CLI Reference →](../cli)
+- [Python SDK →](sdks/python)
+- [JavaScript/TypeScript SDK →](sdks/javascript)
+- [Go SDK →](sdks/go)
+- [CLI Reference →](cli)
 
 ### Learn More
 
-- [Authentication Guide →](../server/authentication.md)
-- [Server Setup →](../server/setup.md)
+- [Authentication Guide →](server/authentication.md)
+- [Server Setup →](server/setup.md)
 - [Formation Configuration →](schema.md)
 
 ---

@@ -155,7 +155,7 @@ memory:
 
 ## Learn More
 
-[+] [Memory Reference](../reference/memory.md) - Configuration options
-[+] [Memory Concept](../concepts/memory-system.md) - Architecture overview
-[+] [Deep Dive: Memory Systems](../deep-dives/memory-internals.md) - Technical internals
-[+] [Multi-User Support](../deep-dives/multi-user.md) - User isolation
+[+] [Memory Reference](reference/memory.md) - Configuration options
+[+] [Memory Concept](concepts/memory-system.md) - Architecture overview
+[+] [Deep Dive: Memory Systems](deep-dives/memory-internals.md) - Technical internals
+[+] [Multi-User Support](deep-dives/multi-user.md) - User isolation

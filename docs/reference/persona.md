@@ -9,7 +9,7 @@ description: Complete reference for overlord persona configuration
 The `overlord.persona` field defines your formation's communication style and behavior through a freeform text description.
 
 > [!TIP]
-> **New to personas?** Read [Persona Concept →](../concepts/persona.md) to learn how to write effective personas.
+> **New to personas?** Read [Persona Concept →](concepts/persona.md) to learn how to write effective personas.
 >
 > **API Reference:** [`GET /v1/overlord/persona`](api/formation#tag/Overlord/GET/overlord/persona)
 
@@ -411,7 +411,7 @@ https://github.com/agent-formation/afs-spec
 ## Learn More
 
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official schema specification
-- [Persona Concept Guide](../concepts/persona.md) - Understanding persona in practice
-- [The Overlord](../concepts/overlord.md) - How the orchestrator works
-- [Response Formats](../concepts/structured-output.md) - Control output structure
-- [Clarification](../concepts/clarification.md) - Configure clarifying questions
+- [Persona Concept Guide](concepts/persona.md) - Understanding persona in practice
+- [The Overlord](concepts/overlord.md) - How the orchestrator works
+- [Response Formats](concepts/structured-output.md) - Control output structure
+- [Clarification](concepts/clarification.md) - Configure clarifying questions

@@ -10,7 +10,7 @@ description: Reference for Standard Operating Procedures
 SOPs are markdown files in `sops/` that define procedures agents follow for specific tasks.
 
 > [!TIP]
-> **New to SOPs?** Read [SOPs Concept →](../concepts/standard-operating-procedures.md) first.
+> **New to SOPs?** Read [SOPs Concept →](concepts/standard-operating-procedures.md) first.
 
 ---
 
@@ -193,6 +193,6 @@ All records updated for audit trail.
 
 ## Related
 
-- [SOPs Concept](../concepts/standard-operating-procedures.md) - Overview and examples
-- [Create SOPs](../guides/create-sops.md) - Step-by-step guide
-- [The Overlord](../concepts/overlord.md) - How SOP matching works
+- [SOPs Concept](concepts/standard-operating-procedures.md) - Overview and examples
+- [Create SOPs](guides/create-sops.md) - Step-by-step guide
+- [The Overlord](concepts/overlord.md) - How SOP matching works

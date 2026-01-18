@@ -243,4 +243,4 @@ Then restart and update your CLI profile.
 
 - [Full Configuration Reference](configuration.md)
 - [Authentication Details](authentication.md)
-- [Troubleshooting Guide](../guides/troubleshooting.md)
+- [Troubleshooting Guide](guides/troubleshooting.md)

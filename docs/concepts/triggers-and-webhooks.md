@@ -294,6 +294,6 @@ Triggers automatically **bypass workflow approvals**. This is intentional becaus
 
 ## Learn More
 
-- [Create Triggers Guide](../guides/create-triggers.md) - Step-by-step setup
-- [Triggers Reference](../reference/triggers.md) - Full API reference
+- [Create Triggers Guide](guides/create-triggers.md) - Step-by-step setup
+- [Triggers Reference](reference/triggers.md) - Full API reference
 - [Async Processing](async.md) - Async mode details

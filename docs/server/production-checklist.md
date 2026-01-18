@@ -160,7 +160,7 @@ sudo systemctl start muxi-server
 
 ### launchd (macOS)
 
-See [macOS Installation](../installation/macos.md).
+See [macOS Installation](installation/macos.md).
 
 ## Configuration
 

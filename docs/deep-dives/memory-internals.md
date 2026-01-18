@@ -166,9 +166,9 @@ def calculate_importance(memory: Memory) -> float:
     recency = time_decay(memory.created_at)
     access_frequency = log(memory.access_count + 1)
     explicit_importance = memory.explicit_importance or 0.5
-    
-    return (0.3 * recency + 
-            0.3 * access_frequency + 
+
+    return (0.3 * recency +
+            0.3 * access_frequency +
             0.4 * explicit_importance)
 ```
 
@@ -198,17 +198,17 @@ Higher importance = kept longer, surfaced more often.
 def generate_synopsis(user_id: str) -> Synopsis:
     # Gather all user memories
     memories = persistent.get_all(user_id)
-    
+
     # LLM synthesizes into structured synopsis
     synopsis = llm.synthesize(
         prompt="Create a user profile from these memories...",
         memories=memories
     )
-    
+
     # Cache with appropriate TTL
     cache.set(f"identity:{user_id}", synopsis.identity, ttl=7*24*3600)
     cache.set(f"context:{user_id}", synopsis.context, ttl=3600)
-    
+
     return synopsis
 ```
 
@@ -230,19 +230,19 @@ When an agent needs context, the Query Planner coordinates all tiers:
 def get_context(query: str, user_id: str) -> Context:
     # 1. Always include recent buffer
     recent = buffer.get_recent(10)
-    
+
     # 2. Semantic search across all tiers
     working_results = working.search(query, k=5)
     persistent_results = persistent.search(query, user_id, k=5)
-    
+
     # 3. Get user synopsis
     synopsis = cache.get(f"synopsis:{user_id}") or generate_synopsis(user_id)
-    
+
     # 4. Rank and deduplicate
     all_results = rank_and_dedupe(
         recent + working_results + persistent_results
     )
-    
+
     # 5. Fit within context window
     return fit_to_window(synopsis, all_results, max_tokens=4000)
 ```
@@ -299,18 +299,18 @@ memory:
     multiplier: 10              # Extended capacity factor
     vector_search: true         # Enable semantic search
     embedding_model: openai/text-embedding-3-small
-  
+
   working:
     max_memory_mb: 10           # Memory limit
     fifo_interval_min: 5        # Cleanup frequency
     vector_dimension: 1536      # Embedding dimension
-  
+
   persistent:
     enabled: true
     provider: postgresql
     connection_string: ${{ secrets.POSTGRES_URI }}
     user_isolation: true
-    
+
   synopsis:
     identity_ttl: 604800        # 7 days
     context_ttl: 3600           # 1 hour
@@ -321,6 +321,6 @@ memory:
 
 ## Next Steps
 
-- [Memory Concepts](../concepts/memory-system.md) - High-level overview
-- [Memory Configuration](../reference/memory.md) - YAML reference
+- [Memory Concepts](concepts/memory-system.md) - High-level overview
+- [Memory Configuration](reference/memory.md) - YAML reference
 - [Multi-Tenancy](multi-tenancy.md) - User isolation details

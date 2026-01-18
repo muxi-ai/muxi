@@ -85,4 +85,4 @@ Authentication layers, encrypted secrets, and security best practices.
 | Setting up monitoring | [Observability](observability.md) |
 
 > [!NOTE]
-> These docs assume familiarity with MUXI basics. Start with the [Quickstart](../quickstart.md) and [Reference](../reference/README.md) first.
+> These docs assume familiarity with MUXI basics. Start with the [Quickstart](quickstart.md) and [Reference](reference/README.md) first.

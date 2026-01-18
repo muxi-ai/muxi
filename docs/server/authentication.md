@@ -68,13 +68,13 @@ def sign_request(key_id, secret, method, path, body=""):
     timestamp = str(int(time.time()))
     body_hash = hashlib.sha256(body.encode()).hexdigest()
     message = f"{timestamp};{method};{path};{body_hash}"
-    
+
     signature = hmac.new(
         secret.encode(),
         message.encode(),
         hashlib.sha256
     ).digest()
-    
+
     return {
         "X-MUXI-Key-ID": key_id,
         "X-MUXI-Timestamp": timestamp,
@@ -224,4 +224,4 @@ auth:
 ## Next Steps
 
 - [Configuration](configuration.md) - Server settings
-- [CLI Setup](../cli/setup.md) - Managing server profiles
+- [CLI Setup](cli/setup.md) - Managing server profiles
