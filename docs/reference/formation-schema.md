@@ -87,6 +87,8 @@ llm:
 | `embedding` | Vector embeddings | `openai/text-embedding-3-large` |
 | `vision` | Image analysis | `openai/gpt-4o` |
 | `audio` | Transcription | `openai/whisper-1` |
+| `video` | Video analysis | `google/gemini-pro-vision` |
+| `documents` | Document processing | `openai/gpt-4o` |
 | `streaming` | Progress updates | `openai/gpt-4o-mini` |
 
 ### Supported Providers

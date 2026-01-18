@@ -206,11 +206,11 @@ Build with MUXI in your language of choice.
 
 #### Python
 
-```bash
+A Python client for the Server and Formation APIs to make it easier to integrate MUXI into your backend.
+
+```
 pip install muxi-sdk
 ```
-
-A Python wrapper around the MUXI Server and Formation APIs to make it easier to integrate MUXI into your backend.
 
 [[/card]]
 
@@ -219,7 +219,12 @@ A Python wrapper around the MUXI Server and Formation APIs to make it easier to 
 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect fill="#3178c6" height="32" rx="3.1" width="32"/><rect fill="#3178c6" height="32" rx="3.1" width="32"/><path d="m19.8 25.5v3.1c.5.3 1.1.5 1.8.6s1.4.2 2.2.2 1.5 0 2.1-.2c.7-.1 1.3-.4 1.8-.7s.9-.8 1.2-1.3.4-1.2.4-2 0-1.1-.3-1.5-.4-.8-.7-1.1-.7-.6-1.1-.9-1-.5-1.5-.7c-.4-.2-.8-.3-1.1-.5s-.6-.3-.8-.5-.4-.3-.5-.5-.2-.4-.2-.6 0-.4.2-.6.3-.3.5-.4.4-.2.7-.3c.3 0 .6-.1 1-.1s.5 0 .8 0 .6 0 .9.2c.3 0 .6.2.9.3s.5.3.8.4v-2.9c-.5-.2-1-.3-1.6-.4s-1.2-.1-1.9-.1-1.4 0-2.1.2-1.3.4-1.8.7-.9.8-1.2 1.3-.4 1.2-.4 1.9.3 1.7.8 2.4 1.4 1.2 2.5 1.7c.4.2.8.3 1.2.5s.7.3 1 .5.5.4.6.6c.2.2.2.5.2.7s0 .4-.1.6-.2.3-.4.4-.4.2-.7.3c-.3 0-.6.1-1 .1-.7 0-1.3-.1-2-.4-.7-.2-1.3-.6-1.8-1.1zm-5.3-7.7h4v-2.6h-11.1v2.6h4v11.4h3.2v-11.4z" fill="#fff" fill-rule="evenodd"/></svg>
 
 #### TypeScript
-`npm install @muxi/sdk`
+
+A TypeScript client for the Server and Formation APIs to make it easier to integrate MUXI into your backend and browser.
+
+```
+npm install @muxi/sdk
+```
 
 [[/card]]
 
@@ -228,7 +233,12 @@ A Python wrapper around the MUXI Server and Formation APIs to make it easier to 
 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m26.8 36.8-3-3-2 2 3 3c.5.5 1.4.5 2 0s.5-1.4 0-2zm2.8-16.8-3-3-2 2 3 3c.5.5 1.4.5 2 0s.5-1.4 0-2zm-24.1 16.8 3-3 2 2-3 3c-.5.5-1.4.5-2 0s-.5-1.4 0-2zm-3.1-16.8 3-3 2 2-3 3c-.5.5-1.4.5-2 0s-.5-1.4 0-2z" fill="#ffcc80"/><path d="m29.1 4.7c0-1.8-1.1-2.8-3-2.8s-3.5 2.4-3.5 4.2 1.8 1.4 2.8 1.4c1.9 0 3.7-1 3.7-2.8zm-26.2 0c0-1.8 1.1-2.8 3-2.8s3.5 2.4 3.5 4.2-1.8 1.4-2.8 1.4c-1.9 0-3.7-1-3.7-2.8z" fill="#4dd0e1"/><path d="m26.3 3.7c-.5 0-.9.4-.9.9s.4.9.9.9.9-.4.9-.9-.4-.9-.9-.9zm-20.6 0c-.5 0-.9.4-.9.9s.4.9.9.9.9-.4.9-.9-.4-.9-.9-.9z" fill="#424242"/><path d="m28.2 28.9c0 4.5-3 9.3-12.4 9.3s-11.8-4.9-11.8-9.3.9-5.4.9-9.3v-9.3c-.1-4.5 2.8-10.3 10.8-10.3s11.5 3.7 11.5 9.3-.2 5.1 0 9.3c.2 3.3.9 7.5.9 10.3z" fill="#4dd0e1"/><path d="m20.7 2.8c-2.1 0-3.7 1.7-3.7 3.7s1.7 3.7 3.7 3.7 3.7-1.7 3.7-3.7-1.7-3.7-3.7-3.7zm-9.3 0c-2.1 0-3.7 1.7-3.7 3.7s1.7 3.7 3.7 3.7 3.7-1.7 3.7-3.7-1.7-3.7-3.7-3.7z" fill="#f5f5f5"/><path d="m16 15.9c0 .5.4.9.9.9s.9-.4.9-.9v-2.8h-1.9v2.8zm-1.8 0c0 .5.4.9.9.9s.9-.4.9-.9v-2.8h-1.9v2.8z" fill="#eee"/><path d="m18.4 14c-.4 0-.6 0-.9-.2-.9-.3-1.9-.3-2.8 0-.3.1-.5.2-.9.2-1.2 0-1.4-.9-1.4-1.4 0-1.4 1.4-2.3 2.8-2.3h1.9c1.4 0 2.8.9 2.8 2.3s-.2 1.4-1.4 1.4z" fill="#ffcc80"/><path d="m18.8 5.6c-.5 0-.9.4-.9.9s.4.9.9.9.9-.4.9-.9-.4-.9-.9-.9zm-9.3 0c-.5 0-.9.4-.9.9s.4.9.9.9.9-.4.9-.9-.4-.9-.9-.9zm6.5 3.7c-1 0-1.9.4-1.9.9s.8.9 1.9.9 1.9-.4 1.9-.9-.8-.9-1.9-.9z" fill="#424242"/></svg>
 
 #### Go
-`go get github.com/muxi-ai/muxi-go`
+
+A Go client for the Server and Formation APIs to make it easier to integrate MUXI into your backend.
+
+```
+go get github.com/muxi-ai/muxi-go
+```
 
 [[/card]]
 
