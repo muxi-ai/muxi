@@ -51,8 +51,6 @@ agents: []  # Auto-discovered from agents/ directory
 > [!TIP]
 > File extension `.afs` stands for **Agent Formation Schema**. You can also use `.afs` or `.yml`.
 
----
-
 ## Formation Components
 
 :::: cols=2
