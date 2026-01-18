@@ -175,20 +175,27 @@ URL:       http://localhost:7890/v1/formations/my-assistant
 
 Your CLI is configured and you've deployed your first formation. Next steps:
 
-<div class="cards">
-  <a href="../guides/add-tools" class="card">
-    <h3>Add Tools</h3>
-    <p>Give your agent web search, file access, and more</p>
-  </a>
-  <a href="../guides/add-memory" class="card">
-    <h3>Add Memory</h3>
-    <p>Let your agent remember conversations</p>
-  </a>
-  <a href="../guides/add-knowledge" class="card">
-    <h3>Add Knowledge</h3>
-    <p>Teach your agent from your documents</p>
-  </a>
-</div>
+:::: cols=3
+
+(/guides/add-tools.md)[[card]]
+### Add Tools
+
+Give your agent web search, file access, and more
+[[/card]]
+
+(/guides/add-memory.md)[[card]]
+### Add Memory
+
+Let your agent remember conversations
+[[/card]]
+
+(/guides/add-knowledge.md)[[card]]
+### Add Knowledge
+
+Teach your agent from your documents
+[[/card]]
+
+::::
 
 ---
 
@@ -231,29 +238,29 @@ muxi deploy --profile production
 
 ## Troubleshooting
 
-<details>
-<summary>Connection refused</summary>
+[[toggle Connection refused]]
 
 1. Check server is running: contact your server admin or check `muxi-server status`
 2. Verify the URL: `muxi profile list`
 3. Check firewall/network allows connection
-</details>
 
-<details>
-<summary>Authentication failed</summary>
+[[/toggle]]
+
+[[toggle Authentication failed]]
 
 1. Verify credentials with your server admin
 2. Re-add the profile: `muxi profile add local`
 3. Check for typos in key ID or secret
-</details>
 
-<details>
-<summary>Secrets setup failed</summary>
+[[/toggle]]
+
+[[toggle Secrets setup failed]]
 
 1. Make sure you're in a formation directory (has `formation.afs`)
 2. Check you have the required API keys
 3. Try `muxi secrets list` to see what's needed
-</details>
+
+[[/toggle]]
 
 ---
 
