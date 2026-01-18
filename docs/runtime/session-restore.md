@@ -12,14 +12,14 @@ Build ChatGPT-like chat applications where users can return to previous conversa
 ## Why Session Restore?
 
 **MUXI's buffer memory is ephemeral:**
-- Messages are lost on runtime restart
-- Old messages roll off (FIFO with buffer size limits)
+- Messages lost on runtime restart
+- Old messages roll off (buffer size limits)
 - No built-in persistence to disk
 
 **For chat applications, you need:**
-- Users return to previous conversations days/weeks later
+- Users return to conversations days/weeks later
 - Full conversation context restored
-- Your own database controlling retention policies
+- Your database controlling retention
 
 **Session Restore solves this:**
 ```
@@ -31,378 +31,19 @@ Build ChatGPT-like chat applications where users can return to previous conversa
 
 ---
 
-## API Reference
+## Quick Start
 
-### Endpoint
+[[tabs]]
 
-```http
-POST /sessions/{session_id}/restore
-```
-
-### Headers
-
-```http
-X-Muxi-User-ID: user@example.com
-Content-Type: application/json
-```
-
-### Request Body
-
-```json
-{
-  "messages": [
-    {
-      "role": "user",
-      "content": "What's the weather like?",
-      "timestamp": "2025-10-23T10:00:00Z"
-    },
-    {
-      "role": "assistant",
-      "content": "The weather today is sunny with a high of 72F.",
-      "timestamp": "2025-10-23T10:00:15Z",
-      "agent_id": "weather-assistant"
-    },
-    {
-      "role": "user",
-      "content": "Thanks! What about tomorrow?",
-      "timestamp": "2025-10-23T10:01:00Z"
-    }
-  ]
-}
-```
-
-**Message fields:**
-
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `role` | string | Yes | `user`, `assistant`, or `system` |
-| `content` | string | Yes | Message text |
-| `timestamp` | ISO 8601 | Yes | Original message time |
-| `agent_id` | string | No | Agent that generated response |
-| `metadata` | object | No | Additional data to preserve |
-
-### Response
-
-```json
-{
-  "object": "session",
-  "type": "session.restored",
-  "success": true,
-  "data": {
-    "session_id": "sess_abc123",
-    "messages_loaded": 3,
-    "messages_dropped": 0,
-    "message": "Session restored successfully"
-  }
-}
-```
-
-**Response fields:**
-
-| Field | Description |
-|-------|-------------|
-| `messages_loaded` | Number of messages added to buffer |
-| `messages_dropped` | Messages that didn't fit (buffer overflow) |
-| `session_id` | The restored session ID |
-
----
-
-## How It Works
-
-### 1. Store Messages
-
-Store messages as they flow through your app:
-
+[[tab Python]]
 ```python
-# Via webhook
-@app.post("/muxi-webhook")
-async def handle_muxi_webhook(payload: dict):
-    message = payload["message"]
+from muxi import Muxi
 
-    # Store in your database
-    await db.messages.insert({
-        "session_id": payload["session_id"],
-        "user_id": payload["user_id"],
-        "role": payload["role"],
-        "content": message,
-        "timestamp": payload["timestamp"],
-        "agent_id": payload.get("agent_id")
-    })
-```
+client = Muxi()
 
-Or poll for new messages:
-
-```python
-# Poll formation API
-messages = await formation.get_messages(session_id)
-for msg in messages:
-    await db.messages.insert(msg)
-```
-
-### 2. Restore When User Returns
-
-When user opens an old conversation:
-
-```python
-from muxi import FormationClient
-
-# User selects conversation from history
-conversation_id = "conv_xyz789"
-
-# Fetch messages from your database
-messages = await db.messages.find({
-    "user_id": user_id,
-    "conversation_id": conversation_id
-}).sort("timestamp")
-
-# Initialize client
-formation = FormationClient(
-    server_url="http://localhost:7890",
-    formation_id="my-assistant",
-    client_key="...",
-)
-
-# Restore session
-formation.restore_session(
-    session_id=conversation_id,
-    user_id=user_id,
-    messages=[
-        {
-            "role": msg["role"],
-            "content": msg["content"],
-            "timestamp": msg["timestamp"].isoformat()
-        }
-        for msg in messages
-    ]
-)
-
-# Continue chatting with full context
-for event in formation.chat_stream(
-    {"message": "Continue from where we left off", "session_id": conversation_id},
-    user_id=user_id
-):
-    if event.get("type") == "text":
-        print(event.get("text"), end="")
-```
-
----
-
-## Buffer Overflow
-
-**Buffer has size limits (default: 50 messages).**
-
-If you restore more messages than buffer size:
-- Newest N messages are kept
-- Oldest messages are dropped
-- Response shows `messages_dropped` count
-
-```python
-# Restore 100 messages, buffer size is 50
-result = await formation.restore_session(
-    session_id="sess_123",
-    user_id=user_id,
-    messages=all_100_messages  # Too many!
-)
-
-# Response
-{
-  "messages_loaded": 50,      # Only 50 fit
-  "messages_dropped": 50      # 50 oldest dropped
-}
-```
-
-**Recommendation:** Only restore recent messages (last 20-50) for performance.
-
----
-
-## Common Patterns
-
-### Pattern 1: Auto-Restore on First Message
-
-```python
-async def chat(session_id: str, message: str, user_id: str):
-    # Check if this is the first message in a resumed session
-    session_exists = await formation.session_exists(session_id)
-
-    if not session_exists:
-        # New session - check if we have history for it
-        history = await db.messages.find({
-            "session_id": session_id,
-            "user_id": user_id
-        })
-
-        if history:
-            # Restore before first message
-            await formation.restore_session(
-                session_id=session_id,
-                user_id=user_id,
-                messages=history
-            )
-
-    # Now send the message
-    return await formation.chat(message, session_id, user_id)
-```
-
-### Pattern 2: Lazy Restore
-
-```python
-# Only restore when user explicitly opens conversation
-@app.get("/conversations/{conversation_id}/open")
-async def open_conversation(conversation_id: str, user_id: str):
-    # Fetch history
-    messages = await db.messages.find({
-        "conversation_id": conversation_id,
-        "user_id": user_id
-    }).limit(50)  # Only last 50
-
-    # Restore
-    await formation.restore_session(
-        session_id=conversation_id,
-        user_id=user_id,
-        messages=messages
-    )
-
-    return {"status": "ready", "message_count": len(messages)}
-```
-
-### Pattern 3: Time-Windowed Restore
-
-```python
-from datetime import datetime, timedelta
-
-# Only restore recent messages (last 7 days)
-cutoff = datetime.utcnow() - timedelta(days=7)
-
-messages = await db.messages.find({
-    "session_id": session_id,
-    "user_id": user_id,
-    "timestamp": {"$gte": cutoff}
-})
-
-await formation.restore_session(
-    session_id=session_id,
-    user_id=user_id,
-    messages=messages
-)
-```
-
----
-
-## Behavior
-
-### Replaces Existing Buffer
-
-Restoring **clears existing buffer first**, then loads new messages:
-
-```python
-# Session has: ["Hello", "Hi there"]
-await formation.restore_session(
-    session_id="sess_123",
-    messages=[
-        {"role": "user", "content": "What's up?", "timestamp": "..."}
-    ]
-)
-# Buffer now has: ["What's up?"]
-# Previous messages are gone
-```
-
-### Idempotent
-
-Restoring same messages multiple times results in same state:
-
-```python
-# First restore
-await formation.restore_session(session_id, messages)
-
-# Second restore (same messages)
-await formation.restore_session(session_id, messages)
-
-# Buffer state is identical
-```
-
-### Sorted by Timestamp
-
-Messages are automatically sorted by timestamp:
-
-```python
-# Send out of order
-messages = [
-    {"role": "assistant", "content": "Answer", "timestamp": "2025-01-09T10:02:00Z"},
-    {"role": "user", "content": "Question", "timestamp": "2025-01-09T10:01:00Z"}
-]
-
-await formation.restore_session(session_id, messages)
-
-# Buffer stores in correct order:
-# 1. "Question" (10:01)
-# 2. "Answer" (10:02)
-```
-
----
-
-## Error Handling
-
-### 400 Bad Request
-
-```json
-{
-  "error": {
-    "type": "invalid_request",
-    "message": "Invalid timestamp format"
-  }
-}
-```
-
-**Common causes:**
-- Missing required fields (`role`, `content`, `timestamp`)
-- Invalid timestamp format (not ISO 8601)
-- Empty `content` field
-- Invalid `role` (not `user`/`assistant`/`system`)
-
-### 401 Unauthorized
-
-```json
-{
-  "error": {
-    "type": "authentication_error",
-    "message": "Invalid API key"
-  }
-}
-```
-
-Missing or invalid API key.
-
-### 404 Not Found
-
-```json
-{
-  "error": {
-    "type": "resource_not_found",
-    "message": "Session not found"
-  }
-}
-```
-
-Session ID doesn't exist. You can restore to a new session ID - it will be created.
-
----
-
-## SDK Examples
-
-### Python
-
-```python
-from muxi import FormationClient
-
-formation = FormationClient(
-    server_url="http://localhost:7890",
-    formation_id="my-assistant",
-    client_key="...",
-)
-
-# Restore session
-result = formation.restore_session(
-    session_id="sess_abc123",
+# Restore a previous conversation
+client.sessions.restore(
+    session_id="conv_abc123",
     user_id="user@example.com",
     messages=[
         {
@@ -418,27 +59,24 @@ result = formation.restore_session(
     ]
 )
 
-print(f"Loaded {result.get('messages_loaded')} messages")
-
-# Continue chatting
-for event in formation.chat_stream(
-    {"message": "Thanks! What about tomorrow?", "session_id": "sess_abc123"},
+# Continue the conversation with full context
+response = client.chat(
+    message="What about tomorrow?",
+    session_id="conv_abc123",
     user_id="user@example.com"
-):
-    if event.get("type") == "text":
-        print(event.get("text"), end="")
+)
 ```
+[[/tab]]
 
-### TypeScript
-
+[[tab TypeScript]]
 ```typescript
-import { Formation } from '@muxi/sdk';
+import { Muxi } from '@muxi/sdk';
 
-const formation = new Formation({ apiKey: 'muxi_...' });
+const client = new Muxi();
 
-// Restore session
-const result = await formation.restoreSession({
-  sessionId: 'sess_abc123',
+// Restore a previous conversation
+await client.sessions.restore({
+  sessionId: 'conv_abc123',
   userId: 'user@example.com',
   messages: [
     {
@@ -454,38 +92,186 @@ const result = await formation.restoreSession({
   ]
 });
 
-console.log(`Loaded ${result.messagesLoaded} messages`);
-
-// Continue chatting
-const response = await formation.chat({
-  message: 'Thanks! What about tomorrow?',
-  sessionId: 'sess_abc123',
+// Continue the conversation with full context
+const response = await client.chat({
+  message: 'What about tomorrow?',
+  sessionId: 'conv_abc123',
   userId: 'user@example.com'
 });
 ```
+[[/tab]]
 
-### cURL
+[[tab Go]]
+```go
+client := muxi.NewClient()
 
-```bash
-curl -X POST https://api.muxi.org/v1/formations/my-formation/sessions/sess_abc123/restore \
-  -H "Authorization: Bearer muxi_..." \
-  -H "X-Muxi-User-ID: user@example.com" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "messages": [
-      {
-        "role": "user",
-        "content": "What is the weather?",
-        "timestamp": "2025-01-09T10:00:00Z"
-      },
-      {
-        "role": "assistant",
-        "content": "It is sunny and 72°F.",
-        "timestamp": "2025-01-09T10:00:15Z"
-      }
-    ]
-  }'
+// Restore a previous conversation
+client.Sessions.Restore(ctx, &muxi.RestoreRequest{
+    SessionID: "conv_abc123",
+    UserID:    "user@example.com",
+    Messages: []muxi.Message{
+        {Role: "user", Content: "What's the weather?", Timestamp: "2025-01-09T10:00:00Z"},
+        {Role: "assistant", Content: "It's sunny and 72°F.", Timestamp: "2025-01-09T10:00:15Z"},
+    },
+})
+
+// Continue the conversation with full context
+response, _ := client.Chat(ctx, &muxi.ChatRequest{
+    Message:   "What about tomorrow?",
+    SessionID: "conv_abc123",
+    UserID:    "user@example.com",
+})
 ```
+[[/tab]]
+
+[[/tabs]]
+
+---
+
+## Message Format
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `role` | string | Yes | `user`, `assistant`, or `system` |
+| `content` | string | Yes | Message text |
+| `timestamp` | ISO 8601 | Yes | Original message time |
+| `agent_id` | string | No | Agent that generated response |
+| `metadata` | object | No | Additional data to preserve |
+
+---
+
+## Common Patterns
+
+### Auto-Restore on First Message
+
+[[tabs]]
+
+[[tab Python]]
+```python
+from muxi import Muxi
+
+client = Muxi()
+
+async def chat(session_id: str, message: str, user_id: str):
+    # Check if we have stored history for this session
+    history = await db.messages.find(session_id=session_id, user_id=user_id)
+    
+    if history:
+        # Restore before sending message
+        client.sessions.restore(
+            session_id=session_id,
+            user_id=user_id,
+            messages=history
+        )
+    
+    # Send message with full context
+    return client.chat(message=message, session_id=session_id, user_id=user_id)
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+import { Muxi } from '@muxi/sdk';
+
+const client = new Muxi();
+
+async function chat(sessionId: string, message: string, userId: string) {
+  // Check if we have stored history for this session
+  const history = await db.messages.find({ sessionId, userId });
+  
+  if (history.length > 0) {
+    // Restore before sending message
+    await client.sessions.restore({ sessionId, userId, messages: history });
+  }
+  
+  // Send message with full context
+  return client.chat({ message, sessionId, userId });
+}
+```
+[[/tab]]
+
+[[/tabs]]
+
+### Time-Windowed Restore
+
+Only restore recent messages (e.g., last 7 days):
+
+[[tabs]]
+
+[[tab Python]]
+```python
+from datetime import datetime, timedelta
+
+# Only restore messages from last 7 days
+cutoff = datetime.utcnow() - timedelta(days=7)
+
+messages = await db.messages.find(
+    session_id=session_id,
+    timestamp__gte=cutoff
+)
+
+client.sessions.restore(
+    session_id=session_id,
+    user_id=user_id,
+    messages=messages[-50:]  # Last 50 only
+)
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+// Only restore messages from last 7 days
+const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+const messages = await db.messages.find({
+  sessionId,
+  timestamp: { $gte: cutoff }
+});
+
+await client.sessions.restore({
+  sessionId,
+  userId,
+  messages: messages.slice(-50)  // Last 50 only
+});
+```
+[[/tab]]
+
+[[/tabs]]
+
+---
+
+## Buffer Overflow
+
+Buffer has size limits (default: 50 messages). If you restore more:
+
+- **Newest N messages** are kept
+- **Oldest messages** are dropped
+- Response shows `messages_dropped` count
+
+```python
+result = client.sessions.restore(
+    session_id="sess_123",
+    user_id=user_id,
+    messages=all_100_messages  # Too many!
+)
+
+# Result:
+# messages_loaded: 50
+# messages_dropped: 50  (oldest 50 dropped)
+```
+
+**Recommendation:** Only restore last 20-50 messages for performance.
+
+---
+
+## Behavior
+
+| Behavior | Description |
+|----------|-------------|
+| **Replaces buffer** | Existing buffer cleared, then new messages loaded |
+| **Idempotent** | Same restore twice = same state |
+| **Auto-sorted** | Messages sorted by timestamp automatically |
+| **User-isolated** | Only restores for specified user |
 
 ---
 
@@ -493,63 +279,31 @@ curl -X POST https://api.muxi.org/v1/formations/my-formation/sessions/sess_abc12
 
 ### 1. Store Messages Immediately
 
-Don't wait to batch - store as messages flow:
-
 ```python
-# ✅ Good: Store immediately
-@app.post("/chat")
-async def chat(message: str):
-    response = await formation.chat(message, session_id, user_id)
-
-    # Store immediately
-    await db.save_message(user_id, session_id, "user", message)
-    await db.save_message(user_id, session_id, "assistant", response.content)
-
-    return response
-
-# ❌ Bad: Batch later (risk of data loss)
+# Store as messages flow - don't batch
+response = client.chat(message, session_id, user_id)
+await db.save_message(session_id, "user", message)
+await db.save_message(session_id, "assistant", response.content)
 ```
 
 ### 2. Limit Restore Size
 
-Only restore what's needed:
-
 ```python
-# ✅ Good: Last 20-50 messages
+# Good: Last 50 messages
 messages = await db.messages.find({...}).limit(50)
 
-# ❌ Bad: All 10,000 messages
-messages = await db.messages.find({...})  # Slow! Wasteful!
+# Bad: All 10,000 messages (slow, wasteful)
 ```
 
-### 3. Handle Overflow Gracefully
+### 3. Handle Overflow
 
 ```python
-result = await formation.restore_session(...)
-
+result = client.sessions.restore(...)
 if result.messages_dropped > 0:
-    logger.warning(f"Dropped {result.messages_dropped} oldest messages")
-    # Maybe notify User:  "Showing last 50 messages"
+    # Notify user: "Showing last 50 messages"
 ```
 
-### 4. Validate Timestamps
-
-```python
-from datetime import datetime
-
-# ✅ Good: Validate format
-try:
-    dt = datetime.fromisoformat(msg["timestamp"])
-except ValueError:
-    # Fix or skip invalid message
-    pass
-
-# ❌ Bad: Trust all timestamps
-```
-
-### 5. Include Metadata
-
-Preserve useful context:
+### 4. Include Metadata
 
 ```python
 {
@@ -557,35 +311,13 @@ Preserve useful context:
     "content": "Created issue #123",
     "timestamp": "2025-01-09T10:00:00Z",
     "agent_id": "github-agent",
-    "metadata": {
-        "issue_id": 123,
-        "repository": "muxi-ai/muxi",
-        "tool_used": "github_create_issue"
-    }
+    "metadata": {"issue_id": 123, "repo": "muxi-ai/muxi"}
 }
 ```
 
 ---
 
-## Security
-
-**User Isolation:**
-- Messages only restored for specified `X-Muxi-User-ID`
-- No cross-user access possible
-
-**API Key Required:**
-- All restore requests require valid formation API key
-
-**Data Validation:**
-- Timestamps validated (ISO 8601)
-- Required fields enforced
-- Invalid data rejected with 400 error
-
----
-
 ## Learn More
 
-- [Memory System](../concepts/memory-system.md) - How buffer memory works
-- [Session Management](../guides/sessions.md) - Managing user sessions
-- [Memory Configuration](memory.md) - Buffer size and persistence settings
-- [Webhooks](../guides/webhooks.md) - Receive messages via webhooks
+- [Sessions Concept](../concepts/sessions.md) - How sessions work
+- [Memory System](../concepts/memory-system.md) - Buffer and persistent memory

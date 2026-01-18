@@ -101,11 +101,19 @@ runtime:
 
 ---
 
-## Advanced: Embedding
+## Advanced: Embedding the Runtime
 
-For custom deployments, you can embed the runtime directly.
+The runtime can be embedded directly in your Python application as a framework.
 
-[+] [Embedding the Runtime in your own app](embedding.md)
+[+] [Embed in Your App](embed-in-your-app.md)
 
-> [!NOTE]
-> Most users don't need to embed the runtime. The server manages everything automatically.
+> [!WARNING]
+> **Think twice before embedding.** Feature-wise, you gain nothing - the embedded runtime has the exact same capabilities as running via the Server. What you lose:
+> - **No multi-formation orchestration** - Server manages multiple formations; embedded runs one
+> - **No zero-downtime deployment** - Server handles rolling updates
+> - **No health monitoring** - Server provides `/health`, auto-restart
+> - **More deployment complexity** - You manage the Python process lifecycle
+>
+> **When embedding makes sense:** Custom hosting environments, serverless functions, or tight integration requirements where HTTP isn't viable.
+>
+> **For 99% of use cases:** Use the Server + SDKs instead.
