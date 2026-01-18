@@ -24,7 +24,6 @@ Every hour: Agent checks email, reports findings
 
 **The magic:** No cron syntax, no configuration files. Just natural language.
 
----
 
 ## How It Works
 
@@ -69,7 +68,6 @@ No cron syntax needed - the agent figures it out.
 > [!TIP]
 > **Set your timezone in the formation.** Scheduled tasks use the formation's configured timezone. Without it, times default to UTC, which may not match user expectations.
 
----
 
 ## Creating Scheduled Tasks
 
@@ -107,7 +105,6 @@ Agent: "Updated! Now checking GitHub notifications every 2 hours."
 
 Natural language all the way.
 
----
 
 ## What Gets Scheduled
 
@@ -155,7 +152,6 @@ Proactive monitoring that alerts you only when needed.
 
 Never forget important tasks.
 
----
 
 ## Timezone Support
 
@@ -180,7 +176,6 @@ User:  "Yes"
 Agent: "Updated all schedules to JST timezone."
 ```
 
----
 
 ## User Isolation
 
@@ -196,7 +191,6 @@ Bob's schedule: Checks Bob's email
 
 Complete isolation - no data leakage.
 
----
 
 ## Complex Schedules
 
@@ -230,7 +224,6 @@ User:  "If the report fails, retry in 30 minutes"
 Agent: Creates schedule with retry logic
 ```
 
----
 
 ## Managing Scheduled Tasks
 
@@ -351,7 +344,6 @@ await client.schedules.update('api-health', {
 
 [[/tabs]]
 
----
 
 ## Behind the Scenes
 
@@ -410,7 +402,6 @@ Agent: [Uses work email as instructed]
 
 Preferences persist across scheduled executions.
 
----
 
 ## Configuration
 
@@ -436,7 +427,6 @@ memory:
     # Or: "sqlite:///./scheduler.db"
 ```
 
----
 
 ## Example Use Cases
 
@@ -476,7 +466,6 @@ memory:
 "Monthly goals check-in"
 ```
 
----
 
 ## Advanced Features
 
@@ -504,7 +493,6 @@ memory:
 → Stops automatically when condition met
 ```
 
----
 
 ## Monitoring & Audit
 
@@ -542,7 +530,6 @@ Agent: "I'll send you a notification after each successful execution."
 Agent: "✓ Daily summary completed successfully. Found 3 new items."
 ```
 
----
 
 ## Why This Matters
 
@@ -556,7 +543,6 @@ Agent: "✓ Daily summary completed successfully. Found 3 new items."
 
 The result: **agents that work while you sleep**, not chatbots waiting for input.
 
----
 
 ## Quick Start
 
@@ -577,7 +563,6 @@ User:  "Check my email every hour for urgent messages"
 Agent: "Done! I'll check your email hourly and notify you of anything urgent."
 ```
 
----
 
 ## Learn More
 

@@ -27,7 +27,6 @@ Traditional workflow automation (if X then Y) is rigid and breaks when reality d
 - **Template mode**: Follow exactly as written (for compliance)
 - **Guide mode**: Use as guidelines, optimize as needed (default)
 
----
 
 ## Quick Start
 
@@ -77,7 +76,6 @@ Agent: [Follows the onboarding SOP]
 
 The agent will follow your defined steps automatically.
 
----
 
 ## SOP Structure
 
@@ -114,7 +112,6 @@ Description of what this procedure does.
 What happens when complete.
 ```
 
----
 
 ## Execution Modes
 
@@ -138,7 +135,6 @@ mode: template
 - Every step executed in order
 - For compliance and audits
 
----
 
 ## Directives
 
@@ -165,7 +161,6 @@ Add directives in square brackets to control execution:
    This step cannot be skipped.
 ```
 
----
 
 ## Examples
 
@@ -259,7 +254,6 @@ tags: code, review, pr, github
    Post constructive review comments.
 ```
 
----
 
 ## Organization
 
@@ -279,7 +273,6 @@ sops/
     └── bug-triage.md
 ```
 
----
 
 ## Best Practices
 
@@ -289,7 +282,6 @@ sops/
 4. **Use guide mode** - Unless strict compliance is required
 5. **Mark critical steps** - Ensure important steps aren't skipped
 
----
 
 ## Troubleshooting
 
@@ -310,7 +302,6 @@ sops/
 - Use `[critical]` directive for required steps
 - Consider template mode for strict procedures
 
----
 
 ## Learn More
 

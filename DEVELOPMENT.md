@@ -2,7 +2,6 @@
 
 Set up your local environment to contribute to MUXI.
 
----
 
 ## Prerequisites
 
@@ -20,7 +19,6 @@ SDKs are available for 12 languages. See **[REPOSITORIES.md](./REPOSITORIES.md)*
 
 Each SDK has its own language-specific requirements - refer to the SDK's README for setup instructions.
 
----
 
 ## Quick Start
 
@@ -55,7 +53,6 @@ go run . --help
 
 Clone the SDK for your language and follow its README for setup and testing instructions.
 
----
 
 ## Code Style
 
@@ -101,7 +98,6 @@ Each SDK follows its language's conventions. Refer to the SDK's README for speci
 - Only modify code related to your specific issue
 - Match existing patterns in the codebase
 
----
 
 ## Git Workflow
 
@@ -115,7 +111,6 @@ develop (default) → rc (release candidate) → main (production)
 
 See [GIT-WORKFLOW.md](./GIT-WORKFLOW.md) for details.
 
----
 
 ## Running the Full Stack
 
@@ -131,7 +126,6 @@ cd cli/src && go run . --help
 
 The server runs on port **7890** by default.
 
----
 
 ## Getting Help
 

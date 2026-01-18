@@ -31,7 +31,6 @@ flowchart TB
 | **User Synopsis** | Who the user is | Derived from persistent |
 | **Persistent** | Long-term facts | Postgres/SQLite |
 
----
 
 ## FAISSx: MUXI's Vector Store
 
@@ -49,7 +48,6 @@ memory:
     server: "tcp://faissx.internal:45678"  # Optional: shared server
 ```
 
----
 
 ## Multi-Tenancy Requires Postgres
 
@@ -76,7 +74,6 @@ With Postgres:
 - User synopsis works properly
 - Long-term memory persists across sessions
 
----
 
 ## User Synopsis: "Who Am I Talking To?"
 
@@ -111,7 +108,6 @@ memory:
       cache_ttl: 3600  # Refresh every hour
 ```
 
----
 
 ## How Memory Flows
 
@@ -133,7 +129,6 @@ Working memory updated with session state
 
 You don't manage this manually - MUXI handles tiering automatically.
 
----
 
 ## Semantic Search
 
@@ -152,7 +147,6 @@ Agent: "Your API key is xyz123, from January 5th."
 
 Vector embeddings enable semantic similarity, not just keyword matching.
 
----
 
 ## User Isolation
 
@@ -169,7 +163,6 @@ User B: "What's my password?"
 
 No data leaks between users.
 
----
 
 ## Token Savings with Synopsis
 
@@ -186,7 +179,6 @@ Savings: 97% reduction!
 
 For users with long histories, this dramatically reduces costs.
 
----
 
 ## Configuration
 
@@ -219,7 +211,6 @@ memory:
       cache_ttl: 3600
 ```
 
----
 
 ## Summary
 
@@ -236,7 +227,6 @@ memory:
 - User synopsis reduces token costs dramatically
 - All memory is user-isolated in production
 
----
 
 ## Learn More
 

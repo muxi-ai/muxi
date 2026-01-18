@@ -32,7 +32,6 @@ muxi auth login
 muxi push
 ```
 
----
 
 ## Browse Formations
 
@@ -51,7 +50,6 @@ NAME                      DESCRIPTION                 DOWNLOADS
 @company/zendesk-agent    Zendesk integration         89
 ```
 
----
 
 ## Namespaces
 
@@ -61,7 +59,6 @@ NAME                      DESCRIPTION                 DOWNLOADS
 | `@username/*` | Individual developers |
 | `@org/*` | Organizations |
 
----
 
 ## Official Formations
 
@@ -101,7 +98,6 @@ muxi pull @muxi/bookkeeping
 
 ::::
 
----
 
 ## Version Management
 
@@ -118,7 +114,6 @@ muxi pull @muxi/starter@^1.0.0   # Latest 1.x.x
 muxi pull @muxi/starter@~1.0.0   # Latest 1.0.x
 ```
 
----
 
 ## Learn More
 

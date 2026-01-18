@@ -56,7 +56,6 @@ python app.py
 # No versioning
 ```
 
----
 
 ## MUXI's Solution
 
@@ -81,7 +80,6 @@ formation/
 > [!TIP]
 > **Back up your `.key` file securely.** Without it, you cannot decrypt `secrets.enc`. Store it in a password manager or secure vault - never in git, email, or Slack.
 
----
 
 ## How It's Better
 
@@ -161,7 +159,6 @@ OPENAI_API_KEY=
 BRAVE_API_KEY=
 ```
 
----
 
 ## Security Model
 
@@ -176,7 +173,6 @@ graph LR
 - **Key never stored with secrets** - Physical separation
 - **No recovery without key** - Security feature, not bug
 
----
 
 ## Common Questions
 
@@ -206,7 +202,6 @@ This is intentional. There's no backdoor.
 Not recommended, but the runtime can read them as fallback for specific deployment scenarios. The encrypted approach is strongly preferred.
 [[/toggle]]
 
----
 
 ## Best Practices
 
@@ -219,7 +214,6 @@ Not recommended, but the runtime can read them as fallback for specific deployme
 4. **Use descriptive names** - `OPENAI_API_KEY` not `KEY1`
 5. **Keep `secrets` updated** - Document all required secrets
 
----
 
 ## Migration from Environment Variables
 
@@ -251,7 +245,6 @@ muxi dev
 
 [[/tabs]]
 
----
 
 ## Next Steps
 

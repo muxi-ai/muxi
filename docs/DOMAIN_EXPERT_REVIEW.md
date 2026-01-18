@@ -3,7 +3,6 @@
 **Generated:** 2026-01-10
 **Purpose:** Items requiring domain expert verification before docs can be considered 100% accurate
 
----
 
 ## Priority 1: API Behavior vs Documentation
 
@@ -53,7 +52,6 @@
 - [ ] Is the event schema (`token.type`, `token.stage`, etc.) documented?
 - [ ] What other event types exist? (`error`, `tool_call`, etc.?)
 
----
 
 ## Priority 2: Feature Implementation Verification
 
@@ -109,7 +107,6 @@
 - [ ] `cache_ttl` setting is respected
 - [ ] "80% token reduction" claim is realistic
 
----
 
 ## Priority 3: Configuration Accuracy
 
@@ -142,7 +139,6 @@
 - [ ] Is `${{ user.credentials.* }}` interpolation working?
 - [ ] Are timeout and retry settings respected?
 
----
 
 ## Priority 4: Security Claims
 
@@ -175,7 +171,6 @@
 - [ ] Body hash is included in signature
 - [ ] Replay attacks are blocked
 
----
 
 ## Priority 5: Minor Clarifications Needed
 
@@ -197,7 +192,6 @@
 - [ ] Does `muxi pull @muxi/starter` work?
 - [ ] Are private registries actually "planned"?
 
----
 
 ## How to Use This Document
 
@@ -206,7 +200,6 @@
 3. For incorrect items, note what needs to change
 4. Delete this file when review is complete
 
----
 
 ## After Review
 

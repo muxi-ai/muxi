@@ -23,7 +23,6 @@ The SDKs are how developers build products on top of MUXI:
 > [!TIP]
 > **Security note:** When user credentials are required for tools (GitHub, Gmail, etc.), developers can configure whether users provide them via chat or via a dedicated credentials page. The SDK lets you build that credentials page.
 
----
 
 ## Quick Install
 
@@ -62,7 +61,6 @@ Learn more & download ›
 
 ::::
 
----
 
 ## Quick Start
 
@@ -124,7 +122,6 @@ for chunk := range stream {
 
 [[/tabs]]
 
----
 
 ## Two Client Types
 
@@ -153,7 +150,6 @@ For managing the MUXI server:
 
 **Authentication:** HMAC signature (`key_id` + `secret_key`)
 
----
 
 ## Common Operations
 
@@ -423,7 +419,6 @@ client.RestoreSession(ctx, &muxi.RestoreRequest{
 
 [Learn more: Sessions →](concepts/sessions.md)
 
----
 
 ## Error Handling
 
@@ -495,7 +490,6 @@ if err != nil {
 
 [[/tabs]]
 
----
 
 ## Configuration
 
@@ -505,7 +499,6 @@ if err != nil {
 | Retries | `max_retries=3` | `maxRetries: 3` | 3 built-in | 3 |
 | Debug | `debug=True` | `debug: true` | - | Off |
 
----
 
 ## Learn More
 

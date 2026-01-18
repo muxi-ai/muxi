@@ -55,7 +55,6 @@ for event in client.chat_stream({"message": "Hi"}):
 
 ::::
 
----
 
 ## Which should I use?
 
@@ -73,7 +72,6 @@ for event in client.chat_stream({"message": "Hi"}):
 > [!TIP]
 > Most projects use **both**: CLI for deployment and ops, SDKs for application code.
 
----
 
 ## CLI Quick Start
 
@@ -125,7 +123,6 @@ muxi formation list
 
 [Full CLI Cheatsheet →](cli/cheatsheet.md)
 
----
 
 ## SDK Quick Start
 
@@ -204,7 +201,6 @@ for chunk := range stream {
 
 [Full SDK Documentation →](sdks/README.md)
 
----
 
 ## Learn More
 

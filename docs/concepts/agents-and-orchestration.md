@@ -34,7 +34,6 @@ User request → Overlord
           Response to user
 ```
 
----
 
 ## Agent Definition
 
@@ -70,7 +69,6 @@ specialties:
 
 > **Note:** Agents don't have personas - only the Overlord does. The `system_message` is instructions, not personality.
 
----
 
 ## The Overlord Orchestrates
 
@@ -99,7 +97,6 @@ Overlord creates workflow:
   Task 2: writer → "Write blog post from research"
 ```
 
----
 
 ## Agent-to-Agent (A2A) Collaboration
 
@@ -173,7 +170,6 @@ a2a:
 - Scoped capabilities per partner
 - All events logged for audit
 
----
 
 ## Routing Priority
 
@@ -191,7 +187,6 @@ When a request arrives:
 
 SOPs (Standard Operating Procedures) always take priority when matched.
 
----
 
 ## What Agents Receive
 
@@ -212,7 +207,6 @@ Overlord → Agent:
 
 > **Key insight:** The Overlord passes only relevant tool capabilities to each agent. This solves context contamination - agents don't get overwhelmed with irrelevant tools.
 
----
 
 ## Example: Multi-Agent Workflow
 
@@ -235,7 +229,6 @@ During execution (A2A collaboration):
 
 The Overlord sets strategy, agents execute and collaborate as needed.
 
----
 
 ## Why This Matters
 
@@ -246,7 +239,6 @@ The Overlord sets strategy, agents execute and collaborate as needed.
 | Siloed agents | Collaborative A2A |
 | One agent does everything | Right specialist for each task |
 
----
 
 ## Learn More
 

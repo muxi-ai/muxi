@@ -75,7 +75,6 @@ Code assistants, documentation bots, PR reviewers for developer products.
 
 [[/toggle]]
 
----
 
 ## Internal Tools Teams
 
@@ -141,7 +140,6 @@ Run your own support agents without sending customer data to third parties.
 
 [[/toggle]]
 
----
 
 ## Why MUXI for these use cases?
 
@@ -154,7 +152,6 @@ Run your own support agents without sending customer data to third parties.
 | Compliance | Data never leaves your control |
 | Scale | One server, many agents, many users |
 
----
 
 ## Not sure if MUXI fits?
 

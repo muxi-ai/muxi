@@ -35,7 +35,6 @@ MUXI Server manages your formations - deploying, routing, monitoring, and auto-r
 - **Monitor** health and auto-restart on failure
 - **Scale** across multiple formations
 
----
 
 ## Quick Start
 
@@ -73,7 +72,6 @@ curl http://localhost:7890/health
 
 [[/steps]]
 
----
 
 ## Server Commands
 
@@ -85,7 +83,6 @@ curl http://localhost:7890/health
 | `muxi-server status` | Check server status |
 | `muxi-server version` | Show version |
 
----
 
 ## Managing Formations
 
@@ -99,7 +96,6 @@ muxi formation restart <id>    # Restart a formation
 muxi logs --follow             # Stream logs
 ```
 
----
 
 ## Key Features
 
@@ -127,7 +123,6 @@ Intelligent routing to formations. Proxy handles load and failover.
 
 ::::
 
----
 
 ## Configuration Preview
 
@@ -148,7 +143,6 @@ formations:
   auto_restart: true
 ```
 
----
 
 ## Learn More
 

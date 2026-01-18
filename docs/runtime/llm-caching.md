@@ -29,7 +29,6 @@ Cache hit! Return cached response
 
 **Cost savings:** Second query costs $0 (no LLM call).
 
----
 
 ## Configuration
 
@@ -66,7 +65,6 @@ llm_cache:
 - Faster but less flexible
 - Only exact duplicates match
 
----
 
 ## Tuning Similarity Threshold
 
@@ -91,7 +89,6 @@ Doesn't match:
 ✗ "How much does cloud cost" (similarity: 0.60)
 ```
 
----
 
 ## Performance Metrics
 
@@ -133,7 +130,6 @@ observability:
       interval: 60  # Report every 60 seconds
 ```
 
----
 
 ## Cost Savings
 
@@ -166,7 +162,6 @@ Savings: $420/month (70%)
 - Ever-changing data
 - Random queries
 
----
 
 ## Memory Management
 
@@ -193,7 +188,6 @@ When limits reached:
 
 Formula: ~1KB per cached response (varies by response length).
 
----
 
 ## Streaming Mode
 
@@ -221,7 +215,6 @@ Identical second request:
 [instant] [streams cached response immediately]
 ```
 
----
 
 ## Advanced Configuration
 
@@ -272,7 +265,6 @@ llm_cache:
   stream_chunk_length: 0           # 0 = use strategy, >0 = fixed length
 ```
 
----
 
 ## Cache Invalidation
 
@@ -301,7 +293,6 @@ llm_cache:
   invalidate_on_knowledge_update: true  # Knowledge base updates
 ```
 
----
 
 ## Debugging
 
@@ -330,7 +321,6 @@ for entry in entries:
     print()
 ```
 
----
 
 ## Best Practices
 
@@ -384,7 +374,6 @@ llm_cache:
   ttl: 0
 ```
 
----
 
 ## Limitations
 
@@ -410,7 +399,6 @@ Cache key includes:
 
 **Changes to any = cache miss.**
 
----
 
 ## Security
 
@@ -442,7 +430,6 @@ llm_cache:
 
 **Automatically filtered from cache.**
 
----
 
 ## Monitoring
 
@@ -476,7 +463,6 @@ logging:
 - Evictions (when full)
 - Invalidations
 
----
 
 ## Troubleshooting
 
@@ -510,7 +496,6 @@ logging:
 3. Is threshold too high?
 4. Check debug logs for reasons
 
----
 
 ## Learn More
 

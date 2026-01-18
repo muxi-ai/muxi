@@ -31,7 +31,6 @@ The Overlord:
 3. **Coordinates** multi-agent workflows
 4. **Synthesizes** final responses
 
----
 
 ## Routing Logic
 
@@ -56,7 +55,6 @@ Request Arrives
 > [!NOTE]
 > **SOPs have highest priority.** If a request matches an SOP's keywords, it executes immediately, bypassing other routing logic.
 
----
 
 ## Agent Selection
 
@@ -81,7 +79,6 @@ Example routing:
 → support (knowledge: FAQ, troubleshooting)
 ```
 
----
 
 ## Complexity Analysis
 
@@ -113,7 +110,6 @@ Example:
 → Score: 9 → Complex → Workflow mode
 ```
 
----
 
 ## Workflow Mode
 
@@ -142,7 +138,6 @@ sequenceDiagram
 3. **Execution** - Run tasks (parallel when possible)
 4. **Synthesis** - Combine results into response
 
----
 
 ## Agent Communication
 
@@ -159,7 +154,6 @@ This enables:
 - Error handling and retries
 - Audit trail
 
----
 
 ## Approval Flow
 
@@ -187,7 +181,6 @@ Estimated time: 5-10 minutes
 Proceed? [y/N]
 ```
 
----
 
 ## Configuration Reference
 
@@ -205,7 +198,6 @@ overlord:
       task_timeout: 300          # Seconds per task
 ```
 
----
 
 ## Best Practices
 
@@ -218,7 +210,6 @@ overlord:
 4. **Set appropriate thresholds** - Balance automation vs. control
 5. **Test routing** - Verify requests go to expected agents
 
----
 
 ## Debugging Routing
 
@@ -234,7 +225,6 @@ Output includes:
 - Selected agent
 - Routing reason
 
----
 
 ## Next Steps
 

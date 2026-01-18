@@ -5,7 +5,6 @@ Thank you for your interest in contributing to MUXI!
 > [!NOTE]
 > These guidelines apply to **all MUXI repositories** including the server, runtime, CLI, SDKs, and documentation.
 
----
 
 ## Quick Links
 
@@ -16,7 +15,6 @@ Thank you for your interest in contributing to MUXI!
 - **[Style Guides](https://github.com/muxi-ai/muxi/blob/main/style-guides/)** - Language-specific coding conventions
 - **[AGENTS.md](https://github.com/muxi-ai/muxi/blob/main/AGENTS.md)** - AI assistant context (template for all repos)
 
----
 
 ## Find Something to Work On
 
@@ -29,7 +27,6 @@ Looking for ways to contribute? Check issues with these labels:
 
 Want to take on an issue? Leave a comment and a maintainer may assign it to you.
 
----
 
 ## The Basics
 
@@ -77,7 +74,6 @@ These **do** need an issue:
 
 **When in doubt, create an issue.**
 
----
 
 ## AI/LLM Policy
 
@@ -92,7 +88,6 @@ We welcome AI-assisted development. However:
 > [!WARNING]
 > PRs that show evidence of being AI-generated without local testing will be closed.
 
----
 
 ## What We Accept
 
@@ -111,7 +106,6 @@ We welcome AI-assisted development. However:
 - Large refactoring without prior discussion
 - **Manual version bumps** - CI/CD handles versioning automatically
 
----
 
 ## Pull Request Expectations
 
@@ -121,7 +115,6 @@ We welcome AI-assisted development. However:
 - **Before adding new functions**, ensure similar behavior doesn't already exist elsewhere in the codebase
 - **Test locally** before submitting
 
----
 
 ## Feature Requests
 
@@ -133,7 +126,6 @@ For net-new functionality, **start with a design conversation**. Open an issue d
 
 Wait for maintainer approval before opening a feature PR. This helps ensure alignment with project direction and avoids wasted effort.
 
----
 
 ## Branch Naming
 
@@ -161,7 +153,6 @@ test: add integration tests for chat endpoint
 - Keep first line under 72 characters
 - Reference issues when applicable: `Fix timeout bug (#123)`
 
----
 
 ## Code Review Process
 
@@ -170,7 +161,6 @@ test: add integration tests for chat endpoint
 3. **Address feedback** promptly
 4. **Squash commits** if requested
 
----
 
 ## Security
 
@@ -178,7 +168,6 @@ Found a vulnerability? **Do not open a public issue.**
 
 Email [security@muxi.org](mailto:security@muxi.org) instead.
 
----
 
 ## Getting Help
 
@@ -186,7 +175,6 @@ Email [security@muxi.org](mailto:security@muxi.org) instead.
 - **Bugs?** [GitHub Issues](https://github.com/muxi-ai/muxi/issues)
 - **Community:** [GitHub Discussions](https://github.com/orgs/muxi-ai/discussions)
 
----
 
 ## License
 

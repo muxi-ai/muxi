@@ -37,7 +37,6 @@ Let agents answer questions from your documents using RAG.
 
 ::::
 
----
 
 ## Automation
 
@@ -55,7 +54,6 @@ Define standard procedures for consistent, repeatable agent workflows.
 
 ::::
 
----
 
 ## Advanced
 
@@ -83,13 +81,11 @@ Set up observability for production formations.
 
 ::::
 
----
 
 ## Troubleshooting
 
 For troubleshooting installation, deployment, and runtime problems, and other common issues visit the [Troubleshooting Guide](troubleshooting.md).
 
----
 
 ## Guide Format
 

@@ -2,7 +2,6 @@
 
 **Using ScalVer for Calendar-Aware, SemVer-Compatible Versioning**
 
----
 
 ## Overview
 
@@ -128,7 +127,6 @@ ScalVer maintains proper ordering with standard SemVer comparison tools:
 - **ScalVer Website**: [scalver.org](https://scalver.org)
 - **SemVer Compatibility**: All ScalVer versions are valid SemVer 2.0
 
----
 
 ## FAQ
 

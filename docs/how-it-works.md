@@ -38,7 +38,6 @@ flowchart TB
 - **Overlord** = The brain that manages memory, routes requests, and applies persona
 - **Agent** = A specialized worker that uses tools and knowledge to complete tasks
 
----
 
 ## What happens when you send a message
 
@@ -110,7 +109,6 @@ The Overlord:
 > [!TIP]
 > For a deep dive into every step, see [Request Lifecycle](deep-dives/request-lifecycle.md).
 
----
 
 ## The four things you configure
 
@@ -195,7 +193,6 @@ knowledge:
 
 ::::
 
----
 
 ## Formation file structure
 
@@ -279,7 +276,6 @@ env:
 
 [[/tabs]]
 
----
 
 ## Single agent vs. multi-agent
 
@@ -309,7 +305,6 @@ Good for: customer support systems, research assistants, content pipelines.
 
 [Build Multi-Agent Teams →](guides/build-multi-agent-systems.md)
 
----
 
 ## Development vs. production
 
@@ -336,7 +331,6 @@ muxi deploy
 
 [Deploy to Production →](guides/deploy-to-production.md)
 
----
 
 ## Next steps
 
@@ -366,7 +360,6 @@ Create specialized agents that work together.
 
 ::::
 
----
 
 ## Go deeper
 

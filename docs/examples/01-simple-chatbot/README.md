@@ -114,7 +114,6 @@ Make sure MUXI Server is running:
 muxi-server start
 ```
 
----
 
 ## Learn More
 

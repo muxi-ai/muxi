@@ -29,7 +29,6 @@ If you know Docker, you know MUXI:
 
 Formations are **portable, versioned, shareable** - just like container images.
 
----
 
 ## How It Works
 
@@ -53,7 +52,6 @@ muxi push
 
 Now anyone can `muxi pull @yourusername/my-formation`.
 
----
 
 ## Namespaces
 
@@ -67,7 +65,6 @@ Your GitHub handle is your registry handle - no separate account needed.
 > [!NOTE]
 > Private registries are planned for future release.
 
----
 
 ## Version Control
 
@@ -104,7 +101,6 @@ muxi formation rollback my-assistant
 > [!NOTE]
 > Visibility controls (public/private formations) and private registries are planned for future releases.
 
----
 
 ## What Gets Published
 
@@ -123,7 +119,6 @@ my-formation/
 
 Secrets never leave your machine. Users who pull must provide their own credentials.
 
----
 
 ## Discovery
 
@@ -147,7 +142,6 @@ NAME                     DESCRIPTION                 DOWNLOADS
 @alice/helpdesk          Helpdesk assistant          567
 ```
 
----
 
 ## Why This Matters
 
@@ -161,7 +155,6 @@ NAME                     DESCRIPTION                 DOWNLOADS
 
 The result: **formations that spread**, not code that rots in private repos.
 
----
 
 ## Quick Start
 
@@ -178,7 +171,6 @@ muxi auth login
 muxi push
 ```
 
----
 
 ## Learn More
 

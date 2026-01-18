@@ -36,7 +36,6 @@ The runtime is what actually runs your AI agents - executing logic, managing mem
 - **Tool execution** - Runs MCP servers
 - **API serving** - Exposes the formation API
 
----
 
 ## How It's Used
 
@@ -60,7 +59,6 @@ muxi dev
 # Starts runtime on :8001
 ```
 
----
 
 ## Formation API
 
@@ -76,7 +74,6 @@ Each runtime exposes the same API:
 | `POST /v1/triggers/{name}` | Fire trigger |
 | `GET /v1/events` | SSE event stream |
 
----
 
 ## Runtime Configuration
 
@@ -88,7 +85,6 @@ runtime:
   version: latest       # Or pin: "1.0.0"
 ```
 
----
 
 ## Technology
 
@@ -99,7 +95,6 @@ runtime:
 | Vectors | FAISS (via FAISSx) |
 | Protocol | MCP for tools |
 
----
 
 ## Advanced: Embedding the Runtime
 

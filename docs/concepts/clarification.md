@@ -20,7 +20,6 @@ The Overlord also intelligently detects whether a user's response is:
 
 This ensures the Overlord always has enough information before taking action.
 
----
 
 ## The Problem: Ambiguous Requests
 
@@ -47,7 +46,6 @@ Traditional agents either:
 
 MUXI agents **clarify intelligently**.
 
----
 
 ## How It Works
 
@@ -84,7 +82,6 @@ Good (MUXI):
 
 One question at a time, minimal friction.
 
----
 
 ## Types of Clarification
 
@@ -163,7 +160,6 @@ Agent: [Deletes logs]
 
 Safety confirmation for destructive operations.
 
----
 
 ## Multi-Turn Clarification
 
@@ -205,7 +201,6 @@ Agent: [Updates: period=monthly, still knows type=sales]
 
 No need to repeat information.
 
----
 
 ## Smart Features
 
@@ -257,7 +252,6 @@ Agent: [Uses 'main']
 
 Smart defaults reduce clarification burden.
 
----
 
 ## Technical Flow
 
@@ -287,7 +281,6 @@ flowchart TD
     Process --> Done([Execute task])
 ```
 
----
 
 ## Configuration
 
@@ -321,7 +314,6 @@ clarification:
     branch: main
 ```
 
----
 
 ## Why Traditional Approaches Fail
 
@@ -355,7 +347,6 @@ for field in required_fields:
 - Annoying for users
 - Not intelligent
 
----
 
 ## MUXI's LLM-Powered Approach
 
@@ -374,7 +365,6 @@ if ambiguity:
 - ✅ Asks only what's needed
 - ✅ Prioritizes important questions
 
----
 
 ## Example Scenarios
 
@@ -417,7 +407,6 @@ User:  "acme-corp"
 Agent: [Shows messages from acme-corp workspace]
 ```
 
----
 
 ## When Clarification Happens
 
@@ -443,7 +432,6 @@ Agent: "I'm not sure I understand. Do you want me to:
        3. Delete the old report and create a new one"
 ```
 
----
 
 ## Why This Matters
 
@@ -457,7 +445,6 @@ Agent: "I'm not sure I understand. Do you want me to:
 
 The result: **agents that understand you**, not robots that need perfect input.
 
----
 
 ## Learn More
 

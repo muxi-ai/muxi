@@ -31,7 +31,6 @@ graph LR
 
 The agent decides when to use tools - you don't need to explicitly request them.
 
----
 
 ## Available Tools
 
@@ -77,7 +76,6 @@ auth:
 > [!TIP]
 > **Start with one tool per agent.** Add tools incrementally and test each one. Too many tools confuse the agent about which to use.
 
----
 
 ## Solving Context Contamination
 
@@ -113,7 +111,6 @@ MUXI:
 - No confusion from irrelevant tools
 - Dozens of tools without burning context window
 
----
 
 ## Multi-User Tool Access
 
@@ -148,7 +145,6 @@ Credentials encrypted at rest. Complete isolation between users.
 - All agents have access to formation-level MCP servers
 - Agent-specific tools use `mcp_servers:` in agent files
 
----
 
 ## Agent-Specific Tools
 
@@ -241,7 +237,6 @@ auth:
 
 Right tools for right agents. No accidental file access from the writer.
 
----
 
 ## Tool Security
 
@@ -275,7 +270,6 @@ auth:
   # Cannot access DATABASE_URL
 ```
 
----
 
 ## Self-Healing Agents: Tool Chaining
 
@@ -349,7 +343,6 @@ mcp:
 
 Each chain gets a unique ID (`chn_xxx`) for observability tracking.
 
----
 
 ## Why This Matters
 
@@ -362,7 +355,6 @@ Each chain gets a unique ID (`chn_xxx`) for observability tracking.
 
 The result: **agents that act**, not just talk.
 
----
 
 ## Quick Setup
 
@@ -393,7 +385,6 @@ system_message: |
   Your job is to gather accurate information...
 ```
 
----
 
 ## Learn More
 

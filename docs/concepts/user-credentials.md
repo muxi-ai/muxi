@@ -32,7 +32,6 @@ Bob's GitHub token → Bob's repos only
 
 Each user brings their own credentials. Agents automatically use the right ones.
 
----
 
 ## How It Works
 
@@ -75,7 +74,6 @@ Used by agent: ghp_abc123xyz (decrypted)
 - No cross-user access
 - Industry-standard AES-256
 
----
 
 ## Multiple Accounts
 
@@ -100,7 +98,6 @@ User:  "ranaroussi"
 Agent: [Uses ranaroussi's credentials]
 ```
 
----
 
 ## Two Modes
 
@@ -158,7 +155,6 @@ user_credentials:
 - **Redirect:** Never collect secrets in chat; send users to your portal/CLI. Best for enterprise compliance.
 - **Dynamic:** Collect inline only if the MCP server marks `accept_inline: true`; tokens are validated, deduped, and named by discovered identity (e.g., GitHub handle).
 
----
 
 ## Identity Discovery
 
@@ -179,7 +175,6 @@ Stored as: "ranaroussi" (not "GitHub")
 - Easy to identify which account is which
 - Clear selection when you have multiple accounts
 
----
 
 ## Using Credentials in Tools
 
@@ -201,7 +196,6 @@ The runtime automatically:
 2. Injects it when calling the MCP server
 3. Ensures isolation (User A never gets User B's token)
 
----
 
 ## Security & Isolation
 
@@ -239,7 +233,6 @@ User B's credentials are never accessible to User A, even if they use the same f
 - Account names (e.g., "ranaroussi")
 - Timestamps
 
----
 
 ## Duplicate Detection
 
@@ -257,7 +250,6 @@ Agent: That GitHub token is already stored in your account. You're all set!
 - Clear feedback to users
 - Keeps credential list clean
 
----
 
 ## Example Flows
 
@@ -291,7 +283,6 @@ Agent: Successfully added GitHub account 'muxi-ai'
 Agent: You now have 2 GitHub accounts: ranaroussi, muxi-ai
 ```
 
----
 
 ## Supported Services
 
@@ -310,7 +301,6 @@ Common examples:
 
 The system is extensible - new services work automatically if they're configured as MCP servers.
 
----
 
 ## Configuration Reference
 
@@ -349,7 +339,6 @@ auth:
 | Compliance | High | Medium |
 | Setup speed | Slower | Instant |
 
----
 
 ## Programmatic Management (CLI & SDK)
 
@@ -416,7 +405,6 @@ await client.credentials.delete('GITHUB_TOKEN', { userId: 'alice@acme.com' });
 
 [[/tabs]]
 
----
 
 ## When to Use User Credentials
 
@@ -430,7 +418,6 @@ await client.credentials.delete('GITHUB_TOKEN', { userId: 'alice@acme.com' });
 
 **Rule of thumb:** If the data is personal or user-specific, use user credentials. If it's shared across all users, use formation secrets.
 
----
 
 ## Why This Matters
 
@@ -444,7 +431,6 @@ await client.credentials.delete('GITHUB_TOKEN', { userId: 'alice@acme.com' });
 
 The result: **privacy, security, and compliance** without extra work.
 
----
 
 ## Quick Setup
 
@@ -470,7 +456,6 @@ auth:
 
 That's it. The agent handles the rest.
 
----
 
 ## Learn More
 

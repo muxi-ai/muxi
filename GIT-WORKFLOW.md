@@ -4,7 +4,6 @@ All MUXI repositories use a consistent **three-branch workflow** for development
 
 > This workflow applies to all repositories listed in [REPOSITORIES.md](./REPOSITORIES.md).
 
----
 
 ## Overview
 
@@ -20,7 +19,6 @@ develop (default) → rc (release candidate) → main (production)
 | `rc` | Release candidate testing | Should work |
 | `main` | Production releases | Must work |
 
----
 
 ## The Workflow
 
@@ -74,7 +72,6 @@ git checkout main && git merge rc && git push
 - GitHub release published
 - Auto-merges back to `develop`
 
----
 
 ## ScalVer Versioning
 
@@ -94,7 +91,6 @@ We use **ScalVer** (date-based versioning): `0.YYYYMMDD.N`
 > [!IMPORTANT]
 > Don't bump versions manually. CI/CD handles it automatically when `rc` merges to `main`.
 
----
 
 ## Hotfix Process
 
@@ -114,7 +110,6 @@ gh pr create --base develop --title "[HOTFIX] Critical bug fix"
 
 Result: Hotfix deployed in ~15-30 minutes.
 
----
 
 ## Branch Naming
 
@@ -127,7 +122,6 @@ test/add-integration-tests
 refactor/clean-up-code
 ```
 
----
 
 ## Commit Messages
 
@@ -143,7 +137,6 @@ refactor: code refactoring
 perf: performance improvement
 ```
 
----
 
 ## Best Practices
 
@@ -162,7 +155,6 @@ perf: performance improvement
 - ✅ Binaries tested
 - ✅ Release notes ready
 
----
 
 ## Common Issues
 
@@ -177,7 +169,6 @@ These branches are protected. The flow is:
 
 Wait for the first CI run to complete, then the status check appears in settings.
 
----
 
 ## Summary
 

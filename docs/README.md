@@ -32,7 +32,6 @@ Self-hosted, LLM-agnostic, Open-source.
 
 [>] [Learn more about MUXI →](what-is-muxi.md)
 
----
 
 ## Get Started
 
@@ -82,8 +81,6 @@ Real formations for common use cases.
 
 ::::
 
----
-
 ## Install
 
 [[tabs]]
@@ -110,7 +107,6 @@ powershell -c "irm https://muxi.org/install | iex"
 
 [Full installation guide →](installation/README.md)
 
----
 
 ## Explore
 
@@ -197,7 +193,6 @@ Discover and share formations.
 
 ::::
 
----
 
 ## Explore by SDK
 
@@ -254,7 +249,6 @@ Build with MUXI in your language of choice.
 
 [All SDKs →](sdks/README.md) · *More languages coming soon*
 
----
 
 ## Learn
 
@@ -319,7 +313,6 @@ Build with MUXI in your language of choice.
 
 ::::
 
----
 
 ## Popular Pages
 

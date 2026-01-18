@@ -25,7 +25,6 @@ This opens your browser to authenticate with GitHub. Once complete:
 
 Your formations publish under `@alice/*`.
 
----
 
 ## Your Namespace
 
@@ -40,7 +39,6 @@ muxi push
 > [!NOTE]
 > Organization namespaces (`@org/*`) are planned for future releases.
 
----
 
 ## Profile Information
 
@@ -55,7 +53,6 @@ Your registry profile is pulled from GitHub:
 
 Update these on GitHub; they sync automatically.
 
----
 
 ## Check Authentication
 
@@ -68,7 +65,6 @@ Authenticated as: @alice
 Email: alice@example.com
 ```
 
----
 
 ## Logout
 
@@ -78,7 +74,6 @@ muxi auth logout
 
 Revokes the stored token. You'll need to re-authenticate to push.
 
----
 
 ## Token Storage
 
@@ -92,7 +87,6 @@ Authentication tokens are stored locally:
 
 Tokens are scoped to registry access only - MUXI cannot access your GitHub repos.
 
----
 
 ## Publishing Formations
 
@@ -105,7 +99,6 @@ muxi push              # Publish to your namespace
 > [!NOTE]
 > Visibility controls (public/private), organization access, team permissions, and CI/CD tokens are planned for future releases.
 
----
 
 ## Next Steps
 

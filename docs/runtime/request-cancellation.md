@@ -78,7 +78,6 @@ curl -X DELETE 'http://localhost:8001/v1/requests/my-request-123' \
 
 [[/tabs]]
 
----
 
 ## How It Works
 
@@ -109,7 +108,6 @@ Cancellation is checked after every long-running operation:
 | A2A agent requests | 5-60+ seconds | After call returns |
 | Task decomposition | 2-10 seconds | After LLM call |
 
----
 
 ## Use Cases
 
@@ -290,7 +288,6 @@ function ChatInterface() {
 
 [[/tabs]]
 
----
 
 ## Response Behavior
 
@@ -312,7 +309,6 @@ Cancelling the same request multiple times is safe - subsequent calls return "al
 
 Cancelled requests return empty content. Why? Consistency - all or nothing. Incomplete data can be misleading.
 
----
 
 ## Limitations
 
@@ -339,7 +335,6 @@ Chunk 3: "friend" ✗ Not sent
 User received: "Hello there" (cannot unsend)
 ```
 
----
 
 ## Cost Savings
 
@@ -354,7 +349,6 @@ Remaining 8,500 tokens NOT consumed
 Saved: ~$0.17 (at $0.02/1K tokens)
 ```
 
----
 
 ## Best Practices
 
@@ -363,7 +357,6 @@ Saved: ~$0.17 (at $0.02/1K tokens)
 3. **Track request IDs** - keep a map of active requests
 4. **Handle gracefully** - request may complete before cancel arrives
 
----
 
 ## Learn More
 

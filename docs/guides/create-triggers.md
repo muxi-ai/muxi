@@ -21,7 +21,6 @@ MUXI needs to be valuable **outside of chat sessions**. Without triggers, MUXI o
 
 Triggers are always async (there's no one waiting) - the result is delivered via webhook callback.
 
----
 
 ## Quick Start
 
@@ -68,7 +67,6 @@ Point your external system to:
 https://your-server/v1/formations/{formation_id}/triggers/github-issue
 ```
 
----
 
 ## Template Syntax
 
@@ -85,7 +83,6 @@ Issue #${{ data.issue.number }}
 User: ${{ data.user.profile.name }}
 ```
 
----
 
 ## Integration Examples
 
@@ -141,7 +138,6 @@ Please send receipt and update records.
 - Endpoint URL: `https://your-server/v1/formations/my-formation/triggers/stripe-payment`
 - Events: `payment_intent.succeeded`
 
----
 
 ## Async vs Sync
 
@@ -165,7 +161,6 @@ Please send receipt and update records.
 - Returns full response text
 - Use for testing templates
 
----
 
 ## Debugging
 
@@ -198,7 +193,6 @@ Fix: Check webhook payload structure
 Fix: Create triggers/trigger-name.md
 ```
 
----
 
 ## Best Practices
 
@@ -208,7 +202,6 @@ Fix: Create triggers/trigger-name.md
 4. **Test with real payloads** - Use actual webhook data for testing
 5. **Monitor executions** - Track via observability
 
----
 
 ## Learn More
 

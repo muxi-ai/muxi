@@ -19,7 +19,6 @@ When you run multiple MUXI servers behind a load balancer, each instance needs a
 > [!TIP]
 > **Test your multi-server setup with two local instances first.** Run two MUXI servers on different ports pointing to the same Postgres/FAISSx before deploying to production. This catches configuration issues early.
 
----
 
 ## What You Need
 
@@ -29,7 +28,6 @@ When you run multiple MUXI servers behind a load balancer, each instance needs a
 | **FAISSx** | Vector memory (embeddings, semantic search) | Yes, if using vector search |
 | **L4 Load Balancer** | Distribute traffic to MUXI servers | Yes |
 
----
 
 ## Set Up FAISSx (Vector Memory)
 
@@ -92,7 +90,6 @@ memory:
 
 With this configuration, every server instance shares both long-term (Postgres) and vector (FAISSx) memory. Your load balancer distributes traffic; shared storage maintains state consistency.
 
----
 
 ## Architecture Overview
 

@@ -74,7 +74,6 @@ muxi deploy
 
 That's it. Your agent is running, stateful, and accessible via API.
 
----
 
 ## Our creed
 
@@ -89,7 +88,6 @@ We believe AI systems should be:
 
 If you build it, you should control it.
 
----
 
 ## What we're building
 
@@ -105,7 +103,6 @@ We think they deserve their own foundation – a layer where:
 
 We're building infrastructure that reflects this philosophy.
 
----
 
 ## Quick Start
 
@@ -134,7 +131,6 @@ muxi chat research-assistant
 
 **[Full documentation →](https://github.com/muxi-ai/muxi/blob/main/docs)**
 
----
 
 ## Documentation
 
@@ -148,7 +144,6 @@ muxi chat research-assistant
 | Licensing | [LICENSE.md](https://github.com/muxi-ai/muxi/blob/main/LICENSE.md) |
 | Roadmap | [Roadmap →](https://github.com/orgs/muxi-ai/projects/1) |
 
----
 
 ## Get Involved
 
@@ -157,13 +152,11 @@ muxi chat research-assistant
 - 🐦 Follow [@muxi_ai](https://twitter.com/muxi_ai) for updates
 - 🛠️ See [CONTRIBUTING.md](https://muxi.org/contributing) to contribute
 
----
 
 ## Who's Behind This
 
 MUXI is created by [**Ran Aroussi** (𝕏)](https://x.com/aroussi), author of the [📚 **Production-Grade Agentic AI**](http://productionaibook.com) book, and [🧑‍💻 **open-source developer**](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
 
----
 
 ## License
 

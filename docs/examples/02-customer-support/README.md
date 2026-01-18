@@ -193,7 +193,6 @@ Make sure you're using the same `session_id` across requests:
 {"message": "...", "session_id": "customer_123"}
 ```
 
----
 
 ## Learn More
 

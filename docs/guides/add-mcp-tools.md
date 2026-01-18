@@ -12,7 +12,6 @@ Tools let agents interact with the real world - search the web, access files, qu
 > [!NOTE]
 > **This guide uses Brave Search as an example.** You can use any MCP-compatible tool server. The patterns shown here apply to all MCP integrations.
 
----
 
 ## MCP Protocol Support
 
@@ -27,7 +26,6 @@ Both protocols support authentication via environment variables, headers, or OAu
 
 → [Tools Schema Reference](reference/tools.md) - Full configuration options for both protocols
 
----
 
 ## What You'll Build
 
@@ -36,7 +34,6 @@ By the end of this guide, your agent will:
 2. Search the web using Brave Search
 3. Synthesize results into a response
 
----
 
 ## Prerequisites
 
@@ -137,7 +134,6 @@ Assistant: [searches the web] Based on my search, here are the latest developmen
 
 [[/steps]]
 
----
 
 ## How It Works
 
@@ -160,7 +156,6 @@ sequenceDiagram
 > [!TIP]
 > The agent decides when to use tools based on the request. You don't need to explicitly ask it to search.
 
----
 
 ## Popular Tools to Add
 
@@ -220,7 +215,6 @@ auth:
   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 ```
 
----
 
 ## Agent-Specific Tools
 
@@ -273,7 +267,6 @@ mcp_servers:
     args: ["-y", "@modelcontextprotocol/server-filesystem"]
 ```
 
----
 
 ## Troubleshooting
 
@@ -303,7 +296,6 @@ timeout_seconds: 60
 ```
 [[/toggle]]
 
----
 
 ## Next Steps
 

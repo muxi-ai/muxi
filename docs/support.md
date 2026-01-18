@@ -10,7 +10,6 @@ Whether you're stuck on a configuration, found a bug, or just want to share what
 
 MUXI is open source and community-driven. Most questions get answered in GitHub Discussions by maintainers and other users. For teams that need faster support, we offer priority options too.
 
----
 
 ## Community Support (Free)
 
@@ -48,7 +47,6 @@ Best for: Learning, troubleshooting common issues
 
 [[/toggle]]
 
----
 
 ## Priority Support
 
@@ -82,7 +80,6 @@ We're planning professional services for teams that need:
 
 [[/toggle]]
 
----
 
 ## Contact
 
@@ -93,7 +90,6 @@ We're planning professional services for teams that need:
 | [hi@muxi.ai](mailto:hi@muxi.ai) | General inquiries | Days |
 | [enterprise@muxi.ai](mailto:enterprise@muxi.ai) | Enterprise/priority | 24-48 hours |
 
----
 
 ## Self-Service Resources
 

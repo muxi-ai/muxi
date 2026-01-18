@@ -29,7 +29,6 @@ Formatted Response
 - **LLM instructions**: Natural, contextually appropriate formatting
 - **Post-processing**: Ensures technical validity for structured formats
 
----
 
 ## Persona Enhancement
 
@@ -83,7 +82,6 @@ llm_response = await llm.chat(
 
 The LLM naturally generates formatted responses based on enhanced instructions.
 
----
 
 ## Post-Processing Validation
 
@@ -139,7 +137,6 @@ def validate_html_response(content: str) -> str:
 - Semantic structure
 - Auto-correction of minor issues
 
----
 
 ## Format-Specific Behavior
 
@@ -271,7 +268,6 @@ if validation_fails:
 <p>Text<script>alert()</script></p>  →  <p>Text</p>
 ```
 
----
 
 ## Configuration
 
@@ -318,7 +314,6 @@ curl -X POST http://localhost:8001/v1/chat \
   }'
 ```
 
----
 
 ## Streaming Behavior
 
@@ -369,7 +364,6 @@ data: {"text": "</h1>"}
 
 Similar to JSON - collect and validate at end.
 
----
 
 ## Performance Considerations
 
@@ -397,7 +391,6 @@ Format instructions add ~50-100 tokens to system prompt:
 
 **Latency impact:** Negligible (<0.1% of total).
 
----
 
 ## Error Handling
 
@@ -433,7 +426,6 @@ corrected = soup.prettify()
 
 BeautifulSoup is forgiving - auto-closes tags, fixes nesting.
 
----
 
 ## Best Practices
 
@@ -486,7 +478,6 @@ for attempt in range(max_retries):
         message = f"{message}\n\nPrevious response was invalid JSON. Please return valid JSON."
 ```
 
----
 
 ## Future Enhancements
 
@@ -512,7 +503,6 @@ for attempt in range(max_retries):
      format: auto  # Detect from context
    ```
 
----
 
 ## Debugging
 
@@ -534,7 +524,6 @@ print("Raw:", response.raw_content)       # Before validation
 print("Validated:", response.content)    # After validation
 ```
 
----
 
 ## Learn More
 

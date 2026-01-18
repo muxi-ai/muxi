@@ -31,7 +31,6 @@ Session 3 (Friday):
 
 Each session has its own ID and message history, but memory spans across sessions.
 
----
 
 ## Cross-Session Memory Recall
 
@@ -51,7 +50,6 @@ MUXI: "Last week you mentioned a $5,000 budget for the project..."
 
 This happens automatically - users don't need to specify which session.
 
----
 
 ## How Sessions Work
 
@@ -80,7 +78,6 @@ Working memory persists for future recall
 | **Persistent Memory** | Long-term user knowledge | Yes - survives restarts |
 | **User Synopsis** | Who the user is | Yes - always available |
 
----
 
 ## Session IDs
 
@@ -105,7 +102,6 @@ response = formation.chat(
 )
 ```
 
----
 
 ## Buffer vs Working Memory
 
@@ -142,7 +138,6 @@ Session 2 (days later):
 - Persists across sessions
 - Enables "remember when we discussed..." queries
 
----
 
 ## Multi-Session Users
 
@@ -164,7 +159,6 @@ Each session has its own:
 - Buffer (recent messages in that conversation)
 - Context (current topic being discussed)
 
----
 
 ## Session Restore
 
@@ -207,7 +201,6 @@ X-Muxi-User-ID: alice
 }
 ```
 
----
 
 ## Use Cases
 
@@ -264,7 +257,6 @@ def on_user_return(user_id, session_id):
     formation.restore_session(session_id, messages, user_id=user_id)
 ```
 
----
 
 ## Configuration
 
@@ -282,7 +274,6 @@ memory:
       enabled: true             # Build user profiles
 ```
 
----
 
 ## Summary
 
@@ -295,7 +286,6 @@ memory:
 
 The key insight: **Sessions organize conversations, but memory flows across them.** Users can say "remember when we discussed..." and MUXI finds the context regardless of which session it was in.
 
----
 
 ## Learn More
 

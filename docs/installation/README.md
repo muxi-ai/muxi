@@ -60,7 +60,6 @@ muxi-server version
 
 You should see version numbers for both tools.
 
----
 
 ## What Gets Installed
 
@@ -78,7 +77,6 @@ You should see version numbers for both tools.
 | Linux (user) | `~/.local/bin` | `~/.muxi/` |
 | Windows | `%LOCALAPPDATA%\MUXI\bin` | `%USERPROFILE%\.muxi\` |
 
----
 
 ## After Installation
 
@@ -120,7 +118,6 @@ muxi dev
 > [!TIP]
 > See the [Quickstart](quickstart.md) for a complete walkthrough.
 
----
 
 ## Installation Options
 
@@ -133,7 +130,6 @@ muxi dev
 curl -fsSL https://muxi.org/install | bash -s -- --cli-only
 ```
 
----
 
 ## System Requirements
 
@@ -143,7 +139,6 @@ curl -fsSL https://muxi.org/install | bash -s -- --cli-only
 | RAM | 2 GB | 8 GB |
 | Disk | 10 GB | 50 GB SSD |
 
----
 
 ## Platform-Specific Guides
 

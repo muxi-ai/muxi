@@ -522,7 +522,6 @@ curl https://api.openai.com/v1/models \
 muxi secrets set OPENAI_API_KEY sk-...
 ```
 
----
 
 ## Getting Help
 

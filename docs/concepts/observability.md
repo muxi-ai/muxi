@@ -139,7 +139,6 @@ Topics: ["data-analysis", "customer-feedback", "surveys", "insights"]
 
 Topics are normalized to lowercase-with-hyphens for consistency.
 
----
 
 ## Use Cases
 
@@ -170,7 +169,6 @@ In AI systems:
 
 **Observability isn't optional for production AI. It's how you maintain quality.**
 
----
 
 ## Learn More
 

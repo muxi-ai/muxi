@@ -138,7 +138,6 @@ job = formation.create_scheduler_job(
 formation.delete_scheduler_job(job_id="job_abc123", user_id="user_123")
 ```
 
----
 
 ## Server Client
 
@@ -170,7 +169,6 @@ server.start_formation(formation_id="my-bot")
 server.restart_formation(formation_id="my-bot")
 ```
 
----
 
 ## Async Client
 
@@ -197,7 +195,6 @@ async def main():
 asyncio.run(main())
 ```
 
----
 
 ## Error Handling
 
@@ -229,7 +226,6 @@ All errors include:
 - `status_code` - HTTP status code
 - `retry_after` - Seconds to wait (for rate limits)
 
----
 
 ## Configuration
 
@@ -246,7 +242,6 @@ formation = FormationClient(
 
 Environment variable `MUXI_DEBUG=1` also enables debug logging.
 
----
 
 ## Examples
 
@@ -303,7 +298,6 @@ while True:
     print()
 ```
 
----
 
 ## Learn More
 

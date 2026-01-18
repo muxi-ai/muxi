@@ -289,7 +289,6 @@ muxi dev
 > [!TIP]
 > Browse [registry.muxi.org](https://registry.muxi.org) to discover community formations.
 
----
 
 ## What You Built
 
@@ -310,7 +309,6 @@ You now have:
 > [!TIP]
 > **Want to understand how this all works?** See [How MUXI Works](how-it-works.md) for the full architecture and request flow.
 
----
 
 ## Common First Issues
 
@@ -357,7 +355,6 @@ muxi secrets setup
 
 For more issues, see the [Troubleshooting Guide](guides/troubleshooting.md).
 
----
 
 ## Next Steps
 

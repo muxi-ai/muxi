@@ -30,7 +30,6 @@ Agent: "Here's your sales report: [Download PDF]"
 - 💾 **Data exports**: JSON, XML, database dumps
 - 📜 **Code**: Generated scripts, configuration files
 
----
 
 ## How It Works
 
@@ -62,7 +61,6 @@ sequenceDiagram
 6. **Artifact stored** with unique ID
 7. **User receives** downloadable link
 
----
 
 ## Security Model
 
@@ -124,7 +122,6 @@ output_size_limit: 10MB     # Max file size
 
 Prevents runaway processes and resource exhaustion.
 
----
 
 ## Artifact Lifecycle
 
@@ -178,7 +175,6 @@ cleanup_interval: 1h        # Check every hour
 
 Old artifacts are automatically purged to save storage.
 
----
 
 ## What Agents Can Generate
 
@@ -240,7 +236,6 @@ Agent: [Returns PNG artifact]
 - Resize/crop/filter
 - Convert formats
 
----
 
 ## Automatic File Type Detection
 
@@ -268,7 +263,6 @@ Browser displays inline
 
 Determines how the artifact is displayed/downloaded.
 
----
 
 ## Usage Patterns
 
@@ -308,7 +302,6 @@ Response: "Analysis complete:
   - Charts: [View Gallery]"
 ```
 
----
 
 ## Why Artifacts Matter
 
@@ -338,7 +331,6 @@ Response: "Here's your chart [Download PNG]"
 - **Shareable files** vs ephemeral chat
 - **Actual work done** vs just advice
 
----
 
 ## Configuration
 
@@ -369,7 +361,6 @@ artifacts:
     cleanup_enabled: true
 ```
 
----
 
 ## Security Considerations
 
@@ -400,7 +391,6 @@ artifacts:
 - Large files may be rejected
 - Consider chunking or compression
 
----
 
 ## Common Use Cases
 
@@ -454,7 +444,6 @@ Agent:
 Artifact: invoice_processor.py (download and run)
 ```
 
----
 
 ## Limitations
 
@@ -478,7 +467,6 @@ Use cases that need these should use external services (generate code to deploy 
 
 **Need compilation?** Generate source code, user compiles locally
 
----
 
 ## Why This Matters
 
@@ -492,7 +480,6 @@ Use cases that need these should use external services (generate code to deploy 
 
 The result: **agents that deliver results**, not just advice.
 
----
 
 ## Learn More
 

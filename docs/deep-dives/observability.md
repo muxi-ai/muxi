@@ -16,7 +16,6 @@ MUXI emits structured events across the full request lifecycle - from initial ro
 - **Performance:** Identify slow LLM calls, memory lookups, or tool executions
 - **Alerting:** Get notified when error rates spike or latency exceeds thresholds
 
----
 
 ## Event System
 

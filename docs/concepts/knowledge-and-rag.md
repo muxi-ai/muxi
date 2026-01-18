@@ -34,7 +34,6 @@ sequenceDiagram
 5. **Relevant context** injected into the prompt
 6. **Agent answers** using your domain knowledge
 
----
 
 ## Supported Formats
 
@@ -57,7 +56,6 @@ MUXI uses [MarkItDown](https://github.com/microsoft/markitdown) for document con
 - Large/recursive sources can be limited with `max_files_per_source`, `file_limit`, `allowed_extensions`, and `max_file_size`.
 - Files are chunked and cached with MD5; unchanged files are skipped on restart, only deltas are re-embedded.
 
----
 
 ## Multimodal Support
 
@@ -78,7 +76,6 @@ User:  "How does data flow through our system?"
 Agent: "Based on the architecture diagram, data flows from..."
 ```
 
----
 
 ## Agent-Specific Knowledge
 
@@ -121,7 +118,6 @@ Support agent knows troubleshooting; sales agent knows pricing. No overlap, no c
 > [!TIP]
 > **Keep knowledge files focused.** Smaller, topic-specific files retrieve better than large catch-all documents. Split your FAQ into sections rather than one giant file.
 
----
 
 ## How Indexing Works
 
@@ -151,7 +147,6 @@ muxi dev --reindex
 
 First query triggers loading - startup stays fast even with large knowledge bases.
 
----
 
 ## Why This Matters
 
@@ -165,7 +160,6 @@ First query triggers loading - startup stays fast even with large knowledge base
 
 The result: **agents that know your domain**, not generic chatbots that need everything explained.
 
----
 
 ## Quick Setup
 
@@ -181,7 +175,6 @@ agents:
 
 Add your docs to `knowledge/docs/`, restart, done.
 
----
 
 ## Learn More
 

@@ -31,7 +31,6 @@ Technical implementation of MUXI's memory system: data structures, algorithms, c
 └─────────────────────────────────────────────────────────┘
 ```
 
----
 
 ## Buffer Memory
 
@@ -71,7 +70,6 @@ Messages: [11, 12, ..., 50, 51]
 Summaries: ["User discussed project setup..."]
 ```
 
----
 
 ## Working Memory
 
@@ -128,7 +126,6 @@ memory:
     fifo_interval_min: 5
 ```
 
----
 
 ## Persistent Memory
 
@@ -170,7 +167,6 @@ def calculate_importance(memory: Memory) -> float:
 
 Higher importance = kept longer, surfaced more often.
 
----
 
 ## User Synopsis Caching
 
@@ -216,7 +212,6 @@ def generate_synopsis(user_id: str) -> Synopsis:
 | Synopsis only | 500-1,000 |
 | **Savings** | **80-95%** |
 
----
 
 ## Query Planning
 
@@ -243,7 +238,6 @@ def get_context(query: str, user_id: str) -> Context:
     return fit_to_window(synopsis, all_results, max_tokens=4000)
 ```
 
----
 
 ## Multi-User Isolation
 
@@ -271,7 +265,6 @@ def search(query: str, user_id: str):
 
 No cross-user access possible at the data layer.
 
----
 
 ## Performance Characteristics
 
@@ -284,7 +277,6 @@ No cross-user access possible at the data layer.
 | Synopsis generation | 500-2000ms | LLM call (cached) |
 | Full context build | 50-200ms | All tiers + ranking |
 
----
 
 ## Configuration Reference
 
@@ -313,7 +305,6 @@ memory:
     refresh_on_access: true
 ```
 
----
 
 ## Next Steps
 

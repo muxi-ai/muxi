@@ -23,7 +23,6 @@ Performance baseline (typical):
 - Subsequent chunks: 50-150ms
 - End-to-end (500-1500 tokens): 2-6s depending on model
 
----
 
 ## Enable Streaming
 
@@ -34,7 +33,6 @@ overlord:
     streaming: true
 ```
 
----
 
 ## SSE Format
 
@@ -54,7 +52,6 @@ event: done
 data: {"session_id": "sess_abc123"}
 ```
 
----
 
 ## Using Streaming
 
@@ -124,7 +121,6 @@ while (true) {
 
 [[/tabs]]
 
----
 
 ## Event Types
 
@@ -136,7 +132,6 @@ while (true) {
 | `error` | Error occurred | `{"error": "...", "code": "..."}` |
 | `done` | Stream complete | `{"session_id": "..."}` |
 
----
 
 ## Tool Events
 
@@ -165,7 +160,6 @@ This lets you show users what's happening:
 - "Querying database..."
 - "Reading file..."
 
----
 
 ## React Integration
 
@@ -195,7 +189,6 @@ function Chat() {
 }
 ```
 
----
 
 ## Connection Management
 
@@ -229,7 +222,6 @@ If connection drops, resume with Last-Event-ID:
 curl -H "Last-Event-ID: 42" ...
 ```
 
----
 
 ## Fallback to Non-Streaming
 
@@ -251,7 +243,6 @@ Returns complete JSON:
 }
 ```
 
----
 
 ## Next Steps
 

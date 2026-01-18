@@ -15,7 +15,6 @@ Configure MUXI Server and start deploying formations.
   <p>🎬 Video: Server Setup Walkthrough</p>
 </div>
 
----
 
 ## What You'll Do
 
@@ -176,7 +175,6 @@ No formations deployed yet. Deploy your first with: muxi deploy
 
 [[/steps]]
 
----
 
 ## You're Ready!
 
@@ -204,7 +202,6 @@ SSL, firewalls, and scaling
 
 ::::
 
----
 
 ## Troubleshooting
 
@@ -237,7 +234,6 @@ Then restart and update your CLI profile.
 
 [[/toggle]]
 
----
 
 ## Need Help?
 

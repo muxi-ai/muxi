@@ -162,7 +162,6 @@ for await (const log of await formation.streamLogs({ level: "info" })) {
 }
 ```
 
----
 
 ## Server Client
 
@@ -196,7 +195,6 @@ await server.startFormation("my-bot");
 await server.restartFormation("my-bot");
 ```
 
----
 
 ## Error Handling
 
@@ -234,7 +232,6 @@ All errors include:
 - `statusCode` - HTTP status code
 - `retryAfter` - Seconds to wait (for rate limits)
 
----
 
 ## Configuration
 
@@ -249,7 +246,6 @@ const formation = new FormationClient({
 });
 ```
 
----
 
 ## Examples
 
@@ -376,7 +372,6 @@ export async function POST(req: Request) {
 }
 ```
 
----
 
 ## Learn More
 

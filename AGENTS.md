@@ -28,7 +28,6 @@ For full architecture details, see **[ARCHITECTURE.md](https://github.com/muxi-a
 
 The `muxi` meta-repo (https://github.com/muxi-ai/muxi) contains most everything you need to understand the MUXI stack, including docs, development workflows, style-guides, etc.
 
----
 
 ## This Repository
 
@@ -77,7 +76,6 @@ When making changes to this repo:
 - [style-guides/](./style-guides/) - Language-specific conventions
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Detailed architecture
 
----
 
 ## Template for Other Repos
 
@@ -102,7 +100,6 @@ This repo is part of **MUXI** - infrastructure for AI agents.
 
 Full architecture: [muxi-ai/muxi/ARCHITECTURE.md](https://github.com/muxi-ai/muxi/blob/main/ARCHITECTURE.md)
 
----
 
 ## This Repository
 

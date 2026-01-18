@@ -24,7 +24,6 @@ graph LR
 - **API key auth** for formations
 - **systemd service** for auto-restart
 
----
 
 ## Prerequisites
 
@@ -218,7 +217,6 @@ muxi chat --profile production "Hello!"
 
 [[/steps]]
 
----
 
 ## Production Checklist
 
@@ -230,7 +228,6 @@ muxi chat --profile production "Hello!"
 - [ ] Monitoring set up (see [Monitoring Guide](monitoring.md))
 - [ ] Backup strategy planned
 
----
 
 ## Troubleshooting
 
@@ -260,7 +257,6 @@ curl http://127.0.0.1:7890/health
 - Regenerate if needed: `muxi-server init`
 [[/toggle]]
 
----
 
 ## Next Steps
 

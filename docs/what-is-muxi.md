@@ -28,7 +28,6 @@ flowchart TB
     end
 ```
 
----
 
 ## The Problem
 
@@ -49,7 +48,6 @@ Building a **production** agent system requires:
 
 **Most teams spend 3-6 months building this infrastructure before shipping a single feature.**
 
----
 
 ## The Solution
 
@@ -87,7 +85,6 @@ muxi deploy
 # That's it. You're live.
 ```
 
----
 
 ## Key Capabilities
 
@@ -175,7 +172,6 @@ Stream responses as agents think, not after completion. SSE and WebSocket suppor
 
 ::::
 
----
 
 ## Built for Production
 
@@ -188,7 +184,6 @@ MUXI isn't a prototype tool – it's production infrastructure with the numbers 
 | Observability Events | 349 typed events |
 | LLM Cost Saving | 50-80% via semantic caching |
 
----
 
 ## Declare Once, Deploy Everywhere
 
@@ -201,7 +196,6 @@ Formations are:
 - **Versionable** – Git-friendly YAML files
 - **Shareable** – Push to the registry, pull anywhere
 
----
 
 ## The Formation Registry
 
@@ -217,7 +211,6 @@ muxi publish my-agent:1.0.0
 
 Browse community formations, install with one command, customize for your needs.
 
----
 
 ## Open Source & Self-Hosted
 
@@ -228,7 +221,6 @@ MUXI is **open-source** and **self-hostable**. Your data stays on your infrastru
 - Works on Linux, macOS, Windows, Docker
 - Enterprise features available
 
----
 
 ## How It Compares
 
@@ -243,7 +235,6 @@ MUXI is **open-source** and **self-hostable**. Your data stays on your infrastru
 
 **MUXI is infrastructure, not a framework.** Frameworks help you write agent logic. MUXI runs agents in production.
 
----
 
 ## Next Steps
 

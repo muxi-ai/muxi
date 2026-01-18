@@ -25,7 +25,6 @@ With persona:
   Consistent voice across all interactions
 ```
 
----
 
 ## How It Works
 
@@ -42,7 +41,6 @@ User sees (with persona):
   "Great news! Your Q3 growth hit 15%, and the trend looks strong."
 ```
 
----
 
 ## Configuration
 
@@ -56,7 +54,6 @@ overlord:
 
 The persona is a freeform text description that the LLM interprets.
 
----
 
 ## Persona Examples
 
@@ -112,7 +109,6 @@ Analysis results (Q3 2024):
 - Retention: 94% (industry avg: 87%)
 ```
 
----
 
 ## Controlling Verbosity
 
@@ -132,7 +128,6 @@ overlord:
     explain reasoning, and offer to elaborate further.
 ```
 
----
 
 ## Agents vs Overlord
 
@@ -172,7 +167,6 @@ specialties:
 
 This is routing metadata, not personality.
 
----
 
 ## Writing Effective Personas
 
@@ -208,7 +202,6 @@ persona: |
   Always remind users to consult licensed professionals.
 ```
 
----
 
 ## Best Practices
 
@@ -223,7 +216,6 @@ persona: |
 - ❌ Mix conflicting instructions
 - ❌ Expect agents to have personas (only Overlord does)
 
----
 
 ## Learn More
 

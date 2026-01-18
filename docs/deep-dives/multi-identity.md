@@ -36,7 +36,6 @@ Same person, multiple identifiers:
 - Consistent preferences
 - Unified experience
 
----
 
 ## How It Works
 
@@ -72,7 +71,6 @@ Now both identifiers resolve to same user:
   U123ABC456 → user 123
 ```
 
----
 
 ## Database Schema
 
@@ -116,7 +114,6 @@ CREATE TABLE user_identifiers (
 - MUXI ID: Stable external identifier
 - External IDs: Multiple per user, platform-specific
 
----
 
 ## Resolution Flow
 
@@ -181,7 +178,6 @@ Return: (123, "usr_abc123")
 Total time: ~10ms (database read)
 ```
 
----
 
 ## Linking Identifiers
 
@@ -241,7 +237,6 @@ await formation.link_identifier(
 )
 ```
 
----
 
 ## Formation Isolation
 
@@ -262,7 +257,6 @@ Each formation maintains separate user namespaces.
 - Flexibility: Same identifier can represent different people
 - Security: Complete isolation between formations
 
----
 
 ## Use Cases
 
@@ -301,7 +295,6 @@ Later, user via Slack: "Show my GitHub repos"
 Agent: [Uses same GitHub credentials, recognizes same user]
 ```
 
----
 
 ## API Usage
 
@@ -497,7 +490,6 @@ curl -X DELETE http://localhost:8001/v1/users/identifiers/alice-old-email@exampl
 3) Show linked IDs via `GET /users/identifiers`; allow removal with `DELETE /users/identifiers/{identifier}`.
 4) Always send whatever identifier the request came from in `X-Muxi-User-Id` so all channels resolve to the same profile.
 
----
 
 ## Performance
 
@@ -529,7 +521,6 @@ ON user_identifiers(user_id);
 | Create new user | ~50ms | N/A |
 | Link identifier | ~30ms | N/A |
 
----
 
 ## Configuration
 
@@ -558,7 +549,6 @@ memory:
     connection_string: "sqlite:///./formation.db"
 ```
 
----
 
 ## Migration
 
@@ -601,7 +591,6 @@ for email, slack_id, id_type in mappings:
     )
 ```
 
----
 
 ## Debugging
 
@@ -630,7 +619,6 @@ logging.getLogger('muxi.identity').setLevel(logging.DEBUG)
 # "Cached for 1 hour"
 ```
 
----
 
 ## Best Practices
 
@@ -680,7 +668,6 @@ for user in users_with_multiple:
         logger.warning(f"User {user.public_id} has {len(user.identifiers)} identifiers")
 ```
 
----
 
 ## Security
 
@@ -715,7 +702,6 @@ CREATE TABLE user_identifier_audit (
 );
 ```
 
----
 
 ## Limitations
 
@@ -749,7 +735,6 @@ Formation B: alice@example.com → user 456 (different)
 
 Each formation is isolated by design.
 
----
 
 ## Learn More
 

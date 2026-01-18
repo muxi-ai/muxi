@@ -38,7 +38,6 @@ MUXI implements multiple security layers: transport encryption, authentication, 
 └─────────────────────────────────────────┘
 ```
 
----
 
 ## Authentication
 
@@ -72,7 +71,6 @@ Formations use simpler API keys:
 | Admin | `X-Muxi-Admin-Key` | Full access |
 | Client | `X-Muxi-Client-Key` | Chat only |
 
----
 
 ## Secrets Encryption
 
@@ -105,7 +103,6 @@ formation/
 - Outbound tools/A2A should be allowlisted and scoped per formation; combine with rate limits and timeouts.
 - Prefer redirect-mode user credentials for enterprise; dynamic mode should be gated by `accept_inline` on the MCP server.
 
----
 
 ## User Isolation
 
@@ -131,7 +128,6 @@ X-Muxi-User-Id: tenant_a:user_123
 X-Muxi-User-Id: tenant_b:user_456
 ```
 
----
 
 ## Tool Security
 
@@ -185,7 +181,6 @@ auth:
   # Cannot access GITHUB_TOKEN
 ```
 
----
 
 ## Network Security
 
@@ -212,7 +207,6 @@ sudo ufw deny 7890/tcp
 sudo ufw deny 8000:9000/tcp
 ```
 
----
 
 ## Production Checklist
 
@@ -225,7 +219,6 @@ sudo ufw deny 8000:9000/tcp
 - [ ] **Keys rotated**: Regular rotation schedule
 - [ ] **Logs reviewed**: Not exposing secrets
 
----
 
 ## Vulnerability Reporting
 
@@ -236,7 +229,6 @@ We follow responsible disclosure and will:
 2. Investigate and provide timeline
 3. Credit reporters (unless anonymity requested)
 
----
 
 ## Security Defaults
 
@@ -249,7 +241,6 @@ MUXI ships secure by default:
 | Filesystem | Restricted | No unrestricted access |
 | Logging | No secrets | Secrets never logged |
 
----
 
 ## Next Steps
 

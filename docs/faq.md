@@ -110,7 +110,6 @@ type: sop
 name: Refund Processing
 mode: guide
 tags: refund, customer, payment
----
 
 ## Steps
 
@@ -196,7 +195,6 @@ Response is guaranteed to match your schema.
 
 [[/toggle]]
 
----
 
 ## Multi-Agent Systems
 
@@ -230,7 +228,6 @@ Different agents can use different providers in the same formation.
 
 [[/toggle]]
 
----
 
 ## Production & Scale
 
@@ -423,7 +420,6 @@ The agent pauses, notifies the approver, and continues only after approval.
 
 [[/toggle]]
 
----
 
 ## Real-Time & Async
 
@@ -460,7 +456,6 @@ Yes - **triggers and webhooks**:
 
 [[/toggle]]
 
----
 
 ## Security
 
@@ -498,7 +493,6 @@ Great for platforms where users pay for their own LLM usage.
 
 [[/toggle]]
 
----
 
 ## Developer Experience
 
@@ -536,7 +530,6 @@ Yes. The **embeddable runtime** lets you run MUXI inside your application - no s
 
 [[/toggle]]
 
----
 
 ## Registry & Sharing
 
@@ -567,7 +560,6 @@ Supports semantic versioning, private formations, and organization sharing.
 
 [[/toggle]]
 
----
 
 ## Business & Licensing
 
@@ -646,7 +638,6 @@ LangChain helps you build agents in code. MUXI runs agents in production.
 
 [[/toggle]]
 
----
 
 ## Next Steps
 

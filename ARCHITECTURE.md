@@ -2,7 +2,6 @@
 
 An architectural overview of the MUXI ecosystem for developers and contributors.
 
----
 
 ## Overview
 
@@ -17,7 +16,6 @@ An architectural overview of the MUXI ecosystem for developers and contributors.
 
 **Philosophy:** Agents deserve infrastructure as first-class primitives, not scripts hacked together with workflow tools.
 
----
 
 ## Architecture Diagram
 
@@ -47,7 +45,6 @@ An architectural overview of the MUXI ecosystem for developers and contributors.
 └───────────────────────────────────────────────┘
 ```
 
----
 
 ## Repositories
 
@@ -62,7 +59,6 @@ An architectural overview of the MUXI ecosystem for developers and contributors.
 | [homebrew-tap](https://github.com/muxi-ai/homebrew-tap) | Ruby | Homebrew formulae |
 | [afs-spec](https://github.com/agent-formation/afs-spec) | YAML | Agent Formation (org) |
 
----
 
 ## Core Components
 
@@ -150,7 +146,6 @@ The **distribution hub** for formations - like Docker Hub for AI agents.
 
 Used by Server, CLI, and SDKs for validation.
 
----
 
 ## Request Flow
 
@@ -180,7 +175,6 @@ Client Request
 └─────────────────┘
 ```
 
----
 
 ## Repository Dependencies
 
@@ -221,7 +215,6 @@ Distribution:
        └────────────┘
 ```
 
----
 
 ## Design Decisions
 
@@ -258,7 +251,6 @@ Each component evolves independently:
 - No vendor lock-in
 - Support for local models (Ollama)
 
----
 
 ## Design Principles
 
@@ -283,7 +275,6 @@ Each component has a focused responsibility:
 - **CLI** = management
 - **Registry** = distribution
 
----
 
 ## License
 
@@ -294,7 +285,6 @@ Each component has a focused responsibility:
 
 See [LICENSE.md](./LICENSE.md) for details.
 
----
 
 ## Next Steps
 

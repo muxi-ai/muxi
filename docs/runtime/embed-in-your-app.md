@@ -20,7 +20,6 @@ While most users access MUXI through the server, you can embed the runtime direc
 
 **Example:** You have an existing Django app and want to add an AI assistant. Instead of running a separate MUXI server and making HTTP calls, embed the runtime directly - your assistant runs in-process with zero network overhead.
 
----
 
 ## Installation
 

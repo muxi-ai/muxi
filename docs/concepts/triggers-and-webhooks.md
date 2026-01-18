@@ -31,7 +31,6 @@ External System → Webhook POST → Template Rendering → Agent Processes
 - Monitoring alert → Agent investigates
 - Stripe payment → Agent sends receipt
 
----
 
 ## Triggers vs Regular Chat
 
@@ -44,7 +43,6 @@ External System → Webhook POST → Template Rendering → Agent Processes
 
 Triggers are just webhook-optimized requests.
 
----
 
 ## Create a Trigger
 
@@ -92,7 +90,6 @@ curl -X POST http://localhost:8001/v1/formations/my-formation/triggers/github-is
   }'
 ```
 
----
 
 ## Template Syntax
 
@@ -113,7 +110,6 @@ Issue #${{ data.issue.number }}: ${{ data.issue.title }}
 User: ${{ data.user.profile.name }}
 ```
 
----
 
 ## Processing Modes
 
@@ -147,7 +143,6 @@ Waits for completion (for testing):
 }
 ```
 
----
 
 ## Directory Structure
 
@@ -165,7 +160,6 @@ my-formation/
 
 Triggers are auto-discovered from the `triggers/` directory.
 
----
 
 ## Example Templates
 
@@ -213,7 +207,6 @@ Details: ${{ data.alert.description }}
 Please investigate and suggest remediation.
 ```
 
----
 
 ## Webhook Integration
 
@@ -237,7 +230,6 @@ Please investigate and suggest remediation.
 2. Add endpoint: `https://your-server/v1/formations/{id}/triggers/stripe-payment`
 3. Select events to listen for
 
----
 
 ## Authentication
 
@@ -245,7 +237,6 @@ All trigger endpoints require:
 - `X-Muxi-Client-Key`: Client API key (required)
 - `X-Muxi-User-Id`: User ID for isolation (optional, defaults to "0")
 
----
 
 ## Workflow Approvals
 
@@ -254,7 +245,6 @@ Triggers automatically **bypass workflow approvals**. This is intentional becaus
 - No human available to approve
 - External system made the decision to call
 
----
 
 ## Error Handling
 
@@ -280,7 +270,6 @@ Triggers automatically **bypass workflow approvals**. This is intentional becaus
 }
 ```
 
----
 
 ## Best Practices
 
@@ -290,7 +279,6 @@ Triggers automatically **bypass workflow approvals**. This is intentional becaus
 4. **Test with sync mode** before deploying webhooks
 5. **Monitor via observability** - track trigger executions
 
----
 
 ## Learn More
 

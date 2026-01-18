@@ -22,7 +22,6 @@ Verify:
 muxi --version
 ```
 
----
 
 ## Command Overview
 
@@ -83,7 +82,6 @@ muxi formation get <id>
 
 ::::
 
----
 
 ## Common Workflows
 
@@ -113,7 +111,6 @@ muxi secrets setup
 muxi dev
 ```
 
----
 
 ## Quick Reference
 
@@ -131,7 +128,6 @@ muxi dev
 | `muxi profile` | Manage server profiles |
 | `muxi validate` | Validate formation config |
 
----
 
 ## Configuration
 
@@ -144,7 +140,6 @@ output:
   format: table    # table, json
 ```
 
----
 
 ## Command Reference
 

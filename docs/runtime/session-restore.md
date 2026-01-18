@@ -29,7 +29,6 @@ Build ChatGPT-like chat applications where users can return to previous conversa
 4. User continues → Full context available
 ```
 
----
 
 ## Quick Start
 
@@ -126,7 +125,6 @@ response, _ := client.Chat(ctx, &muxi.ChatRequest{
 
 [[/tabs]]
 
----
 
 ## Message Format
 
@@ -138,7 +136,6 @@ response, _ := client.Chat(ctx, &muxi.ChatRequest{
 | `agent_id` | string | No | Agent that generated response |
 | `metadata` | object | No | Additional data to preserve |
 
----
 
 ## Common Patterns
 
@@ -317,7 +314,6 @@ curl -X POST 'https://api.muxi.ai/v1/sessions/sess_abc123/restore' \
 
 [[/tabs]]
 
----
 
 ## Buffer Overflow
 
@@ -341,7 +337,6 @@ result = client.sessions.restore(
 
 **Recommendation:** Only restore last 20-50 messages for performance.
 
----
 
 ## Behavior
 
@@ -352,7 +347,6 @@ result = client.sessions.restore(
 | **Auto-sorted** | Messages sorted by timestamp automatically |
 | **User-isolated** | Only restores for specified user |
 
----
 
 ## Best Practices
 
@@ -394,7 +388,6 @@ if result.messages_dropped > 0:
 }
 ```
 
----
 
 ## Learn More
 

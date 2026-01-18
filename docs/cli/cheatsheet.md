@@ -34,7 +34,6 @@ muxi new trigger github-issue
 muxi new sop customer-onboarding
 ```
 
----
 
 ## Develop
 
@@ -53,7 +52,6 @@ muxi chat "Hello!"
 muxi chat --agent researcher "Find info on X"
 ```
 
----
 
 ## Secrets
 
@@ -68,7 +66,6 @@ muxi secrets list
 muxi secrets delete OLD_KEY
 ```
 
----
 
 ## Deploy
 
@@ -86,7 +83,6 @@ muxi deploy --validate
 muxi deploy --dry-run
 ```
 
----
 
 ## Formations (Remote)
 
@@ -111,7 +107,6 @@ muxi formation delete my-assistant --force
 muxi formation rollback my-assistant
 ```
 
----
 
 ## Logs
 
@@ -123,7 +118,6 @@ muxi logs my-assistant --follow
 muxi logs --mcp                    # MCP tool logs
 ```
 
----
 
 ## Registry
 
@@ -147,7 +141,6 @@ muxi push --tag v1.0.0
 muxi push --dry-run
 ```
 
----
 
 ## Profiles
 
@@ -159,7 +152,6 @@ muxi profile use production
 muxi profile remove old-server
 ```
 
----
 
 ## Flags Reference
 
@@ -187,7 +179,6 @@ muxi profile remove old-server
 | `dev` | `--port <n>` | Override port |
 | `dev` | `--reindex` | Force reindex |
 
----
 
 ## Examples
 

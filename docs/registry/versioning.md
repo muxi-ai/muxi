@@ -31,7 +31,6 @@ muxi push --tag v1.1.0    # Minor bump
 muxi push --tag v2.0.0    # Major bump
 ```
 
----
 
 ## Semantic Versioning
 
@@ -57,7 +56,6 @@ MUXI follows [semver](https://semver.org):
 - Performance improvements
 - Bug fixes
 
----
 
 ## Pulling Versions
 
@@ -90,7 +88,6 @@ muxi pull @muxi/starter@>=1.0.0   # 1.0.0 or higher
 | `1.2.x` | `>=1.2.0 <1.3.0` |
 | `*` | Any version |
 
----
 
 ## Version History
 
@@ -116,7 +113,6 @@ muxi diff @alice/my-formation@1.0.0 @alice/my-formation@1.1.0
 
 Shows changes between versions.
 
----
 
 ## Deployed Versions
 
@@ -157,7 +153,6 @@ Or directly:
 muxi formation rollback my-formation --to 1.0.0
 ```
 
----
 
 ## Version Pinning
 
@@ -185,7 +180,6 @@ muxi update @muxi/starter
 muxi update @muxi/starter@1.1.0
 ```
 
----
 
 ## Pre-release Versions
 
@@ -206,7 +200,6 @@ muxi pull @alice/my-formation@2.0.0-beta.1
 # Warning: This is a pre-release version
 ```
 
----
 
 ## Deprecation
 
@@ -221,7 +214,6 @@ Deprecated versions:
 - Show warning on install
 - Listed as deprecated in `muxi info`
 
----
 
 ## Best Practices
 
@@ -231,7 +223,6 @@ Deprecated versions:
 4. **Deprecate, don't delete** - Give users migration time
 5. **Document changes** - Update README with each version
 
----
 
 ## Next Steps
 

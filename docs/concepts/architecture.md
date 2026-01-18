@@ -42,7 +42,6 @@ flowchart TB
     Server --> Formations
 ```
 
----
 
 ## Components
 
@@ -137,7 +136,6 @@ Share and discover formations. Version management. Like npm for agents.
 > [!NOTE]
 > The runtime ships as a native SIF image for Linux. On macOS/Windows, run via Docker; on Linux, run SIF directly (or Docker if preferred).
 
----
 
 ## Request Flow
 
@@ -160,7 +158,6 @@ sequenceDiagram
     S-->>C: Response
 ```
 
----
 
 ## Formation Structure
 
@@ -207,7 +204,6 @@ my-formation/
 | Logging | `formation.afs` (`logging:` destinations, formats) |
 | Versioning | `formation.afs` (`schema:`, `version:`, `runtime:` fields) |
 
----
 
 ## Inside a Formation
 
@@ -238,7 +234,6 @@ flowchart TB
     end
 ```
 
----
 
 ## Deployment Models
 
@@ -265,7 +260,6 @@ Load Balancer
      └── Server-West (:7890) → Formations
 ```
 
----
 
 ## Technology Stack
 
@@ -276,7 +270,6 @@ Load Balancer
 | CLI | Go | Cross-platform, single binary |
 | SDKs | Python, TS, Go | Native experience per language |
 
----
 
 ## Design Principles
 
@@ -289,7 +282,6 @@ Load Balancer
 4. **Multi-agent** - Specialized agents, coordinated work
 5. **Portable** - Works on any cloud, any platform
 
----
 
 ## Versioning & compatibility
 
@@ -297,7 +289,6 @@ Load Balancer
 - Pin server/runtime versions together for production; upgrade runtime before server when possible.
 - Regenerate/validate formations after upgrades to catch schema or tooling changes early.
 
----
 
 ## Next Steps
 

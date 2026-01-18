@@ -183,7 +183,6 @@ for log := range logs {
 }
 ```
 
----
 
 ## Server Client
 
@@ -220,7 +219,6 @@ server.RestartFormation(ctx, "my-bot")
 logs, err := server.GetServerLogs(ctx, 200)
 ```
 
----
 
 ## Error Handling
 
@@ -246,7 +244,6 @@ if err != nil {
 
 Error types: `AuthenticationError`, `AuthorizationError`, `NotFoundError`, `ValidationError`, `RateLimitError`, `ServerError`, `ConnectionError`.
 
----
 
 ## Configuration
 
@@ -255,7 +252,6 @@ Error types: `AuthenticationError`, `AuthorizationError`, `NotFoundError`, `Vali
 - **Idempotency:** `X-Muxi-Idempotency-Key` auto-generated on every request
 - **Context:** All methods accept `context.Context` for cancellation
 
----
 
 ## Examples
 
@@ -369,7 +365,6 @@ func main() {
 }
 ```
 
----
 
 ## Learn More
 

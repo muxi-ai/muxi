@@ -41,7 +41,6 @@ Slack:
   MUXI: "$5,000" ← Found it!
 ```
 
----
 
 ## How It Works
 
@@ -87,7 +86,6 @@ When identifiers are linked, users share:
 
 Each session is still separate, but the **user** is the same.
 
----
 
 ## Managing Identities (SDK)
 
@@ -132,7 +130,6 @@ formation.associate_user_identifiers(
 )
 ```
 
----
 
 ## Common Patterns
 
@@ -210,7 +207,6 @@ def api_chat():
     response = formation.chat(request.json["message"], user_id=api_key)
 ```
 
----
 
 ## Identifier Types
 
@@ -235,7 +231,6 @@ formation.associate_user_identifiers(
 )
 ```
 
----
 
 ## Database Requirements
 
@@ -256,7 +251,6 @@ memory:
 
 SQLite works for single-user/testing but doesn't support full multi-identity.
 
----
 
 ## Conflict Handling
 
@@ -284,7 +278,6 @@ Currently, you cannot merge two users into one. If needed:
 
 User merging is planned for a future release.
 
----
 
 ## Performance
 
@@ -304,7 +297,6 @@ Cache TTL: 1 hour (configurable)
 2. **Use consistent identifier types** - Helps with debugging
 3. **Don't link temporary identifiers** - API keys that rotate, session IDs
 
----
 
 ## Security
 
@@ -323,7 +315,6 @@ Same email, different formations = different users. This is intentional.
 
 Use public MUXI IDs (`usr_xxx`) for external systems, not database IDs.
 
----
 
 ## Summary
 
@@ -338,7 +329,6 @@ Multi-identity solves the "same user, different channels" problem:
 
 **The result:** Users get a consistent, personalized experience whether they're chatting on Slack, email, or your web app.
 
----
 
 ## Learn More
 

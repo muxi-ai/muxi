@@ -18,7 +18,6 @@ The CLI stores configuration in `~/.muxi/cli/`: server profiles, default setting
 └── servers.afs     # Server profiles
 ```
 
----
 
 ## CLI Settings
 
@@ -53,7 +52,6 @@ dev:
 | `dev.port` | `8001` | Port for `muxi dev` |
 | `dev.auto_reload` | `true` | Auto-reload on file changes |
 
----
 
 ## Server Profiles
 
@@ -65,12 +63,12 @@ profiles:
     url: http://localhost:7890
     key_id: MUXI_local
     secret_key: sk_...
-  
+
   staging:
     url: https://staging.example.com:7890
     key_id: MUXI_staging
     secret_key: sk_...
-  
+
   production:
     url: https://muxi.example.com:7890
     key_id: MUXI_production
@@ -106,7 +104,6 @@ muxi deploy --profile production
 muxi formation list --profile staging
 ```
 
----
 
 ## Environment Variables
 
@@ -131,7 +128,6 @@ export MUXI_SECRET_KEY=$CI_MUXI_SECRET
 muxi deploy
 ```
 
----
 
 ## Multiple Servers
 
@@ -156,7 +152,6 @@ muxi deploy --profile production
 # Deploys to both us-east and us-west
 ```
 
----
 
 ## Reset Configuration
 
@@ -171,7 +166,6 @@ rm -rf ~/.muxi/cli/
 muxi --version
 ```
 
----
 
 ## Next Steps
 

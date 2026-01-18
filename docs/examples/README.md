@@ -142,7 +142,6 @@ muxi secrets setup
 muxi dev
 ```
 
----
 
 ## Example Comparison
 

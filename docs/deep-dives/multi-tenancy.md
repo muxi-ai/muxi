@@ -34,7 +34,6 @@ MUXI provides complete isolation between users: separate memory, per-user creden
 └─────────────────────────────────────────┘
 ```
 
----
 
 ## User Identification
 
@@ -68,7 +67,6 @@ X-Muxi-User-Id: user_123
 
 Internally normalized to: `acme:user_123`
 
----
 
 ## Session Isolation
 
@@ -101,7 +99,6 @@ def get_session(session_id: str, user_id: str) -> Session:
     return session
 ```
 
----
 
 ## Memory Isolation
 
@@ -154,7 +151,6 @@ class TenantMemoryManager:
         return self.indices[tenant_id]
 ```
 
----
 
 ## Credential Isolation
 
@@ -208,7 +204,6 @@ At runtime:
 3. Decrypts and injects into MCP environment
 4. Tool accesses Alice's GitHub, not Bob's
 
----
 
 ## RBAC (Role-Based Access Control)
 
@@ -252,7 +247,6 @@ def check_permission(user_id: str, action: str) -> bool:
     return False
 ```
 
----
 
 ## Tenant Architecture Patterns
 
@@ -298,7 +292,6 @@ agents: []
 
 Tenant-specific behavior is handled through user identity and the agent's ability to adapt based on user context, not through separate agent definitions per tenant.
 
----
 
 ## Performance Considerations
 
@@ -330,7 +323,6 @@ Per-tenant cache partitioning:
 cache_key = f"{tenant_id}:{user_id}:{key}"
 ```
 
----
 
 ## Security Checklist
 
@@ -342,7 +334,6 @@ cache_key = f"{tenant_id}:{user_id}:{key}"
 - [ ] Audit logging includes user context
 - [ ] Cross-tenant access tested and blocked
 
----
 
 ## Next Steps
 

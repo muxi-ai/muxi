@@ -25,7 +25,6 @@ Agent: "The customer's name is John Smith, email is john@example.com,
 - Use another LLM call? (expensive)
 - String manipulation? (error-prone)
 
----
 
 ## The Solution: Structured Output
 
@@ -48,7 +47,6 @@ Now you get:
 
 **Machine-readable, type-safe, ready to use.**
 
----
 
 ## Response Formats
 
@@ -146,7 +144,6 @@ response:
 </ul>
 ```
 
----
 
 ## How It Works
 
@@ -174,7 +171,6 @@ The agent naturally generates responses in the requested format.
 
 **Markdown and Text are not validated** (by design - more flexible).
 
----
 
 ## Use Cases
 
@@ -351,7 +347,6 @@ db.Insert("products", productData)
 
 [[/tabs]]
 
----
 
 ## Configuration
 
@@ -422,7 +417,6 @@ curl -X POST http://localhost:8001/v1/chat \
   }'
 ```
 
----
 
 ## With Streaming
 
@@ -474,7 +468,6 @@ for chunk := range stream {
 
 The agent streams the JSON as it's generated - collect chunks and parse at the end.
 
----
 
 ## Best Practices
 
@@ -577,7 +570,6 @@ try {
 
 Always validate, even with structured output.
 
----
 
 ## Limitations
 
@@ -612,7 +604,6 @@ Agents may occasionally:
 
 Always validate in production.
 
----
 
 ## Why This Matters
 
@@ -626,7 +617,6 @@ Always validate in production.
 
 The result: **Agents that return data**, not just text.
 
----
 
 ## Quick Setup
 
@@ -643,7 +633,6 @@ agents:
       Return responses as valid JSON.
 ```
 
----
 
 ## Learn More
 

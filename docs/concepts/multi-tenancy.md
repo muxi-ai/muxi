@@ -8,7 +8,6 @@ description: How MUXI isolates users, data, and credentials
 
 MUXI formations are multi-tenant: every user gets isolated sessions, memory, and credentials. One deployment can safely serve many customers or end-users.
 
----
 
 ## What's Isolated
 
@@ -20,7 +19,6 @@ MUXI formations are multi-tenant: every user gets isolated sessions, memory, and
 | **Credentials** | Per-user encryption | Each user's API keys encrypted separately |
 | **Tools** | Runtime injection | MCP servers receive only the calling user's secrets |
 
----
 
 ## How It Works
 
@@ -109,7 +107,6 @@ At runtime:
 3. Decrypts and injects into the MCP environment
 4. Tool accesses Alice's GitHub, never Bob's
 
----
 
 ## Configuration
 
@@ -145,7 +142,6 @@ memory:
 
 Each tenant gets separate vector indices for optimal performance.
 
----
 
 ## Best Practices
 
@@ -163,7 +159,6 @@ Each tenant gets separate vector indices for optimal performance.
 > [!TIP]
 > **Start simple.** Buffer memory isolation works automatically. Add PostgreSQL for persistent memory when you need cross-session recall. Add FAISSx when you need to scale beyond a single instance.
 
----
 
 ## Learn More
 

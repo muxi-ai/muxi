@@ -12,7 +12,6 @@ For detailed release notes, see individual component repositories:
 - [CLI Releases](https://github.com/muxi-ai/cli/releases)
 - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 
----
 
 ## January 2026
 
@@ -23,7 +22,6 @@ For detailed release notes, see individual component repositories:
 - Highlighted key features: self-healing tool chaining, topic tagging, semantic caching
 - Reorganized sidebar for better onboarding flow
 
----
 
 ## December 2025
 
@@ -47,7 +45,6 @@ For detailed release notes, see individual component repositories:
 - Secrets management
 - Formation scaffolding
 
----
 
 ## November 2025
 
@@ -58,7 +55,6 @@ For detailed release notes, see individual component repositories:
 - 15+ provider support
 - Streaming support
 
----
 
 ## October 2025
 
@@ -73,7 +69,6 @@ For detailed release notes, see individual component repositories:
 - Hot-reload formations
 - Health endpoints
 
----
 
 ## Earlier Releases
 

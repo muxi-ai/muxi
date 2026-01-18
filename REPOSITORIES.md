@@ -2,7 +2,6 @@
 
 All MUXI repositories live under the [muxi-ai](https://github.com/muxi-ai) organization.
 
----
 
 ## Core
 

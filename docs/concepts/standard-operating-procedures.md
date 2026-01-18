@@ -27,7 +27,6 @@ SOPs ensure:
 - **Compliance** - Required steps never skipped
 - **Efficiency** - No figuring out what to do
 
----
 
 ## SOP vs Workflows
 
@@ -43,7 +42,6 @@ SOPs ensure:
 - Two execution modes (strict or flexible)
 - Agents adapt to context while following guidelines
 
----
 
 ## How SOPs Work
 
@@ -63,7 +61,6 @@ Route to agent normally
 
 SOPs have **highest routing priority** - when matched, they override normal agent routing.
 
----
 
 ## SOP Structure
 
@@ -114,7 +111,6 @@ Customer has active account with welcome email sent.
 | `tags` | No | Keywords for search matching |
 | `bypass_approval` | No | Skip workflow approval (default: true) |
 
----
 
 ## Execution Modes
 
@@ -144,7 +140,6 @@ mode: guide
 
 **Use for:** Development workflows, best practices, standard operations
 
----
 
 ## Directives
 
@@ -174,7 +169,6 @@ Embed instructions in step descriptions:
    Include external file content.
 ```
 
----
 
 ## Directory Structure
 
@@ -192,7 +186,6 @@ my-formation/
 
 SOPs are auto-discovered from the `sops/` directory.
 
----
 
 ## Examples
 
@@ -254,7 +247,6 @@ bypass_approval: true
    Provide constructive feedback.
 ```
 
----
 
 ## When to Use SOPs
 
@@ -273,7 +265,6 @@ Good SOP candidates:
 - Data export requests
 - Compliance audits
 
----
 
 ## Learn More
 

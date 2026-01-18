@@ -35,7 +35,6 @@ for await (const chunk of formation.chatStream({ message: 'Tell me a story' }, '
 }
 ```
 
----
 
 ## SDK Examples
 
@@ -69,7 +68,7 @@ for await (const chunk of formation.chatStream({ message: 'Tell me a story' }, '
     document.getElementById('send').onclick = async () => {
       const message = input.value;
       if (!message) return;
-      
+
       messagesDiv.innerHTML += `<p><b>You:</b> ${message}</p>`;
       input.value = '';
 
@@ -108,7 +107,7 @@ export function Chat({ userId }: { userId: string }) {
 
   const send = async () => {
     if (!input.trim()) return;
-    
+
     setMessages(prev => [...prev, { role: 'user', content: input }]);
     setInput('');
     setStreaming('');
@@ -189,7 +188,6 @@ print()
 > [!TIP]
 > **CDN delivery:** Use `https://esm.sh/@muxi-ai/muxi-typescript` to import directly in browsers without a build step.
 
----
 
 ## Session Management
 
@@ -231,7 +229,6 @@ history = formation.get_session_messages("sess_abc123", "user-123")
 
 [[/tabs]]
 
----
 
 ## API Reference
 
@@ -252,7 +249,6 @@ For direct API access (without SDK), see the endpoint reference:
 
 [Full API Documentation →](../reference/api-reference.md)
 
----
 
 ## Learn More
 

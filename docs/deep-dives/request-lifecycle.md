@@ -21,7 +21,6 @@ MUXI isn't just a request-response system. It's an intelligent processing pipeli
 - **Ensures consistency** - Applies configurable personas across all agents
 - **Handles complexity** - Supports SOPs (Standard Operating Procedures) for repeatable workflows
 
----
 
 ## The Request Journey
 
@@ -40,7 +39,6 @@ A request passing through MUXI undergoes:
 
 The system seamlessly handles everything from simple queries ("What's the weather?") to complex orchestrations ("Analyze my codebase, generate security audit, create Linear issues, and notify my team").
 
----
 
 ## Complete Flow Diagram
 
@@ -194,7 +192,6 @@ flowchart TD
     class UseSession,CreateSession warning
 ```
 
----
 
 ## Phase-by-Phase Breakdown
 
@@ -909,7 +906,6 @@ Attach to response:
 - Usage analytics
 - Error tracking
 
----
 
 ## Performance Timing
 
@@ -931,7 +927,6 @@ Attach to response:
 | **Total (simple)** | **1-15s** | Single agent |
 | **Total (complex)** | **10-60s** | Multi-agent |
 
----
 
 ## Error Handling
 
@@ -957,7 +952,6 @@ Attach to response:
 - Streaming fails → Return batch response
 - Agent fails → Try another agent
 
----
 
 ## Request Lifecycle Examples
 
@@ -1058,7 +1052,6 @@ Memory: Updated with credential info
 Total time: ~10 seconds (with credential collection)
 ```
 
----
 
 ## Key Takeaways
 
@@ -1075,7 +1068,6 @@ Total time: ~10 seconds (with credential collection)
 
 **The result:** A request processing system that feels intelligent, not mechanical.
 
----
 
 ## Learn More
 

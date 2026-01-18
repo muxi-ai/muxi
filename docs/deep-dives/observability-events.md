@@ -8,7 +8,6 @@ description: Complete reference for 350+ MUXI observability events
 
 MUXI emits 350+ typed events across the request lifecycle. Route them to your logging infrastructure for debugging, auditing, and performance monitoring. Events are emitted as JSONL and can be filtered by pattern.
 
----
 
 ## Event Envelope
 
@@ -36,7 +35,6 @@ Every event follows this structure:
 }
 ```
 
----
 
 ## Request Ingestion & Validation
 
@@ -50,7 +48,6 @@ Events related to initial request processing, authentication, rate limiting, and
 | `request.denied.validation` | WARN | Request denied due to validation failure |
 | `request.validated` | DEBUG | Request format and structure validation passed |
 
----
 
 ## Multi-Modal Content Processing
 
@@ -63,7 +60,6 @@ Events for processing documents, images, audio, and other media content types.
 | `content.audio.transcribed` | INFO | Audio transcription |
 | `content.extraction.failed` | ERROR | Content processing failure |
 
----
 
 ## Overlord Orchestration
 
@@ -76,7 +72,6 @@ Events tracking the overlord's routing decisions, task decomposition, and orches
 | `overlord.routing.completed` | INFO | Routing decision made |
 | `overlord.task.decomposed` | INFO | Request broken into subtasks |
 
----
 
 ## Memory & Context Operations
 
@@ -92,7 +87,6 @@ Events for memory storage, retrieval, and context management across short-term a
 | `memory.storage.long_term` | DEBUG | Persistent memory storage |
 | `memory.extraction.started` | INFO | Automatic user info extraction |
 
----
 
 ## Agent Processing
 
@@ -106,7 +100,6 @@ Events tracking individual agent activities including reasoning, planning, and c
 | `agent.planning.created` | INFO | Agent generates execution plan |
 | `agent.context.applied` | DEBUG | System message/persona applied |
 
----
 
 ## Model Operations
 
@@ -118,7 +111,6 @@ Events for LLM API calls, inference operations, and streaming response handling.
 | `model.inference.completed` | INFO | Model response received |
 | `model.streaming.started` | DEBUG | Streaming response initiated |
 
----
 
 ## Tool & MCP Operations
 
@@ -132,7 +124,6 @@ Events for MCP server connections, tool discovery, execution, and error handling
 | `mcp.tool.completed` | INFO | Tool execution finished |
 | `mcp.tool.failed` | ERROR | Tool execution error |
 
----
 
 ## A2A & Collaboration
 
@@ -145,7 +136,6 @@ Events for agent-to-agent communication, external agent discovery, and multi-age
 | `a2a.response.received` | INFO | A2A response received |
 | `collaboration.internal.started` | INFO | Internal multi-agent collaboration |
 
----
 
 ## Response Generation
 
@@ -158,7 +148,6 @@ Events for response composition, multi-modal content creation, validation, and f
 | `response.validation.completed` | DEBUG | Response safety/validation check |
 | `response.formatted` | DEBUG | Final response formatting |
 
----
 
 ## Async & Delivery
 
@@ -171,7 +160,6 @@ Events for asynchronous processing, webhook delivery, and response completion tr
 | `webhook.sent` | INFO | Webhook delivery attempted |
 | `response.delivered` | INFO | Final response sent to user |
 
----
 
 ## Error Handling & Recovery
 
@@ -184,7 +172,6 @@ Events for error detection, retry mechanisms, fallback activation, and recovery 
 | `error.fallback.activated` | WARN | Fallback mechanism used |
 | `error.recovery.completed` | INFO | Error recovery successful |
 
----
 
 ## Performance & Monitoring
 
@@ -197,7 +184,6 @@ Events for performance metrics, resource usage tracking, and session management.
 | `session.created` | INFO | User session established |
 | `session.context.updated` | DEBUG | Session context modified |
 
----
 
 ## Clarification & Parameter Collection
 
@@ -213,7 +199,6 @@ Events for intelligent parameter collection, clarifying questions, and missing p
 | `clarification.parameter.validated` | DEBUG | Parameter validation completed |
 | `clarification.failed` | WARN | Clarification process failed, falling back |
 
----
 
 ## Proactive Clarification & Modes
 
@@ -230,7 +215,6 @@ Events for proactive clarification sessions, user-requested questioning, and mod
 | `clarification.session.completed` | INFO | Proactive session reached completion criteria |
 | `clarification.session.cancelled` | INFO | User cancelled proactive session |
 
----
 
 ## Planning Workflow Detection
 
@@ -245,7 +229,6 @@ Events for implicit planning workflow identification, data synthesis, and contin
 | `planning.dependencies.identified` | DEBUG | Plan step dependencies mapped |
 | `planning.options.presented` | INFO | Decision options generated for user |
 
----
 
 ## Enhanced Tool Processing
 
@@ -259,7 +242,6 @@ Events for tool parameter collection, validation, and context-enhanced execution
 | `tool.execution.enhanced` | DEBUG | Tool executed with enhanced parameter processing |
 | `tool.context.applied` | DEBUG | User context applied to tool parameters |
 
----
 
 ## Multilingual & Detection
 
@@ -277,7 +259,6 @@ Events for language detection, multilingual processing, and pattern recognition.
 | `pattern.llm.analysis` | DEBUG | LLM-based pattern analysis completed |
 | `pattern.detection.failed` | WARN | Pattern detection failed, using fallback |
 
----
 
 ## Context & Information Management
 
@@ -296,7 +277,6 @@ Events for information requirements analysis, gap identification, and context ma
 | `goal.context.created` | INFO | Goal context established for session |
 | `goal.achievement.measured` | DEBUG | Goal achievement percentage calculated |
 
----
 
 ## Session & State Management
 
@@ -314,7 +294,6 @@ Events for clarification session lifecycle, state management, and mode transitio
 | `conversation.flow.interrupted` | WARN | Normal conversation flow interrupted for clarification |
 | `conversation.flow.resumed` | INFO | Normal conversation flow resumed after clarification |
 
----
 
 ## Clarification Performance & Quality
 
@@ -332,7 +311,6 @@ Events for performance metrics, quality tracking, and system health monitoring.
 | `health.mode.manager.active` | DEBUG | Mode manager health check passed |
 | `health.session.cleanup.completed` | DEBUG | Session cleanup completed successfully |
 
----
 
 ## Wildcard Patterns
 
@@ -361,7 +339,6 @@ Use these patterns in `events` filters to match groups of events.
 | `conversation.*` | All conversation flow and context events |
 | `*` | All events (use with caution in production) |
 
----
 
 ## Event Selection Strategies
 
@@ -376,7 +353,6 @@ Use these patterns in `events` filters to match groups of events.
 | User experience | `["conversation.*", "session.clarification.*", "intent.*"]` |
 | Multilingual support | `["language.*", "intent.*", "pattern.*"]` |
 
----
 
 ## Routing Configuration
 
@@ -395,12 +371,12 @@ logging:
         level: info
         format: jsonl
         events: ["request.*", "response.*", "error.*"]
-      
+
       - transport: file
         destination: /var/log/muxi/debug.jsonl
         level: debug
         events: ["*"]
-      
+
       - transport: stream
         destination: https://logs.example.com/ingest
         format: datadog_json

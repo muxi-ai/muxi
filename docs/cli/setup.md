@@ -15,7 +15,6 @@ Connect the CLI to your server and deploy your first formation.
   <p>🎬 Video: CLI Setup Walkthrough</p>
 </div>
 
----
 
 ## What You'll Do
 
@@ -169,7 +168,6 @@ URL:       http://localhost:7890/v1/formations/my-assistant
 
 [[/steps]]
 
----
 
 ## You're Ready!
 
@@ -197,7 +195,6 @@ Teach your agent from your documents
 
 ::::
 
----
 
 ## Managing Profiles
 
@@ -234,7 +231,6 @@ muxi profile list
 muxi deploy --profile production
 ```
 
----
 
 ## Troubleshooting
 
@@ -262,7 +258,6 @@ muxi deploy --profile production
 
 [[/toggle]]
 
----
 
 ## Need Help?
 

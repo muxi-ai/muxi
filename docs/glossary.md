@@ -24,14 +24,12 @@ In software, a byproduct of development (builds, logs, binaries). In MUXI, artif
 ### Async Mode
 Asynchronous processing where the caller doesn't wait for completion. In MUXI, long-running tasks automatically switch to async mode - users get immediate acknowledgment and results arrive via webhook when ready.
 
----
 
 ## B
 
 ### Buffer Memory
 Short-term storage for recent context. In MUXI, buffer memory holds the current session's conversation history. Cleared when session ends; distinct from persistent memory which survives across sessions.
 
----
 
 ## C
 
@@ -47,21 +45,18 @@ The maximum amount of text (measured in tokens) an LLM can process in one reques
 ### Credential (User)
 Authentication tokens for accessing external services. In MUXI, each user stores their own credentials (GitHub tokens, API keys, etc.) - encrypted, isolated, enabling personalized access to tools without sharing secrets.
 
----
 
 ## D
 
 ### DAG (Directed Acyclic Graph)
 A graph structure where edges have direction and no cycles exist - used widely for task scheduling and dependency management. MUXI uses DAGs internally to orchestrate complex multi-step workflows, ensuring tasks execute in correct order.
 
----
 
 ## E
 
 ### Embedding
 A dense vector representation that captures semantic meaning of text - similar concepts produce similar vectors. In MUXI, embeddings power memory retrieval, knowledge search, and semantic caching, enabling "meaning-based" rather than "keyword-based" matching.
 
----
 
 ## F
 
@@ -77,14 +72,12 @@ In MUXI, the atomic unit of deployment - a complete package containing agents, t
 ### Function Calling
 An LLM capability to output structured tool invocations instead of plain text - the model "decides" to call a function with specific parameters. MUXI leverages function calling for all MCP tool execution.
 
----
 
 ## G
 
 ### Grounding
 Anchoring AI responses to factual, verifiable data sources rather than relying solely on training data. MUXI grounds responses through knowledge retrieval (RAG) and real-time tool access, reducing hallucinations.
 
----
 
 ## H
 
@@ -94,21 +87,18 @@ When an LLM generates plausible-sounding but incorrect or fabricated information
 ### Human-in-the-Loop (HITL)
 A pattern requiring human approval before automated systems take sensitive actions. In MUXI, HITL is configurable per action type - with customizable approval flows, timeouts, and escalation rules for production safety.
 
----
 
 ## K
 
 ### Knowledge
 Information available for retrieval and reference. In MUXI, the Knowledge system implements RAG - embedding documents (PDFs, Markdown, text) and retrieving relevant context to ground agent responses in your data.
 
----
 
 ## L
 
 ### LLM (Large Language Model)
 AI models trained on vast text corpora to understand and generate human language. Examples: GPT-4, Claude, Llama. MUXI orchestrates multiple LLMs through OneLLM, allowing different models for different tasks.
 
----
 
 ## M
 
@@ -121,7 +111,6 @@ Associating multiple identifiers with a single user (email, Slack ID, GitHub use
 ### Multi-Tenancy
 Architecture where a single deployment serves multiple isolated users or organizations. In MUXI, multi-tenancy provides complete data isolation - each user's memory, credentials, and context are separate. Requires PostgreSQL for production use.
 
----
 
 ## O
 
@@ -131,7 +120,6 @@ MUXI's unified LLM interface library. Provides a consistent API across 15+ provi
 ### Overlord
 MUXI's central orchestrator - the "brain" of a formation. Analyzes requests, routes to appropriate agents, manages workflows, handles clarifications, and synthesizes final responses. Users always interact through the Overlord, never directly with agents.
 
----
 
 ## P
 
@@ -150,7 +138,6 @@ Industry-standard relational database. In MUXI, PostgreSQL (with pgvector) is re
 ### Prompt
 The text input sent to an LLM. In MUXI, the Overlord constructs prompts dynamically - combining user messages, retrieved memories, user synopsis, system instructions, and available tool schemas into optimized requests.
 
----
 
 ## R
 
@@ -163,7 +150,6 @@ A central repository for discovering, sharing, and versioning packages. MUXI's R
 ### Runtime
 The execution environment that runs code. MUXI's Runtime is the Python environment that executes formations - can run standalone via CLI or embedded directly in your applications.
 
----
 
 ## S
 
@@ -191,7 +177,6 @@ Data formatted according to a defined schema (JSON, XML, etc.) rather than free-
 ### System Prompt
 Instructions that define an AI's behavior, role, and constraints - provided before user input. In MUXI, each agent has a `system_message` that establishes its expertise, tone, and operational boundaries.
 
----
 
 ## T
 
@@ -207,14 +192,12 @@ An external capability that extends what an AI can do - web search, file access,
 ### Trigger
 An event that initiates an automated process. In MUXI, triggers are webhook endpoints that activate formation behavior from external events (GitHub pushes, Slack messages, etc.) - using Markdown templates with `${{ data.* }}` placeholders.
 
----
 
 ## U
 
 ### User Synopsis
 In MUXI, an LLM-generated summary of a user's identity, preferences, and interaction history. Cached and periodically refreshed, it reduces token usage by ~85% compared to injecting raw conversation history.
 
----
 
 ## V
 
@@ -224,7 +207,6 @@ A list of numbers representing a point in multi-dimensional space. In AI, vector
 ### Vector Database
 A database optimized for storing and searching vectors by similarity. In MUXI, vector databases (FAISSx for development, PostgreSQL/pgvector for production) power memory retrieval and knowledge search.
 
----
 
 ## W
 
@@ -237,7 +219,6 @@ The active context during task execution - what's "in mind" right now. In MUXI, 
 ### Workflow
 A sequence of steps to accomplish a goal. In MUXI, the Overlord creates workflows dynamically for complex requests - decomposing work into steps, assigning to agents, tracking progress. Distinct from SOPs which are predefined.
 
----
 
 ## See Also
 

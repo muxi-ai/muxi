@@ -19,7 +19,6 @@ We use **GitHub-flavored markdown (GFM)** with a few lightweight, intuitive exte
 
 Everything renders beautifully without breaking readability for humans or editors.
 
----
 
 ## Frontmatter
 
@@ -64,7 +63,6 @@ youtube-video: abc123xyz
 ---
 ```
 
----
 
 ## 1. Callouts
 
@@ -89,7 +87,6 @@ GitHub-flavored callouts work natively using the `> [!TYPE]` pattern.
 
 Each will render with its own visual style.
 
----
 
 ## 2. Tabs
 
@@ -121,7 +118,6 @@ console.log("Hello, World!")
 - If **all tabs** contain only fenced code blocks, the container renders with
   `<div class="tab-group">`.
 
----
 
 ## 3. Cards
 
@@ -136,7 +132,6 @@ The main area where users talk to your bot.
 
 Each `[[card]]` block can include **any valid markdown** (headings, images, lists, etc.).
 
----
 
 ## 4. Columns
 
@@ -154,7 +149,6 @@ Columns group cards or blocks into a responsive grid layout.
 
 Set `cols=2`, `cols=3`, etc. to control layout.
 
----
 
 ## 5. Toggles
 
@@ -175,7 +169,6 @@ Renders as:
 </details>
 ```
 
----
 
 ## 6. Boxed sidebars
 
@@ -199,7 +192,6 @@ Renders as:
 </div>
 ```
 
----
 
 ## 7. Bookmarks
 
@@ -217,7 +209,6 @@ Each line renders with a small bookmark icon and the link text, for example:
 📑 **test article 2**
 📑 **test article 3**
 
----
 
 ## 8. Buttons
 
@@ -245,7 +236,6 @@ Renders as:
 
 **Graceful degradation:** In standard markdown renderers (GitHub, VS Code), the prefix appears as text and the link remains clickable.
 
----
 
 ## 9. Steps
 
@@ -308,7 +298,6 @@ Renders as:
 </ul>
 ```
 
----
 
 ## Writing conventions
 
@@ -317,7 +306,6 @@ Renders as:
 - Use blank lines between structural blocks for readability.
 - Keep labels lowercase for consistency, but they’re case-insensitive.
 
----
 
 ## Example: combining multiple elements
 
@@ -349,7 +337,6 @@ console.log("Hello")
 [[/toggle]]
 ```
 
----
 
 ## Final notes
 
