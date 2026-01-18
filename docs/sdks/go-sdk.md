@@ -8,7 +8,7 @@ description: Native Go client for MUXI formations
 
 Build Go applications that interact with MUXI formations. Full support for chat, streaming, context cancellation, and all Formation API operations.
 
-**GitHub:** [muxi-ai/muxi-go](https://github.com/muxi-ai/muxi-go)
+**GitHub:** [`muxi-ai/muxi-go`](https://github.com/muxi-ai/muxi-go)
 
 ## Installation
 

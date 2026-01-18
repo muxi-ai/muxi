@@ -8,7 +8,7 @@ description: Type-safe client for MUXI formations in TypeScript and JavaScript
 
 Build web and Node.js applications that interact with MUXI formations. Full TypeScript support with type definitions for all API operations.
 
-**GitHub:** [muxi-ai/muxi-typescript](https://github.com/muxi-ai/muxi-typescript)
+**GitHub:** [`muxi-ai/muxi-typescript`](https://github.com/muxi-ai/muxi-typescript)
 
 ## Installation
 

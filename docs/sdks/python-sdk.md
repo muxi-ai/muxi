@@ -8,7 +8,7 @@ description: Native Python client for MUXI formations
 
 Build Python applications that interact with MUXI formations. Full support for chat, streaming, async operations, sessions, and all Formation API operations.
 
-**GitHub:** [muxi-ai/muxi-python](https://github.com/muxi-ai/muxi-python)
+**GitHub:** [`muxi-ai/muxi-python`](https://github.com/muxi-ai/muxi-python)
 
 ## Installation
 
@@ -186,7 +186,7 @@ async def main():
         formation_id="my-assistant",
         client_key="your_client_key",
     )
-    
+
     # Async streaming
     async for event in await formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
         if event.get("type") == "text":
@@ -265,7 +265,7 @@ while True:
     user_input = input("You: ")
     if user_input.lower() == "quit":
         break
-    
+
     print("Assistant: ", end="")
     for event in formation.chat_stream({"message": user_input}, user_id="user_123"):
         if event.get("type") == "text":
@@ -290,7 +290,7 @@ while True:
     user_input = input("You: ")
     if user_input.lower() == "quit":
         break
-    
+
     print("Assistant: ", end="")
     for event in formation.chat_stream(
         {"message": user_input, "session_id": session_id},
