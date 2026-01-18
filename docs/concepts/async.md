@@ -654,4 +654,4 @@ while True:
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official formation schema specification
 - [Workflows & Task Decomposition](workflows.md) - Complex task execution
 - [Triggers & Webhooks](triggers.md) - Webhook integrations
-- [Request Cancellation](../reference/request-cancellation.md) - Cancel in-flight requests
+- [Request Cancellation](../runtime/request-cancellation.md) - Cancel in-flight requests

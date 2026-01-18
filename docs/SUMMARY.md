@@ -74,9 +74,9 @@ description: Complete guide to building AI agents with MUXI
   * [Publish Formations](registry/publish-formations.md)
   * [Versioning](registry/versioning.md)
 * [Runtime](runtime/README.md)
-  * [LLM Caching](reference/llm-caching.md)
-  * [Request Cancellation](reference/request-cancellation.md)
-  * [Session Restore](reference/session-restore.md)
+  * [LLM Caching](runtime/llm-caching.md)
+  * [Request Cancellation](runtime/request-cancellation.md)
+  * [Session Restore](runtime/session-restore.md)
   * [Embed in Your App](runtime/embed-in-your-app.md)
   * [Formation API](api/formation)
 

@@ -381,7 +381,7 @@ Several built-in features help:
 - **Efficient tool loading** - Tool schemas indexed once, not sent every request
 - **Model mixing** - Use cheaper models for simple tasks, expensive ones for complex
 
-**Learn more:** [LLM Caching](reference/llm-caching.md) | [Memory Internals](deep-dives/memory-internals.md)
+**Learn more:** [LLM Caching](runtime/llm-caching.md) | [Memory Internals](deep-dives/memory-internals.md)
 
 [[/toggle]]
 
