@@ -96,7 +96,7 @@ With this configuration, every server instance shares both long-term (Postgres) 
 
 ## Architecture Overview
 
-```
+```plain
                 ┌─────────────────┐
                 │  Load Balancer  │
                 │   (L4 or L7)    │
