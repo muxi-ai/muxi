@@ -264,13 +264,89 @@ async function getHistory(sessionId: string, userId: string) {
 
 ## Using the SDK (Recommended)
 
-The SDKs handle headers, errors, and streaming automatically:
+The SDK handles headers, errors, and streaming automatically. It works in both Node.js and browsers.
 
 [[tabs]]
 
-[[tab TypeScript]]
+[[tab Browser (ESM)]]
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MUXI Chat</title>
+</head>
+<body>
+  <div id="messages"></div>
+  <input id="input" placeholder="Type a message..." />
+  <button id="send">Send</button>
+
+  <script type="module">
+    import { FormationClient } from 'https://esm.sh/@muxi-ai/muxi-typescript';
+
+    const formation = new FormationClient({
+      serverUrl: 'http://localhost:7890',
+      formationId: 'my-assistant',
+      clientKey: 'fmc_...'
+    });
+
+    const userId = 'user-' + Math.random().toString(36).slice(2);
+    const messagesDiv = document.getElementById('messages');
+    const input = document.getElementById('input');
+
+    document.getElementById('send').onclick = async () => {
+      const message = input.value;
+      if (!message) return;
+      
+      messagesDiv.innerHTML += `<p><b>You:</b> ${message}</p>`;
+      input.value = '';
+
+      // Streaming response
+      let response = '';
+      const responseP = document.createElement('p');
+      responseP.innerHTML = '<b>Assistant:</b> ';
+      messagesDiv.appendChild(responseP);
+
+      for await (const chunk of formation.chatStream({ message }, userId)) {
+        response += chunk.text || '';
+        responseP.innerHTML = `<b>Assistant:</b> ${response}`;
+      }
+    };
+  </script>
+</body>
+</html>
+```
+[[/tab]]
+
+[[tab React / Next.js]]
 ```typescript
-import { FormationClient } from '@muxi/sdk';
+import { FormationClient } from '@muxi-ai/muxi-typescript';
+
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: 'fmc_...'
+});
+
+// Simple chat
+const response = await formation.chat(
+  { message: 'Hello!' },
+  'user-123'
+);
+console.log(response.text);
+
+// Streaming
+for await (const chunk of formation.chatStream(
+  { message: 'Tell me a story' },
+  'user-123'
+)) {
+  process.stdout.write(chunk.text);
+}
+```
+[[/tab]]
+
+[[tab Node.js]]
+```typescript
+import { FormationClient } from '@muxi-ai/muxi-typescript';
 
 const formation = new FormationClient({
   serverUrl: 'http://localhost:7890',
@@ -316,6 +392,9 @@ for chunk in formation.chat_stream({"message": "Tell me a story"}, user_id="user
 [[/tab]]
 
 [[/tabs]]
+
+> [!TIP]
+> The TypeScript SDK works in browsers via ESM imports. Use `https://esm.sh/@muxi-ai/muxi-typescript` for CDN delivery, or install via npm for bundlers like Vite, webpack, or esbuild.
 
 ---
 
