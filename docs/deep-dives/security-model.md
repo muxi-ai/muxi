@@ -14,25 +14,25 @@ MUXI implements multiple security layers: transport encryption, authentication, 
 
 ```plain
 ┌─────────────────────────────────────────┐
-│             Internet                     │
-└────────────────┬────────────────────────┘
-                 ↓
+│                Internet                 │
+└────────────────────┬────────────────────┘
+                     ↓
 ┌─────────────────────────────────────────┐
-│   TLS/HTTPS (Transport Encryption)      │
-└────────────────┬────────────────────────┘
-                 ↓
+│      TLS/HTTPS (Transport Encryption)   │
+└────────────────────┬────────────────────┘
+                     ↓
 ┌─────────────────────────────────────────┐
-│   HMAC Authentication (Server API)      │
-└────────────────┬────────────────────────┘
-                 ↓
+│     HMAC Authentication (Server API)    │
+└────────────────────┬────────────────────┘
+                     ↓
 ┌─────────────────────────────────────────┐
-│   API Keys (Formation Access)           │
-└────────────────┬────────────────────────┘
-                 ↓
+│       API Keys (Formation Access)       │
+└────────────────────┬────────────────────┘
+                     ↓
 ┌─────────────────────────────────────────┐
-│   User Isolation (Data Separation)      │
-└────────────────┬────────────────────────┘
-                 ↓
+│     User Isolation (Data Separation)    │
+└────────────────────┬────────────────────┘
+                     ↓
 ┌─────────────────────────────────────────┐
 │   Encrypted Secrets (Credential Store)  │
 └─────────────────────────────────────────┘
@@ -229,7 +229,7 @@ sudo ufw deny 8000:9000/tcp
 
 ## Vulnerability Reporting
 
-Report security issues to: **security@muxi.org**
+Report security issues to: [security@muxi.org](mailto:security@muxi.org)
 
 We follow responsible disclosure and will:
 1. Acknowledge within 24 hours
