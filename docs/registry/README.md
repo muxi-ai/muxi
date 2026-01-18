@@ -47,8 +47,8 @@ Output:
 ```
 NAME                      DESCRIPTION                 DOWNLOADS
 @muxi/support-bot         Customer support agent      1,234
-@acme/helpdesk           Helpdesk assistant          567
-@company/zendesk-agent   Zendesk integration         89
+@acme/helpdesk            Helpdesk assistant          567
+@company/zendesk-agent    Zendesk integration         89
 ```
 
 ---
@@ -70,7 +70,7 @@ NAME                      DESCRIPTION                 DOWNLOADS
 [[card]]
 #### @muxi/starter
 Minimal assistant - perfect starting point.
-```bash
+```
 muxi pull @muxi/starter
 ```
 [[/card]]
@@ -78,24 +78,24 @@ muxi pull @muxi/starter
 [[card]]
 #### @muxi/research
 Web research agent with search tools.
-```bash
-muxi pull @acme/research
+```
+muxi pull @muxi/research-assistant
 ```
 [[/card]]
 
 [[card]]
 #### @muxi/support
 Customer support with knowledge base.
-```bash
-muxi pull @acme/support
+```
+muxi pull @muxi/customer-support
 ```
 [[/card]]
 
 [[card]]
-#### @muxi/devops
-DevOps assistant with GitHub integration.
-```bash
-muxi pull @acme/devops
+#### @muxi/bookkeeping
+Bookkeeping assistant with Xero integration.
+```
+muxi pull @muxi/bookkeeping
 ```
 [[/card]]
 

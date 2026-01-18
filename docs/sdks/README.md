@@ -20,6 +20,7 @@ The SDKs are how developers build products on top of MUXI:
 | **User Management** | Manage scheduled tasks, memory, and sessions per user |
 | **Formation Control** | Deploy, start, stop, restart formations programmatically |
 
+> [!TIP]
 > **Security note:** When user credentials are required for tools (GitHub, Gmail, etc.), developers can configure whether users provide them via chat or via a dedicated credentials page. The SDK lets you build that credentials page.
 
 ---
