@@ -30,9 +30,6 @@ pip install muxi-runtime
 
 ## Basic Usage
 
-[[tabs]]
-
-[[tab Python]]
 ```python
 from muxi.runtime import Formation, Config
 
@@ -43,36 +40,6 @@ formation = Formation.load("./my-formation")
 response = formation.chat("Hello!")
 print(response.text)
 ```
-[[/tab]]
-
-[[tab TypeScript]]
-Runtime embedding is Python-first. Use the SDK to call a running formation:
-
-```typescript
-import { Formation } from '@muxi/sdk';
-
-const formation = new Formation({ url: 'http://localhost:8001', clientKey: '...' });
-const res = await formation.chat('Hello!');
-console.log(res.text);
-```
-[[/tab]]
-
-[[tab Go]]
-Runtime embedding is Python-first. Use the Go SDK to call a running formation:
-
-```go
-import muxi "github.com/muxi-ai/muxi-go"
-
-client := muxi.NewFormationClient(&muxi.FormationConfig{
-    URL:       "http://localhost:8001",
-    ClientKey: "...",
-})
-resp, _ := client.Chat(ctx, &muxi.ChatRequest{Message: "Hello!", UserID: "user_123"})
-fmt.Println(resp.Response)
-```
-[[/tab]]
-
-[[/tabs]]
 
 ## Configuration
 
