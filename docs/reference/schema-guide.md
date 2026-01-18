@@ -48,6 +48,8 @@ version: "1.0.0"
 | `license` | No | `"Unlicense"` | License type |
 | `version` | No | - | Formation version |
 
+[More: Formation Schema Reference →](formation-schema.md)
+
 ---
 
 ### Server Configuration
@@ -168,6 +170,8 @@ overlord:
 | `max_questions` | `3` | Max questions per interaction |
 | `question_style` | `"conversational"` | Style: `conversational`, `formal`, `bullet_points` |
 
+[More: Persona Reference →](persona.md) | [Workflows Reference →](workflows.md)
+
 ---
 
 ### Memory Configuration
@@ -196,6 +200,8 @@ memory:
 | `working` | Active session facts | 1000 entries, 7 days TTL |
 | `persistent` | Long-term storage | SQLite |
 
+[More: Memory Reference →](memory.md)
+
 ---
 
 ### MCP Configuration
@@ -216,6 +222,8 @@ mcp:
 | `max_tool_calls` | `50` | Max total tool calls |
 | `max_repeated_errors` | `3` | Stop after N same errors |
 | `max_timeout_in_seconds` | `120` | Total chain timeout |
+
+[More: Tools (MCP) Reference →](tools.md)
 
 ---
 
@@ -255,6 +263,8 @@ a2a:
     enabled: true
     require_auth: true
 ```
+
+[More: A2A Services Reference →](a2a.md)
 
 ---
 
@@ -313,6 +323,8 @@ system_message: |
 | `name` | No | Display name |
 | `description` | Yes | What this agent does (used for routing) |
 | `system_message` | No | System prompt |
+
+[More: Agents Reference →](agents.md)
 
 ---
 
@@ -377,6 +389,8 @@ knowledge:
   chunk_size: 1000
   chunk_overlap: 100
 ```
+
+[More: Knowledge Reference →](knowledge.md)
 
 ---
 
@@ -482,6 +496,8 @@ health_check:
 | `basic` | `username`, `password` | Basic auth |
 | `api_key` | `header`, `key` | API key header |
 
+[More: Tools (MCP) Reference →](tools.md)
+
 ---
 
 ## A2A Service Schema (`a2a/*.afs`)
@@ -527,6 +543,8 @@ capabilities:
   async: true
 ```
 
+[More: A2A Services Reference →](a2a.md)
+
 ---
 
 ## Secrets Interpolation
@@ -546,6 +564,8 @@ token: "${{ user.credentials.GITHUB_TOKEN }}"
 > [!NOTE]
 > **Secrets** are formation-wide, loaded at startup.
 > **User credentials** are per-user, loaded on-demand.
+
+[More: Secrets Reference →](secrets.md)
 
 ---
 
