@@ -1,7 +1,6 @@
 ---
 title: What is MUXI?
 description: Production-ready infrastructure for AI agents
-youtube-video: placeholder
 ---
 
 # What is MUXI?
@@ -9,7 +8,9 @@ youtube-video: placeholder
 ## The Agent Server
 
 <!-- TODO: Replace with actual video embed -->
-<!-- [Video: From zero to a multi-agent AI system in under 5 minutes] -->
+<div class="video-placeholder">
+  <p>🎬 Video: From zero to a multi-agent AI system in under 5 minutes</p>
+</div>
 
 MUXI is **production-ready infrastructure for AI agents**. Not a framework. Not a wrapper. A server.
 

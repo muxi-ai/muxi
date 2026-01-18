@@ -1,15 +1,16 @@
 ---
 title: Quickstart
 description: Get a MUXI formation running in 5 minutes
-youtube-video: placeholder
 ---
 
 # Quickstart
 
 ## Go from zero to a running AI agent in 5 minutes
 
-<!-- TODO: Add video walkthrough -->
-<!-- [Video placeholder: Complete quickstart walkthrough] -->
+<!-- TODO: Replace with actual video embed -->
+<div class="video-placeholder">
+  <p>🎬 Video: Complete quickstart walkthrough</p>
+</div>
 
 This quickstart gets you from zero to a working AI agent in 5 minutes. You'll install MUXI, create a formation, and test it.
 
