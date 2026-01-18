@@ -92,18 +92,48 @@ system_message: |
 
 ## Step 2: Add Tools
 
-Create MCP files in `mcp/` directory:
+> [!IMPORTANT]
+> **Prefer per-agent tools over global tools.** Define MCP servers in agent files (`mcp_servers:`) rather than formation-level (`mcp/*.afs`) for better routing accuracy.
+>
+> **Why:** The Overlord uses tool capabilities to select the right agent. Per-agent tools mean:
+> - Better agent routing (Overlord knows which agent has which tools)
+> - Better tool selection (agents only see relevant tools)
+>
+> **When to use global tools:** Only for tools that genuinely apply to ALL agents. For example, a web fetch tool useful for both a research agent AND a shopping agent.
+
+### Per-Agent Tools (Recommended)
+
+Define tools directly in agent files:
 
 ```yaml
-# mcp/web-search.afs
+# agents/researcher.afs
 schema: "1.0.0"
-id: web-search
+id: researcher
+name: Research Specialist
+description: Gathers accurate information from web searches
+
+mcp_servers:
+  - id: web-search
+    description: Brave web search
+    type: command
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+    auth:
+      type: env
+      BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+```
+
+### Global Tools (When Needed)
+
+For tools used by ALL agents, create MCP files in `mcp/` directory:
+
+```yaml
+# mcp/web-fetch.afs - Useful for research, shopping, support agents
+schema: "1.0.0"
+id: web-fetch
 type: command
 command: npx
-args: ["-y", "@modelcontextprotocol/server-brave-search"]
-auth:
-  type: env
-  BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+args: ["-y", "@modelcontextprotocol/server-fetch"]
 ```
 
 ## Step 3: Configure Orchestration
