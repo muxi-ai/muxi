@@ -12,11 +12,11 @@ Technical implementation of MUXI's memory system: data structures, algorithms, c
 
 ## Architecture Overview
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                    Memory Manager                         │
-├──────────────────────────────────────────────────────────┤
-│                                                          │
+```plain
+┌─────────────────────────────────────────────────────────┐
+│                    Memory Manager                       │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐  │
 │  │   Buffer    │  │   Working   │  │   Persistent    │  │
 │  │   Memory    │  │   Memory    │  │    Memory       │  │
@@ -24,15 +24,15 @@ Technical implementation of MUXI's memory system: data structures, algorithms, c
 │  │  In-memory  │  │  FAISS      │  │  SQLite/        │  │
 │  │  ring buffer│  │  vectors    │  │  PostgreSQL     │  │
 │  └──────┬──────┘  └──────┬──────┘  └────────┬────────┘  │
-│         │                │                   │           │
-│         └────────────────┼───────────────────┘           │
-│                          │                               │
-│              ┌───────────┴───────────┐                   │
-│              │    Query Planner      │                   │
-│              │  (semantic + recency) │                   │
-│              └───────────────────────┘                   │
-│                                                          │
-└──────────────────────────────────────────────────────────┘
+│         │                │                  │           │
+│         └────────────────┼──────────────────┘           │
+│                          │                              │
+│              ┌───────────┴───────────┐                  │
+│              │    Query Planner      │                  │
+│              │  (semantic + recency) │                  │
+│              └───────────────────────┘                  │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -180,7 +180,7 @@ Higher importance = kept longer, surfaced more often.
 
 ### Two-Tier Cache
 
-```
+```plain
 ┌─────────────────────────────────────┐
 │         Identity Cache              │  TTL: 7 days
 │  (name, preferences, traits)        │

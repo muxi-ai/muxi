@@ -21,7 +21,7 @@ An architectural overview of the MUXI ecosystem for developers and contributors.
 
 ## Architecture Diagram
 
-```
+```plain
 ┌───────────────────────────────────────────────┐
 │                Your Application               │
 │             (Web app, API, Script)            │

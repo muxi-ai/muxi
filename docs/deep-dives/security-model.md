@@ -12,7 +12,7 @@ MUXI implements multiple security layers: transport encryption, authentication, 
 
 ## Security Layers
 
-```
+```plain
 ┌─────────────────────────────────────────┐
 │             Internet                     │
 └────────────────┬────────────────────────┘

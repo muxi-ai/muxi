@@ -17,7 +17,7 @@ MUXI's three-tier memory system lets agents remember context within conversation
 
 ## Memory Architecture
 
-```
+```plain
 ┌─────────────────────────────────────┐
 │         Buffer Memory               │  ← Recent messages (fast)
 │         ~50 messages                │

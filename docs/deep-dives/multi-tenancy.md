@@ -12,7 +12,7 @@ MUXI provides complete isolation between users: separate memory, per-user creden
 
 ## Isolation Layers
 
-```
+```plain
 ┌─────────────────────────────────────────────────────────┐
 │                    Request Layer                         │
 │         X-Muxi-User-Id: tenant_a:user_123               │
@@ -162,7 +162,7 @@ class TenantMemoryManager:
 
 Users can store their own API keys:
 
-```
+```plain
 ┌─────────────────────────────────────────────┐
 │  User: alice                                 │
 │  ├── GITHUB_TOKEN: ghp_alice...             │
