@@ -185,7 +185,7 @@ Your server is configured and the CLI is connected. Next steps:
 :::: cols=3
 
 (quickstart.md)[[card]]
-### Deploy Your First Formation
+### Deploy First Formation
 
 Create and deploy an agent in 5 minutes
 [[/card]]
