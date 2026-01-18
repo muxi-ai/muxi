@@ -6,6 +6,7 @@ description: Configuration and optimization for prompt caching
 
 ## Reduce costs by caching LLM responses
 
+> [!IMPORTANT]
 > **Not just exact matches!** MUXI uses semantic similarity - "What's the weather?" matches "How's the weather today?" Typical savings: **70%+ cost reduction**.
 
 MUXI automatically caches LLM responses using semantic similarity matching, reducing API costs for repeated or similar queries.
@@ -213,7 +214,7 @@ llm_cache:
 
 **User experience:**
 ```
-First request: 
+First request:
 [2 second delay] Generating response... [streams]
 
 Identical second request:
@@ -229,15 +230,15 @@ Identical second request:
 ```yaml
 llm_cache:
   enabled: true
-  
+
   # Strategy 1: Semantic similarity (default)
   strategy: semantic
   similarity_threshold: 0.95
-  
+
   # Strategy 2: Exact hash matching
   # strategy: hash
   # hash_only: true
-  
+
   # Strategy 3: Hybrid (semantic + hash)
   # strategy: hybrid
   # similarity_threshold: 0.90
@@ -251,12 +252,12 @@ agents:
     llm_cache:
       enabled: true
       similarity_threshold: 0.90  # More lenient for support
-  
+
   - id: legal
     llm_cache:
       enabled: true
       similarity_threshold: 0.99  # Very strict for legal
-  
+
   - id: creative
     llm_cache:
       enabled: false  # No caching for creative work
@@ -293,7 +294,7 @@ await formation.clear_cache_pattern("cloud computing")
 ```yaml
 llm_cache:
   ttl: 3600  # 1 hour
-  
+
   # Invalidate on:
   invalidate_on_agent_update: true   # Agent config changes
   invalidate_on_tool_update: true    # Tool definitions change
@@ -358,7 +359,7 @@ Aim for >50% hit rate:
 llm_cache:
   similarity_threshold: 0.90
 
-# Data extraction: Strict  
+# Data extraction: Strict
 llm_cache:
   similarity_threshold: 0.98
 
