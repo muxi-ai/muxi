@@ -94,11 +94,15 @@ config = formation.get_memory_config()
 # Get memories for user
 memories = formation.get_memories(user_id="user_123")
 
-# Add a memory
+# Add a memory (user_id, mem_type, detail)
 formation.add_memory(
-    content="User prefers Python",
-    user_id="user_123"
+    user_id="user_123",
+    mem_type="preference",
+    detail="User prefers Python"
 )
+
+# Delete a memory
+formation.delete_memory(user_id="user_123", memory_id="mem_abc123")
 
 # Clear user buffer
 formation.clear_user_buffer(user_id="user_123")
@@ -107,17 +111,19 @@ formation.clear_user_buffer(user_id="user_123")
 ### Triggers
 
 ```python
+# Fire a trigger (name, data, async_mode, user_id)
 response = formation.fire_trigger(
-    trigger_id="github-issue",
+    name="github-issue",
     data={
         "repository": "muxi/runtime",
-        "issue": {
-            "number": 123,
-            "title": "Bug report"
-        }
+        "issue": {"number": 123, "title": "Bug report"}
     },
+    async_mode=False,
     user_id="user_123"
 )
+
+# Fire async trigger
+formation.fire_trigger("daily-report", {"date": "2024-01-15"}, async_mode=True, user_id="user_123")
 ```
 
 ### Scheduler
@@ -126,16 +132,16 @@ response = formation.fire_trigger(
 # List scheduled jobs
 jobs = formation.get_scheduler_jobs(user_id="user_123")
 
-# Create a job
+# Create a job (job_type, schedule, message, user_id)
 job = formation.create_scheduler_job(
-    user_id="user_123",
-    title="Daily report",
-    schedule="0 9 * * *",  # 9am daily
-    prompt="Generate daily summary"
+    job_type="prompt",
+    schedule="0 9 * * *",  # 9am daily (cron)
+    message="Generate daily summary",
+    user_id="user_123"
 )
 
 # Delete a job
-formation.delete_scheduler_job(job_id="job_abc123", user_id="user_123")
+formation.delete_scheduler_job(job_id="job_abc123")
 ```
 
 

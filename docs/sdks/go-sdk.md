@@ -124,8 +124,8 @@ config, err := client.GetMemoryConfig(ctx)
 // Get memories for user
 memories, err := client.GetMemories(ctx, "user_123")
 
-// Add a memory
-err = client.AddMemory(ctx, "User prefers Go", "user_123")
+// Add a memory (ctx, userID, memType, detail)
+err = client.AddMemory(ctx, "user_123", "preference", "User prefers Go")
 
 // Clear user buffer
 err = client.ClearUserBuffer(ctx, "user_123")
@@ -140,15 +140,11 @@ stats, err := client.GetBufferStats(ctx)
 // List scheduled jobs
 jobs, err := client.GetSchedulerJobs(ctx, "user_123")
 
-// Create a job
-job, err := client.CreateSchedulerJob(ctx, &muxi.SchedulerJobRequest{
-    Title:    "Daily report",
-    Schedule: "0 9 * * *",
-    Prompt:   "Generate daily summary",
-}, "user_123")
+// Create a job (ctx, jobType, schedule, message, userID)
+job, err := client.CreateSchedulerJob(ctx, "prompt", "0 9 * * *", "Generate daily summary", "user_123")
 
 // Delete a job
-err = client.DeleteSchedulerJob(ctx, "job_abc123", "user_123")
+err = client.DeleteSchedulerJob(ctx, "job_abc123")
 ```
 
 ### Sessions & Requests

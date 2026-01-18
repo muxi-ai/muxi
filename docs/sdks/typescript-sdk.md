@@ -106,8 +106,8 @@ for (const message of history.messages) {
   console.log(`${message.role}: ${message.content}`);
 }
 
-// Restore session
-await formation.restoreSession("sess_abc123", messages, "user_123");
+// Restore session (sessionId, userId, messages)
+await formation.restoreSession("sess_abc123", "user_123", messages);
 ```
 
 ### Memory
@@ -119,8 +119,11 @@ const config = await formation.getMemoryConfig();
 // Get memories for user
 const memories = await formation.getMemories("user_123");
 
-// Add a memory
-await formation.addMemory("User prefers TypeScript", "user_123");
+// Add a memory (userId, type, detail)
+await formation.addMemory("user_123", "preference", "User prefers TypeScript");
+
+// Delete a memory
+await formation.deleteMemory("user_123", "mem_abc123");
 
 // Clear user buffer
 await formation.clearUserBuffer("user_123");
@@ -132,15 +135,19 @@ const stats = await formation.getBufferStats();
 ### Triggers
 
 ```typescript
-const response = await formation.fireTrigger("github-issue", {
-  data: {
+// Fire a trigger (name, data, asyncMode, userId)
+const response = await formation.fireTrigger(
+  "github-issue",
+  {
     repository: "muxi/runtime",
-    issue: {
-      number: 123,
-      title: "Bug report"
-    }
-  }
-}, "user_123");
+    issue: { number: 123, title: "Bug report" }
+  },
+  false,      // asyncMode
+  "user_123"  // userId
+);
+
+// Fire async trigger
+await formation.fireTrigger("daily-report", { date: "2024-01-15" }, true, "user_123");
 ```
 
 ### Scheduler
@@ -149,15 +156,16 @@ const response = await formation.fireTrigger("github-issue", {
 // List scheduled jobs
 const jobs = await formation.getSchedulerJobs("user_123");
 
-// Create a job
-const job = await formation.createSchedulerJob({
-  title: "Daily report",
-  schedule: "0 9 * * *",  // 9am daily
-  prompt: "Generate daily summary"
-}, "user_123");
+// Create a job (jobType, schedule, message, userId)
+const job = await formation.createSchedulerJob(
+  "prompt",           // jobType
+  "0 9 * * *",        // schedule (cron)
+  "Generate daily summary",  // message
+  "user_123"          // userId
+);
 
 // Delete a job
-await formation.deleteSchedulerJob("job_abc123", "user_123");
+await formation.deleteSchedulerJob("job_abc123");
 ```
 
 ### Event Streaming

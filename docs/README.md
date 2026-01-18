@@ -217,6 +217,8 @@ Build with MUXI in your language of choice.
 
 (sdks/typescript-sdk.md)[[card]]
 
+![TypeScript](media/typescript.png)
+
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
     <rect opacity="0.2" x="2" y="2" width="20" height="20" rx="2" fill="currentColor"/>
     <rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/>

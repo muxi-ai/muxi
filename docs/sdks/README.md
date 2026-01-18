@@ -203,8 +203,8 @@ for chunk := range stream {
 # Get memories
 memories = formation.get_memories(user_id="user_123")
 
-# Add memory
-formation.add_memory("User prefers Python", user_id="user_123")
+# Add memory (user_id, mem_type, detail)
+formation.add_memory(user_id="user_123", mem_type="preference", detail="User prefers Python")
 
 # Clear buffer
 formation.clear_user_buffer(user_id="user_123")
@@ -216,8 +216,8 @@ formation.clear_user_buffer(user_id="user_123")
 // Get memories
 const memories = await formation.getMemories("user_123");
 
-// Add memory
-await formation.addMemory("User prefers TypeScript", "user_123");
+// Add memory (userId, type, detail)
+await formation.addMemory("user_123", "preference", "User prefers TypeScript");
 
 // Clear buffer
 await formation.clearUserBuffer("user_123");
@@ -229,8 +229,8 @@ await formation.clearUserBuffer("user_123");
 // Get memories
 memories, _ := client.GetMemories(ctx, "user_123")
 
-// Add memory
-client.AddMemory(ctx, "User prefers Go", "user_123")
+// Add memory (ctx, userId, type, detail)
+client.AddMemory(ctx, "user_123", "preference", "User prefers Go")
 
 // Clear buffer
 client.ClearUserBuffer(ctx, "user_123")
