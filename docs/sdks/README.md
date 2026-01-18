@@ -26,13 +26,13 @@ The SDKs are how developers build products on top of MUXI:
 
 ## Quick Install
 
-:::: cols=3
+:::: cols=2
 
 (python.md)[[card]]
 
 #### Python
 
-```bash
+```
 pip install muxi-client
 ```
 Learn more & download ›
@@ -41,7 +41,7 @@ Learn more & download ›
 
 (typescript.md)[[card]]
 #### TypeScript
-```bash
+```
 npm install @muxi-ai/muxi-typescript
 ```
 
@@ -51,7 +51,7 @@ Learn more & download ›
 
 (go.md)[[card]]
 #### Go
-```bash
+```
 go get github.com/muxi-ai/muxi-go
 ```
 
