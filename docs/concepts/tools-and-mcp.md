@@ -160,6 +160,8 @@ Credentials encrypted at rest. Complete isolation between users.
 > - **Better tool selection** - Agents only see tools relevant to their role, reducing confusion
 > - **Cleaner architecture** - Each agent has exactly what it needs, nothing more
 >
+> ---
+>
 > Only use formation-level MCP servers for tools that genuinely apply to ALL agents (e.g., a shared logging service).
 
 Formation-level MCP servers (in `mcp/*.afs`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:

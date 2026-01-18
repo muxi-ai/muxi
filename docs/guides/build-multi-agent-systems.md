@@ -99,6 +99,8 @@ system_message: |
 > - Better agent routing (Overlord knows which agent has which tools)
 > - Better tool selection (agents only see relevant tools)
 >
+> ---
+>
 > **When to use global tools:** Only for tools that genuinely apply to ALL agents. For example, a web fetch tool useful for both a research agent AND a shopping agent.
 
 ### Per-Agent Tools (Recommended)
