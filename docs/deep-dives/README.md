@@ -26,7 +26,6 @@ How the Overlord coordinates agents, routes requests, and manages complex workfl
 
 ::::
 
----
 
 ## Real-Time Features
 
@@ -44,7 +43,6 @@ Background task processing for long-running operations and webhooks.
 
 ::::
 
----
 
 ## Users & Security
 
@@ -62,7 +60,6 @@ Authentication layers, encrypted secrets, and security best practices.
 
 ::::
 
----
 
 ## Observability
 
@@ -73,7 +70,6 @@ Authentication layers, encrypted secrets, and security best practices.
 
 [[/card]]
 
----
 
 ## When to Read These
 
