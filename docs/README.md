@@ -14,7 +14,7 @@ MUXI is **The Agent Server** - production infrastructure for running AI agents. 
 
 ### Watch the Demo
 
-[![image info](https://placehold.co/600x400)](http://google.com.au/)
+[![image info](https://placehold.co/600x400)](quickstart.md)
 
 From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
