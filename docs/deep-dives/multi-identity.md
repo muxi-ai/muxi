@@ -307,124 +307,188 @@ Agent: [Uses same GitHub credentials, recognizes same user]
 
 ### Chat with Identifier
 
+Any identifier resolves to the same user profile:
+
+[[tabs]]
+
+[[tab Python]]
+```python
+from muxi import FormationClient
+
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="fmc_..."
+)
+
+# Via email identifier
+response = formation.chat({"message": "Hello"}, user_id="alice@example.com")
+
+# Via Slack identifier - same user profile
+response = formation.chat({"message": "Hello"}, user_id="U123ABC456")
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+import { FormationClient } from '@muxi-ai/muxi-typescript';
+
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: 'fmc_...'
+});
+
+// Via email identifier
+await formation.chat({ message: 'Hello' }, 'alice@example.com');
+
+// Via Slack identifier - same user profile
+await formation.chat({ message: 'Hello' }, 'U123ABC456');
+```
+[[/tab]]
+
+[[tab Go]]
+```go
+formation := muxi.NewFormationClient(
+    "http://localhost:7890",
+    "my-assistant",
+    "fmc_...",
+)
+
+// Via email identifier
+formation.Chat("Hello", "alice@example.com")
+
+// Via Slack identifier - same user profile
+formation.Chat("Hello", "U123ABC456")
+```
+[[/tab]]
+
+[[tab cURL]]
 ```bash
 # Via email identifier
 curl -X POST http://localhost:8001/v1/chat \
+  -H "X-Muxi-Client-Key: fmc_..." \
   -H "X-Muxi-User-Id: alice@example.com" \
+  -H "Content-Type: application/json" \
   -d '{"message": "Hello"}'
 
-# Via Slack identifier
+# Via Slack identifier - same user profile
 curl -X POST http://localhost:8001/v1/chat \
+  -H "X-Muxi-Client-Key: fmc_..." \
   -H "X-Muxi-User-Id: U123ABC456" \
+  -H "Content-Type: application/json" \
   -d '{"message": "Hello"}'
-
-# Both use same user profile automatically
 ```
+[[/tab]]
 
-### List User Identifiers
+[[/tabs]]
 
+### Link Identifiers
+
+Connect multiple identifiers to one user:
+
+[[tabs]]
+
+[[tab Python]]
 ```python
+# Link Slack and GitHub to existing email user
+formation.link_identifiers(
+    user_id="alice@example.com",
+    identifiers=[
+        ("U123ABC456", "slack"),
+        ("alice-dev", "github"),
+    ]
+)
+
 # Get all identifiers for a user
-identifiers = await formation.get_user_identifiers("alice@example.com")
-
-for identifier in identifiers:
-    print(f"{identifier.type}: {identifier.identifier}")
-
-# Output:
+identifiers = formation.get_user_identifiers("alice@example.com")
+for id in identifiers:
+    print(f"{id.type}: {id.identifier}")
 # email: alice@example.com
 # slack: U123ABC456
 # github: alice-dev
 ```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+// Link Slack and GitHub to existing email user
+await formation.linkIdentifiers('alice@example.com', [
+  ['U123ABC456', 'slack'],
+  ['alice-dev', 'github'],
+]);
+
+// Get all identifiers for a user
+const identifiers = await formation.getUserIdentifiers('alice@example.com');
+identifiers.forEach(id => console.log(`${id.type}: ${id.identifier}`));
+```
+[[/tab]]
+
+[[tab Go]]
+```go
+// Link Slack and GitHub to existing email user
+formation.LinkIdentifiers("alice@example.com", []muxi.Identifier{
+    {ID: "U123ABC456", Type: "slack"},
+    {ID: "alice-dev", Type: "github"},
+})
+
+// Get all identifiers for a user
+identifiers, _ := formation.GetUserIdentifiers("alice@example.com")
+for _, id := range identifiers {
+    fmt.Printf("%s: %s\n", id.Type, id.ID)
+}
+```
+[[/tab]]
+
+[[tab cURL]]
+```bash
+# Link identifiers
+curl -X POST http://localhost:8001/v1/users/identifiers \
+  -H "X-Muxi-Client-Key: fmc_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "alice@example.com",
+    "identifiers": [
+      ["U123ABC456", "slack"],
+      ["alice-dev", "github"]
+    ]
+  }'
+
+# Get user identifiers
+curl http://localhost:8001/v1/users/alice@example.com/identifiers \
+  -H "X-Muxi-Client-Key: fmc_..."
+```
+[[/tab]]
+
+[[/tabs]]
 
 ### Remove Identifier
 
+[[tabs]]
+
+[[tab Python]]
 ```python
 # Unlink an identifier
-await formation.remove_identifier(
-    identifier="alice-old-email@example.com"
-)
-
+formation.remove_identifier("alice-old-email@example.com")
 # User still accessible via other identifiers
 ```
+[[/tab]]
 
-### SDK usage patterns
-
-Keep a canonical `muxi_user_id` (e.g., `usr_abc123`) and let users attach multiple identifiers via the Formation API.
-
-**Python (HTTP client with Client Key):**
-
-```python
-import httpx
-
-CLIENT_KEY = "fmc_..."
-BASE = "https://your-server/api/v1/formations/my-formation"
-
-def chat(message: str, user_id: str):
-    r = httpx.post(
-        f"{BASE}/chat",
-        headers={"X-Muxi-Client-Key": CLIENT_KEY, "X-Muxi-User-Id": user_id},
-        json={"message": message},
-        timeout=30,
-    )
-    r.raise_for_status()
-    return r.json()
-
-def link_identifiers(muxi_user_id: str, identifiers):
-    r = httpx.post(
-        f"{BASE}/users/identifiers",
-        headers={"X-Muxi-Client-Key": CLIENT_KEY},
-        json={"muxi_user_id": muxi_user_id, "identifiers": identifiers},
-        timeout=15,
-    )
-    r.raise_for_status()
-    return r.json()
-
-# Example: chat, then link Slack + GitHub
-resp = chat("hi", user_id="alice@example.com")
-muxi_user_id = resp.get("data", {}).get("muxi_user_id", "usr_abc123")
-
-link_identifiers(
-    muxi_user_id,
-    [
-        ["U123ABC456", "slack"],
-        ["alice-dev", "github"],
-    ],
-)
+[[tab TypeScript]]
+```typescript
+// Unlink an identifier
+await formation.removeIdentifier('alice-old-email@example.com');
 ```
+[[/tab]]
 
-**TypeScript (fetch):**
-
-```ts
-const CLIENT_KEY = "fmc_...";
-const BASE = "https://your-server/api/v1/formations/my-formation";
-
-async function chat(message: string, userId: string) {
-  const res = await fetch(`${BASE}/chat`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Muxi-Client-Key": CLIENT_KEY,
-      "X-Muxi-User-Id": userId,
-    },
-    body: JSON.stringify({ message }),
-  });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
-}
-
-async function linkIdentifiers(muxiUserId: string, identifiers: Array<string | [string, string]>) {
-  const res = await fetch(`${BASE}/users/identifiers`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Muxi-Client-Key": CLIENT_KEY,
-    },
-    body: JSON.stringify({ muxi_user_id: muxiUserId, identifiers }),
-  });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
-}
+[[tab cURL]]
+```bash
+curl -X DELETE http://localhost:8001/v1/users/identifiers/alice-old-email@example.com \
+  -H "X-Muxi-Client-Key: fmc_..."
 ```
+[[/tab]]
+
+[[/tabs]]
 
 ### Building an identity dashboard
 
