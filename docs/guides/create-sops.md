@@ -11,7 +11,7 @@ SOPs (Standard Operating Procedures) ensure agents handle specific tasks consist
 
 ## Why SOPs?
 
-> **Key insight:** We don't believe traditional workflows are agentic.
+> **TL;DR:** We don't believe traditional workflows are agentic.
 
 Traditional workflow automation (if X then Y) is rigid and breaks when reality doesn't match the script. Instead, MUXI's Overlord creates workflows **dynamically** based on each user request.
 
