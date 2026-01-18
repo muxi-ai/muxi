@@ -183,7 +183,7 @@ No formations deployed yet. Deploy your first with: muxi deploy
 Your server is configured and the CLI is connected. Next steps:
 
 <div class="cards">
-  <a href="../quickstart" class="card">
+  <a href="quickstart" class="card">
     <h3>Deploy Your First Formation</h3>
     <p>Create and deploy an agent in 5 minutes</p>
   </a>

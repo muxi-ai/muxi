@@ -174,9 +174,9 @@ Deploy, stop, restart, rollback.
 Health checks, logs, metrics.
 [[/card]]
 
-::::
-
 (production.md)[[card]]
 #### Production
 TLS, systemd, best practices.
 [[/card]]
+
+::::
