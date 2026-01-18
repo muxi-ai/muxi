@@ -67,8 +67,10 @@ Authentication layers, encrypted secrets, and security best practices.
 ## Observability
 
 (observability.md)[[card]]
+
 #### Events & Monitoring
 349 typed events, logging configuration, and integration with monitoring platforms.
+
 [[/card]]
 
 ---
