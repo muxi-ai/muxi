@@ -86,9 +86,9 @@ system_message: |
 ```
 
 **Why this matters:**
-- **`description`** - The Overlord reads this to understand what the agent does
-- **`role`** - Categorizes the agent (specialist, generalist, coordinator, researcher, executor)
-- **`specialization.keywords`** - Helps match user requests to the right agent
+- `description` - The Overlord reads this to understand what the agent does
+- `role` - Categorizes the agent (specialist, generalist, coordinator, researcher, executor)
+- `specialization.keywords` - Helps match user requests to the right agent
 
 ## Step 2: Add Tools
 
