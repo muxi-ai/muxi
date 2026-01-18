@@ -253,6 +253,46 @@ All errors include:
 - `retryAfter` - Seconds to wait (for rate limits)
 
 
+## Webhook Handlers
+
+Handle incoming async/trigger webhook callbacks with signature verification:
+
+```typescript
+import { webhook } from "@muxi-ai/muxi-typescript";
+
+app.post("/webhooks/muxi", (req, res) => {
+    const signature = req.headers["x-muxi-signature"] as string;
+    
+    // Verify signature (prevents spoofing and replay attacks)
+    if (!webhook.verifySignature(req.rawBody, signature, WEBHOOK_SECRET)) {
+        return res.status(401).send("Invalid signature");
+    }
+    
+    // Parse into typed WebhookEvent
+    const event = webhook.parse(req.rawBody);
+    
+    if (event.status === "completed") {
+        for (const item of event.content) {
+            if (item.type === "text") console.log(item.text);
+        }
+    } else if (event.status === "failed") {
+        console.error(`Error: ${event.error?.message}`);
+    } else if (event.status === "awaiting_clarification") {
+        console.log(`Question: ${event.clarification?.question}`);
+    }
+    
+    res.json({ received: true });
+});
+```
+
+**WebhookEvent fields:**
+- `requestId`, `status`, `timestamp`
+- `content` - Array of `ContentItem` (type, text, file)
+- `error` - `ErrorDetails` (code, message, trace)
+- `clarification` - `Clarification` (question, clarificationRequestId)
+- `formationId`, `userId`, `processingTime`, `raw`
+
+
 ## Configuration
 
 ```typescript

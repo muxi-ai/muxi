@@ -272,16 +272,161 @@ curl -X POST http://localhost:8001/v1/chat \
 ```bash
 POST https://your-app.com/muxi-callback
 Content-Type: application/json
+X-Muxi-Signature: t=1706616000,v1=abc123...
 
 {
-  "request_id": "req_abc123",
+  "id": "req_abc123",
   "status": "completed",
-  "result": {
-    "text": "Based on my research...",
-    "artifacts": ["ai_trends_report.pdf"]
-  }
+  "response": [
+    {"type": "text", "text": "Based on my research..."}
+  ]
 }
 ```
+
+### 4. Handling Webhooks in Your Application
+
+When MUXI sends a webhook callback, you need to:
+1. **Verify the signature** (security - prevents spoofed requests)
+2. **Parse the payload** (typed access to response data)
+
+The SDKs provide helpers for both.
+
+#### Webhook Payload Structure
+
+```json
+{
+  "id": "req_abc123",
+  "status": "completed",
+  "timestamp": 1706616000,
+  "response": [
+    {"type": "text", "text": "Here's your report..."},
+    {"type": "file", "file": {"name": "report.pdf", "url": "..."}}
+  ],
+  "error": null,
+  "formation_id": "my-assistant",
+  "user_id": "user_123",
+  "processing_time": 47.32,
+  "processing_mode": "async"
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `id` | Request ID |
+| `status` | `completed`, `failed`, or `awaiting_clarification` |
+| `response` | Array of content items (text, files) |
+| `error` | Error details if `status` is `failed` |
+| `clarification` | Question details if `status` is `awaiting_clarification` |
+
+#### Python
+
+```python
+from muxi import webhook
+
+@app.post("/webhooks/muxi")
+async def handle_webhook(request: Request):
+    payload = await request.body()
+    signature = request.headers.get("X-Muxi-Signature")
+    
+    # Verify signature (prevents spoofing and replay attacks)
+    if not webhook.verify_signature(payload, signature, WEBHOOK_SECRET):
+        raise HTTPException(401, "Invalid signature")
+    
+    # Parse into typed object
+    event = webhook.parse(payload)
+    
+    if event.status == "completed":
+        for item in event.content:
+            if item.type == "text":
+                print(item.text)
+            elif item.type == "file":
+                print(f"File: {item.file['name']}")
+    elif event.status == "failed":
+        print(f"Error: {event.error.code} - {event.error.message}")
+    elif event.status == "awaiting_clarification":
+        print(f"Clarification needed: {event.clarification.question}")
+    
+    return {"received": True}
+```
+
+#### TypeScript
+
+```typescript
+import { webhook } from "@muxi-ai/muxi-typescript";
+
+app.post("/webhooks/muxi", (req, res) => {
+    const signature = req.headers["x-muxi-signature"] as string;
+    
+    // Verify signature
+    if (!webhook.verifySignature(req.rawBody, signature, WEBHOOK_SECRET)) {
+        return res.status(401).send("Invalid signature");
+    }
+    
+    // Parse into typed object
+    const event = webhook.parse(req.rawBody);
+    
+    if (event.status === "completed") {
+        for (const item of event.content) {
+            if (item.type === "text") console.log(item.text);
+        }
+    } else if (event.status === "failed") {
+        console.error(`Error: ${event.error?.message}`);
+    }
+    
+    res.json({ received: true });
+});
+```
+
+#### Go
+
+```go
+import "github.com/muxi-ai/muxi-go/webhook"
+
+func handleWebhook(w http.ResponseWriter, r *http.Request) {
+    payload, _ := io.ReadAll(r.Body)
+    sig := r.Header.Get("X-Muxi-Signature")
+    
+    // Verify signature
+    if err := webhook.VerifySignature(payload, sig, secret); err != nil {
+        http.Error(w, "Invalid signature", http.StatusUnauthorized)
+        return
+    }
+    
+    // Parse into typed object
+    event, err := webhook.Parse(payload)
+    if err != nil {
+        http.Error(w, "Invalid payload", http.StatusBadRequest)
+        return
+    }
+    
+    switch event.Status {
+    case "completed":
+        for _, item := range event.Content {
+            if item.Type == "text" {
+                fmt.Println(item.Text)
+            }
+        }
+    case "failed":
+        fmt.Printf("Error: %s\n", event.Error.Message)
+    }
+    
+    w.WriteHeader(http.StatusOK)
+}
+```
+
+#### Signature Verification Details
+
+The `X-Muxi-Signature` header format: `t=<timestamp>,v1=<signature>`
+
+- **`t`**: Unix timestamp when webhook was sent
+- **`v1`**: HMAC-SHA256 of `{timestamp}.{payload}` using your webhook secret
+
+**Security features:**
+- **Replay attack prevention**: Signatures expire after 5 minutes (configurable)
+- **Constant-time comparison**: Prevents timing attacks
+- **HMAC-SHA256**: Cryptographically secure verification
+
+**Webhook secret**: Use your formation's `admin_key` or configure a dedicated webhook secret.
 
 ## Request States
 

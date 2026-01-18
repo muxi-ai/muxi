@@ -241,6 +241,55 @@ if err != nil {
 Error types: `AuthenticationError`, `AuthorizationError`, `NotFoundError`, `ValidationError`, `RateLimitError`, `ServerError`, `ConnectionError`.
 
 
+## Webhook Handlers
+
+Handle incoming async/trigger webhook callbacks with signature verification:
+
+```go
+import "github.com/muxi-ai/muxi-go/webhook"
+
+func handleWebhook(w http.ResponseWriter, r *http.Request) {
+    payload, _ := io.ReadAll(r.Body)
+    sig := r.Header.Get("X-Muxi-Signature")
+    
+    // Verify signature (prevents spoofing and replay attacks)
+    if err := webhook.VerifySignature(payload, sig, webhookSecret); err != nil {
+        http.Error(w, "Invalid signature", http.StatusUnauthorized)
+        return
+    }
+    
+    // Parse into typed WebhookEvent
+    event, err := webhook.Parse(payload)
+    if err != nil {
+        http.Error(w, "Invalid payload", http.StatusBadRequest)
+        return
+    }
+    
+    switch event.Status {
+    case "completed":
+        for _, item := range event.Content {
+            if item.Type == "text" {
+                fmt.Println(item.Text)
+            }
+        }
+    case "failed":
+        fmt.Printf("Error: %s - %s\n", event.Error.Code, event.Error.Message)
+    case "awaiting_clarification":
+        fmt.Printf("Question: %s\n", event.Clarification.Question)
+    }
+    
+    w.WriteHeader(http.StatusOK)
+}
+```
+
+**WebhookEvent fields:**
+- `RequestID`, `Status`, `Timestamp`
+- `Content` - Slice of `ContentItem` (Type, Text, File)
+- `Error` - `*ErrorDetails` (Code, Message, Trace)
+- `Clarification` - `*Clarification` (Question, ClarificationRequestID)
+- `FormationID`, `UserID`, `ProcessingTime`, `Raw`
+
+
 ## Configuration
 
 - **Default timeout:** 30s (no timeout for streaming)

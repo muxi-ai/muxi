@@ -143,6 +143,39 @@ Waits for completion (for testing):
 }
 ```
 
+### Handling Trigger Callbacks
+
+When a trigger completes, MUXI sends a webhook to your configured callback URL. Use the SDK webhook helpers to verify and parse the response:
+
+```python
+from muxi import webhook
+
+@app.post("/trigger-callback")
+async def handle_trigger_result(request: Request):
+    payload = await request.body()
+    signature = request.headers.get("X-Muxi-Signature")
+    
+    # Verify signature (security)
+    if not webhook.verify_signature(payload, signature, WEBHOOK_SECRET):
+        raise HTTPException(401, "Invalid signature")
+    
+    # Parse into typed object
+    event = webhook.parse(payload)
+    
+    if event.status == "completed":
+        # Process successful trigger result
+        for item in event.content:
+            if item.type == "text":
+                print(f"Trigger result: {item.text}")
+    elif event.status == "failed":
+        print(f"Trigger failed: {event.error.message}")
+    
+    return {"received": True}
+```
+
+> [!TIP]
+> See [Async Processing - Handling Webhooks](async.md#4-handling-webhooks-in-your-application) for complete webhook handling documentation including TypeScript and Go examples.
+
 
 ## Directory Structure
 

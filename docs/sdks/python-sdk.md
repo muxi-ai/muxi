@@ -233,6 +233,43 @@ All errors include:
 - `retry_after` - Seconds to wait (for rate limits)
 
 
+## Webhook Handlers
+
+Handle incoming async/trigger webhook callbacks with signature verification:
+
+```python
+from muxi import webhook
+
+@app.post("/webhooks/muxi")
+async def handle_webhook(request: Request):
+    payload = await request.body()
+    signature = request.headers.get("X-Muxi-Signature")
+    
+    # Verify signature (prevents spoofing and replay attacks)
+    if not webhook.verify_signature(payload, signature, WEBHOOK_SECRET):
+        raise HTTPException(401, "Invalid signature")
+    
+    # Parse into typed WebhookEvent
+    event = webhook.parse(payload)
+    
+    if event.status == "completed":
+        for item in event.content:
+            if item.type == "text":
+                print(item.text)
+    elif event.status == "failed":
+        print(f"Error: {event.error.message}")
+    elif event.status == "awaiting_clarification":
+        print(f"Question: {event.clarification.question}")
+```
+
+**WebhookEvent fields:**
+- `request_id`, `status`, `timestamp`
+- `content` - List of `ContentItem` (type, text, file)
+- `error` - `ErrorDetails` (code, message, trace)
+- `clarification` - `Clarification` (question, clarification_request_id)
+- `formation_id`, `user_id`, `processing_time`, `raw`
+
+
 ## Configuration
 
 ```python
