@@ -199,6 +199,63 @@ Discover and share formations.
 
 ---
 
+## Explore by SDK
+
+Build with MUXI in your language of choice.
+
+:::: cols=3
+
+(sdks/python-sdk.md)[[card]]
+
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path opacity="0.2" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" fill="currentColor"/>
+    <path d="M9.585 11.692h4.328s2.432.039 2.432-2.35V5.391S16.714 3 11.757 3C7.04 3 7.354 4.974 7.354 4.974l.008 2.058h4.492v.617H5.592S3 7.377 3 12.063s2.268 4.519 2.268 4.519h1.354v-2.138s-.073-2.268 2.231-2.268l-.268.016z" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M14.415 12.308h-4.328s-2.432-.039-2.432 2.35v3.951S7.286 21 12.243 21c4.717 0 4.403-1.974 4.403-1.974l-.008-2.058h-4.492v-.617h6.262S21 16.623 21 11.937s-2.268-4.519-2.268-4.519h-1.354v2.138s.073 2.268-2.231 2.268l.268-.016z" stroke="currentColor" stroke-width="1.2"/>
+    <circle cx="9.75" cy="6.25" r="1" fill="currentColor"/>
+    <circle cx="14.25" cy="17.75" r="1" fill="currentColor"/>
+</svg>
+
+#### Python
+`pip install muxi`
+
+[[/card]]
+
+(sdks/typescript-sdk.md)[[card]]
+
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <rect opacity="0.2" x="2" y="2" width="20" height="20" rx="2" fill="currentColor"/>
+    <rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M7 11v1.5h2.5V18h2v-5.5H14V11H7z" fill="currentColor"/>
+    <path d="M15.5 15.5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5c0-2.5-3.5-1.5-3.5-3 0-.55.45-1 1-1s1 .45 1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+#### TypeScript
+`npm install @muxi/sdk`
+
+[[/card]]
+
+(sdks/go-sdk.md)[[card]]
+
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <ellipse opacity="0.2" cx="12" cy="12" rx="10" ry="6" fill="currentColor"/>
+    <ellipse cx="12" cy="12" rx="10" ry="6" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M12 6c5.523 0 10 2.686 10 6M12 18c-5.523 0-10-2.686-10-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="8" cy="11" r="1.5" fill="currentColor"/>
+    <circle cx="16" cy="11" r="1.5" fill="currentColor"/>
+    <path d="M9 14c.83.63 1.87 1 3 1s2.17-.37 3-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+#### Go
+`go get github.com/muxi-ai/muxi-go`
+
+[[/card]]
+
+::::
+
+[All SDKs →](sdks/README.md) · *More languages coming soon*
+
+---
+
 ## Learn
 
 :::: cols=3
