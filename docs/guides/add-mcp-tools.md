@@ -25,7 +25,7 @@ MUXI supports both MCP transport protocols:
 
 Both protocols support authentication via environment variables, headers, or OAuth.
 
-[Tools Schema Reference →](../reference/tools.md) - Full configuration options for both protocols
+→ [Tools Schema Reference](../reference/tools.md) - Full configuration options for both protocols
 
 ---
 
@@ -228,6 +228,8 @@ auth:
 > **Prefer per-agent tools over global tools.** This produces better results:
 > - **Overlord routes smarter** - Uses tool capabilities to pick the right agent
 > - **Agents choose tools better** - Only see tools relevant to their role
+>
+> ---
 >
 > Reserve global MCP servers (in `mcp/*.afs`) for tools that genuinely apply to ALL agents.
 
