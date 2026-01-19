@@ -18,7 +18,7 @@ Find pre-built formations, share your own, and manage versions - all from the co
 ### Pull a Formation
 
 ```bash
-muxi pull @muxi/starter-assistant
+muxi pull @muxi/starter
 cd starter-assistant
 muxi secrets setup
 muxi dev

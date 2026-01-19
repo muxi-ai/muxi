@@ -19,15 +19,15 @@ muxi search <query>        # Search registry
 ## Pull Formation
 
 ```bash
-muxi pull @muxi/starter-assistant
+muxi pull @muxi/starter
 ```
 
 Downloads to current directory:
 
 ```
-Pulling @muxi/starter-assistant...
+Pulling @muxi/starter...
 ✓ Downloaded v1.0.0
-✓ Extracted to ./starter-assistant
+✓ Extracted to ./starter
 
 cd starter-assistant
 muxi secrets setup
@@ -37,13 +37,13 @@ muxi dev
 ### Pull Specific Version
 
 ```bash
-muxi pull @muxi/starter-assistant@1.0.0
+muxi pull @muxi/starter@1.0.0
 ```
 
 ### Pull to Custom Path
 
 ```bash
-muxi pull @muxi/starter-assistant --output /path/to/dir
+muxi pull @muxi/starter --output /path/to/dir
 ```
 
 ## Search Registry
