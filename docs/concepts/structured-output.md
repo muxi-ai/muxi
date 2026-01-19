@@ -65,7 +65,7 @@ response:
 - Human-readable content
 
 **Example output:**
-```markdown
+```
 # Cloud Computing Benefits
 
 ## Cost Efficiency

@@ -103,7 +103,7 @@ Uses semantic search (meaning, not keywords) and incremental indexing (only re-i
 
 Yes - **Standard Operating Procedures (SOPs)**. Create markdown files in `sops/` that define step-by-step procedures:
 
-```markdown
+```
 <!-- sops/refund-request.md -->
 ---
 type: sop

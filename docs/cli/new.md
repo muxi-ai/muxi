@@ -107,7 +107,7 @@ muxi new trigger github-issue
 
 Creates `triggers/github-issue.md`:
 
-```markdown
+```
 ---
 name: GitHub Issue Handler
 tags: [github, issue]
@@ -126,7 +126,7 @@ muxi new sop customer-onboarding
 
 Creates `sops/customer-onboarding.md`:
 
-```markdown
+```
 ---
 name: Customer Onboarding
 tags: [customer, onboarding]

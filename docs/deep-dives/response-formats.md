@@ -161,7 +161,7 @@ MUXI streams tokens as the model generates them. Use SSE for simple, one-way str
 - Tables
 
 **Example response:**
-```markdown
+```
 # Analysis Results
 
 ## Key Findings

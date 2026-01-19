@@ -50,7 +50,7 @@ Triggers are just webhook-optimized requests.
 
 Create a markdown file in `triggers/`:
 
-```markdown
+```
 <!-- triggers/github-issue.md -->
 New GitHub issue from ${{ data.repository }}:
 
@@ -96,17 +96,17 @@ curl -X POST http://localhost:8001/v1/formations/my-formation/triggers/github-is
 Templates use `${{ data.* }}` for variable substitution:
 
 ### Simple Access
-```markdown
+```
 Hello ${{ data.name }}!
 ```
 
 ### Nested Access
-```markdown
+```
 Issue #${{ data.issue.number }}: ${{ data.issue.title }}
 ```
 
 ### Multi-Level Nesting
-```markdown
+```
 User: ${{ data.user.profile.name }}
 ```
 
@@ -266,7 +266,7 @@ Triggers are auto-discovered from the `triggers/` directory.
 
 ### GitHub Issue
 
-```markdown
+```
 <!-- triggers/github-issue.md -->
 New GitHub issue from ${{ data.repository }}:
 
@@ -286,7 +286,7 @@ Please analyze and provide:
 
 ### Slack Message
 
-```markdown
+```
 <!-- triggers/slack-message.md -->
 Slack message from ${{ data.user.name }} in #${{ data.channel.name }}:
 
@@ -297,7 +297,7 @@ Please respond appropriately.
 
 ### Monitoring Alert
 
-```markdown
+```
 <!-- triggers/monitoring-alert.md -->
 Alert: ${{ data.alert.name }}
 Severity: ${{ data.alert.severity }}

@@ -157,7 +157,7 @@ Task 4: Create executive summary
 ```
 
 **Final Output:**
-```markdown
+```
 # AI Trends 2025: Executive Summary
 
 ## Key Findings

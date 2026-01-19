@@ -14,7 +14,7 @@ SOPs are markdown files in `sops/` that define procedures agents follow for spec
 
 ## File Structure
 
-```markdown
+```
 ---
 type: sop
 name: Procedure Name
@@ -91,7 +91,7 @@ Embed in step descriptions:
 
 ### Examples
 
-```markdown
+```
 1. **Code Review** [agent:senior-dev]
    Route to senior developer agent.
 
@@ -130,7 +130,7 @@ SOPs match via semantic search:
 
 ## Example: Complete SOP
 
-```markdown
+```
 ---
 type: sop
 name: Customer Refund Processing

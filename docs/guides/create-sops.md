@@ -34,7 +34,7 @@ Traditional workflow automation (if X then Y) is rigid and breaks when reality d
 
 Create a markdown file in `sops/`:
 
-```markdown
+```
 <!-- sops/customer-onboarding.md -->
 ---
 type: sop
@@ -94,7 +94,7 @@ bypass_approval: true        # Skip workflow approval
 
 ### Body
 
-```markdown
+```
 # Title
 
 Description of what this procedure does.
@@ -142,21 +142,21 @@ Add directives in square brackets to control execution:
 
 ### Route to Specific Agent
 
-```markdown
+```
 1. **Code Review** [agent:senior-dev]
    Have senior developer review the code.
 ```
 
 ### Use Specific Tool
 
-```markdown
+```
 2. **Create Ticket** [mcp:jira/create-issue]
    Create a Jira ticket for tracking.
 ```
 
 ### Mark Critical Steps
 
-```markdown
+```
 3. **Audit Log** [critical]
    This step cannot be skipped.
 ```
@@ -166,7 +166,7 @@ Add directives in square brackets to control execution:
 
 ### Refund Processing
 
-```markdown
+```
 ---
 type: sop
 name: Refund Processing
@@ -194,7 +194,7 @@ tags: refund, customer, payment
 
 ### Incident Response
 
-```markdown
+```
 ---
 type: sop
 name: Incident Response
@@ -228,7 +228,7 @@ tags: incident, outage, alert, emergency
 
 ### Code Review
 
-```markdown
+```
 ---
 type: sop
 name: Code Review

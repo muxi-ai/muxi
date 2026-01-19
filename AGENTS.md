@@ -81,7 +81,7 @@ When making changes to this repo:
 
 When adding AGENTS.md to other repositories, use this structure:
 
-```markdown
+```
 # AGENTS.md
 
 > This file helps AI coding assistants understand this repository.

@@ -28,7 +28,7 @@ Triggers are always async (there's no one waiting) - the result is delivered via
 
 Create a markdown file in `triggers/`:
 
-```markdown
+```
 <!-- triggers/github-issue.md -->
 New issue from ${{ data.repository }}:
 
@@ -72,7 +72,7 @@ https://your-server/v1/formations/{formation_id}/triggers/github-issue
 
 Use `${{ data.* }}` to reference webhook payload data:
 
-```markdown
+```
 # Simple
 Hello ${{ data.name }}!
 
@@ -89,7 +89,7 @@ User: ${{ data.user.profile.name }}
 ### GitHub
 
 **Template:** `triggers/github-issue.md`
-```markdown
+```
 New issue in ${{ data.repository.full_name }}:
 
 **#${{ data.issue.number }}**: ${{ data.issue.title }}
@@ -109,7 +109,7 @@ Please triage this issue.
 ### Slack
 
 **Template:** `triggers/slack-message.md`
-```markdown
+```
 Message from ${{ data.event.user }} in #${{ data.event.channel }}:
 
 "${{ data.event.text }}"
@@ -124,7 +124,7 @@ Please respond helpfully.
 ### Stripe
 
 **Template:** `triggers/stripe-payment.md`
-```markdown
+```
 Payment received:
 
 **Amount**: ${{ data.data.object.amount }}

@@ -88,7 +88,7 @@ GET /v1/formations/{formation_id}/triggers
 
 Templates use `${{ data.* }}` for variable substitution:
 
-```markdown
+```
 ${{ data.name }}                    # Simple access
 ${{ data.issue.number }}            # Nested access
 ${{ data.user.profile.name }}       # Multi-level nesting
@@ -146,7 +146,7 @@ Templates are auto-discovered from `triggers/` directory.
 
 ### 1. Create Template
 
-```markdown
+```
 <!-- triggers/github-issue.md -->
 New issue from ${{ data.repository }}:
 

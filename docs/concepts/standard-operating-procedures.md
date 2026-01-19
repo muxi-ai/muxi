@@ -66,7 +66,7 @@ SOPs have **highest routing priority** - when matched, they override normal agen
 
 SOPs are Markdown files with YAML frontmatter in your `sops/` directory:
 
-```markdown
+```
 ---
 type: sop
 name: Customer Onboarding
@@ -146,25 +146,25 @@ mode: guide
 Embed instructions in step descriptions:
 
 ### Agent Routing
-```markdown
+```
 1. **Review Code** [agent:senior-dev]
    Route this step to a specific agent.
 ```
 
 ### MCP Tools
-```markdown
+```
 2. **Create Ticket** [mcp:jira/create-issue]
    Use specific MCP tool.
 ```
 
 ### Critical Steps
-```markdown
+```
 3. **Audit Log** [critical]
    This step cannot be optimized away.
 ```
 
 ### File References
-```markdown
+```
 4. **Use Template** [file:templates/report.md]
    Include external file content.
 ```
@@ -191,7 +191,7 @@ SOPs are auto-discovered from the `sops/` directory.
 
 ### Compliance Audit (Template Mode)
 
-```markdown
+```
 ---
 type: sop
 name: Security Compliance Audit
@@ -220,7 +220,7 @@ bypass_approval: false
 
 ### Code Review (Guide Mode)
 
-```markdown
+```
 ---
 type: sop
 name: Pull Request Review

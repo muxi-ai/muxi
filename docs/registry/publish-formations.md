@@ -56,7 +56,7 @@ OPENAI_API_KEY=
 
 Create `README.md` in formation directory:
 
-```markdown
+```
 # My Formation
 
 Description of what this formation does.

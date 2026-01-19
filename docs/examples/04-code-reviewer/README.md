@@ -120,7 +120,7 @@ def login(username, password):
 ```
 
 **Agent Comment:**
-```markdown
+```
 ## Code Review
 
 ### 🚨 Security Issues
