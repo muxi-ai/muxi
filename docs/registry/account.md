@@ -101,5 +101,5 @@ muxi push              # Publish to your namespace
 
 ## Next Steps
 
-- [Publishing](publishing.md) - Publish your first formation
+- [Publishing](../registry/publish-formations.md) - Publish your first formation
 - [Versioning](versioning.md) - Version management

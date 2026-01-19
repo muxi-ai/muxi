@@ -225,7 +225,7 @@ muxi chat --profile production "Hello!"
 - [ ] Firewall configured (allow 443, block 7890 from outside)
 - [ ] `systemd` service running
 - [ ] Logs configured
-- [ ] Monitoring set up (see [Monitoring Guide](monitoring.md))
+- [ ] Monitoring set up (see [Monitoring Guide](../guides/setup-monitoring.md))
 - [ ] Backup strategy planned
 
 
@@ -260,8 +260,8 @@ curl http://127.0.0.1:7890/health
 
 ## Next Steps
 
-[+] [Server: Managing Formations](server/managing-formations.md) - All operations
-[+] [CLI: muxi deploy](cli/deploy.md) - Command reference
-[+] [Production Guide](server/production-checklist.md) - Best practices
-[+] [Monitoring & Logs](monitoring.md) - Set up observability
-[+] [CI/CD Integration](ci-cd.md) - Automate deployments
+[+] [Server: Managing Formations](../server/managing-formations.md) - All operations
+[+] [CLI: muxi deploy](../cli/deploy.md) - Command reference
+[+] [Production Guide](../server/production-checklist.md) - Best practices
+[+] [Monitoring & Logs](../guides/setup-monitoring.md) - Set up observability
+[+] [CI/CD Integration](../guides/setup-ci-cd.md) - Automate deployments

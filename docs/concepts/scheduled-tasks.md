@@ -566,6 +566,6 @@ Agent: "Done! I'll check your email hourly and notify you of anything urgent."
 
 ## Learn More
 
-- [Triggers & Webhooks](triggers.md) - Real-time webhook-based automation
-- [Tools & MCP](tools.md) - How agents use tools in scheduled tasks
-- [Memory System](memory.md) - How context persists across scheduled executions
+- [Triggers & Webhooks](../concepts/triggers-and-webhooks.md) - Real-time webhook-based automation
+- [Tools & MCP](../concepts/tools-and-mcp.md) - How agents use tools in scheduled tasks
+- [Memory System](../concepts/memory-system.md) - How context persists across scheduled executions

@@ -172,6 +172,6 @@ In AI systems:
 
 ## Learn More
 
-[+] [Observability Deep Dive](deep-dives/observability.md) - Full event reference and configuration
-[+] [Event Types](deep-dives/observability-events.md) - All 349 event types
-[+] [Set Up Monitoring](guides/setup-monitoring.md) - Step-by-step guide
+[+] [Observability Deep Dive](../deep-dives/observability.md) - Full event reference and configuration
+[+] [Event Types](../deep-dives/observability-events.md) - All 349 event types
+[+] [Set Up Monitoring](../guides/setup-monitoring.md) - Step-by-step guide

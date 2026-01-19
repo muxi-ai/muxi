@@ -160,7 +160,7 @@ sudo systemctl start muxi-server
 
 ### launchd (macOS)
 
-See [macOS Installation](installation/macos.md).
+See [macOS Installation](../installation/macos.md).
 
 ## Configuration
 
@@ -338,5 +338,5 @@ Consider:
 
 ## Next Steps
 
-- [Monitoring](monitoring.md) - Set up monitoring
+- [Monitoring](../guides/setup-monitoring.md) - Set up monitoring
 - [Authentication](authentication.md) - Secure access

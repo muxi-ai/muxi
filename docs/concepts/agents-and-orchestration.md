@@ -244,5 +244,5 @@ The Overlord sets strategy, agents execute and collaborate as needed.
 
 - [The Overlord](overlord.md) - How orchestration works
 - [SOPs](standard-operating-procedures.md) - Predefined workflow templates
-- [Configure Agents](reference/agents.md) - Agent file syntax
-- [Multi-Agent Guide](guides/build-multi-agent-systems.md) - Build your first system
+- [Configure Agents](../reference/agents.md) - Agent file syntax
+- [Multi-Agent Guide](../guides/build-multi-agent-systems.md) - Build your first system

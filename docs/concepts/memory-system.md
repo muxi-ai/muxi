@@ -230,6 +230,6 @@ memory:
 
 ## Learn More
 
-- [Configure Memory](reference/memory.md) - YAML syntax
-- [Add Memory Guide](guides/add-memory.md) - Step-by-step tutorial
-- [Memory Internals](deep-dives/memory-internals.md) - Technical deep dive
+- [Configure Memory](../reference/memory.md) - YAML syntax
+- [Add Memory Guide](../guides/add-memory.md) - Step-by-step tutorial
+- [Memory Internals](../deep-dives/memory-internals.md) - Technical deep dive

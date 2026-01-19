@@ -141,4 +141,4 @@ jobs:
 ## Next Steps
 
 - [Deploy to Production](deploy-to-production.md) - Manual deployment
-- [Monitoring](monitoring.md) - Post-deploy monitoring
+- [Monitoring](../guides/setup-monitoring.md) - Post-deploy monitoring

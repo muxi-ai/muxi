@@ -30,7 +30,7 @@ We decided against environment variables because they're **not portable and not 
 The GitHub Actions-style notation (`${{ secrets.KEY }}`) makes it clear exactly where each secret is used.
 
 > [!TIP]
-> Learn more about the design decision in [Why Encrypted Secrets](concepts/secrets-and-security.md).
+> Learn more about the design decision in [Why Encrypted Secrets](../concepts/secrets-and-security.md).
 >
 > **API Reference:**
 > - [`GET /v1/secrets`](api/formation#tag/Secrets/GET/secrets) - List secrets
@@ -279,6 +279,6 @@ ls -la secrets.enc .key
 
 ## Next Steps
 
-[+] [Why Encrypted Secrets](concepts/secrets-and-security.md) - Design rationale
-[+] [Tools](tools.md) - Use secrets with MCP servers
-[+] [Security](deep-dives/security-model.md) - Full security model
+[+] [Why Encrypted Secrets](../concepts/secrets-and-security.md) - Design rationale
+[+] [Tools](../concepts/tools-and-mcp.md) - Use secrets with MCP servers
+[+] [Security](../deep-dives/security-model.md) - Full security model

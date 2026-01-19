@@ -23,7 +23,7 @@ Or specify profile:
 muxi deploy --profile production
 ```
 
-**CLI:** [`muxi deploy`](cli/deploy.md) | **API:** [`POST /rpc/formations`](/api/server#tag/Formations/POST/rpc/formations)
+**CLI:** [`muxi deploy`](../cli/deploy.md) | **API:** [`POST /rpc/formations`](/api/server#tag/Formations/POST/rpc/formations)
 
 ### Zero-Downtime Updates
 
@@ -57,7 +57,7 @@ If the new version fails health checks, the old version keeps running and the up
 muxi server list
 ```
 
-**CLI:** [`muxi server list`](cli/formation.md#list) | **API:** [`GET /rpc/formations`](/api/server#tag/Formations/GET/rpc/formations)
+**CLI:** [`muxi server list`](../cli/server.md#list) | **API:** [`GET /rpc/formations`](/api/server#tag/Formations/GET/rpc/formations)
 
 Output:
 
@@ -90,7 +90,7 @@ Memory:    128MB
 muxi server stop my-assistant
 ```
 
-**CLI:** [`muxi server stop`](cli/formation.md#stop) | **API:** [`POST /rpc/formations/{id}/stop`](/api/server#tag/Formations/POST/rpc/formations/{formation_id}/stop)
+**CLI:** [`muxi server stop`](../cli/server.md#stop) | **API:** [`POST /rpc/formations/{id}/stop`](/api/server#tag/Formations/POST/rpc/formations/{formation_id}/stop)
 
 ## Restart Formation
 
@@ -98,7 +98,7 @@ muxi server stop my-assistant
 muxi server restart my-assistant
 ```
 
-**CLI:** [`muxi server restart`](cli/formation.md#restart) | **API:** [`POST /rpc/formations/{id}/restart`](/api/server#tag/Formations/POST/rpc/formations/{formation_id}/restart)
+**CLI:** [`muxi server restart`](../cli/server.md#restart) | **API:** [`POST /rpc/formations/{id}/restart`](/api/server#tag/Formations/POST/rpc/formations/{formation_id}/restart)
 
 ## Delete Formation
 
@@ -106,7 +106,7 @@ muxi server restart my-assistant
 muxi server delete my-assistant
 ```
 
-**CLI:** [`muxi server delete`](cli/formation.md#delete) | **API:** [`DELETE /rpc/formations/{id}`](/api/server#tag/Formations/DELETE/rpc/formations/{formation_id})
+**CLI:** [`muxi server delete`](../cli/server.md#delete) | **API:** [`DELETE /rpc/formations/{id}`](/api/server#tag/Formations/DELETE/rpc/formations/{formation_id})
 
 ## Rollback
 
@@ -284,5 +284,5 @@ lsof -i :8001
 
 ## Next Steps
 
-- [Monitoring](monitoring.md) - Health and metrics
-- [Production](production.md) - Production deployment
+- [Monitoring](../guides/setup-monitoring.md) - Health and metrics
+- [Production](../server/production-checklist.md) - Production deployment

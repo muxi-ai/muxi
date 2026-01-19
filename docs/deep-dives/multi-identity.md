@@ -738,6 +738,6 @@ Each formation is isolated by design.
 
 ## Learn More
 
-- [User Credentials](concepts/user-credentials.md) - Per-user credential storage
-- [Memory System](concepts/memory-system.md) - User-specific memory
+- [User Credentials](../concepts/user-credentials.md) - Per-user credential storage
+- [Memory System](../concepts/memory-system.md) - User-specific memory
 - [Multi-Tenancy](multi-tenancy.md) - User isolation architecture

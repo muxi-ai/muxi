@@ -205,6 +205,6 @@ Fix: Create triggers/trigger-name.md
 
 ## Learn More
 
-- [Triggers & Webhooks](concepts/triggers-and-webhooks.md) - Full concept
-- [Triggers Reference](reference/triggers.md) - API reference
-- [Async Processing](concepts/async.md) - Async mode details
+- [Triggers & Webhooks](../concepts/triggers-and-webhooks.md) - Full concept
+- [Triggers Reference](../reference/triggers.md) - API reference
+- [Async Processing](../concepts/async.md) - Async mode details

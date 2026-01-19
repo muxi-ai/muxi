@@ -229,5 +229,5 @@ Output includes:
 ## Next Steps
 
 [+] [Request Lifecycle](request-lifecycle.md) - Full request flow
-[+] [Multi-Agent Guide](guides/build-multi-agent-systems.md) - Building agent teams
-[+] [SOPs](reference/sops.md) - Standard operating procedures
+[+] [Multi-Agent Guide](../guides/build-multi-agent-systems.md) - Building agent teams
+[+] [SOPs](../reference/sops.md) - Standard operating procedures

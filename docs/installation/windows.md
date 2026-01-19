@@ -103,5 +103,5 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ## Next Steps
 
-- [Quickstart](quickstart.md) - Create your first formation
-- [Server Configuration](server/configuration.md) - Customize settings
+- [Quickstart](../quickstart.md) - Create your first formation
+- [Server Configuration](../server/configuration.md) - Customize settings

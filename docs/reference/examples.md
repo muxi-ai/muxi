@@ -403,6 +403,6 @@ logging:
 
 ## Next Steps
 
-- [Schema Reference](schema.md) - Full schema documentation
-- [Tools](tools.md) - MCP configuration
+- [Schema Reference](../reference/formation-schema.md) - Full schema documentation
+- [Tools](../concepts/tools-and-mcp.md) - MCP configuration
 - [Example Formations](examples/) - Runnable examples

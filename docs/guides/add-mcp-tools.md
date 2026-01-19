@@ -24,7 +24,7 @@ MUXI supports both MCP transport protocols:
 
 Both protocols support authentication via environment variables, headers, or OAuth.
 
-→ [Tools Schema Reference](reference/tools.md) - Full configuration options for both protocols
+→ [Tools Schema Reference](../reference/tools.md) - Full configuration options for both protocols
 
 
 ## What You'll Build
@@ -299,6 +299,6 @@ timeout_seconds: 60
 
 ## Next Steps
 
-- [Tools Reference](reference/tools.md) - All configuration options
+- [Tools Reference](../reference/tools.md) - All configuration options
 - [Add Memory](add-memory.md) - Persistent conversations
-- [Multi-Agent Systems](multi-agent.md) - Specialized agent teams
+- [Multi-Agent Systems](../guides/build-multi-agent-systems.md) - Specialized agent teams

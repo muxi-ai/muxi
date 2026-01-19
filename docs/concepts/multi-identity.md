@@ -335,4 +335,4 @@ Multi-identity solves the "same user, different channels" problem:
 - [Memory System](memory-system.md) - How memory works per-user
 - [Sessions](sessions.md) - Sessions vs users
 - [User Credentials](user-credentials.md) - Per-user API keys
-- [SDK Reference](sdks/README.md) - Identity management API
+- [SDK Reference](../sdks/README.md) - Identity management API

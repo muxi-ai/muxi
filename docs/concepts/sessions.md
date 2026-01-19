@@ -289,8 +289,8 @@ The key insight: **Sessions organize conversations, but memory flows across them
 
 ## Learn More
 
-- [Memory Reference](reference/memory.md) - Session and buffer configuration
+- [Memory Reference](../reference/memory.md) - Session and buffer configuration
 - [Memory System](memory-system.md) - Four memory layers in depth
 - [Multi-Identity Users](multi-identity.md) - One user, many identifiers
-- [Session Restore](runtime/session-restore.md) - Restore conversations from external storage
-- [SDK Reference](sdks/README.md) - Session management in code
+- [Session Restore](../runtime/session-restore.md) - Restore conversations from external storage
+- [SDK Reference](../sdks/README.md) - Session management in code

@@ -413,6 +413,6 @@ func main() {
 
 ## Learn More
 
-- [Python SDK](python.md)
-- [TypeScript SDK](typescript.md)
-- [API Reference](reference/api-reference.md)
+- [Python SDK](python-sdk.md)
+- [TypeScript SDK](typescript-sdk.md)
+- [API Reference](../reference/api-reference.md)

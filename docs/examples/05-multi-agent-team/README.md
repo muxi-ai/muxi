@@ -401,6 +401,6 @@ overlord:
 
 ## Next Steps
 
-- [Workflows Guide](../concepts/workflows-and-task-decomposition.md) - Understand workflow system
-- [Approvals](../concepts/human-in-the-loop.md) - Add human-in-the-loop
-- [SOPs](../guides/create-sops.md) - Create repeatable workflows
+- [Workflows Guide](../../concepts/workflows-and-task-decomposition.md) - Understand workflow system
+- [Approvals](../../concepts/human-in-the-loop.md) - Add human-in-the-loop
+- [SOPs](../../guides/create-sops.md) - Create repeatable workflows

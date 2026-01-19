@@ -76,11 +76,11 @@ Authentication layers, encrypted secrets, and security best practices.
 | Situation | Start Here |
 |-----------|------------|
 | Debugging slow requests | [Request Lifecycle](request-lifecycle.md) |
-| Understanding agent routing | [Orchestration](orchestration.md) |
-| Implementing streaming UI | [Streaming](streaming.md) |
+| Understanding agent routing | [Orchestration](../deep-dives/how-orchestration-works.md) |
+| Implementing streaming UI | [Streaming](../deep-dives/real-time-streaming.md) |
 | Building multi-tenant app | [Multi-User](multi-user.md) |
-| Security audit | [Security](security.md) |
+| Security audit | [Security](../deep-dives/security-model.md) |
 | Setting up monitoring | [Observability](observability.md) |
 
 > [!NOTE]
-> These docs assume familiarity with MUXI basics. Start with the [Quickstart](quickstart.md) and [Reference](reference/README.md) first.
+> These docs assume familiarity with MUXI basics. Start with the [Quickstart](../quickstart.md) and [Reference](../reference/README.md) first.

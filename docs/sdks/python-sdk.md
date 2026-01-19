@@ -344,6 +344,6 @@ while True:
 
 ## Learn More
 
-- [TypeScript SDK](typescript.md)
-- [Go SDK](go.md)
-- [API Reference](reference/api-reference.md)
+- [TypeScript SDK](typescript-sdk.md)
+- [Go SDK](go-sdk.md)
+- [API Reference](../reference/api-reference.md)

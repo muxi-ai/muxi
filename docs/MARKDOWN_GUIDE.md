@@ -217,7 +217,7 @@ Buttons create styled call-to-action links.
 ```md
 [>] [Get Started](quickstart.md)
 [>>] [View Examples](examples/README.md)
-[[>]] [Learn More](about.md)
+[[>]] [Learn More](what-is-muxi.md)
 ```
 
 ### Button styles

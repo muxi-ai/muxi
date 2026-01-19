@@ -174,7 +174,7 @@ async def handle_trigger_result(request: Request):
 ```
 
 > [!TIP]
-> See [Async Processing - Handling Webhooks](async.md#4-handling-webhooks-in-your-application) for complete webhook handling documentation including TypeScript and Go examples.
+> See [Async Processing - Handling Webhooks](../concepts/async.md#4-handling-webhooks-in-your-application) for complete webhook handling documentation including TypeScript and Go examples.
 
 
 ## Directory Structure
@@ -315,6 +315,6 @@ Triggers automatically **bypass workflow approvals**. This is intentional becaus
 
 ## Learn More
 
-- [Create Triggers Guide](guides/create-triggers.md) - Step-by-step setup
-- [Triggers Reference](reference/triggers.md) - Full API reference
-- [Async Processing](async.md) - Async mode details
+- [Create Triggers Guide](../guides/create-triggers.md) - Step-by-step setup
+- [Triggers Reference](../reference/triggers.md) - Full API reference
+- [Async Processing](../concepts/async.md) - Async mode details

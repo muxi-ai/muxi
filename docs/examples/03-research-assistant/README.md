@@ -231,7 +231,7 @@ curl https://api.yourcompany.com/research/v1/chat \
 
 ## Next Steps
 
-- [Add More Tools](../guides/add-mcp-tools.md) - Database, APIs, etc.
+- [Add More Tools](../../guides/add-mcp-tools.md) - Database, APIs, etc.
 - [Code Reviewer](04-code-reviewer/) - GitHub integration example
 - [Multi-Agent Team](05-multi-agent-team/) - Specialized researchers
 

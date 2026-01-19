@@ -1071,8 +1071,8 @@ Total time: ~10 seconds (with credential collection)
 
 ## Learn More
 
-- [How Orchestration Works](orchestration.md) - Deep dive into the Overlord
-- [Memory Internals](memory.md) - Technical memory system details
-- [Clarification System](concepts/clarification.md) - How ambiguity is handled
-- [Agent Collaboration](concepts/agents-and-orchestration.md) - A2A communication patterns
+- [How Orchestration Works](../deep-dives/how-orchestration-works.md) - Deep dive into the Overlord
+- [Memory Internals](../concepts/memory-system.md) - Technical memory system details
+- [Clarification System](../concepts/clarification.md) - How ambiguity is handled
+- [Agent Collaboration](../concepts/agents-and-orchestration.md) - A2A communication patterns
 - [Observability](observability.md) - Monitoring and debugging

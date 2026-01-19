@@ -185,6 +185,6 @@ system_message: |
 ## Next Steps
 
 [+] [Full Schema Guide](schema-guide.md) - Complete configuration reference with all options
-[+] [Agents](agents.md) - Configure AI personas
-[+] [Tools](tools.md) - Add MCP integrations
+[+] [Agents](../concepts/agents-and-orchestration.md) - Configure AI personas
+[+] [Tools](../concepts/tools-and-mcp.md) - Add MCP integrations
 [+] [Examples](examples.md) - Real-world formations

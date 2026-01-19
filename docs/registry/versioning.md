@@ -226,5 +226,5 @@ Deprecated versions:
 
 ## Next Steps
 
-- [Publishing](publishing.md) - Publish formations
+- [Publishing](../registry/publish-formations.md) - Publish formations
 - [Your Account](account.md) - Account setup

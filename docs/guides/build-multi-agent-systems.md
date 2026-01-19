@@ -230,9 +230,9 @@ curl -d '{"message": "...", "agent": "researcher"}'
 
 ## Learn More
 
-[+] [Agents Reference](reference/agents.md) - Configuration
-[+] [Agents Concept](concepts/agents-and-orchestration.md) - Architecture
-[+] [Workflows Reference](reference/workflows.md) - Routing configuration
-[+] [Deep Dive: Orchestration](deep-dives/how-orchestration-works.md) - How routing works
-[+] [Write SOPs](sops.md) - Standard procedures
+[+] [Agents Reference](../reference/agents.md) - Configuration
+[+] [Agents Concept](../concepts/agents-and-orchestration.md) - Architecture
+[+] [Workflows Reference](../reference/workflows.md) - Routing configuration
+[+] [Deep Dive: Orchestration](../deep-dives/how-orchestration-works.md) - How routing works
+[+] [Write SOPs](../guides/create-sops.md) - Standard procedures
 [+] [Example: Multi-Agent Team](examples/05-multi-agent-team/) - Working example

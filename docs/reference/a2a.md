@@ -230,6 +230,6 @@ metadata:
 
 ## Learn More
 
-- [Agents Reference](agents.md) - Configure agent delegation
-- [Tools Reference](tools.md) - MCP tool integration
-- [Secrets Reference](secrets.md) - Managing service credentials
+- [Agents Reference](../concepts/agents-and-orchestration.md) - Configure agent delegation
+- [Tools Reference](../concepts/tools-and-mcp.md) - MCP tool integration
+- [Secrets Reference](../concepts/secrets-and-security.md) - Managing service credentials

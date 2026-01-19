@@ -300,6 +300,6 @@ knowledge:
 
 ## Next Steps
 
-[+] [Add Knowledge Guide](guides/add-knowledge.md) - Step-by-step tutorial
-[+] [Memory](memory.md) - Conversation memory
-[+] [Agents](agents.md) - Agent configuration
+[+] [Add Knowledge Guide](../guides/add-knowledge.md) - Step-by-step tutorial
+[+] [Memory](../concepts/memory-system.md) - Conversation memory
+[+] [Agents](../concepts/agents-and-orchestration.md) - Agent configuration

@@ -557,7 +557,7 @@ overlord:
 
 ## Learn More
 
-- [Approvals Reference](reference/approvals.md) - Full approval configuration
-- [Workflows & Task Decomposition](workflows.md) - How workflows are created
+- [Approvals Reference](../reference/approvals.md) - Full approval configuration
+- [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - How workflows are created
 - [The Overlord](overlord.md) - Orchestration engine
-- [Async Processing](async.md) - Background task execution
+- [Async Processing](../concepts/async.md) - Background task execution

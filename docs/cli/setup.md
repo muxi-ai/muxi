@@ -32,7 +32,7 @@ muxi --version
 muxi version 1.0.0
 ```
 
-If you don't see this, [install the CLI first](installation/README.md).
+If you don't see this, [install the CLI first](../installation/README.md).
 
 ---
 
@@ -263,4 +263,4 @@ muxi deploy --profile production
 
 - [CLI Cheatsheet](cheatsheet.md) - Quick command reference
 - [Configuration Reference](configuration.md) - All CLI settings
-- [Troubleshooting](guides/troubleshooting.md) - Common issues
+- [Troubleshooting](../guides/troubleshooting.md) - Common issues

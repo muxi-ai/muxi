@@ -146,7 +146,7 @@ MUXI streams tokens as the model generates them. Use SSE for simple, one-way str
 
 - **Protocols:** SSE, WebSockets
 - **When to use:** Chat UIs, live dashboards, long-running jobs needing updates
-- **See also:** [Streaming](./streaming.md), [Async Operations](./async.md)
+- **See also:** [Streaming](../deep-dives/real-time-streaming.md), [Async Operations](../concepts/async.md)
 
 ### Markdown
 
@@ -527,6 +527,6 @@ print("Validated:", response.content)    # After validation
 
 ## Learn More
 
-- [Structured Output Concept](concepts/structured-output.md) - User-facing explanation
-- [Tools & MCP](concepts/tools-and-mcp.md) - Tools also return structured data
-- [API Reference](reference/api-reference.md) - Complete API documentation
+- [Structured Output Concept](../concepts/structured-output.md) - User-facing explanation
+- [Tools & MCP](../concepts/tools-and-mcp.md) - Tools also return structured data
+- [API Reference](../reference/api-reference.md) - Complete API documentation

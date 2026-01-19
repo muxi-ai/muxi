@@ -370,6 +370,6 @@ Common issues:
 
 ## Next Steps
 
-- [Secrets](secrets.md) - Manage tool credentials
-- [Agents](agents.md) - Assign tools to agents
-- [Add Tools Guide](guides/add-mcp-tools.md) - Step-by-step tutorial
+- [Secrets](../concepts/secrets-and-security.md) - Manage tool credentials
+- [Agents](../concepts/agents-and-orchestration.md) - Assign tools to agents
+- [Add Tools Guide](../guides/add-mcp-tools.md) - Step-by-step tutorial

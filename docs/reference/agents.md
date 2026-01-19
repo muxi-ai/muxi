@@ -10,7 +10,7 @@ description: Define AI personas with specific roles and capabilities
 Agents are the workers in your formation. Each has a role, personality, and set of tools. MUXI automatically routes requests to the right agent.
 
 > [!TIP]
-> **New to agents?** Read [Agent Concepts →](concepts/agents-and-orchestration.md) first for an overview of how agents work in MUXI.
+> **New to agents?** Read [Agent Concepts →](../concepts/agents-and-orchestration.md) first for an overview of how agents work in MUXI.
 >
 > **API Reference:** [`GET /v1/agents`](api/formation#tag/Agents/GET/agents) | [`GET /v1/agents/{id}`](api/formation#tag/Agents/GET/agents/{agent_id})
 
@@ -442,7 +442,7 @@ agents: []  # Auto-discovered from agents/ directory
 
 ## Next Steps
 
-[+] [Tools (MCP)](tools.md) - Give agents capabilities
+[+] [Tools (MCP)](../concepts/tools-and-mcp.md) - Give agents capabilities
 [+] [Knowledge](knowledge.md) - Add domain expertise
-[+] [Multi-Agent Guide](guides/build-multi-agent-systems.md) - Build agent teams
+[+] [Multi-Agent Guide](../guides/build-multi-agent-systems.md) - Build agent teams
 [+] [Examples](examples.md) - Complete agent examples

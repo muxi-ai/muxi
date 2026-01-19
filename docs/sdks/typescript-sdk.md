@@ -465,6 +465,6 @@ export async function POST(req: Request) {
 
 ## Learn More
 
-- [Python SDK](python.md)
-- [Go SDK](go.md)
-- [API Reference](reference/api-reference.md)
+- [Python SDK](python-sdk.md)
+- [Go SDK](go-sdk.md)
+- [API Reference](../reference/api-reference.md)

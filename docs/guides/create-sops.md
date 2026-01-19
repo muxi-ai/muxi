@@ -305,6 +305,6 @@ sops/
 
 ## Learn More
 
-- [SOPs Concept](concepts/standard-operating-procedures.md) - Full overview
-- [SOPs Reference](reference/sops.md) - Complete syntax
-- [The Overlord](concepts/overlord.md) - How matching works
+- [SOPs Concept](../concepts/standard-operating-procedures.md) - Full overview
+- [SOPs Reference](../reference/sops.md) - Complete syntax
+- [The Overlord](../concepts/overlord.md) - How matching works

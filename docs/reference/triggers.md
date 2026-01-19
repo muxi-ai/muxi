@@ -10,7 +10,7 @@ description: API reference for webhook triggers
 Triggers provide webhook endpoints for external systems to invoke your agents.
 
 > [!TIP]
-> **New to triggers?** Read [Triggers & Webhooks →](concepts/triggers-and-webhooks.md) first.
+> **New to triggers?** Read [Triggers & Webhooks →](../concepts/triggers-and-webhooks.md) first.
 
 ## API Endpoints
 
@@ -184,6 +184,6 @@ curl -X POST http://localhost:8001/v1/formations/my-formation/triggers/github-is
 
 ## Related
 
-- [Triggers & Webhooks](concepts/triggers-and-webhooks.md) - Concept overview
-- [Create Triggers](guides/create-triggers.md) - Step-by-step guide
-- [Async Processing](concepts/async.md) - Async mode details
+- [Triggers & Webhooks](../concepts/triggers-and-webhooks.md) - Concept overview
+- [Create Triggers](../guides/create-triggers.md) - Step-by-step guide
+- [Async Processing](../concepts/async.md) - Async mode details

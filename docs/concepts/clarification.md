@@ -450,4 +450,4 @@ The result: **agents that understand you**, not robots that need perfect input.
 
 - [User Credentials](user-credentials.md) - Clarification for account selection
 - [The Overlord](overlord.md) - How clarification fits into orchestration
-- [Agents & Orchestration](agents.md) - Agent decision-making process
+- [Agents & Orchestration](../concepts/agents-and-orchestration.md) - Agent decision-making process

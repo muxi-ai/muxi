@@ -116,7 +116,7 @@ muxi dev
 [[/steps]]
 
 > [!TIP]
-> See the [Quickstart](quickstart.md) for a complete walkthrough.
+> See the [Quickstart](../quickstart.md) for a complete walkthrough.
 
 
 ## Installation Options

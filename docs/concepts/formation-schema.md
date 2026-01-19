@@ -433,10 +433,10 @@ muxi validate formation.afs
 
 ## Learn More
 
-- [Formation Schema Reference](reference/formation-schema.md) - Full YAML reference
+- [Formation Schema Reference](../reference/formation-schema.md) - Full YAML reference
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official specification
 - [Persona Configuration](persona.md) - Configure agent personality
-- [Workflows & Task Decomposition](workflows.md) - Complex task handling
-- [Memory Systems](memory.md) - Working and persistent memory
-- [MCP Integration](mcp.md) - Add tools via Model Context Protocol
+- [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - Complex task handling
+- [Memory Systems](../concepts/memory-system.md) - Working and persistent memory
+- [MCP Integration](../concepts/tools-and-mcp.md) - Add tools via Model Context Protocol
 - [Formation Examples](examples/) - Complete working examples

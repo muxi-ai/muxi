@@ -499,6 +499,6 @@ logging:
 
 ## Learn More
 
-- [Memory System](concepts/memory-system.md) - Other caching systems
-- [Deep Dive: Streaming](deep-dives/real-time-streaming.md) - Caching with streaming
-- [Observability](deep-dives/observability.md) - Monitoring cache performance
+- [Memory System](../concepts/memory-system.md) - Other caching systems
+- [Deep Dive: Streaming](../deep-dives/real-time-streaming.md) - Caching with streaming
+- [Observability](../deep-dives/observability.md) - Monitoring cache performance

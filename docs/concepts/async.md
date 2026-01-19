@@ -796,7 +796,7 @@ while True:
 
 ## Learn More
 
-- [Workflows Reference](reference/workflows.md) - Async and workflow configuration
-- [Workflows & Task Decomposition](workflows.md) - Complex task execution
-- [Triggers & Webhooks](triggers.md) - Webhook integrations
-- [Request Cancellation](runtime/request-cancellation.md) - Cancel in-flight requests
+- [Workflows Reference](../reference/workflows.md) - Async and workflow configuration
+- [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - Complex task execution
+- [Triggers & Webhooks](../concepts/triggers-and-webhooks.md) - Webhook integrations
+- [Request Cancellation](../runtime/request-cancellation.md) - Cancel in-flight requests

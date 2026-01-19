@@ -362,5 +362,5 @@ auth:
 ## Next Steps
 
 - [Examples](examples.md) - More complete examples
-- [Agents](agents.md) - Agent configuration
-- [Tools](tools.md) - MCP configuration
+- [Agents](../concepts/agents-and-orchestration.md) - Agent configuration
+- [Tools](../concepts/tools-and-mcp.md) - MCP configuration

@@ -254,4 +254,4 @@ logging:
 ## Next Steps
 
 - [Authentication](authentication.md) - HMAC setup
-- [Production](production.md) - Production deployment
+- [Production](../server/production-checklist.md) - Production deployment

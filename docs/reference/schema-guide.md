@@ -168,7 +168,7 @@ overlord:
 | `max_questions` | `3` | Max questions per interaction |
 | `question_style` | `"conversational"` | Style: `conversational`, `formal`, `bullet_points` |
 
-[More: Persona Reference →](persona.md) | [Workflows Reference →](workflows.md)
+[More: Persona Reference →](persona.md) | [Workflows Reference →](../concepts/workflows-and-task-decomposition.md)
 
 ---
 
@@ -198,7 +198,7 @@ memory:
 | `working` | Active session facts | 1000 entries, 7 days TTL |
 | `persistent` | Long-term storage | SQLite |
 
-[More: Memory Reference →](memory.md)
+[More: Memory Reference →](../concepts/memory-system.md)
 
 ---
 
@@ -221,7 +221,7 @@ mcp:
 | `max_repeated_errors` | `3` | Stop after N same errors |
 | `max_timeout_in_seconds` | `120` | Total chain timeout |
 
-[More: Tools (MCP) Reference →](tools.md)
+[More: Tools (MCP) Reference →](../concepts/tools-and-mcp.md)
 
 ---
 
@@ -320,7 +320,7 @@ system_message: |
 | `description` | Yes | What this agent does (used for routing) |
 | `system_message` | No | System prompt |
 
-[More: Agents Reference →](agents.md)
+[More: Agents Reference →](../concepts/agents-and-orchestration.md)
 
 ---
 
@@ -490,7 +490,7 @@ health_check:
 | `basic` | `username`, `password` | Basic auth |
 | `api_key` | `header`, `key` | API key header |
 
-[More: Tools (MCP) Reference →](tools.md)
+[More: Tools (MCP) Reference →](../concepts/tools-and-mcp.md)
 
 ## A2A Service Schema (`a2a/*.afs`)
 
@@ -555,7 +555,7 @@ token: "${{ user.credentials.GITHUB_TOKEN }}"
 > **Secrets** are formation-wide, loaded at startup.
 > **User credentials** are per-user, loaded on-demand.
 
-[More: Secrets Reference →](secrets.md)
+[More: Secrets Reference →](../concepts/secrets-and-security.md)
 
 ## Override Hierarchy
 
@@ -597,6 +597,6 @@ llm:
 ## Learn More
 
 - [Formation Overview](README.md) - Quick start
-- [Agents Reference](agents.md) - Agent configuration
-- [Tools Reference](tools.md) - MCP configuration
+- [Agents Reference](../concepts/agents-and-orchestration.md) - Agent configuration
+- [Tools Reference](../concepts/tools-and-mcp.md) - MCP configuration
 - [Examples](examples.md) - Real-world formations

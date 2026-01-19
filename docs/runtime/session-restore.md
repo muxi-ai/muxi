@@ -391,5 +391,5 @@ if result.messages_dropped > 0:
 
 ## Learn More
 
-- [Sessions Concept](concepts/sessions.md) - How sessions work
-- [Memory System](concepts/memory-system.md) - Buffer and persistent memory
+- [Sessions Concept](../concepts/sessions.md) - How sessions work
+- [Memory System](../concepts/memory-system.md) - Buffer and persistent memory

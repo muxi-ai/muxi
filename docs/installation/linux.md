@@ -153,5 +153,5 @@ sudo journalctl -u muxi-server -f
 
 ## Next Steps
 
-- [Quickstart](quickstart.md) - Create your first formation
-- [Production Deployment](server/production-checklist.md) - Production best practices
+- [Quickstart](../quickstart.md) - Create your first formation
+- [Production Deployment](../server/production-checklist.md) - Production best practices

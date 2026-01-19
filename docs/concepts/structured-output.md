@@ -636,6 +636,6 @@ agents:
 
 ## Learn More
 
-- [Deep Dive: Response Formats](deep-dives/response-formats.md) - Technical implementation
-- [Tools & MCP](tools.md) - Tools can also return structured data
-- [Build Custom UI](guides/build-custom-ui.md) - Using structured output in UIs
+- [Deep Dive: Response Formats](../deep-dives/response-formats.md) - Technical implementation
+- [Tools & MCP](../concepts/tools-and-mcp.md) - Tools can also return structured data
+- [Build Custom UI](../guides/build-custom-ui.md) - Using structured output in UIs

@@ -292,6 +292,6 @@ Load Balancer
 
 ## Next Steps
 
-[+] [Request Lifecycle](deep-dives/request-lifecycle.md) - Detailed request flow
-[+] [Security Model](deep-dives/security-model.md) - Authentication layers
-[+] [Reference](reference/README.md) - Building formations
+[+] [Request Lifecycle](../deep-dives/request-lifecycle.md) - Detailed request flow
+[+] [Security Model](../deep-dives/security-model.md) - Authentication layers
+[+] [Reference](../reference/README.md) - Building formations

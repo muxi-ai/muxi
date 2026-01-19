@@ -360,6 +360,6 @@ Saved: ~$0.17 (at $0.02/1K tokens)
 
 ## Learn More
 
-- [Async Operations](deep-dives/async-operations.md) - Background task management
-- [Streaming](deep-dives/real-time-streaming.md) - Cancel streaming responses
-- [Observability](deep-dives/observability.md) - Monitor cancellations
+- [Async Operations](../deep-dives/async-operations.md) - Background task management
+- [Streaming](../deep-dives/real-time-streaming.md) - Cancel streaming responses
+- [Observability](../deep-dives/observability.md) - Monitor cancellations
