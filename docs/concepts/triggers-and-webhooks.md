@@ -156,21 +156,21 @@ from muxi import webhook
 async def handle_trigger_result(request: Request):
     payload = await request.body()
     signature = request.headers.get("X-Muxi-Signature")
-    
+
     # Verify signature (security)
     if not webhook.verify_signature(payload, signature, WEBHOOK_SECRET):
         raise HTTPException(401, "Invalid signature")
-    
+
     # Parse into typed object
     event = webhook.parse(payload)
-    
+
     if event.status == "completed":
         for item in event.content:
             if item.type == "text":
                 print(f"Trigger result: {item.text}")
     elif event.status == "failed":
         print(f"Trigger failed: {event.error.message}")
-    
+
     return {"received": True}
 ```
 [[/tab]]
@@ -180,15 +180,15 @@ import { webhook } from "@muxi-ai/muxi-typescript";
 
 app.post("/trigger-callback", (req, res) => {
     const signature = req.headers["x-muxi-signature"] as string;
-    
+
     // Verify signature
     if (!webhook.verifySignature(req.rawBody, signature, WEBHOOK_SECRET)) {
         return res.status(401).send("Invalid signature");
     }
-    
+
     // Parse into typed object
     const event = webhook.parse(req.rawBody);
-    
+
     if (event.status === "completed") {
         for (const item of event.content) {
             if (item.type === "text") {
@@ -198,7 +198,7 @@ app.post("/trigger-callback", (req, res) => {
     } else if (event.status === "failed") {
         console.error(`Trigger failed: ${event.error?.message}`);
     }
-    
+
     res.json({ received: true });
 });
 ```
@@ -210,20 +210,20 @@ import "github.com/muxi-ai/muxi-go/webhook"
 func handleTriggerCallback(w http.ResponseWriter, r *http.Request) {
     payload, _ := io.ReadAll(r.Body)
     sig := r.Header.Get("X-Muxi-Signature")
-    
+
     // Verify signature
     if err := webhook.VerifySignature(payload, sig, secret); err != nil {
         http.Error(w, "Invalid signature", http.StatusUnauthorized)
         return
     }
-    
+
     // Parse into typed object
     event, err := webhook.Parse(payload)
     if err != nil {
         http.Error(w, "Invalid payload", http.StatusBadRequest)
         return
     }
-    
+
     switch event.Status {
     case "completed":
         for _, item := range event.Content {
@@ -234,7 +234,7 @@ func handleTriggerCallback(w http.ResponseWriter, r *http.Request) {
     case "failed":
         fmt.Printf("Trigger failed: %s\n", event.Error.Message)
     }
-    
+
     w.WriteHeader(http.StatusOK)
 }
 ```
@@ -287,7 +287,7 @@ Please analyze and provide:
 ### Slack Message
 
 ```markdown
-<!-- triggers/slack-mention.md -->
+<!-- triggers/slack-message.md -->
 Slack message from ${{ data.user.name }} in #${{ data.channel.name }}:
 
 "${{ data.text }}"
