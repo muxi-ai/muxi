@@ -147,6 +147,8 @@ Waits for completion (for testing):
 
 When a trigger completes, MUXI sends a webhook to your configured callback URL. Use the SDK webhook helpers to verify and parse the response:
 
+[[tabs]]
+[[tab Python]]
 ```python
 from muxi import webhook
 
@@ -163,7 +165,6 @@ async def handle_trigger_result(request: Request):
     event = webhook.parse(payload)
     
     if event.status == "completed":
-        # Process successful trigger result
         for item in event.content:
             if item.type == "text":
                 print(f"Trigger result: {item.text}")
@@ -172,9 +173,76 @@ async def handle_trigger_result(request: Request):
     
     return {"received": True}
 ```
+[[/tab]]
+[[tab TypeScript]]
+```typescript
+import { webhook } from "@muxi-ai/muxi-typescript";
+
+app.post("/trigger-callback", (req, res) => {
+    const signature = req.headers["x-muxi-signature"] as string;
+    
+    // Verify signature
+    if (!webhook.verifySignature(req.rawBody, signature, WEBHOOK_SECRET)) {
+        return res.status(401).send("Invalid signature");
+    }
+    
+    // Parse into typed object
+    const event = webhook.parse(req.rawBody);
+    
+    if (event.status === "completed") {
+        for (const item of event.content) {
+            if (item.type === "text") {
+                console.log(`Trigger result: ${item.text}`);
+            }
+        }
+    } else if (event.status === "failed") {
+        console.error(`Trigger failed: ${event.error?.message}`);
+    }
+    
+    res.json({ received: true });
+});
+```
+[[/tab]]
+[[tab Go]]
+```go
+import "github.com/muxi-ai/muxi-go/webhook"
+
+func handleTriggerCallback(w http.ResponseWriter, r *http.Request) {
+    payload, _ := io.ReadAll(r.Body)
+    sig := r.Header.Get("X-Muxi-Signature")
+    
+    // Verify signature
+    if err := webhook.VerifySignature(payload, sig, secret); err != nil {
+        http.Error(w, "Invalid signature", http.StatusUnauthorized)
+        return
+    }
+    
+    // Parse into typed object
+    event, err := webhook.Parse(payload)
+    if err != nil {
+        http.Error(w, "Invalid payload", http.StatusBadRequest)
+        return
+    }
+    
+    switch event.Status {
+    case "completed":
+        for _, item := range event.Content {
+            if item.Type == "text" {
+                fmt.Printf("Trigger result: %s\n", item.Text)
+            }
+        }
+    case "failed":
+        fmt.Printf("Trigger failed: %s\n", event.Error.Message)
+    }
+    
+    w.WriteHeader(http.StatusOK)
+}
+```
+[[/tab]]
+[[/tabs]]
 
 > [!TIP]
-> See [Async Processing - Handling Webhooks](../concepts/async.md#4-handling-webhooks-in-your-application) for complete webhook handling documentation including TypeScript and Go examples.
+> See [Async Processing - Handling Webhooks](../concepts/async.md#4-handling-webhooks-in-your-application) for complete webhook handling documentation including signature verification details.
 
 
 ## Directory Structure

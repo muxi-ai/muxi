@@ -318,8 +318,8 @@ The SDKs provide helpers for both.
 | `error` | Error details if `status` is `failed` |
 | `clarification` | Question details if `status` is `awaiting_clarification` |
 
-#### Python
-
+[[tabs]]
+[[tab Python]]
 ```python
 from muxi import webhook
 
@@ -348,9 +348,8 @@ async def handle_webhook(request: Request):
     
     return {"received": True}
 ```
-
-#### TypeScript
-
+[[/tab]]
+[[tab TypeScript]]
 ```typescript
 import { webhook } from "@muxi-ai/muxi-typescript";
 
@@ -376,9 +375,8 @@ app.post("/webhooks/muxi", (req, res) => {
     res.json({ received: true });
 });
 ```
-
-#### Go
-
+[[/tab]]
+[[tab Go]]
 ```go
 import "github.com/muxi-ai/muxi-go/webhook"
 
@@ -413,8 +411,10 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusOK)
 }
 ```
+[[/tab]]
+[[/tabs]]
 
-#### Signature Verification Details
+### Signature Verification Details
 
 The `X-Muxi-Signature` header format: `t=<timestamp>,v1=<signature>`
 
