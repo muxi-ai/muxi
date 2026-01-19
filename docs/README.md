@@ -32,6 +32,7 @@ Self-hosted, LLM-agnostic, Open-source.
 
 [>] [Learn more about MUXI →](what-is-muxi.md)
 
+---
 
 ## Get Started
 
