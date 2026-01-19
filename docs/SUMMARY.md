@@ -108,6 +108,7 @@ description: Complete guide to building AI agents with MUXI
 
 * [Understanding Formations](reference/README.md)
 * [Full Schema Guide](reference/schema-guide.md)
+
 * Component Reference
   * [Formation](reference/formation-schema.md)
   * [Agents](reference/agents.md)
@@ -121,6 +122,7 @@ description: Complete guide to building AI agents with MUXI
   * [Triggers](reference/triggers.md)
   * [Approvals](reference/approvals.md)
   * [Secrets](reference/secrets.md)
+
 * [Examples](reference/examples.md)
 
 
