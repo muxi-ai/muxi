@@ -327,14 +327,14 @@ from muxi import webhook
 async def handle_webhook(request: Request):
     payload = await request.body()
     signature = request.headers.get("X-Muxi-Signature")
-    
+
     # Verify signature (prevents spoofing and replay attacks)
     if not webhook.verify_signature(payload, signature, WEBHOOK_SECRET):
         raise HTTPException(401, "Invalid signature")
-    
+
     # Parse into typed object
     event = webhook.parse(payload)
-    
+
     if event.status == "completed":
         for item in event.content:
             if item.type == "text":
@@ -345,7 +345,7 @@ async def handle_webhook(request: Request):
         print(f"Error: {event.error.code} - {event.error.message}")
     elif event.status == "awaiting_clarification":
         print(f"Clarification needed: {event.clarification.question}")
-    
+
     return {"received": True}
 ```
 [[/tab]]
@@ -355,15 +355,15 @@ import { webhook } from "@muxi-ai/muxi-typescript";
 
 app.post("/webhooks/muxi", (req, res) => {
     const signature = req.headers["x-muxi-signature"] as string;
-    
+
     // Verify signature
     if (!webhook.verifySignature(req.rawBody, signature, WEBHOOK_SECRET)) {
         return res.status(401).send("Invalid signature");
     }
-    
+
     // Parse into typed object
     const event = webhook.parse(req.rawBody);
-    
+
     if (event.status === "completed") {
         for (const item of event.content) {
             if (item.type === "text") console.log(item.text);
@@ -371,7 +371,7 @@ app.post("/webhooks/muxi", (req, res) => {
     } else if (event.status === "failed") {
         console.error(`Error: ${event.error?.message}`);
     }
-    
+
     res.json({ received: true });
 });
 ```
@@ -383,20 +383,20 @@ import "github.com/muxi-ai/muxi-go/webhook"
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
     payload, _ := io.ReadAll(r.Body)
     sig := r.Header.Get("X-Muxi-Signature")
-    
+
     // Verify signature
     if err := webhook.VerifySignature(payload, sig, secret); err != nil {
         http.Error(w, "Invalid signature", http.StatusUnauthorized)
         return
     }
-    
+
     // Parse into typed object
     event, err := webhook.Parse(payload)
     if err != nil {
         http.Error(w, "Invalid payload", http.StatusBadRequest)
         return
     }
-    
+
     switch event.Status {
     case "completed":
         for _, item := range event.Content {
@@ -407,7 +407,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
     case "failed":
         fmt.Printf("Error: %s\n", event.Error.Message)
     }
-    
+
     w.WriteHeader(http.StatusOK)
 }
 ```

@@ -17,21 +17,23 @@ Think of agents as specialized employees who:
 4. Can collaborate with other agents if needed
 
 ```plain
-User request → Overlord
-                  ↓
-         Task decomposition
-                  ↓
-         Delegate to agents
-                  ↓
-        ┌─────────┬─────────┐
-        ↓         ↓         ↓
-      Agent A   Agent B   Agent N
-        ↓         ↓         ↓
-        └─────────┴─────────┘
-                  ↓
-     Overlord synthesizes results
-                  ↓
-          Response to user
+       User request
+             ↓
+         Overlord
+             ↓
+    Task decomposition
+             ↓
+    Delegate to agents
+             ↓
+   ┌─────────┬─────────┐
+   ↓         ↓         ↓
+ Agent A   Agent B   Agent N
+   ↓         ↓         ↓
+   └─────────┴─────────┘
+             ↓
+Overlord synthesizes results
+             ↓
+      Response to user
 ```
 
 
