@@ -327,7 +327,8 @@ Non-blocking, user can do other things.
 
 ## SDK Examples
 
-### Python
+[[tabs]]
+[[tab Python]]
 ```python
 from muxi import FormationClient
 
@@ -347,10 +348,7 @@ for event in formation.chat_stream(
         # User approval handled via separate endpoint
     elif event.get("type") == "text":
         print(event.get("text"), end="")
-```
 
-### Async Request Status
-```python
 # Check async request status
 status = formation.get_request_status(request_id="req_abc123")
 
@@ -360,23 +358,70 @@ formation.approve_request(request.id)
 # Or reject
 formation.reject_request(request.id)
 ```
-
-### TypeScript
+[[/tab]]
+[[tab TypeScript]]
 ```typescript
-// Sync with approval
-const response = await formation.chat({
-  message: "Deploy to production",
-  waitForApproval: true
+import { FormationClient } from "@muxi-ai/muxi-typescript";
+
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "...",
 });
 
-// Async with manual approval
-const request = await formation.chatAsync({
-  message: "Deploy to production"
-});
+// Streaming chat - approvals are handled via events
+for await (const event of await formation.chatStream(
+  { message: "Deploy to production" },
+  "user_123"
+)) {
+  if (event.type === "approval_required") {
+    console.log("Plan:", event.plan);
+  } else if (event.type === "text") {
+    process.stdout.write(event.text);
+  }
+}
 
-// Later
+// Check async request status
+const status = await formation.getRequestStatus("req_abc123");
+
+// Later, approve or reject
 await formation.approveRequest(request.id);
+await formation.rejectRequest(request.id);
 ```
+[[/tab]]
+[[tab Go]]
+```go
+import "github.com/muxi-ai/muxi-go"
+
+formation := muxi.NewFormationClient(muxi.Config{
+    ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
+    ClientKey:   "...",
+})
+
+// Streaming chat - approvals are handled via events
+stream, _ := formation.ChatStream(ctx, muxi.ChatRequest{
+    Message: "Deploy to production",
+}, "user_123")
+
+for event := range stream {
+    switch event.Type {
+    case "approval_required":
+        fmt.Println("Plan:", event.Plan)
+    case "text":
+        fmt.Print(event.Text)
+    }
+}
+
+// Check async request status
+status, _ := formation.GetRequestStatus(ctx, "req_abc123")
+
+// Later, approve or reject
+formation.ApproveRequest(ctx, request.ID)
+formation.RejectRequest(ctx, request.ID)
+```
+[[/tab]]
+[[/tabs]]
 
 ## API Endpoints
 

@@ -83,7 +83,8 @@ MUXI provides two complementary APIs that work together to orchestrate and run A
 
 Before diving into raw APIs, consider these higher-level tools:
 
-**For Python developers:**
+[[tabs]]
+[[tab Python]]
 ```python
 from muxi import FormationClient
 
@@ -96,8 +97,8 @@ for event in formation.chat_stream({"message": "What's the weather?"}, user_id="
     print(event)
 ```
 [Python SDK Documentation →](../sdks/python-sdk.md)
-
-**For JavaScript/TypeScript developers:**
+[[/tab]]
+[[tab TypeScript]]
 ```typescript
 import { FormationClient } from "@muxi-ai/muxi-typescript";
 
@@ -110,8 +111,29 @@ for await (const chunk of await formation.chatStream({ message: "What's the weat
   console.log(chunk);
 }
 ```
-
 [TypeScript SDK Documentation →](../sdks/typescript-sdk.md)
+[[/tab]]
+[[tab Go]]
+```go
+import "github.com/muxi-ai/muxi-go"
+
+formation := muxi.NewFormationClient(muxi.Config{
+    ServerURL:   "http://localhost:7890",
+    FormationID: "my-team",
+    ClientKey:   "...",
+})
+
+stream, _ := formation.ChatStream(ctx, muxi.ChatRequest{
+    Message: "What's the weather?",
+}, "user_123")
+
+for event := range stream {
+    fmt.Println(event)
+}
+```
+[Go SDK Documentation →](../sdks/go-sdk.md)
+[[/tab]]
+[[/tabs]]
 
 **For deployment automation:**
 ```bash
