@@ -129,13 +129,15 @@ muxi deploy
 muxi chat research-assistant
 ```
 
-**[Full documentation →](https://github.com/muxi-ai/muxi/blob/main/docs)**
+**[Full documentation →](https://muxi.org/docs/quickstart)**
 
 
 ## Documentation
 
 | Looking for... | Go to |
 |----------------|-------|
+| Getting started | [Quickstart →](https://muxi.org/docs/quickstart) |
+| SDKs (Python, TypeScript, Go) | [SDKs →](https://muxi.org/docs/sdks) |
 | How MUXI works | [ARCHITECTURE.md](https://github.com/muxi-ai/muxi/blob/main/ARCHITECTURE.md) |
 | Contributing guidelines | [CONTRIBUTING.md](https://github.com/muxi-ai/muxi/blob/main/CONTRIBUTING.md) |
 | Development setup | [DEVELOPMENT.md](https://github.com/muxi-ai/muxi/blob/main/DEVELOPMENT.md) |
