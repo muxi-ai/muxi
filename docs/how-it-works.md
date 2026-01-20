@@ -216,7 +216,7 @@ my-assistant/
 
 [[tab formation.afs]]
 
-The main configuration file. Sets defaults for the entire formation.
+<p>The main configuration file. Sets defaults for the entire formation.</p>
 
 ```yaml
 schema: "1.0.0"
