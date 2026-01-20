@@ -235,7 +235,7 @@ memory:
 
 [[tab agents/*.afs]]
 
-Each agent is a separate file. They're auto-discovered from the `agents/` directory.
+<p>Each agent is a separate file. They're auto-discovered from the `agents/` directory.</p>
 
 ```yaml
 schema: "1.0.0"
@@ -260,7 +260,7 @@ knowledge:
 
 [[tab mcp/*.afs]]
 
-Tool servers that agents can use. Each file defines one MCP server.
+<p>Tool servers that agents can use. Each file defines one MCP server.</p>
 
 ```yaml
 schema: "1.0.0"
