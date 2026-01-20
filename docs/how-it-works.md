@@ -308,7 +308,7 @@ Good for: customer support systems, research assistants, content pipelines.
 
 ## Development vs. production
 
-| | `muxi dev` | `muxi deploy` |
+| ✓ | `muxi dev` | `muxi deploy` |
 |---|---|---|
 | **Where it runs** | Your machine | MUXI Server |
 | **Port** | 8001 (direct) | 7890 (proxied) |
