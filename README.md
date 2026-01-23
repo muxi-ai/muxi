@@ -108,13 +108,27 @@ We're building infrastructure that reflects this philosophy.
 
 Install:
 
+[[tabs]]
+
+[[tab macOS]]
 ```bash
-curl -fsSL https://muxi.org/install | sudo bash  # Linux
-# or
-brew install muxi-ai/tap/muxi  # macOS
-# or
-powershell -c "irm https://muxi.org/install | iex"  # Windows
+brew install muxi-ai/tap/muxi
 ```
+[[/tab]]
+
+[[tab Linux]]
+```bash
+curl -fsSL https://muxi.org/install | sudo bash
+```
+[[/tab]]
+
+[[tab Windows]]
+```powershell
+powershell -c "irm https://muxi.org/install | iex"
+```
+[[/tab]]
+
+[[/tabs]]
 
 Then:
 

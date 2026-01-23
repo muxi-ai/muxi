@@ -12,9 +12,27 @@ The `muxi` CLI handles everything: creating formations, managing secrets, deploy
 
 ## Installation
 
+[[tabs]]
+
+[[tab macOS]]
 ```bash
 brew install muxi-ai/tap/muxi
 ```
+[[/tab]]
+
+[[tab Linux]]
+```bash
+curl -fsSL https://muxi.org/install | sudo bash
+```
+[[/tab]]
+
+[[tab Windows]]
+```powershell
+powershell -c "irm https://muxi.org/install | iex"
+```
+[[/tab]]
+
+[[/tabs]]
 
 Verify:
 
