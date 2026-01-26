@@ -1,6 +1,7 @@
 name: Sync Community Docs to .github
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
