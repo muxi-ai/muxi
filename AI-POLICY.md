@@ -60,6 +60,8 @@ If you're learning and genuinely trying to improve: put aside the AI, do your be
 
 Using AI as a learning accelerator (explaining concepts, reviewing your code) is fine. Using AI as a replacement for understanding is not.
 
+**Related reading:** [From Junior to 10x Dev](https://aroussi.com/post/from-junior-to-10x-dev)
+
 ## Scope and Authority
 
 MUXI has a clear technical vision and architecture. The project maintainer ([@ranaroussi](https://github.com/ranaroussi)) has final authority on:
