@@ -81,7 +81,6 @@ We welcome AI-assisted contributions that meet our quality standards. MUXI is bu
 
 **Quick rules:**
 - ✅ Test your changes locally
-- ✅ Disclose AI usage (tag PR with `ai-assisted`)
 - ✅ Understand and be able to explain your code
 - ❌ No drive-by AI PRs (work on accepted issues only)
 - ❌ No committing agent dotfiles (`.claude/`, `.factory/`, etc.)

@@ -21,11 +21,7 @@ You are responsible for what you submit, regardless of how it was created. If yo
 - Be able to explain your changes during review
 - Fix issues identified in review (not just re-prompt)
 
-### 2. Disclosure is Required
-
-Tag your PR with `ai-assisted` if AI tools were used in generating code or documentation. This helps maintainers assess review depth. Disclosure is a courtesy, not a stigma.
-
-### 3. No Drive-By AI PRs
+### 2. No Drive-By AI PRs
 
 AI-assisted contributions are only accepted for:
 
@@ -35,7 +31,7 @@ AI-assisted contributions are only accepted for:
 
 Drive-by PRs with AI-generated content will be immediately closed.
 
-### 4. Zero Tolerance for Slop
+### 3. Zero Tolerance for Slop
 
 Contributors who submit low-effort AI-generated content will be banned from future contributions. This includes:
 
@@ -44,7 +40,7 @@ Contributors who submit low-effort AI-generated content will be banned from futu
 - Changes that don't address the actual issue
 - "Vibe-coded" solutions that sort of work but miss the point
 
-### 5. Don't Commit Agent Configuration Files
+### 4. Don't Commit Agent Configuration Files
 
 Do not commit AI assistant configuration files to MUXI repositories:
 
@@ -66,7 +62,7 @@ Using AI as a learning accelerator (explaining concepts, reviewing your code) is
 
 ## Scope and Authority
 
-MUXI has a clear technical vision and architecture. The project maintainer ([@aroussi](https://github.com/aroussi)) has final authority on:
+MUXI has a clear technical vision and architecture. The project maintainer ([@ranaroussi](https://github.com/ranaroussi)) has final authority on:
 
 - What features are in scope
 - Architectural decisions
@@ -80,7 +76,6 @@ Before investing significant effort, ensure your proposed work aligns with proje
 | Allowed | Not Allowed |
 |---------|-------------|
 | AI-assisted code that you understand and tested | Untested AI-generated code dumps |
-| Disclosing AI usage in PRs | Hiding AI usage to avoid scrutiny |
 | AI help on accepted/assigned issues | Drive-by AI PRs on random ideas |
 | Sharing AI configs in Discussions | Committing agent dotfiles to repos |
 | Using AI to learn and accelerate | Using AI as a replacement for thinking |
