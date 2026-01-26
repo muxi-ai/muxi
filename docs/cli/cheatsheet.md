@@ -81,6 +81,12 @@ muxi deploy --validate
 
 # Dry run
 muxi deploy --dry-run
+
+# Bump version before deploying updates
+muxi bump              # Patch: 1.0.0 -> 1.0.1
+muxi bump minor        # Minor: 1.0.0 -> 1.1.0
+muxi bump major        # Major: 1.0.0 -> 2.0.0
+muxi bump --set 2.0.0  # Set specific version
 ```
 
 
@@ -165,6 +171,112 @@ muxi set default profile production
 ```
 
 
+## Formation Info
+
+```bash
+# View formation status (requires deployed formation)
+muxi info
+muxi info --full       # Include detailed config
+muxi info -f my-bot    # Specify formation
+```
+
+
+## Sessions
+
+```bash
+# Manage user sessions
+muxi sessions list -u user123
+muxi sessions show <session_id> -u user123
+muxi sessions messages <session_id> -u user123
+```
+
+
+## Memory
+
+```bash
+# View memory config
+muxi memory status
+
+# Manage user memories
+muxi memory list -u user123
+muxi memory add -u user123 --type preference --detail "Prefers formal tone"
+muxi memory delete <memory_id> -u user123
+
+# Buffer management
+muxi memory buffer -u user123           # View user buffer
+muxi memory buffer --clear -u user123   # Clear user buffer
+muxi memory buffer --stats              # View buffer stats
+```
+
+
+## Agents (Remote)
+
+```bash
+# View agents in running formation
+muxi agents list
+muxi agents show researcher
+```
+
+
+## MCP Servers (Remote)
+
+```bash
+# View MCP servers in running formation
+muxi mcp list
+muxi mcp show web-search
+muxi mcp tools              # List all available tools
+```
+
+
+## SOPs
+
+```bash
+# View Standard Operating Procedures
+muxi sops list
+muxi sops show customer-onboarding
+```
+
+
+## Triggers
+
+```bash
+# Manage and run triggers
+muxi triggers list
+muxi triggers show github-issue
+muxi triggers run github-issue --data '{"repo": "muxi-ai/cli"}'
+muxi triggers run daily-report --async    # Run asynchronously
+```
+
+
+## Scheduler
+
+```bash
+# View scheduler config and jobs
+muxi scheduler status
+muxi scheduler list
+muxi scheduler show <job_id>
+
+# Manage scheduled jobs
+muxi scheduler add --schedule "0 9 * * *" --message "Daily summary"
+muxi scheduler remove <job_id>
+```
+
+
+## Saved Formations
+
+```bash
+# Save formation configs for quick access
+muxi formations add my-bot --profile production --user user123
+muxi formations list
+muxi formations show my-bot
+muxi formations remove my-bot
+
+# Then use from anywhere
+muxi info -f my-bot
+muxi chat -f my-bot
+```
+
+
 ## Flags Reference
 
 ### Global Flags
@@ -183,6 +295,7 @@ muxi set default profile production
 |---------|------|-------------|
 | `deploy` | `--validate` | Validate only |
 | `deploy` | `--dry-run` | Show what would deploy |
+| `bump` | `--set <ver>` | Set specific version |
 | `server delete` | `--force` | Skip confirmation |
 | `logs` | `--follow` | Stream logs |
 | `logs` | `--lines <n>` | Number of lines |
@@ -190,6 +303,14 @@ muxi set default profile production
 | `push` | `--dry-run` | Preview without publishing |
 | `dev` | `--port <n>` | Override port |
 | `dev` | `--reindex` | Force reindex |
+| `info` | `--full` | Show full configuration |
+| `sessions` | `-u <user>` | User ID (required) |
+| `memory` | `-u <user>` | User ID for user-scoped ops |
+| `memory buffer` | `--clear` | Clear buffer |
+| `memory buffer` | `--stats` | Show buffer statistics |
+| `triggers run` | `--data <json>` | Trigger input data |
+| `triggers run` | `--async` | Run asynchronously |
+| `scheduler add` | `--schedule` | Cron schedule |
 
 
 ## Examples
