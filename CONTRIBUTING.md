@@ -75,18 +75,21 @@ These **do** need an issue:
 **When in doubt, create an issue.**
 
 
-## AI/LLM Policy
+## AI-Assisted Development
 
-We welcome AI-assisted development. However:
+We welcome AI-assisted contributions that meet our quality standards. MUXI is built with significant AI assistance.
 
+**Quick rules:**
 - ✅ Test your changes locally
-- ✅ Run existing tests
-- ✅ Add tests for new functionality
-- ❌ **No "vibe-coded" contributions** that haven't been executed
-- ❌ **Avoid verbose LLM-generated PR descriptions**  –  be concise
+- ✅ Disclose AI usage (tag PR with `ai-assisted`)
+- ✅ Understand and be able to explain your code
+- ❌ No drive-by AI PRs (work on accepted issues only)
+- ❌ No committing agent dotfiles (`.claude/`, `.factory/`, etc.)
 
 > [!WARNING]
-> PRs that show evidence of being AI-generated without local testing will be closed.
+> Low-effort AI-generated contributions will be closed and may result in a ban.
+
+**Read the full policy:** [AI-POLICY.md](https://github.com/muxi-ai/muxi/blob/main/AI-POLICY.md)
 
 
 ## What We Accept
