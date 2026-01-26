@@ -67,6 +67,26 @@ muxi secrets delete OLD_KEY
 ```
 
 
+## Configure Formation
+
+```bash
+# LLM providers and models
+muxi config llm              # Interactive wizard
+muxi config llm --remote     # View remote config
+
+# Overlord persona and behavior
+muxi config overlord         # Configure persona, response format
+muxi config overlord --remote
+
+# Other configuration
+muxi config memory           # Memory settings
+muxi config logging          # Logging streams
+muxi config async            # Async response settings
+muxi config a2a              # Agent-to-Agent communication
+muxi config security         # User credential handling
+```
+
+
 ## Deploy
 
 ```bash
@@ -188,6 +208,16 @@ muxi info -f my-bot    # Specify formation
 muxi sessions list -u user123
 muxi sessions show <session_id> -u user123
 muxi sessions messages <session_id> -u user123
+```
+
+
+## Requests
+
+```bash
+# Track and manage chat requests
+muxi requests list -u user123
+muxi requests show <request_id> -u user123
+muxi requests cancel <request_id> -u user123   # Cancel in-progress request
 ```
 
 
