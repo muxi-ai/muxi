@@ -161,6 +161,13 @@ muxi chat research-assistant
 | Roadmap | [Roadmap →](https://github.com/orgs/muxi-ai/projects/1) |
 
 
+## Agent Skills
+
+This repo includes an [Agent Skill](https://agentskills.io) that gives any compatible AI agent (Claude Code, Cursor, GitHub Copilot, VS Code, etc.) deep knowledge of the MUXI platform -- installation, CLI, server setup, formations, secrets, SDKs, and APIs.
+
+See [`skills/`](./skills/) for setup instructions.
+
+
 ## Get Involved
 
 - ⭐ Star this repo to follow progress
