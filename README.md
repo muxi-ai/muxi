@@ -84,7 +84,7 @@ We believe AI systems should be:
 - **Self-hostable** - Run anywhere, owned by you
 - **Observable** - See what's happening, always
 - **Declarative** - Version-controlled and reproducible
-- **Open** - No secrets, no lock-in, no surveillance
+- **Open** - No secrets, no lock-in
 
 If you build it, you should control it.
 
