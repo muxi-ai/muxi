@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./muxi-logo.svg" alt="MUXI" width="128"/>
+  <img src="./assets/muxi-logo.svg" alt="MUXI" width="128"/>
 </p>
 
 <h1 align="center">MUXI</h1>
@@ -18,9 +18,7 @@
 
 MUXI (/muk-siː/, Multiplexed eXtensible Intelligence) is an open-source project that makes agents native primitives  –  not ad hoc scripts or chained prompts  –  but infrastructure-level processes with built-in orchestration, observability, and scale.
 
-MUXI runs **Agent Formations** –  complete AI systems packaged as **deployable units**. Agents, knowledge, tools, SOPs, triggers, and settings defined in YAML. Production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in.
-
-Agents, knowledge, A2A, and MCP (Model Context Protocol) tools defined in portable `.afs` files, together with SOPs, triggers, and settings defined in YAML. Production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in.
+MUXI runs **Agent Formations** – complete AI systems packaged as **deployable units**. Agents, knowledge, A2A, and MCP tools defined in portable `.afs` files, together with SOPs, triggers, and settings. Production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in.
 
 
 > [!TIP]
@@ -108,27 +106,20 @@ We're building infrastructure that reflects this philosophy.
 
 Install:
 
-[[tabs]]
-
-[[tab macOS]]
+**macOS:**
 ```bash
 brew install muxi-ai/tap/muxi
 ```
-[[/tab]]
 
-[[tab Linux]]
+**Linux:**
 ```bash
 curl -fsSL https://muxi.org/install | sudo bash
 ```
-[[/tab]]
 
-[[tab Windows]]
+**Windows:**
 ```powershell
 powershell -c "irm https://muxi.org/install | iex"
 ```
-[[/tab]]
-
-[[/tabs]]
 
 Then:
 
@@ -154,8 +145,8 @@ muxi chat research-assistant
 | SDKs (Python, TypeScript, Go) | [SDKs →](https://muxi.org/docs/sdks) |
 | How MUXI works | [ARCHITECTURE.md](https://github.com/muxi-ai/muxi/blob/main/ARCHITECTURE.md) |
 | Contributing guidelines | [CONTRIBUTING.md](https://github.com/muxi-ai/muxi/blob/main/CONTRIBUTING.md) |
-| Development setup | [DEVELOPMENT.md](https://github.com/muxi-ai/muxi/blob/main/DEVELOPMENT.md) |
-| Git workflow | [GIT-WORKFLOW.md](https://github.com/muxi-ai/muxi/blob/main/GIT-WORKFLOW.md) |
+| Development setup | [DEVELOPMENT.md](https://github.com/muxi-ai/muxi/blob/main/contributing/DEVELOPMENT.md) |
+| Git workflow | [GIT-WORKFLOW.md](https://github.com/muxi-ai/muxi/blob/main/contributing/GIT-WORKFLOW.md) |
 | All repositories | [REPOSITORIES.md](https://github.com/muxi-ai/muxi/blob/main/REPOSITORIES.md) |
 | Licensing | [LICENSE.md](https://github.com/muxi-ai/muxi/blob/main/LICENSE.md) |
 | Roadmap | [Roadmap →](https://github.com/orgs/muxi-ai/projects/1) |
