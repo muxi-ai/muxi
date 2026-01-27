@@ -12,7 +12,7 @@ Thank you for your interest in contributing to MUXI!
 - **[GIT-WORKFLOW.md](https://github.com/muxi-ai/muxi/blob/main/contributing/GIT-WORKFLOW.md)** - Branching and release process
 - **[ARCHITECTURE.md](https://github.com/muxi-ai/muxi/blob/main/ARCHITECTURE.md)** - Understand the system
 - **[REPOSITORIES.md](https://github.com/muxi-ai/muxi/blob/main/REPOSITORIES.md)** - All MUXI repositories
-- **[Style Guides](https://github.com/muxi-ai/muxi/blob/main/style-guides/)** - Language-specific coding conventions
+- **[Style Guides](https://github.com/muxi-ai/muxi/blob/main/contributing/style-guides/)** - Language-specific coding conventions
 - **[AGENTS.md](https://github.com/muxi-ai/muxi/blob/main/contributing/AGENTS.md)** - AI assistant context (template for all repos)
 
 

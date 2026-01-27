@@ -6,9 +6,9 @@ on:
     branches: [main]
     paths:
       - 'CONTRIBUTING.md'
-      - 'CODE_OF_CONDUCT.md'
+      - 'contributing/CODE_OF_CONDUCT.md'
       - 'SECURITY.md'
-      - 'AI-POLICY.md'
+      - 'contributing/AI-POLICY.md'
 
 jobs:
   sync:
@@ -27,9 +27,9 @@ jobs:
       - name: Copy community docs
         run: |
           cp CONTRIBUTING.md dotgithub/
-          cp CODE_OF_CONDUCT.md dotgithub/
+          cp contributing/CODE_OF_CONDUCT.md dotgithub/
           cp SECURITY.md dotgithub/
-          cp AI-POLICY.md dotgithub/
+          cp contributing/AI-POLICY.md dotgithub/
 
       - name: Commit and push
         working-directory: dotgithub

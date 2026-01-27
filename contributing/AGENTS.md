@@ -22,11 +22,11 @@ For full architecture details, see **[ARCHITECTURE.md](https://github.com/muxi-a
 
 - **Branch workflow:** `develop` → `rc` → `main` (PRs target `develop`)
 - **Commits:** [Conventional Commits](https://www.conventionalcommits.org/)
-- **Style:** See [style-guides/](./style-guides/) for language-specific conventions
+- **Style:** See [style-guides/](./contributing/style-guides/) for language-specific conventions
 
 ### More info
 
-The `muxi` meta-repo (https://github.com/muxi-ai/muxi) contains most everything you need to understand the MUXI stack, including docs, development workflows, style-guides, etc.
+The `muxi` meta-repo (https://github.com/muxi-ai/muxi) contains most everything you need to understand the MUXI stack, including docs, development workflows, contributing guides, etc.
 
 
 ## This Repository
@@ -53,10 +53,8 @@ muxi/
 ├── GIT-WORKFLOW.md      # Branching and release process
 ├── REPOSITORIES.md      # All MUXI repositories
 ├── SECURITY.md          # Security policy
-├── style-guides/        # Language-specific coding standards
-│   ├── go.md
-│   ├── python.md
-│   ├── typescript.md
+├── contributing/        # Contributor docs and style guides
+│   ├── style-guides/
 │   └── ...
 └── docs/                # Additional documentation
 ```
@@ -73,7 +71,7 @@ When making changes to this repo:
 ### Related Resources
 
 - [CONTRIBUTING.md](./CONTRIBUTING.md) - How to contribute
-- [style-guides/](./style-guides/) - Language-specific conventions
+- [style-guides/](./contributing/style-guides/) - Language-specific conventions
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Detailed architecture
 
 
