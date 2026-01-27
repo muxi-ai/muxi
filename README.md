@@ -11,31 +11,46 @@
 <p align="center">
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-ELv2%20%2F%20Apache%202.0-c98b45.svg" alt="License"></a>
   <a href="https://github.com/muxi-ai/community"><img src="https://img.shields.io/badge/GitHub-Discussions-black.svg?logo=github" alt="Community"></a>
-  <a href="https://github.com/muxi-ai/community"><img src="https://img.shields.io/badge/‌-‌@muxi__ai-blue.svg?logo=x" alt="Community"></a>
+  <a href="https://twitter.com/muxi_ai"><img src="https://img.shields.io/badge/‌-‌@muxi__ai-blue.svg?logo=x" alt="Twitter"></a>
 </p>
 
 ---
 
-MUXI (/muk-siː/, Multiplexed eXtensible Intelligence) is an open-source project that makes agents native primitives  –  not ad hoc scripts or chained prompts  –  but infrastructure-level processes with built-in orchestration, observability, and scale.
+MUXI (/muk-see/) is production infrastructure for AI agents. Not a framework. Not a wrapper. A **server** -- where agents are native primitives with built-in orchestration, memory, observability, and scale.
 
-MUXI runs **Agent Formations** – complete AI systems packaged as **deployable units**. Agents, knowledge, A2A, and MCP tools defined in portable `.afs` files, together with SOPs, triggers, and settings. Production infrastructure with memory, multi-tenancy, observability, and intelligent orchestration built in.
+```bash
+muxi pull @examples/research-assistant   # pull a formation
+muxi deploy                              # deploy it
+muxi chat research-assistant             # talk to it
+```
 
+Three commands. Your agent is running, stateful, and accessible via API.
 
 > [!TIP]
-> MUXI introduced the [Agent Formation Standard](https://github.com/agent-formation) – an open spec for declarative AI systems. Agents, knowledge, A2A, and MCP (Model Context Protocol) tools defined in portable `.afs` files.
+> MUXI introduced the [**Agent Formation Standard**](https://github.com/agent-formation) -- an open spec for declarative AI systems. Agents, knowledge, A2A, and MCP tools defined in portable `.afs` files.
 >
 > **Like a Dockerfile for containers, but for agent intelligence.**
 
 
+## Why MUXI?
+
+| | MUXI | Frameworks (LangChain, CrewAI, ...) |
+|---|---|---|
+| **What it is** | Server infrastructure | Python libraries |
+| **Deploy** | `muxi deploy` | Write your own deployment |
+| **Configure** | Declarative `.afs` files | Imperative code |
+| **Multi-tenancy** | Built-in isolation | Build it yourself |
+| **Memory** | Three-tier (buffer + persistent + vector) | Bring your own |
+| **Tools** | 1,000+ via MCP, loaded once, <1k token overhead | Per-call schema injection |
+| **Observability** | 349 event types, 10+ export targets | Add external tools |
+
+**Key numbers:** <100ms avg response &bull; 88.9% test coverage &bull; 21 LLM providers, 300+ models &bull; 92% semantic cache hit rate
+
+
 ## Example
 
-```bash
-# create a formation
-muxi new formation customer-support
-```
-
 ```yaml
-# formation.afs (it's just YAML)
+# formation.afs -- define your AI system (it's just YAML)
 schema: "1.0.0"
 id: "customer-support"
 description: Helps customers with product support and refunds
@@ -46,12 +61,11 @@ llm:
   api_keys:
     openai: "${{ secrets.OPENAI_API_KEY }}"
 
-# Agents auto-discovered from agents/*.afs
-agents: []
+agents: []  # auto-discovered from agents/*.afs
 ```
 
 ```yaml
-# agents/sales-assistant.afs
+# agents/sales-assistant.afs -- define an agent
 schema: "1.0.0"
 id: sales-assistant
 name: Sales Assistant
@@ -66,45 +80,11 @@ knowledge:
 ```
 
 ```bash
-# deploy the formation
-muxi deploy
+muxi deploy   # that's it -- running, stateful, API-accessible
 ```
-
-That's it. Your agent is running, stateful, and accessible via API.
-
-
-## Our creed
-
-**AI infrastructure should be open, not owned by big tech.**
-
-We believe AI systems should be:
-
-- **Self-hostable** - Run anywhere, owned by you
-- **Observable** - See what's happening, always
-- **Declarative** - Version-controlled and reproducible
-- **Open** - No secrets, no lock-in
-
-If you build it, you should control it.
-
-
-## What we're building
-
-Modern AI workflows still treat agents as code patterns or framework constructs.
-
-We think they deserve their own foundation – a layer where:
-
-- Agents are declared, not improvised
-- Coordination and reasoning aren't bolted on
-- Memory, context, and tools feel native
-- Any model can be used without vendor lock-in
-- The system itself understands how agents operate
-
-We're building infrastructure that reflects this philosophy.
 
 
 ## Quick Start
-
-Install:
 
 **macOS:**
 ```bash
@@ -121,72 +101,66 @@ curl -fsSL https://muxi.org/install | sudo bash
 powershell -c "irm https://muxi.org/install | iex"
 ```
 
-Then:
+**[Full documentation ->](https://muxi.org/docs/quickstart)**
 
-```bash
-# Pull a formation
-muxi pull @examples/research-assistant
 
-# Deploy
-muxi deploy
+## What We Believe
 
-# Chat
-muxi chat research-assistant
-```
+**AI infrastructure should be open, not owned by big tech.**
 
-**[Full documentation →](https://muxi.org/docs/quickstart)**
+We believe agents deserve their own foundation -- a layer where they are declared, not improvised. Where coordination, memory, and tools are native. Where any model works without vendor lock-in. And where the system itself understands how agents operate.
+
+If you build it, you should control it.
+
+- **Self-hostable** -- run anywhere, owned by you
+- **Observable** -- see what's happening, always
+- **Declarative** -- version-controlled and reproducible
+- **Open** -- no lock-in, no surprises
 
 
 ## Documentation
 
 | Looking for... | Go to |
 |----------------|-------|
-| Getting started | [Quickstart →](https://muxi.org/docs/quickstart) |
-| SDKs (Python, TypeScript, Go) | [SDKs →](https://muxi.org/docs/sdks) |
+| Getting started | [Quickstart ->](https://muxi.org/docs/quickstart) |
+| SDKs (Python, TypeScript, Go) | [SDKs ->](https://muxi.org/docs/sdks) |
 | How MUXI works | [ARCHITECTURE.md](https://github.com/muxi-ai/muxi/blob/main/ARCHITECTURE.md) |
-| Contributing guidelines | [CONTRIBUTING.md](https://github.com/muxi-ai/muxi/blob/main/CONTRIBUTING.md) |
-| Development setup | [DEVELOPMENT.md](https://github.com/muxi-ai/muxi/blob/main/contributing/DEVELOPMENT.md) |
-| Git workflow | [GIT-WORKFLOW.md](https://github.com/muxi-ai/muxi/blob/main/contributing/GIT-WORKFLOW.md) |
+| Contributing | [CONTRIBUTING.md](https://github.com/muxi-ai/muxi/blob/main/CONTRIBUTING.md) |
 | All repositories | [REPOSITORIES.md](https://github.com/muxi-ai/muxi/blob/main/REPOSITORIES.md) |
 | Licensing | [LICENSE.md](https://github.com/muxi-ai/muxi/blob/main/LICENSE.md) |
-| Roadmap | [Roadmap →](https://github.com/orgs/muxi-ai/projects/1) |
+| Roadmap | [Roadmap ->](https://github.com/orgs/muxi-ai/projects/1) |
 
 
 ## Agent Skills
 
-This repo includes an [Agent Skill](https://agentskills.io) that gives any compatible AI agent (Claude Code, Cursor, GitHub Copilot, VS Code, etc.) deep knowledge of the MUXI platform -- installation, CLI, server setup, formations, secrets, SDKs, and APIs.
+This repo includes an [Agent Skill](https://agentskills.io) that gives any compatible AI agent (Claude Code, Cursor, GitHub Copilot, VS Code, etc.) deep knowledge of the MUXI platform.
 
 See [`skills/`](./skills/) for setup instructions.
 
 
 ## Get Involved
 
-- ⭐ Star this repo to follow progress
-- 💬 Join the [Community](https://github.com/muxi-ai/community) for discussion
-- 🐦 Follow [@muxi_ai](https://twitter.com/muxi_ai) for updates
-- 🛠️ See [CONTRIBUTING.md](https://muxi.org/contributing) to contribute
+- Star this repo to follow progress
+- Join the [Community](https://github.com/muxi-ai/community) for discussion
+- Follow [@muxi_ai](https://twitter.com/muxi_ai) for updates
+- See [CONTRIBUTING.md](https://muxi.org/contributing) to contribute
 
 
 ## Who's Behind This
 
-MUXI is created by [**Ran Aroussi** (𝕏)](https://x.com/aroussi), author of the [📚 **Production-Grade Agentic AI**](http://productionaibook.com) book, and [🧑‍💻 **open-source developer**](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
+MUXI is created by [**Ran Aroussi**](https://x.com/aroussi), author of [**Production-Grade Agentic AI**](http://productionaibook.com) and [open-source developer](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
 
 
 ## License
 
-MUXI uses a dual-license model.
+Server and Runtime are [ELv2](https://www.elastic.co/licensing/elastic-license). Everything else (CLI, SDKs, formations, schemas) is [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
-Server and Runtime are [ELv2](https://www.elastic.co/licensing/elastic-license), while the rest of the MUXI Stack is licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
-
-**TL;DR:**
-Use MUXI freely for your products and business. The only restriction: don't resell MUXI itself as a hosted service.
-
-See [LICENSE.md](https://muxi.org/licensing) for details.
+**TL;DR:** Use MUXI freely for your products and business. The only restriction: don't resell MUXI itself as a hosted service. See [LICENSE.md](https://muxi.org/licensing) for details.
 
 ---
 
 <p align="center">
-  <a href="https://github.com/muxi-ai">GitHub</a> •
-  <a href="https://twitter.com/muxi_ai">Twitter</a> •
+  <a href="https://github.com/muxi-ai">GitHub</a> &bull;
+  <a href="https://twitter.com/muxi_ai">Twitter</a> &bull;
   <a href="https://github.com/muxi-ai/community">Community</a>
 </p>
