@@ -136,10 +136,21 @@ Your Machine
 
 ## Next Steps
 
-After testing with Docker, install natively for production:
+:::: cols=3
 
-```bash
-brew install muxi-ai/tap/muxi-server
-```
+(setup.md)[[card]]
+### Server Setup
+Full configuration for native installs.
+[[/card]]
 
-See [Server Setup](setup.md) for full configuration details.
+(configuration.md)[[card]]
+### Configuration
+All server settings and options.
+[[/card]]
+
+(production-checklist.md)[[card]]
+### Production Checklist
+Go live with TLS, systemd, and best practices.
+[[/card]]
+
+::::

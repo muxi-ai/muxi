@@ -115,3 +115,11 @@ Logs stream with timestamps in JSON format:
 - Use `--level error` to quickly find problems
 - Use `--event "chat.*"` to follow conversation flow
 - Combine `--agent` with `--level debug` for detailed agent debugging
+
+
+## Learn More
+
+- [CLI Quick Reference](cheatsheet.md) - All CLI commands at a glance
+- [Observability](../concepts/observability.md) - Full observability system overview
+- [Event Types](../deep-dives/observability-events.md) - All 349 event types
+- [Troubleshooting](../guides/troubleshooting.md) - Common issues and fixes

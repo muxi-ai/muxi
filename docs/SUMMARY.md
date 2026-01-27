@@ -59,11 +59,13 @@ description: Complete guide to building AI agents with MUXI
   * [Authentication](server/authentication.md)
   * [Managing Formations](server/managing-formations.md)
   * [Monitoring](server/monitoring.md)
+  * [Docker Quick Start](server/docker.md)
   * [Production Checklist](server/production-checklist.md)
   * [Server API](api/server)
 * [CLI](cli/README.md)
   * [Setup](cli/setup.md)
   * [Configuration](cli/configuration.md)
+  * [Logs](cli/logs.md)
   * [Quick Reference](cli/cheatsheet.md)
 * [SDKs](sdks/README.md)
   * [Python](sdks/python-sdk.md)
@@ -145,6 +147,7 @@ description: Complete guide to building AI agents with MUXI
 
 ## Miscellaneous
 
+* [Agent Skills](agent-skills.md)
 * [Glossary](glossary.md)
 * [Changelog](changelog.md)
 * [Contributing](https://muxi.org/contributing)
