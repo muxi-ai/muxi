@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-ELv2%20%2F%20Apache%202.0-c98b45.svg" alt="License"></a>
-  <a href="https://github.com/muxi-ai/community"><img src="https://img.shields.io/badge/GitHub-Discussions-black.svg?logo=github" alt="Community"></a>
+  <a href="https://github.com/muxi-ai/muxi/discussions"><img src="https://img.shields.io/badge/GitHub-Discussions-black.svg?logo=github" alt="Discussions"></a>
   <a href="https://twitter.com/muxi_ai"><img src="https://img.shields.io/badge/‌-‌@muxi__ai-blue.svg?logo=x" alt="Twitter"></a>
 </p>
 
@@ -140,10 +140,11 @@ See [`skills/`](./skills/) for setup instructions.
 
 ## Get Involved
 
-- Star this repo to follow progress
-- Join the [Community](https://github.com/muxi-ai/community) for discussion
-- Follow [@muxi_ai](https://twitter.com/muxi_ai) for updates
-- See [CONTRIBUTING.md](https://muxi.org/contributing) to contribute
+- **Star** this repo to follow progress
+- **[Discussions](https://github.com/muxi-ai/muxi/discussions)** – ask questions, share ideas, get help
+- **[Roadmap](https://github.com/orgs/muxi-ai/projects/1)** – see what's coming
+- **[@muxi_ai](https://twitter.com/muxi_ai)** – follow for updates
+- **[CONTRIBUTING.md](https://muxi.org/contributing)** – contribute code
 
 
 ## Who's Behind This
@@ -162,5 +163,5 @@ Server and Runtime are [ELv2](https://www.elastic.co/licensing/elastic-license).
 <p align="center">
   <a href="https://github.com/muxi-ai">GitHub</a> &bull;
   <a href="https://twitter.com/muxi_ai">Twitter</a> &bull;
-  <a href="https://github.com/muxi-ai/community">Community</a>
+  <a href="https://github.com/muxi-ai/muxi/discussions">Discussions</a>
 </p>
