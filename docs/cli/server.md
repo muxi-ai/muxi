@@ -204,6 +204,7 @@ Download and replace? [y/N] y
 |------|-------------|
 | `-p, --profile <name>` | Server profile to use |
 | `-f, --force` | Skip confirmation prompt |
+| `--include-db` | Include SQLite database files (excluded by default) |
 
 ### Use Cases
 

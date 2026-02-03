@@ -42,6 +42,7 @@ API: http://localhost:8001
 | `--path <dir>` | Formation directory |
 | `--validate` | Validate only, don't deploy |
 | `--dry-run` | Show what would be deployed |
+| `--include-db` | Include SQLite database files (excluded by default) |
 
 ## Deploy to Profile
 
