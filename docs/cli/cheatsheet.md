@@ -141,6 +141,20 @@ muxi delete
 muxi server rollback my-assistant
 # Or from formation directory:
 muxi rollback
+
+# Download from server to local
+muxi download                    # In formation dir: replace with server version
+muxi download my-bot             # Outside: create ./my-bot/ with server version
+muxi download --profile prod     # Use specific profile
+```
+
+
+## Console
+
+```bash
+# Open MUXI Console in browser
+muxi console                     # Opens console, auto-detects formation context
+muxi console --profile prod      # Use specific profile
 ```
 
 
@@ -341,6 +355,8 @@ muxi chat -f my-bot
 | `triggers run` | `--data <json>` | Trigger input data |
 | `triggers run` | `--async` | Run asynchronously |
 | `scheduler add` | `--schedule` | Cron schedule |
+| `download` | `-f, --force` | Skip confirmation |
+| `download` | `-p, --profile` | Server profile |
 
 
 ## Examples
