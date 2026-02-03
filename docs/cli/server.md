@@ -25,6 +25,8 @@ muxi server <command> [options]
 | `restart <id>` | Restart a formation |
 | `delete <id>` | Delete a formation |
 | `rollback <id>` | Rollback to previous version |
+| `download <id>` | Download formation to local |
+| `console` | Open MUXI Console in browser |
 
 ## List Formations
 
@@ -154,6 +156,84 @@ Rollback to 1.1.0? [y/N] y
 ✓ Rolled back to 1.1.0
 ```
 
+## Download Formation
+
+Download a formation from the server to your local machine:
+
+```bash
+muxi download my-assistant
+```
+
+Output:
+
+```
+This will download 'my-assistant' from server 'production' to ./my-assistant/
+
+Continue? [Y/n] y
+
+✓ Downloading from server...
+✓ Extracting...
+✓ Downloaded 'my-assistant' to ./my-assistant/
+  cd my-assistant && muxi dev
+```
+
+### In Formation Directory
+
+When inside an existing formation directory, download replaces the local files with the server version:
+
+```bash
+cd my-assistant
+muxi download
+```
+
+Output:
+
+```
+⚠ This will replace the entire 'my-assistant' directory with the server version.
+
+Download and replace? [y/N] y
+
+✓ Downloading from server...
+✓ Extracting...
+✓ Downloaded 'my-assistant' from server
+```
+
+### Download Options
+
+| Flag | Description |
+|------|-------------|
+| `-p, --profile <name>` | Server profile to use |
+| `-f, --force` | Skip confirmation prompt |
+
+### Use Cases
+
+- **Sync to another machine**: Download production formation to dev laptop
+- **Restore local changes**: Replace local edits with deployed version  
+- **Team collaboration**: Get the current server state
+
+## Console
+
+Open the MUXI Console web interface in your browser:
+
+```bash
+muxi console
+```
+
+When run from a formation directory with a configured server profile, Console opens pre-configured with your formation context:
+
+```bash
+cd my-assistant
+muxi console
+# Opens: https://muxi.dev/launch?server=http://localhost:7890&formation=my-assistant
+```
+
+When run outside a formation directory or without a profile:
+
+```bash
+muxi console
+# Opens: https://muxi.dev
+```
+
 ## Options
 
 | Flag | Description |
@@ -179,4 +259,14 @@ muxi server delete old-bot
 
 # Force delete
 muxi server delete old-bot --force
+
+# Download formation to local
+muxi download my-bot
+muxi download my-bot --profile production
+
+# Download and replace current directory
+cd my-bot && muxi download
+
+# Open Console
+muxi console
 ```

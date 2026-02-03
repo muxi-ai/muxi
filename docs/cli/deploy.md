@@ -135,6 +135,45 @@ Check:
 - Profile configuration
 ```
 
+## Full Deployment Cycle
+
+```bash
+# 1. Create and develop locally
+muxi new formation my-bot
+cd my-bot
+muxi secrets setup
+muxi dev
+
+# 2. Deploy to server
+muxi deploy --profile production
+
+# 3. Monitor and manage
+muxi logs --follow
+muxi server get my-bot
+
+# 4. Download server version to another machine
+muxi download my-bot --profile production
+
+# 5. Update and redeploy
+muxi bump patch
+muxi deploy --profile production
+```
+
+## Download from Server
+
+Need to get the server version locally? Use `muxi download`:
+
+```bash
+# Download to current formation directory (replaces local files)
+cd my-bot
+muxi download
+
+# Download to new directory
+muxi download my-bot --profile production
+```
+
+See [muxi server](server.md#download-formation) for details.
+
 ## Examples
 
 ```bash
