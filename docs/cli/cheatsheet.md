@@ -14,6 +14,9 @@ The CLI is your primary tool for creating, developing, deploying, and managing M
 # Check version
 muxi --version
 
+# Upgrade to latest
+muxi upgrade
+
 # Get help
 muxi --help
 muxi <command> --help
@@ -320,6 +323,28 @@ muxi formations remove my-bot
 muxi info -f my-bot
 muxi chat -f my-bot
 ```
+
+
+## Upgrade
+
+```bash
+# Check for updates and upgrade
+muxi upgrade
+```
+
+The CLI automatically checks for updates and shows a notification:
+
+```
+[*] MUXI CLI 0.20260210.0 available (current: 0.20260203.0)
+    Run: muxi upgrade
+```
+
+`muxi upgrade` detects your install method:
+- **Homebrew**: Shows `brew upgrade muxi`
+- **Go install**: Shows `go install github.com/muxi-ai/cli@latest`
+- **Binary**: Downloads and self-updates from GitHub releases
+
+Disable update checks: `export MUXI_NO_UPDATE_CHECK=1`
 
 
 ## Flags Reference
