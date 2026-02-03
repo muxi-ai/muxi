@@ -204,7 +204,19 @@ Download and replace? [y/N] y
 |------|-------------|
 | `-p, --profile <name>` | Server profile to use |
 | `-f, --force` | Skip confirmation prompt |
-| `--include-db` | Include SQLite database files (excluded by default) |
+| `--include-db` | Include `memory.db` from server (excluded by default) |
+
+### Persistent Memory (memory.db)
+
+By default, `muxi download` excludes `memory.db` to preserve your local development data. If you have a local `memory.db`, it will be kept when downloading.
+
+```bash
+# Default: keeps local memory.db, server's memory.db not downloaded
+muxi download
+
+# Download including server's memory.db (replaces local)
+muxi download --include-db
+```
 
 ### Use Cases
 

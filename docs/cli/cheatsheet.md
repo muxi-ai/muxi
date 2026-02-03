@@ -146,7 +146,7 @@ muxi rollback
 muxi download                    # In formation dir: replace with server version
 muxi download my-bot             # Outside: create ./my-bot/ with server version
 muxi download --profile prod     # Use specific profile
-muxi download --include-db       # Include SQLite database files
+muxi download --include-db       # Include memory.db from server
 ```
 
 
@@ -358,8 +358,8 @@ muxi chat -f my-bot
 | `scheduler add` | `--schedule` | Cron schedule |
 | `download` | `-f, --force` | Skip confirmation |
 | `download` | `-p, --profile` | Server profile |
-| `download` | `--include-db` | Include SQLite DB files |
-| `deploy` | `--include-db` | Include SQLite DB files |
+| `download` | `--include-db` | Include memory.db |
+| `deploy` | `--include-db` | Include memory.db |
 
 
 ## Examples

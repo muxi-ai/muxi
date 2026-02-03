@@ -42,7 +42,7 @@ API: http://localhost:8001
 | `--path <dir>` | Formation directory |
 | `--validate` | Validate only, don't deploy |
 | `--dry-run` | Show what would be deployed |
-| `--include-db` | Include SQLite database files (excluded by default) |
+| `--include-db` | Include `memory.db` in bundle (excluded by default) |
 
 ## Deploy to Profile
 
@@ -94,6 +94,20 @@ muxi deploy --dry-run
 ```
 
 Shows what would be deployed without making changes.
+
+## Persistent Memory (memory.db)
+
+Formations using SQLite for persistent memory store data in `memory.db` in the formation directory. By default, this file is **excluded** from deploy bundles to prevent overwriting production data with local development data.
+
+```bash
+# Default: memory.db is excluded
+muxi deploy
+
+# Include memory.db (e.g., for initial seeding)
+muxi deploy --include-db
+```
+
+The server maintains `memory.db` separately from deployed formation files, so it persists across deploys and rollbacks.
 
 ## Deploy Process
 
