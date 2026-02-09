@@ -8,11 +8,10 @@ doc-type: home
 
 ## Open-source, AI Application Server
 
-No one builds their own Nginx to deploy a website.
+No one builds their own Nginx to deploy a website. No one should reinvent infrastructure to build AI.
 
-No one should reinvent infrastructure to build AI.
-
-MUXI is **production infrastructure for AI agents**. Declare your agents in YAML, deploy with one command, build your product on top via SDKs.
+> [!NOTE]
+> MUXI is **production infrastructure for AI agents**. Declare your agents in YAML, deploy with one command, build your product on top via SDKs.
 
 [[boxed float-right]]
 
