@@ -10,8 +10,6 @@ doc-type: home
 
 MUXI is **production infrastructure for AI agents**. Declare your agents in YAML, deploy with one command, build your product on top via SDKs.
 
-> No one builds their own Nginx to deploy a website. No one should reinvent infrastructure to build AI.
-
 [[boxed float-right]]
 
 ### Watch the Demo
@@ -22,7 +20,9 @@ From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
 [[/boxed]]
 
-#### Features
+> No one builds their own Nginx to deploy a website. No one should reinvent infrastructure to build AI.
+
+### Features
 
 - **Define everything in YAML** - Agents, tools, memory, knowledge, triggers – as a [agent formation](concepts/formation-schema.md). Zero framework code.
 - **Ship with one command** - `muxi deploy`. Done.
