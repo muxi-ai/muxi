@@ -1,12 +1,12 @@
 ---
-title: Open-source, AI Application Server
+title: The Open-source AI Application Server
 description: Production infrastructure that treats agents as native primitives, packaged as deployable units using the Agent Formation Schema.
 doc-type: home
 ---
 
 # MUXI Documentation
 
-## Open-source, AI Application Server
+## The Open-source AI Application Server
 
 MUXI is **production infrastructure for AI agents**. Declare your agents in YAML, deploy with one command, build your product on top via SDKs.
 
@@ -19,8 +19,6 @@ MUXI is **production infrastructure for AI agents**. Declare your agents in YAML
 From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
 [[/boxed]]
-
-> No one builds their own Nginx to deploy a website. No one should reinvent infrastructure to build AI.
 
 ### Features
 
@@ -40,6 +38,8 @@ Self-hosted, LLM-agnostic, Open-source.
 | **Definition** | Dockerfile | Formation |
 | **Registry** | Docker Hub | MUXI Registry |
 | **CLI** | `docker` | `muxi` |
+
+> No one builds their own Nginx to deploy a website. No one should reinvent infrastructure to build AI.
 
 [>] [Learn more about MUXI →](what-is-muxi.md)
 
