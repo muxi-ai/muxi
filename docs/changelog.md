@@ -13,6 +13,27 @@ For detailed release notes, see individual component repositories:
 - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 
 
+## February 2026
+
+### Local Development Mode
+Fast iteration without full deploy cycle:
+- **Server**: `/rpc/dev/run` and `/rpc/dev/stop` endpoints, `/draft/{id}/*` proxy route
+- **CLI**: `muxi up [path]` to start local formation, `muxi down` to stop
+- **SDKs**: `mode` parameter (`"live"` or `"draft"`) to switch between live and draft formations
+- Draft and live formations can run simultaneously with the same ID
+
+### SDK Update Notifications
+Server now notifies SDKs when updates are available:
+- Parses `X-Muxi-SDK` header from requests
+- Responds with `X-Muxi-SDK-Latest` header containing latest version
+- Fetches release versions from GitHub API (refreshes every 24h)
+
+### Bug Fixes
+- Fixed Docker container naming for draft formations (use `-draft` suffix)
+- Improved error messages when formations crash during startup (removed ASCII art noise)
+
+---
+
 ## January 2026
 
 ### Documentation
