@@ -31,7 +31,9 @@ flowchart TB
     end
 ```
 
-**How it runs** — like a web application:
+### How it runs
+
+Like a web application:
 
 | Layer | Web World | MUXI |
 |-------|-----------|------|
@@ -39,7 +41,9 @@ flowchart TB
 | **Runtime** | Node / Python | MUXI Runtime |
 | **Application** | Your code | Formation |
 
-**How you ship it** — like Docker:
+### How you ship it
+
+Like Docker:
 
 | Concept | Docker | MUXI |
 |---------|--------|------|
@@ -210,16 +214,18 @@ Stream responses as agents think, not after completion. SSE and WebSocket suppor
 ::::
 
 
-## Built for Production
+## Built for Efficiency
 
 MUXI isn't a prototype tool – it's production infrastructure with the numbers to prove it.
 
 | Metric | Value |
 |--------|-------|
-| Response Time | <100ms |
-| Test Coverage | 80%+ test coverage across core components |
+| Time to first agent | 5 Minutes |
+| Response time | <100ms time to first token |
+| Test coverage | 80%+ test coverage across core components |
 | Observability Events | 349 typed events |
-| LLM Cost Saving | 50-80% via semantic caching |
+| LLM  supported | 21+ providers, 300+ models |
+| LLM cost saving | 50-80% via semantic caching |
 
 
 ## Declare Once, Deploy Everywhere
