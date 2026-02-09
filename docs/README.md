@@ -1,14 +1,18 @@
 ---
-title: Open-source, production infrastructure for AI agents
+title: Open-source, AI Application Server
 description: Production infrastructure that treats agents as native primitives, packaged as deployable units using the Agent Formation Schema.
 doc-type: home
 ---
 
 # MUXI Documentation
 
-## Open-source, production infrastructure for AI agents
+## Open-source, AI Application Server
 
-MUXI is **The Agent Server** - production infrastructure for running AI agents. It treats agents as native primitives, packaged as deployable units using the Agent Formation Schema.
+No one builds their own Nginx to deploy a website.
+
+No one should reinvent infrastructure to build AI.
+
+MUXI is **production infrastructure for AI agents**. Declare your agents in YAML, deploy with one command, build your product on top via SDKs.
 
 [[boxed float-right]]
 
@@ -20,15 +24,22 @@ From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
 [[/boxed]]
 
-- **Define everything in YAML** - Agents, tools, memory, knowledge, triggers – as a [deployable unit](concepts/formation-schema.md). Zero framework code.
+- **Define everything in YAML** - Agents, tools, memory, knowledge, triggers – as a [agent formation](concepts/formation-schema.md). Zero framework code.
 - **Ship with one command** - `muxi deploy`. Done.
+- **Build on top via APIs** — REST, WebSocket, gRPC + SDKs for Python, TypeScript, Go, Swift, Java, and more.
 - **Let the orchestration roll** - Smart [Overlord](concepts/overlord.md) that routes, decomposes, clarifies, and coordinates.
-- **Actually production-ready** - Multi-tenancy, observability, and enterprise features included, not bolted on.
+- **Production-ready** - Multi-tenancy, observability, and enterprise features included, not bolted on.
 
 ### Think: “Docker for AI agents”.
 
 Self-hosted, LLM-agnostic, Open-source.
 
+| Concept | Docker | MUXI |
+|---------|--------|------|
+| **Engine** | Docker Engine | Server + Runtime |
+| **Definition** | Dockerfile | Formation |
+| **Registry** | Docker Hub | MUXI Registry |
+| **CLI** | `docker` | `muxi` |
 
 [>] [Learn more about MUXI →](what-is-muxi.md)
 
@@ -110,6 +121,8 @@ powershell -c "irm https://muxi.org/install | iex"
 
 
 ## Explore
+
+**MUXI is a complete stack.** The Server orchestrates. The Runtime executes. The CLI deploys. The SDKs let you build products on top.
 
 :::: cols=2
 

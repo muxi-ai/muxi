@@ -5,7 +5,9 @@ description: Production-ready infrastructure for AI agents
 
 # What is MUXI?
 
-## The Agent Server
+## The AI Application Server
+
+No one builds their own Nginx to deploy a website. No one should reinvent infrastructure to build AI.
 
 <!-- TODO: Replace with actual video embed -->
 <div class="video-placeholder">
@@ -29,6 +31,27 @@ flowchart TB
     end
 ```
 
+**How it runs** — like a web application:
+
+| Layer | Web World | MUXI |
+|-------|-----------|------|
+| **Server** | Nginx | MUXI Server |
+| **Runtime** | Node / Python | MUXI Runtime |
+| **Application** | Your code | Formation |
+
+**How you ship it** — like Docker:
+
+| Concept | Docker | MUXI |
+|---------|--------|------|
+| **Engine** | Docker Engine | Server + Runtime |
+| **Definition** | Dockerfile | Formation |
+| **Registry** | Docker Hub | MUXI Registry |
+| **CLI** | `docker` | `muxi` |
+
+**The key insight:** You build applications ON TOP of MUXI using SDKs. Your frontend, mobile app, or backend talks to MUXI via API. MUXI handles orchestration, memory, multi-tenancy, and observability.
+
+**That's what makes it infrastructure, not a framework.**
+
 
 ## The Problem
 
@@ -49,10 +72,13 @@ Building a **production** agent system requires:
 
 **Most teams spend 3-6 months building this infrastructure before shipping a single feature.**
 
+The question: Is agent infrastructure your core IP, or is it plumbing blocking your actual product?
 
 ## The Solution
 
 MUXI treats agents as **native infrastructure primitives**. Declare them in YAML, deploy with one command, manage like containers.
+
+### Declare your system in YAML
 
 ```yaml
 # formation.afs - A complete AI system definition
@@ -81,11 +107,21 @@ mcp:
     - id: stripe
 ```
 
+### Deploy with one command
+
 ```bash
 muxi deploy
 # That's it. You're live.
 ```
 
+### Build on top
+
+```python
+from muxi import MuxiClient
+
+client = MuxiClient("http://server:7890/api")
+response = client.chat("customer-support", "I need a refund", user_id="user_123")
+```
 
 ## Key Capabilities
 
@@ -190,7 +226,7 @@ MUXI isn't a prototype tool – it's production infrastructure with the numbers 
 
 MUXI created the [Agent Formation Schema](https://agentformation.org) – an open spec for declarative AI systems. Agents, knowledge, tools, and settings defined in portable `.afs` files.
 
-**Like a Dockerfile for containers, but for agent intelligence.**
+**Like a Dockerfile for containers, but for agents.**
 
 Formations are:
 - **Portable** – Run anywhere MUXI runs
@@ -215,7 +251,7 @@ Browse community formations, install with one command, customize for your needs.
 
 ## Open Source & Self-Hosted
 
-MUXI is **open-source** and **self-hostable**. Your data stays on your infrastructure. No vendor lock-in. No per-seat pricing. No usage limits.
+MUXI is **open-source** and **self-hostable**. Your data stays on your infrastructure. No vendor lock-in. No per-seat pricing. No usage limits. **Free forever. Revenue from optional support services.**
 
 - Full source code on [GitHub](https://github.com/muxi-ai)
 - Single binary installation
@@ -224,6 +260,8 @@ MUXI is **open-source** and **self-hostable**. Your data stays on your infrastru
 
 
 ## How It Compares
+
+**MUXI makes frameworks obsolete for 90% of use cases.**
 
 | | MUXI | Frameworks (LangChain, CrewAI) | Cloud AI (Bedrock, Vertex) |
 |---|---|---|---|
@@ -234,8 +272,26 @@ MUXI is **open-source** and **self-hostable**. Your data stays on your infrastru
 | **LLM choice** | Any provider | Any provider | Vendor models |
 | **Observability** | 349 events | You build it | Vendor tools |
 
+### vs. AI Assistants (OpenClaw, ChatGPT)
+
+Different layer entirely. OpenClaw is a personal AI assistant (single-user product). MUXI is infrastructure to build products like OpenClaw – with multi-tenancy, proper memory, and SDKs for integration.
+
 **MUXI is infrastructure, not a framework.** Frameworks help you write agent logic. MUXI runs agents in production.
 
+
+## Who Is MUXI For?
+
+### Platform Builders
+
+Building a SaaS with AI features? MUXI handles orchestration, memory, and multi-tenancy so you can focus on your product.
+
+### Internal Tool Builders
+
+Deploying AI assistants for your team? MUXI gives you SOPs, observability, and enterprise-grade infrastructure out of the box.
+
+### Developers Tired of Framework Hell
+
+Spent months on LangChain orchestration code? MUXI replaces it with YAML configuration and a single deploy command.
 
 ## Next Steps
 
