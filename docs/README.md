@@ -26,7 +26,7 @@ From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 - **Define everything in YAML** - Agents, tools, memory, knowledge, triggers – as a [agent formation](concepts/formation-schema.md). Zero framework code.
 - **Ship with one command** - `muxi deploy`. Done.
 - **Build on top via APIs** — REST, WebSocket, gRPC + SDKs for Python, TypeScript, Go, Swift, Java, and more.
-- **Let the orchestration roll** - Smart [Overlord](concepts/overlord.md) that routes, decomposes, clarifies, and coordinates.
+- **Smart orchestration layer** - The [Overlord](concepts/overlord.md) routes, decomposes, clarifies, and coordinates agents activity.
 - **Production-ready** - Multi-tenancy, observability, and enterprise features included, not bolted on.
 
 ### Think: “Docker for AI agents”.
