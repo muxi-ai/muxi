@@ -212,13 +212,20 @@ pip install muxi-client
 ```python
 from muxi import FormationClient
 
-client = FormationClient(url="http://localhost:8001")
+# For local dev with muxi up, use mode="draft"
+client = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    mode="draft",  # Uses /draft/ prefix for local dev
+)
 
 # Streaming chat
 for event in client.chat_stream({"message": "Hello!"}):
     if event.get("type") == "text":
         print(event.get("text"), end="")
 ```
+
+> When you deploy to production, just remove `mode="draft"` to use the live `/api/` endpoint.
 [[/tab]]
 
 [[tab TypeScript]]
@@ -229,8 +236,11 @@ npm install @muxi-ai/muxi-typescript
 ```typescript
 import { FormationClient } from "@muxi-ai/muxi-typescript";
 
+// For local dev with muxi up, use mode="draft"
 const client = new FormationClient({
-  url: "http://localhost:8001",
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  mode: "draft",  // Uses /draft/ prefix for local dev
 });
 
 // Streaming chat
@@ -238,6 +248,8 @@ for await (const event of client.chatStream({ message: "Hello!" })) {
   if (event.type === "text") process.stdout.write(event.text);
 }
 ```
+
+> When you deploy to production, just remove `mode: "draft"` to use the live `/api/` endpoint.
 [[/tab]]
 
 [[tab Go]]
@@ -246,8 +258,11 @@ go get github.com/muxi-ai/muxi-go
 ```
 
 ```go
+// For local dev with muxi up, use Mode="draft"
 client := muxi.NewFormationClient(&muxi.FormationConfig{
-    URL: "http://localhost:8001",
+    ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
+    Mode:        "draft",  // Uses /draft/ prefix for local dev
 })
 
 // Streaming chat
@@ -260,24 +275,35 @@ for chunk := range stream {
     }
 }
 ```
+
+> When you deploy to production, just remove `Mode: "draft"` to use the live `/api/` endpoint.
 [[/tab]]
 
 [[tab curl]]
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+# Local dev (draft mode via muxi up)
+curl -X POST http://localhost:7890/draft/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Hello!"}'
+
+# Production (after muxi deploy)
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -H "Content-Type: application/json" \
   -d '{"message": "Hello!"}'
 ```
 [[/tab]]
 
 [[tab Browser]]
-Open `http://localhost:8001/chat` in your browser for an interactive chat UI.
+Open `http://localhost:7890/draft/my-assistant/chat` in your browser for an interactive chat UI.
 [[/tab]]
 
 [[/tabs]]
 
 > [!TIP]
-> See the [complete chat API reference](api/formation#tag/Chat/POST/chat) for streaming, async, and advanced options.
+> **Local dev → Production workflow:**
+> 1. Use `mode="draft"` during development with `muxi up`
+> 2. Run `muxi deploy` to deploy your formation
+> 3. Remove `mode="draft"` from your code - it defaults to `mode="live"` which uses `/api/`
 
 [[/step]]
 

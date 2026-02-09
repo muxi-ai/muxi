@@ -141,6 +141,60 @@ for chunk := range stream {
 [[/tabs]]
 
 
+## Local Development
+
+When developing locally with `muxi up`, use the `mode="draft"` parameter to route requests through the `/draft/` endpoint:
+
+[[tabs]]
+
+[[tab Python]]
+```python
+# Local development (with muxi up)
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    mode="draft",  # Uses /draft/ prefix
+    client_key="your_client_key",
+)
+```
+[[/tab]]
+
+[[tab TypeScript]]
+```typescript
+// Local development (with muxi up)
+const formation = new FormationClient({
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  mode: "draft",  // Uses /draft/ prefix
+  clientKey: "your_client_key",
+});
+```
+[[/tab]]
+
+[[tab Go]]
+```go
+// Local development (with muxi up)
+client := muxi.NewFormationClient(&muxi.FormationConfig{
+    FormationID: "my-assistant",
+    ServerURL:   "http://localhost:7890",
+    Mode:        "draft",  // Uses /draft/ prefix
+    ClientKey:   "your_client_key",
+})
+```
+[[/tab]]
+
+[[/tabs]]
+
+**Workflow:**
+1. Run `muxi up` to start your formation in draft mode
+2. Use `mode="draft"` in your SDK client during development
+3. Run `muxi deploy` to deploy to production
+4. Remove `mode="draft"` (or don't set it) - defaults to `mode="live"` which uses `/api/`
+
+> [!TIP]
+> The `mode` parameter only affects URL routing. All other functionality is identical between draft and live modes.
+
+
 ## Two Client Types
 
 All SDKs provide two clients:

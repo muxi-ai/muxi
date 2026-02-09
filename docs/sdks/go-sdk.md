@@ -57,7 +57,7 @@ func main() {
 ```go
 import muxi "github.com/muxi-ai/muxi-go"
 
-// Via server proxy (recommended)
+// Production (via server proxy)
 client := muxi.NewFormationClient(&muxi.FormationConfig{
     FormationID: "my-assistant",
     ServerURL:   "http://localhost:7890",
@@ -65,12 +65,22 @@ client := muxi.NewFormationClient(&muxi.FormationConfig{
     AdminKey:    "your_admin_key",  // Optional, for admin operations
 })
 
-// Direct connection (for local dev)
+// Local development (with muxi up)
 client := muxi.NewFormationClient(&muxi.FormationConfig{
-    URL:       "http://localhost:8001",  // Direct to formation
+    FormationID: "my-assistant",
+    ServerURL:   "http://localhost:7890",
+    Mode:        "draft",  // Uses /draft/ prefix instead of /api/
+    ClientKey:   "your_client_key",
+})
+
+// Direct connection (bypasses server proxy)
+client := muxi.NewFormationClient(&muxi.FormationConfig{
+    URL:       "http://localhost:8001",  // Direct to formation port
     ClientKey: "your_client_key",
 })
 ```
+
+> **Local dev workflow:** Use `Mode: "draft"` during development with `muxi up`, then remove it when deploying to production.
 
 ### Chat
 

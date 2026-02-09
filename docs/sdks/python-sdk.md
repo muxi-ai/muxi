@@ -38,7 +38,7 @@ print(formation.health())
 ```python
 from muxi import FormationClient
 
-# Via server proxy (recommended)
+# Production (via server proxy)
 formation = FormationClient(
     server_url="http://localhost:7890",
     formation_id="my-assistant",
@@ -46,12 +46,23 @@ formation = FormationClient(
     admin_key="your_admin_key",  # Optional, for admin operations
 )
 
-# Direct connection (for local dev)
+# Local development (with muxi up)
 formation = FormationClient(
-    url="http://localhost:8001",  # Direct to formation
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    mode="draft",  # Uses /draft/ prefix instead of /api/
+    client_key="your_client_key",
+)
+
+# Direct connection (bypasses server proxy)
+formation = FormationClient(
+    url="http://localhost:8001",  # Direct to formation port
     client_key="your_client_key",
 )
 ```
+
+> [!TIP]
+> **Local dev workflow:** Use `mode="draft"` during development with `muxi up`, then remove it when deploying to production.
 
 ### Chat (Streaming)
 

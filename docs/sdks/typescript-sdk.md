@@ -51,7 +51,7 @@ console.log(await formation.health());
 ```typescript
 import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-// Via server proxy (recommended)
+// Production (via server proxy)
 const formation = new FormationClient({
   serverUrl: "http://localhost:7890",
   formationId: "my-assistant",
@@ -59,12 +59,23 @@ const formation = new FormationClient({
   adminKey: "your_admin_key",  // Optional, for admin operations
 });
 
-// Direct connection (for local dev)
+// Local development (with muxi up)
 const formation = new FormationClient({
-  baseUrl: "http://localhost:8001/v1",  // Direct to formation
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  mode: "draft",  // Uses /draft/ prefix instead of /api/
+  clientKey: "your_client_key",
+});
+
+// Direct connection (bypasses server proxy)
+const formation = new FormationClient({
+  baseUrl: "http://localhost:8001/v1",  // Direct to formation port
   clientKey: "your_client_key",
 });
 ```
+
+> [!TIP]
+> **Local dev workflow:** Use `mode: "draft"` during development with `muxi up`, then remove it when deploying to production.
 
 ### Chat (Streaming)
 
