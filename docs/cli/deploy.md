@@ -8,6 +8,9 @@ description: Deploy formations to MUXI Server
 
 Deploy a formation to MUXI Server with zero downtime. The server handles rolling updates, health checks, and automatic restarts.
 
+> [!TIP]
+> **For local development**, use `muxi up` / `muxi down` instead - like `docker compose up` / `docker compose down`. Runs directly from source without bundling. See the [cheatsheet](cheatsheet.md#local-development).
+
 ## Usage
 
 ```bash

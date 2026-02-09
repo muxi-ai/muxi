@@ -57,7 +57,8 @@ muxi new mcp <name>
 [[card]]
 #### Develop
 ```bash
-muxi dev
+muxi up
+muxi down
 muxi validate
 muxi chat
 ```
@@ -109,7 +110,9 @@ muxi server get <id>
 muxi new formation my-assistant
 cd my-assistant
 muxi secrets setup
-muxi dev
+muxi up              # Like docker compose up
+# ... develop ...
+muxi down            # Like docker compose down
 ```
 
 ### Deploy to Server
@@ -126,7 +129,7 @@ muxi logs my-assistant --follow
 muxi pull @acme/research-agent
 cd research-agent
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 
@@ -135,7 +138,8 @@ muxi dev
 | Command | Description |
 |---------|-------------|
 | `muxi new` | Create formations, agents, MCPs, SOPs, triggers |
-| `muxi dev` | Run formation locally |
+| `muxi up` | Start formation locally (like docker compose up) |
+| `muxi down` | Stop local formation (like docker compose down) |
 | `muxi deploy` | Deploy to server |
 | `muxi server` | Manage deployed formations |
 | `muxi secrets` | Manage encrypted secrets |
@@ -166,6 +170,11 @@ output:
 (new.md)[[card]]
 #### muxi new
 Create formations, agents, MCPs, triggers, SOPs.
+[[/card]]
+
+(local-dev.md)[[card]]
+#### muxi up/down
+Local development - like docker compose.
 [[/card]]
 
 (deploy.md)[[card]]

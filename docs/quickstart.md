@@ -178,17 +178,25 @@ Enter OPENAI_API_KEY: sk-...
 
 [[step Run Locally]]
 
+With the server running (from Step 2), start your formation:
+
 ```bash
-muxi dev
+muxi up
 ```
 
-Output:
+**Expected output:**
 
 ```
-✓ Formation 'my-assistant' running
-✓ API: http://localhost:8001
-✓ Web: http://localhost:8001/chat
+✓ Started my-assistant
+✓ Formation running on port 8001
+
+  Draft URL: http://localhost:7890/draft/my-assistant
+
+  To stop:   muxi down
 ```
+
+> [!TIP]
+> Think of `muxi up` / `muxi down` like `docker compose up` / `docker compose down` - quick start/stop for local development.
 
 [[/step]]
 

@@ -38,14 +38,36 @@ muxi new sop customer-onboarding
 ```
 
 
+## Local Development
+
+Think of `muxi up` / `muxi down` like `docker compose up` / `docker compose down`:
+
+```bash
+# Start server (first terminal)
+muxi-server start
+
+# Start formation (second terminal)
+cd my-formation
+muxi up                      # Start from formation directory
+
+# Formation runs at http://localhost:7890/draft/my-formation
+
+# Stop formation
+muxi down                    # Stop (ID from current dir)
+muxi down my-bot             # Stop by ID from anywhere
+
+# Server keeps running - stop with: muxi-server stop
+```
+
+**Key differences from `muxi deploy`:**
+- Runs directly from source (no bundle/upload)
+- Uses `/draft/{id}` URL prefix (live uses `/api/{id}`)
+- Fast iteration - instant start
+
+
 ## Develop
 
 ```bash
-# Run locally
-muxi dev
-muxi dev --port 8002
-muxi dev --reindex           # Force knowledge reindex
-
 # Validate formation
 muxi validate
 
