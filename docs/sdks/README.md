@@ -6,7 +6,7 @@ description: Official client libraries for MUXI
 
 ## Official client libraries for MUXI
 
-Native SDKs for Python, TypeScript, and Go. Build custom UIs, manage user credentials, handle observability events, and control formations programmatically.
+Native SDKs for 12 languages. Build custom UIs, manage user credentials, handle observability events, and control formations programmatically.
 
 ## Why Use the SDKs?
 
@@ -78,7 +78,7 @@ Learn more & install ›
 
 ::::
 
-In progress: Ruby, Java, C#, PHP, C++, Rust, Swift, Kotlin, Dart, and more.
+**Also available:** [Ruby](ruby-sdk.md) | [PHP](php-sdk.md) | [C#](csharp-sdk.md) | [Java](java-sdk.md) | [Kotlin](kotlin-sdk.md) | [Swift](swift-sdk.md) | [Dart](dart-sdk.md) | [Rust](rust-sdk.md) | [C++](cpp-sdk.md)
 
 ## Quick Start
 
@@ -577,7 +577,21 @@ if err != nil {
 
 ## Learn More
 
+**Core SDKs:**
 - [Python SDK →](python-sdk.md)
 - [TypeScript SDK →](typescript-sdk.md)
 - [Go SDK →](go-sdk.md)
+
+**Additional SDKs:**
+- [Ruby SDK →](ruby-sdk.md)
+- [PHP SDK →](php-sdk.md)
+- [C# SDK →](csharp-sdk.md)
+- [Java SDK →](java-sdk.md)
+- [Kotlin SDK →](kotlin-sdk.md)
+- [Swift SDK →](swift-sdk.md)
+- [Dart SDK →](dart-sdk.md)
+- [Rust SDK →](rust-sdk.md)
+- [C++ SDK →](cpp-sdk.md)
+
+**Reference:**
 - [API Reference →](../reference/api-reference.md)
