@@ -105,15 +105,15 @@ go get github.com/muxi-ai/muxi-go
 ```python
 from muxi import FormationClient
 
-formation = FormationClient(
+client = FormationClient(
     server_url="http://localhost:7890",
     formation_id="my-assistant",
     client_key="your_client_key",
 )
 
-for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
+for event in client.chat_stream({"message": "Hello!"}):
     if event.get("type") == "text":
-        print(event.get("text"), end="", flush=True)
+        print(event.get("text"), end="")
 ```
 [[/tab]]
 
@@ -121,37 +121,166 @@ for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
 ```typescript
 import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-const formation = new FormationClient({
+const client = new FormationClient({
   serverUrl: "http://localhost:7890",
   formationId: "my-assistant",
   clientKey: "your_client_key",
 });
 
-for await (const chunk of await formation.chatStream({ message: "Hello!" }, "user_123")) {
-  if (chunk.type === "text") process.stdout.write(chunk.text);
+for await (const event of client.chatStream({ message: "Hello!" })) {
+  if (event.type === "text") process.stdout.write(event.text);
 }
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-import muxi "github.com/muxi-ai/muxi-go"
-
 client := muxi.NewFormationClient(&muxi.FormationConfig{
-    FormationID: "my-assistant",
     ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
     ClientKey:   "your_client_key",
 })
 
-stream, errs := client.ChatStream(ctx, &muxi.ChatRequest{
-    Message: "Hello!",
-    UserID:  "user_123",
-})
+stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{Message: "Hello!"})
 for chunk := range stream {
     if chunk.Type == "text" {
         fmt.Print(chunk.Text)
     }
 }
+```
+[[/tab]]
+
+[[tab Ruby]]
+```ruby
+require 'muxi'
+
+client = Muxi::FormationClient.new(
+  server_url: 'http://localhost:7890',
+  formation_id: 'my-assistant',
+  client_key: 'your_client_key'
+)
+
+client.chat_stream(message: 'Hello!') do |event|
+  print event['text'] if event['type'] == 'text'
+end
+```
+[[/tab]]
+
+[[tab Java]]
+```java
+FormationClient client = new FormationClient(
+    "http://localhost:7890",
+    "my-assistant",
+    "your_client_key"
+);
+
+client.chatStream(new ChatRequest("Hello!"), event -> {
+    if ("text".equals(event.getType())) {
+        System.out.print(event.getText());
+    }
+    return true;
+});
+```
+[[/tab]]
+
+[[tab Kotlin]]
+```kotlin
+val client = FormationClient(
+    serverUrl = "http://localhost:7890",
+    formationId = "my-assistant",
+    clientKey = "your_client_key"
+)
+
+client.chatStream(ChatRequest(message = "Hello!")).collect { event ->
+    if (event.type == "text") print(event.text)
+}
+```
+[[/tab]]
+
+[[tab Swift]]
+```swift
+let client = FormationClient(
+    serverURL: "http://localhost:7890",
+    formationID: "my-assistant",
+    clientKey: "your_client_key"
+)
+
+for try await event in client.chatStream(message: "Hello!") {
+    if event.type == "text" { print(event.text ?? "", terminator: "") }
+}
+```
+[[/tab]]
+
+[[tab C#]]
+```csharp
+var client = new FormationClient(
+    serverUrl: "http://localhost:7890",
+    formationId: "my-assistant",
+    clientKey: "your_client_key"
+);
+
+await foreach (var chunk in client.ChatStreamAsync(new ChatRequest { Message = "Hello!" }))
+{
+    if (chunk.Type == "text") Console.Write(chunk.Text);
+}
+```
+[[/tab]]
+
+[[tab PHP]]
+```php
+$client = new FormationClient(
+    serverUrl: 'http://localhost:7890',
+    formationId: 'my-assistant',
+    clientKey: 'your_client_key'
+);
+
+foreach ($client->chatStream(['message' => 'Hello!']) as $event) {
+    if ($event['type'] === 'text') echo $event['text'];
+}
+```
+[[/tab]]
+
+[[tab Dart]]
+```dart
+final client = FormationClient(
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: 'your_client_key',
+);
+
+await for (final event in client.chatStream(message: 'Hello!')) {
+  if (event['type'] == 'text') stdout.write(event['text']);
+}
+```
+[[/tab]]
+
+[[tab Rust]]
+```rust
+let client = FormationClient::new(
+    "http://localhost:7890",
+    "my-assistant",
+    "your_client_key",
+);
+
+let mut stream = client.chat_stream("Hello!").await?;
+while let Some(event) = stream.next().await {
+    if event?.event_type == "text" { print!("{}", event.text.unwrap_or_default()); }
+}
+```
+[[/tab]]
+
+[[tab C++]]
+```cpp
+auto client = muxi::FormationClient(
+    "http://localhost:7890",
+    "my-assistant",
+    "your_client_key"
+);
+
+client.chat_stream({{"message", "Hello!"}}, [](const auto& event) {
+    if (event.type == "text") std::cout << event.text;
+    return true;
+});
 ```
 [[/tab]]
 
@@ -166,8 +295,7 @@ When developing locally with `muxi up`, use the `mode="draft"` parameter to rout
 
 [[tab Python]]
 ```python
-# Local development (with muxi up)
-formation = FormationClient(
+client = FormationClient(
     server_url="http://localhost:7890",
     formation_id="my-assistant",
     mode="draft",  # Uses /draft/ prefix
@@ -178,8 +306,7 @@ formation = FormationClient(
 
 [[tab TypeScript]]
 ```typescript
-// Local development (with muxi up)
-const formation = new FormationClient({
+const client = new FormationClient({
   serverUrl: "http://localhost:7890",
   formationId: "my-assistant",
   mode: "draft",  // Uses /draft/ prefix
@@ -190,13 +317,110 @@ const formation = new FormationClient({
 
 [[tab Go]]
 ```go
-// Local development (with muxi up)
 client := muxi.NewFormationClient(&muxi.FormationConfig{
-    FormationID: "my-assistant",
     ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
     Mode:        "draft",  // Uses /draft/ prefix
     ClientKey:   "your_client_key",
 })
+```
+[[/tab]]
+
+[[tab Ruby]]
+```ruby
+client = Muxi::FormationClient.new(
+  server_url: 'http://localhost:7890',
+  formation_id: 'my-assistant',
+  mode: 'draft',  # Uses /draft/ prefix
+  client_key: 'your_client_key'
+)
+```
+[[/tab]]
+
+[[tab Java]]
+```java
+FormationClient client = new FormationClient(
+    "http://localhost:7890",
+    "my-assistant",
+    "your_client_key",
+    "draft"  // Uses /draft/ prefix
+);
+```
+[[/tab]]
+
+[[tab Kotlin]]
+```kotlin
+val client = FormationClient(
+    serverUrl = "http://localhost:7890",
+    formationId = "my-assistant",
+    mode = "draft",  // Uses /draft/ prefix
+    clientKey = "your_client_key"
+)
+```
+[[/tab]]
+
+[[tab Swift]]
+```swift
+let client = FormationClient(
+    serverURL: "http://localhost:7890",
+    formationID: "my-assistant",
+    mode: "draft",  // Uses /draft/ prefix
+    clientKey: "your_client_key"
+)
+```
+[[/tab]]
+
+[[tab C#]]
+```csharp
+var client = new FormationClient(
+    serverUrl: "http://localhost:7890",
+    formationId: "my-assistant",
+    mode: "draft",  // Uses /draft/ prefix
+    clientKey: "your_client_key"
+);
+```
+[[/tab]]
+
+[[tab PHP]]
+```php
+$client = new FormationClient(
+    serverUrl: 'http://localhost:7890',
+    formationId: 'my-assistant',
+    mode: 'draft',  // Uses /draft/ prefix
+    clientKey: 'your_client_key'
+);
+```
+[[/tab]]
+
+[[tab Dart]]
+```dart
+final client = FormationClient(
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  mode: 'draft',  // Uses /draft/ prefix
+  clientKey: 'your_client_key',
+);
+```
+[[/tab]]
+
+[[tab Rust]]
+```rust
+let client = FormationClient::new(
+    "http://localhost:7890",
+    "my-assistant",
+    "your_client_key",
+).with_mode("draft");  // Uses /draft/ prefix
+```
+[[/tab]]
+
+[[tab C++]]
+```cpp
+auto client = muxi::FormationClient(
+    "http://localhost:7890",
+    "my-assistant",
+    "your_client_key",
+    "draft"  // Uses /draft/ prefix
+);
 ```
 [[/tab]]
 
