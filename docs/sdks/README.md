@@ -84,17 +84,17 @@ go get github.com/muxi-ai/muxi-go
 
 <div class="grid grid-cols-2 gap-4 mt-1">
 <ul>
-<li><a href="csharp-sdk.md">C#</a></li>
-<li><a href="php-sdk.md">PHP</a></li>
-<li><a href="ruby-sdk.md">Ruby</a></li>
-<li><a href="cpp-sdk.md">C/C++</a></li>
-<li><a href="java-sdk.md">Java</a></li>
+<li><a href="/sdks/csharp-sdk.md">C#</a></li>
+<li><a href="/sdks/php-sdk.md">PHP</a></li>
+<li><a href="/sdks/ruby-sdk.md">Ruby</a></li>
+<li><a href="/sdks/cpp-sdk.md">C/C++</a></li>
+<li><a href="/sdks/java-sdk.md">Java</a></li>
 </ul>
 <ul>
-<li><a href="dart-sdk.md">Dart</a></li>
-<li><a href="kotlin-sdk.md">Kotlin</a></li>
-<li><a href="swift-sdk.md">Swift</a></li>
-<li><a href="rust-sdk.md">Rust</a></li>
+<li><a href="/sdks/dart-sdk.md">Dart</a></li>
+<li><a href="/sdks/kotlin-sdk.md">Kotlin</a></li>
+<li><a href="/sdks/swift-sdk.md">Swift</a></li>
+<li><a href="/sdks/rust-sdk.md">Rust</a></li>
 </ul>
 </div>
 
