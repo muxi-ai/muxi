@@ -216,7 +216,7 @@ Build with MUXI in your language of choice.
 
 (sdks/python-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m16.4 0c-1.3 0-2.2.1-3.3.3-3.2.6-3.8 1.7-3.8 3.9v3.3h7.6v1.7h-11.6c-2.2 0-4.2 1-4.8 3.6-.7 2.9-.7 4.7 0 7.7.6 2.2 1.8 3.9 4 3.9h3.1v-4.3c0-2.5 2.3-5 4.9-5h6.1c2.1 0 4.2-1.6 4.2-3.7v-7.2c0-2.1-1.5-3.6-3.6-3.9 0 0-1.5-.3-2.8-.3zm-4.2 3.4c.7 0 1.3.6 1.3 1.3s-.6 1.3-1.3 1.3-1.3-.6-1.3-1.3.6-1.3 1.3-1.3z" fill="#0277bd"/><path d="m15.6 32c1.3 0 2.2-.1 3.3-.3 3.2-.6 3.8-1.7 3.8-3.9v-3.3h-7.6v-1.7h11.5c2.2 0 4.2-1 4.8-3.6.7-2.9.7-4.7 0-7.7-.6-2.2-1.8-3.9-4-3.9h-3.1v4.3c0 2.5-2.3 5-4.9 5h-6.1c-2.1 0-4.2 1.6-4.2 3.7v7.2c0 2.1 1.5 3.6 3.6 3.9 0 0 1.5.3 2.8.3zm4.2-3.4c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3 1.3.6 1.3 1.3-.6 1.3-1.3 1.3z" fill="#ffc107"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m16.4 0c-1.3 0-2.2.1-3.3.3-3.2.6-3.8 1.7-3.8 3.9v3.3h7.6v1.7h-11.6c-2.2 0-4.2 1-4.8 3.6-.7 2.9-.7 4.7 0 7.7.6 2.2 1.8 3.9 4 3.9h3.1v-4.3c0-2.5 2.3-5 4.9-5h6.1c2.1 0 4.2-1.6 4.2-3.7v-7.2c0-2.1-1.5-3.6-3.6-3.9 0 0-1.5-.3-2.8-.3zm-4.2 3.4c.7 0 1.3.6 1.3 1.3s-.6 1.3-1.3 1.3-1.3-.6-1.3-1.3.6-1.3 1.3-1.3z" fill="#0277bd"/><path d="m15.6 32c1.3 0 2.2-.1 3.3-.3 3.2-.6 3.8-1.7 3.8-3.9v-3.3h-7.6v-1.7h11.5c2.2 0 4.2-1 4.8-3.6.7-2.9.7-4.7 0-7.7-.6-2.2-1.8-3.9-4-3.9h-3.1v4.3c0 2.5-2.3 5-4.9 5h-6.1c-2.1 0-4.2 1.6-4.2 3.7v7.2c0 2.1 1.5 3.6 3.6 3.9 0 0 1.5.3 2.8.3zm4.2-3.4c-.7 0-1.3-.6-1.3-1.3s.6-1.3 1.3-1.3 1.3.6 1.3 1.3-.6 1.3-1.3 1.3z" fill="#ffc107"/></svg>
 
 #### Python
 `pip install muxi`
@@ -225,7 +225,7 @@ Build with MUXI in your language of choice.
 
 (sdks/typescript-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect fill="#3178c6" height="32" rx="3.1" width="32"/><path d="m19.8 25.5v3.1c.5.3 1.1.5 1.8.6s1.4.2 2.2.2 1.5 0 2.1-.2c.7-.1 1.3-.4 1.8-.7s.9-.8 1.2-1.3.4-1.2.4-2 0-1.1-.3-1.5-.4-.8-.7-1.1-.7-.6-1.1-.9-1-.5-1.5-.7c-.4-.2-.8-.3-1.1-.5s-.6-.3-.8-.5-.4-.3-.5-.5-.2-.4-.2-.6 0-.4.2-.6.3-.3.5-.4.4-.2.7-.3c.3 0 .6-.1 1-.1s.5 0 .8 0 .6 0 .9.2c.3 0 .6.2.9.3s.5.3.8.4v-2.9c-.5-.2-1-.3-1.6-.4s-1.2-.1-1.9-.1-1.4 0-2.1.2-1.3.4-1.8.7-.9.8-1.2 1.3-.4 1.2-.4 1.9.3 1.7.8 2.4 1.4 1.2 2.5 1.7c.4.2.8.3 1.2.5s.7.3 1 .5.5.4.6.6c.2.2.2.5.2.7s0 .4-.1.6-.2.3-.4.4-.4.2-.7.3c-.3 0-.6.1-1 .1-.7 0-1.3-.1-2-.4-.7-.2-1.3-.6-1.8-1.1zm-5.3-7.7h4v-2.6h-11.1v2.6h4v11.4h3.2v-11.4z" fill="#fff" fill-rule="evenodd"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect fill="#3178c6" height="32" rx="3.1" width="32"/><path d="m19.8 25.5v3.1c.5.3 1.1.5 1.8.6s1.4.2 2.2.2 1.5 0 2.1-.2c.7-.1 1.3-.4 1.8-.7s.9-.8 1.2-1.3.4-1.2.4-2 0-1.1-.3-1.5-.4-.8-.7-1.1-.7-.6-1.1-.9-1-.5-1.5-.7c-.4-.2-.8-.3-1.1-.5s-.6-.3-.8-.5-.4-.3-.5-.5-.2-.4-.2-.6 0-.4.2-.6.3-.3.5-.4.4-.2.7-.3c.3 0 .6-.1 1-.1s.5 0 .8 0 .6 0 .9.2c.3 0 .6.2.9.3s.5.3.8.4v-2.9c-.5-.2-1-.3-1.6-.4s-1.2-.1-1.9-.1-1.4 0-2.1.2-1.3.4-1.8.7-.9.8-1.2 1.3-.4 1.2-.4 1.9.3 1.7.8 2.4 1.4 1.2 2.5 1.7c.4.2.8.3 1.2.5s.7.3 1 .5.5.4.6.6c.2.2.2.5.2.7s0 .4-.1.6-.2.3-.4.4-.4.2-.7.3c-.3 0-.6.1-1 .1-.7 0-1.3-.1-2-.4-.7-.2-1.3-.6-1.8-1.1zm-5.3-7.7h4v-2.6h-11.1v2.6h4v11.4h3.2v-11.4z" fill="#fff" fill-rule="evenodd"/></svg>
 
 #### TypeScript
 `npm install @muxi-ai/muxi-typescript`
@@ -234,7 +234,7 @@ Build with MUXI in your language of choice.
 
 (sdks/go-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m28.2 28.9c0 4.5-3 9.3-12.4 9.3s-11.8-4.9-11.8-9.3.9-5.4.9-9.3v-9.3c-.1-4.5 2.8-10.3 10.8-10.3s11.5 3.7 11.5 9.3-.2 5.1 0 9.3c.2 3.3.9 7.5.9 10.3z" fill="#4dd0e1"/><path d="m20.7 2.8c-2.1 0-3.7 1.7-3.7 3.7s1.7 3.7 3.7 3.7 3.7-1.7 3.7-3.7-1.7-3.7-3.7-3.7zm-9.3 0c-2.1 0-3.7 1.7-3.7 3.7s1.7 3.7 3.7 3.7 3.7-1.7 3.7-3.7-1.7-3.7-3.7-3.7z" fill="#f5f5f5"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m28.2 28.9c0 4.5-3 9.3-12.4 9.3s-11.8-4.9-11.8-9.3.9-5.4.9-9.3v-9.3c-.1-4.5 2.8-10.3 10.8-10.3s11.5 3.7 11.5 9.3-.2 5.1 0 9.3c.2 3.3.9 7.5.9 10.3z" fill="#4dd0e1"/><path d="m20.7 2.8c-2.1 0-3.7 1.7-3.7 3.7s1.7 3.7 3.7 3.7 3.7-1.7 3.7-3.7-1.7-3.7-3.7-3.7zm-9.3 0c-2.1 0-3.7 1.7-3.7 3.7s1.7 3.7 3.7 3.7 3.7-1.7 3.7-3.7-1.7-3.7-3.7-3.7z" fill="#f5f5f5"/></svg>
 
 #### Go
 `go get github.com/muxi-ai/muxi-go`
@@ -243,7 +243,7 @@ Build with MUXI in your language of choice.
 
 (sdks/ruby-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M6 28L2 18l6-14h16l6 14-4 10H6z" fill="#cc342d"/><path d="M16 4l-8 14 8 10 8-10-8-14z" fill="#fff" opacity="0.3"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M6 28L2 18l6-14h16l6 14-4 10H6z" fill="#cc342d"/><path d="M16 4l-8 14 8 10 8-10-8-14z" fill="#fff" opacity="0.3"/></svg>
 
 #### Ruby
 `gem install muxi`
@@ -252,34 +252,34 @@ Build with MUXI in your language of choice.
 
 (sdks/java-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M11.6 24.5s-1.5.9.9 1.2c2.9.3 4.4.3 7.6-.4 0 0 .8.5 2 1-7.2 3.1-16.3-.2-10.5-1.8zm-.9-4.1s-1.6 1.2 1 1.5c3.3.3 5.5.4 9.7-.5 0 0 .6.6 1.5.9-8.7 2.5-18.4.2-12.2-1.9z" fill="#5382a1"/><path d="M18.3 14.2c1.8 2.1-.5 3.9-.5 3.9s4.5-2.3 2.4-5.2c-1.9-2.7-3.4-4 4.6-8.6 0 0-12.5 3.1-6.5 9.9z" fill="#e76f00"/><path d="M25.4 26.9s1.1.9-1.2 1.6c-4.4 1.3-18.2 1.7-22.1 0-1.4-.6 1.2-1.4 2-1.6.8-.2 1.3-.1 1.3-.1-1.5-1-9.5 2-4.1 2.9 14.9 2.4 27.1-1.1 24.1-2.8zm-13.5-9.8s-6.7 1.6-2.4 2.2c1.8.2 5.5.2 8.9-.1 2.8-.2 5.6-.7 5.6-.7s-1 .4-1.7.9c-6.8 1.8-19.8 1-16.1-.9 3.2-1.6 5.7-1.4 5.7-1.4zm12 6.7c6.9-3.6 3.7-7 1.5-6.5-.5.1-.8.2-.8.2s.2-.3.6-.5c4.5-1.6 8 4.7-1.4 7.2 0 0 .1-.1.1-.4z" fill="#5382a1"/><path d="M19.8 2s3.8 3.8-3.6 9.7c-5.9 4.7-1.4 7.4 0 10.5-3.5-3.1-6-5.9-4.3-8.5 2.5-3.8 9.5-5.7 7.9-11.7z" fill="#e76f00"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M11.6 24.5s-1.5.9.9 1.2c2.9.3 4.4.3 7.6-.4 0 0 .8.5 2 1-7.2 3.1-16.3-.2-10.5-1.8zm-.9-4.1s-1.6 1.2 1 1.5c3.3.3 5.5.4 9.7-.5 0 0 .6.6 1.5.9-8.7 2.5-18.4.2-12.2-1.9z" fill="#5382a1"/><path d="M18.3 14.2c1.8 2.1-.5 3.9-.5 3.9s4.5-2.3 2.4-5.2c-1.9-2.7-3.4-4 4.6-8.6 0 0-12.5 3.1-6.5 9.9z" fill="#e76f00"/><path d="M25.4 26.9s1.1.9-1.2 1.6c-4.4 1.3-18.2 1.7-22.1 0-1.4-.6 1.2-1.4 2-1.6.8-.2 1.3-.1 1.3-.1-1.5-1-9.5 2-4.1 2.9 14.9 2.4 27.1-1.1 24.1-2.8zm-13.5-9.8s-6.7 1.6-2.4 2.2c1.8.2 5.5.2 8.9-.1 2.8-.2 5.6-.7 5.6-.7s-1 .4-1.7.9c-6.8 1.8-19.8 1-16.1-.9 3.2-1.6 5.7-1.4 5.7-1.4zm12 6.7c6.9-3.6 3.7-7 1.5-6.5-.5.1-.8.2-.8.2s.2-.3.6-.5c4.5-1.6 8 4.7-1.4 7.2 0 0 .1-.1.1-.4z" fill="#5382a1"/><path d="M19.8 2s3.8 3.8-3.6 9.7c-5.9 4.7-1.4 7.4 0 10.5-3.5-3.1-6-5.9-4.3-8.5 2.5-3.8 9.5-5.7 7.9-11.7z" fill="#e76f00"/></svg>
 
 #### Java
-Maven Central
+`org.muxi:muxi-java`
 
 [[/card]]
 
 (sdks/kotlin-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="kt" x1="0%" y1="50%" x2="100%" y2="50%"><stop offset="0%" style="stop-color:#E44857"/><stop offset="50%" style="stop-color:#C711E1"/><stop offset="100%" style="stop-color:#7F52FF"/></linearGradient></defs><path d="M2 2h28L16 16 2 30V2z" fill="url(#kt)"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="kt" x1="0%" y1="50%" x2="100%" y2="50%"><stop offset="0%" style="stop-color:#E44857"/><stop offset="50%" style="stop-color:#C711E1"/><stop offset="100%" style="stop-color:#7F52FF"/></linearGradient></defs><path d="M2 2h28L16 16 2 30V2z" fill="url(#kt)"/></svg>
 
 #### Kotlin
-Maven Central
+`org.muxi:muxi-kotlin`
 
 [[/card]]
 
 (sdks/swift-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M7.2 27.5c-2.9-3.3-4.6-7.7-3.8-11.9 0 0 .1-.4.2-.8.4-1.3 1.1-2.8 2.3-4.3C8 7.9 11.6 5.3 16 4c-3.3 3.3-5 6.7-5 6.7s5-3.3 11.7-.8c-1.7 1.7-6.7 5-6.7 5s3.3 0 5.8 1.7c-5 3.3-11.7 6.7-11.7 6.7s5 1.7 10 0c-1.7 2.5-5.8 5.8-12.9 4.2z" fill="#f05138"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M7.2 27.5c-2.9-3.3-4.6-7.7-3.8-11.9 0 0 .1-.4.2-.8.4-1.3 1.1-2.8 2.3-4.3C8 7.9 11.6 5.3 16 4c-3.3 3.3-5 6.7-5 6.7s5-3.3 11.7-.8c-1.7 1.7-6.7 5-6.7 5s3.3 0 5.8 1.7c-5 3.3-11.7 6.7-11.7 6.7s5 1.7 10 0c-1.7 2.5-5.8 5.8-12.9 4.2z" fill="#f05138"/></svg>
 
 #### Swift
-Swift Package Manager
+`github.com/muxi-ai/muxi-swift`
 
 [[/card]]
 
 (sdks/csharp-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm0 25c-6.1 0-11-4.9-11-11S9.9 5 16 5s11 4.9 11 11-4.9 11-11 11z" fill="#68217a"/><path d="M18 11h2v10h-2zm4 3h2v4h-2zm-8-3h2v10h-2z" fill="#68217a"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm0 25c-6.1 0-11-4.9-11-11S9.9 5 16 5s11 4.9 11 11-4.9 11-11 11z" fill="#68217a"/><path d="M18 11h2v10h-2zm4 3h2v4h-2zm-8-3h2v10h-2z" fill="#68217a"/></svg>
 
 #### C#
 `dotnet add package Muxi`
@@ -288,7 +288,7 @@ Swift Package Manager
 
 (sdks/php-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><ellipse cx="16" cy="16" rx="14" ry="8" fill="#777bb3"/><path d="M10 12h2l1 4h.1l1.5-4h2l-2.5 6h-2l.4-1h-.1l-1.4 1H9l1-6zm8 0h4c1.5 0 2 1 1.7 2.5-.4 2-1.5 3.5-3.7 3.5h-1.5l-.5 2h-2l2-8zm2 1l-.7 3h1c1 0 1.5-.7 1.7-1.5.2-1-.2-1.5-1-1.5h-1z" fill="#fff"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><ellipse cx="16" cy="16" rx="14" ry="8" fill="#777bb3"/><path d="M10 12h2l1 4h.1l1.5-4h2l-2.5 6h-2l.4-1h-.1l-1.4 1H9l1-6zm8 0h4c1.5 0 2 1 1.7 2.5-.4 2-1.5 3.5-3.7 3.5h-1.5l-.5 2h-2l2-8zm2 1l-.7 3h1c1 0 1.5-.7 1.7-1.5.2-1-.2-1.5-1-1.5h-1z" fill="#fff"/></svg>
 
 #### PHP
 `composer require muxi/muxi-php`
@@ -297,7 +297,7 @@ Swift Package Manager
 
 (sdks/dart-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 6.5L3 10v12l3.5 3.5L10 29h12l6.5-6.5V10L25 6.5 22 3H10L6.5 6.5z" fill="#01579b"/><path d="M22 3l6.5 6.5V22L22 29H10l3.5-3.5V10L10 6.5V3h12z" fill="#40c4ff" opacity="0.7"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 6.5L3 10v12l3.5 3.5L10 29h12l6.5-6.5V10L25 6.5 22 3H10L6.5 6.5z" fill="#01579b"/><path d="M22 3l6.5 6.5V22L22 29H10l3.5-3.5V10L10 6.5V3h12z" fill="#40c4ff" opacity="0.7"/></svg>
 
 #### Dart
 `dart pub add muxi`
@@ -306,7 +306,7 @@ Swift Package Manager
 
 (sdks/rust-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="13" fill="none" stroke="#000" stroke-width="2"/><path d="M16 6v4m0 12v4M6 16h4m12 0h4M9 9l2.8 2.8m8.4 8.4l2.8 2.8M9 23l2.8-2.8m8.4-8.4l2.8-2.8" stroke="#000" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="#000"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="13" fill="none" stroke="#000" stroke-width="2"/><path d="M16 6v4m0 12v4M6 16h4m12 0h4M9 9l2.8 2.8m8.4 8.4l2.8 2.8M9 23l2.8-2.8m8.4-8.4l2.8-2.8" stroke="#000" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="#000"/></svg>
 
 #### Rust
 `cargo add muxi-rust`
@@ -315,10 +315,10 @@ Swift Package Manager
 
 (sdks/cpp-sdk.md)[[card]]
 
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2z" fill="#00599c"/><path d="M21 14h2v4h-2v2h-4v-2h-2v-4h2v-2h4v2zm-5 0v4h4v-4h-4zm8 1h1v2h-1v1h-2v-1h-1v-2h1v-1h2v1z" fill="#fff"/></svg>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2z" fill="#00599c"/><path d="M21 14h2v4h-2v2h-4v-2h-2v-4h2v-2h4v2zm-5 0v4h4v-4h-4zm8 1h1v2h-1v1h-2v-1h-1v-2h1v-1h2v1z" fill="#fff"/></svg>
 
 #### C++
-CMake / Header-only
+`github.com/muxi-ai/muxi-cpp`
 
 [[/card]]
 
