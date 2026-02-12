@@ -82,15 +82,25 @@ go get github.com/muxi-ai/muxi-go
 
 ### Also available:
 
-- [Ruby](ruby-sdk.md)
-- [PHP](php-sdk.md)
+<div class="grid grid-cols-2 gap-4">
+<div>
+
 - [C#](csharp-sdk.md)
+- [C++](cpp-sdk.md)
+- [Dart](dart-sdk.md)
 - [Java](java-sdk.md)
 - [Kotlin](kotlin-sdk.md)
-- [Swift](swift-sdk.md)
-- [Dart](dart-sdk.md)
+
+</div>
+<div>
+
+- [PHP](php-sdk.md)
+- [Ruby](ruby-sdk.md)
 - [Rust](rust-sdk.md)
-- [C++](cpp-sdk.md)
+- [Swift](swift-sdk.md)
+
+</div>
+</div>
 
 [[/card]]
 
