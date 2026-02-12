@@ -206,26 +206,22 @@ muxi up
 
 [[tab Python]]
 ```bash
-pip install muxi-client
+pip install muxi
 ```
 
 ```python
 from muxi import FormationClient
 
-# For local dev with muxi up, use mode="draft"
 client = FormationClient(
     server_url="http://localhost:7890",
     formation_id="my-assistant",
     mode="draft",  # Uses /draft/ prefix for local dev
 )
 
-# Streaming chat
 for event in client.chat_stream({"message": "Hello!"}):
     if event.get("type") == "text":
         print(event.get("text"), end="")
 ```
-
-> When you deploy to production, just remove `mode="draft"` to use the live `/api/` endpoint.
 [[/tab]]
 
 [[tab TypeScript]]
@@ -236,20 +232,16 @@ npm install @muxi-ai/muxi-typescript
 ```typescript
 import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-// For local dev with muxi up, use mode="draft"
 const client = new FormationClient({
   serverUrl: "http://localhost:7890",
   formationId: "my-assistant",
-  mode: "draft",  // Uses /draft/ prefix for local dev
+  mode: "draft",
 });
 
-// Streaming chat
 for await (const event of client.chatStream({ message: "Hello!" })) {
   if (event.type === "text") process.stdout.write(event.text);
 }
 ```
-
-> When you deploy to production, just remove `mode: "draft"` to use the live `/api/` endpoint.
 [[/tab]]
 
 [[tab Go]]
@@ -258,52 +250,201 @@ go get github.com/muxi-ai/muxi-go
 ```
 
 ```go
-// For local dev with muxi up, use Mode="draft"
 client := muxi.NewFormationClient(&muxi.FormationConfig{
     ServerURL:   "http://localhost:7890",
     FormationID: "my-assistant",
-    Mode:        "draft",  // Uses /draft/ prefix for local dev
+    Mode:        "draft",
 })
 
-// Streaming chat
-stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{
-    Message: "Hello!",
-})
+stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{Message: "Hello!"})
 for chunk := range stream {
     if chunk.Type == "text" {
         fmt.Print(chunk.Text)
     }
 }
 ```
+[[/tab]]
 
-> When you deploy to production, just remove `Mode: "draft"` to use the live `/api/` endpoint.
+[[tab Ruby]]
+```bash
+gem install muxi
+```
+
+```ruby
+require 'muxi'
+
+client = Muxi::FormationClient.new(
+  server_url: 'http://localhost:7890',
+  formation_id: 'my-assistant',
+  mode: 'draft'
+)
+
+client.chat_stream(message: 'Hello!') do |event|
+  print event['text'] if event['type'] == 'text'
+end
+```
+[[/tab]]
+
+[[tab Java]]
+```gradle
+implementation("org.muxi:muxi-java:0.20260212.0")
+```
+
+```java
+FormationClient client = new FormationClient(
+    "http://localhost:7890",
+    "my-assistant",
+    "draft"
+);
+
+client.chatStream(new ChatRequest("Hello!"), event -> {
+    if ("text".equals(event.getType())) {
+        System.out.print(event.getText());
+    }
+    return true;
+});
+```
+[[/tab]]
+
+[[tab Kotlin]]
+```kotlin
+implementation("org.muxi:muxi-kotlin:0.20260212.0")
+```
+
+```kotlin
+val client = FormationClient(
+    serverUrl = "http://localhost:7890",
+    formationId = "my-assistant",
+    mode = "draft"
+)
+
+client.chatStream(ChatRequest(message = "Hello!")).collect { event ->
+    if (event.type == "text") print(event.text)
+}
+```
+[[/tab]]
+
+[[tab Swift]]
+```swift
+// Package.swift
+.package(url: "https://github.com/muxi-ai/muxi-swift.git", from: "0.1.0")
+```
+
+```swift
+let client = FormationClient(
+    serverURL: "http://localhost:7890",
+    formationID: "my-assistant",
+    mode: "draft"
+)
+
+for try await event in client.chatStream(message: "Hello!") {
+    if event.type == "text" { print(event.text ?? "", terminator: "") }
+}
+```
+[[/tab]]
+
+[[tab C#]]
+```bash
+dotnet add package Muxi
+```
+
+```csharp
+var client = new FormationClient(
+    serverUrl: "http://localhost:7890",
+    formationId: "my-assistant",
+    mode: "draft"
+);
+
+await foreach (var chunk in client.ChatStreamAsync(new ChatRequest { Message = "Hello!" }))
+{
+    if (chunk.Type == "text") Console.Write(chunk.Text);
+}
+```
+[[/tab]]
+
+[[tab PHP]]
+```bash
+composer require muxi/muxi-php
+```
+
+```php
+$client = new FormationClient(
+    serverUrl: 'http://localhost:7890',
+    formationId: 'my-assistant',
+    mode: 'draft'
+);
+
+foreach ($client->chatStream(['message' => 'Hello!']) as $event) {
+    if ($event['type'] === 'text') echo $event['text'];
+}
+```
+[[/tab]]
+
+[[tab Dart]]
+```bash
+dart pub add muxi
+```
+
+```dart
+final client = FormationClient(
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  mode: 'draft',
+);
+
+await for (final event in client.chatStream(message: 'Hello!')) {
+  if (event['type'] == 'text') stdout.write(event['text']);
+}
+```
+[[/tab]]
+
+[[tab Rust]]
+```bash
+cargo add muxi-rust
+```
+
+```rust
+let client = FormationClient::new(
+    "http://localhost:7890",
+    "my-assistant",
+).with_mode("draft");
+
+let mut stream = client.chat_stream("Hello!").await?;
+while let Some(event) = stream.next().await {
+    if event?.event_type == "text" { print!("{}", event.text.unwrap_or_default()); }
+}
+```
+[[/tab]]
+
+[[tab C++]]
+```cpp
+#include <muxi/muxi.hpp>
+
+auto client = muxi::FormationClient(
+    "http://localhost:7890",
+    "my-assistant",
+    "draft"
+);
+
+client.chat_stream({{"message", "Hello!"}}, [](const auto& event) {
+    if (event.type == "text") std::cout << event.text;
+    return true;
+});
+```
 [[/tab]]
 
 [[tab curl]]
 ```bash
-# Local dev (draft mode via muxi up)
 curl -X POST http://localhost:7890/draft/my-assistant/v1/chat \
-  -H "Content-Type: application/json" \
-  -d '{"message": "Hello!"}'
-
-# Production (after muxi deploy)
-curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -H "Content-Type: application/json" \
   -d '{"message": "Hello!"}'
 ```
 [[/tab]]
 
-[[tab Browser]]
-Open `http://localhost:7890/draft/my-assistant/chat` in your browser for an interactive chat UI.
-[[/tab]]
-
 [[/tabs]]
 
 > [!TIP]
-> **Local dev → Production workflow:**
-> 1. Use `mode="draft"` during development with `muxi up`
-> 2. Run `muxi deploy` to deploy your formation
-> 3. Remove `mode="draft"` from your code - it defaults to `mode="live"` which uses `/api/`
+> **Local dev → Production:** Use `mode="draft"` with `muxi up`, then remove it after `muxi deploy` to use the live `/api/` endpoint.
 
 [[/step]]
 
