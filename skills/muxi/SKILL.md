@@ -113,6 +113,34 @@ muxi chat "Hello!"                # Test it
 muxi deploy                       # Deploy to server
 ```
 
+## Local Development (muxi up/down)
+
+Think of `muxi up` / `muxi down` like `docker compose up` / `docker compose down` -- quick start/stop for local development without the full deploy cycle.
+
+```bash
+# Terminal 1: Start server (one-time)
+muxi-server start
+
+# Terminal 2: Start formation from its directory
+cd my-formation
+muxi up                      # Start formation (uses /draft/ URL prefix)
+muxi down                    # Stop formation
+
+# Or stop by ID from anywhere
+muxi down my-bot
+```
+
+**Draft URL:** `http://localhost:7890/draft/{formation-id}`
+
+| Aspect | `muxi up` | `muxi deploy` |
+|--------|-----------|---------------|
+| Speed | Instant | Bundles & uploads |
+| Source | Runs from local directory | Copies to server storage |
+| Persistence | In-memory (gone on restart) | Persisted & restored |
+| URL prefix | `/draft/` | `/api/` |
+| Rollback | No | Yes |
+| Use case | Development | Production |
+
 ## Writing Formations
 
 Formations use `.afs` files (100% YAML-compatible). The `.afs` extension signals "Agent Formation Schema".
@@ -349,15 +377,15 @@ muxi deploy
 
 ```bash
 muxi search "customer support"     # Search
-muxi pull @muxi/starter            # Pull formation
-muxi pull @muxi/starter@1.0.0      # Specific version
+muxi pull @muxi/hello-world            # Pull formation
+muxi pull @muxi/hello-world@1.0.0      # Specific version
 muxi login                         # Authenticate
 muxi push                          # Publish
 ```
 
 ## SDKs
 
-Official SDKs for Go, Python, and TypeScript. All provide two client types:
+Official SDKs for 12 languages: Go, Python, TypeScript, Ruby, Java, Kotlin, Swift, C#, PHP, Dart, Rust, and C++. All provide two client types:
 - **ServerClient** -- formation management (HMAC auth, deploy/start/stop/rollback)
 - **FormationClient** -- chat and runtime API (key auth, streaming, memory, sessions)
 

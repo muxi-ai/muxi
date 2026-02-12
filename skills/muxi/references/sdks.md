@@ -1,16 +1,23 @@
 # SDK Reference
 
-MUXI provides official SDKs in Go, Python, and TypeScript. All SDKs follow the same conventions with two client types: **ServerClient** (formation management via HMAC auth) and **FormationClient** (chat and runtime API via key auth).
+MUXI provides official SDKs in 12 languages. All SDKs follow the same conventions with two client types: **ServerClient** (formation management via HMAC auth) and **FormationClient** (chat and runtime API via key auth).
 
 ## Available SDKs
 
 | Language | Package | Install |
 |----------|---------|---------|
 | **Go** | `github.com/muxi-ai/muxi-go` | `go get github.com/muxi-ai/muxi-go` |
-| **Python** | `muxi-client` | `pip install muxi-client` |
-| **TypeScript** | `@muxi-ai/muxi-typescript` | `npm install @muxi-ai/muxi-typescript` |
-
-More SDKs planned: Ruby, Java, C#, PHP, Swift, Kotlin, Dart, Rust, C++.
+| **Python** | `muxi-sdk` | `pip install muxi-sdk` |
+| **TypeScript** | `@muxi/sdk` | `npm install @muxi/sdk` |
+| **Ruby** | `muxi` | `gem install muxi` |
+| **Java** | `ai.muxi:sdk` | Maven/Gradle |
+| **Kotlin** | `ai.muxi:sdk` | Maven/Gradle |
+| **Swift** | `MuxiSDK` | Swift Package Manager |
+| **C#** | `Muxi.SDK` | `dotnet add package Muxi.SDK` |
+| **PHP** | `muxi/sdk` | `composer require muxi/sdk` |
+| **Dart** | `muxi` | `dart pub add muxi` |
+| **Rust** | `muxi` | `cargo add muxi` |
+| **C++** | `muxi` | CMake / vcpkg |
 
 ## Features (all SDKs)
 

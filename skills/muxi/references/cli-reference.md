@@ -2,6 +2,31 @@
 
 Complete command reference for the `muxi` CLI.
 
+## Local Development (muxi up/down)
+
+Think of `muxi up` / `muxi down` like `docker compose up` / `docker compose down` -- quick start/stop for local development without the full deploy cycle.
+
+```bash
+# Terminal 1: Start server (one-time)
+muxi-server start
+
+# Terminal 2: Start formation from its directory
+cd my-formation
+muxi up                      # Start formation
+muxi up --port 9000          # Use different server port
+
+# Stop formation
+muxi down                    # Stop (ID from current dir)
+muxi down my-bot             # Stop by ID from anywhere
+muxi down --port 9000        # Use different server port
+```
+
+**Key differences from `muxi deploy`:**
+- Runs directly from source (no bundle/upload)
+- Uses `/draft/{id}` URL prefix (live uses `/api/{id}`)
+- Fast iteration -- instant start
+- In-memory only (gone on server restart)
+
 ## Create
 
 ```bash
@@ -103,10 +128,10 @@ muxi logs --mcp                     # MCP tool logs
 ```bash
 muxi search "customer support"
 muxi search --tag research
-muxi pull @muxi/starter
-muxi pull @muxi/starter@1.0.0
-muxi pull @muxi/starter --output ~/formations/
-muxi show @muxi/starter            # Show details
+muxi pull @muxi/hello-world
+muxi pull @muxi/hello-world@1.0.0
+muxi pull @muxi/hello-world --output ~/formations/
+muxi show @muxi/hello-world            # Show details
 muxi login
 muxi push
 muxi push --tag v1.0.0
