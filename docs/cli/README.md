@@ -85,7 +85,7 @@ muxi server restart <id>
 [[card]]
 #### Registry
 ```bash
-muxi pull @muxi/starter
+muxi pull @muxi/hello-world
 muxi push
 muxi search <query>
 ```

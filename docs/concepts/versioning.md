@@ -59,7 +59,7 @@ Follow semver:
 ### Latest
 
 ```bash
-muxi pull @muxi/starter
+muxi pull @muxi/hello-world
 ```
 
 Gets most recent version.
@@ -67,14 +67,14 @@ Gets most recent version.
 ### Specific Version
 
 ```bash
-muxi pull @muxi/starter@1.0.0
+muxi pull @muxi/hello-world@1.0.0
 ```
 
 ### Version Ranges
 
 ```bash
-muxi pull @muxi/starter@^1.0.0   # 1.x.x
-muxi pull @muxi/starter@~1.0.0   # 1.0.x
+muxi pull @muxi/hello-world@^1.0.0   # 1.x.x
+muxi pull @muxi/hello-world@~1.0.0   # 1.0.x
 ```
 
 ## Server Versioning

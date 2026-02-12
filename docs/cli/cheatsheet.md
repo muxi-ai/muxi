@@ -203,12 +203,12 @@ muxi search "customer support"
 muxi search --tag research
 
 # Pull
-muxi pull @muxi/starter
-muxi pull @muxi/starter@1.0.0
-muxi pull @muxi/starter --output ~/formations/
+muxi pull @muxi/hello-world
+muxi pull @muxi/hello-world@1.0.0
+muxi pull @muxi/hello-world --output ~/formations/
 
 # Show details
-muxi show @muxi/starter
+muxi show @muxi/hello-world
 
 # Push
 muxi login

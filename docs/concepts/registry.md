@@ -10,7 +10,7 @@ description: Share and distribute formations like Docker images
 The MUXI Registry is a distribution hub for formations. Pull community formations with one command. Publish your own. Version control, rollbacks, and namespaces built in.
 
 When to use the registry:
-- Start from a proven template (`muxi pull @muxi/starter`)
+- Start from a proven template (`muxi pull @muxi/hello-world`)
 - Share formations with the community
 - Version and roll back formations safely
 
@@ -21,7 +21,7 @@ If you know Docker, you know MUXI:
 
 | Docker | MUXI |
 |--------|------|
-| `docker pull nginx` | `muxi pull @muxi/starter` |
+| `docker pull nginx` | `muxi pull @muxi/hello-world` |
 | `docker push myapp` | `muxi push` |
 | `Dockerfile` | `formation.afs` |
 | Docker Hub | MUXI Registry |
@@ -57,7 +57,7 @@ Now anyone can `muxi pull @yourusername/my-formation`.
 
 | Namespace | Who | Example |
 |-----------|-----|---------|
-| `@muxi/*` | Official formations | `@muxi/starter` |
+| `@muxi/*` | Official formations | `@muxi/hello-world` |
 | `@username/*` | Individual developers | `@alice/support-bot` |
 
 Your GitHub handle is your registry handle - no separate account needed.
@@ -84,9 +84,9 @@ muxi push
 ### Pull Specific Versions
 
 ```bash
-muxi pull @muxi/starter@1.0.0      # Exact version
-muxi pull @muxi/starter@^1.0.0     # Latest 1.x.x
-muxi pull @muxi/starter@latest     # Latest (default)
+muxi pull @muxi/hello-world@1.0.0      # Exact version
+muxi pull @muxi/hello-world@^1.0.0     # Latest 1.x.x
+muxi pull @muxi/hello-world@latest     # Latest (default)
 ```
 
 ### Instant Rollback
@@ -160,7 +160,7 @@ The result: **formations that spread**, not code that rots in private repos.
 
 ```bash
 # Try an official formation
-muxi pull @muxi/starter
+muxi pull @muxi/hello-world
 cd starter
 muxi secrets setup
 muxi dev

@@ -456,7 +456,7 @@ curl -X POST http://localhost:7890/draft/my-assistant/v1/chat \
 Pull a pre-built formation instead of creating from scratch:
 
 ```bash
-muxi pull @muxi/starter
+muxi pull @muxi/hello-world
 cd starter-assistant
 muxi secrets setup
 muxi dev

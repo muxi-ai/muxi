@@ -18,7 +18,7 @@ Find pre-built formations, share your own, and manage versions - all from the co
 ### Pull a Formation
 
 ```bash
-muxi pull @muxi/starter
+muxi pull @muxi/hello-world
 cd starter-assistant
 muxi secrets setup
 muxi dev
@@ -65,10 +65,10 @@ NAME                      DESCRIPTION                 DOWNLOADS
 :::: cols=2
 
 [[card]]
-#### @muxi/starter
+#### @muxi/hello-world
 Minimal assistant - perfect starting point.
 ```
-muxi pull @muxi/starter
+muxi pull @muxi/hello-world
 ```
 [[/card]]
 
@@ -104,14 +104,14 @@ muxi pull @muxi/bookkeeping
 ### Pull Specific Version
 
 ```bash
-muxi pull @muxi/starter@1.0.0
+muxi pull @muxi/hello-world@1.0.0
 ```
 
 ### Version Ranges
 
 ```bash
-muxi pull @muxi/starter@^1.0.0   # Latest 1.x.x
-muxi pull @muxi/starter@~1.0.0   # Latest 1.0.x
+muxi pull @muxi/hello-world@^1.0.0   # Latest 1.x.x
+muxi pull @muxi/hello-world@~1.0.0   # Latest 1.0.x
 ```
 
 
