@@ -299,7 +299,7 @@ client.chat_stream({{"message", "Hello!"}}, [](const auto& event) {
 
 ## Local Development
 
-When developing locally with `muxi up`, use the `mode="draft"` parameter to route requests through the `/draft/` endpoint:
+When developing locally with `muxi up`, use the `mode="draft"` parameter to route requests through the `/draft/` endpoint on your local MUXI server. This allows you to test changes without affecting your live deployment:
 
 [[tabs]]
 
