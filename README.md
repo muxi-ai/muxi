@@ -1,13 +1,16 @@
 <h3 align="center">
-  <img src="./assets/muxi-wordmark.svg" alt="MUXI" height="64"/><br>
+  <img src="./assets/muxi-wordmark.svg" alt="MUXI" height="64" /><br>
   <strong>The Open-source AI Application Server</strong>
 </h3>
 
 <p align="center">
-  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-ELv2%20%2F%20Apache%202.0-c98b45.svg" alt="License"></a>
-  <a href="https://muxi.org/docs"><img src="https://img.shields.io/badge/Docs-muxi.org-teal.svg" alt="Documentation"></a>
-  <a href="https://github.com/muxi-ai/muxi/discussions"><img src="https://img.shields.io/badge/GitHub-Discussions-black.svg?logo=github" alt="Discussions"></a>
-  <a href="https://twitter.com/muxi_ai"><img src="https://img.shields.io/badge/‌-‌@muxi__ai-blue.svg?logo=x" alt="Twitter"></a>
+  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-ELv2%20%2F%20Apache%202.0-c98b45.svg" alt="License" height="20"></a>
+  <a href="https://muxi.org/docs"><img src="https://img.shields.io/badge/Docs-muxi.org-teal.svg" alt="Documentation" height="20"></a>
+  <a href="https://github.com/muxi-ai/muxi/discussions"><img src="https://img.shields.io/badge/GitHub-Discussions-black.svg?logo=github" alt="Discussions" height="20"></a>
+</p>
+<p align="center">
+    <a href="https://linkedin.com/company/muxi-ai"><img src="./assets/badge-linkedin.svg" alt="Linkedin" height="20"></a>
+  <a href="https://twitter.com/muxi_ai"><img src="./assets/badge-twitter.svg" alt="X/Twitter" height="20"></a>
 </p>
 
 ---
