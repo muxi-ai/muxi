@@ -13,7 +13,7 @@
 
 <p align="center">
   <a href="https://github.com/muxi-ai/muxi/discussions"><img src="https://img.shields.io/badge/​-Community-222.svg?logo=github" alt="Discussions" height="20"></a>
-  <a href="https://muxi.org/docs"><img src="https://img.shields.io/badge/​-Docs-e65850.svg?logo=readme&logoColor=white" alt="Discussions" height="20"></a>
+  <a href="https://muxi.org/docs"><img src="https://img.shields.io/badge/​-Docs-e65850.svg?logo=readme&logoColor=white" alt="Docs" height="20"></a>
   <a href="https://linkedin.com/company/muxi-ai"><img src="./assets/badge-linkedin.svg" alt="Linkedin" height="20"></a>
   <a href="https://twitter.com/muxi_ai"><img src="./assets/badge-twitter.svg" alt="X/Twitter" height="20"></a>
 </p>
