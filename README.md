@@ -1,6 +1,6 @@
 <h1 align="center">
-  <img src="./assets/muxi-wordmark.svg" alt="MUXI" height="56" /><br>
-  <sub>The Open-source AI Application Server</sub>
+  <img src="./assets/muxi-wordmark.svg" alt="MUXI" height="72" /><br>
+  The Open-source AI Application Server
 </h1>
 
 <p align="center">​<br>
