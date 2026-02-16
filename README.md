@@ -1,27 +1,36 @@
-<h3 align="center">
-  <img src="./assets/muxi-wordmark.svg" alt="MUXI" height="64" /><br>
+<h2 align="center">
+  <img src="./assets/muxi-wordmark.svg" alt="MUXI" height="56" /><br>
   <strong>Deploy Intelligence</strong><br>
   <sub>The Open-source AI Application Server</sub>
-</h3>
+</h2>
 
 <p align="center">
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-ELv2%20%2F%20Apache%202.0-c98b45.svg" alt="License" height="20"></a>
-  <a href="https://github.com/muxi-ai/runtime/actions/workflows/ci.yml"><img src="https://github.com/muxi-ai/runtime/actions/workflows/ci.yml/badge.svg?branch=main" alt="Runtime CI" height="20"></a>
-  <a href="https://github.com/muxi-ai/server/actions/workflows/ci.yml"><img src="https://github.com/muxi-ai/server/actions/workflows/ci.yml/badge.svg?branch=main" alt="Server CI" height="20"></a>
-  <a href="https://github.com/muxi-ai/cli/actions/workflows/ci.yml"><img src="https://github.com/muxi-ai/cli/actions/workflows/ci.yml/badge.svg?branch=main" alt="CLI CI" height="20"></a>
+  <!-- <a href="https://github.com/muxi-ai/runtime/releases"><img src="https://github.com/muxi-ai/runtime/actions/workflows/release.yml/badge.svg?branch=main" alt="Runtime CI" height="20"></a> -->
+  <a href="https://github.com/muxi-ai/server/releases"><img src="https://github.com/muxi-ai/server/actions/workflows/release.yml/badge.svg?branch=main" alt="Server CI" height="20"></a>
+  <a href="https://github.com/muxi-ai/cli/releases"><img src="https://github.com/muxi-ai/cli/actions/workflows/release.yml/badge.svg?branch=main" alt="CLI CI" height="20"></a>
+  <a href="https://github.com/muxi-ai/sdks"><img src="https://img.shields.io/badge/SDKs-12-green.svg" alt="Documentation" height="20"></a>
 </p>
 <p align="center">
-  <a href="https://muxi.org/docs"><img src="https://img.shields.io/badge/Docs-muxi.org-teal.svg" alt="Documentation" height="20"></a>
-  <a href="https://github.com/muxi-ai/muxi/discussions"><img src="https://img.shields.io/badge/GitHub-Discussions-black.svg?logo=github" alt="Discussions" height="20"></a>
+  <a href="https://github.com/muxi-ai/muxi/discussions"><img src="https://img.shields.io/badge/​-Community-222.svg?logo=github" alt="Discussions" height="20"></a>
+  <a href="https://github.com/muxi-ai/muxi/discussions"><img src="https://img.shields.io/badge/​-Docs-orange.svg?logo=readme&logoColor=white" alt="Discussions" height="20"></a>
   <a href="https://linkedin.com/company/muxi-ai"><img src="./assets/badge-linkedin.svg" alt="Linkedin" height="20"></a>
   <a href="https://twitter.com/muxi_ai"><img src="./assets/badge-twitter.svg" alt="X/Twitter" height="20"></a>
+</p>
+
+
+<p align="center">
+<a target="_blank" href="https://muxi.org/docs/quickstart" align="center">Quickstart</a>
+• <a target="_blank" href="https://muxi.org/docs/how-it-works" align="center">How it Works</a>
+• <a target="_blank" href="https://muxi.org/docs/cli-and-sdk" align="center">CLI & SDKs</a>
+• <a target="_blank" href="https://muxi.org/docs/examples" align="center">Examples</a>
 </p>
 
 ---
 
 No one builds their own Nginx to deploy a website. No one should reinvent infrastructure to build AI.
 
-MUXI (`/ˈmʌk.siː/`) is **production infrastructure for AI agents**. Not a framework. Not a wrapper. A **server** -- where agents are native primitives with built-in orchestration, memory, observability, and scale.
+MUXI (`/ˈmʌk.siː/`) is **production infrastructure for AI agents**. Not a framework. Not a wrapper. A **server** – where agents are native primitives with built-in orchestration, memory, observability, and scale.
 
 | Concept | Docker | MUXI |
 |---------|--------|------|
@@ -30,7 +39,7 @@ MUXI (`/ˈmʌk.siː/`) is **production infrastructure for AI agents**. Not a fra
 | **Registry** | Docker Hub | MUXI Registry |
 | **CLI** | `docker` | `muxi` |
 
-> [!TIP]
+> [!NOTE]
 > MUXI introduced the [**Agent Formation Standard**](https://github.com/agent-formation) -- an open spec for declarative AI systems. Agents, knowledge, A2A, and MCP tools defined in portable `.afs` files.
 
 
@@ -48,7 +57,7 @@ MUXI (`/ˈmʌk.siː/`) is **production infrastructure for AI agents**. Not a fra
 **Install:**
 
 ```bash
-brew install muxi-ai/tap/muxi                       # macOS
+brew install muxi-ai/tap/muxi                        # macOS
 curl -fsSL https://muxi.org/install | sudo bash      # Linux
 powershell -c "irm https://muxi.org/install | iex"   # Windows
 ```
@@ -63,8 +72,9 @@ muxi chat hello-world         # talk to it
 
 Three commands. Your agent is running, stateful, and accessible via API.
 
-Docs: [Quickstart](https://muxi.org/docs/quickstart) | [Installation](https://muxi.org/docs/installation)
+**Docs:** [Quickstart](https://muxi.org/docs/quickstart) | [Installation](https://muxi.org/docs/installation)
 
+---
 
 ## Build on Top with SDKs
 
@@ -82,8 +92,9 @@ for chunk in client.chat_stream({ "message": "Hello!", "user_id": "user_123" }):
 
 SDKs available for Python, TypeScript, Go, and 9 more languages.
 
-Docs: [SDKs](https://muxi.org/docs/sdks) | [API Reference](https://muxi.org/docs/reference/api-reference)
+**Docs:** [SDKs](https://muxi.org/docs/sdks) | [API Reference](https://muxi.org/docs/reference/api-reference)
 
+---
 
 ## How MUXI Compares
 
@@ -100,18 +111,20 @@ Docs: [SDKs](https://muxi.org/docs/sdks) | [API Reference](https://muxi.org/docs
 
 **Key numbers:** <100ms avg response &bull; 80%+ test coverage &bull; 92% semantic cache hit rate
 
+---
 
 ## Features
 
-- **Declarative agents** -- `.afs` files, version-controlled, auto-discovered. [Docs](https://muxi.org/docs/concepts/agents-and-orchestration)
-- **Three-tier memory** -- buffer, persistent, and semantic memory built in. [Docs](https://muxi.org/docs/concepts/memory-system)
-- **1,000+ MCP tools** -- GitHub, Slack, Stripe, databases, and more. [Docs](https://muxi.org/docs/concepts/tools-and-mcp)
-- **Multi-tenant** -- per-user isolation, RBAC, OAuth. [Docs](https://muxi.org/docs/concepts/multi-tenancy)
-- **Observability** -- 349 event types, real-time streaming, 10+ export targets. [Docs](https://muxi.org/docs/concepts/observability)
-- **Intelligent orchestration** -- Overlord routes to specialists, decomposes tasks. [Docs](https://muxi.org/docs/concepts/overlord)
-- **Async processing** -- triggers, webhooks, scheduled tasks. [Docs](https://muxi.org/docs/concepts/async)
-- **Any LLM** -- 21 providers, 300+ models, no lock-in. [Docs](https://muxi.org/docs/concepts/llm-providers)
+- **Declarative agents** – `.afs` files, version-controlled, auto-discovered. [Docs](https://muxi.org/docs/concepts/agents-and-orchestration)
+- **Three-tier memory** – buffer, persistent, and semantic memory built in. [Docs](https://muxi.org/docs/concepts/memory-system)
+- **1,000+ MCP tools** – GitHub, Slack, Stripe, databases, and more. [Docs](https://muxi.org/docs/concepts/tools-and-mcp)
+- **Multi-tenant** – per-user isolation, RBAC, OAuth. [Docs](https://muxi.org/docs/concepts/multi-tenancy)
+- **Observability** – 349 event types, real-time streaming, 10+ export targets. [Docs](https://muxi.org/docs/concepts/observability)
+- **Intelligent orchestration** – Overlord routes to specialists, decomposes tasks. [Docs](https://muxi.org/docs/concepts/overlord)
+- **Async processing** – triggers, webhooks, scheduled tasks. [Docs](https://muxi.org/docs/concepts/async)
+- **Any LLM** – 21 providers, 300+ models, no lock-in. [Docs](https://muxi.org/docs/concepts/llm-providers)
 
+---
 
 ## Example Formation
 
@@ -151,25 +164,27 @@ muxi deploy   # that's it -- running, stateful, API-accessible
 
 Docs: [Formation Schema](https://muxi.org/docs/concepts/formation-schema) | [Examples](https://muxi.org/docs/examples)
 
+---
 
 ## Who Is MUXI For?
 
-- **Platform builders** -- Building a SaaS with AI features? MUXI handles orchestration, memory, and multi-tenancy so you can focus on your product.
+- **Platform builders** – Building a SaaS with AI features? MUXI handles orchestration, memory, and multi-tenancy so you can focus on your product.
 
-- **Internal tool builders** -- Deploying AI assistants for your team? MUXI gives you SOPs, observability, and enterprise-grade infrastructure out of the box.
+- **Internal tool builders** – Deploying AI assistants for your team? MUXI gives you SOPs, observability, and enterprise-grade infrastructure out of the box.
 
-- **Developers tired of framework hell** -- Spent months on LangChain orchestration code? MUXI replaces it with YAML configuration and a single deploy command.
+- **Developers tired of framework hell** – Spent months on LangChain orchestration code? MUXI replaces it with YAML configuration and a single deploy command.
 
 
 ## Open Source & Self-Hosted
 
 MUXI is **open-source** and **self-hostable**. Your data stays on your infrastructure. No vendor lock-in. No per-seat pricing. No usage limits.
 
-- **Self-hostable** -- run anywhere, owned by you
-- **Observable** -- see what's happening, always
-- **Declarative** -- version-controlled and reproducible
-- **Open** -- no lock-in, no surprises
+- **Self-hostable** – run anywhere, owned by you
+- **Observable** – see what's happening, always
+- **Declarative** – version-controlled and reproducible
+- **Open** – no lock-in, no surprises
 
+---
 
 ## Documentation
 
@@ -183,6 +198,7 @@ MUXI is **open-source** and **self-hostable**. Your data stays on your infrastru
 | Licensing | [LICENSE.md](https://github.com/muxi-ai/muxi/blob/main/LICENSE.md) |
 | Roadmap | [Roadmap ->](https://github.com/orgs/muxi-ai/projects/1) |
 
+---
 
 ## Agent Skills
 
@@ -190,20 +206,23 @@ This repo includes an [Agent Skill](https://agentskills.io) that gives any compa
 
 See [`skills/`](./skills/) for setup instructions.
 
+---
 
 ## Get Involved
 
 - **Star** this repo to follow progress
-- **[Discussions](https://github.com/muxi-ai/muxi/discussions)** -- ask questions, share ideas, get help
-- **[Roadmap](https://github.com/orgs/muxi-ai/projects/1)** -- see what's coming
-- **[@muxi_ai](https://twitter.com/muxi_ai)** -- follow for updates
-- **[CONTRIBUTING.md](https://muxi.org/contributing)** -- contribute code
+- **[Discussions](https://github.com/muxi-ai/muxi/discussions)** – ask questions, share ideas, get help
+- **[Roadmap](https://github.com/orgs/muxi-ai/projects/1)** – see what's coming
+- **[@muxi_ai](https://twitter.com/muxi_ai)** – follow for updates
+- **[CONTRIBUTING.md](https://muxi.org/contributing)** – contribute code
 
+---
 
 ## Who's Behind This
 
 MUXI is created by [**Ran Aroussi**](https://x.com/aroussi), author of [**Production-Grade Agentic AI**](http://productionaibook.com) and [open-source developer](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
 
+---
 
 ## License
 
