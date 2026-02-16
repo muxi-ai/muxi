@@ -69,7 +69,7 @@ specialties:
 | `specialties` | Routing metadata for Overlord |
 | `role` | Category (researcher, writer, etc.) |
 
-> **Note:** Agents don't have personas - only the Overlord does. The `system_message` is instructions, not personality.
+> **Note:** Agents don't have souls - only the Overlord does. The `system_message` is instructions, not personality.
 
 
 ## The Overlord Orchestrates

@@ -30,7 +30,7 @@ description: Complete guide to building AI agents with MUXI
 
 * Communication
   * [Clarifications](concepts/clarification.md)
-  * [Overlord Persona](concepts/persona.md)
+  * [Overlord Soul](concepts/soul.md)
   * [Structured Output](concepts/structured-output.md)
   * [Artifacts](concepts/artifacts.md)
 
@@ -127,7 +127,7 @@ description: Complete guide to building AI agents with MUXI
   * [A2A Services](reference/a2a.md)
   * [Memory](reference/memory.md)
   * [Knowledge](reference/knowledge.md)
-  * [Persona](reference/persona.md)
+  * [Soul](reference/soul.md)
   * [Workflows](reference/workflows.md)
   * [SOPs](reference/sops.md)
   * [Triggers](reference/triggers.md)

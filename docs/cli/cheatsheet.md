@@ -99,8 +99,8 @@ muxi secrets delete OLD_KEY
 muxi config llm              # Interactive wizard
 muxi config llm --remote     # View remote config
 
-# Overlord persona and behavior
-muxi config overlord         # Configure persona, response format
+# Overlord soul and behavior
+muxi config overlord         # Configure soul, response format
 muxi config overlord --remote
 
 # Other configuration

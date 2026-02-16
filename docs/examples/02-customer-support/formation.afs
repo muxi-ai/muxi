@@ -17,7 +17,7 @@ llm:
 
 # Overlord Configuration
 overlord:
-  persona: |
+  soul: |
     You are a helpful customer support representative.
     Be friendly, patient, and thorough in your responses.
   

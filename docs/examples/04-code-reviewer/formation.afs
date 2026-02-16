@@ -16,7 +16,7 @@ llm:
 
 # Overlord Configuration
 overlord:
-  persona: You are a technical code reviewer. Be precise and thorough in your feedback.
+  soul: You are a technical code reviewer. Be precise and thorough in your feedback.
   
   workflow:
     auto_decomposition: false

@@ -186,7 +186,7 @@ Proceed? [y/N]
 
 ```yaml
 overlord:
-  persona: |
+  soul: |
     You are a professional assistant.
 
   workflow:

@@ -56,7 +56,7 @@ agents: []  # Auto-discovered from agents/ directory
 
 (agents.md)[[card]]
 #### Agents
-AI personas with roles and capabilities. Define specialists like researchers, writers, or support staff.
+AI agents with roles and capabilities. Define specialists like researchers, writers, or support staff.
 [[/card]]
 
 (tools.md)[[card]]
@@ -185,6 +185,6 @@ system_message: |
 ## Next Steps
 
 [+] [Full Schema Guide](schema-guide.md) - Complete configuration reference with all options
-[+] [Agents](../concepts/agents-and-orchestration.md) - Configure AI personas
+[+] [Agents](../concepts/agents-and-orchestration.md) - Configure AI agents
 [+] [Tools](../concepts/tools-and-mcp.md) - Add MCP integrations
 [+] [Examples](examples.md) - Real-world formations

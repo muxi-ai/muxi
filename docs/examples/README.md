@@ -40,7 +40,7 @@ Support bot with memory and knowledge base.
 **Features:**
 - ✅ Remembers conversations
 - ✅ Company knowledge base (FAQs, policies)
-- ✅ Empathetic persona
+- ✅ Empathetic soul
 - ✅ Clarifies ambiguous questions
 
 **Perfect for:**
@@ -216,10 +216,10 @@ memory:
     size: 100  # More messages
 ```
 
-### Change Persona
+### Change Soul
 ```yaml
 overlord:
-  persona: |
+  soul: |
     You are a friendly, casual assistant.
     Use conversational language and be approachable.
 ```

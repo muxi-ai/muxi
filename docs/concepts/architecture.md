@@ -187,8 +187,8 @@ my-formation/
 | Concept | Where it lives |
 |---------|----------------|
 | LLM Config | `formation.afs` (`llm:` section) with per-agent overrides in `agents/*.afs` |
-| Agents | `agents/*.afs` - auto-discovered, define persona, role, specialties |
-| Overlord | `formation.afs` (`overlord:` persona, workflow, clarification settings) |
+| Agents | `agents/*.afs` - auto-discovered, define role, specialties |
+| Overlord | `formation.afs` (`overlord:` workflow, clarification settings) + `SOUL.md` |
 | Workflows | `formation.afs` (`overlord.workflow:` auto-decomposition, timeouts) |
 | Memory | `formation.afs` (`memory:` buffer, working, persistent config) |
 | Tools & MCP | `mcp/*.afs` - auto-discovered; `formation.afs` (`mcp:` global settings) |

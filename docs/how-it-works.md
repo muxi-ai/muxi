@@ -20,7 +20,7 @@ config:
 flowchart TB
     Request(["<strong>Your Request</strong>\n<small>“Hello, assistant!”</small>"])
     Server["<strong>MUXI Server :7890</strong>\n<small>Routes requests / Manages formations / Handles auth</small>"]
-    Overlord["<strong>Overlord</strong>\n<small>Loads memory context / Routes to agents / Applies persona / Updates memory</small>"]
+    Overlord["<strong>Overlord</strong>\n<small>Loads memory context / Routes to agents / Applies soul / Updates memory</small>"]
     A1["Agent"] & A2["Agent"] & A3["Agent"]
     LLM["LLM\n(OpenAI)"] & Tools["Tools\n(MCP)"] & RAG["Knowledge\n(RAG)"]
     Response(["Response"])
@@ -35,7 +35,7 @@ flowchart TB
 **Think of it as:**
 - **Server** = Traffic controller (like Nginx for AI)
 - **Formation** = Your complete AI system (like a Docker container)
-- **Overlord** = The brain that manages memory, routes requests, and applies persona
+- **Overlord** = The brain that manages memory, routes requests, and applies soul
 - **Agent** = A specialized worker that uses tools and knowledge to complete tasks
 
 
@@ -94,11 +94,11 @@ The selected agent:
 
 [[/step]]
 
-[[step The Overlord applies persona and responds]]
+[[step The Overlord applies soul and responds]]
 
 The Overlord:
 
-- Applies the configured persona (tone, style) to the response
+- Applies the configured soul (tone, style) to the response
 - Streams the response back to your app
 - Updates all memory layers with the conversation
 

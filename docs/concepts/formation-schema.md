@@ -34,7 +34,7 @@ A **formation** is a complete AI system configuration that includes:
 - **Memory:** Working and persistent memory systems
 - **Tools (MCP):** External capabilities via Model Context Protocol
 - **LLM Configuration:** Language model settings and API keys
-- **Behavior:** Persona, workflows, clarification, async processing
+- **Behavior:** Soul, workflows, clarification, async processing
 
 ## Basic Structure
 
@@ -53,7 +53,7 @@ llm:
 
 # Overlord (orchestrator)
 overlord:
-  persona: "You are a helpful assistant..."
+  soul: "You are a helpful assistant..."
   workflow:
     auto_decomposition: true
     complexity_threshold: 7.0
@@ -124,7 +124,7 @@ llm:
 
 ```yaml
 overlord:
-  persona: "You are a professional assistant..."
+  soul: "You are a professional assistant..."
 
   workflow:
     auto_decomposition: true
@@ -274,7 +274,7 @@ llm:
     - text: "openai/gpt-4"
 
 overlord:
-  persona: "You are a helpful assistant."
+  soul: "You are a helpful assistant."
   workflow:
     auto_decomposition: false
 
@@ -304,7 +304,7 @@ llm:
     - text: "openai/gpt-4"
 
 overlord:
-  persona: "You coordinate a research team."
+  soul: "You coordinate a research team."
   workflow:
     auto_decomposition: true
     complexity_threshold: 7.0
@@ -397,8 +397,8 @@ llm:
 **Don't use wrong field names:**
 ```yaml
 overlord:
-  persona:
-    name: "Assistant"    # ❌ persona is a string, not object
+  soul:
+    name: "Assistant"    # ❌ soul is a string, not object
     style: "professional"
 ```
 
@@ -435,7 +435,7 @@ muxi validate formation.afs
 
 - [Formation Schema Reference](../reference/formation-schema.md) - Full YAML reference
 - **[Agent Formation Schema](https://github.com/agent-formation/afs-spec)** - Official specification
-- [Persona Configuration](persona.md) - Configure agent personality
+- [Soul Configuration](soul.md) - Configure formation identity
 - [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - Complex task handling
 - [Memory Systems](../concepts/memory-system.md) - Working and persistent memory
 - [MCP Integration](../concepts/tools-and-mcp.md) - Add tools via Model Context Protocol

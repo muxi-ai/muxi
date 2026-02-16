@@ -24,7 +24,7 @@ graph TD
     T --> AG2[Agent 2]
     AG1 --> R[Response Synthesis]
     AG2 --> R
-    R --> P[Apply Persona]
+    R --> P[Apply Soul]
     P --> U2[Final Response to User]
 ```
 
@@ -34,7 +34,7 @@ graph TD
 4. **Agent Selection** - Picks the best agent for each task
 5. **Task Delegation** - Sends tasks to agents with context and tools
 6. **Response Synthesis** - Combines agent outputs into coherent response
-7. **Persona Application** - Formats response with configured personality
+7. **Soul Application** - Formats response with configured identity and style
 8. **Credential Handling** - Manages user credentials and access
 
 ## Users Talk to MUXI, Not Agents
@@ -52,7 +52,7 @@ What actually happens:
   Overlord → routes research task to Researcher agent
   Overlord → routes writing task to Writer agent
   Overlord → synthesizes outputs
-  Overlord → applies persona and formats response
+  Overlord → applies soul and formats response
 ```
 
 The SDK does allow talking to specific agents directly, but that's for debugging - not the intended UX.
@@ -155,16 +155,15 @@ specialties:
 
 The Overlord reads this metadata and routes research tasks to this agent.
 
-## Persona (Overlord Only)
+## Soul (Overlord Only)
 
-The persona defines how MUXI communicates with users:
+The soul defines how MUXI communicates with users. Define it in a `SOUL.md` file next to your formation:
 
-```yaml
-overlord:
-  persona: |
-    You are a professional, knowledgeable assistant.
-    Be concise but thorough. Use clear language.
-    When uncertain, ask clarifying questions.
+```markdown
+<!-- SOUL.md -->
+You are a professional, knowledgeable assistant.
+Be concise but thorough. Use clear language.
+When uncertain, ask clarifying questions.
 ```
 
 This affects:
@@ -172,7 +171,7 @@ This affects:
 - Tone and style
 - How status updates are communicated
 
-Agents have **system prompts** (instructions) and **capabilities** (metadata), but not personas.
+Agents have **system prompts** (instructions) and **capabilities** (metadata), but not souls.
 
 ## Routing Priority
 
@@ -194,8 +193,8 @@ SOPs always win - if a request matches an SOP, it executes regardless of complex
 
 ```yaml
 overlord:
-  # Persona
-  persona: "You are a helpful professional assistant."
+  # Soul (or use SOUL.md file instead)
+  soul: "You are a helpful professional assistant."
 
   # Workflow settings
   workflow:

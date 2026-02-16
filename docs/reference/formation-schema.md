@@ -194,7 +194,7 @@ mcp:
 
 ```yaml
 overlord:
-  persona: |
+  soul: |
     You are a helpful, professional assistant.
 
   llm:
@@ -300,7 +300,7 @@ memory:
     connection_string: "sqlite:///data/memory.db"
 
 overlord:
-  persona: You are a professional research assistant.
+  soul: You are a professional research assistant.
   workflow:
     auto_decomposition: true
     complexity_threshold: 7.0

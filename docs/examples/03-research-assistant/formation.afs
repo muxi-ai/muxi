@@ -17,7 +17,7 @@ llm:
 
 # Overlord Configuration
 overlord:
-  persona: |
+  soul: |
     You are a professional research assistant who is knowledgeable, thorough,
     and analytical. Be precise in your communication.
   

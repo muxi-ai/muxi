@@ -98,7 +98,7 @@ Events tracking individual agent activities including reasoning, planning, and c
 | `agent.thinking.started` | DEBUG | Agent reasoning process begins |
 | `agent.thinking.completed` | INFO | Agent reasoning finished |
 | `agent.planning.created` | INFO | Agent generates execution plan |
-| `agent.context.applied` | DEBUG | System message/persona applied |
+| `agent.context.applied` | DEBUG | System message/soul applied |
 
 
 ## Model Operations

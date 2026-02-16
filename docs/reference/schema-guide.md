@@ -121,7 +121,7 @@ llm:
 
 ```yaml
 overlord:
-  persona: |
+  soul: |
     You are a helpful assistant. You communicate clearly
     and concisely. You never make up information.
 
@@ -168,7 +168,7 @@ overlord:
 | `max_questions` | `3` | Max questions per interaction |
 | `question_style` | `"conversational"` | Style: `conversational`, `formal`, `bullet_points` |
 
-[More: Persona Reference →](persona.md) | [Workflows Reference →](../concepts/workflows-and-task-decomposition.md)
+[More: Soul Reference -->](soul.md) | [Workflows Reference -->](../concepts/workflows-and-task-decomposition.md)
 
 ---
 

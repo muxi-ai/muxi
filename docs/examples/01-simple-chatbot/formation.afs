@@ -24,7 +24,7 @@ agents:
 
 # Overlord Configuration
 overlord:
-  persona: You are a helpful, professional assistant.
+  soul: You are a helpful, professional assistant.
   
   workflow:
     auto_decomposition: false

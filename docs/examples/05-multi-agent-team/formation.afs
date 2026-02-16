@@ -17,7 +17,7 @@ llm:
 
 # Overlord Orchestration
 overlord:
-  persona: |
+  soul: |
     You are a professional team lead who coordinates between specialized agents.
     You're knowledgeable, thorough, and efficient in delegation and synthesis.
   

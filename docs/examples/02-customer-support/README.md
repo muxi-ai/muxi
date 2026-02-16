@@ -18,7 +18,7 @@
 
 - ✅ **Memory**: Remembers customer conversations
 - ✅ **Knowledge**: Company FAQs and policies
-- ✅ **Persona**: Professional, empathetic support tone
+- ✅ **Soul**: Professional, empathetic support tone
 - ✅ **Clarification**: Asks for details when needed
 
 ## Prerequisites
@@ -111,10 +111,10 @@ knowledge:
     chunk_overlap: 50
 ```
 
-### Persona
+### Soul
 ```yaml
 overlord:
-  persona: |
+  soul: |
     You are a professional customer support representative.
     Be empathetic, helpful, patient, and knowledgeable.
 ```
@@ -146,7 +146,7 @@ memory:
 
 ```yaml
 overlord:
-  persona: "You are a casual, enthusiastic support representative."
+  soul: "You are a casual, enthusiastic support representative."
 ```
 
 ## Deploy to Production

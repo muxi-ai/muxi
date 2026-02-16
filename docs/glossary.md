@@ -126,8 +126,8 @@ MUXI's central orchestrator - the "brain" of a formation. Analyzes requests, rou
 ### Persistent Memory
 Storage that survives beyond a single session - facts, preferences, conversation history. In MUXI, persistent memory is backed by vector databases (FAISSx or PostgreSQL), enabling agents to remember across conversations.
 
-### Persona
-The personality, tone, and communication style of an AI. In MUXI, only the Overlord has a persona (defined in formation config). Individual agents have system prompts that define their role, not personality.
+### Soul
+The identity, tone, and communication style of your formation. In MUXI, only the Overlord has a soul (defined via `SOUL.md` or inline in formation config). Individual agents have system prompts that define their role, not personality.
 
 ### pgvector
 A PostgreSQL extension adding vector similarity search capabilities. In MUXI, pgvector is the production-recommended vector store - combining familiar SQL with semantic search in one database.

@@ -14,13 +14,13 @@ Find your question, get the answer. Each section links to deeper documentation.
 
 [[toggle How do I define an agent?]]
 
-In YAML. Create an `.afs` file (Agent Formation Schema) with your agent's name, persona, LLM provider, and capabilities. No framework code required.
+In YAML. Create an `.afs` file (Agent Formation Schema) with your agent's name, role, LLM provider, and capabilities. No framework code required.
 
 ```yaml
 name: support-agent
 agents:
   support:
-    persona: "Helpful customer support specialist"
+    soul: "Helpful customer support specialist"
     provider: openai/gpt-4o
     tools: [search, ticket-system]
     knowledge: ./docs/
@@ -158,19 +158,20 @@ Artifacts are returned alongside the response and can be downloaded or processed
 
 [[toggle Can I customize the agent's personality?]]
 
-Yes, but only the **Overlord** has a persona. Users talk to MUXI (the Overlord), not individual agents - so the persona defines how MUXI communicates:
+Yes, but only the **Overlord** has a soul. Users talk to MUXI (the Overlord), not individual agents - so the soul defines how MUXI communicates.
 
-```yaml
-overlord:
-  persona: |
-    You are a friendly, professional assistant.
-    Be concise but warm. Use simple language.
-    Never use jargon unless the user does first.
+Create a `SOUL.md` file in your formation directory:
+
+```markdown
+<!-- SOUL.md -->
+You are a friendly, professional assistant.
+Be concise but warm. Use simple language.
+Never use jargon unless the user does first.
 ```
 
-Individual agents have **system prompts** (instructions for task execution) and **capabilities** (metadata for routing) - but not personas.
+Individual agents have **system prompts** (instructions for task execution) and **capabilities** (metadata for routing) - but not souls.
 
-**Learn more:** [Overlord Persona](concepts/persona.md) | [The Overlord](concepts/overlord.md)
+**Learn more:** [Overlord Soul](concepts/soul.md) | [The Overlord](concepts/overlord.md)
 
 [[/toggle]]
 

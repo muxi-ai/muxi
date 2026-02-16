@@ -167,11 +167,11 @@ If a request requires approval AND is async:
 3. If approved, execute in background
 4. Notify via webhook when complete
 
-### With Custom Persona
+### With Custom Soul
 
 ```yaml
 overlord:
-  persona: |
+  soul: |
     When presenting execution plans for approval, clearly explain the impact
     of each step. Highlight any irreversible actions or operations that affect
     production systems. Use clear language and provide time estimates.
@@ -180,7 +180,7 @@ overlord:
     plan_approval_threshold: 6  # Slightly lower for sensitive operations
 ```
 
-The persona influences how approval messages are presented.
+The soul influences how approval messages are presented.
 
 ## Approval Flow Example
 
@@ -250,10 +250,10 @@ overlord:
 - Internal operations tool → Lower threshold (5-6)
 - Automated background jobs → Disabled (10)
 
-**Provide context in persona:**
+**Provide context in soul:**
 ```yaml
 overlord:
-  persona: |
+  soul: |
     For operations requiring approval, explain what will be modified,
     estimate the time required, and highlight any risks.
 ```
@@ -315,11 +315,11 @@ overlord:
 
 **Problem:** Users don't understand what they're approving.
 
-**Solution:** Improve persona guidance.
+**Solution:** Improve soul guidance.
 
 ```yaml
 overlord:
-  persona: |
+  soul: |
     When presenting plans, use clear language. Explain:
     - What will be modified
     - Estimated time

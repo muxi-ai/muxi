@@ -119,7 +119,7 @@ memory:
     connection_string: "sqlite:///data/memory.db"
 
 overlord:
-  persona: |
+  soul: |
     You are a professional, empathetic support representative.
   response:
     streaming: true
@@ -379,7 +379,7 @@ memory:
       enabled: true
 
 overlord:
-  persona: You are a professional enterprise assistant.
+  soul: You are a professional enterprise assistant.
   workflow:
     auto_decomposition: true
     complexity_threshold: 7.0

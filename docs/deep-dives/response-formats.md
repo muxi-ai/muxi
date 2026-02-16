@@ -4,9 +4,9 @@ description: Technical implementation of structured output in MUXI
 ---
 # Response Formats Deep Dive
 
-## Technical implementation of LLM persona-based formatting
+## Technical implementation of LLM soul-based formatting
 
-MUXI's response format system uses **LLM persona instructions** combined with **post-processing validation** to generate naturally formatted content while maintaining technical correctness.
+MUXI's response format system uses **LLM soul instructions** combined with **post-processing validation** to generate naturally formatted content while maintaining technical correctness.
 
 
 ## Architecture
@@ -16,7 +16,7 @@ MUXI's response format system uses **LLM persona instructions** combined with **
 ```
 User Request
      ↓
-Persona Enhancement (LLM instructions)
+Soul Enhancement (LLM instructions)
      ↓
 Agent Processing (natural generation)
      ↓
@@ -30,7 +30,7 @@ Formatted Response
 - **Post-processing**: Ensures technical validity for structured formats
 
 
-## Persona Enhancement
+## Soul Enhancement
 
 ### How It Works
 
@@ -68,15 +68,15 @@ def _get_format_instruction(format: str) -> str:
         """
 ```
 
-### Persona Injection
+### Soul Injection
 
 ```python
 # Simplified flow
-enhanced_persona = f"{base_persona}\n\n{format_instruction}"
+enhanced_soul = f"{base_soul}\n\n{format_instruction}"
 
 llm_response = await llm.chat(
     messages=messages,
-    system=enhanced_persona  # Enhanced with format instructions
+    system=enhanced_soul  # Enhanced with format instructions
 )
 ```
 
@@ -276,7 +276,7 @@ if validation_fails:
 ```yaml
 # formation.afs
 overlord:
-  persona: "You are a helpful assistant"
+  soul: "You are a helpful assistant"
 
   response:
     format: "markdown"           # Default format

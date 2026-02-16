@@ -14,11 +14,11 @@ This is the definitive guide to understanding how MUXI processes requests - from
 MUXI isn't just a request-response system. It's an intelligent processing pipeline that:
 
 - **Adapts to complexity** - Routes simple queries to single agents, decomposes complex requests into multi-agent workflows
-- **Maintains context** - Three-tier memory system ensures coherent, personalized conversations
+- **Maintains context** - Three-tier memory system ensures coherent conversations
 - **Clarifies ambiguity** - Multi-turn clarification resolves unclear requests before processing
 - **Orchestrates intelligence** - Coordinates multiple AI agents with specialized capabilities
 - **Optimizes execution** - Dynamically chooses sync/async processing based on estimated time
-- **Ensures consistency** - Applies configurable personas across all agents
+- **Ensures consistency** - Applies configurable soul across all agents
 - **Handles complexity** - Supports SOPs (Standard Operating Procedures) for repeatable workflows
 
 
@@ -34,8 +34,8 @@ A request passing through MUXI undergoes:
 6. **Workflow Analysis** - Complex requests trigger multi-agent orchestration
 7. **Agent Processing** - Tool execution, agent-to-agent delegation, parallel tasks
 8. **Response Generation** - Batch, streaming, or webhook delivery
-9. **Persona Application** - Style and tone consistency regardless of which agents were involved
-10. **Memory Updates** - Learning from interactions for future personalization
+9. **Soul Application** - Style and tone consistency regardless of which agents were involved
+10. **Memory Updates** - Learning from interactions for future context
 
 The system seamlessly handles everything from simple queries ("What's the weather?") to complex orchestrations ("Analyze my codebase, generate security audit, create Linear issues, and notify my team").
 
@@ -70,7 +70,7 @@ flowchart TD
     LongTermCheck -->|Yes| LongTermMem[Long-term Memory<br/>- PostgreSQL/SQLite<br/>- User preferences<br/>- Historical context<br/>- Semantic search]
     LongTermCheck -->|No| BuildContext
 
-    LongTermMem --> BuildContext[Build User Context<br/>- Merge preferences<br/>- Apply personalization<br/>- Load user history<br/>- Extract patterns]
+    LongTermMem --> BuildContext[Build User Context<br/>- Merge preferences<br/>- Apply context<br/>- Load user history<br/>- Extract patterns]
 
     BuildContext --> WorkingMem[Working Memory<br/>- Current task state<br/>- Active file refs<br/>- Tool outputs<br/>- Session data]
 
@@ -95,11 +95,11 @@ flowchart TD
     NeedClarification -->|No| IsActionable{Is actionable?}
 
     InitClarification --> WriteQuestion[Write Clarification<br/>Question]
-    WriteQuestion --> ApplyPersona1[[Apply Overlord Persona]]
+    WriteQuestion --> ApplySoul1[[Apply Overlord Soul]]
 
     %% Main Processing Path
     IsActionable -->|Yes| AgentSpecified{Agent<br/>Specified?}
-    IsActionable -->|No| ApplyPersona1
+    IsActionable -->|No| ApplySoul1
 
     AgentSpecified -->|Yes| RequestAgent[Request Specific<br/>Agent]
     AgentSpecified -->|No| SOPMatch{SOP<br/>Matched?}
@@ -163,11 +163,11 @@ flowchart TD
     MoreProcessing -->|No| GenerateResponse[Generate Response<br/>- Format output<br/>- Add explanations<br/>- Include artifacts]
 
     %% Final Response Path
-    GenerateResponse --> ApplyPersona2[Apply Overlord Persona<br/>- Maintain tone consistency<br/>- Apply style preferences<br/>- Format for user<br/>- Add personality touches]
+    GenerateResponse --> ApplySoul2[Apply Overlord Soul<br/>- Maintain tone consistency<br/>- Apply style preferences<br/>- Format for user<br/>- Add personality touches]
 
-    ApplyPersona1 --> ApplyPersona2
+    ApplySoul1 --> ApplySoul2
 
-    ApplyPersona2 --> ResponseMode{Response<br/>Mode?}
+    ApplySoul2 --> ResponseMode{Response<br/>Mode?}
 
     ResponseMode -->|Async| WebhookDelivery[Webhook Delivery<br/>- Format payload<br/>- Call webhook URL<br/>- Retry on failure]
     ResponseMode -->|Sync| UserPref{User<br/>Preference?}
@@ -420,7 +420,7 @@ Not actionable:
 Agent responds directly:
 "You're welcome! Let me know if you need anything else."
          ↓
-Apply persona
+Apply soul
          ↓
 Return response
          ↓
@@ -706,20 +706,20 @@ Decision → Action → Evaluate → Repeat
 
 ---
 
-### Phase 11: Persona Application
+### Phase 11: Soul Application
 
-**The Overlord applies consistent persona:**
+**The Overlord applies consistent soul:**
 
 ```
 Agent responses (may vary in style)
          ↓
-Overlord persona instructions:
+Overlord soul instructions:
   - Tone: "professional but friendly"
   - Style: "concise and clear"
   - Voice: "active voice, no jargon"
   - Format: "markdown with headers"
          ↓
-All responses transformed to match persona
+All responses transformed to match soul
          ↓
 Consistent user experience regardless of agents used
 ```
@@ -728,11 +728,11 @@ Consistent user experience regardless of agents used
 ```
 Agent: "The analysis has been completed. Results show..."
          ↓
-After persona:
+After soul:
 "I've analyzed the data for you. Here's what I found..."
 ```
 
-**Persona maintains:**
+**Soul maintains:**
 - Consistent tone across agents
 - User's preferred communication style
 - Format preferences (verbose vs concise)
@@ -969,7 +969,7 @@ Routing: Auto-route to assistant agent
 Agent: Calls weather tool
 Tool: Returns weather data
 Agent: Formats response
-Persona: Applied
+Soul: Applied
 Response: "It's 68°F and sunny in San Francisco"
 Memory: Updated
          ↓
@@ -1020,7 +1020,7 @@ Execution:
   - Security: Reviews report, finds 5 vulnerabilities
   - Developer: Creates 5 GitHub issues
 Aggregation: Combine all results
-Persona: Applied
+Soul: Applied
 Response: "I've analyzed your codebase and found 5 security issues.
            Created GitHub issues #123-#127 for each one. Here's the summary..."
 Artifacts: security-audit.pdf attached
@@ -1063,7 +1063,7 @@ Total time: ~10 seconds (with credential collection)
 4. **Seamless complexity handling** - Same pipeline for simple and complex requests
 5. **User privacy** - Per-user credentials and memory isolation
 6. **Flexible delivery** - Batch, streaming, or async based on needs
-7. **Consistent experience** - Persona ensures uniform style
+7. **Consistent experience** - Soul ensures uniform style
 8. **Complete observability** - Events at every stage for debugging
 
 **The result:** A request processing system that feels intelligent, not mechanical.
