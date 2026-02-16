@@ -1,34 +1,37 @@
-<h2 align="center">
+<h1 align="center">
   <img src="./assets/muxi-wordmark.svg" alt="MUXI" height="56" /><br>
-  <strong>Deploy Intelligence</strong><br>
   <sub>The Open-source AI Application Server</sub>
-</h2>
+</h1>
+
+<p align="center">​<br>
+  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-ELv2%20%2F%20Apache%202.0-c98b45.svg" alt="License" height="20"></a>
+  <a href="https://github.com/muxi-ai/server/releasesred"><img src="https://img.shields.io/github/v/release/muxi-ai/onellm?label=Server&color=yellow" alt="Server CI" height="20"></a>
+  <!-- <a href="https://github.com/muxi-ai/runtime/releases"><img src="https://img.shields.io/github/v/release/muxi-ai/onellm?label=Runtime&color=e65850" alt="Runtime CI" height="20"></a> -->
+  <a href="https://github.com/muxi-ai/cli/releases"><img src="https://img.shields.io/github/v/release/muxi-ai/onellm?label=CLI&color=07a9e6" alt="CLI CI" height="20"></a>
+  <a href="https://github.com/muxi-ai/sdks"><img src="https://img.shields.io/badge/SDKs-12-9a75d1.svg" alt="Documentation" height="20"></a>
+</p>
 
 <p align="center">
-  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-ELv2%20%2F%20Apache%202.0-c98b45.svg" alt="License" height="20"></a>
-  <!-- <a href="https://github.com/muxi-ai/runtime/releases"><img src="https://github.com/muxi-ai/runtime/actions/workflows/release.yml/badge.svg?branch=main" alt="Runtime CI" height="20"></a> -->
-  <a href="https://github.com/muxi-ai/server/releases"><img src="https://github.com/muxi-ai/server/actions/workflows/release.yml/badge.svg?branch=main" alt="Server CI" height="20"></a>
-  <a href="https://github.com/muxi-ai/cli/releases"><img src="https://github.com/muxi-ai/cli/actions/workflows/release.yml/badge.svg?branch=main" alt="CLI CI" height="20"></a>
-  <a href="https://github.com/muxi-ai/sdks"><img src="https://img.shields.io/badge/SDKs-12-green.svg" alt="Documentation" height="20"></a>
-</p>
-<p align="center">
   <a href="https://github.com/muxi-ai/muxi/discussions"><img src="https://img.shields.io/badge/​-Community-222.svg?logo=github" alt="Discussions" height="20"></a>
-  <a href="https://github.com/muxi-ai/muxi/discussions"><img src="https://img.shields.io/badge/​-Docs-orange.svg?logo=readme&logoColor=white" alt="Discussions" height="20"></a>
+  <a href="https://muxi.org/docs"><img src="https://img.shields.io/badge/​-Docs-e65850.svg?logo=readme&logoColor=white" alt="Discussions" height="20"></a>
   <a href="https://linkedin.com/company/muxi-ai"><img src="./assets/badge-linkedin.svg" alt="Linkedin" height="20"></a>
   <a href="https://twitter.com/muxi_ai"><img src="./assets/badge-twitter.svg" alt="X/Twitter" height="20"></a>
 </p>
 
-
-<p align="center">
+<!-- <p align="center">
 <a target="_blank" href="https://muxi.org/docs/quickstart" align="center">Quickstart</a>
 • <a target="_blank" href="https://muxi.org/docs/how-it-works" align="center">How it Works</a>
 • <a target="_blank" href="https://muxi.org/docs/cli-and-sdk" align="center">CLI & SDKs</a>
 • <a target="_blank" href="https://muxi.org/docs/examples" align="center">Examples</a>
-</p>
+</p> -->
 
 ---
 
-No one builds their own Nginx to deploy a website. No one should reinvent infrastructure to build AI.
+<p align="center">No one builds their own Nginx to deploy a website. No one should reinvent infrastructure to build AI.</p>
+
+---
+
+## Deploy Intelligence
 
 MUXI (`/ˈmʌk.siː/`) is **production infrastructure for AI agents**. Not a framework. Not a wrapper. A **server** – where agents are native primitives with built-in orchestration, memory, observability, and scale.
 
