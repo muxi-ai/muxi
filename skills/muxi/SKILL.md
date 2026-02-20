@@ -61,13 +61,13 @@ LLM / MCP / External       ← AI models, tools, services
 
 **Architecture rationale:** Go for the Server (single binary, excellent concurrency, low memory) handles the hot path (orchestration, routing, auth). Python for the Runtime (ML ecosystem, async-first) handles AI workloads. Formations run as SIF containers (Singularity Image Format) -- single-file distribution, no Docker daemon required on Linux.
 
-**Request flow:** Client -> Server (7890) -> reverse proxy -> Formation (8000+) -> Overlord builds memory context -> routes to best agent -> agent uses tools/knowledge/LLM -> Overlord applies persona -> streams response -> updates memory.
+**Request flow:** Client -> Server (7890) -> reverse proxy -> Formation (8000+) -> Overlord builds memory context -> routes to best agent -> agent uses tools/knowledge/LLM -> Overlord applies soul -> streams response -> updates memory.
 
 **Use cases:** Customer support systems, internal tooling automation, document processing, data analysis platforms, booking/scheduling, SaaS AI features.
 
 **Key concepts:**
 - **Formation** = complete AI system config (agents + tools + memory + behavior)
-- **Overlord** = the brain that manages memory, routes requests, applies persona
+- **Overlord** = the brain that manages memory, routes requests, applies soul
 - **Agent** = specialized worker that uses tools and knowledge
 - **MCP** = Model Context Protocol for connecting tools
 
@@ -219,7 +219,7 @@ Providers: `openai/{model}`, `anthropic/{model}`, `google/{model}`, `ollama/{mod
 **Overlord (orchestration):**
 ```yaml
 overlord:
-  persona: |
+  soul: |
     You are a helpful, professional assistant.
   llm:
     model: "openai/gpt-4o-mini"
@@ -436,7 +436,7 @@ All SDKs include: auto-idempotency, exponential backoff retries, typed errors, S
 ```yaml
 # formation.afs
 overlord:
-  persona: You coordinate a research team.
+  soul: You coordinate a research team.
   workflow:
     auto_decomposition: true
     complexity_threshold: 7.0

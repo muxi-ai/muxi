@@ -217,7 +217,7 @@ See [`skills/`](./skills/) for setup instructions.
 - **[Discussions](https://github.com/muxi-ai/muxi/discussions)** – ask questions, share ideas, get help
 - **[Roadmap](https://github.com/orgs/muxi-ai/projects/1)** – see what's coming
 - **[@muxi_ai](https://twitter.com/muxi_ai)** – follow for updates
-- **[CONTRIBUTING.md](https://muxi.org/contributing)** – contribute code
+- **[CONTRIBUTING.md](https://muxi.org/go/contributing)** – contribute code
 
 ---
 
@@ -231,7 +231,7 @@ MUXI is created by [**Ran Aroussi**](https://x.com/aroussi), author of [**Produc
 
 Server and Runtime are [ELv2](https://www.elastic.co/licensing/elastic-license). Everything else (CLI, SDKs, formations, schemas) is [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
-**TL;DR:** Use MUXI freely for your products and business. The only restriction: don't resell MUXI itself as a hosted service. See [LICENSE.md](https://muxi.org/licensing) for details.
+**TL;DR:** Use MUXI freely for your products and business. The only restriction: don't resell MUXI itself as a hosted service. See [LICENSE.md](https://muxi.org/go/licensing) for details.
 
 ---
 

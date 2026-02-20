@@ -48,7 +48,7 @@ All responses follow this format:
 | GET | `/v1/config` | Full formation configuration |
 | GET | `/v1/formation` | Basic formation info |
 | GET | `/v1/overlord` | Overlord configuration |
-| GET | `/v1/overlord/persona` | Overlord persona |
+| GET | `/v1/overlord/soul` | Overlord soul |
 | GET | `/v1/agents` | List all agents |
 | GET | `/v1/agents/{id}` | Get specific agent |
 | GET | `/v1/secrets` | List secrets (masked values) |

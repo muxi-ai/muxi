@@ -250,6 +250,8 @@ go get github.com/muxi-ai/muxi-go
 ```
 
 ```go
+import muxi "github.com/muxi-ai/muxi-go"
+
 client := muxi.NewFormationClient(&muxi.FormationConfig{
     ServerURL:   "http://localhost:7890",
     FormationID: "my-assistant",

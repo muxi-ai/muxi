@@ -572,7 +572,7 @@ Yes. **The core stack is always free and self-hostable.** No paywalls, no featur
 - Self-host on your infrastructure forever
 - No usage limits, no "free tier"
 
-**Learn more:** [Our creed](https://muxi.org/creed)
+**Learn more:** [Our creed](https://muxi.org/manifest)
 
 [[/toggle]]
 

@@ -285,5 +285,5 @@ muxi logs formation-name
 ## Get Help
 
 - **Docs:** https://docs.muxi.org
-- **Community:** https://muxi.org/community
+- **Community:** https://muxi.org/go/community
 - **Issues:** https://github.com/muxi-ai/muxi/issues

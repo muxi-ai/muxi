@@ -159,6 +159,6 @@ description: Complete guide to building AI agents with MUXI
 * [Agent Skills](agent-skills.md)
 * [Glossary](glossary.md)
 * [Changelog](changelog.md)
-* [Contributing](https://muxi.org/contributing)
+* [Contributing](https://muxi.org/go/contributing)
 * [OneLLM](https://github.com/muxi-ai/onellm)
 * [FAISSx](https://github.com/muxi-ai/faissx)

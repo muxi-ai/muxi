@@ -27,7 +27,7 @@ agents:
     system_message: You are a helpful AI assistant.
 
 overlord:
-  persona: You are a helpful, professional assistant.
+  soul: You are a helpful, professional assistant.
   workflow:
     auto_decomposition: false
 
@@ -60,7 +60,7 @@ llm:
     - embedding: "openai/text-embedding-3-large"
 
 overlord:
-  persona: |
+  soul: |
     You are a friendly customer support representative for Acme Corp.
     Always be helpful and empathetic. If you don't know the answer,
     say so and offer to escalate.
@@ -121,7 +121,7 @@ llm:
     - embedding: "openai/text-embedding-3-large"
 
 overlord:
-  persona: |
+  soul: |
     You are a professional research assistant who is knowledgeable,
     thorough, and analytical.
   workflow:
@@ -205,7 +205,7 @@ llm:
     - text: "openai/gpt-4o"
 
 overlord:
-  persona: You are a senior software engineer who reviews code thoroughly.
+  soul: You are a senior software engineer who reviews code thoroughly.
 
 agents: []
 ```
@@ -265,7 +265,7 @@ llm:
     - embedding: "openai/text-embedding-3-large"
 
 overlord:
-  persona: |
+  soul: |
     You are a professional team lead who coordinates between specialized agents.
     You're knowledgeable, thorough, and efficient in delegation and synthesis.
   workflow:

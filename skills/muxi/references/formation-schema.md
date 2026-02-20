@@ -133,7 +133,7 @@ llm:
 
 ```yaml
 overlord:
-  persona: |
+  soul: |
     You are a helpful, professional assistant.
 
   llm:

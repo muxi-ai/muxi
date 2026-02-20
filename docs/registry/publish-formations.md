@@ -86,7 +86,7 @@ Publishing my-formation...
 ✓ Bundled (2.3MB)
 ✓ Published to registry
 
-Available at: https://registry.muxi.org/my-formation
+Available at: https://registry.muxi.org/@you/my-formation
 ```
 
 ## Publishing
