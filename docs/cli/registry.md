@@ -94,12 +94,27 @@ muxi login
 
 Authenticates with registry via GitHub OAuth.
 
+### Publish to an Organization
+
+If you're an admin or owner of a GitHub organization, you can publish formations under that org:
+
+```bash
+muxi push --org my-org
+```
+
+Only org admins can publish. To see which orgs you can publish to:
+
+```bash
+muxi registry orgs
+```
+
 ### Publish Options
 
 ```bash
 muxi push --public              # Public visibility
 muxi push --private             # Private (default)
 muxi push --tag v1.0.0          # Specific version tag
+muxi push --org my-org          # Publish under organization
 ```
 
 ## Registry Namespaces
@@ -128,6 +143,33 @@ tags:
   - support
 repository: https://github.com/user/my-formation
 ```
+
+## Organizations
+
+List your GitHub organizations and see which ones you can publish to:
+
+```bash
+muxi registry orgs
+```
+
+Output:
+
+```
+  Found 2 organization(s)
+
+  ● muxi-ai
+    The Agent Server
+    admin (can publish)
+
+  ○ some-other-org
+    Another org
+    member
+```
+
+- `●` (green) = you can publish to this org (`muxi push --org <name>`)
+- `○` = member only, cannot publish
+
+The registry auto-creates the org record on first publish -- no setup needed.
 
 ## Browse Online
 

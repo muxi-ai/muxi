@@ -215,6 +215,10 @@ muxi login
 muxi push
 muxi push --tag v1.0.0
 muxi push --dry-run
+muxi push --org my-org          # Publish under organization (admin only)
+
+# Organizations
+muxi registry orgs              # List orgs and publish permissions
 ```
 
 
@@ -393,6 +397,7 @@ Disable update checks: `export MUXI_NO_UPDATE_CHECK=1`
 | `logs` | `--lines <n>` | Number of lines |
 | `pull` | `--output <dir>` | Output directory |
 | `push` | `--dry-run` | Preview without publishing |
+| `push` | `--org <name>` | Publish under organization |
 | `dev` | `--port <n>` | Override port |
 | `dev` | `--reindex` | Force reindex |
 | `info` | `--full` | Show full configuration |
