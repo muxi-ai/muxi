@@ -193,13 +193,13 @@ MUXI is **open-source** and **self-hostable**. Your data stays on your infrastru
 
 | Looking for... | Go to |
 |----------------|-------|
-| Getting started | [Quickstart ->](https://muxi.org/docs/quickstart) |
-| SDKs (12 languages) | [SDKs ->](https://muxi.org/docs/sdks) |
+| Getting started | [Quickstart →](https://muxi.org/docs/quickstart) |
+| SDKs (12 languages) | [SDKs →](https://muxi.org/docs/sdks) |
 | How MUXI works | [ARCHITECTURE.md](https://github.com/muxi-ai/muxi/blob/main/ARCHITECTURE.md) |
 | Contributing | [CONTRIBUTING.md](https://github.com/muxi-ai/muxi/blob/main/CONTRIBUTING.md) |
 | All repositories | [REPOSITORIES.md](https://github.com/muxi-ai/muxi/blob/main/REPOSITORIES.md) |
 | Licensing | [LICENSE.md](https://github.com/muxi-ai/muxi/blob/main/LICENSE.md) |
-| Roadmap | [Roadmap ->](https://github.com/orgs/muxi-ai/projects/1) |
+| Roadmap | [Roadmap →](https://github.com/orgs/muxi-ai/projects/1) |
 
 ---
 
@@ -223,10 +223,10 @@ See [`skills/`](./skills/) for setup instructions.
 
 ## Who's Behind This
 
-MUXI is created by [**Ran Aroussi**](https://x.com/aroussi), author of [**Production-Grade Agentic AI**](http://productionaibook.com) (665 pages) and [open-source developer](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
+MUXI is created by [**Ran Aroussi**](https://x.com/aroussi), author of [**Production-Grade Agentic AI**](http://productionaibook.com) (665 pages) and an [open-source developer](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
 
-> [!NOTE]
-> MUXI is built on the principles from [**Production-Grade Agentic AI**](http://productionaibook.com) -- a comprehensive guide to building enterprise AI agent systems in production.
+> [!IMPORTANT]
+> MUXI is built on the principles from **Production-Grade Agentic AI** – a comprehensive guide to building enterprise AI agent systems in production. [**Download the PDF version here ›**](http://productionaibook.com).
 
 ---
 
