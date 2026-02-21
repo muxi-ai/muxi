@@ -5,9 +5,9 @@
 
 <p align="center">​<br>
   <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-ELv2%20%2F%20Apache%202.0-c98b45.svg" alt="License" height="20"></a>
-  <a href="https://github.com/muxi-ai/server/releasesred"><img src="https://img.shields.io/github/v/release/muxi-ai/onellm?label=Server&color=yellow" alt="Server CI" height="20"></a>
-  <!-- <a href="https://github.com/muxi-ai/runtime/releases"><img src="https://img.shields.io/github/v/release/muxi-ai/onellm?label=Runtime&color=e65850" alt="Runtime CI" height="20"></a> -->
-  <a href="https://github.com/muxi-ai/cli/releases"><img src="https://img.shields.io/github/v/release/muxi-ai/onellm?label=CLI&color=07a9e6" alt="CLI CI" height="20"></a>
+  <a href="https://github.com/muxi-ai/server/releases"><img src="https://img.shields.io/github/v/release/muxi-ai/server?label=Server&color=yellow" alt="Server" height="20"></a>
+  <!-- <a href="https://github.com/muxi-ai/runtime/releases"><img src="https://img.shields.io/github/v/release/muxi-ai/runtime?label=Runtime&color=e65850" alt="Runtime" height="20"></a> -->
+  <a href="https://github.com/muxi-ai/cli/releases"><img src="https://img.shields.io/github/v/release/muxi-ai/cli?label=CLI&color=07a9e6" alt="CLI" height="20"></a>
   <a href="https://github.com/muxi-ai/sdks"><img src="https://img.shields.io/badge/SDKs-12-9a75d1.svg" alt="Documentation" height="20"></a>
 </p>
 
