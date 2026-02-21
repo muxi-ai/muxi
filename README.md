@@ -43,7 +43,7 @@ MUXI (`/ˈmʌk.siː/`) is **production infrastructure for AI agents**. Not a fra
 | **CLI** | `docker` | `muxi` |
 
 > [!NOTE]
-> MUXI introduced the [**Agent Formation Standard**](https://github.com/agent-formation) -- an open spec for declarative AI systems. Agents, knowledge, A2A, and MCP tools defined in portable `.afs` files.
+> MUXI introduced the [**Agent Formation Standard**](https://github.com/agent-formation) – an open spec for declarative AI systems. Agents, knowledge, A2A, and MCP tools defined in portable `.afs` files.
 
 
 ## Demo
@@ -75,7 +75,7 @@ muxi chat hello-world         # talk to it
 
 Three commands. Your agent is running, stateful, and accessible via API.
 
-**Docs:** [Quickstart](https://muxi.org/docs/quickstart) | [Installation](https://muxi.org/docs/installation)
+📚 **Docs:** [Quickstart](https://muxi.org/docs/quickstart) | [Installation](https://muxi.org/docs/installation)
 
 ---
 
@@ -95,7 +95,7 @@ for chunk in client.chat_stream({ "message": "Hello!", "user_id": "user_123" }):
 
 SDKs available for Python, TypeScript, Go, and 9 more languages.
 
-**Docs:** [SDKs](https://muxi.org/docs/sdks) | [API Reference](https://muxi.org/docs/reference/api-reference)
+📚 **Docs:** [SDKs](https://muxi.org/docs/sdks) | [API Reference](https://muxi.org/docs/reference/api-reference)
 
 ---
 
@@ -165,7 +165,7 @@ knowledge:
 muxi deploy   # that's it -- running, stateful, API-accessible
 ```
 
-Docs: [Formation Schema](https://muxi.org/docs/concepts/formation-schema) | [Examples](https://muxi.org/docs/examples)
+📚 **Docs:** [Formation Schema](https://muxi.org/docs/concepts/formation-schema) | [Examples](https://muxi.org/docs/examples)
 
 ---
 
@@ -223,7 +223,10 @@ See [`skills/`](./skills/) for setup instructions.
 
 ## Who's Behind This
 
-MUXI is created by [**Ran Aroussi**](https://x.com/aroussi), author of [**Production-Grade Agentic AI**](http://productionaibook.com) and [open-source developer](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
+MUXI is created by [**Ran Aroussi**](https://x.com/aroussi), author of [**Production-Grade Agentic AI**](http://productionaibook.com) (665 pages) and [open-source developer](https://github.com/ranaroussi) whose tools are used by millions of developers daily.
+
+> [!NOTE]
+> MUXI is built on the principles from [**Production-Grade Agentic AI**](http://productionaibook.com) -- a comprehensive guide to building enterprise AI agent systems in production.
 
 ---
 
