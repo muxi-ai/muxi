@@ -9,6 +9,7 @@
   <!-- <a href="https://github.com/muxi-ai/runtime/releases"><img src="https://img.shields.io/github/v/release/muxi-ai/runtime?label=Runtime&color=e65850" alt="Runtime" height="20"></a> -->
   <a href="https://github.com/muxi-ai/cli/releases"><img src="https://img.shields.io/github/v/release/muxi-ai/cli?label=CLI&color=07a9e6" alt="CLI" height="20"></a>
   <a href="https://github.com/muxi-ai/sdks"><img src="https://img.shields.io/badge/SDKs-12-9a75d1.svg" alt="Documentation" height="20"></a>
+  <a href="https://agentformation.org"><img src="https://github.com/agent-formation/afs-assets/raw/refs/heads/main/badges/afs-compatible.svg" alt="AFS Compatible" height="20"></a>
 </p>
 
 <p align="center">
