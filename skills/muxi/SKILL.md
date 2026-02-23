@@ -377,8 +377,8 @@ muxi deploy
 
 ```bash
 muxi search "customer support"     # Search
-muxi pull @muxi/hello-world            # Pull formation
-muxi pull @muxi/hello-world@1.0.0      # Specific version
+muxi pull @muxi/hello-muxi            # Pull formation
+muxi pull @muxi/hello-muxi@1.0.0      # Specific version
 muxi login                         # Authenticate
 muxi push                          # Publish
 ```

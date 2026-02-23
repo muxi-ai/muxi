@@ -19,13 +19,13 @@ muxi search <query>        # Search registry
 ## Pull Formation
 
 ```bash
-muxi pull @muxi/hello-world
+muxi pull @muxi/hello-muxi
 ```
 
 Downloads to current directory:
 
 ```
-Pulling @muxi/hello-world...
+Pulling @muxi/hello-muxi...
 ✓ Downloaded v1.0.0
 ✓ Extracted to ./starter
 
@@ -37,13 +37,13 @@ muxi dev
 ### Pull Specific Version
 
 ```bash
-muxi pull @muxi/hello-world@1.0.0
+muxi pull @muxi/hello-muxi@1.0.0
 ```
 
 ### Pull to Custom Path
 
 ```bash
-muxi pull @muxi/hello-world --output /path/to/dir
+muxi pull @muxi/hello-muxi --output /path/to/dir
 ```
 
 ## Search Registry
@@ -193,7 +193,7 @@ registry:
 
 ```bash
 # Pull official starter
-muxi pull @muxi/hello-world
+muxi pull @muxi/hello-muxi
 
 # Search for research agents
 muxi search research

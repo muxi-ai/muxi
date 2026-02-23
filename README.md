@@ -50,7 +50,7 @@ MUXI (`/ˈmʌk.siː/`) is **production infrastructure for AI agents**. Not a fra
 ## Demo
 
 <!-- TODO: Replace with terminal recording (asciinema/svg-term or ttygif, ~10-15s, ~800px width) -->
-<!-- Recommended flow: muxi pull @muxi/hello-world -> muxi deploy -> muxi chat hello-world -->
+<!-- Recommended flow: muxi pull @muxi/hello-muxi -> muxi deploy -> muxi chat hello-muxi -->
 <p align="center">
   <img src="./assets/demo.gif" alt="MUXI Demo" width="800">
 </p>
@@ -69,9 +69,9 @@ powershell -c "irm https://muxi.org/install | iex"   # Windows
 **Run:**
 
 ```bash
-muxi pull @muxi/hello-world   # pull a formation
+muxi pull @muxi/hello-muxi   # pull a formation
 muxi deploy                   # deploy it
-muxi chat hello-world         # talk to it
+muxi chat hello-muxi         # talk to it
 ```
 
 Three commands. Your agent is running, stateful, and accessible via API.
@@ -87,7 +87,7 @@ from muxi import FormationClient
 
 client = FormationClient(
     server_url="http://localhost:7890",
-    formation_id="hello-world"
+    formation_id="hello-muxi"
 )
 
 for chunk in client.chat_stream({ "message": "Hello!", "user_id": "user_123" }):

@@ -128,10 +128,10 @@ muxi logs --mcp                     # MCP tool logs
 ```bash
 muxi search "customer support"
 muxi search --tag research
-muxi pull @muxi/hello-world
-muxi pull @muxi/hello-world@1.0.0
-muxi pull @muxi/hello-world --output ~/formations/
-muxi show @muxi/hello-world            # Show details
+muxi pull @muxi/hello-muxi
+muxi pull @muxi/hello-muxi@1.0.0
+muxi pull @muxi/hello-muxi --output ~/formations/
+muxi show @muxi/hello-muxi            # Show details
 muxi login
 muxi push
 muxi push --tag v1.0.0

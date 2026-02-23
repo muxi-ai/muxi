@@ -62,23 +62,23 @@ MUXI follows [semver](https://semver.org):
 ### Latest (Default)
 
 ```bash
-muxi pull @muxi/hello-world
+muxi pull @muxi/hello-muxi
 # Gets latest version
 ```
 
 ### Exact Version
 
 ```bash
-muxi pull @muxi/hello-world@1.0.0
+muxi pull @muxi/hello-muxi@1.0.0
 # Gets exactly v1.0.0
 ```
 
 ### Version Ranges
 
 ```bash
-muxi pull @muxi/hello-world@^1.0.0    # Latest 1.x.x
-muxi pull @muxi/hello-world@~1.0.0    # Latest 1.0.x
-muxi pull @muxi/hello-world@>=1.0.0   # 1.0.0 or higher
+muxi pull @muxi/hello-muxi@^1.0.0    # Latest 1.x.x
+muxi pull @muxi/hello-muxi@~1.0.0    # Latest 1.0.x
+muxi pull @muxi/hello-muxi@>=1.0.0   # 1.0.0 or higher
 ```
 
 | Pattern | Matches |
@@ -161,7 +161,7 @@ muxi server rollback my-formation --to 1.0.0
 Pin production to specific versions:
 
 ```bash
-muxi pull @muxi/hello-world@1.0.0
+muxi pull @muxi/hello-muxi@1.0.0
 muxi deploy
 ```
 
@@ -174,10 +174,10 @@ The deployed formation stays at 1.0.0 even if newer versions are published.
 muxi outdated
 
 # Update to latest compatible
-muxi update @muxi/hello-world
+muxi update @muxi/hello-muxi
 
 # Update to specific version
-muxi update @muxi/hello-world@1.1.0
+muxi update @muxi/hello-muxi@1.1.0
 ```
 
 
