@@ -74,9 +74,9 @@ Config files are stored in `~/.muxi/`:
 ```
 ~/.muxi/
 ├── server/
-│   └── config.afs    # Server configuration
+│   └── config.yaml    # Server configuration
 └── cli/
-    ├── config.afs    # CLI settings
+    ├── config.yaml    # CLI settings
     └── servers.afs   # Server profiles
 ```
 
