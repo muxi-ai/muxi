@@ -340,7 +340,7 @@ muxi scheduler remove <job_id>
 
 ## Artifacts
 
-When formations generate files (PDFs, images, data files), they are saved to `~/.muxi/cli/outputs/{formation-id}/`.
+When formations generate files (PDFs, images, data files), they are saved to `~/.muxi/cli/artifacts/{formation-id}/`.
 
 ```bash
 # List saved artifacts (scoped to current formation if in formation dir)
