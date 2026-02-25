@@ -154,7 +154,7 @@ muxi profiles add production
 muxi server list
 ```
 
-Profiles stored in `~/.muxi/cli/servers.afs`.
+Profiles stored in `~/.muxi/cli/servers.yaml`.
 
 ## SDK Authentication
 

@@ -90,7 +90,7 @@ muxi-server start   # Starts on port 7890
 curl http://localhost:7890/health  # Verify
 ```
 
-Config at `~/.muxi/server/config.afs`. See [references/server-config.md](references/server-config.md) for full reference.
+Config at `~/.muxi/server/config.yaml`. See [references/server-config.md](references/server-config.md) for full reference.
 
 ## CLI Setup
 
@@ -100,7 +100,7 @@ muxi profiles add local
 muxi server list  # Test connection
 ```
 
-CLI config at `~/.muxi/cli/config.afs`. See [references/cli-reference.md](references/cli-reference.md) for all commands.
+CLI config at `~/.muxi/cli/config.yaml`. See [references/cli-reference.md](references/cli-reference.md) for all commands.
 
 ## Quickstart Workflow
 

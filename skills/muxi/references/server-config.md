@@ -10,7 +10,7 @@ muxi-server status  # Check status
 
 ## Config File
 
-Location: `~/.muxi/server/config.afs` (Homebrew/user) or `/etc/muxi/server/config.afs` (system).
+Location: `~/.muxi/server/config.yaml` (Homebrew/user) or `/etc/muxi/server/config.yaml` (system).
 
 ```yaml
 server:

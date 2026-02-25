@@ -256,7 +256,7 @@ muxi chat -f my-bot           # Use from anywhere
 
 ## CLI Configuration
 
-**Config file:** `~/.muxi/cli/config.afs`
+**Config file:** `~/.muxi/cli/config.yaml`
 
 ```yaml
 default_profile: local
@@ -269,7 +269,7 @@ dev:
   auto_reload: true
 ```
 
-**Server profiles:** `~/.muxi/cli/servers.afs`
+**Server profiles:** `~/.muxi/cli/servers.yaml`
 
 ```yaml
 profiles:

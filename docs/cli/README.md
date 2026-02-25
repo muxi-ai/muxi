@@ -153,7 +153,7 @@ muxi up
 
 ## Configuration
 
-CLI config: `~/.muxi/cli/config.afs`
+CLI config: `~/.muxi/cli/config.yaml`
 
 ```yaml
 default_profile: local
