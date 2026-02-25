@@ -10,6 +10,8 @@ doc-type: home
 
 MUXI is **production infrastructure for AI agents**. Declare your agents in YAML, deploy with one command, build your product on top via SDKs.
 
+<!--
+
 [[boxed float-right]]
 
 ### Watch the Demo
@@ -19,6 +21,8 @@ MUXI is **production infrastructure for AI agents**. Declare your agents in YAML
 From zero to a multi-agent AI system in under 5 minutes. See MUXI in action.
 
 [[/boxed]]
+
+-->
 
 ### Features
 
