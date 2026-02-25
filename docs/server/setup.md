@@ -9,10 +9,11 @@ description: First-time configuration for MUXI Server
 
 Configure MUXI Server and start deploying formations.
 
-<!-- TODO: Replace with actual video embed -->
+<!-- TODO: Replace with actual video embed
 <div class="video-placeholder">
   <p>🎬 Video: Server Setup Walkthrough</p>
 </div>
+-->
 
 ## What You'll Do
 

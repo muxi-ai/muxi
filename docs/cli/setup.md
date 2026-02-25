@@ -10,10 +10,11 @@ description: First-time configuration for the MUXI CLI
 Connect the CLI to your server and deploy your first formation.
 
 
-<!-- TODO: Replace with actual video embed -->
+<!-- TODO: Replace with actual video embed
 <div class="video-placeholder">
   <p>🎬 Video: CLI Setup Walkthrough</p>
 </div>
+-->
 
 
 ## What You'll Do
