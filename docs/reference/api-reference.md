@@ -41,7 +41,7 @@ MUXI provides two complementary APIs that work together to orchestrate and run A
 
 **Base URL:** `http://localhost:7890`
 
-[View Server API Reference →](api/server)
+[View Server API Reference →](/docs/api/server)
 [[/card]]
 
 [[card]]
@@ -60,7 +60,7 @@ MUXI provides two complementary APIs that work together to orchestrate and run A
 
 **Base URL:** `http://localhost:8000-9000/v1` (per formation)
 
-[View Formation API Reference →](api/formation)
+[View Formation API Reference →](/docs/api/formation)
 [[/card]]
 
 ::::
@@ -96,7 +96,7 @@ formation = FormationClient(
 for event in formation.chat_stream({"message": "What's the weather?"}, user_id="user_123"):
     print(event)
 ```
-[Python SDK Documentation →](../sdks/python-sdk.md)
+[Python SDK Documentation →](/docs/sdks/python-sdk.md)
 [[/tab]]
 [[tab TypeScript]]
 ```typescript
@@ -111,7 +111,7 @@ for await (const chunk of await formation.chatStream({ message: "What's the weat
   console.log(chunk);
 }
 ```
-[TypeScript SDK Documentation →](../sdks/typescript-sdk.md)
+[TypeScript SDK Documentation →](/docs/sdks/typescript-sdk.md)
 [[/tab]]
 [[tab Go]]
 ```go
@@ -131,7 +131,7 @@ for event := range stream {
     fmt.Println(event)
 }
 ```
-[Go SDK Documentation →](../sdks/go-sdk.md)
+[Go SDK Documentation →](/docs/sdks/go-sdk.md)
 [[/tab]]
 [[/tabs]]
 
@@ -141,7 +141,7 @@ muxi deploy my-formation.tar.gz
 muxi formations list
 muxi formations logs my-team
 ```
-[CLI Documentation →](cli)
+[CLI Documentation →](/docs/cli)
 
 [[/step]]
 
@@ -202,7 +202,7 @@ curl -X POST http://localhost:7890/rpc/formations \
   --data-binary @formation.tar.gz
 ```
 
-[Learn more about HMAC authentication →](server/authentication)
+[Learn more about HMAC authentication →](/docs/server/authentication)
 
 ### Formation API: API Keys
 
@@ -231,7 +231,7 @@ curl http://localhost:8271/v1/chat \
   -d '{"message": "Hello!"}'
 ```
 
-[Learn more about API keys →](../server/authentication.md)
+[Learn more about API keys →](/docs/server/authentication.md)
 
 ## Response Formats
 
@@ -310,7 +310,7 @@ curl -X POST http://localhost:7890/rpc/formations \
   --data-binary @my-team.tar.gz
 ```
 
-[Full endpoint documentation →](api/server#deploy-formation)
+[Full endpoint documentation →](/docs/api/server#deploy-formation)
 
 ### Sending a Chat Message (Formation API)
 
@@ -324,7 +324,7 @@ curl -X POST http://localhost:8271/v1/chat \
   }'
 ```
 
-[Full endpoint documentation →](api/formation#chat)
+[Full endpoint documentation →](/docs/api/formation#chat)
 
 ### Streaming Responses (Formation API)
 
@@ -354,30 +354,30 @@ event: done
 data: {"finished": true}
 ```
 
-[Learn about streaming →](api/formation#streaming)
+[Learn about streaming →](/docs/api/formation#streaming)
 
 ## Next Steps
 
 ### View Full API References
 
-- [Server Management API Reference →](api/server)
-- [Formation Runtime API Reference →](api/formation)
+- [Server Management API Reference →](/docs/api/server)
+- [Formation Runtime API Reference →](/docs/api/formation)
 
 ### Prefer High-Level Tools?
 
-- [Python SDK →](sdks/python)
-- [JavaScript/TypeScript SDK →](sdks/javascript)
-- [Go SDK →](sdks/go)
-- [CLI Reference →](cli)
+- [Python SDK →](/docs/sdks/python)
+- [JavaScript/TypeScript SDK →](/docs/sdks/javascript)
+- [Go SDK →](/docs/sdks/go)
+- [CLI Reference →](/docs/cli)
 
 ### Learn More
 
-- [Authentication Guide →](../server/authentication.md)
-- [Server Setup →](../server/setup.md)
-- [Formation Configuration →](../reference/formation-schema.md)
+- [Authentication Guide →](/docs/server/authentication.md)
+- [Server Setup →](/docs/server/setup.md)
+- [Formation Configuration →](/docs/reference/formation-schema.md)
 
 > [!TIP]
 > **Building an SDK for a new language?**
 >
-> We'd love to have you contribute! Check out our [SDK Development Guide](https://muxi.org/contributing)
-> or reach out on [GitHub Discussions](https://github.com/org/muxi-ai/discussions).
+> We'd love to have you contribute! Check out our [SDK Development Guide](/docs/https://muxi.org/contributing)
+> or reach out on [GitHub Discussions](/docs/https://github.com/org/muxi-ai/discussions).
