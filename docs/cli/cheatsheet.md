@@ -64,6 +64,8 @@ muxi down my-bot             # Stop by ID from anywhere
 - Uses `/draft/{id}` URL prefix (live uses `/api/{id}`)
 - Fast iteration - instant start
 
+**Draft mode:** After `muxi up`, the CLI prompts to enable draft mode. When enabled, all commands (chat, logs, etc.) automatically route to the draft formation. `muxi down` disables it. You can also use `--draft` on any command explicitly.
+
 
 ## Develop
 
@@ -336,6 +338,25 @@ muxi scheduler remove <job_id>
 ```
 
 
+## Artifacts
+
+When formations generate files (PDFs, images, data files), they are saved to `~/.muxi/cli/outputs/{formation-id}/`.
+
+```bash
+# List saved artifacts (scoped to current formation if in formation dir)
+muxi artifacts list
+muxi artifacts list --formation my-bot    # List for specific formation
+
+# Open artifacts directory in file manager
+muxi artifacts open
+
+# Clean up artifacts
+muxi artifacts cleanup                    # Remove all (current formation if in dir)
+muxi artifacts cleanup --days 30          # Remove files older than 30 days
+muxi artifacts cleanup --formation my-bot # Clean specific formation
+```
+
+
 ## Saved Formations
 
 ```bash
@@ -412,6 +433,9 @@ Disable update checks: `export MUXI_NO_UPDATE_CHECK=1`
 | `download` | `-p, --profile` | Server profile |
 | `download` | `--include-db` | Include memory.db |
 | `deploy` | `--include-db` | Include memory.db |
+| `chat, logs, info...` | `--draft` | Use draft mode (local dev) |
+| `artifacts cleanup` | `--days <n>` | Remove files older than N days |
+| `artifacts *` | `--formation` | Scope to specific formation |
 
 
 ## Examples

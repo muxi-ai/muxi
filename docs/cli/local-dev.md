@@ -81,6 +81,31 @@ This means you can test a draft version while the live version keeps running.
 | Rollback | No | Yes |
 | Use case | Development | Production |
 
+## Draft Mode
+
+After `muxi up` starts your formation, it will prompt:
+
+```
+  Enable draft mode for this formation? (Y/n):
+```
+
+When enabled, **all CLI commands** (chat, logs, info, sessions, etc.) automatically route to the draft formation at `/draft/{id}` instead of `/api/{id}`. This is saved to the `.muxi` file in your formation directory.
+
+`muxi down` automatically disables draft mode.
+
+You can also use `--draft` on any command explicitly:
+
+```bash
+muxi chat --draft "Hello!"
+muxi logs --draft
+```
+
+### User ID in Draft Mode
+
+In draft mode, the user ID defaults to `"tester"` if not explicitly set. No need to pass `-u` every time.
+
+For non-PostgreSQL formations (single-user), the user ID defaults to `"default"` in any mode.
+
 ## Typical Workflow
 
 ```bash
