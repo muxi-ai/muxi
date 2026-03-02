@@ -129,26 +129,78 @@ memory:
 
 ## Persistent Memory
 
+### Dynamic Embedding Dimensions
+
+Persistent memory uses **dimension-specific tables** rather than a single fixed table. The table name is derived from the embedding model's output dimension:
+
+| Embedding Model | Dimension | Table Name |
+|----------------|-----------|------------|
+| `openai/text-embedding-3-small` | 1536 | `memories_1536` |
+| `openai/text-embedding-3-large` | 3072 | `memories_3072` |
+| `local/all-MiniLM-L6-v2` | 384 | `memories_384` |
+| `local/all-mpnet-base-v2` | 768 | `memories_768` |
+
+This is handled by the `get_memory_model(dimension)` factory, which dynamically creates SQLAlchemy ORM models:
+
+```python
+def get_memory_model(dimension: int):
+    tablename = f"memories_{dimension}"
+    # Returns a dynamically-created SQLAlchemy model class
+    # with Vector(dimension) column matching the embedding size
+```
+
+Multiple formations sharing the same database can each use a different embedding model -- their tables won't conflict.
+
 ### Schema (PostgreSQL)
 
 ```sql
-CREATE TABLE memories (
+-- Table name varies by embedding dimension (e.g., memories_1536, memories_384)
+CREATE TABLE memories_1536 (
     id UUID PRIMARY KEY,
     user_id VARCHAR(255) NOT NULL,
     session_id VARCHAR(255),
     content TEXT NOT NULL,
-    embedding VECTOR(1536),
-    memory_type VARCHAR(50),  -- 'fact', 'preference', 'context'
+    embedding VECTOR(1536),    -- Matches the embedding model's dimension
+    memory_type VARCHAR(50),   -- 'fact', 'preference', 'context'
     importance FLOAT DEFAULT 0.5,
     created_at TIMESTAMP DEFAULT NOW(),
     accessed_at TIMESTAMP DEFAULT NOW(),
     access_count INT DEFAULT 0
 );
 
-CREATE INDEX idx_user ON memories(user_id);
-CREATE INDEX idx_embedding ON memories USING ivfflat (embedding);
-CREATE INDEX idx_importance ON memories(importance DESC);
+CREATE INDEX idx_user ON memories_1536(user_id);
+CREATE INDEX idx_embedding ON memories_1536 USING ivfflat (embedding vector_cosine_ops);
+CREATE INDEX idx_importance ON memories_1536(importance DESC);
 ```
+
+### Local Embedding Models
+
+MUXI supports running embedding models locally via `sentence-transformers`, with no API key required. Use the `local/` prefix:
+
+```yaml
+llm:
+  models:
+    - embedding: "local/all-MiniLM-L6-v2"      # 384 dimensions
+    # or: "local/all-mpnet-base-v2"             # 768 dimensions
+```
+
+The model is downloaded automatically on first use. This is useful for development, air-gapped environments, or reducing API costs.
+
+> **Note:** SQLite-backed formations automatically fall back to local embeddings when no API-based embedding model is configured.
+
+### Migrating Between Embedding Models
+
+If you change your embedding model (e.g., from `openai/text-embedding-3-small` at 1536 dims to `local/all-MiniLM-L6-v2` at 384 dims), existing memories need re-embedding. Use the migration script:
+
+```bash
+python scripts/migrate_embeddings.py \
+  --from-dim 1536 \
+  --to-dim 384 \
+  --to-model "local/all-MiniLM-L6-v2" \
+  --connection-string "postgresql://user:pass@localhost/muxi"
+```
+
+The script reads from `memories_{from_dim}`, re-embeds each memory with the target model, and inserts into `memories_{to_dim}`. The source table is preserved (not deleted).
 
 ### Importance Scoring
 
@@ -286,12 +338,11 @@ memory:
     size: 50                    # Messages before summarization
     multiplier: 10              # Extended capacity factor
     vector_search: true         # Enable semantic search
-    embedding_model: openai/text-embedding-3-small
+    embedding_model: openai/text-embedding-3-small  # Or local/all-MiniLM-L6-v2
 
   working:
     max_memory_mb: 10           # Memory limit
     fifo_interval_min: 5        # Cleanup frequency
-    vector_dimension: 1536      # Embedding dimension
 
   persistent:
     enabled: true

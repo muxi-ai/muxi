@@ -103,6 +103,24 @@ When enabled, MUXI:
 
 This helps agents recall related information even from distant conversations.
 
+### Embedding Models
+
+You can use API-based or local embedding models:
+
+```yaml
+# API-based (requires API key)
+embedding_model: openai/text-embedding-3-small    # 1536 dimensions
+
+# Local (no API key required, downloaded automatically)
+embedding_model: local/all-MiniLM-L6-v2           # 384 dimensions
+embedding_model: local/all-mpnet-base-v2           # 768 dimensions
+```
+
+The embedding dimension is detected automatically. MUXI creates dimension-specific storage tables (`memories_384`, `memories_1536`, etc.), so different formations can share the same database even with different embedding models.
+
+> [!TIP]
+> Local models are great for development and air-gapped environments. No API key needed -- the model downloads on first use via `sentence-transformers`.
+
 ## Persistent Memory
 
 Save conversations across sessions:

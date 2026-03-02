@@ -39,6 +39,20 @@ memory:
     vector_search: true
 ```
 
+### Using Local Embeddings
+
+You can run embedding models locally with no API key required:
+
+```yaml
+llm:
+  models:
+    - embedding: "local/all-MiniLM-L6-v2"    # 384 dims, downloaded automatically
+```
+
+This is useful for development, testing, or air-gapped environments. The model downloads on first use via `sentence-transformers`.
+
+Available local models include `local/all-MiniLM-L6-v2` (384 dims) and `local/all-mpnet-base-v2` (768 dims).
+
 ## Step 3: Enable Persistent Memory
 
 Save across sessions:
@@ -132,6 +146,20 @@ memory:
   persistent:
     enabled: false
 ```
+
+## Migrating Embedding Models
+
+If you switch embedding models (e.g., from an API model to a local one), existing memories need re-embedding since the dimensions differ. Use the migration script:
+
+```bash
+python scripts/migrate_embeddings.py \
+  --from-dim 1536 \
+  --to-dim 384 \
+  --to-model "local/all-MiniLM-L6-v2" \
+  --connection-string "postgresql://user:pass@localhost/muxi"
+```
+
+The source table is preserved -- the script creates a new table for the target dimension.
 
 ## Troubleshooting
 

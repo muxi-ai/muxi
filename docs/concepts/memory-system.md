@@ -147,6 +147,19 @@ Agent: "Your API key is xyz123, from January 5th."
 
 Vector embeddings enable semantic similarity, not just keyword matching.
 
+### Embedding Models
+
+MUXI supports both API-based and local embedding models. The embedding dimension is detected automatically and each dimension gets its own storage table, so different formations can coexist in the same database.
+
+```yaml
+llm:
+  models:
+    # API-based
+    - embedding: "openai/text-embedding-3-small"    # 1536 dims
+    # Or local (no API key needed)
+    - embedding: "local/all-MiniLM-L6-v2"           # 384 dims
+```
+
 
 ## User Isolation
 
