@@ -10,7 +10,9 @@ Some operations take too long for synchronous HTTP. MUXI's async system queues t
 
 **The problem:** A user asks your agent to "research competitor pricing and create a comparison spreadsheet." This might take 2-3 minutes - way beyond typical HTTP timeouts. Without async, the connection drops and the user gets nothing.
 
-**The solution:** MUXI immediately returns a `request_id`, processes the task in the background, and notifies your app when complete. The user sees progress, you don't lose work, and your infrastructure stays responsive.
+**The solution:** MUXI immediately returns a `request_id`, processes the task in the background, and delivers results via polling or webhooks. The user sees progress, you don't lose work, and your infrastructure stays responsive.
+
+A webhook URL is not required -- if none is configured, the response includes a `poll_url` and clients poll `GET /v1/requests/{id}` for the result. Completed results are retained for 5 minutes.
 
 **When to use async:**
 - Complex research or analysis (multiple tool calls, web searches)
@@ -33,9 +35,13 @@ Response (immediate):
 ```json
 {
   "request_id": "req_abc123",
-  "status": "processing"
+  "status": "processing",
+  "delivery": "polling",
+  "poll_url": "/v1/requests/req_abc123"
 }
 ```
+
+If a `webhook_url` is provided (in the formation config or per-request), the response shows `"delivery": "webhook"` instead.
 
 ## Check Status
 
@@ -69,6 +75,8 @@ Response:
 
 **Decision logic & retries (runtime):**
 - Auto async when estimated duration/complexity exceeds threshold or when webhook is provided; override with `use_async` flag.
+- Both `threshold_seconds` and `webhook_url` can be overridden per-request in the chat request body.
+- Without a webhook, async uses polling delivery. Completed results are retained for 5 minutes before being purged.
 - Background executor retries transient failures with backoff; final status lands in `failed` if retries exhaust.
 - Webhook payloads mirror the status API; include `request_id`, `status`, and `result` or `error`.
 

@@ -242,6 +242,8 @@ async:
   webhook_retries: 3
 ```
 
+Both `threshold_seconds` and `webhook_url` can be overridden per-request in the chat API call body. A webhook URL is not required for async mode -- without one, clients poll `GET /v1/requests/{id}` for results. See [Async Processing](../concepts/async.md) for details.
+
 ## Include Directive
 
 Reference external files:

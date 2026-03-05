@@ -181,6 +181,19 @@ The Overlord compares estimated execution time to this threshold:
 - Below threshold → synchronous (user waits)
 - Above threshold → async (immediate response with request ID)
 
+**Per-request threshold override:** You can override the formation-level threshold on individual requests by passing `threshold_seconds` in the chat request body:
+
+```bash
+curl -X POST http://localhost:8001/v1/chat \
+  -H "X-Muxi-Client-Key: fmc_..." \
+  -d '{
+    "message": "Quick analysis of this data",
+    "threshold_seconds": 10
+  }'
+```
+
+This is useful when the caller knows more about expected duration than the formation default. For example, a mobile client might pass a lower threshold to prefer async, while a batch job might pass a higher threshold to wait longer before going async.
+
 **Adjust threshold based on UX needs:**
 
 | Threshold | When to Use |
@@ -188,6 +201,30 @@ The Overlord compares estimated execution time to this threshold:
 | 10-30s | Mobile apps, impatient users |
 | 60s | Default, balanced experience |
 | 120-300s | Desktop apps, tolerant users |
+
+### Delivery: Webhooks vs Polling
+
+When a request goes async, MUXI can deliver the result in two ways:
+
+**1. Webhook delivery** -- MUXI pushes the result to your endpoint when complete. Best for production systems with a publicly reachable callback URL.
+
+**2. Polling delivery** -- Your client polls `GET /v1/requests/{request_id}` until the status is `completed`. Best for local development, simple integrations, or when you can't receive inbound HTTP requests.
+
+A webhook URL is **not required** for async mode. If no webhook is configured (neither in the formation YAML nor in the request), MUXI uses polling delivery and includes the poll URL in the async response:
+
+```json
+{
+  "request_id": "req_abc123",
+  "status": "processing",
+  "delivery": "polling",
+  "poll_url": "/v1/requests/req_abc123"
+}
+```
+
+When a webhook URL is provided (either in the formation config or per-request), MUXI delivers via webhook and the response includes `"delivery": "webhook"`.
+
+> [!NOTE]
+> **Result retention:** Completed requests remain available for polling for 5 minutes after completion. After that, the result is purged from memory and `GET /v1/requests/{id}` returns 404. If you need longer retention, use webhooks to persist results on your end.
 
 ### Webhook Configuration
 
@@ -200,7 +237,7 @@ async:
   webhook_timeout: 10             # Timeout per delivery attempt in seconds (default: 10)
 ```
 
-The webhook URL can also be specified per-request in the API call.
+Both `webhook_url` and `threshold_seconds` can be overridden per-request in the chat API call body.
 
 ## Using Async Mode
 
@@ -216,11 +253,34 @@ curl -X POST http://localhost:8001/v1/chat \
   }'
 ```
 
-**Response (immediate):**
+**With per-request overrides:**
+```bash
+curl -X POST http://localhost:8001/v1/chat \
+  -H "X-Muxi-Client-Key: fmc_..." \
+  -d '{
+    "message": "Research AI trends",
+    "async": true,
+    "threshold_seconds": 15,
+    "webhook_url": "https://your-app.com/callback"
+  }'
+```
+
+**Response (immediate, polling delivery):**
 ```json
 {
   "request_id": "req_abc123",
   "status": "processing",
+  "delivery": "polling",
+  "poll_url": "/v1/requests/req_abc123"
+}
+```
+
+**Response (immediate, webhook delivery):**
+```json
+{
+  "request_id": "req_abc123",
+  "status": "processing",
+  "delivery": "webhook",
   "estimated_time": "45-60 seconds"
 }
 ```
@@ -722,18 +782,21 @@ def handle_github(payload):
 
 **DO:**
 - ✅ Use async for tasks >10 seconds
-- ✅ Implement webhooks (better than polling)
+- ✅ Use webhooks in production (lower latency than polling)
+- ✅ Use polling for local dev or when you can't receive inbound HTTP
 - ✅ Handle failures gracefully
 - ✅ Set reasonable timeouts
 - ✅ Show progress to users
 - ✅ Provide cancel option
+- ✅ Poll completed results within 5 minutes (results expire after that)
 
 **DON'T:**
-- ❌ Poll too frequently (use webhooks)
+- ❌ Poll more than once per second (2-5 seconds is ideal)
 - ❌ Set timeout too low (causes failures)
 - ❌ Block UI waiting for async tasks
 - ❌ Ignore failure status
 - ❌ Use async for quick tasks (<5s)
+- ❌ Assume results persist forever (5-minute retention window)
 
 ## Sync vs Async Decision
 
@@ -793,6 +856,12 @@ while True:
     if status.is_complete: break
     time.sleep(2)  # Poll every 2 seconds (reasonable)
 ```
+
+### Polling Returns 404 for Completed Request
+Completed request results are retained for 5 minutes. If you poll after that window, the request is purged and returns 404. Solutions:
+- Poll sooner (within 5 minutes of completion)
+- Use webhooks to capture results immediately
+- Persist results on your end as soon as you receive them
 
 ## Learn More
 
