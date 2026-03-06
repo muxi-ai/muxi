@@ -9,6 +9,8 @@ description: Tools for managing and integrating with MUXI
 
 MUXI provides three interfaces: the **CLI** for managing your server and formations, **SDKs** for building applications, and **MCP** for connecting AI-native tools like Claude Desktop and Cursor.
 
+:::: cols=3
+
 [[card]]
 
 #### CLI
@@ -75,6 +77,8 @@ for event in client.chat_stream({"message": "Hi"}):
 [MCP Guide →](guides/connect-via-mcp.md)
 
 [[/card]]
+
+::::
 
 
 ## Which should I use?
