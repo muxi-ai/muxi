@@ -45,7 +45,7 @@ Formations can now use any embedding dimension – the runtime creates dimension
 > [!NOTE]
 > If upgrading from an earlier version, rename your existing table: `ALTER TABLE memories RENAME TO memories_1536;`
 
-–-
+–--
 
 ## February 2026: Initial Release
 
