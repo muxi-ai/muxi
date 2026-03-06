@@ -19,6 +19,22 @@ description: Release history and updates for MUXI
 
 ## March 2026
 
+### CLI v0.20260306.0
+
+#### Explicit component declaration (CLI support)
+
+The CLI now fully supports the runtime's explicit declaration model. When you create a component with `muxi new agent`, `muxi new mcp`, or `muxi new a2a-service`, it automatically registers the ID in your formation manifest. `muxi validate` warns about undeclared files ("it will not be loaded") and errors on declared IDs with no matching file. All templates have `active:` removed.
+
+#### File artifacts in chat
+
+Formations that generate files (PDFs, images, data) now have their artifacts saved to `~/.muxi/cli/artifacts/`. New management commands:
+
+- `muxi artifacts list` - List saved artifacts grouped by formation
+- `muxi artifacts open` - Open artifacts directory in file manager
+- `muxi artifacts cleanup` - Remove old artifacts (`--days N`, `--formation <name>`)
+
+All commands auto-scope to the current formation when run from inside a formation directory.
+
 ### Runtime v0.20260306.1
 
 #### Explicit component declaration
