@@ -10,87 +10,72 @@ For detailed release notes, see individual component repositories:
 - [Server Releases](https://github.com/muxi-ai/server/releases)
 - [Runtime Releases](https://github.com/muxi-ai/runtime/releases)
 - [CLI Releases](https://github.com/muxi-ai/cli/releases)
+- [SDKs Releases](https://github.com/muxi-ai/sdks/releases)
 - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
+- [FAISSx Releases](https://github.com/muxi-ai/faissx/releases)
 
 
-## February 2026
+## March 2026
 
-### Local Development Mode
-Fast iteration without full deploy cycle:
-- **Server**: `/rpc/dev/run` and `/rpc/dev/stop` endpoints, `/draft/{id}/*` proxy route
-- **CLI**: `muxi up [path]` to start local formation, `muxi down` to stop
-- **SDKs**: `mode` parameter (`"live"` or `"draft"`) to switch between live and draft formations
-- Draft and live formations can run simultaneously with the same ID
+### 0.20260306.0
 
-### SDK Update Notifications
-Server now notifies SDKs when updates are available:
-- Parses `X-Muxi-SDK` header from requests
-- Responds with `X-Muxi-SDK-Latest` header containing latest version
-- Fetches release versions from GitHub API (refreshes every 24h)
+**Use your formation from Claude Desktop, Cursor, and any MCP client.**
 
-### Bug Fixes
-- Fixed Docker container naming for draft formations (use `-draft` suffix)
-- Improved error messages when formations crash during startup (removed ASCII art noise)
+Every formation now exposes an MCP server at `/mcp`. Connect from Claude Desktop, Cursor, or any MCP-compatible client and interact with your agents using the standard Model Context Protocol -- same memory, same tools, same auth. All 33 client endpoints are available as MCP tools with clean names (`chat`, `list_sessions`, `search_memories`, etc.). Admin and internal endpoints are never exposed.
+
+MCP authentication works exactly like the REST API: pass `X-Muxi-Client-Key` in your transport headers. No key, no access.
+
+[Connect via MCP guide →](guides/connect-via-mcp.md)
+
+**Async without webhooks.** You can now fire off async requests and poll for results without setting up a webhook. The response includes a poll URL -- just check back when you're ready. Per-request `threshold_seconds` and `webhook_url` overrides are now available in the chat request body too.
+
+**Faster responses.** Context loading (memory, synopsis, buffer) now runs in parallel, saving 300-500ms per request. Simple greetings skip context entirely, cutting response time from ~4.4s to ~2.4s. JSON serialization switched to orjson (6x faster encoding).
+
+### 0.20260302.0
+
+**Mix and match embedding models.** Formations can now use any embedding dimension -- the runtime creates dimension-specific memory tables automatically. A 384-dim local model and a 1536-dim OpenAI model can coexist in the same database. Local embedding models (`local/all-MiniLM-L6-v2`, etc.) run via sentence-transformers with no API key required.
+
+> [!NOTE]
+> If upgrading from an earlier version, rename your existing table: `ALTER TABLE memories RENAME TO memories_1536;`
 
 ---
 
-## January 2026
+## February 2026: Initial Release
 
-### Documentation
-- Major documentation restructure with improved navigation
-- Added concept pages: Sessions, Multi-Identity Users, Scheduled Tasks
-- Added "why" rationale throughout guides
-- Highlighted key features: self-healing tool chaining, topic tagging, semantic caching
-- Reorganized sidebar for better onboarding flow
+**Server**
+- Production-ready orchestration platform with HMAC authentication
+- Multi-formation support with zero-downtime deployment
+- Circuit breakers and resilience patterns
+- Hot-reload formations and health endpoints
+- Local development mode: `/rpc/dev/run` and `/rpc/dev/stop` endpoints, `/draft/{id}/*` proxy route
+- SDK update notifications via `X-Muxi-SDK-Latest` header (fetches release versions from GitHub API, refreshes every 24h)
 
+**Runtime**
+- 4-layer memory system (buffer, working, user synopsis, persistent)
+- FAISSx vector store for semantic search
+- Full MCP tool integration for agents
+- Observability system with 350+ typed events
+- Topic tagging for analytics
+- Self-healing tool chaining (agents recover from tool failures automatically)
+- User synopsis caching (80%+ token reduction)
 
-## December 2025
-
-### Server v1.0
-- Production-ready release
-- 91.2% test coverage
-- HMAC authentication
-- Multi-formation support
-- Zero-downtime deployment
-
-### Runtime v1.0
-- Stable API
-- 85% test coverage
-- Full MCP integration
-- 4-layer memory system
-- FAISSx vector store
-
-### CLI v1.0
-- `muxi dev` for local development
-- `muxi deploy` for production
+**CLI**
+- `muxi dev` / `muxi up` for local development, `muxi down` to stop
+- `muxi deploy` for production deployment
 - Secrets management
 - Formation scaffolding
+- Draft and live formations can run simultaneously with the same ID
 
-
-## November 2025
-
-### OneLLM v1.0
-- Unified LLM interface
-- 96% test coverage
-- Semantic caching (50-80% cost savings)
-- 15+ provider support
+**SDKs**
+- Python, TypeScript, and Go client libraries
+- `mode` parameter (`"live"` or `"draft"`) to switch between live and draft formations
 - Streaming support
 
+**OneLLM**
+- Unified LLM interface supporting 15+ providers (OpenAI, Anthropic, Google, Ollama, and any OpenAI-compatible API)
+- Semantic caching (50-80% cost savings)
+- Streaming support
 
-## October 2025
-
-### Runtime
-- Observability system with 350+ event types
-- Topic tagging for analytics
-- Self-healing tool chaining
-- User synopsis caching
-
-### Server
-- Circuit breakers and resilience patterns
-- Hot-reload formations
-- Health endpoints
-
-
-## Earlier Releases
-
-See [GitHub Releases](https://github.com/muxi-ai) for complete history.
+**Documentation**
+- Complete documentation restructure with concept pages, guides, deep dives, and reference
+- Added: Sessions, Multi-Identity Users, Scheduled Tasks, self-healing tool chaining, topic tagging, semantic caching
