@@ -7,6 +7,7 @@ description: Release history and updates for MUXI
 
 ## Notable changes across all MUXI components
 
+> [!TIP]
 > For detailed release notes, see individual component repositories:
 >
 > - [Server Releases](https://github.com/muxi-ai/server/releases)
@@ -24,7 +25,7 @@ description: Release history and updates for MUXI
 
 Every formation now exposes an MCP server at `/mcp`. Connect from Claude Desktop, Cursor, or any MCP-compatible client and interact with your agents using the standard Model Context Protocol – same memory, same tools, same auth. All 33 client endpoints are available as MCP tools with clean names (`chat`, `list_sessions`, `search_memories`, etc.). Admin and internal endpoints are never exposed.
 
-[Connect via MCP guide →](guides/connect-via-mcp.md)
+[>] [Connect via MCP guide →](guides/connect-via-mcp.md)
 
 MCP authentication works exactly like the REST API: pass `X-Muxi-Client-Key` in your transport headers. No key, no access.
 
