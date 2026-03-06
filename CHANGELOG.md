@@ -13,6 +13,27 @@
 
 ## March 2026
 
+### Runtime v0.20260306.1
+
+#### Explicit component declaration
+
+Formations now require explicit declaration of agents, MCP servers, and A2A services. Files in subdirectories (`agents/`, `mcp/`, `a2a/`) are pure definitions -- only components listed in the formation manifest are loaded. This replaces auto-discovery and the `active` field, giving full control over what gets loaded.
+
+```yaml
+agents:
+  - support-agent       # Loads agents/support-agent.yaml by ID
+  - research-agent      # Loads agents/research-agent.yaml by ID
+
+mcp:
+  servers:
+    - github-mcp        # Loads mcp/github-mcp.yaml by ID
+```
+
+String entries reference files by ID. Dict entries are inline definitions. Omitted or empty lists mean nothing is loaded. Agents can now reference formation-level MCP servers by string ID in their `mcp_servers` field.
+
+> [!IMPORTANT]
+> This is a breaking change. Remove `active:` from all component files and add explicit `agents:` / `mcp.servers:` lists to your `formation.yaml`.
+
 ### Runtime v0.20260306.0 + Server v0.20260305.0
 
 #### Use your formation from Claude Desktop, Cursor, and any MCP client
