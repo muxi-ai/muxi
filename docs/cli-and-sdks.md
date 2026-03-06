@@ -9,8 +9,6 @@ description: Tools for managing and integrating with MUXI
 
 MUXI provides three interfaces: the **CLI** for managing your server and formations, **SDKs** for building applications, and **MCP** for connecting AI-native tools like Claude Desktop and Cursor.
 
-:::: cols=2
-
 [[card]]
 
 #### CLI
@@ -53,7 +51,30 @@ for event in client.chat_stream({"message": "Hi"}):
 
 [[/card]]
 
-::::
+[[card]]
+
+#### MCP
+
+**For:** AI-native tools
+
+- Use from Claude Desktop or Cursor
+- 33 tools auto-generated from your API
+- Same auth as REST
+- Zero wrapper code
+
+```json
+{
+  "type": "streamable-http",
+  "url": "http://localhost:8001/mcp",
+  "headers": {
+    "X-Muxi-Client-Key": "fmc_..."
+  }
+}
+```
+
+[MCP Guide →](guides/connect-via-mcp.md)
+
+[[/card]]
 
 
 ## Which should I use?
