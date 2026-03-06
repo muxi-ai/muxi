@@ -9,7 +9,7 @@ description: Tools for managing and integrating with MUXI
 
 MUXI provides three interfaces: the **CLI** for managing your server and formations, **SDKs** for building applications, and **MCP** for connecting AI-native tools like Claude Desktop and Cursor.
 
-:::: cols=3
+:::: cols=2
 
 [[card]]
 
