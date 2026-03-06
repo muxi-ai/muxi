@@ -523,6 +523,30 @@ response = client.chat("Hello!")
 
 [[/toggle]]
 
+[[toggle Can I use MUXI from Claude Desktop or Cursor?]]
+
+Yes. Every formation exposes an **MCP server** at `/mcp`. Connect from Claude Desktop, Cursor, or any MCP-compatible client -- same agents, same memory, same tools.
+
+```json
+{
+  "mcpServers": {
+    "my-formation": {
+      "type": "streamable-http",
+      "url": "http://localhost:8001/mcp",
+      "headers": {
+        "X-Muxi-Client-Key": "fmc_..."
+      }
+    }
+  }
+}
+```
+
+All 33 client endpoints are available as MCP tools (`chat`, `list_sessions`, `search_memories`, etc.). Auth works the same as the REST API.
+
+**Learn more:** [Connect via MCP](guides/connect-via-mcp.md)
+
+[[/toggle]]
+
 [[toggle Can I embed MUXI in my own app?]]
 
 Yes. The **embeddable runtime** lets you run MUXI inside your application - no separate server process.

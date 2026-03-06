@@ -23,11 +23,12 @@ flowchart TB
     subgraph Clients
         CLI[CLI]
         SDKs[SDKs]
+        MCP_Clients["MCP Clients<br>(Claude, Cursor)"]
     end
 
     subgraph Infrastructure
         Server["Server (:7890)"]
-        subgraph Formations["Formation Runtimes\n(:8001-8999)"]
+        subgraph Formations["Formation Runtimes<br>(:8001-8999)"]
             F1[Formation A]
             F2[Formation B]
             F3[Formation C]
@@ -38,6 +39,7 @@ flowchart TB
 
     CLI --> Server
     SDKs --> Server
+    MCP_Clients --> Server
     CLI -.-> Registry
     Server --> Formations
 ```
@@ -79,7 +81,7 @@ Default port: `7890`
 
 #### Runtime: Execution environment
 
-Runs agent logic, manages memory, calls LLMs, executes tools. Written in Python (FastAPI*).
+Runs agent logic, manages memory, calls LLMs, executes tools. Exposes a REST API and an MCP server at `/mcp` for AI-native clients. Written in Python (FastAPI*).
 
 Default ports: `8001-8999`
 [[/card]]
@@ -157,6 +159,8 @@ sequenceDiagram
     F-->>S: Response
     S-->>C: Response
 ```
+
+MCP clients can also connect directly to a formation's `/mcp` endpoint, bypassing the server. The MCP interface exposes the same client API as tools, with the same authentication. See [Connect via MCP](../guides/connect-via-mcp.md).
 
 
 ## Formation Structure

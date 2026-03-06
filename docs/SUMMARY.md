@@ -100,6 +100,7 @@ description: Complete guide to building AI agents with MUXI
   * [Add Tools (MCP)](guides/add-mcp-tools.md)
   * [Add Memory](guides/add-memory.md)
   * [Add Knowledge](guides/add-knowledge.md)
+  * [Connect via MCP](guides/connect-via-mcp.md)
 
 * Building Features
   * [Create Triggers](guides/create-triggers.md)

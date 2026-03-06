@@ -50,7 +50,7 @@ curl -X POST http://localhost:8001/v1/chat \
   -d '{"message": "What can you help me with?"}'
 ```
 
-The request hits your formation's API and goes to the **Overlord**.
+The request hits your formation's API and goes to the **Overlord**. You can also connect via MCP from Claude Desktop, Cursor, or any MCP client -- the flow is the same. See [Connect via MCP](guides/connect-via-mcp.md).
 
 [[/step]]
 

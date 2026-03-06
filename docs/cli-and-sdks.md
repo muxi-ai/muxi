@@ -1,13 +1,13 @@
 ---
-title: CLI & SDKs
+title: CLI, SDKs & MCP
 description: Tools for managing and integrating with MUXI
 ---
 
-# CLI & SDKs
+# CLI, SDKs & MCP
 
-## Two ways to interact with MUXI
+## Three ways to interact with MUXI
 
-MUXI provides two main interfaces: the **CLI** for managing your server and formations, and **SDKs** for building applications that talk to your agents.
+MUXI provides three interfaces: the **CLI** for managing your server and formations, **SDKs** for building applications, and **MCP** for connecting AI-native tools like Claude Desktop and Cursor.
 
 :::: cols=2
 
@@ -68,9 +68,12 @@ for event in client.chat_stream({"message": "Hi"}):
 | Integrate agents into my app | SDK |
 | Stream responses to users | SDK |
 | Manage user sessions | SDK |
+| Use agents from Claude Desktop | MCP |
+| Use agents from Cursor | MCP |
+| Give an AI assistant access to my formation | MCP |
 
 > [!TIP]
-> Most projects use **both**: CLI for deployment and ops, SDKs for application code.
+> Most projects use **both** CLI and SDKs: CLI for deployment and ops, SDKs for application code. Add MCP when you want AI assistants to use your formation as a tool.
 
 
 ## CLI Quick Start

@@ -142,6 +142,22 @@ curl -X POST http://localhost:8001/v1/chat \
   -H "X-MUXI-Client-Key: fmc_xyz789..."
 ```
 
+## MCP Authentication
+
+The MCP server at `/mcp` uses the same client key as the REST API. Pass it in your MCP transport headers:
+
+```json
+{
+  "type": "streamable-http",
+  "url": "http://localhost:8001/mcp",
+  "headers": {
+    "X-Muxi-Client-Key": "fmc_xyz789..."
+  }
+}
+```
+
+Headers are forwarded to the internal REST API -- without a valid key, tool calls return 401. See [Connect via MCP](../guides/connect-via-mcp.md) for full setup instructions.
+
 ## CLI Authentication
 
 The CLI handles authentication automatically:

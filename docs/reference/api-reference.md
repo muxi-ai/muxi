@@ -65,6 +65,9 @@ MUXI provides two complementary APIs that work together to orchestrate and run A
 
 ::::
 
+> [!TIP]
+> Formations also expose an **MCP server** at `/mcp`. If you're connecting from Claude Desktop, Cursor, or another MCP client, see the [Connect via MCP](../guides/connect-via-mcp.md) guide instead of using the REST API directly.
+
 ## Quick Decision Guide
 
 [[steps]]
