@@ -63,7 +63,7 @@ cd my-formation
 muxi new agent researcher
 ```
 
-Creates `agents/researcher.afs`:
+Creates `agents/researcher.afs` and adds `researcher` to the `agents:` list in `formation.afs`:
 
 ```yaml
 id: researcher
@@ -78,7 +78,7 @@ role: |
 muxi new mcp web-search
 ```
 
-Creates `mcp/web-search.afs`:
+Creates `mcp/web-search.afs` and adds `web-search` to the `mcp.servers:` list in `formation.afs`:
 
 ```yaml
 schema: "1.0.0"

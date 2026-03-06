@@ -287,7 +287,8 @@ schema: "1.0.0"
 id: support-bot
 
 # Default agent in agents/support.afs
-agents: []
+agents:
+  - support
 ```
 
 Tenant-specific behavior is handled through user identity and the agent's ability to adapt based on user context, not through separate agent definitions per tenant.

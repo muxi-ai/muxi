@@ -49,8 +49,8 @@ muxi --version
 #### Create
 ```bash
 muxi new formation <name>
-muxi new agent <name>
-muxi new mcp <name>
+muxi new agent <name>      # Also adds to formation manifest
+muxi new mcp <name>        # Also adds to formation manifest
 ```
 [[/card]]
 

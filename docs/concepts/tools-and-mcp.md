@@ -140,7 +140,7 @@ auth:
 Credentials encrypted at rest. Complete isolation between users.
 
 **Formation structure:**
-- Server definitions live in `mcp/*.afs` files (auto-discovered)
+- Server definitions live in `mcp/*.afs` files (listed in formation manifest via `mcp.servers`)
 - Per-user secrets referenced as `user.credentials.*`
 - All agents have access to formation-level MCP servers
 - Agent-specific tools use `mcp_servers:` in agent files

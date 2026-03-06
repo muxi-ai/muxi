@@ -30,7 +30,8 @@ overlord:
   response:
     streaming: true
 
-agents: []
+agents:
+  - assistant
 ```
 
 ```yaml
@@ -63,7 +64,12 @@ overlord:
   response:
     streaming: true
 
-agents: []
+agents:
+  - researcher
+
+mcp:
+  servers:
+    - web-search
 ```
 
 ```yaml
@@ -124,7 +130,8 @@ overlord:
   response:
     streaming: true
 
-agents: []
+agents:
+  - support
 ```
 
 ```yaml
@@ -170,7 +177,14 @@ overlord:
   response:
     streaming: true
 
-agents: []
+agents:
+  - researcher
+  - writer
+  - editor
+
+mcp:
+  servers:
+    - web-search
 ```
 
 ```yaml
@@ -246,7 +260,13 @@ overlord:
   workflow:
     plan_approval_threshold: 5  # Require approval for complex ops
 
-agents: []
+agents:
+  - devops
+
+mcp:
+  servers:
+    - github
+    - filesystem
 ```
 
 ```yaml
@@ -305,7 +325,12 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents: []
+agents:
+  - responder
+
+mcp:
+  servers:
+    - database
 ```
 
 ```yaml
@@ -367,7 +392,8 @@ llm:
     - text: "openai/gpt-4o"
     - embedding: "openai/text-embedding-3-large"
 
-agents: []
+agents:
+  - assistant
 
 memory:
   buffer:

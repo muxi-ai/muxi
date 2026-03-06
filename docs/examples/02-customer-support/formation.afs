@@ -33,5 +33,6 @@ memory:
     size: 20
     vector_search: true
 
-# Agents auto-discovered from agents/ directory
-agents: []
+# Agents listed in formation manifest
+agents:
+  - support

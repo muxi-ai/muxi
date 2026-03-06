@@ -122,7 +122,6 @@ auth:
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `active` | bool | `true` | Enable/disable this server |
 | `timeout_seconds` | int | - | Request timeout |
 | `retry_attempts` | int | - | Number of retries (0-10) |
 

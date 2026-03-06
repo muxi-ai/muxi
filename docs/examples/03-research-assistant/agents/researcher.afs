@@ -27,5 +27,4 @@ system_message: |
   - Note when information may be outdated
   - Suggest follow-up research areas
 
-# This agent can use these MCP servers (defined in mcp/ directory)
-# The servers are auto-discovered; this agent has access to all formation MCPs
+# This agent can use MCP servers listed in the formation manifest

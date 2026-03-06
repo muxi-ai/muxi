@@ -69,8 +69,9 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-# Agent auto-discovered from agents/
-agents: []
+# Agent listed in formation manifest
+agents:
+  - assistant
 ```
 
 ### agents/assistant.afs

@@ -18,8 +18,8 @@ A formation is everything your AI needs: agents, tools, memory, knowledge, and w
 ```
 my-formation/
 ├── formation.afs      # Main configuration
-├── agents/            # Agent definitions (auto-discovered)
-├── mcp/               # Tool configurations (auto-discovered)
+├── agents/            # Agent definitions (listed in formation manifest)
+├── mcp/               # Tool configurations (listed in formation manifest)
 ├── sops/              # Standard procedures (auto-discovered)
 ├── triggers/          # Webhook templates (auto-discovered)
 ├── knowledge/         # RAG sources
@@ -43,7 +43,8 @@ llm:
   api_keys:
     openai: "${{ secrets.OPENAI_API_KEY }}"
 
-agents: []  # Auto-discovered from agents/ directory
+agents:
+  - assistant
 ```
 
 > [!TIP]
@@ -152,7 +153,9 @@ llm:
   api_keys:
     openai: "${{ secrets.OPENAI_API_KEY }}"
 
-agents: []  # Auto-discovered from agents/ directory
+agents:
+  - researcher
+  - writer
 ```
 
 ```yaml

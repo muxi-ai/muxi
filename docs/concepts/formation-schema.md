@@ -58,8 +58,9 @@ overlord:
     auto_decomposition: true
     complexity_threshold: 7.0
 
-# Agents auto-discovered from agents/ directory
-agents: []
+# Agents listed explicitly in formation manifest
+agents:
+  - assistant
 
 # Optional: Memory, MCP, Knowledge, etc.
 ```
@@ -235,7 +236,8 @@ llm:
   models:
     text: openai/gpt-4
 
-agents: []  # Auto-discovered from agents/
+agents:
+  - assistant
 ```
 
 ### Invalid Formation ❌
@@ -278,7 +280,8 @@ overlord:
   workflow:
     auto_decomposition: false
 
-agents: []
+agents:
+  - assistant
 ```
 
 ```yaml
@@ -309,7 +312,10 @@ overlord:
     auto_decomposition: true
     complexity_threshold: 7.0
 
-agents: []  # researcher.afs, analyst.afs, writer.afs in agents/
+agents:
+  - researcher
+  - analyst
+  - writer
 ```
 
 ### Formation with Tools
@@ -324,7 +330,12 @@ llm:
   models:
     - text: "openai/gpt-4"
 
-agents: []  # Auto-discovered from agents/
+agents:
+  - developer
+
+mcp:
+  servers:
+    - github
 ```
 
 With agent file:

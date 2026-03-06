@@ -32,9 +32,12 @@ async:
   threshold_seconds: 5
   webhook_url: "${{ secrets.WEBHOOK_URL }}"
 
-# MCP Configuration - servers auto-discovered from mcp/ directory
+# MCP Configuration
 mcp:
   default_timeout_seconds: 120
+  servers:
+    - github
 
-# Agents auto-discovered from agents/ directory
-agents: []
+# Agents listed in formation manifest
+agents:
+  - code-reviewer

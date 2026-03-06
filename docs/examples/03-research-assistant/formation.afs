@@ -34,10 +34,14 @@ memory:
   persistent:
     connection_string: "sqlite:///data/memory.db"
 
-# MCP Configuration - servers auto-discovered from mcp/ directory
+# MCP Configuration
 mcp:
   default_timeout_seconds: 60
   max_tool_iterations: 10
+  servers:
+    - brave-search
+    - filesystem
 
-# Agents - auto-discovered from agents/ directory
-agents: []
+# Agents listed in formation manifest
+agents:
+  - researcher

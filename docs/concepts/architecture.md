@@ -170,12 +170,12 @@ Everything your AI needs in one directory:
 ```
 my-formation/
 ├── formation.afs      # Main configuration
-├── agents/            # Agent definitions (auto-discovered)
+├── agents/            # Agent definitions (listed in formation manifest)
 │   ├── researcher.afs
 │   └── writer.afs
-├── mcp/               # MCP tool servers (auto-discovered)
+├── mcp/               # MCP tool servers (listed in formation manifest)
 │   └── web-search.afs
-├── a2a/               # Agent-to-agent services (auto-discovered)
+├── a2a/               # Agent-to-agent services (listed in formation manifest)
 │   └── external-api.afs
 ├── skills/            # Agent skills with SKILL.md files
 │   └── data-analysis/
@@ -191,12 +191,12 @@ my-formation/
 | Concept | Where it lives |
 |---------|----------------|
 | LLM Config | `formation.afs` (`llm:` section) with per-agent overrides in `agents/*.afs` |
-| Agents | `agents/*.afs` - auto-discovered, define role, specialties |
+| Agents | `agents/*.afs` - listed in formation manifest, define role, specialties |
 | Overlord | `formation.afs` (`overlord:` workflow, clarification settings) + `SOUL.md` |
 | Workflows | `formation.afs` (`overlord.workflow:` auto-decomposition, timeouts) |
 | Memory | `formation.afs` (`memory:` buffer, working, persistent config) |
-| Tools & MCP | `mcp/*.afs` - auto-discovered; `formation.afs` (`mcp:` global settings) |
-| Agent-to-Agent | `a2a/*.afs` - auto-discovered; `formation.afs` (`a2a:` config) |
+| Tools & MCP | `mcp/*.afs` - listed in `mcp.servers`; `formation.afs` (`mcp:` global settings) |
+| Agent-to-Agent | `a2a/*.afs` - listed in `a2a.outbound.services`; `formation.afs` (`a2a:` config) |
 | Skills | `skills/*/SKILL.md` files with scripts, references, assets |
 | Knowledge | `knowledge/` files, referenced in `agents/*.afs` (`knowledge:` section) |
 | Scheduled Tasks | `formation.afs` (`scheduler:` config) - users schedule via natural language |

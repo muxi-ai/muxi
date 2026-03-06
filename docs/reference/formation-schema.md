@@ -26,7 +26,8 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents: []  # Auto-discovered from agents/ directory
+agents:
+  - assistant
 ```
 
 ```yaml
@@ -103,7 +104,7 @@ llm:
 
 ## Agents
 
-Agents are defined in separate files in `agents/` directory (auto-discovered):
+Agents are defined in separate files in `agents/` directory and must be explicitly listed in the formation manifest:
 
 ```yaml
 # agents/assistant.afs
@@ -250,6 +251,14 @@ Reference external files:
 
 ```yaml
 agents:
+  - researcher       # String ID resolves to agents/researcher.afs
+  - writer           # String ID resolves to agents/writer.afs
+```
+
+You can also use the `$include` directive:
+
+```yaml
+agents:
   - $include: agents/researcher.afs
   - $include: agents/writer.afs
 ```
@@ -316,8 +325,12 @@ server:
     admin_key: "${{ secrets.ADMIN_KEY }}"
     client_key: "${{ secrets.CLIENT_KEY }}"
 
-# Agents auto-discovered from agents/ directory
-agents: []
+agents:
+  - researcher
+
+mcp:
+  servers:
+    - web-search
 ```
 
 Agent file:

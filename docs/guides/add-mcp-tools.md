@@ -98,7 +98,12 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents: []  # Auto-discovered from agents/
+agents:
+  - assistant
+
+mcp:
+  servers:
+    - web-search
 ```
 
 Agent file:

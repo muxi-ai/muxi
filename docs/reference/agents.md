@@ -400,13 +400,13 @@ knowledge:
 
 ## Separate Agent Files
 
-Agents are auto-discovered from `agents/*.afs` files:
+Agents are defined in `agents/*.afs` files and must be listed in the formation manifest:
 
 ```bash
 muxi new agent researcher
 ```
 
-Creates `agents/researcher.afs`:
+Creates `agents/researcher.afs` and adds `researcher` to the `agents:` list in your `formation.afs`:
 
 ```yaml
 # agents/researcher.afs
@@ -423,11 +423,12 @@ system_message: |
   - Admits uncertainty when appropriate
 ```
 
-In your formation, just leave agents empty - they're auto-discovered:
+In your formation, list the agents you want loaded:
 
 ```yaml
 # formation.afs
-agents: []  # Auto-discovered from agents/ directory
+agents:
+  - researcher
 ```
 
 ## Best Practices

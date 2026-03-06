@@ -30,7 +30,7 @@ muxi <command> --help
 muxi new formation my-assistant
 muxi new formation my-bot --template research
 
-# Add components to formation
+# Add components to formation (also updates formation manifest)
 muxi new agent researcher
 muxi new mcp web-search
 muxi new trigger github-issue

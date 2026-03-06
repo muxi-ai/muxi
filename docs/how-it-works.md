@@ -201,7 +201,7 @@ When you ran `muxi new formation`, you got this structure:
 ```
 my-assistant/
 ├── formation.afs      # Main configuration (LLM, memory, defaults)
-├── agents/            # Agent definitions (auto-discovered)
+├── agents/            # Agent definitions (listed in formation manifest)
 │   └── assistant.afs  # Your agent
 ├── mcp/               # Tool configurations (optional)
 ├── knowledge/         # Documents for RAG (optional)
@@ -235,7 +235,7 @@ memory:
 
 [[tab agents/*.afs]]
 
-<p>Each agent is a separate file. They're auto-discovered from the `agents/` directory.</p>
+<p>Each agent is a separate file in the <code>agents/</code> directory. List the agents you want loaded in your formation manifest.</p>
 
 ```yaml
 schema: "1.0.0"
