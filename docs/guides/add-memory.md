@@ -16,6 +16,9 @@ MUXI memory layers:
 2. **Vector Search** - Semantic similarity
 3. **Persistent** - Long-term storage (database)
 
+> [!TIP]
+> **Persistent memory is enabled by default.** When you create a formation, SQLite-backed persistent memory is automatically active with `memory.db` in the formation directory. This guide covers customization and production setups.
+
 ## Step 1: Enable Buffer Memory
 
 Add to `formation.afs`:
@@ -55,15 +58,16 @@ Available local models include `local/all-MiniLM-L6-v2` (384 dims) and `local/al
 
 ## Step 3: Enable Persistent Memory
 
-Save across sessions:
+Persistent memory is enabled by default with SQLite. For production, use PostgreSQL:
 
-### SQLite (Simple)
+### SQLite (Default)
+
+No configuration needed -- works out of the box. To customize:
 
 ```yaml
 memory:
   persistent:
-    enabled: true
-    provider: sqlite
+    connection_string: "sqlite:///data/memory.db"
 ```
 
 ### PostgreSQL (Multi-user)
@@ -71,8 +75,6 @@ memory:
 ```yaml
 memory:
   persistent:
-    enabled: true
-    provider: postgresql
     connection_string: ${{ secrets.POSTGRES_URI }}
 ```
 
@@ -111,22 +113,17 @@ memory:
     vector_search: true
 
   persistent:
-    enabled: true
-    provider: postgresql
     connection_string: ${{ secrets.POSTGRES_URI }}
-    user_isolation: true
 ```
 
 ## Multi-User Memory
 
-Isolate memory per user:
+Isolate memory per user (requires PostgreSQL):
 
 ```yaml
 memory:
   persistent:
-    enabled: true
-    provider: postgresql
-    user_isolation: true
+    connection_string: ${{ secrets.POSTGRES_URI }}
 ```
 
 Pass user ID in requests:

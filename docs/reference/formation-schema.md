@@ -134,7 +134,7 @@ knowledge:
 | `system_message` | string | No | System prompt defining behavior |
 | `knowledge` | object | No | RAG configuration |
 | `llm_models` | list | No | Override formation LLM |
-| `mcp_servers` | list | No | Agent-specific MCP servers |
+| `mcp_servers` | list | No | MCP server references (string IDs or inline dicts) |
 
 ## Memory
 
@@ -156,6 +156,9 @@ memory:
       enabled: true
       cache_ttl: 3600
 ```
+
+> [!NOTE]
+> **Default behavior:** When `persistent` is omitted, SQLite is automatically enabled with `memory.db` in the formation directory. To explicitly disable: `persistent: false`. See [Memory Reference](memory.md) for details.
 
 ## MCP Configuration
 

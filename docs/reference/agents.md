@@ -143,13 +143,16 @@ knowledge:
 
 #### Agent-Specific MCP Servers
 
+Reference formation-level MCP servers by ID, or define agent-private servers inline:
+
 ```yaml
 mcp_servers:
-  - id: web-search
-    description: Web search
+  - web-search              # Reference formation-level MCP by ID
+  - id: private-tool        # Agent-private inline definition
+    description: Private tool
     type: command
     command: npx
-    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+    args: ["-y", "@example/private-tool"]
 ```
 
 #### Rate Limiting & Timeouts
@@ -291,7 +294,7 @@ response, _ := formation.ChatWithOptions("Find info about AI trends", muxi.ChatO
 
 ## Agent-Specific Tools
 
-MCP servers are defined in `mcp/*.afs` files. All agents in a formation have access to formation-level MCP servers. For agent-specific tools, define them in the agent file:
+MCP servers are defined in `mcp/*.afs` files and declared in the formation's `mcp.servers` list. All agents have access to formation-level MCP servers. Agents can also reference specific formation-level servers by ID, or define agent-private tools inline:
 
 ```yaml
 # agents/researcher.afs
@@ -304,16 +307,9 @@ system_message: |
   You are a research specialist.
   Your job is to gather accurate information...
 
-# Agent-specific MCP server
+# Reference formation-level MCP by ID
 mcp_servers:
-  - id: web-search
-    description: Brave web search
-    type: command
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-brave-search"]
-    auth:
-      type: env
-      BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+  - web-search
 ```
 
 ```yaml
@@ -327,20 +323,15 @@ system_message: |
   You are a software developer.
   Your job is to write, review, and debug code...
 
+# Mix: reference by ID + agent-private inline definition
 mcp_servers:
-  - id: filesystem
-    description: File access
+  - filesystem             # Formation-level MCP
+  - database               # Formation-level MCP
+  - id: dev-tools          # Agent-private inline definition
+    description: Development utilities
     type: command
     command: npx
-    args: ["-y", "@modelcontextprotocol/server-filesystem", "./src"]
-  - id: database
-    description: PostgreSQL access
-    type: command
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-postgres"]
-    auth:
-      type: env
-      DATABASE_URL: "${{ secrets.DATABASE_URL }}"
+    args: ["-y", "@example/dev-tools"]
 ```
 
 ```yaml

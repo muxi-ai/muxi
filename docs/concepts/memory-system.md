@@ -197,6 +197,8 @@ For users with long histories, this dramatically reduces costs.
 
 ### Basic Setup (Single User)
 
+Persistent memory is enabled by default with SQLite -- no configuration needed. For basic customization:
+
 ```yaml
 memory:
   buffer:
@@ -204,6 +206,9 @@ memory:
   working:
     provider: faissx
 ```
+
+> [!NOTE]
+> When `persistent` is omitted, SQLite is automatically enabled with `memory.db` in the formation directory. Your formation has persistent memory out of the box.
 
 ### Production Setup (Multi-Tenant)
 

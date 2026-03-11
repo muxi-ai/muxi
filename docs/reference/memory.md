@@ -55,14 +55,15 @@ memory:
 
 ### With Persistence
 
+Persistent memory is enabled by default (SQLite). For PostgreSQL:
+
 ```yaml
 memory:
   buffer:
     size: 50
     vector_search: true
   persistent:
-    enabled: true
-    provider: sqlite      # Survives restarts
+    connection_string: ${{ secrets.POSTGRES_URI }}
 ```
 
 ## Buffer Memory
@@ -123,32 +124,48 @@ The embedding dimension is detected automatically. MUXI creates dimension-specif
 
 ## Persistent Memory
 
-Save conversations across sessions:
+Persistent memory is **enabled by default** with SQLite. A `memory.db` file is created automatically in the formation directory -- no configuration needed.
 
 [[tabs]]
 
-[[tab SQLite (Simple)]]
+[[tab Default (SQLite, automatic)]]
+```yaml
+# No persistent config needed -- SQLite enabled by default
+memory:
+  buffer:
+    size: 50
+```
+
+Best for: Single-user, local development. Works out of the box.
+[[/tab]]
+
+[[tab SQLite (Explicit)]]
 ```yaml
 memory:
   persistent:
-    enabled: true
-    provider: sqlite
-    # Stores in ~/.muxi/{formation_id}/memory.db
+    connection_string: "sqlite:///data/memory.db"
 ```
 
-Best for: Single-user, local development
+Best for: Custom SQLite path or explicit configuration.
 [[/tab]]
 
 [[tab PostgreSQL (Production)]]
 ```yaml
 memory:
   persistent:
-    enabled: true
-    provider: postgresql
     connection_string: ${{ secrets.POSTGRES_URI }}
 ```
 
-Best for: Multi-user, production deployments
+Best for: Multi-user, production deployments.
+[[/tab]]
+
+[[tab Disabled]]
+```yaml
+memory:
+  persistent: false
+```
+
+Explicitly disable persistent memory.
 [[/tab]]
 
 [[/tabs]]
@@ -160,10 +177,7 @@ Isolate memory per user:
 ```yaml
 memory:
   persistent:
-    enabled: true
-    provider: postgresql
     connection_string: ${{ secrets.POSTGRES_URI }}
-    user_isolation: true
 ```
 
 Pass user ID in requests:
@@ -225,10 +239,7 @@ memory:
 
   # Persistent storage
   persistent:
-    enabled: true
-    provider: postgresql
     connection_string: ${{ secrets.POSTGRES_URI }}
-    user_isolation: true
 ```
 
 ## Disable Memory

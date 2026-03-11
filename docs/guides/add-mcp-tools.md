@@ -232,7 +232,7 @@ auth:
 >
 > Reserve global MCP servers (in `mcp/*.afs`) for tools that genuinely apply to ALL agents.
 
-Formation-level MCP servers (in `mcp/*.afs`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
+Formation-level MCP servers (in `mcp/*.afs`, declared in `mcp.servers`) are available to all agents. Agents can reference specific formation-level servers by string ID:
 
 ```yaml
 # agents/researcher.afs
@@ -246,11 +246,7 @@ system_message: |
   Your job is to gather accurate information...
 
 mcp_servers:
-  - id: web-search
-    description: Web search
-    type: command
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+  - web-search              # Reference formation-level MCP by ID
 ```
 
 ```yaml
@@ -265,11 +261,8 @@ system_message: |
   Your job is to write code and manage data...
 
 mcp_servers:
-  - id: filesystem
-    description: File access
-    type: command
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-filesystem"]
+  - filesystem              # Reference formation-level MCP by ID
+  - database                # Reference formation-level MCP by ID
 ```
 
 

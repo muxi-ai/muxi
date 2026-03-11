@@ -267,7 +267,7 @@ mcp:
 > [!TIP]
 > **Prefer per-agent tools.** Defining tools per-agent improves Overlord's agent selection and each agent's tool selection. Use global MCP servers only for tools ALL agents need.
 
-Formation-level MCP servers (in `mcp/*.afs`) are available to all agents. For agent-specific tools, define `mcp_servers` in the agent file:
+Formation-level MCP servers (in `mcp/*.afs`, declared in `mcp.servers`) are available to all agents. Agents can reference them by string ID, or define agent-private tools inline:
 
 ```yaml
 # agents/researcher.afs
@@ -281,11 +281,7 @@ system_message: |
   Your job is to gather accurate information...
 
 mcp_servers:
-  - id: web-search
-    description: Web search
-    type: command
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+  - web-search              # Reference formation-level MCP by ID
 ```
 
 ```yaml
@@ -300,11 +296,8 @@ system_message: |
   Your job is to write, review, and debug code...
 
 mcp_servers:
-  - id: filesystem
-    description: File access
-    type: command
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-filesystem"]
+  - filesystem              # Reference formation-level MCP by ID
+  - database                # Reference formation-level MCP by ID
 ```
 
 ## Authentication Types

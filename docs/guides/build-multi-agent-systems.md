@@ -105,7 +105,7 @@ system_message: |
 
 ### Per-Agent Tools (Recommended)
 
-Define tools directly in agent files:
+Reference formation-level MCP servers by ID in agent files:
 
 ```yaml
 # agents/researcher.afs
@@ -115,14 +115,7 @@ name: Research Specialist
 description: Gathers accurate information from web searches
 
 mcp_servers:
-  - id: web-search
-    description: Brave web search
-    type: command
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-brave-search"]
-    auth:
-      type: env
-      BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+  - web-search              # Reference formation-level MCP by ID
 ```
 
 ### Global Tools (When Needed)

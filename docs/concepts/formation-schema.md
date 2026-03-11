@@ -163,6 +163,8 @@ memory:
     size: 10                   # Recent message window
     vector_search: true
 
+  # Persistent memory enabled by default (SQLite).
+  # For production, use PostgreSQL:
   persistent:
     connection_string: "postgresql://..."
     embedding_model: openai/text-embedding-3-small

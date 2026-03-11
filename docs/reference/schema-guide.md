@@ -392,16 +392,16 @@ knowledge:
 
 ### Agent MCP Servers
 
+Agents can reference formation-level MCP servers by string ID, or define agent-private servers inline:
+
 ```yaml
 mcp_servers:
-  - id: web-search
-    description: Brave web search
+  - web-search              # String = reference formation-level MCP by ID
+  - id: private-tool        # Dict = agent-private inline definition
+    description: Private tool for this agent only
     type: command
     command: npx
-    args: ["-y", "@modelcontextprotocol/server-brave-search"]
-    auth:
-      type: env
-      BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+    args: ["-y", "@example/private-tool"]
 ```
 
 ---
