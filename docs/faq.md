@@ -197,6 +197,54 @@ Response is guaranteed to match your schema.
 [[/toggle]]
 
 
+[[toggle How do I give agents reusable skills?]]
+
+With **skills**. Create a `SKILL.md` file in `skills/{name}/` and agents gain specialized capabilities on demand:
+
+```
+skills/
+  pdf-processing/
+    SKILL.md          # Instructions + metadata
+    scripts/          # Optional: executable code
+    references/       # Optional: reference docs
+```
+
+Skills use **progressive disclosure** -- agents see a brief catalog at startup, then load full instructions only when needed (via the `activate_skill` tool). Skills can be public (all agents) or private (one agent).
+
+```yaml
+# formation.afs -- public skills
+skills:
+  - pdf-processing
+  - data-analysis
+
+# agents/support.afs -- private skills
+skills:
+  - ticket-handling
+```
+
+**Learn more:** [Skills Concept](concepts/skills.md) | [Add Skills Guide](guides/add-skills.md) | [Skills Reference](reference/skills.md)
+
+[[/toggle]]
+
+[[toggle How do I run skill scripts?]]
+
+With **Skills RCE** (Remote Code Execution). If a skill has a `scripts/` directory, agents can execute those scripts in an isolated container via the `run_skill` tool.
+
+Server-managed formations get RCE automatically -- no configuration needed. For self-hosted setups:
+
+```yaml
+rce:
+  url: "http://localhost:7891"
+  token: "optional-bearer-token"
+```
+
+The RCE server supports Python, JavaScript, and Bash. Skills are cached by content hash so uploads only happen on first use or when content changes.
+
+**Learn more:** [Skills RCE](server/skills-rce.md) | [Skills Reference](reference/skills.md)
+
+[[/toggle]]
+
+
 ## Multi-Agent Systems
 
 [[toggle How do multiple agents work together?]]
