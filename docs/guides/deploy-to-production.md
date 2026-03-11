@@ -224,6 +224,7 @@ muxi chat --profile production "Hello!"
 - [ ] TLS/HTTPS configured
 - [ ] Firewall configured (allow 443, block 7890 from outside)
 - [ ] `systemd` service running
+- [ ] Skills RCE running if formations use executable skills (built-in with server, or [custom instance](../server/skills-rce.md))
 - [ ] Logs configured
 - [ ] Monitoring set up (see [Monitoring Guide](../guides/setup-monitoring.md))
 - [ ] Backup strategy planned

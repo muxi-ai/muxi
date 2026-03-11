@@ -1,15 +1,18 @@
 ---
-title: Agent Skills
+title: MUXI Skill for Coding Agents
 description: Give AI coding assistants deep knowledge of the MUXI platform
 ---
 
-# Agent Skills
+# MUXI Skill for Coding Agents
 
 ## Give AI coding assistants deep knowledge of MUXI
 
 The MUXI repository includes an [Agent Skill](https://agentskills.io) -- a structured knowledge package that gives AI coding assistants deep understanding of the MUXI platform.
 
 Once installed, your AI agent can help with installation, server setup, CLI usage, formation authoring, secrets management, SDK integration, deployment, and troubleshooting -- without you having to explain MUXI from scratch.
+
+> [!NOTE]
+> This page is about the **MUXI skill for coding assistants** -- a skill you feed your IDE agent so it understands MUXI. Looking for how to add skills to your own formations? See [Skills](concepts/skills.md).
 
 ## Compatibility
 

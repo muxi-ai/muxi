@@ -24,6 +24,7 @@ description: Complete guide to building AI agents with MUXI
 * Building Blocks
   * [Agents & Orchestration](concepts/agents-and-orchestration.md)
   * [Tools & MCP](concepts/tools-and-mcp.md)
+  * [Skills](concepts/skills.md)
   * [Memory System](concepts/memory-system.md)
   * [Sessions](concepts/sessions.md)
   * [Knowledge & RAG](concepts/knowledge-and-rag.md)
@@ -61,6 +62,7 @@ description: Complete guide to building AI agents with MUXI
   * [Monitoring](server/monitoring.md)
   * [Docker Quick Start](server/docker.md)
   * [Production Checklist](server/production-checklist.md)
+  * [Skills RCE](server/skills-rce.md)
   * [Server API](api/server)
 * [CLI](cli/README.md)
   * [Setup](cli/setup.md)
@@ -98,6 +100,7 @@ description: Complete guide to building AI agents with MUXI
 
 * Basics
   * [Add Tools (MCP)](guides/add-mcp-tools.md)
+  * [Add Skills](guides/add-skills.md)
   * [Add Memory](guides/add-memory.md)
   * [Add Knowledge](guides/add-knowledge.md)
   * [Connect via MCP](guides/connect-via-mcp.md)
@@ -125,6 +128,7 @@ description: Complete guide to building AI agents with MUXI
   * [Formation](reference/formation-schema.md)
   * [Agents](reference/agents.md)
   * [Tools (MCP)](reference/tools.md)
+  * [Skills](reference/skills.md)
   * [A2A Services](reference/a2a.md)
   * [Memory](reference/memory.md)
   * [Knowledge](reference/knowledge.md)
@@ -157,7 +161,7 @@ description: Complete guide to building AI agents with MUXI
 
 ## Miscellaneous
 
-* [Agent Skills](agent-skills.md)
+* [MUXI Skill](muxi-skill.md)
 * [Glossary](glossary.md)
 * [Changelog](changelog.md)
 * [Contributing](https://muxi.org/go/contributing)

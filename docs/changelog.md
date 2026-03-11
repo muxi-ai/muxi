@@ -19,6 +19,51 @@ description: Release history and updates for MUXI
 
 ## March 2026
 
+### Runtime v0.20260311.0
+
+#### Agent Skills
+
+Formations now support skills -- self-contained packages of instructions, references, and executable scripts that give agents deep expertise on demand. Skills follow the open [Agent Skills specification](https://agentskills.io/specification).
+
+- **Discovery**: Skills in `skills/` directories are parsed at startup. Agents receive a lightweight catalog (~100 tokens per skill) in their system prompt.
+- **Progressive disclosure**: Full skill content loads only when the agent activates it, keeping baseline context lean.
+- **Script execution**: Skills with `scripts/` directories can execute code in sandboxed containers via the RCE service. Configure with `rce: { url, token }` in your formation.
+- **Three-layer isolation**: Catalog filtering, tool restriction (`allowed-tools`), and planning prompt scoping ensure agents only see and activate authorized skills.
+- **Built-in `file-generation` skill** for producing PDFs, images, spreadsheets, and charts.
+- **REST API**: `GET /v1/skills`, `GET /v1/skills/{name}`, `GET /v1/agents/{agent_id}/skills`.
+
+[>] [Skills documentation](concepts/skills.md)
+
+#### MCP transport reliability
+
+MCP streamable HTTP transport operations now have timeouts (`asyncio.wait_for`): 30s for connect, 10s for cleanup. Invalid auth tokens fail in under 1 second instead of hanging indefinitely.
+
+#### Credential selection fixes
+
+Fixed 7 bugs in multi-credential MCP flows covering sync state management, credential caching after clarification, cache-aware skip to prevent re-asking, and string/dict type handling.
+
+#### Skills RCE Integration
+
+- **Built-in code execution**: formations now ship with a managed RCE (Remote Code Execution) service for Skills
+- **`muxi-server init`**: downloads RCE automatically (SIF on Linux, Docker image on macOS/Windows)
+- **`muxi-server start`**: launches RCE as a managed process, injects `MUXI_RCE_URL` and `MUXI_RCE_TOKEN` into all formations
+- **Auto port discovery**: if default port 7891 is occupied, scans upward for an available port
+
+#### Upgrade Command
+
+- **`muxi-server upgrade`**: self-update the server binary, pull latest RCE, and migrate config
+- Downloads latest server binary from GitHub releases (atomic swap with rollback)
+- Adds missing config fields (e.g. RCE auth token) to existing configurations
+
+#### Fixes
+
+- **HuggingFace model cache**: pass `HF_HOME=/opt/hf-cache` to containers so the pre-cached embedding model is used instead of re-downloading on every startup (~80s), which caused health check timeouts
+- **npm/npx in containers**: npm and npx are symlinks that use relative `require('../lib/cli.js')`; bind-mounting the resolved path broke the import. Now creates wrapper scripts that invoke node with the full path to the npm module
+- **Exact runtime version pinning**: versions like `muxi_runtime: "0.20260220.0"` were rejected by the resolver if not in the local registry. Now passes exact versions through to the downloader, which checks disk and downloads if needed
+- **Restore path**: use downloader in the restore path to resolve `latest` runtime from GitHub instead of building a literal `muxi-runtime-latest-*.sif` filename
+- **Runtime resolution**: always resolve `latest` runtime from GitHub instead of using stale locally-cached version
+- **Host tools**: add `npm`, `npx`, `bun`, `uv`, `uvx`, `tar`, and `gzip` to tools bind-mounted into containers
+
 ### CLI v0.20260306.0
 
 #### Explicit component declaration (CLI support)

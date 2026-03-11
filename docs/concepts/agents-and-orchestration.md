@@ -198,6 +198,7 @@ When the Overlord delegates a task, the agent receives:
 2. **Context** - Relevant information from the conversation
 3. **Available tools** - MCP tools relevant to this task (not all tools)
 4. **Global tools** - Tools available to all agents
+5. **Skill catalog** - Available skills the agent can activate on demand
 
 ```
 Overlord → Agent:
@@ -205,9 +206,10 @@ Overlord → Agent:
   + Context from user conversation
   + web_search, browse_url tools (relevant)
   + NOT database tools (not relevant)
+  + Available Skills: [data-analysis, report-generation]
 ```
 
-> **Key insight:** The Overlord passes only relevant tool capabilities to each agent. This solves context contamination - agents don't get overwhelmed with irrelevant tools.
+> **Key insight:** The Overlord passes only relevant tool capabilities to each agent. This solves context contamination - agents don't get overwhelmed with irrelevant tools. Skills work the same way – agents see a lightweight catalog and activate full content only when needed.
 
 
 ## Example: Multi-Agent Workflow
@@ -247,4 +249,5 @@ The Overlord sets strategy, agents execute and collaborate as needed.
 - [The Overlord](overlord.md) - How orchestration works
 - [SOPs](standard-operating-procedures.md) - Predefined workflow templates
 - [Configure Agents](../reference/agents.md) - Agent file syntax
+- [Skills](skills.md) - Give agents specialized knowledge and scripts
 - [Multi-Agent Guide](../guides/build-multi-agent-systems.md) - Build your first system

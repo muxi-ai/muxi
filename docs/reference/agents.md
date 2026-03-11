@@ -398,6 +398,42 @@ knowledge:
       description: Product features
 ```
 
+## Agent-Specific Skills
+
+Agents can have private skills that only they see:
+
+```
+my-formation/
+└── agents/
+    └── analyst/
+        ├── analyst.afs
+        └── skills/
+            └── forecasting/
+                └── SKILL.md
+```
+
+Formation-level skills (in `skills/`) are visible to all agents. Agent-level skills are private.
+
+```yaml
+# agents/analyst.afs
+schema: "1.0.0"
+id: analyst
+name: Data Analyst
+description: Analyzes data and produces reports
+
+system_message: |
+  You are a data analyst.
+  Use your skills to analyze data and generate reports.
+```
+
+The agent automatically sees its private `forecasting` skill plus all formation-level skills in its catalog.
+
+> [!TIP]
+> Skills give agents **knowledge and procedures**. Tools (MCP) give agents **external service access**. Use both together for capable agents.
+
+See [Skills Reference](skills.md) for full SKILL.md syntax.
+
+
 ## Separate Agent Files
 
 Agents are defined in `agents/*.afs` files and must be listed in the formation manifest:
@@ -444,6 +480,7 @@ agents:
 ## Next Steps
 
 [+] [Tools (MCP)](../concepts/tools-and-mcp.md) - Give agents capabilities
+[+] [Skills](skills.md) - Add specialized knowledge and scripts
 [+] [Knowledge](knowledge.md) - Add domain expertise
 [+] [Multi-Agent Guide](../guides/build-multi-agent-systems.md) - Build agent teams
 [+] [Examples](examples.md) - Complete agent examples

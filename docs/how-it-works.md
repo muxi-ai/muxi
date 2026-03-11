@@ -89,6 +89,7 @@ The selected agent:
 
 - Receives the message + context from the Overlord
 - Calls MCP tools if needed (web search, databases, etc.)
+- Activates skills on demand (loads instructions, runs scripts)
 - Retrieves relevant knowledge (RAG)
 - Sends everything to the LLM
 
@@ -204,6 +205,7 @@ my-assistant/
 ├── agents/            # Agent definitions (listed in formation manifest)
 │   └── assistant.afs  # Your agent
 ├── mcp/               # Tool configurations (optional)
+├── skills/            # Skill packages (optional)
 ├── knowledge/         # Documents for RAG (optional)
 ├── sops/              # Standard procedures (optional)
 ├── triggers/          # Webhook templates (optional)

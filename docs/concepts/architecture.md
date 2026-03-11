@@ -28,6 +28,7 @@ flowchart TB
 
     subgraph Infrastructure
         Server["Server (:7890)"]
+        RCE["Skills RCE (:7891)"]
         subgraph Formations["Formation Runtimes<br>(:8001-8999)"]
             F1[Formation A]
             F2[Formation B]
@@ -42,6 +43,7 @@ flowchart TB
     MCP_Clients --> Server
     CLI -.-> Registry
     Server --> Formations
+    Formations --> RCE
 ```
 
 
@@ -271,6 +273,7 @@ Load Balancer
 |-----------|------------|-----|
 | Server | Go | Single binary, fast, concurrent |
 | Runtime | Python + FastAPI (as native SIF image) | AI ecosystem, async, OneLLM |
+| Skills RCE | Go | Sandboxed code execution for skill scripts |
 | CLI | Go | Cross-platform, single binary |
 | SDKs | Python, TS, Go | Native experience per language |
 

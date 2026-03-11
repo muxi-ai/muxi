@@ -51,6 +51,7 @@ llm: {...}                         # LLM configuration
 agents: [...]                      # At least one agent
 memory: {...}                      # Memory configuration
 mcp: {...}                         # MCP tool settings
+rce: {...}                         # RCE for skill script execution
 overlord: {...}                    # Orchestration settings
 server: {...}                      # Server configuration
 async: {...}                       # Async behavior
@@ -191,6 +192,43 @@ mcp:
   max_tool_iterations: 10
   max_tool_calls: 50
 ```
+
+## Skills
+
+Skills are `SKILL.md` files in `skills/` directories. Formation-level skills are public (all agents see them). Agent-level skills are private.
+
+```
+my-formation/
+├── skills/                    # Public skills
+│   └── report-generation/
+│       ├── SKILL.md
+│       └── scripts/
+│           └── generate.py
+└── agents/
+    └── analyst/
+        └── skills/            # Private to analyst
+            └── forecasting/
+                └── SKILL.md
+```
+
+No explicit `skills:` block is needed in `formation.afs` -- skills are discovered from the directory structure.
+
+See [Skills Reference](skills.md) for full SKILL.md syntax.
+
+## RCE (Remote Code Execution)
+
+Required only for skills with executable scripts:
+
+```yaml
+rce:
+  url: "http://localhost:6000"
+  token: "${{ secrets.RCE_TOKEN }}"
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `url` | string | Yes | RCE service URL |
+| `token` | string | Yes | Authentication token |
 
 ## Overlord (Orchestration)
 

@@ -138,11 +138,17 @@ Industry-standard relational database. In MUXI, PostgreSQL (with pgvector) is re
 ### Prompt
 The text input sent to an LLM. In MUXI, the Overlord constructs prompts dynamically - combining user messages, retrieved memories, user synopsis, system instructions, and available tool schemas into optimized requests.
 
+### Progressive Disclosure
+A design pattern that reveals information incrementally - showing only what's needed at each stage. In MUXI, skills use progressive disclosure: agents see lightweight metadata (~100 tokens) at startup and load full instructions only when they activate a skill, keeping baseline context lean.
+
 
 ## R
 
 ### RAG (Retrieval-Augmented Generation)
 A pattern that enhances LLM responses by first retrieving relevant documents, then generating answers grounded in that context. MUXI's Knowledge system implements RAG for accurate, source-backed responses.
+
+### RCE (Remote Code Execution)
+In MUXI, the sandboxed service that executes skill scripts. When a skill includes executable scripts (in `scripts/`), the agent calls `run_skill` to execute them in an isolated container. Server-managed formations get a built-in RCE instance automatically; custom instances can be configured via `rce: { url, token }` in the formation. The Docker image (`ghcr.io/muxi-ai/skills-rce`) bundles Python 3.11, Node.js 20, Bun, Go, and common data science, visualization, and document generation packages. Not to be confused with the security vulnerability class of the same name - MUXI's RCE is intentional and sandboxed.
 
 ### Registry
 A central repository for discovering, sharing, and versioning packages. MUXI's Registry is like npm or Docker Hub but for formations - publish your own, pull community-built agents, with semantic versioning support.
@@ -164,6 +170,15 @@ A cache that matches by meaning rather than exact string comparison. "What's the
 
 ### Session
 A continuous interaction thread, typically tied to a conversation. In MUXI, each session has its own working memory. Users can have multiple concurrent sessions, and sessions can be restored for persistent chat history.
+
+### Skill
+A self-contained package of instructions, references, and optional scripts that gives an agent specialized expertise. In MUXI, skills follow the open [Agent Skills specification](https://agentskills.io/specification) and use progressive disclosure - metadata loads at startup, full content loads on activation.
+
+### SKILL.md
+The required file in every skill directory. Contains YAML frontmatter (name, description, allowed-tools) and a markdown body with instructions for the agent. Follows the Agent Skills specification format.
+
+### Skill Activation
+The process of loading a skill's full content into an agent's context. In MUXI, agents see a lightweight skill catalog at startup and activate specific skills on demand - loading the complete SKILL.md body and making the `run_skill` tool available for script execution.
 
 ### SOP (Standard Operating Procedure)
 In business, documented step-by-step instructions for routine operations ensuring consistency and compliance. In MUXI, SOPs are Markdown templates triggered by specific phrases - predefined workflows distinct from dynamic workflows the Overlord creates per-request.
