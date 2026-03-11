@@ -39,7 +39,7 @@ sequenceDiagram
 ## Skills vs Tools (MCP)
 
 | | Skills | Tools (MCP) |
-|-|--------|-------------|
+|---|--------|-------------|
 | **Purpose** | Teach agents *how* to do things | Connect agents to external services |
 | **Content** | Instructions, references, scripts | API endpoints, commands |
 | **Protocol** | SKILL.md (Agent Skills spec) | Model Context Protocol |
