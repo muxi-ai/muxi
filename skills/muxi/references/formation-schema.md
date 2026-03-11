@@ -131,6 +131,8 @@ llm:
 
 ### Overlord Configuration
 
+The overlord's soul can also be defined in a `SOUL.md` file next to `formation.afs`. If present, `SOUL.md` takes precedence over the inline `soul` field.
+
 ```yaml
 overlord:
   soul: |
@@ -217,16 +219,18 @@ memory:
     multiplier: 10                  # Total = size * multiplier
     vector_search: true
 
+  # Persistent memory enabled by default (SQLite, memory.db in formation dir).
+  # To use PostgreSQL (required for multi-tenancy):
   persistent:
     connection_string: "postgres://user:pass@localhost:5432/db"
-    # or: "sqlite:///data/memory.db"
+    # To explicitly disable: persistent: false
     query_timeout_seconds: 30
     user_synopsis:
       enabled: true
       cache_ttl: 3600
 ```
 
-Multi-tenancy requires Postgres. SQLite supports single user only.
+Persistent memory defaults to SQLite when omitted. Multi-tenancy requires PostgreSQL.
 
 ### MCP Configuration
 
@@ -240,7 +244,9 @@ mcp:
   max_timeout_in_seconds: 300       # Total time limit
   max_tool_timeout_in_seconds: 30   # Per tool call
   enhance_user_prompts: true        # LLM enhances ambiguous messages for tool selection
-  servers: []                       # Auto-discovered from mcp/ directory
+  servers:
+    - web-search              # Explicitly declare MCP servers from mcp/ directory
+    - filesystem
 ```
 
 ### A2A Configuration
@@ -259,7 +265,8 @@ a2a:
       - "https://a2a.muxihub.com"
     default_retry_attempts: 3
     default_timeout_seconds: 30
-    services: []                    # Auto-discovered from a2a/
+    services:
+      - analytics-engine      # Explicitly declare A2A services from a2a/ directory
   inbound:
     enabled: true
     port: 8181
@@ -414,15 +421,16 @@ knowledge:
   chunk_size: 1000
   chunk_overlap: 100
 
-mcp_servers:                        # Agent-specific tools
-  - id: web-search
-    description: Brave web search
-    type: command
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+mcp_servers:                        # String refs for formation-level, inline dicts for private
+  - web-search                      # Reference formation-level MCP by ID
+  - id: agent-private-tool          # Agent-private inline definition
+    description: Private tool for this agent only
+    type: http
+    endpoint: "https://example.com/mcp"
     auth:
-      type: env
-      BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+      type: api_key
+      header: "X-API-Key"
+      key: "${{ secrets.PRIVATE_TOOL_KEY }}"
 
 skills:
   - ticket-handling                 # Private to this agent

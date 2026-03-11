@@ -150,20 +150,23 @@ Formations use `.afs` files (100% YAML-compatible). The `.afs` extension signals
 ```
 my-formation/
 ├── formation.afs      # Main config (LLM, memory, overlord)
-├── agents/            # Agent definitions (auto-discovered)
+├── SOUL.md            # Optional: Overlord soul (takes precedence over inline)
+├── agents/            # Agent definitions
 │   └── assistant.afs
-├── mcp/               # MCP tool configs (auto-discovered)
+├── mcp/               # MCP tool configs
 │   └── web-search.afs
 ├── knowledge/         # Documents for RAG
 ├── sops/              # Standard operating procedures
 ├── triggers/          # Webhook templates
-├── skills/            # Reusable agent capabilities
+├── skills/            # Reusable agent capabilities (SKILL.md per skill)
+│   └── pdf-processing/
+│       └── SKILL.md
 ├── secrets            # Required keys template (safe to commit)
 ├── secrets.enc        # Encrypted secrets (safe to commit)
 └── .key               # Encryption key (NEVER commit!)
 ```
 
-Components in `agents/`, `mcp/`, `a2a/` are **auto-discovered**.
+Components in `agents/`, `mcp/`, `a2a/` must be **explicitly declared** in `formation.afs`. Files in these directories without a matching entry are ignored.
 
 ### Minimal Formation
 
@@ -179,7 +182,8 @@ llm:
   models:
     - text: "openai/gpt-4o"
 
-agents: []  # Auto-discovered from agents/
+agents:
+  - assistant              # Explicitly declare agents from agents/ directory
 ```
 
 ```yaml
@@ -235,21 +239,25 @@ overlord:
     style: "conversational"
 ```
 
+> The overlord's soul can also be defined in a `SOUL.md` file next to `formation.afs`. If present, `SOUL.md` takes precedence over the inline `soul` field.
+
 **Memory (four layers):**
 ```yaml
 memory:
   buffer:
     size: 50
     vector_search: true
+  # Persistent memory enabled by default (SQLite, memory.db in formation dir).
+  # To use PostgreSQL (required for multi-tenancy):
   persistent:
-    connection_string: "sqlite:///data/memory.db"
-    # or: "postgres://user:pass@localhost:5432/db"  (required for multi-tenancy)
+    connection_string: "postgres://user:pass@localhost:5432/db"
+    # To explicitly disable: persistent: false
     user_synopsis:
       enabled: true
       cache_ttl: 3600
 ```
 
-Layers: Buffer (recent messages) -> Working (session state, FAISSx) -> User Synopsis (LLM-synthesized profile) -> Persistent (long-term, Postgres/SQLite).
+Layers: Buffer (recent messages) -> Working (session state, FAISSx) -> User Synopsis (LLM-synthesized profile) -> Persistent (long-term, Postgres/SQLite, auto-enabled).
 
 **MCP tool settings:**
 ```yaml
@@ -258,6 +266,9 @@ mcp:
   max_tool_calls: 50
   max_repeated_errors: 3
   max_timeout_in_seconds: 300
+  servers:
+    - web-search            # Explicitly declare MCP servers from mcp/ directory
+    - filesystem
 ```
 
 ### Agent Schema (`agents/*.afs`)
@@ -281,15 +292,20 @@ llm_models:
   - text: "anthropic/claude-sonnet-4-20250514"
     settings: { temperature: 0.3 }
 
-# Agent-specific tools (preferred over formation-level)
+# Agent-specific tools: string refs for formation-level MCPs, inline dicts for private
 mcp_servers:
-  - id: web-search
-    type: command
-    command: npx
-    args: ["-y", "@modelcontextprotocol/server-brave-search"]
+  - web-search              # Reference formation-level MCP by ID
+  - id: agent-private-tool  # Agent-private inline definition
+    type: http
+    endpoint: "https://example.com/mcp"
     auth:
-      type: env
-      BRAVE_API_KEY: "${{ secrets.BRAVE_API_KEY }}"
+      type: api_key
+      header: "X-API-Key"
+      key: "${{ secrets.PRIVATE_TOOL_KEY }}"
+
+# Agent-specific skills (private to this agent)
+skills:
+  - ticket-handling
 
 # Agent-specific knowledge (RAG)
 knowledge:
@@ -441,7 +457,10 @@ overlord:
     auto_decomposition: true
     complexity_threshold: 7.0
     max_parallel_tasks: 5
-agents: []  # researcher.afs, analyst.afs, writer.afs in agents/
+agents:
+  - researcher
+  - analyst
+  - writer
 ```
 
 The Overlord automatically decomposes complex tasks and routes to the right agents.

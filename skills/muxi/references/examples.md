@@ -72,7 +72,8 @@ memory:
   persistent:
     connection_string: "sqlite:///data/memory.db"
 
-agents: []
+agents:
+  - support
 ```
 
 ```yaml
@@ -138,8 +139,12 @@ memory:
 mcp:
   default_timeout_seconds: 60
   max_tool_iterations: 10
+  servers:
+    - brave-search
+    - filesystem
 
-agents: []
+agents:
+  - researcher
 ```
 
 ```yaml
@@ -207,7 +212,12 @@ llm:
 overlord:
   soul: You are a senior software engineer who reviews code thoroughly.
 
-agents: []
+mcp:
+  servers:
+    - github
+
+agents:
+  - code-reviewer
 ```
 
 ```yaml
@@ -287,7 +297,10 @@ mcp:
   default_timeout_seconds: 60
   max_tool_iterations: 15
 
-agents: []
+agents:
+  - researcher
+  - analyst
+  - writer
 ```
 
 ```yaml
