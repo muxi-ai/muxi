@@ -29,6 +29,18 @@ runtime: "1.2.3"    # Exact version
 runtime: ""          # Latest (default, or omit field)
 ```
 
+### Init Hook
+
+```yaml
+init: "mkdir -p /tmp/workspace"
+# Or multiline:
+init: |
+  mkdir -p /tmp/workspace /tmp/cache
+  cp seed-data.json /tmp/workspace/
+```
+
+Optional shell command that runs before any services are initialized. Use for environment setup: creating directories, installing tools, seeding data. Runs with 120s timeout, cwd = formation directory. Non-zero exit fails the formation. Particularly useful when MCP servers require directories or files to exist before they can start.
+
 ### Server Configuration
 
 ```yaml

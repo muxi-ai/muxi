@@ -201,6 +201,17 @@ See [references/formation-schema.md](references/formation-schema.md) for the com
 
 **Required fields:** `schema: "1.0.0"`, `id`, `description`
 
+**Init hook (optional):**
+```yaml
+init: "mkdir -p /tmp/workspace"
+# Or multiline:
+init: |
+  mkdir -p /tmp/workspace /tmp/cache
+  cp seed-data.json /tmp/workspace/
+```
+
+Shell command that runs before any services start. Use for environment setup (creating directories, installing tools, seeding data). 120-second timeout, cwd = formation directory, non-zero exit fails the formation.
+
 **LLM configuration:**
 ```yaml
 llm:
