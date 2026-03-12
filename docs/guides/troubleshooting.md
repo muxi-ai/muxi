@@ -130,6 +130,31 @@ Check database connection for PostgreSQL.
 
 ## Tool Issues
 
+### MCP Connection Closed
+
+```
+MCP server 'filesystem': connection failed - Connection closed
+  hint: argument "/tmp/workspace" looks like a path but does not exist
+```
+
+**Cause:** A command-type MCP server was given a filesystem path argument that doesn't exist. The server crashes on startup and the runtime reports "Connection closed".
+
+**Solution:**
+Add an `init` hook to your formation to create the directory before services start:
+```yaml
+init: "mkdir -p /tmp/workspace"
+
+mcp:
+  servers:
+    - id: filesystem
+      type: command
+      command: npx
+      args:
+        - "-y"
+        - "@modelcontextprotocol/server-filesystem"
+        - "/tmp/workspace"
+```
+
 ### MCP Tool Not Found
 
 ```

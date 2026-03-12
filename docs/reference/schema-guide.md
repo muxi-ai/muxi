@@ -50,6 +50,23 @@ version: "1.0.0"
 
 ---
 
+### Init Hook
+
+```yaml
+init: "mkdir -p /tmp/workspace"
+
+# Or multiline:
+# init: |
+#   mkdir -p /tmp/workspace /tmp/cache
+#   cp seed-data.json /tmp/workspace/
+```
+
+| Field | Required | Default | Description |
+|-------|----------|---------|-------------|
+| `init` | No | - | Shell command run before services initialize. Non-zero exit fails the formation. 120s timeout. cwd = formation directory. |
+
+---
+
 ### Server Configuration
 
 ```yaml

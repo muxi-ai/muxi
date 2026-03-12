@@ -47,6 +47,7 @@ schema: "1.0.0"                    # Required: Schema version
 id: my-formation                   # Required: Unique identifier
 description: A helpful AI assistant # Required: Description
 
+init: "mkdir -p /tmp/workspace"    # Optional: Shell command run before services start
 llm: {...}                         # LLM configuration
 agents: [...]                      # At least one agent
 memory: {...}                      # Memory configuration

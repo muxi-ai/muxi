@@ -13,6 +13,16 @@
 
 ## March 2026
 
+### Runtime v0.20260312.0
+
+#### Formation init hook
+
+Formations now support a top-level `init:` field that runs a shell command before any services are initialized. Use it for environment setup like creating directories, installing tools, or seeding data. The command runs with a 120-second timeout, uses the formation directory as working directory, and fails the formation on non-zero exit.
+
+#### MCP path diagnostics
+
+When a command-type MCP server fails with "Connection closed", the runtime now checks if any args look like filesystem paths that don't exist and prints a hint pointing to the `init` hook.
+
 ### Runtime v0.20260311.0
 
 #### Agent Skills

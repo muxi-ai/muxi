@@ -104,6 +104,14 @@ id: my-assistant             # Formation ID (required)
 description: "A helpful AI"  # Description (required)
 ```
 
+### Init Hook
+
+```yaml
+init: "mkdir -p /tmp/workspace"
+```
+
+Optional shell command that runs before any services start. Use it for environment setup: creating directories, installing tools, seeding data. Fails the formation on non-zero exit. 120-second timeout. Working directory is the formation directory.
+
 ### LLM Configuration
 
 ```yaml
