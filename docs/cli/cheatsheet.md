@@ -141,31 +141,31 @@ muxi bump --set 2.0.0  # Set specific version
 
 ```bash
 # List formations
-muxi server list
-muxi server list --profile production
+muxi remote list
+muxi remote list --profile production
 
 # Get details
-muxi server get my-assistant
+muxi remote get my-assistant
 # Or from formation directory:
 muxi get
 
 # Lifecycle
-muxi server stop my-assistant
-muxi server start my-assistant
-muxi server restart my-assistant
+muxi remote stop my-assistant
+muxi remote start my-assistant
+muxi remote restart my-assistant
 # Or from formation directory:
 muxi stop
 muxi start
 muxi restart
 
 # Delete
-muxi server delete my-assistant
-muxi server delete my-assistant --force
+muxi remote delete my-assistant
+muxi remote delete my-assistant --force
 # Or from formation directory:
 muxi delete
 
 # Rollback
-muxi server rollback my-assistant
+muxi remote rollback my-assistant
 # Or from formation directory:
 muxi rollback
 
@@ -465,7 +465,7 @@ muxi logs my-bot --follow
 # In CI pipeline
 muxi deploy --validate
 muxi deploy --profile production
-muxi server get my-bot
+muxi remote get my-bot
 ```
 
 ### Registry Workflow

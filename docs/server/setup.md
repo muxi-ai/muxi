@@ -163,7 +163,7 @@ Secret Key: sk_9f2e8d7c6b5a4e3f2d1c0b9a8e7f6d5c
 Test the connection:
 
 ```bash
-muxi server list
+muxi remote list
 ```
 
 ```

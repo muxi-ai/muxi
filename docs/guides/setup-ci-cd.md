@@ -127,7 +127,7 @@ jobs:
 
 - name: Rollback on Failure
   if: failure() && steps.deploy.outcome == 'failure'
-  run: muxi server rollback $FORMATION_ID --profile production
+  run: muxi remote rollback $FORMATION_ID --profile production
 ```
 
 ## Best Practices

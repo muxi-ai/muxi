@@ -54,10 +54,10 @@ If the new version fails health checks, the old version keeps running and the up
 ## List Formations
 
 ```bash
-muxi server list
+muxi remote list
 ```
 
-**CLI:** [`muxi server list`](../cli/server.md#list) | **API:** [`GET /rpc/formations`](/api/server#tag/Formations/GET/rpc/formations)
+**CLI:** [`muxi remote list`](../cli/remote.md#list) | **API:** [`GET /rpc/formations`](/api/server#tag/Formations/GET/rpc/formations)
 
 Output:
 
@@ -70,7 +70,7 @@ support-bot     running   8002   1.2.0
 ## Formation Status
 
 ```bash
-muxi server get my-assistant
+muxi remote get my-assistant
 ```
 
 Output:
@@ -87,26 +87,26 @@ Memory:    128MB
 ## Stop Formation
 
 ```bash
-muxi server stop my-assistant
+muxi remote stop my-assistant
 ```
 
-**CLI:** [`muxi server stop`](../cli/server.md#stop) | **API:** [`POST /rpc/formations/{id}/stop`](/api/server#tag/Formations/POST/rpc/formations/{formation_id}/stop)
+**CLI:** [`muxi remote stop`](../cli/remote.md#stop) | **API:** [`POST /rpc/formations/{id}/stop`](/api/server#tag/Formations/POST/rpc/formations/{formation_id}/stop)
 
 ## Restart Formation
 
 ```bash
-muxi server restart my-assistant
+muxi remote restart my-assistant
 ```
 
-**CLI:** [`muxi server restart`](../cli/server.md#restart) | **API:** [`POST /rpc/formations/{id}/restart`](/api/server#tag/Formations/POST/rpc/formations/{formation_id}/restart)
+**CLI:** [`muxi remote restart`](../cli/remote.md#restart) | **API:** [`POST /rpc/formations/{id}/restart`](/api/server#tag/Formations/POST/rpc/formations/{formation_id}/restart)
 
 ## Delete Formation
 
 ```bash
-muxi server delete my-assistant
+muxi remote delete my-assistant
 ```
 
-**CLI:** [`muxi server delete`](../cli/server.md#delete) | **API:** [`DELETE /rpc/formations/{id}`](/api/server#tag/Formations/DELETE/rpc/formations/{formation_id})
+**CLI:** [`muxi remote delete`](../cli/remote.md#delete) | **API:** [`DELETE /rpc/formations/{id}`](/api/server#tag/Formations/DELETE/rpc/formations/{formation_id})
 
 ## Rollback
 
@@ -115,7 +115,7 @@ Rollback to previous version with **zero downtime**:
 **API:** [`POST /rpc/formations/{id}/rollback`](/api/server#tag/Formations/POST/rpc/formations/{formation_id}/rollback)
 
 ```bash
-muxi server rollback my-assistant
+muxi remote rollback my-assistant
 ```
 
 The rollback process is instantaneous:

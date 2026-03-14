@@ -176,7 +176,7 @@ ls knowledge/
 
 Re-index knowledge:
 ```bash
-muxi server restart my-support-bot
+muxi remote restart my-support-bot
 ```
 
 ### "Memory not persisting"

@@ -167,7 +167,7 @@ The CLI handles authentication automatically:
 muxi profiles add production
 
 # CLI signs requests automatically
-muxi server list
+muxi remote list
 ```
 
 Profiles stored in `~/.muxi/cli/servers.yaml`.

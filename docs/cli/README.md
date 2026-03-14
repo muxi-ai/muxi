@@ -77,8 +77,8 @@ muxi secrets list
 #### Deploy
 ```bash
 muxi deploy
-muxi server list
-muxi server restart <id>
+muxi remote list
+muxi remote restart <id>
 ```
 [[/card]]
 
@@ -95,7 +95,7 @@ muxi search <query>
 #### Monitor
 ```bash
 muxi logs <formation>
-muxi server get <id>
+muxi remote get <id>
 ```
 [[/card]]
 
@@ -119,7 +119,7 @@ muxi down            # Like docker compose down
 
 ```bash
 muxi deploy --profile production
-muxi server list
+muxi remote list
 muxi logs my-assistant --follow
 ```
 
@@ -141,7 +141,7 @@ muxi up
 | `muxi up` | Start formation locally (like docker compose up) |
 | `muxi down` | Stop local formation (like docker compose down) |
 | `muxi deploy` | Deploy to server |
-| `muxi server` | Manage deployed formations |
+| `muxi remote` | Manage deployed formations |
 | `muxi secrets` | Manage encrypted secrets |
 | `muxi logs` | View formation logs |
 | `muxi chat` | Interactive chat with formation |
@@ -188,7 +188,7 @@ Manage encrypted secrets.
 [[/card]]
 
 (server.md)[[card]]
-#### muxi server
+#### muxi remote
 Manage deployed formations.
 [[/card]]
 

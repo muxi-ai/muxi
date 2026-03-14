@@ -64,7 +64,7 @@ Secret Key: ••••••••••••••••
 ### Step 3: Test the Connection
 
 ```bash
-muxi server list
+muxi remote list
 ```
 
 ```

@@ -89,7 +89,7 @@ Memory:     256MB
 ### Formation Status
 
 ```bash
-muxi server list
+muxi remote list
 ```
 
 ```
@@ -200,7 +200,7 @@ Import MUXI dashboard for visualization.
 4. Restart if needed
 
 ```bash
-muxi server restart my-assistant
+muxi remote restart my-assistant
 ```
 
 ### High Memory Usage
@@ -208,13 +208,13 @@ muxi server restart my-assistant
 Check formation memory:
 
 ```bash
-muxi server get my-assistant
+muxi remote get my-assistant
 ```
 
 Restart to clear memory:
 
 ```bash
-muxi server restart my-assistant
+muxi remote restart my-assistant
 ```
 
 ### Slow Responses

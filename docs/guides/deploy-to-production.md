@@ -196,7 +196,7 @@ muxi deploy --profile production
 Verify:
 
 ```bash
-muxi server list --profile production
+muxi remote list --profile production
 ```
 
 [[/step]]

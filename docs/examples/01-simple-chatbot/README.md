@@ -103,7 +103,7 @@ muxi secrets set OPENAI_API_KEY sk-...
 ### "Formation won't start"
 ```bash
 # Check MUXI Server is running
-muxi server list
+muxi remote list
 
 # Check logs
 muxi logs simple-chatbot

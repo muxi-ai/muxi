@@ -146,7 +146,7 @@ muxi deploy --profile production
 muxi logs my-assistant --follow
 
 # List all formations
-muxi server list
+muxi remote list
 ```
 
 [Full CLI Cheatsheet →](cli/cheatsheet.md)

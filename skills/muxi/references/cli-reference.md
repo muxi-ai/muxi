@@ -94,16 +94,16 @@ muxi bump --set 2.0.0        # Set specific version
 ## Manage Remote Formations
 
 ```bash
-muxi server list             # List all formations
-muxi server list --profile production
+muxi remote list             # List all formations
+muxi remote list --profile production
 
-muxi server get my-assistant # Get formation details
-muxi server stop my-assistant
-muxi server start my-assistant
-muxi server restart my-assistant
-muxi server delete my-assistant
-muxi server delete my-assistant --force
-muxi server rollback my-assistant
+muxi remote get my-assistant # Get formation details
+muxi remote stop my-assistant
+muxi remote start my-assistant
+muxi remote restart my-assistant
+muxi remote delete my-assistant
+muxi remote delete my-assistant --force
+muxi remote rollback my-assistant
 
 # From inside a formation directory:
 muxi get

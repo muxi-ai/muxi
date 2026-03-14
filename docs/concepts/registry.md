@@ -92,7 +92,7 @@ muxi pull @muxi/hello-muxi@latest     # Latest (default)
 ### Instant Rollback
 
 ```bash
-muxi server rollback my-assistant
+muxi remote rollback my-assistant
 # Shows available versions, reverts instantly
 ```
 

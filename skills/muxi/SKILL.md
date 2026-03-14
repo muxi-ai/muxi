@@ -97,7 +97,7 @@ Config at `~/.muxi/server/config.yaml`. See [references/server-config.md](refere
 ```bash
 muxi profiles add local
 # Enter: URL (http://localhost:7890), Key ID, Secret Key
-muxi server list  # Test connection
+muxi remote list  # Test connection
 ```
 
 CLI config at `~/.muxi/cli/config.yaml`. See [references/cli-reference.md](references/cli-reference.md) for all commands.
@@ -387,7 +387,7 @@ muxi deploy                       # Deploy to default profile
 muxi deploy --profile production  # Specific profile
 muxi deploy --validate            # Validate only
 muxi bump minor                   # Bump version before update
-muxi server rollback my-bot       # Rollback to previous version
+muxi remote rollback my-bot       # Rollback to previous version
 ```
 
 Updates use zero-downtime blue-green deployment. The old version keeps running until the new one passes health checks.

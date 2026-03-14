@@ -46,7 +46,7 @@ tail -f ~/.muxi/server/logs/my-assistant.log
 ## Formation Status
 
 ```bash
-muxi server list
+muxi remote list
 ```
 
 Output:
@@ -60,7 +60,7 @@ support-bot     running   8002   1d 3h     256MB
 Detailed status:
 
 ```bash
-muxi server get my-assistant
+muxi remote get my-assistant
 ```
 
 ## Log Levels
@@ -145,17 +145,17 @@ filebeat.inputs:
 4. Restart if needed
 
 ```bash
-muxi server restart my-assistant
+muxi remote restart my-assistant
 ```
 
 ### High Memory
 
 ```bash
 # Check memory
-muxi server get my-assistant
+muxi remote get my-assistant
 
 # Restart to clear
-muxi server restart my-assistant
+muxi remote restart my-assistant
 ```
 
 ### Slow Responses

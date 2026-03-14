@@ -167,7 +167,7 @@ muxi deploy --profile production
 
 # 3. Monitor and manage
 muxi logs --follow
-muxi server get my-bot
+muxi remote get my-bot
 
 # 4. Download server version to another machine
 muxi download my-bot --profile production
@@ -190,7 +190,7 @@ muxi download
 muxi download my-bot --profile production
 ```
 
-See [muxi server](server.md#download-formation) for details.
+See [muxi remote](server.md#download-formation) for details.
 
 ## Examples
 

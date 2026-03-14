@@ -13,6 +13,12 @@
 
 ## March 2026
 
+### CLI v0.20260314.0
+
+#### `muxi server` renamed to `muxi remote`
+
+All deployed formation management commands moved from `muxi server <action>` to `muxi remote <action>` to avoid confusion with `muxi-server` (the server daemon). `muxi server` will become a passthrough to `muxi-server` in a future release.
+
 ### Runtime v0.20260312.0
 
 #### Formation init hook

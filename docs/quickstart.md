@@ -121,7 +121,7 @@ muxi-server start
 **Expected output:**
 
 ```
-[INFO] MUXI Server starting...
+[INFO] muxi remote starting...
 [INFO] Listening on :7890
 [INFO] Server ready
 ```

@@ -119,7 +119,7 @@ Shows changes between versions.
 ### Check Running Version
 
 ```bash
-muxi server get my-formation
+muxi remote get my-formation
 ```
 
 ```
@@ -132,7 +132,7 @@ Source:    @alice/my-formation@1.1.0
 ### Rollback
 
 ```bash
-muxi server rollback my-formation
+muxi remote rollback my-formation
 ```
 
 ```
@@ -150,7 +150,7 @@ Rolling back to v1.1.1...
 Or directly:
 
 ```bash
-muxi server rollback my-formation --to 1.0.0
+muxi remote rollback my-formation --to 1.0.0
 ```
 
 

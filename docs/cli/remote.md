@@ -1,8 +1,8 @@
 ---
-title: muxi server
+title: muxi remote
 description: Manage deployed formations on MUXI Server
 ---
-# muxi server
+# muxi remote
 
 ## Control your running formations
 
@@ -11,7 +11,7 @@ List, inspect, restart, and remove formations running on MUXI Server. Monitor he
 ## Usage
 
 ```bash
-muxi server <command> [options]
+muxi remote <command> [options]
 ```
 
 ## Commands
@@ -31,7 +31,7 @@ muxi server <command> [options]
 ## List Formations
 
 ```bash
-muxi server list
+muxi remote list
 ```
 
 Output:
@@ -46,14 +46,14 @@ research-bot    stopped   -      1.0.0     -
 ### Filter by Status
 
 ```bash
-muxi server list --status running
-muxi server list --status stopped
+muxi remote list --status running
+muxi remote list --status stopped
 ```
 
 ## Get Formation
 
 ```bash
-muxi server get my-assistant
+muxi remote get my-assistant
 ```
 
 Output:
@@ -82,7 +82,7 @@ Endpoints:
 ## Stop Formation
 
 ```bash
-muxi server stop my-assistant
+muxi remote stop my-assistant
 ```
 
 Output:
@@ -95,7 +95,7 @@ Stopping my-assistant...
 ## Start Formation
 
 ```bash
-muxi server start my-assistant
+muxi remote start my-assistant
 ```
 
 Output:
@@ -109,7 +109,7 @@ Starting my-assistant...
 ## Restart Formation
 
 ```bash
-muxi server restart my-assistant
+muxi remote restart my-assistant
 ```
 
 Output:
@@ -122,7 +122,7 @@ Restarting my-assistant...
 ## Delete Formation
 
 ```bash
-muxi server delete my-assistant
+muxi remote delete my-assistant
 ```
 
 Output:
@@ -135,7 +135,7 @@ Delete formation my-assistant? [y/N] y
 ### Force Delete
 
 ```bash
-muxi server delete my-assistant --force
+muxi remote delete my-assistant --force
 ```
 
 ## Rollback
@@ -143,7 +143,7 @@ muxi server delete my-assistant --force
 Rollback to previous version:
 
 ```bash
-muxi server rollback my-assistant
+muxi remote rollback my-assistant
 ```
 
 Output:
@@ -221,7 +221,7 @@ muxi download --include-db
 ### Use Cases
 
 - **Sync to another machine**: Download production formation to dev laptop
-- **Restore local changes**: Replace local edits with deployed version  
+- **Restore local changes**: Replace local edits with deployed version
 - **Team collaboration**: Get the current server state
 
 ## Console
@@ -259,19 +259,19 @@ muxi console
 
 ```bash
 # List all formations
-muxi server list
+muxi remote list
 
 # Get details
-muxi server get my-bot
+muxi remote get my-bot
 
 # Restart after config change
-muxi server restart my-bot
+muxi remote restart my-bot
 
 # Delete with confirmation
-muxi server delete old-bot
+muxi remote delete old-bot
 
 # Force delete
-muxi server delete old-bot --force
+muxi remote delete old-bot --force
 
 # Download formation to local
 muxi download my-bot

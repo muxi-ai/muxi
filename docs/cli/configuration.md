@@ -101,7 +101,7 @@ muxi deploy
 muxi deploy --profile production
 
 # Override for one command
-muxi server list --profile staging
+muxi remote list --profile staging
 ```
 
 
@@ -119,7 +119,7 @@ Override config with environment variables:
 
 ```bash
 # One-off override
-MUXI_PROFILE=production muxi server list
+MUXI_PROFILE=production muxi remote list
 
 # CI/CD usage
 export MUXI_SERVER_URL=https://muxi.example.com:7890
