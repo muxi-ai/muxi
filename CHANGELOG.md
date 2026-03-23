@@ -13,6 +13,37 @@
 
 ## March 2026
 
+### Runtime v0.20260323.0
+
+#### Memory recall fixes
+
+Fixed three bugs in the overlord message processing pipeline that caused buffer memory recall failures:
+
+- **Non-actionable path lost all context**: When a recall question (e.g., "what is my favorite turtle?") was classified as non-actionable, the persona model received zero memory context and could not answer. The non-actionable path now preserves relevant memories and conversation context.
+- **Recall questions misclassified**: The LLM actionability check could classify memory recall questions as non-actionable. Messages with relevant long-term memories are now forced through the full agent pipeline.
+- **Duplicate buffer storage**: Both the chat orchestrator and overlord independently stored messages in buffer memory, halving effective capacity. Removed duplicate; chat orchestrator is the sole owner.
+
+#### Scheduler and Memobase fixes
+
+- Scheduler worker now runs in a daemon thread instead of blocking the event loop during formation startup.
+- Memobase collection passthrough, search filter deduplication, and parameter compatibility fixes.
+
+### Server v0.20260323.0
+
+#### Docker networking for host services
+
+Added `--add-host localhost:host-gateway` and `--add-host host.docker.internal:host-gateway` to runtime-runner Docker commands so formations can reach host-local services (e.g., PostgreSQL) via `localhost`.
+
+#### CDN release downloads
+
+Switched release download URLs from `github.com` to `releases.muxi.org` for server and runtime binaries.
+
+### CLI v0.20260323.0 + Installer v0.20260323.0 
+
+#### CDN release downloads
+
+CLI upgrade flow and installer's scripts (`install.sh`, `install.ps1`) now use CDN-based release download URLs (`releases.muxi.org`) instead of direct GitHub release URLs.
+
 ### CLI v0.20260314.0
 
 #### `muxi server` renamed to `muxi remote`
