@@ -13,6 +13,29 @@
 
 ## March 2026
 
+### Runtime v0.20260324.0
+
+#### Scheduler API persistence & job lifecycle
+
+Fixed critical data loss where all scheduler jobs vanished on restart -- route handlers fell back to in-memory dicts instead of calling `JobManager` for database persistence. All CRUD routes now use async `JobManager` methods with PostgreSQL via SQLAlchemy.
+
+- **Jobs not persisted**: `create`, `list`, `get`, `delete` all used in-memory fallback. Rewired to `JobManager`.
+- **pause/resume/delete missing user_id**: `SchedulerService` methods omitted required `user_id`, causing `TypeError`.
+- **FK constraint on delete**: Audit records now deleted before the job to avoid `ForeignKeyViolation`.
+- **Double-call bug**: `get_default_nanoid()()` raised `'str' object is not callable`. Fixed to single call.
+
+#### New scheduler endpoints
+
+- `PUT /v1/scheduler/jobs/{job_id}` -- Update job message, schedule, or title.
+- `POST /v1/scheduler/jobs/{job_id}/pause` -- Pause an active job.
+- `POST /v1/scheduler/jobs/{job_id}/resume` -- Resume a paused job.
+
+### CLI v0.20260324.0
+
+#### Chat stream timeout guard
+
+Prevent the CLI chat TUI from hanging indefinitely when the server stops emitting SSE events. A 60-second inactivity timeout now surfaces a clear error instead of spinning the thinking indicator forever. (Addresses the "NLP scheduling hangs" report where certain natural-language patterns caused stalled streams.)
+
 ### Runtime v0.20260323.0
 
 #### Memory recall fixes
