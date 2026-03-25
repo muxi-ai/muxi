@@ -13,6 +13,15 @@
 
 ## March 2026
 
+### Runtime v0.20260325.1
+
+#### MCP tool chaining reliability
+
+Fixed a bug where multi-step MCP tool chains silently failed. When an agent needed to call multiple tools in sequence (e.g., list tasks then update a specific task), the second tool call could be skipped without error if the LLM returned a non-standard response format during parameter inference. The agent would report success despite never executing the action.
+
+- **Parameter inference resilience**: The inference step now extracts JSON parameters from non-standard LLM responses (XML tool-call wrappers, embedded JSON in prose) and retries on failure.
+- **Smarter planning**: Agents now automatically add prerequisite lookup steps when a tool requires an ID they don't have (e.g., fetching the task list before updating a task).
+
 ### Runtime v0.20260325.0
 
 #### SOP synthesis control
