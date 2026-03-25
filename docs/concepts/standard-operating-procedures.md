@@ -110,6 +110,7 @@ Customer has active account with welcome email sent.
 | `mode` | No | `"template"` (strict) or `"guide"` (flexible) |
 | `tags` | No | Keywords for search matching |
 | `bypass_approval` | No | Skip workflow approval (default: true) |
+| `synthesis` | No | Pass output through synthesis LLM (default: true) |
 
 
 ## Execution Modes
@@ -139,6 +140,32 @@ mode: guide
 - Execute independent steps in parallel
 
 **Use for:** Development workflows, best practices, standard operations
+
+
+## Synthesis Control
+
+By default, the Overlord passes all SOP outputs through a synthesis LLM that unifies the response. Set `synthesis: false` to return the raw output when your SOP specifies a strict format:
+
+```yaml
+mode: template
+synthesis: false
+```
+
+This is useful for SOPs that produce JSON, CSV, structured tables, or any specific format that shouldn't be rewritten by the synthesis layer.
+
+
+## Parallel Execution
+
+In **guide mode**, the Overlord runs independent steps concurrently. Structure your SOPs to separate independent work from dependent work:
+
+```
+1. **Fetch Calendar Events** [agent:assistant]    ─┐
+2. **Fetch Unread Emails** [agent:assistant]       ├─ Run in parallel
+3. **Fetch Pending Tasks** [agent:assistant]       ─┘
+4. **Compile Briefing**                            ← Waits for 1-3, then runs
+```
+
+This fan-in pattern (parallel fetch, then synthesis) can cut execution time by 2-3x for data-gathering SOPs. Linear chains (each step depends on the previous) always execute sequentially.
 
 
 ## Directives

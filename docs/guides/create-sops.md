@@ -89,6 +89,7 @@ description: Brief desc      # Used for search matching
 mode: guide                  # "guide" (flexible) or "template" (strict)
 tags: key1, key2             # Keywords for matching
 bypass_approval: true        # Skip workflow approval
+synthesis: true              # Pass output through synthesis LLM (default: true)
 ---
 ```
 
@@ -253,6 +254,61 @@ tags: code, review, pr, github
 4. **Provide Feedback** [agent:senior-dev]
    Post constructive review comments.
 ```
+
+
+## Synthesis Control
+
+By default, the Overlord passes SOP output through a synthesis LLM to unify the response. Disable this when your SOP specifies a strict output format:
+
+```yaml
+synthesis: false
+```
+
+When disabled, the last task's raw output is returned as-is. Use this for SOPs that produce JSON, CSV, structured reports, or any format that shouldn't be rewritten.
+
+```
+---
+type: sop
+name: API Health Check
+description: Check API endpoint status and return JSON
+mode: template
+synthesis: false
+tags: api, health, status
+---
+
+# API Health Check
+
+## Steps
+
+1. **Check Endpoints** [mcp:http/get]
+   Call each endpoint and collect status codes.
+
+2. **Format Results**
+   Return results as a JSON object with endpoint names and status codes.
+```
+
+
+## Parallel Execution
+
+In guide mode, independent steps run in parallel automatically. To take advantage of this, structure your SOPs so that steps that don't depend on each other are clearly independent:
+
+```
+## Steps
+
+1. **Fetch Sales Data** [agent:analytics]
+   Pull this week's sales numbers.
+
+2. **Fetch Support Tickets** [agent:support]
+   Get open ticket count and trends.
+
+3. **Compile Report**
+   Combine sales and support data into a summary.
+```
+
+Steps 1 and 2 run concurrently. Step 3 runs after both complete. This pattern (parallel fetch, then synthesis) can cut execution time significantly for SOPs that gather data from multiple sources.
+
+> [!TIP]
+> Use `mode: template` with `synthesis: false` for parallel fetch patterns where you want strict execution and exact output format control.
 
 
 ## Organization

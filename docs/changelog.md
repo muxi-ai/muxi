@@ -19,6 +19,32 @@ description: Release history and updates for MUXI
 
 ## March 2026
 
+### Runtime v0.20260325.0
+
+#### SOP synthesis control
+
+SOPs can now declare `synthesis: false` in their frontmatter to bypass the Overlord's response synthesis step. When set, the last completed task's raw output is returned as-is -- useful for SOPs that specify strict output formats like JSON, CSV, or structured templates. Default remains `true` for backward compatibility.
+
+#### Parallel SOP execution
+
+Independent SOP steps now execute concurrently in guide mode. The workflow engine detects fan-in patterns (e.g., three parallel data-fetching steps feeding one synthesis step) and runs them simultaneously instead of forcing sequential execution. Linear chains (A->B->C) still execute in order.
+
+#### Scheduler chat integration
+
+- **Job creation no longer times out**: Fixed a missing streaming event that caused chat-created scheduled jobs to hang indefinitely despite being written to the database.
+- **Scheduler intent routing**: Scheduler-related requests are now detected before SOP matching, preventing unrelated SOPs from hijacking scheduler intents.
+- **List jobs via chat**: Users can now ask "show my scheduled jobs" or "list my reminders" directly in chat. Detected via LLM analysis with keyword heuristic fallback.
+- **Multi-day scheduling**: "every Tuesday and Thursday at 3pm" now correctly produces `0 15 * * 2,4` instead of only capturing the first day.
+
+#### Streaming reliability
+
+- **Broken pipe recovery**: When a client disconnects mid-stream, the background processing task is now cancelled with a 5-second timeout. A 10-minute subscribe ceiling prevents zombie streams, and a stale request reaper force-fails requests stuck in processing.
+- **Job title expansion**: Chat-created job titles now support up to 500 characters (previously truncated at 61).
+
+#### MCP tool chaining
+
+Fixed sequential MCP tool calls losing context between steps. When an agent's execution plan chains multiple tools (e.g., list task lists, then fetch tasks from a specific list), the parameter inference LLM now receives results from previous steps, allowing it to extract IDs and values needed for subsequent calls.
+
 ### Runtime v0.20260324.0
 
 #### Scheduler API persistence & job lifecycle
