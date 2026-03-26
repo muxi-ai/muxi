@@ -13,6 +13,13 @@
 
 ## March 2026
 
+### Runtime v0.20260326.1
+
+#### MCP error handling & conversation-aware routing
+
+- **MCP error flag now propagated correctly**: When an MCP tool returned an error (e.g., "Item not found" from Microsoft Graph), the system incorrectly reported it as a success. Error responses are now detected and surfaced properly.
+- **Follow-up messages stay with the right agent**: Short follow-up messages like "change it to normal" were routed to the wrong agent because the router had no memory of the previous conversation. The system now tracks which agent handled the last message per session and biases follow-ups toward the same agent.
+
 ### Runtime v0.20260325.1
 
 #### MCP tool chaining reliability
