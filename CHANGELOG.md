@@ -13,6 +13,24 @@
 
 ## March 2026
 
+### Runtime v0.20260326.3
+
+#### Generative UI skill
+
+MUXI now ships with a built-in `generative-ui` skill for requests that are better shown than described. Agents can use it to create self-contained interactive HTML widgets, dashboards, diagrams, and visual explainers through the existing file-generation flow.
+
+- **Interactive HTML artifacts**: Steers agents toward single-file `.html` outputs with inline CSS/JS, responsive layouts, and dark-mode-friendly presentation.
+- **Covered by tests**: Added unit coverage for skill loading and activation, plus an end-to-end test that verifies RCE-backed HTML widget generation.
+
+### Runtime v0.20260326.2
+
+#### XML tool parameter extraction
+
+Improved tool-call parameter extraction so agents can recover parameters from more XML-shaped model outputs, not just the wrapped JSON form. This makes tool execution more reliable when the model emits individual parameter tags.
+
+- **Broader XML support**: The runtime now extracts values from individual XML parameter tags and assembles them into tool arguments automatically.
+- **Fewer dropped tool calls**: This reduces cases where a tool call was planned correctly but skipped because argument parsing failed.
+
 ### Runtime v0.20260326.1
 
 #### MCP error handling & conversation-aware routing
