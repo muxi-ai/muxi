@@ -192,10 +192,14 @@ Formation-level MCP settings:
 
 ```yaml
 mcp:
+  connection_ttl: 300               # Idle connection TTL in seconds (default: 300, 0 = ephemeral)
   default_timeout_seconds: 30
   max_tool_iterations: 10
   max_tool_calls: 50
 ```
+
+> [!TIP]
+> The `connection_ttl` controls how long idle MCP connections stay open between tool calls. Each tool call resets the timer, so actively-used servers stay connected. Set to `0` to disconnect after every call. Individual servers can override this with their own `connection_ttl` field.
 
 ## Skills
 

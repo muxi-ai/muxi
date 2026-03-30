@@ -328,6 +328,7 @@ Tool chaining has built-in limits to prevent infinite loops:
 
 ```yaml
 mcp:
+  connection_ttl: 300         # Keep idle connections alive for 5 minutes (default)
   max_tool_iterations: 10     # Max correction attempts per chain
   max_tool_calls: 50          # Total tool calls allowed
   max_repeated_errors: 3      # Stop if same error repeats
@@ -335,6 +336,9 @@ mcp:
 ```
 
 Each chain gets a unique ID (`chn_xxx`) for observability tracking.
+
+> [!TIP]
+> The `connection_ttl` setting keeps MCP connections alive between tool calls instead of reconnecting every time. This significantly reduces latency for SOPs and workflows that chain multiple tool calls. Each call resets the timer. Set to `0` for per-call connect/disconnect. Individual servers can override this in their `.afs` file.
 
 
 ## Why This Matters

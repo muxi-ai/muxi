@@ -124,6 +124,7 @@ auth:
 |-------|------|---------|-------------|
 | `timeout_seconds` | int | - | Request timeout |
 | `retry_attempts` | int | - | Number of retries (0-10) |
+| `connection_ttl` | int | - | Per-server idle TTL override (seconds). See [Connection Lifecycle](#connection-lifecycle). |
 
 ### Capabilities
 
@@ -256,10 +257,47 @@ Configure global MCP behavior in `formation.afs`:
 
 ```yaml
 mcp:
+  connection_ttl: 300             # Idle connection TTL in seconds (default: 300)
   default_timeout_seconds: 30
   max_tool_iterations: 10
   max_tool_calls: 50
   max_repeated_errors: 3
+```
+
+## Connection Lifecycle
+
+MCP connections follow a **lazy-persistent** lifecycle:
+
+1. **Discovery:** On formation startup, the runtime connects to each MCP server, discovers its tools, then disconnects.
+2. **First tool call:** The runtime reconnects and keeps the connection alive.
+3. **Subsequent calls:** Reuse the existing connection. Each call resets the idle timer.
+4. **Idle timeout:** A background reaper closes connections that have been idle longer than `connection_ttl`.
+5. **Next call after timeout:** The runtime reconnects transparently.
+
+A frequently-used server stays connected indefinitely. A rarely-used server closes after the TTL and reconnects on demand.
+
+Set `connection_ttl: 0` to disable keep-alive and use ephemeral connections (connect/execute/disconnect per call).
+
+### Per-server override
+
+Override the global TTL for individual servers:
+
+```yaml
+# mcp/ms365.afs
+schema: "1.0.0"
+id: ms365
+type: http
+endpoint: "https://ms365.example.com/mcp"
+connection_ttl: 600    # Keep this server alive longer (10 minutes)
+```
+
+```yaml
+# mcp/one-off-tool.afs
+schema: "1.0.0"
+id: one-off-tool
+type: http
+endpoint: "https://tool.example.com/mcp"
+connection_ttl: 0      # Always disconnect after each call
 ```
 
 ## Agent-Specific Tools
