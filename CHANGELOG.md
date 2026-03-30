@@ -13,6 +13,29 @@
 
 ## March 2026
 
+### Runtime v0.20260330.1
+
+#### MCP connection keep-alive
+
+MCP tool calls no longer reconnect and disconnect for every invocation. After the first tool call, the connection is kept alive and reused for subsequent calls. Each call resets an idle timer; a background reaper closes connections that exceed the configured TTL (default: 5 minutes). Frequently-used servers stay connected indefinitely; idle servers close automatically.
+
+- **Configurable TTL**: Set `connection_ttl` globally under `mcp:` or per-server in individual MCP server configs. Use `connection_ttl: 0` to restore the previous connect-per-call behavior.
+- **User isolation**: Connections are keyed by server ID and credential hash, so different users never share a connection.
+
+### Runtime v0.20260330.0
+
+#### Response latency fixes
+
+- **Workflow synthesis no longer times out on large results**: When SOPs fetched large amounts of data (calendar events, emails, tasks), the synthesis step timed out after 30 seconds, causing 120-175 second silent gaps while retries ran. The synthesis timeout is now 120 seconds.
+- **User identifier resolution cached**: A database lookup that ran up to 8 times per request for the same immutable mapping is now cached for the formation's lifetime.
+- **PDF processing works in SIF containers**: `libpoppler.so` was not discoverable inside Apptainer containers because the container's `LD_LIBRARY_PATH` excluded system library paths. The entrypoint now appends standard system library paths when running in SIF mode.
+
+### Runtime v0.20260329.0
+
+#### MCP HTTP transport CPU fix
+
+Fixed a bug where MCP servers using `type: http` caused 90%+ idle CPU after the first tool call. The root cause is an upstream SDK bug ([python-sdk#1805](https://github.com/modelcontextprotocol/python-sdk/issues/1805)) where memory object streams with zero-buffer capacity create an infinite busy-loop during context teardown. The runtime now closes transport streams before SDK context exit, preventing the spin. This workaround will become a harmless no-op once the upstream fix ships.
+
 ### Runtime v0.20260326.3
 
 #### Generative UI skill
