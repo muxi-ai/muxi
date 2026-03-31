@@ -3,6 +3,11 @@ id: simple-chatbot
 description: The simplest MUXI formation - a single assistant agent
 version: "1.0.0"
 
+# Optional init command for guestbook setup
+init: |
+  mkdir -p /tmp/guestbook
+  echo '[]' > /tmp/guestbook/messages.json
+
 # LLM Configuration
 llm:
   api_keys:
@@ -20,7 +25,7 @@ agents:
   - id: assistant
     name: Assistant
     description: General-purpose assistant for answering questions
-    system_message: You are a helpful AI assistant.
+    system_message: You are a helpful assistant that can help manage a community guestbook.
 
 # Overlord Configuration
 overlord:

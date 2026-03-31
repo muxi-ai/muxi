@@ -84,6 +84,21 @@ description: Helpful AI assistant
 system_message: You are a helpful AI assistant.
 ```
 
+## Community Guestbook Example
+
+Extend this simple chatbot to create a community guestbook where users can leave messages:
+
+```yaml
+# Add to your formation.afs
+init: |
+  mkdir -p /tmp/guestbook
+  touch /tmp/guestbook/messages.json
+
+# The agent can be configured to handle guestbook entries
+```
+
+See the [Build Custom UI](../../guides/build-custom-ui.md) guide for creating a guestbook interface.
+
 ## Next Steps
 
 This is the simplest formation. Try:
@@ -92,6 +107,7 @@ This is the simplest formation. Try:
 - [03-research-assistant](03-research-assistant/) - Add web search tools
 - [Add Memory Guide](../../guides/add-memory.md) - Persist conversations
 - [Add Tools Guide](../../guides/add-mcp-tools.md) - Give agent capabilities
+- [Build Custom UI](../../guides/build-custom-ui.md) - Create interfaces like guestbooks
 
 ## Common Issues
 

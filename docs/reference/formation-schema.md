@@ -59,7 +59,25 @@ async: {...}                       # Async behavior
 scheduler: {...}                   # Scheduled tasks
 a2a: {...}                         # Agent-to-agent
 user_credentials: {...}            # User credential handling
+guestbook: {...}                   # Optional: Community guestbook settings
 ```
+
+## Guestbook Configuration
+
+```yaml
+guestbook:
+  enabled: true
+  storage_path: /tmp/guestbook/messages.json
+  max_entries: 1000
+  moderation: false
+```
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `enabled` | boolean | No | Enable guestbook functionality |
+| `storage_path` | string | No | Path to store guestbook messages |
+| `max_entries` | integer | No | Maximum number of entries to store |
+| `moderation` | boolean | No | Enable moderation before publishing |
 
 ## LLM Configuration
 
