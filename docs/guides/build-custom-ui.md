@@ -6,7 +6,62 @@ description: Create a frontend that connects to your MUXI formation
 
 ## Connect any frontend to your agents
 
-Build a custom chat interface, dashboard, or app that talks to your MUXI formation. Works with React, Vue, vanilla JS, mobile apps - anything that can make HTTP requests.
+Build a custom chat interface, dashboard, guestbook, or app that talks to your MUXI formation. Works with React, Vue, vanilla JS, mobile apps - anything that can make HTTP requests.
+
+## Community Guestbook Example
+
+Create a guestbook where users can leave messages:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Community Guestbook</title>
+</head>
+<body>
+  <h1>Community Guestbook</h1>
+  <div id="messages"></div>
+  <form id="guestbook-form">
+    <input type="text" id="name" placeholder="Your name" required>
+    <textarea id="message" placeholder="Your message" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Fetch existing messages
+    async function loadMessages() {
+      const response = await fetch('/api/guestbook');
+      const messages = await response.json();
+      const container = document.getElementById('messages');
+      container.innerHTML = messages.map(msg => 
+        `<div><strong>${msg.name}:</strong> ${msg.message}</div>`
+      ).join('');
+    }
+
+    // Handle form submission
+    document.getElementById('guestbook-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const message = document.getElementById('message').value;
+      
+      await fetch('/api/guestbook', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name, message})
+      });
+      
+      document.getElementById('name').value = '';
+      document.getElementById('message').value = '';
+      loadMessages();
+    });
+
+    loadMessages();
+  </script>
+</body>
+</html>
+```
+
+This example shows how to build a simple guestbook interface that connects to your formation's API.
 
 
 ## Quick Start
