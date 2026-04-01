@@ -29,6 +29,13 @@ For bundled scripts, secrets are passed as environment variables to the RCE subp
 
 > **Note:** The HTTP channel between the runtime and skills-rce carries plaintext secret values. Skills RCE must not be exposed publicly — it is an internal service intended for trusted network boundaries only.
 
+#### SOP synthesis fixes
+
+Two bugs causing multi-step SOPs with a synthesis step (e.g. Morning Briefing) to fail or hallucinate:
+
+- **Synthesis step instructions truncated** -- The SOP parser capped step body text at 500 characters. Synthesis steps carry structured output specs that exceed this. The cap is removed; step instructions are now passed verbatim.
+- **Prior step results not reaching synthesis agent** -- Dependency outputs were injected as a raw nested metadata blob. The synthesis agent saw the wrapper, not the actual data, and fell back to hallucination. The prompt now extracts the real content from each prior step and presents it under a clear heading.
+
 ## March 2026
 
 ### Runtime v0.20260330.1
