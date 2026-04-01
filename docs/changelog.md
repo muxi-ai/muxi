@@ -17,6 +17,18 @@ description: Release history and updates for MUXI
 > - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 > - [FAISSx Releases](https://github.com/muxi-ai/faissx/releases)
 
+## April 2026
+
+### Runtime v0.20260401.0
+
+#### Skill secrets
+
+Skills can now use `${{ secrets.X }}` directly in their `SKILL.md` instructions — the same syntax used everywhere else in MUXI. The runtime scans skill files at load time, resolves secrets at activation, and injects them into the agent's context.
+
+For bundled scripts, secrets are passed as environment variables to the RCE subprocess (`${{ secrets.NOTION_KEY }}` → `NOTION_KEY` env var). They are never written to disk or cached by the RCE service.
+
+> **Note:** The HTTP channel between the runtime and skills-rce carries plaintext secret values. Skills RCE must not be exposed publicly — it is an internal service intended for trusted network boundaries only.
+
 ## March 2026
 
 ### Runtime v0.20260330.1
