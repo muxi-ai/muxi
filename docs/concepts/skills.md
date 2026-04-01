@@ -161,6 +161,48 @@ my-formation/
 - **Agent-level skills** (`agents/{id}/skills/`) are private to that agent
 
 
+## Secrets in Skills
+
+Skills can reference formation secrets using the same `${{ secrets.X }}` syntax used everywhere else in MUXI.
+
+### In SKILL.md instructions
+
+Secret references in the SKILL.md body are interpolated when the agent activates the skill. The agent sees the resolved value:
+
+```markdown
+---
+name: notion-sync
+description: Sync data with Notion
+---
+
+# Notion Sync
+
+Authenticate using the API key: ${{ secrets.NOTION_KEY }}
+```
+
+### In bundled scripts
+
+Scripts are executed by the RCE service and cannot use `${{ }}` syntax directly. Instead, use standard environment variable syntax -- the runtime resolves the secrets and injects them as env vars into the subprocess:
+
+**Python:**
+```python
+import os
+notion_key = os.environ["NOTION_KEY"]
+```
+
+**Bash:**
+```bash
+curl -H "Authorization: Bearer $NOTION_KEY" https://api.notion.com/...
+```
+
+The mapping is direct: `${{ secrets.NOTION_KEY }}` becomes env var `NOTION_KEY`. Secrets are passed only to the subprocess environment -- they are never written to disk and are gone when the process exits.
+
+At startup, the runtime scans your skill files for secret references and logs a warning if any referenced secret is missing from the formation's secrets store. This catches misconfiguration early without blocking formation startup.
+
+> [!WARNING]
+> **Secrets are passed over HTTP to the RCE service.** This is safe when the runtime and RCE service run on the same host or private network, which is the standard deployment. Never expose the Skills RCE service publicly -- it is an internal service designed for trusted callers only.
+
+
 ## RCE (Remote Code Execution)
 
 Script-bearing skills execute in a sandboxed container via the Skills RCE service. The runtime:
