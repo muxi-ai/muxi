@@ -70,6 +70,7 @@ LLM / MCP / External       ← AI models, tools, services
 - **Overlord** = the brain that manages memory, routes requests, applies soul
 - **Agent** = specialized worker that uses tools and knowledge
 - **MCP** = Model Context Protocol for connecting tools
+- **Guestbook** = community message board for user interactions
 
 ## Installation
 
