@@ -186,7 +186,12 @@ endpoint: "https://api.example.com/mcp"
 auth:
   type: bearer
   token: "${{ secrets.API_TOKEN }}"
+parameters:                          # Injected into every tool call
+  driveId: "${{ secrets.ORG_DRIVE_ID }}"
 ```
+
+> [!TIP]
+> Use `parameters` to inject infrastructure constants (drive IDs, tenant IDs) into every tool call. See [Default Parameters](tools.md#default-parameters) for details.
 
 Formation-level MCP settings:
 

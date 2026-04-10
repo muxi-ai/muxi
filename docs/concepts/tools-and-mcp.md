@@ -76,6 +76,8 @@ auth:
 > [!TIP]
 > **Start with one tool per agent.** Add tools incrementally and test each one. Too many tools confuse the agent about which to use.
 
+MCP servers also support a `parameters` field for injecting infrastructure constants (drive IDs, tenant IDs) into every tool call without the LLM needing to discover them. See [Default Parameters](../reference/tools.md#default-parameters).
+
 
 ## Solving Context Contamination
 

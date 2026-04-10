@@ -297,6 +297,6 @@ timeout_seconds: 60
 
 ## Next Steps
 
-- [Tools Reference](../reference/tools.md) - All configuration options
+- [Tools Reference](../reference/tools.md) - All configuration options, including [default parameters](../reference/tools.md#default-parameters) for injecting infrastructure constants into tool calls
 - [Add Memory](add-memory.md) - Persistent conversations
 - [Multi-Agent Systems](../guides/build-multi-agent-systems.md) - Specialized agent teams

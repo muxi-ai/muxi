@@ -125,6 +125,7 @@ auth:
 | `timeout_seconds` | int | - | Request timeout |
 | `retry_attempts` | int | - | Number of retries (0-10) |
 | `connection_ttl` | int | - | Per-server idle TTL override (seconds). See [Connection Lifecycle](#connection-lifecycle). |
+| `parameters` | object | - | Default tool arguments injected into every call. See [Default Parameters](#default-parameters). |
 
 ### Capabilities
 
@@ -299,6 +300,37 @@ type: http
 endpoint: "https://tool.example.com/mcp"
 connection_ttl: 0      # Always disconnect after each call
 ```
+
+## Default Parameters
+
+MCP servers support an optional `parameters` field: a flat key-value map injected into every tool call on that server. Use this for infrastructure constants that should never be left to LLM inference -- org-level drive IDs, tenant IDs, project keys, etc.
+
+```yaml
+# mcp/ms365.afs
+schema: "1.0.0"
+id: ms365-mcp
+type: http
+endpoint: "https://mcp.example.com/ms365"
+parameters:
+  driveId: "${{ secrets.ORG_DRIVE_ID }}"
+  siteId: "contoso.sharepoint.com,guid1,guid2"
+```
+
+**How it works:**
+- Parameters are injected at execution time, before the LLM planner runs
+- If a tool call already provides a value for the same key, the explicit value wins
+- Values support `${{ secrets.X }}` and `${{ user.credentials.X }}` interpolation
+- Must be a flat map with scalar values (strings, numbers, booleans) -- no nested objects
+
+**When to use:**
+- Fixed org-wide identifiers (drive IDs, site IDs, tenant IDs)
+- API version strings
+- Any value that is constant across all tool calls for a given server
+
+> [!TIP]
+> **Move constants out of agent prompts.** If your agent's system message contains a hardcoded ID just so the LLM can pass it to tools, put it in `parameters` instead. The LLM never needs to see or propagate infrastructure config.
+
+Works on both formation-level MCP servers (`mcp/*.afs`) and agent-level MCP servers (`mcp_servers` in agent `.afs` files).
 
 ## Agent-Specific Tools
 

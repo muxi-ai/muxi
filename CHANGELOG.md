@@ -11,6 +11,106 @@
 > - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 > - [FAISSx Releases](https://github.com/muxi-ai/faissx/releases)
 
+## April 2026
+
+### Runtime v0.20260410.0
+
+#### MCP default parameters
+
+MCP servers now support a `parameters` field: a flat key-value map of default values injected into every tool call on that server. This removes infrastructure constants (org-level drive IDs, tenant IDs, project keys) from agent prompts and LLM inference, making multi-step tool chains deterministic regardless of model.
+
+```yaml
+# mcp/ms365.afs
+schema: "1.0.0"
+id: ms365-mcp
+type: http
+endpoint: "https://mcp.example.com/ms365"
+parameters:
+  driveId: "${{ secrets.ORG_DRIVE_ID }}"
+```
+
+- Values support `${{ secrets.X }}` and `${{ user.credentials.X }}` interpolation
+- Caller-supplied arguments always take precedence over defaults
+- Works on both formation-level and agent-level MCP server declarations
+
+#### Multi-step tool execution hardening
+
+A set of fixes making multi-step MCP workflows (e.g., find user, get drive root, list files, open workbook) more reliable:
+
+- **Execution-time parameter binding uses clean context** -- Planned tool steps now resolve parameters from the current request and successful prior results only, not the full enhanced prompt with stale memory/profile data.
+- **Placeholder values blocked** -- Strings like `{{ROOT_FOLDER_ID}}` or `<<ID>>` are now treated as unresolved and block tool calls safely instead of being sent as literal arguments.
+- **Failed steps excluded from chaining** -- Only successful prior tool results are used for parameter substitution and inference context. Error payloads no longer contaminate downstream steps.
+- **Fabricated IDs rejected** -- A post-inference validation guard checks LLM-inferred ID-typed parameters against successful result records and rejects values not found in any discovered record.
+- **Modern MCP result extraction fixed** -- Tool results returned as JSON strings (common with modern MCP protocol) are now properly parsed for downstream parameter extraction.
+
+### Runtime v0.20260409.0
+
+#### Faster persistent memory recall
+
+- Single multi-collection query for memory search (previously fanned out into separate lookups)
+- Lightweight fast-path for profile/synopsis queries before broader semantic search
+- Best-effort PostgreSQL indexes for user/collection filtering (non-fatal if creation fails)
+
+### Runtime v0.20260408.0
+
+#### Routing & date-preservation hardening
+
+- **Specialist agents no longer lose to generalists** -- Routing now considers agent MCP tools, specialties, and domain keywords, not just agent name and description.
+- **Follow-up messages stay routed correctly** -- Session-aware routing biases follow-ups toward the agent that handled the previous turn.
+- **Exact dates preserved in responses** -- Workflow synthesis and agent planning responses no longer rewrite concrete dates/times into relative language.
+- **Delegated tasks use their tools** -- When a broad agent delegates to a specialist, the specialist now plans and executes its MCP tools instead of answering from model prior.
+
+### Runtime v0.20260407.0
+
+#### HTTP MCP reliability
+
+- Per-request timeouts now enforced on all MCP HTTP operations (previously only on connect/init)
+- Explicit transport type preserved across reconnects (no more re-detection on every reconnect)
+- Client disconnects now cancel in-flight MCP requests and close their pooled connections
+
+### Runtime v0.20260402.0
+
+#### Workflow tool-call reliability
+
+- **Workflow tasks use isolated context** -- Workflow-dispatched agents no longer inherit full conversation history, which was causing them to reproduce prior tool calls as XML text instead of issuing real API calls.
+- **System date injected** -- Agents now know today's date instead of using their training data cutoff.
+
+### Runtime v0.20260401.0
+
+#### Skill secrets
+
+Skills can now use `${{ secrets.X }}` directly in their `SKILL.md` instructions. The runtime scans skill files at load time, resolves secrets at activation, and injects them into the agent's context. For bundled scripts, secrets are passed as environment variables to the RCE subprocess.
+
+#### SOP synthesis fixes
+
+- **Synthesis step instructions no longer truncated** -- The 500-character cap on SOP step body text is removed; instructions are passed verbatim.
+- **Prior step results now reach the synthesis agent** -- Dependency outputs are extracted and presented as clear content instead of raw metadata blobs.
+
+### Server v0.20260402.0
+
+- Creates `{dataDir}/tmp` on startup so `TMPDIR` works out of the box in Docker deployments
+- Default health check endpoint changed from `/health` to `/v1/health` to match the runtime API
+
+### Server v0.20260401.1
+
+- Auto-installs Apptainer on `muxi-server start` if not found on Linux (survives container restarts)
+- Fixed Apptainer/Singularity binary lookup to prefer `apptainer` over `singularity`
+
+### CLI v0.20260408.0
+
+- Chat sessions no longer time out during slow-starting formations that emit SSE keepalive frames
+- SSE stream parsing handles full event blocks, surfacing route-level errors and preserving progress/tool activity events
+
+### SDKs v0.20260408.0
+
+- SSE parsing across all 12 SDKs is now keepalive-aware (`: keepalive` comments no longer cause false idle failures)
+- Route-level `event: error` frames surfaced as SDK errors instead of being silently dropped
+- New runtime event types (`progress`, `thinking`, `planning`, `tool_call`) preserved in chat streams
+
+### SDKs v0.20260324.0
+
+- Added `updateSchedulerJob`, `pauseSchedulerJob`, and `resumeSchedulerJob` methods to all SDKs
+
 ## March 2026
 
 ### Runtime v0.20260330.1
