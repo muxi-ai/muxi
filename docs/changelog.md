@@ -19,6 +19,19 @@ description: Release history and updates for MUXI
 
 ## April 2026
 
+### Runtime v0.20260418.0
+
+#### Placeholder predicates for collection disambiguation
+
+Extended the placeholder contract so the planner can pick a specific record when a prior step returns a list. Closes the Dev #1 Excel bug where `{{FILE_LIST.id}}` silently resolved to the alphabetically-first record (the Attachments folder) instead of the user's `Book.xlsx`, producing a misleading "WAC 403 / could not obtain access token" downstream.
+
+- **New predicate syntax** -- `{{NAME[key=value]}}` and `{{NAME[key=value].field}}` are now valid placeholder forms. Predicate values may be single- or double-quoted strings (`'Book.xlsx'`), booleans, integers, floats, `null`, or bare identifiers. Field names are normalized (so `[name=X]` matches `Name`, `display_name`, `DisplayName`), and string comparisons are case-insensitive. Single predicate per reference for v1; malformed predicates degrade gracefully to legacy resolution.
+- **Auto-inference from `action_description`** -- When the planner emits the legacy `{{FOO.field}}` form without a predicate and the step description explicitly names a resource (double- or single-quoted string, backticked markdown span, or an unquoted filename with a recognized extension), the runtime synthesizes a `{name|displayName|title|subject: X}` predicate automatically. Three guards prevent silent rewrites: the description must name a resource, the payload must contain at least two records carrying the same name-field variant, and at least one record must actually match the extracted name. An `AGENT_PLANNING` observability event fires every time auto-inference activates so devs can see exactly when the runtime corrected a plan.
+- **Three-tier resolution, unambiguous precedence** -- explicit predicate beats auto-inference; auto-inference beats legacy first-match; legacy behavior is preserved for plans that don't lean on named-resource context.
+- **Planning prompt updated** -- `agent_planning.md` PLACEHOLDER RULES now documents the new syntax with correct/wrong examples anchored to the Excel scenario, the value-type cheat sheet, and the single-pair-only v1 limitation.
+
+This closes the collection-disambiguation gap surfaced during the Dev #1 Excel debug session. The companion MS365 tool-selection bug (A2A-received `ms365-assistant` getting 10 task-only tools out of 217 configured) is tracked separately and not addressed here.
+
 ### Runtime v0.20260417.2
 
 #### Planning prompt hardening
