@@ -19,7 +19,7 @@ description: Release history and updates for MUXI
 
 ## April 2026
 
-### Runtime v0.20260419.0
+### Runtime v0.20260420.0
 
 #### Silent-failure fixes on the v0.20260418.0 placeholder pipeline
 
