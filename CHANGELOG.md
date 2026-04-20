@@ -13,6 +13,20 @@
 
 ## April 2026
 
+### Runtime v0.20260419.0
+
+#### Silent-failure fixes on the v0.20260418.0 placeholder pipeline
+
+Follow-up to the v0.20260418.0 predicate work: field reports surfaced two silent failures that slipped through the first release. Both are now fixed and the runtime now emits loud warnings whenever a literal `{{...}}` string would have reached MCP.
+
+- **`[N]` positional index now works** -- The planner sometimes writes `{{WORKSHEET_LIST[0].id}}` ("first worksheet's id") instead of a name predicate. v0.20260418.0's parser rejected bare integer indexes; the placeholder fell through to the legacy first-match path, the kind-aware fallback bound `workbookWorksheetId` to the Book.xlsx `driveItemId`, and MS Graph returned a confusing 404. The predicate parser now accepts `[0]` and `[-1]`; a new `_iter_indexable_records` helper picks the most relevant list-of-dicts from the payload (top-level list → wrapper keys like `value`/`items`/`data` → depth-first walk) so the index refers to what the LLM meant.
+- **Nested-dict placeholder substitution** -- The planner correctly emitted `parentReference: {id: "{{SPARK_FOLDER_SEARCH[name='Spark Test'].id}}"}` to move a OneDrive file into a specific folder, but v0.20260418.0 only iterated top-level param values and shipped the literal placeholder string to MS Graph. Graph returned 200 OK and silently ignored the bogus parentReference; the file never moved. Substitution is now a two-pass design: the top-level pass keeps the full schema-aware machinery (auto-inferred predicates, kind-based fallback), and a new nested pass recursively walks every string leaf inside dict/list params, substituting placeholders via explicit predicate / field-hint resolution. Depth is capped at 8.
+- **`placeholder.unresolved` warning event + recursive leftover stripping** -- Literal `{{...}}` strings at any depth are now a loud bug. The leftover-strip pass walks the full parameter tree, drops non-required top-level params containing any unresolved leaf, and emits an `AGENT_PLANNING` WARNING event with `phase: "placeholder.unresolved"` enumerating every leaf path (`parameters.parentReference.id`, `attendees[0].emailAddress.address`). Devs now see silent failures in the log stream the moment they happen.
+- **Repair-plan flow fires for nested required params** -- `_has_resolved_required_parameter_value` now recursively inspects dict/list required params. Without this, a nested `{id: "{{MISSING.id}}"}` inside a required `parentReference` bypassed the repair-plan trigger entirely.
+- **`agent_planning.md` PLACEHOLDER RULES extended** -- `[N]` / `[-N]` positional index syntax documented with the Excel scenario and a caution that positional indexes are list-order-dependent. Nested placeholder support documented with correct/wrong examples using the OneDrive parentReference shape.
+
+Validation: 553/553 unit passed (1 pre-existing RCE failure unrelated), 121/121 targeted placeholder helpers, new `test_7a6_nested_and_index_placeholder_resolution` e2e with 6/6 scenarios pass, 3/3 random e2e sample (scheduling, MCP credentials, artifacts), ruff/black/mypy clean on touched files.
+
 ### Runtime v0.20260418.0
 
 #### Placeholder predicates for collection disambiguation
