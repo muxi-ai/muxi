@@ -15,133 +15,120 @@
 
 ### Runtime v0.20260420.0
 
-#### Silent-failure fixes on the v0.20260418.0 placeholder pipeline
+#### Placeholder pipeline reliability
 
-Follow-up to the v0.20260418.0 predicate work: field reports surfaced two silent failures that slipped through the first release. Both are now fixed and the runtime now emits loud warnings whenever a literal `{{...}}` string would have reached MCP.
+Follow-up to v0.20260418.0. The runtime now surfaces a loud warning whenever an unresolved `{{...}}` placeholder would have reached an MCP call, and two silent-failure paths that surfaced in field reports are fixed.
 
-- **`[N]` positional index now works** -- The planner sometimes writes `{{WORKSHEET_LIST[0].id}}` ("first worksheet's id") instead of a name predicate. v0.20260418.0's parser rejected bare integer indexes; the placeholder fell through to the legacy first-match path, the kind-aware fallback bound `workbookWorksheetId` to the Book.xlsx `driveItemId`, and MS Graph returned a confusing 404. The predicate parser now accepts `[0]` and `[-1]`; a new `_iter_indexable_records` helper picks the most relevant list-of-dicts from the payload (top-level list → wrapper keys like `value`/`items`/`data` → depth-first walk) so the index refers to what the LLM meant.
-- **Nested-dict placeholder substitution** -- The planner correctly emitted `parentReference: {id: "{{SPARK_FOLDER_SEARCH[name='Spark Test'].id}}"}` to move a OneDrive file into a specific folder, but v0.20260418.0 only iterated top-level param values and shipped the literal placeholder string to MS Graph. Graph returned 200 OK and silently ignored the bogus parentReference; the file never moved. Substitution is now a two-pass design: the top-level pass keeps the full schema-aware machinery (auto-inferred predicates, kind-based fallback), and a new nested pass recursively walks every string leaf inside dict/list params, substituting placeholders via explicit predicate / field-hint resolution. Depth is capped at 8.
-- **`placeholder.unresolved` warning event + recursive leftover stripping** -- Literal `{{...}}` strings at any depth are now a loud bug. The leftover-strip pass walks the full parameter tree, drops non-required top-level params containing any unresolved leaf, and emits an `AGENT_PLANNING` WARNING event with `phase: "placeholder.unresolved"` enumerating every leaf path (`parameters.parentReference.id`, `attendees[0].emailAddress.address`). Devs now see silent failures in the log stream the moment they happen.
-- **Repair-plan flow fires for nested required params** -- `_has_resolved_required_parameter_value` now recursively inspects dict/list required params. Without this, a nested `{id: "{{MISSING.id}}"}` inside a required `parentReference` bypassed the repair-plan trigger entirely.
-- **`agent_planning.md` PLACEHOLDER RULES extended** -- `[N]` / `[-N]` positional index syntax documented with the Excel scenario and a caution that positional indexes are list-order-dependent. Nested placeholder support documented with correct/wrong examples using the OneDrive parentReference shape.
-
-Validation: 553/553 unit passed (1 pre-existing RCE failure unrelated), 121/121 targeted placeholder helpers, new `test_7a6_nested_and_index_placeholder_resolution` e2e with 6/6 scenarios pass, 3/3 random e2e sample (scheduling, MCP credentials, artifacts), ruff/black/mypy clean on touched files.
+- **Positional indexes work in placeholders**: `{{WORKSHEET_LIST[0].id}}` ("the first worksheet's id") and `[-1]` ("the last one") now resolve correctly. Previously, bare integer indexes were rejected and quietly fell back to first-match, which could bind the wrong entity and produce misleading 404s.
+- **Nested-dict placeholders**: Placeholders inside nested parameters -- e.g. OneDrive's `parentReference: { id: "{{FOLDER.id}}" }` when moving a file -- are now substituted recursively. Previously they were shipped as literal strings, and Microsoft Graph happily returned 200 OK while silently ignoring the bad field.
+- **Loud warnings for unresolved placeholders**: Any literal `{{...}}` string left at any depth after substitution now emits a warning event naming every leftover leaf. Non-required parameters containing unresolved leaves are dropped before the call; required ones are preserved so the repair-plan flow can replan.
 
 ### Runtime v0.20260418.0
 
-#### Placeholder predicates for collection disambiguation
+#### Pick the right record from a list
 
-Extended the placeholder contract so the planner can pick a specific record when a prior step returns a list. Closes the Dev #1 Excel bug where `{{FILE_LIST.id}}` silently resolved to the alphabetically-first record (the Attachments folder) instead of the user's `Book.xlsx`, producing a misleading "WAC 403 / could not obtain access token" downstream.
+Agents can now disambiguate a record from a prior step's list output using a predicate -- `{{FILE_LIST[name='Book.xlsx'].id}}` instead of `{{FILE_LIST.id}}`. This closes a long-running bug where the runtime silently resolved to the first record in the list (often wrong) when multiple candidates were available.
 
-- **New predicate syntax** -- `{{NAME[key=value]}}` and `{{NAME[key=value].field}}` are now valid placeholder forms. Predicate values may be single- or double-quoted strings (`'Book.xlsx'`), booleans, integers, floats, `null`, or bare identifiers. Field names are normalized (so `[name=X]` matches `Name`, `display_name`, `DisplayName`), and string comparisons are case-insensitive. Single predicate per reference for v1; malformed predicates degrade gracefully to legacy resolution.
-- **Auto-inference from `action_description`** -- When the planner emits the legacy `{{FOO.field}}` form without a predicate and the step description explicitly names a resource (double- or single-quoted string, backticked markdown span, or an unquoted filename with a recognized extension), the runtime synthesizes a `{name|displayName|title|subject: X}` predicate automatically. Three guards prevent silent rewrites: the description must name a resource, the payload must contain at least two records carrying the same name-field variant, and at least one record must actually match the extracted name. An `AGENT_PLANNING` observability event fires every time auto-inference activates so devs can see exactly when the runtime corrected a plan.
-- **Three-tier resolution, unambiguous precedence** -- explicit predicate beats auto-inference; auto-inference beats legacy first-match; legacy behavior is preserved for plans that don't lean on named-resource context.
-- **Planning prompt updated** -- `agent_planning.md` PLACEHOLDER RULES now documents the new syntax with correct/wrong examples anchored to the Excel scenario, the value-type cheat sheet, and the single-pair-only v1 limitation.
-
-This closes the collection-disambiguation gap surfaced during the Dev #1 Excel debug session. The companion MS365 tool-selection bug (A2A-received `ms365-assistant` getting 10 task-only tools out of 217 configured) is tracked separately and not addressed here.
+- **New syntax**: `{{NAME[key=value]}}` and `{{NAME[key=value].field}}`. Values can be quoted strings, booleans, numbers, or null. Field name matching is normalized so `[name=X]` matches `Name`, `display_name`, and `DisplayName`, and string comparisons are case-insensitive.
+- **Auto-inference**: When the planner emits the old `{{FOO.field}}` form and the step description explicitly names a resource ("update Book.xlsx", backticked `` `Spark Folder` ``), the runtime synthesizes a name predicate automatically -- but only when the list actually contains a matching record. Precedence is always explicit predicate > auto-inference > legacy first-match.
+- **Planning prompt updated** with correct/wrong examples for the new syntax.
 
 ### Runtime v0.20260417.2
 
-#### Planning prompt hardening
+#### Cleaner plans by default
 
-Codified the placeholder contract directly in the agent planning prompt so the LLM produces valid plans on the first pass, reducing how often the v0.20260417.1 runtime guards have to fire.
+The agent planning prompt now pins the placeholder contract directly, so plans are valid on the first pass more often and the runtime's safety nets rarely need to fire.
 
-- **Syntax pinning** -- only `{{UPPERCASE_NAME}}` / `{{UPPERCASE_NAME.field}}` is valid; `<<NAME>>`, `${{NAME}}`, and `{NAME}` are rejected.
-- **Reference consistency** -- a later step may reference a prior output only by the exact name assigned in its `output_placeholder`; invented names now carry a "silently fails" warning with correct/wrong examples.
-- **Sentinel values banned** -- explicit list (`auto-injected`, `auto_fill`, `from_server`, `from_context`, `server_default`, `<to-be-provided>`, `to_be_injected`) with instruction to omit the key instead.
-- **Array extrapolation banned** -- explicit prohibition on fabricating additional IDs/emails/hashes; runtime guards remain as the safety net.
+- **One placeholder syntax**: only `{{UPPERCASE_NAME}}` / `{{UPPERCASE_NAME.field}}`. Variants like `<<NAME>>`, `${{NAME}}`, and `{NAME}` are rejected.
+- **No invented names**: a later step may only reference upstream output by the exact placeholder assigned upstream.
+- **No sentinel values**: fills like `"auto-injected"` or `"from_server"` are banned; plans omit the key instead and let server defaults take over.
+- **No fabricated arrays**: the prompt explicitly prohibits inventing extra IDs, emails, or hashes to pad a list.
 
 ### Runtime v0.20260417.1
 
-#### Placeholder substitution & inference guards
+#### Placeholder substitution catches more cases
 
-- **Free-text MCP result extraction** -- Array placeholders like `{{APRIL_10_MESSAGES.message_ids}}` now resolve against label-style (`Field: value`, `**Field:** value`) and inline-JSON patterns in text chunks, killing the Gmail "incrementing hex" hallucination pattern.
-- **Cross-placeholder fallback** -- When the planner emits a placeholder name it never assigned (e.g. `{{EVENT_ID_FROM_SEARCH}}` when only `{{EVENT_DETAILS}}` exists), the runtime now tries to bind the parameter against the union of all successful prior results (including text-scanned `id:` labels), committing only when exactly one candidate matches.
-- **Literal placeholders stripped before MCP call** -- Any non-required parameter still shaped like `{{...}}` / `<<...>>` after all substitution / context / inference attempts is dropped before `_validate_tool_parameters`; required placeholders are preserved so the repair-plan flow can handle them.
-- **Array inference validation** -- Every LLM-inferred list item must literally appear in a prior successful result (record value or text chunk); fabricated items are dropped and fully-fabricated arrays are removed so repair replanning runs instead.
+A set of guards that prevent literal `{{...}}` placeholders or LLM-fabricated values from reaching MCP calls.
+
+- **Extract values from free-text MCP output**: array placeholders like `{{APRIL_10_MESSAGES.message_ids}}` now resolve against `Field: value` patterns and inline JSON embedded in text chunks, eliminating the "hallucinated incrementing hex" pattern previously seen with Gmail.
+- **Cross-placeholder fallback**: if the planner emits a placeholder name it never assigned, the runtime searches all prior successful results for a single unambiguous candidate and commits only when exactly one matches.
+- **Strip literal placeholders before the call**: any non-required parameter still shaped like `{{...}}` / `<<...>>` after all substitution attempts is dropped. Required placeholders are preserved so the repair-plan flow can handle them.
+- **Reject fabricated arrays**: every item in an LLM-inferred list must appear in a prior successful result. Fabricated items are dropped; a fully fabricated array is removed entirely and triggers replanning.
 
 ### Runtime v0.20260417.0
 
-#### Repair-tool domain scoring
+#### Smarter repair-tool selection
 
-The auto-discovery repair scorer now has a resource-domain taxonomy (mail, calendar, drive, sharepoint, chat, contact, task, note) so tools like `list-mail-folders` or `search-sharepoint-sites` can no longer be chosen to repair a failed `get-drive-root-item` on the same MCP server. Cross-domain candidates incur a -15 penalty; same-domain candidates get +4. Generic tokens stay untagged to avoid punishing legitimately ambiguous tools.
-
-### Runtime v0.20260416.3
-
-#### Sentinel values, dotted placeholders & scheduler completion
-
-- **LLM-emitted sentinel values no longer block MCP server-default injection** -- Strings like `"driveId": "auto-injected"` are now treated as unresolved so real server defaults can overwrite them.
-- **Dotted placeholder references resolve correctly** -- `{{SPARK_EVENT.event_id}}` now looks up the `{{SPARK_EVENT}}` result and extracts `event_id` (case-insensitive, ignoring underscores/dashes) instead of passing the literal string through to MCP.
-- **Whole-payload fallback no longer returns entire result dicts** -- For LLM-hallucinated parameters that aren't in a tool's schema (e.g. `user_google_email` on `manage_event`), the fallback now only applies for scalar schemas, preventing pydantic errors from bogus full-result payloads.
-- **Scheduler marks job success without a webhook** -- When a formation has no `async.webhook_url`, jobs now run synchronously and `mark_job_execution_success` / `complete_onetime_job` are called directly so `total_runs` and `last_run_status` stay correct.
-
-### Runtime v0.20260416.1 / v0.20260416.0
-
-#### Planning-mode parameter preservation & date awareness
-
-- **Planning mode no longer strips tool parameters (CRITICAL)** -- `_finalize_execution_plan` was rebuilding `my_steps` from the unified `steps` list and silently replacing every parameter set with `{}`. Parameters from the LLM's original `my_steps` are now preserved by FIFO match on `tool_name`, so repeated uses of the same tool keep their own params.
-- **Planner resolves relative date references** -- The planning prompt now includes a `## Current date/time:` section so "today" and "tomorrow" produce concrete RFC3339 dates instead of literal strings.
-- **Parameter-free planned MCP steps no longer crash** -- Fixed an `UnboundLocalError` on `server_default_param_names` for tools like `list-mail-messages`, `get_events`, and `search_gmail_messages` that require no user-supplied parameters.
-- **Scheduler dispatches job execution to the main event loop** -- Fixes "Future attached to a different loop" crashes on scheduled jobs whose chat path uses asyncpg/httpx/MCP transports bound to the uvicorn loop.
-- **Repair-tool selection respects server affinity** -- Added +4 same-server / -3 cross-server scoring so a `todo-helper-mcp` tool can no longer outscore same-server candidates during repair planning.
-
-### Runtime v0.20260415.0
-
-#### Delegation, context hints & dependency floors
-
-- **MCP default-backed required params no longer trigger redundant inference** -- Runtime-injected values like `driveId` are now treated as satisfiable, preventing accidental replacement with guessed values such as `"me"`.
-- **Generalized named-resource hints** -- Context-hint extraction now recognizes `#channel`, `@name`, quoted names, and filenames without service-specific heuristics.
-- **Delegated prompts carry prior tool results** -- Downstream agents receive compact summaries of successful prior results instead of reasoning without them.
-- **Planning discourages unnecessary delegation** -- Agents keep arithmetic/summarization/analysis with themselves when their own tools already fetch the needed data.
-- **Dependency floor bumps** -- `onellm[cache] >= 0.20260415.0`, `fastmcp >= 3.2.0`, `pypdf >= 6.10.0`, `Pillow >= 12.2.0`, `aiohttp >= 3.13.4`, `requests >= 2.33.0`, `cryptography >= 46.0.7`, `pytest >= 9.0.3`, `black >= 26.3.1`.
-
-### Runtime v0.20260414.0
-
-#### Snake_case normalization & result-recency bias
-
-- **Most-recent-step record preference** -- Alias extraction now iterates prior results in reverse chronological order, so a worksheet GUID from step 3 wins over a file's `driveItemId` from step 2 when binding `workbookWorksheetId`.
-- **Snake_case parameter matching** -- Parameter names are normalized (underscores stripped) before alias suffix lookup and exact-key matching, so Slack's `channel_id` binds against records keyed on `channelId` and vice versa.
-- **Snake_case context signals** -- `_record_matches_context_hints` and `_compact_planning_record` now recognize snake_case fields (`display_name`, `channel_name`, `drive_id`, `drive_item_id`, `created_at`, etc.), and explicit text lines like `channel_id = X` resolve `channelId` params across casings.
-
-### Runtime v0.20260413.1
-
-#### Worksheet & entity-ID binding from prior results
-
-- **Alias suffix list expanded** -- Added `worksheetid`, `sheetid`, `notebookid`, `sectionid`, `pageid`, `channelid`, `teamid`, `planid`, `listid`, `eventid`, `contactid` so MS365/Graph entity IDs flow between steps (e.g. the 4-step Excel chain get-drive-root-item -> list-folder-files -> list-excel-worksheets -> get-excel-range).
-- **Real GUIDs no longer rejected as placeholders** -- Values like `{4C35B2DD-58DF-4BDB-B806-E0421A3D5456}` are now exempted from the unresolved-placeholder check before `_is_nonempty_parameter_candidate` runs.
-- **JSON-string `result` fields parsed** -- When a tool returns `{"result": "{\"value\":[...]}", "status": "success"}`, the string payload is now parsed so `_iter_result_records` can extract records for downstream steps (same class of fix previously landed for `content`).
-
-### Runtime v0.20260413.0
-
-#### Planning JSON robustness & truncation fix
-
-- **Prose-preamble JSON parsing** -- Some models emit natural-language before the JSON execution plan, sometimes in a markdown fence that doesn't start at char 0. Planning extraction now uses a three-stage approach (direct parse, regex for code-fenced JSON anywhere, brace-matched search for the outermost `{...}` containing `"steps"`).
-- **Planner no longer truncated on tool-heavy formations** -- Planning calls now set `max_tokens=16384` explicitly. Formations with 100+ MCP tools producing 4-step plans were hitting the Anthropic 4096 default and falling back to delegation; the new cap is 4-5x larger than any realistic multi-step plan.
-
-### Runtime v0.20260403.0
-
-#### MCP Accept header & faissx bump
-
-- **Strict FastMCP servers no longer reject transport detection** -- The detector's ping request now sends `Accept: application/json, text/event-stream, */*` explicitly, satisfying strict servers that previously returned `406 Not Acceptable` (community PR #139).
-- **faissx >= 0.20260403.0** -- Improved vector-store persistence across restarts; no data loss on formation restart.
+When a tool call fails and the runtime looks for a replacement, the auto-discovery scorer now understands resource domains (mail, calendar, drive, sharepoint, chat, contact, task, note). A failed `get-drive-root-item` can no longer be "repaired" with `list-mail-folders` just because both tools live on the same MCP server. Same-domain candidates get a bonus; cross-domain candidates get a penalty.
 
 ### CLI v0.20260417.0
 
-- `muxi scheduler list` and `show` views no longer crash on timestamps with fractional seconds and timezone offsets (e.g. `2026-04-16T09:00:00.123456+00:00`), and fractional precision is preserved when normalizing one-time `scheduled_for` values.
+- `muxi scheduler list` / `show` no longer crash on timestamps with fractional seconds and a timezone offset (e.g. `2026-04-16T09:00:00.123456+00:00`), and fractional precision is preserved when normalizing one-time `scheduled_for` values.
+
+### Runtime v0.20260416.3
+
+#### Placeholder polish and scheduler completion
+
+- **Sentinel values treated as unresolved**: strings like `"driveId": "auto-injected"` no longer block MCP server-default injection from overwriting them with a real value.
+- **Dotted placeholder references**: `{{SPARK_EVENT.event_id}}` now correctly extracts the `event_id` field from the `{{SPARK_EVENT}}` result (case- and underscore-insensitive) instead of passing the literal string through.
+- **Scalar-only whole-payload fallback**: LLM-hallucinated parameters not in a tool's schema no longer receive a full result dict coerced into them, preventing pydantic errors downstream.
+- **Scheduler marks success without a webhook**: formations without `async.webhook_url` now run jobs synchronously and record success/last-run directly, so `total_runs` and `last_run_status` stay accurate.
+
+### Runtime v0.20260416.1 / v0.20260416.0
+
+#### Planning mode preserves tool parameters, knows today's date
+
+- **Tool parameters no longer dropped (critical)**: an internal rebuild step was silently replacing every parameter set with `{}` after the LLM assembled the plan. Parameters are now preserved verbatim, and repeated uses of the same tool each keep their own arguments.
+- **"Today" and "tomorrow" resolve to concrete dates**: the planning prompt now includes the current date and time, so relative date references produce concrete RFC3339 values.
+- **Parameterless MCP steps no longer crash**: tools that require no user-supplied arguments (e.g. `list-mail-messages`, `get_events`, `search_gmail_messages`) no longer hit an uninitialized-variable error.
+- **Scheduler jobs run on the right event loop**: fixes "Future attached to a different loop" crashes on scheduled jobs whose chat path uses asyncpg, httpx, or MCP transports.
+- **Repair scoring prefers same-server tools**: a tool from a different MCP server can no longer outscore a same-server candidate during repair planning.
 
 ### CLI v0.20260416.0
 
-- `muxi scheduler list` / `show` map the runtime's actual job fields (`status`, `is_recurring`, `cron_expression`, `scheduled_for`, `original_prompt`, `last_run_at`, `total_failures`) so active jobs render correctly instead of appearing disabled with empty columns.
-- Recurring cron next-run values are now computed client-side; one-time jobs reuse `scheduled_for` when the runtime does not provide a precomputed `next_run`.
+- `muxi scheduler list` / `show` render active jobs correctly by reading the runtime's real job fields (`status`, `is_recurring`, `cron_expression`, `scheduled_for`, `original_prompt`, `last_run_at`, `total_failures`) instead of the stubs they were previously hitting.
+- Recurring cron next-run values are now computed client-side; one-time jobs reuse `scheduled_for` when no precomputed `next_run` is returned.
+
+### Runtime v0.20260415.0
+
+#### Delegation and context hints
+
+- **Server-default params are satisfiable**: MCP-injected values like `driveId` are no longer treated as missing, preventing redundant LLM inference that could replace them with `"me"`.
+- **Generalized named-resource hints**: context extraction recognizes `#channel`, `@name`, quoted names, and filenames without service-specific heuristics.
+- **Delegated agents get context**: downstream agents receive compact summaries of successful prior results instead of reasoning from scratch.
+- **Less unnecessary delegation**: agents keep arithmetic, summarization, and analysis in-house when their own tools already fetch the needed data.
+- **Dependency floor bumps**: `onellm[cache] >= 0.20260415.0`, `fastmcp >= 3.2.0`, `pypdf >= 6.10.0`, `Pillow >= 12.2.0`, `aiohttp >= 3.13.4`, `requests >= 2.33.0`, `cryptography >= 46.0.7`, `pytest >= 9.0.3`, `black >= 26.3.1`.
+
+### Runtime v0.20260414.0
+
+#### Parameter matching across casings and step order
+
+- **Recent results preferred**: when binding a parameter from prior results, the most recent step wins. A worksheet GUID from step 3 now correctly binds `workbookWorksheetId`, not a file's `driveItemId` from step 2.
+- **snake_case and camelCase interchangeable**: Slack's `channel_id` binds against upstream records keyed as `channelId` (and vice versa). Fields like `display_name`, `channel_name`, `drive_id`, `drive_item_id`, and `created_at` are recognized alongside their camelCase equivalents.
+
+### Runtime v0.20260413.1
+
+#### Microsoft 365 entity IDs flow through multi-step chains
+
+- **Expanded alias list** for suffix-based parameter matching -- worksheet, notebook, section, page, channel, team, plan, list, event, and contact IDs -- unblocking common MS365/Graph chains like "open the Book.xlsx worksheet and get a range".
+- **Real GUIDs no longer mistaken for placeholders**: values like `{4C35B2DD-58DF-4BDB-B806-E0421A3D5456}` are no longer rejected by the unresolved-placeholder check.
+- **JSON-string `result` fields parsed**: when a tool returns `{"result": "{\"value\":[...]}", "status": "success"}`, the embedded string payload is now parsed for downstream extraction (matching the existing behavior for `content`).
+
+### Runtime v0.20260413.0
+
+#### More resilient plan parsing
+
+- **Plans with a preamble parse correctly**: some models emit natural-language text before the JSON plan, sometimes in a markdown fence that doesn't start at character 0. The runtime now extracts plans via direct parse, code-fence regex, and outermost-`{...}`-with-`"steps"` search.
+- **Large tool catalogs no longer truncate plans**: planning calls now cap at 16K tokens, so formations with 100+ MCP tools stop silently falling back to delegation because the 4K default got hit mid-response.
 
 ### CLI v0.20260413.0
 
-- `muxi validate` now recognizes the updated MCP declaration spec (`mcps.servers`) while remaining compatible with legacy `mcp.servers` manifests.
+- `muxi validate` recognizes the updated MCP declaration spec (`mcps.servers`) while staying compatible with legacy `mcp.servers` manifests.
 - MCP config files are matched from both `mcps/` and legacy `mcp/` directories so declaration checks and required-field validation report correctly during migration.
 
 ### Runtime v0.20260410.0
 
-#### MCP default parameters
+#### Shared MCP defaults
 
 MCP servers now support a `parameters` field: a flat key-value map of default values injected into every tool call on that server. This removes infrastructure constants (org-level drive IDs, tenant IDs, project keys) from agent prompts and LLM inference, making multi-step tool chains deterministic regardless of model.
 
@@ -159,15 +146,15 @@ parameters:
 - Caller-supplied arguments always take precedence over defaults
 - Works on both formation-level and agent-level MCP server declarations
 
-#### Multi-step tool execution hardening
+#### Multi-step MCP reliability
 
-A set of fixes making multi-step MCP workflows (e.g., find user, get drive root, list files, open workbook) more reliable:
+A bundle of fixes that make multi-step MCP chains (find user -> get drive root -> list files -> open workbook) less brittle:
 
-- **Execution-time parameter binding uses clean context** -- Planned tool steps now resolve parameters from the current request and successful prior results only, not the full enhanced prompt with stale memory/profile data.
-- **Placeholder values blocked** -- Strings like `{{ROOT_FOLDER_ID}}` or `<<ID>>` are now treated as unresolved and block tool calls safely instead of being sent as literal arguments.
-- **Failed steps excluded from chaining** -- Only successful prior tool results are used for parameter substitution and inference context. Error payloads no longer contaminate downstream steps.
-- **Fabricated IDs rejected** -- A post-inference validation guard checks LLM-inferred ID-typed parameters against successful result records and rejects values not found in any discovered record.
-- **Modern MCP result extraction fixed** -- Tool results returned as JSON strings (common with modern MCP protocol) are now properly parsed for downstream parameter extraction.
+- **Clean context at execution time**: planned tool steps resolve parameters from the current request and successful prior results only, no longer dragging in stale memory or profile data.
+- **Placeholders never shipped as arguments**: `{{ROOT_FOLDER_ID}}` or `<<ID>>` strings that slip through are blocked before the call.
+- **Failed steps excluded**: parameter substitution and inference only consider successful prior results; error payloads no longer contaminate downstream steps.
+- **Fabricated IDs rejected**: an LLM-inferred ID value that appears in no prior record is dropped.
+- **Modern MCP results parsed**: tool results returned as JSON strings are parsed for downstream extraction.
 
 ### Runtime v0.20260409.0
 
@@ -179,12 +166,23 @@ A set of fixes making multi-step MCP workflows (e.g., find user, get drive root,
 
 ### Runtime v0.20260408.0
 
-#### Routing & date-preservation hardening
+#### Smarter agent routing
 
-- **Specialist agents no longer lose to generalists** -- Routing now considers agent MCP tools, specialties, and domain keywords, not just agent name and description.
-- **Follow-up messages stay routed correctly** -- Session-aware routing biases follow-ups toward the agent that handled the previous turn.
-- **Exact dates preserved in responses** -- Workflow synthesis and agent planning responses no longer rewrite concrete dates/times into relative language.
-- **Delegated tasks use their tools** -- When a broad agent delegates to a specialist, the specialist now plans and executes its MCP tools instead of answering from model prior.
+- **Specialists beat generalists**: routing now considers an agent's MCP tools, specialties, and domain keywords, not just its name and description.
+- **Follow-ups stay with the same agent**: session-aware routing biases follow-up messages toward the agent that handled the previous turn.
+- **Exact dates preserved**: workflow synthesis and agent planning responses no longer rewrite concrete dates/times as relative language.
+- **Delegated specialists use their tools**: when a broad agent delegates to a specialist, the specialist plans and executes its MCP tools instead of answering from model prior.
+
+### CLI v0.20260408.0
+
+- Chat sessions no longer time out during slow-starting formations that emit SSE keepalive frames
+- SSE stream parsing handles full event blocks, surfacing route-level errors and preserving progress/tool-activity events
+
+### SDKs v0.20260408.0
+
+- SSE parsing across all 12 SDKs is keepalive-aware (`: keepalive` comments no longer cause false idle failures)
+- Route-level `event: error` frames are surfaced as SDK errors instead of being silently dropped
+- New runtime event types (`progress`, `thinking`, `planning`, `tool_call`) preserved in chat streams
 
 ### Runtime v0.20260407.0
 
@@ -194,23 +192,19 @@ A set of fixes making multi-step MCP workflows (e.g., find user, get drive root,
 - Explicit transport type preserved across reconnects (no more re-detection on every reconnect)
 - Client disconnects now cancel in-flight MCP requests and close their pooled connections
 
+### Runtime v0.20260403.0
+
+#### MCP Accept header & faissx bump
+
+- **Strict FastMCP servers no longer reject transport detection**: the detector's ping request now sends `Accept: application/json, text/event-stream, */*` explicitly, satisfying servers that previously returned `406 Not Acceptable` (community PR #139).
+- **faissx >= 0.20260403.0**: improved vector-store persistence across restarts -- no data loss on formation restart.
+
 ### Runtime v0.20260402.0
 
 #### Workflow tool-call reliability
 
-- **Workflow tasks use isolated context** -- Workflow-dispatched agents no longer inherit full conversation history, which was causing them to reproduce prior tool calls as XML text instead of issuing real API calls.
-- **System date injected** -- Agents now know today's date instead of using their training data cutoff.
-
-### Runtime v0.20260401.0
-
-#### Skill secrets
-
-Skills can now use `${{ secrets.X }}` directly in their `SKILL.md` instructions. The runtime scans skill files at load time, resolves secrets at activation, and injects them into the agent's context. For bundled scripts, secrets are passed as environment variables to the RCE subprocess.
-
-#### SOP synthesis fixes
-
-- **Synthesis step instructions no longer truncated** -- The 500-character cap on SOP step body text is removed; instructions are passed verbatim.
-- **Prior step results now reach the synthesis agent** -- Dependency outputs are extracted and presented as clear content instead of raw metadata blobs.
+- **Isolated context for workflow tasks**: workflow-dispatched agents no longer inherit full conversation history, which was causing them to reproduce prior tool calls as XML text instead of issuing real API calls.
+- **Today's date injected**: agents now know the actual current date instead of falling back to their training-data cutoff.
 
 ### Server v0.20260402.0
 
@@ -222,16 +216,16 @@ Skills can now use `${{ secrets.X }}` directly in their `SKILL.md` instructions.
 - Auto-installs Apptainer on `muxi-server start` if not found on Linux (survives container restarts)
 - Fixed Apptainer/Singularity binary lookup to prefer `apptainer` over `singularity`
 
-### CLI v0.20260408.0
+### Runtime v0.20260401.0
 
-- Chat sessions no longer time out during slow-starting formations that emit SSE keepalive frames
-- SSE stream parsing handles full event blocks, surfacing route-level errors and preserving progress/tool activity events
+#### Skill secrets
 
-### SDKs v0.20260408.0
+Skills can now reference `${{ secrets.X }}` directly in their `SKILL.md` instructions. The runtime resolves secrets at activation time and injects them into the agent's context. Bundled scripts receive them as environment variables in the RCE subprocess.
 
-- SSE parsing across all 12 SDKs is now keepalive-aware (`: keepalive` comments no longer cause false idle failures)
-- Route-level `event: error` frames surfaced as SDK errors instead of being silently dropped
-- New runtime event types (`progress`, `thinking`, `planning`, `tool_call`) preserved in chat streams
+#### SOP synthesis fixes
+
+- **Synthesis step instructions no longer truncated**: the old 500-character cap on SOP step body text is gone; instructions pass through verbatim.
+- **Prior-step results reach the synthesis agent**: dependency outputs are extracted and presented as clear content instead of raw metadata blobs.
 
 ### SDKs v0.20260324.0
 
