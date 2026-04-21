@@ -1,0 +1,27 @@
+name: Rebuild Docs Site
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for GitHub cache to settle
+        run: sleep 300
+
+      - name: Clear docs cache
+        run: |
+          curl --fail-with-body -X DELETE \
+            'https://muxi.org/docs/cache' \
+            --header "Authorization: Bearer ${{ secrets.MUXI_DOCS_TOKEN }}"
+
+      - name: Trigger docs rebuild
+        run: |
+          curl --fail-with-body -X POST \
+            'https://muxi.org/docs/rebuild' \
+            --header "Authorization: Bearer ${{ secrets.MUXI_DOCS_TOKEN }}"
