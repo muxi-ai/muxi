@@ -13,6 +13,34 @@
 
 ## April 2026
 
+### Runtime v0.20260421.0
+
+#### Native A2A 1.0 migration
+
+- **Native `a2a-sdk 1.0` support**: the runtime now uses the SDK's 1.0 client, server, registry, transport, and overlord APIs directly instead of the old compatibility layer.
+- **Centralized protobuf translation**: SDK/MUXI message conversion now lives in one helper layer, reducing drift across A2A call sites and preserving existing runtime contracts.
+- **Updated A2A dependency floor**: runtime now requires `a2a-sdk>=1.0,<2.0` and `protobuf>=5.29.5,<6`.
+- **Broader A2A verification**: release coverage includes focused unit, integration, and orchestration E2E tests for internal messaging, external messaging, and discovery flows.
+
+### OneLLM v0.20260421.0
+
+#### Local embedding provider
+
+- **New `local/` embedding provider**: OneLLM can now run in-process local embedding models through the standard `Embedding.create()` / `Embedding.acreate()` surface.
+- **ONNX-first backend selection**: local models prefer ONNX Runtime when ONNX weights are available, with `sentence-transformers` fallback for PyTorch-only repos.
+- **Extras split for local backends**: `[cache]` now stays lean by default, while `[local-gpu]` and `[local-pytorch]` opt into CUDA and PyTorch-backed local embedding support.
+- **Cleaner local model workflows**: `onellm download local/...` now snapshots Hugging Face repos directly, and the semantic cache loads embeddings through the same `LocalProvider` path.
+- **More resilient provider error handling**: non-JSON HTTP error bodies across providers are normalized consistently, and OpenAI audio text formats now return raw text correctly.
+
+### Runtime v0.20260420.1
+
+#### Free-text placeholder resolution
+
+- **Google Calendar and Gmail text payloads now resolve cleanly**: placeholder predicates can match bulleted free-text results instead of assuming structured JSON records only.
+- **Embedded placeholders inside larger strings now substitute correctly**: composed values such as draft bodies with appended text no longer send literal `{{...}}` tokens downstream.
+- **Section-style field extraction works**: payloads using `--- FIELD ---` blocks now expose values like message bodies for downstream tool calls.
+- **Unresolved placeholders are surfaced earlier**: leftover placeholder tokens are logged loudly and blocked or repaired before they can silently no-op at MCP execution time.
+
 ### Runtime v0.20260420.0
 
 #### Placeholder pipeline reliability
