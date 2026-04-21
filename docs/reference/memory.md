@@ -113,14 +113,14 @@ You can use API-based or local embedding models:
 embedding_model: openai/text-embedding-3-small    # 1536 dimensions
 
 # Local (no API key required, downloaded automatically)
-embedding_model: local/all-MiniLM-L6-v2           # 384 dimensions
-embedding_model: local/all-mpnet-base-v2           # 768 dimensions
+embedding_model: local/sentence-transformers/all-MiniLM-L6-v2   # 384 dimensions
+embedding_model: local/sentence-transformers/all-mpnet-base-v2   # 768 dimensions
 ```
 
-The embedding dimension is detected automatically. MUXI creates dimension-specific storage tables (`memories_384`, `memories_1536`, etc.), so different formations can share the same database even with different embedding models.
+The id after `local/` is the HuggingFace repo id; any HuggingFace embedding repo works. The embedding dimension is detected automatically. MUXI creates dimension-specific storage tables (`memories_384`, `memories_1536`, etc.), so different formations can share the same database even with different embedding models.
 
 > [!TIP]
-> Local models are great for development and air-gapped environments. No API key needed -- the model downloads on first use via `sentence-transformers`.
+> Local models are great for development and air-gapped environments. No API key needed -- the model downloads on first use from HuggingFace into the standard cache (`$HF_HOME` or `~/.cache/huggingface/hub/`).
 
 ## Persistent Memory
 

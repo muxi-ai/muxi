@@ -49,12 +49,12 @@ You can run embedding models locally with no API key required:
 ```yaml
 llm:
   models:
-    - embedding: "local/all-MiniLM-L6-v2"    # 384 dims, downloaded automatically
+    - embedding: "local/sentence-transformers/all-MiniLM-L6-v2"   # 384 dims, downloaded automatically
 ```
 
-This is useful for development, testing, or air-gapped environments. The model downloads on first use via `sentence-transformers`.
+The id after `local/` is the HuggingFace repo id. This is useful for development, testing, or air-gapped environments. The model downloads on first use from HuggingFace into the standard cache (`$HF_HOME` or `~/.cache/huggingface/hub/`).
 
-Available local models include `local/all-MiniLM-L6-v2` (384 dims) and `local/all-mpnet-base-v2` (768 dims).
+Common picks: `local/sentence-transformers/all-MiniLM-L6-v2` (384 dims) and `local/sentence-transformers/all-mpnet-base-v2` (768 dims). Any HuggingFace embedding repo works.
 
 ## Step 3: Enable Persistent Memory
 
@@ -152,7 +152,7 @@ If you switch embedding models (e.g., from an API model to a local one), existin
 python scripts/migrate_embeddings.py \
   --from-dim 1536 \
   --to-dim 384 \
-  --to-model "local/all-MiniLM-L6-v2" \
+  --to-model "local/sentence-transformers/all-MiniLM-L6-v2" \
   --connection-string "postgresql://user:pass@localhost/muxi"
 ```
 

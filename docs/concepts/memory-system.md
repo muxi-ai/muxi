@@ -156,8 +156,8 @@ llm:
   models:
     # API-based
     - embedding: "openai/text-embedding-3-small"    # 1536 dims
-    # Or local (no API key needed)
-    - embedding: "local/all-MiniLM-L6-v2"           # 384 dims
+    # Or local (no API key needed; HuggingFace repo id)
+    - embedding: "local/sentence-transformers/all-MiniLM-L6-v2"   # 384 dims
 ```
 
 

@@ -87,7 +87,7 @@ llm:
 | Capability | Purpose | Example |
 |------------|---------|---------|
 | `text` | Text generation | `openai/gpt-4o` |
-| `embedding` | Vector embeddings | `openai/text-embedding-3-large` or `local/all-MiniLM-L6-v2` |
+| `embedding` | Vector embeddings | `openai/text-embedding-3-large` or `local/sentence-transformers/all-MiniLM-L6-v2` |
 | `vision` | Image analysis | `openai/gpt-4o` |
 | `audio` | Transcription | `openai/whisper-1` |
 | `video` | Video analysis | `google/gemini-pro-vision` |
@@ -102,7 +102,7 @@ llm:
 | Anthropic | `anthropic/{model}` | `anthropic/claude-sonnet-4-20250514` |
 | Google | `google/{model}` | `google/gemini-pro` |
 | Ollama | `ollama/{model}` | `ollama/llama3` |
-| Local (embeddings) | `local/{model}` | `local/all-MiniLM-L6-v2` |
+| Local (embeddings) | `local/{hf-repo-id}` | `local/sentence-transformers/all-MiniLM-L6-v2` |
 
 ## Agents
 

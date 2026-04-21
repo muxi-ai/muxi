@@ -137,8 +137,8 @@ Persistent memory uses **dimension-specific tables** rather than a single fixed 
 |----------------|-----------|------------|
 | `openai/text-embedding-3-small` | 1536 | `memories_1536` |
 | `openai/text-embedding-3-large` | 3072 | `memories_3072` |
-| `local/all-MiniLM-L6-v2` | 384 | `memories_384` |
-| `local/all-mpnet-base-v2` | 768 | `memories_768` |
+| `local/sentence-transformers/all-MiniLM-L6-v2` | 384 | `memories_384` |
+| `local/sentence-transformers/all-mpnet-base-v2` | 768 | `memories_768` |
 
 This is handled by the `get_memory_model(dimension)` factory, which dynamically creates SQLAlchemy ORM models:
 
@@ -175,28 +175,28 @@ CREATE INDEX idx_importance ON memories_1536(importance DESC);
 
 ### Local Embedding Models
 
-MUXI supports running embedding models locally via `sentence-transformers`, with no API key required. Use the `local/` prefix:
+MUXI supports running embedding models locally with no API key required. Use the `local/` prefix followed by a HuggingFace repo id:
 
 ```yaml
 llm:
   models:
-    - embedding: "local/all-MiniLM-L6-v2"      # 384 dimensions
-    # or: "local/all-mpnet-base-v2"             # 768 dimensions
+    - embedding: "local/sentence-transformers/all-MiniLM-L6-v2"   # 384 dimensions
+    # or: "local/sentence-transformers/all-mpnet-base-v2"          # 768 dimensions
 ```
 
-The model is downloaded automatically on first use. This is useful for development, air-gapped environments, or reducing API costs.
+The id after `local/` is passed straight to HuggingFace, so any HuggingFace embedding repo works. Models download automatically on first use into the standard HuggingFace cache (`$HF_HOME` or `~/.cache/huggingface/hub/`). This is useful for development, air-gapped environments, or reducing API costs.
 
 > **Note:** SQLite-backed formations automatically fall back to local embeddings when no API-based embedding model is configured.
 
 ### Migrating Between Embedding Models
 
-If you change your embedding model (e.g., from `openai/text-embedding-3-small` at 1536 dims to `local/all-MiniLM-L6-v2` at 384 dims), existing memories need re-embedding. Use the migration script:
+If you change your embedding model (e.g., from `openai/text-embedding-3-small` at 1536 dims to `local/sentence-transformers/all-MiniLM-L6-v2` at 384 dims), existing memories need re-embedding. Use the migration script:
 
 ```bash
 python scripts/migrate_embeddings.py \
   --from-dim 1536 \
   --to-dim 384 \
-  --to-model "local/all-MiniLM-L6-v2" \
+  --to-model "local/sentence-transformers/all-MiniLM-L6-v2" \
   --connection-string "postgresql://user:pass@localhost/muxi"
 ```
 
@@ -338,7 +338,7 @@ memory:
     size: 50                    # Messages before summarization
     multiplier: 10              # Extended capacity factor
     vector_search: true         # Enable semantic search
-    embedding_model: openai/text-embedding-3-small  # Or local/all-MiniLM-L6-v2
+    embedding_model: openai/text-embedding-3-small  # Or local/sentence-transformers/all-MiniLM-L6-v2
 
   working:
     max_memory_mb: 10           # Memory limit
