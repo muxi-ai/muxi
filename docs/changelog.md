@@ -19,6 +19,24 @@ description: Release history and updates for MUXI
 
 ## April 2026
 
+### Runtime v0.20260422.0
+
+#### Scheduler recurring jobs resume after the first run
+
+Recurring scheduled jobs could silently stop firing after their first successful execution because the runtime compared a naive database timestamp against a timezone-aware "now", raising a `TypeError` that a broad `except` silently translated to "not due". Timestamp handling is now UTC-normalized at both edges of the scheduler.
+
+- **Recurring cron jobs keep firing**: a naive `last_run_at` from the database is treated as UTC before being compared against croniter's aware "scheduled next", so cron jobs re-fire reliably on every tick instead of appearing not-due forever after their first run.
+- **One-time jobs get the same guarantee**: `scheduled_for` comparisons on one-shot jobs no longer hit the same naive-vs-aware `TypeError` mid-check.
+- **Scheduler API timestamps are unambiguous UTC**: `ScheduledJob` and `ScheduledJobAudit` JSON payloads now emit ISO 8601 with a trailing `Z` on every datetime field, removing the "local or UTC?" ambiguity for clients.
+
+#### Tool-schema-documented sentinel values are honored
+
+Cell-specific Excel reads (A1/B2 in the authenticated user's default OneDrive) silently collapsed because the parameter-inference prompt conflated "don't invent placeholder values" with "don't emit short sentinel strings like `me`" -- even when the tool's own parameter description explicitly documented the sentinel as the correct value. Inference returned nothing, required-parameter repair fired, auto-discovery inserted an unrelated step, and the replan guard blocked a second attempt. The chain collapsed silently on every tool whose schema documented a sentinel.
+
+- **Parameter descriptions are now a first-class contract**: when a tool schema's parameter description explicitly documents a sentinel (e.g. `"use 'me' for the current user's drive"`, `"pass 'root' for the default site"`, `"use 'primary' for the default calendar"`), the runtime emits that sentinel when the user's request did not identify a specific resource and no prior step supplies the real ID. The rule is schema-driven -- any MCP (Microsoft Graph, Google Workspace, Slack, custom tool servers) whose schema documents a sentinel benefits with no runtime-code change.
+- **Anti-guessing guardrails preserved**: short strings that are *not* documented sentinels still get the same treatment as before -- the LLM omits them rather than inventing a value.
+- **Specific-resource requests keep working**: naming a specific drive, mailbox, site, or calendar in the user's message still triggers a discovery-first chain, because the sentinel rule is guarded by "user did not name a specific resource" and "no prior step produced the real ID".
+
 ### Runtime v0.20260421.0
 
 #### Native A2A 1.0 migration
