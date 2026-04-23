@@ -47,14 +47,15 @@ MUXI (`/ˈmʌk.siː/`) is **production infrastructure for AI agents**. Not a fra
 > MUXI introduced the [**Agent Formation Standard**](https://github.com/agent-formation) – an open spec for declarative AI systems. Agents, knowledge, A2A, and MCP tools defined in portable `.afs` files.
 
 
+<!--
 ## Demo
 
-<!-- TODO: Replace with terminal recording (asciinema/svg-term or ttygif, ~10-15s, ~800px width) -->
-<!-- Recommended flow: muxi pull @muxi/hello-muxi -> muxi deploy -> muxi chat hello-muxi -->
+TODO: Replace with terminal recording (asciinema/svg-term or ttygif, ~10-15s, ~800px width)
+Recommended flow: muxi pull @muxi/hello-muxi -> muxi deploy -> muxi chat hello-muxi 
 <p align="center">
   <img src="./assets/demo.gif" alt="MUXI Demo" width="800">
 </p>
-
+-->
 
 ## Quick Start
 
