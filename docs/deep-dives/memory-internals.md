@@ -137,8 +137,11 @@ Persistent memory uses **dimension-specific tables** rather than a single fixed 
 |----------------|-----------|------------|
 | `openai/text-embedding-3-small` | 1536 | `memories_1536` |
 | `openai/text-embedding-3-large` | 3072 | `memories_3072` |
-| `local/sentence-transformers/all-MiniLM-L6-v2` | 384 | `memories_384` |
+| `local/nomic-ai/nomic-embed-text-v1.5` (default) | 768 | `memories_768` |
 | `local/sentence-transformers/all-mpnet-base-v2` | 768 | `memories_768` |
+| `local/sentence-transformers/all-MiniLM-L6-v2` | 384 | `memories_384` |
+
+The `memories_384`, `memories_768`, `memories_1024`, `memories_1536`, and `memories_3072` tables are pre-created by the schema initializer (PostgreSQL with pgvector/ivfflat, and SQLite with FTS5), so formations using any of these dimensions work on a fresh database without runtime DDL.
 
 This is handled by the `get_memory_model(dimension)` factory, which dynamically creates SQLAlchemy ORM models:
 
@@ -175,28 +178,41 @@ CREATE INDEX idx_importance ON memories_1536(importance DESC);
 
 ### Local Embedding Models
 
-MUXI supports running embedding models locally with no API key required. Use the `local/` prefix followed by a HuggingFace repo id:
+MUXI supports running embedding models locally with no API key required. Use the `local/` prefix followed by the full HuggingFace repo id (`<org>/<model>`):
 
 ```yaml
 llm:
   models:
-    - embedding: "local/sentence-transformers/all-MiniLM-L6-v2"   # 384 dimensions
-    # or: "local/sentence-transformers/all-mpnet-base-v2"          # 768 dimensions
+    - embedding: "local/nomic-ai/nomic-embed-text-v1.5"            # 768 dims (default)
+    # or: "local/nomic-ai/nomic-embed-text-v2-moe"                  # 768 dims, multilingual
+    # or: "local/sentence-transformers/all-mpnet-base-v2"           # 768 dims
+    # or: "local/sentence-transformers/all-MiniLM-L6-v2"            # 384 dims
 ```
 
-The id after `local/` is passed straight to HuggingFace, so any HuggingFace embedding repo works. Models download automatically on first use into the standard HuggingFace cache (`$HF_HOME` or `~/.cache/huggingface/hub/`). This is useful for development, air-gapped environments, or reducing API costs.
+The default local model is `local/nomic-ai/nomic-embed-text-v1.5` (768-dim, 8k context, Matryoshka 64–768, Apache-2.0). The id after `local/` is passed straight to HuggingFace, so any HuggingFace embedding repo works.
+
+The default model is pre-downloaded by `muxi-server init` into a host cache (`$MUXI_CACHE_DIR` or `<data_dir>/cache`) and bind-mounted into formations at `/opt/hf-cache` (with `HF_HOME=/opt/hf-cache`), so deploys don't pay a multi-hundred-MB fetch on first launch. Other models download on first use through the same cache.
+
+You can pin a specific HuggingFace revision by appending `:<git-revision>` to the slug:
+
+```yaml
+embedding: "local/nomic-ai/nomic-embed-text-v1.5:e04b7e4c5ea3e3d7e41e13d4c02fa5e29e0e3a0a"
+```
+
+> [!IMPORTANT]
+> Short-name aliases like `local/all-MiniLM-L6-v2` and `local/all-mpnet-base-v2` were removed. Use the full HuggingFace repo id, or migrate to the new default (`local/nomic-ai/nomic-embed-text-v1.5`).
 
 > **Note:** SQLite-backed formations automatically fall back to local embeddings when no API-based embedding model is configured.
 
 ### Migrating Between Embedding Models
 
-If you change your embedding model (e.g., from `openai/text-embedding-3-small` at 1536 dims to `local/sentence-transformers/all-MiniLM-L6-v2` at 384 dims), existing memories need re-embedding. Use the migration script:
+If you change your embedding model (e.g., from `openai/text-embedding-3-small` at 1536 dims to `local/nomic-ai/nomic-embed-text-v1.5` at 768 dims), existing memories need re-embedding. Use the migration script:
 
 ```bash
 python scripts/migrate_embeddings.py \
   --from-dim 1536 \
-  --to-dim 384 \
-  --to-model "local/sentence-transformers/all-MiniLM-L6-v2" \
+  --to-dim 768 \
+  --to-model "local/nomic-ai/nomic-embed-text-v1.5" \
   --connection-string "postgresql://user:pass@localhost/muxi"
 ```
 
@@ -338,7 +354,7 @@ memory:
     size: 50                    # Messages before summarization
     multiplier: 10              # Extended capacity factor
     vector_search: true         # Enable semantic search
-    embedding_model: openai/text-embedding-3-small  # Or local/sentence-transformers/all-MiniLM-L6-v2
+    embedding_model: openai/text-embedding-3-small  # Or local/nomic-ai/nomic-embed-text-v1.5
 
   working:
     max_memory_mb: 10           # Memory limit

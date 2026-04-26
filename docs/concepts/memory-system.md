@@ -156,9 +156,11 @@ llm:
   models:
     # API-based
     - embedding: "openai/text-embedding-3-small"    # 1536 dims
-    # Or local (no API key needed; HuggingFace repo id)
-    - embedding: "local/sentence-transformers/all-MiniLM-L6-v2"   # 384 dims
+    # Or local (no API key needed; full HuggingFace repo id)
+    - embedding: "local/nomic-ai/nomic-embed-text-v1.5"   # 768 dims (default)
 ```
+
+The default local model is pre-downloaded by `muxi-server init` and shared across formations via a host cache bind-mounted at `/opt/hf-cache`.
 
 
 ## User Isolation

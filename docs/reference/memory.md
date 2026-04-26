@@ -112,15 +112,26 @@ You can use API-based or local embedding models:
 # API-based (requires API key)
 embedding_model: openai/text-embedding-3-small    # 1536 dimensions
 
-# Local (no API key required, downloaded automatically)
-embedding_model: local/sentence-transformers/all-MiniLM-L6-v2   # 384 dimensions
+# Local (no API key required, pre-downloaded by `muxi-server init`)
+embedding_model: local/nomic-ai/nomic-embed-text-v1.5            # 768 dimensions (default)
+embedding_model: local/nomic-ai/nomic-embed-text-v2-moe          # 768 dimensions, multilingual
 embedding_model: local/sentence-transformers/all-mpnet-base-v2   # 768 dimensions
+embedding_model: local/sentence-transformers/all-MiniLM-L6-v2    # 384 dimensions
 ```
 
-The id after `local/` is the HuggingFace repo id; any HuggingFace embedding repo works. The embedding dimension is detected automatically. MUXI creates dimension-specific storage tables (`memories_384`, `memories_1536`, etc.), so different formations can share the same database even with different embedding models.
+The default local model is `local/nomic-ai/nomic-embed-text-v1.5` (768-dim, 8k context, Apache-2.0). The id after `local/` is the full HuggingFace repo id (`<org>/<model>`); any HuggingFace embedding repo works. The embedding dimension is detected automatically. MUXI pre-creates dimension-specific storage tables (`memories_384`, `memories_768`, `memories_1024`, `memories_1536`, `memories_3072`), so different formations can share the same database even with different embedding models.
+
+You can pin a specific HuggingFace revision by appending `:<revision>` to the slug:
+
+```yaml
+embedding_model: local/nomic-ai/nomic-embed-text-v1.5:e04b7e4c5ea3e3d7e41e13d4c02fa5e29e0e3a0a
+```
 
 > [!TIP]
-> Local models are great for development and air-gapped environments. No API key needed -- the model downloads on first use from HuggingFace into the standard cache (`$HF_HOME` or `~/.cache/huggingface/hub/`).
+> Local models are great for development and air-gapped environments. No API key needed -- the default model is pre-downloaded by `muxi-server init` into a shared cache (`$MUXI_CACHE_DIR` or `<data_dir>/cache`) and bind-mounted into formations at `/opt/hf-cache`, so deploys don't stall on a multi-hundred-MB fetch.
+
+> [!IMPORTANT]
+> Short-name aliases like `local/all-MiniLM-L6-v2` and `local/all-mpnet-base-v2` were removed. Use the full HuggingFace repo id (`local/sentence-transformers/all-MiniLM-L6-v2`) or migrate to the new default.
 
 ## Persistent Memory
 

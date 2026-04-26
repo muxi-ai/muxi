@@ -49,12 +49,21 @@ You can run embedding models locally with no API key required:
 ```yaml
 llm:
   models:
-    - embedding: "local/sentence-transformers/all-MiniLM-L6-v2"   # 384 dims, downloaded automatically
+    - embedding: "local/nomic-ai/nomic-embed-text-v1.5"   # 768 dims, default
 ```
 
-The id after `local/` is the HuggingFace repo id. This is useful for development, testing, or air-gapped environments. The model downloads on first use from HuggingFace into the standard cache (`$HF_HOME` or `~/.cache/huggingface/hub/`).
+The id after `local/` is the full HuggingFace repo id (`<org>/<model>`). This is useful for development, testing, or air-gapped environments. The default model (`local/nomic-ai/nomic-embed-text-v1.5`) is pre-downloaded by `muxi-server init` into a shared cache (`$MUXI_CACHE_DIR` or `<data_dir>/cache`) and bind-mounted into formations at `/opt/hf-cache`, so the first deploy doesn't stall on a multi-hundred-MB fetch.
 
-Common picks: `local/sentence-transformers/all-MiniLM-L6-v2` (384 dims) and `local/sentence-transformers/all-mpnet-base-v2` (768 dims). Any HuggingFace embedding repo works.
+Common picks:
+- `local/nomic-ai/nomic-embed-text-v1.5` (768 dims, 8k context, Apache-2.0) -- default
+- `local/nomic-ai/nomic-embed-text-v2-moe` (768 dims, multilingual)
+- `local/sentence-transformers/all-mpnet-base-v2` (768 dims)
+- `local/sentence-transformers/all-MiniLM-L6-v2` (384 dims)
+
+Any HuggingFace embedding repo works. To pin a specific revision, append `:<git-revision>` to the slug (e.g. `local/nomic-ai/nomic-embed-text-v1.5:e04b7e4...`).
+
+> [!IMPORTANT]
+> Short-name aliases like `local/all-MiniLM-L6-v2` were removed -- use the full `local/sentence-transformers/all-MiniLM-L6-v2` form, or migrate to the new default.
 
 ## Step 3: Enable Persistent Memory
 
@@ -151,8 +160,8 @@ If you switch embedding models (e.g., from an API model to a local one), existin
 ```bash
 python scripts/migrate_embeddings.py \
   --from-dim 1536 \
-  --to-dim 384 \
-  --to-model "local/sentence-transformers/all-MiniLM-L6-v2" \
+  --to-dim 768 \
+  --to-model "local/nomic-ai/nomic-embed-text-v1.5" \
   --connection-string "postgresql://user:pass@localhost/muxi"
 ```
 
