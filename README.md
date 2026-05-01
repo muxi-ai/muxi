@@ -51,7 +51,7 @@ MUXI (`/ˈmʌk.siː/`) is **production infrastructure for AI agents**. Not a fra
 ## Demo
 
 TODO: Replace with terminal recording (asciinema/svg-term or ttygif, ~10-15s, ~800px width)
-Recommended flow: muxi pull @muxi/hello-muxi -> muxi deploy -> muxi chat hello-muxi 
+Recommended flow: muxi pull @muxi/hello-muxi -> muxi deploy -> muxi chat hello-muxi
 <p align="center">
   <img src="./assets/demo.gif" alt="MUXI Demo" width="800">
 </p>
@@ -111,7 +111,7 @@ SDKs available for Python, TypeScript, Go, and 9 more languages.
 | **Multi-tenancy** | Built-in isolation | Build it yourself | Not supported | Not supported |
 | **Memory** | Three-tier (buffer + persistent + vector) | Bring your own | Short-term only | Bring your own |
 | **Tools** | 1,000+ via MCP, loaded once | Per-call schema injection | Per-call injection | Per-call injection |
-| **Observability** | 349 event types, 10+ export targets | LangSmith (paid) | CrewAI+ (paid) | Limited |
+| **Observability** | 356 event types, 10+ export targets | LangSmith (paid) | CrewAI+ (paid) | Limited |
 | **LLM Providers** | 21 providers, 300+ models | Multiple | Multiple | Multiple |
 
 **Key numbers:** <100ms avg response &bull; 80%+ test coverage &bull; 92% semantic cache hit rate
@@ -124,7 +124,7 @@ SDKs available for Python, TypeScript, Go, and 9 more languages.
 - **Three-tier memory** – buffer, persistent, and semantic memory built in. [Docs](https://muxi.org/docs/concepts/memory-system)
 - **1,000+ MCP tools** – GitHub, Slack, Stripe, databases, and more. [Docs](https://muxi.org/docs/concepts/tools-and-mcp)
 - **Multi-tenant** – per-user isolation, RBAC, OAuth. [Docs](https://muxi.org/docs/concepts/multi-tenancy)
-- **Observability** – 349 event types, real-time streaming, 10+ export targets. [Docs](https://muxi.org/docs/concepts/observability)
+- **Observability** – 356 event types, real-time streaming, 10+ export targets. [Docs](https://muxi.org/docs/concepts/observability)
 - **Intelligent orchestration** – Overlord routes to specialists, decomposes tasks. [Docs](https://muxi.org/docs/concepts/overlord)
 - **Async processing** – triggers, webhooks, scheduled tasks. [Docs](https://muxi.org/docs/concepts/async)
 - **Any LLM** – 21 providers, 300+ models, no lock-in. [Docs](https://muxi.org/docs/concepts/llm-providers)

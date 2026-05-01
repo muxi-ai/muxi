@@ -121,5 +121,5 @@ Logs stream with timestamps in JSON format:
 
 - [CLI Quick Reference](cheatsheet.md) - All CLI commands at a glance
 - [Observability](../concepts/observability.md) - Full observability system overview
-- [Event Types](../deep-dives/observability-events.md) - All 349 event types
+- [Event Types](../deep-dives/observability-events.md) - All 356 event types
 - [Troubleshooting](../guides/troubleshooting.md) - Common issues and fixes

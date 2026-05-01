@@ -29,7 +29,7 @@ Think: Flask is a framework. Nginx is infrastructure. MUXI is the Nginx for agen
 | **Deployment** | `muxi deploy` | Write deployment code |
 | **Configuration** | Declarative `.afs` files | Imperative code |
 | **Multi-tenancy** | Built-in isolation | Build yourself |
-| **Observability** | 349 event types, 10+ export targets | Add external tools |
+| **Observability** | 356 event types, 10+ export targets | Add external tools |
 | **Async/Scheduling** | Native support | Add Celery/etc. |
 
 **Key stats:** <100ms avg response, 88.9% test coverage, 92% semantic cache hit rate, 21 LLM providers / 300+ models via OneLLM.

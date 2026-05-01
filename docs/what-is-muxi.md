@@ -224,7 +224,7 @@ MUXI isn't a prototype tool – it's production infrastructure with the numbers 
 | Time to first agent | 5 Minutes |
 | Response time | <100ms time to first token |
 | Test coverage | 80%+ test coverage across core components |
-| Observability Events | 349 typed events |
+| Observability Events | 356 typed events |
 | LLM  supported | 21+ providers, 300+ models |
 | LLM cost saving | 50-80% via semantic caching |
 
@@ -277,7 +277,7 @@ MUXI is **open-source** and **self-hostable**. Your data stays on your infrastru
 | **Multi-tenancy** | Built-in | You build it | Limited |
 | **Self-hosted** | Yes | N/A | No |
 | **LLM choice** | Any provider | Any provider | Vendor models |
-| **Observability** | 349 events | You build it | Vendor tools |
+| **Observability** | 356 events | You build it | Vendor tools |
 
 ### vs. AI Assistants (OpenClaw, ChatGPT)
 

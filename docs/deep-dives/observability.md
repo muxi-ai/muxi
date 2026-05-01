@@ -19,7 +19,7 @@ MUXI emits structured events across the full request lifecycle - from initial ro
 
 ## Event System
 
-MUXI emits 349 typed events across the system lifecycle.
+MUXI emits 356 typed events across the system lifecycle.
 
 ### Event Categories
 

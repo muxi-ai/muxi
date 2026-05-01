@@ -125,7 +125,7 @@ logging:
 
 ## Observability Events
 
-MUXI emits 349 typed events for observability.
+MUXI emits 356 typed events for observability.
 
 ### Event Categories
 
