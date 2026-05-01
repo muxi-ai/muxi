@@ -114,6 +114,74 @@ MUXI:
 - Dozens of tools without burning context window
 
 
+## Tool Filtering (whitelist / blacklist)
+
+Semantic indexing already trims context contamination per request, but for very large MCP catalogs (30+ tools — Microsoft 365, Google Workspace, large internal MCP servers) you also want to trim the *full* tool surface advertised at the protocol level. Otherwise the agent's allowed-tool list, the planning prompt, and the registry grow with every irrelevant tool the upstream MCP exposes.
+
+MUXI lets you scope the agent-visible tool surface declaratively in the MCP `.afs` file:
+
+```yaml
+# mcp/ms365-excel.afs - only Excel tools, even though the upstream server exposes Word, Outlook, OneDrive, etc.
+schema: "1.0.0"
+id: ms365-excel
+type: command
+command: npx
+args: ["-y", "@softeria/ms-365-mcp-server"]
+auth:
+  type: env
+  ACCESS_TOKEN: "${{ user.credentials.MS365 }}"
+
+tools:
+  whitelist:
+    - "list-excel-files"
+    - "read-excel-*"
+    - "update-excel-*"
+```
+
+Or, the inverse — keep most tools but block destructive ones:
+
+```yaml
+# mcp/internal-db.afs - block every destructive operation
+tools:
+  blacklist:
+    - "drop-*"
+    - "delete-*"
+    - "truncate-*"
+```
+
+### How it's applied
+
+```
+Upstream MCP tools/list response
+        ↓
+   Filter (whitelist OR blacklist, fnmatch-style globs)
+        ↓
+Agent-visible tool registry (this is what the LLM ever sees)
+```
+
+The filter runs at MCP registration and on every `tools/list` refresh. Filtered-out tools never reach the planning prompt, the allowed-tool list, or the semantic capability index — they are invisible end-to-end.
+
+### Schema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `tools.whitelist` | string[] | If set, **only** these tool names are exposed. fnmatch globs (`*`, `?`) supported. |
+| `tools.blacklist` | string[] | If set, every tool **except** these is exposed. Same glob syntax. |
+
+> [!IMPORTANT]
+> `whitelist` and `blacklist` are mutually exclusive. Setting both fails formation validation at load time, by design — there is no useful interpretation of "include only A, but also exclude B".
+
+### When to use it
+
+- **Catalogs >20 tools** where any single agent only needs a slice (M365, GWorkspace, ms365-assistant, large internal MCPs).
+- **Read-only agents**: whitelist `list-*`, `read-*`, `search-*` patterns.
+- **Per-domain agent split**: one MCP file per domain (excel, word, calendar, email), each with its own whitelist, fed to a corresponding domain-specialist agent. See the [multi-agent guide](../guides/build-multi-agent-systems.md#per-agent-mcp-scoping-for-large-catalogs).
+- **Defense in depth**: blacklist destructive verbs even if you trust the agent's role-scoping, so the LLM cannot pick those tools at all.
+
+> [!TIP]
+> Filtering is complementary to MUXI's per-request semantic indexing — not a replacement. Indexing trims *what the agent sees per request*; filtering trims *what the agent can ever see*. Use both together for very large catalogs.
+
+
 ## Multi-User Tool Access
 
 Each user can store their own credentials:

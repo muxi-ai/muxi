@@ -11,7 +11,54 @@
 > - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 > - [FAISSx Releases](https://github.com/muxi-ai/faissx/releases)
 
+## May 2026
+
+### Runtime v0.20260502.0
+
+#### Init-time model probe rejects bad slugs
+
+Wrong-shape or misspelled model slugs now fail formation startup instead of silently degrading to recency-only retrieval on the first request.
+
+- **Real round-trip on every declared model**: `Embedding.acreate` for embedders, `ChatCompletion` for chat models. 404 / shape-invalid → `ConfigurationValidationError` with a corrected-form suggestion. Auth, rate-limit, and network errors warn-and-continue.
+- **`local/<owner>/<repo>` shape documented in the error**: HuggingFace's two-segment requirement is explained in-line instead of buried in upstream API responses. `local/all-MiniLM-L6-v2` becomes "did you mean `local/sentence-transformers/all-MiniLM-L6-v2`?".
+
+#### MCP error translation
+
+- **Misleading upstream errors are rewritten before reaching the planner**: e.g. Microsoft Graph's WAC token error (returned when an Excel endpoint receives a folder ID) becomes "the item ID is not an Excel file — re-check `list-folder-files` and filter by `.xlsx`". The agent self-corrects on the next iteration instead of escalating to the user.
+- **Applies automatically** to any MCP server emitting known patterns; no formation-side change required.
+
+#### Lean Docker variants on `python:3.14-slim`; `markitdown` extras narrowed
+
+- **Lean Dockerfiles move to `python:3.14-slim`** (`Dockerfile`, `Dockerfile.production`, `e2e/docker/Dockerfile`). Library `requires-python` floor stays `>=3.10`; only the upper end expands. `Dockerfile.pytorch` / `Dockerfile.cuda` unchanged.
+- **`markitdown[all]` → `markitdown[docx,pdf,pptx,xls,xlsx]`**: the `[all]` superset's `youtube-transcription` extra pinned `<3.14` and pulled audio/Azure-DI deps with no call sites in the codebase. Downstream consumers needing the dropped surface install `markitdown[all]` explicitly alongside `muxi-runtime`.
+- **Image/SIF size deltas vs 3.10 baseline**: lean Docker image 2.11 GB → 1.9 GB (-10%), arm64 SIF 643 MB → 551 MB (-14%), amd64 SIF 643 MB → 607 MB (-5.6%).
+- **PyPI classifier added**: `Programming Language :: Python :: 3.14`.
+
+#### Scheduler: doubled session IDs, missing job stats, stripped delivery framing
+
+- **Doubled `session_id` collapsed**: the scheduler no longer prefixes `job_<nanoid>` with another `job_`. The webhook → completion handoff resolves cleanly and `mark_job_execution_success` finds its `_active_executions` entry on every fire.
+- **Job stats persisted on every completion**: `last_run_at`, `last_run_status`, and `total_runs` update on success or failure.
+- **Prompt rewriter preserves delivery framing**: phrases like `remind me to`, `notify me`, `tell me when` are no longer compressed away. Scheduled reminders deliver as reminders, not as user-confirmation prompts.
+
+#### Tool whitelist / blacklist filter on MCP servers (now documented)
+
+- **`tools.whitelist` / `tools.blacklist`** on any MCP `.afs` file — mutually exclusive, fnmatch globs, applied at MCP registration so filtered tools are invisible to the LLM. Particularly relevant for large catalogs (Microsoft 365, Google Workspace). See [Tools & MCP](docs/concepts/tools-and-mcp.md#tool-filtering-whitelist--blacklist) and the [Add Tools guide](docs/guides/add-mcp-tools.md#filter-the-tool-surface-whitelistblacklist).
+
+### CLI v0.20260501.0
+
+- `muxi push` bundles now include `SOUL.md` and the legacy `mcp/` component directory, so registry round-trips no longer drop them. Both `mcp/` and `mcps/` directory names are matched when resolving MCP server declarations from `formation.afs`.
+- `muxi validate` recognizes the new MCP spec keys `parameters` (default tool-call parameters) and `tools.whitelist` / `tools.blacklist` (catalog filtering) as valid, and reports an error when both `whitelist` and `blacklist` are declared on the same MCP server.
+
 ## April 2026
+
+### CLI v0.20260428.0
+
+- `muxi chat` renders ordered list markers correctly in assistant messages — the `enumeration` element is now part of the custom glamour style, so numbered lists display as `1. Item` instead of `1Item`.
+
+### CLI v0.20260424.0
+
+- CLI release binaries are now uploaded to S3 (`s3://BUCKET/cli/VERSION/*`) with public-read ACL during the release workflow, mirroring the runtime's S3 distribution pattern.
+- CLI download URLs moved from `releases.muxi.org` to `pkg.muxi.org/cli/vVERSION/BINARY` across the upgrade command and the release workflow.
 
 ### Runtime v0.20260422.0
 
@@ -30,6 +77,11 @@ Cell-specific Excel reads (A1/B2 in the authenticated user's default OneDrive) s
 - **Parameter descriptions are now a first-class contract**: when a tool schema's parameter description explicitly documents a sentinel (e.g. `"use 'me' for the current user's drive"`, `"pass 'root' for the default site"`, `"use 'primary' for the default calendar"`), the runtime emits that sentinel when the user's request did not identify a specific resource and no prior step supplies the real ID. The rule is schema-driven -- any MCP (Microsoft Graph, Google Workspace, Slack, custom tool servers) whose schema documents a sentinel benefits with no runtime-code change.
 - **Anti-guessing guardrails preserved**: short strings that are *not* documented sentinels still get the same treatment as before -- the LLM omits them rather than inventing a value.
 - **Specific-resource requests keep working**: naming a specific drive, mailbox, site, or calendar in the user's message still triggers a discovery-first chain, because the sentinel rule is guarded by "user did not name a specific resource" and "no prior step produced the real ID".
+
+### CLI v0.20260422.0
+
+- `muxi scheduler list` and `muxi scheduler show` no longer fail when the runtime returns scheduler timestamps without timezone suffixes (e.g. `2026-04-20T11:30:35.935869`).
+- Timezone-less `scheduled_for` and `last_run_at` values are now treated as UTC, so one-time jobs still normalize correctly in CLI output.
 
 ### Runtime v0.20260421.0
 

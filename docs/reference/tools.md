@@ -126,6 +126,64 @@ auth:
 | `retry_attempts` | int | - | Number of retries (0-10) |
 | `connection_ttl` | int | - | Per-server idle TTL override (seconds). See [Connection Lifecycle](#connection-lifecycle). |
 | `parameters` | object | - | Default tool arguments injected into every call. See [Default Parameters](#default-parameters). |
+| `tools` | object | - | Filter the agent-visible tool surface advertised by this MCP server. See [Tool Filtering](#tool-filtering-whitelist--blacklist). |
+
+### Tool Filtering (whitelist / blacklist)
+
+Large MCP servers (Microsoft 365, Google Workspace, ms365-assistant, large internal catalogs) often expose 30+ tools, of which any given agent only needs a handful. Filtering trims the surface advertised to the LLM at registration time, so the planning prompt shrinks and the model is less likely to pick a wrong-but-plausible tool.
+
+```yaml
+# mcp/ms365-excel.afs
+schema: "1.0.0"
+id: ms365-excel
+type: command
+command: npx
+args: ["-y", "@softeria/ms-365-mcp-server"]
+auth:
+  type: env
+  ACCESS_TOKEN: "${{ user.credentials.MS365 }}"
+
+tools:
+  whitelist:
+    - "list-excel-files"
+    - "read-excel-*"
+    - "update-excel-*"
+```
+
+#### Schema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `tools.whitelist` | string[] | If set, **only** these tool names are exposed. fnmatch-style globs (`*`, `?`) supported. |
+| `tools.blacklist` | string[] | If set, every tool **except** these is exposed. Same glob syntax. |
+
+> [!IMPORTANT]
+> `whitelist` and `blacklist` are mutually exclusive. Setting both at the same time fails formation validation at load time.
+
+#### How it's applied
+
+```
+Upstream MCP tools/list response
+        ↓
+   Filter (whitelist or blacklist, fnmatch globs)
+        ↓
+Agent-visible tool registry (this is what the LLM ever sees)
+```
+
+The filter runs on every MCP `tools/list` refresh, so dynamic tool catalogs stay filtered after upstream redeploys. Filtered-out tools never appear in the planning prompt or in the agent's allowed-tool list — they are invisible end-to-end.
+
+#### Common patterns
+
+| Goal | Pattern |
+|------|---------|
+| Read-only access to a domain | `whitelist: ["list-*", "read-*", "search-*"]` |
+| Block destructive operations | `blacklist: ["delete-*", "drop-*", "purge-*"]` |
+| Single-tool agent | `whitelist: ["search-web"]` |
+| Per-domain split of a large catalog | One MCP file per domain (excel/word/email/calendar), each with its own `whitelist` |
+
+#### Per-domain split for large catalogs
+
+For MCPs with >20 tools, the recommended pattern is to define **one MCP `.afs` file per domain**, each scoped to the appropriate agent, instead of giving every agent the full catalog. Example: `ms365-excel.afs` (whitelisted to Excel tools) → `ms365-excel-agent.afs`; `ms365-email.afs` → `ms365-email-agent.afs`. The full upstream MCP server still runs once per agent, but each agent's tool surface is a curated slice. See the [multi-agent guide](../guides/build-multi-agent-systems.md#per-agent-mcp-scoping-for-large-catalogs) for a worked example.
 
 ### Capabilities
 

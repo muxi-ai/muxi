@@ -131,6 +131,81 @@ command: npx
 args: ["-y", "@modelcontextprotocol/server-fetch"]
 ```
 
+### Per-Agent MCP Scoping (for large catalogs)
+
+When you're integrating an MCP server with a very large tool surface — Microsoft 365, Google Workspace, ms365-assistant, or any catalog over ~20 tools — the right pattern is **one MCP `.afs` file per domain**, each filtered to the relevant tools and assigned to a corresponding domain-specialist agent. Don't give a single "ms365-assistant" agent the entire catalog.
+
+**Why:**
+- The Overlord routes by tool capability. If every Excel question and every email question lands on the same agent, the routing signal is gone.
+- The planning prompt for an agent grows with its tool surface. A whitelisted slice keeps the prompt small and improves tool-selection accuracy.
+- Per-domain agents can have per-domain system messages tailored to the domain's idioms.
+
+**Worked example** — splitting Microsoft 365 across four specialist agents:
+
+```yaml
+# mcp/ms365-excel.afs
+schema: "1.0.0"
+id: ms365-excel
+type: command
+command: npx
+args: ["-y", "@softeria/ms-365-mcp-server"]
+auth:
+  type: env
+  ACCESS_TOKEN: "${{ user.credentials.MS365 }}"
+tools:
+  whitelist:
+    - "list-excel-files"
+    - "read-excel-*"
+    - "update-excel-*"
+    - "create-excel-*"
+```
+
+```yaml
+# mcp/ms365-email.afs
+schema: "1.0.0"
+id: ms365-email
+type: command
+command: npx
+args: ["-y", "@softeria/ms-365-mcp-server"]
+auth:
+  type: env
+  ACCESS_TOKEN: "${{ user.credentials.MS365 }}"
+tools:
+  whitelist:
+    - "list-mail-*"
+    - "read-mail-*"
+    - "send-mail"
+    - "draft-mail"
+```
+
+```yaml
+# agents/ms365-excel-agent.afs
+schema: "1.0.0"
+id: ms365-excel-agent
+name: Excel Specialist
+description: Reads, writes, and analyzes Microsoft Excel workbooks in OneDrive
+
+role: specialist
+specialization:
+  domain: spreadsheets
+  keywords: [excel, spreadsheet, workbook, xlsx, cell, sheet, formula]
+
+system_message: |
+  You are an Excel specialist. You operate on workbooks in the user's OneDrive.
+  Always confirm the workbook by name before mutating it.
+
+mcp_servers:
+  - ms365-excel
+```
+
+Repeat the same shape for `ms365-email-agent.afs`, `ms365-calendar-agent.afs`, `ms365-onedrive-agent.afs`. The Overlord now has four well-bounded specialists with crisp routing signals, instead of one over-broad agent that has to disambiguate every M365 verb itself.
+
+> [!TIP]
+> The same pattern applies to any large MCP — Google Workspace, Atlassian, Salesforce, internal company MCPs. The rule of thumb: if a single MCP server exposes more tools than a single agent's role naturally needs, split it.
+
+See [Tools & MCP → Tool Filtering](../concepts/tools-and-mcp.md#tool-filtering-whitelist--blacklist) for the underlying mechanism.
+
+
 ## Step 3: Configure Orchestration
 
 ```yaml

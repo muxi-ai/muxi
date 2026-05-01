@@ -114,6 +114,31 @@ Or restart:
 muxi remote restart my-assistant
 ```
 
+### ConfigurationValidationError on formation load (model 404)
+
+```
+ConfigurationValidationError: Embedding model 'local/all-MiniLM-L6-v2' failed init-time probe
+  → 404 Not Found from upstream
+  → suggestion: did you mean 'local/sentence-transformers/all-MiniLM-L6-v2'?
+```
+
+**Cause:** As of Runtime v0.20260502.0, every model declared under `llm.models` is exercised with a real minimal round-trip at formation load. A 404 (typo, wrong slug shape, deleted model) aborts startup instead of silently degrading at first request.
+
+**OneLLM `local/` slug shape:** HuggingFace requires `<owner>/<repo>`, so the local provider expects `local/<owner>/<repo>`. `local/all-MiniLM-L6-v2` is missing the owner segment.
+
+**Solution:**
+
+```yaml
+llm:
+  models:
+    - embedding: "local/sentence-transformers/all-MiniLM-L6-v2"   # canonical form
+```
+
+Or, if you don't actually need a custom embedding model, **delete the `embedding:` line entirely**. The runtime ships with a tested default that's pre-warmed in the official Docker images — declaring a slug just to match the default introduces typo risk for no benefit.
+
+> [!TIP]
+> Auth failures, rate-limit errors, and transient network errors during the init probe **warn** but don't abort — only definitive 404 / invalid-shape responses block startup. A genuinely-down upstream won't brick an otherwise-healthy formation.
+
 ### Memory Not Persisting
 
 Conversations not saved.
