@@ -48,6 +48,16 @@ description: Release history and updates for MUXI
 
 - **`tools.whitelist` / `tools.blacklist`** on any MCP `.afs` file — mutually exclusive, fnmatch globs, applied at registration so filtered tools are invisible to the LLM. See [Tools & MCP](concepts/tools-and-mcp.md#tool-filtering-whitelist--blacklist) and the [Add Tools guide](guides/add-mcp-tools.md#filter-the-tool-surface-whitelistblacklist).
 
+### OneLLM v0.20260502.0
+
+#### CoreML compiled model cached across loads
+
+- **`ModelCacheDirectory` injected for every CoreML EP session**: compiled `.mlmodelc` artifacts are written to `$HF_HOME/onellm-coreml/<repo>/<revision>/` once and mmap'd on subsequent loads, eliminating the 5–15 s recompile cost per session.
+- **`SpecializationStrategy=FastPrediction` enabled** (onnxruntime ≥ 1.20): reduces per-input-shape recompilation; older runtimes log an unknown-option notice and proceed.
+- **Non-CoreML EPs unaffected**: CUDA, ROCm, OpenVINO, and CPU providers pass through untouched.
+- **Operator knobs**: `ONELLM_COREML_DISABLED=true` drops the CoreML EP entirely; `ONELLM_COREML_CACHE_DIR` overrides the cache root.
+- **Measured impact** (MUXI Runtime macOS arm64 `6_knowledge` e2e): peak RSS 8.7 GB → 3.8 GB (cold) / 4.7 GB (warm), wall time 280 s + SIGKILL → 90 s / 72 s.
+
 ### CLI v0.20260501.0
 
 - `muxi push` bundles now include `SOUL.md` and the legacy `mcp/` component directory, so registry round-trips no longer drop them. Both `mcp/` and `mcps/` directory names are matched when resolving MCP server declarations from `formation.afs`.
