@@ -237,8 +237,14 @@ overlord:
   soul: |
     You are a helpful, professional assistant.
   llm:
-    model: "openai/gpt-4o-mini"
-    settings: { temperature: 0.2 }
+    # `base` handles routing/task management; `synthesis` (optional) handles the final reply.
+    # If `synthesis` is omitted, `base` is used for both stages.
+    base:
+      model: "openai/gpt-4o-mini"
+      settings: { temperature: 0.2 }
+    synthesis:                          # optional
+      model: "anthropic/claude-haiku-4-5"
+      settings: { temperature: 0.5 }
   response:
     format: "markdown"
     streaming: true
@@ -249,6 +255,8 @@ overlord:
   clarification:
     style: "conversational"
 ```
+
+> **Breaking change:** The flat `overlord.llm.model` / `overlord.llm.settings` shape is no longer accepted. Place those fields inside a `base:` block. Formations that have not migrated will fail validation.
 
 > The overlord's soul can also be defined in a `SOUL.md` file next to `formation.afs`. If present, `SOUL.md` takes precedence over the inline `soul` field.
 
@@ -350,6 +358,24 @@ auth:
 ```
 
 Auth types: `env`, `bearer`, `basic`, `api_key`.
+
+**Tool filtering (whitelist or blacklist — mutually exclusive):**
+```yaml
+tools:
+  whitelist:           # only expose these tools to the LLM
+    - "search_*"
+    - "get_*"
+    - "create_issue"   # literal name (exact match)
+
+# OR
+
+tools:
+  blacklist:           # expose everything except these
+    - "delete_*"
+    - "force_push_branch"
+```
+
+Patterns use POSIX `fnmatch` (`*`, `?`, `[abc]`). Applied at registration time — filtered tools are invisible to the LLM and cannot be planned. Particularly useful for large catalogs (Microsoft 365, Google Workspace) or to keep destructive verbs out of the agent's plannable surface.
 
 ### Override Hierarchy (highest to lowest)
 1. Agent-specific (`agents/*.afs` -> `llm_models`)
