@@ -25,12 +25,12 @@
 - **Misleading upstream errors rewritten before reaching the planner**: e.g. Microsoft Graph's WAC token error becomes "the item ID is not an Excel file — re-check `list-folder-files` and filter by `.xlsx`", letting the agent self-correct without escalating to the user.
 - **Applies automatically** to any MCP server emitting known patterns; no formation-side change required.
 
-#### Lean Docker variants on `python:3.14-slim`; `markitdown` extras narrowed
+#### Lean Docker variants on `python:3.13-slim`; `markitdown` extras narrowed
 
-- **Lean Dockerfiles updated to `python:3.14-slim`** (`Dockerfile`, `Dockerfile.production`, `e2e/docker/Dockerfile`); `requires-python` floor stays `>=3.10`.
+- **Lean Dockerfiles updated to `python:3.13-slim`** (`Dockerfile`, `Dockerfile.production`, `e2e/docker/Dockerfile`); `requires-python` floor stays `>=3.10`.
 - **`markitdown[all]` → `markitdown[docx,pdf,pptx,xls,xlsx]`**: drops `youtube-transcription` and audio/Azure-DI deps unused in the codebase; downstream consumers needing them install `markitdown[all]` explicitly.
 - **Image size reductions vs 3.10 baseline**: lean Docker −10%, arm64 SIF −14%, amd64 SIF −5.6%.
-- **PyPI classifier added**: `Programming Language :: Python :: 3.14`.
+- **PyPI classifier added**: `Programming Language :: Python :: 3.13`.
 
 #### Scheduler: doubled session IDs, missing job stats, stripped delivery framing
 
@@ -470,7 +470,7 @@ Added `--add-host localhost:host-gateway` and `--add-host host.docker.internal:h
 
 Switched release download URLs from `github.com` to `releases.muxi.org` for server and runtime binaries.
 
-### CLI v0.20260323.0 + Installer v0.20260323.0 
+### CLI v0.20260323.0 + Installer v0.20260323.0
 
 #### CDN release downloads
 
