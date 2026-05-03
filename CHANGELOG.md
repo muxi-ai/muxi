@@ -13,7 +13,7 @@
 
 ## May 2026
 
-### Runtime v0.20260502.0
+### Runtime v0.20260503.0
 
 #### Init-time model probe rejects bad slugs
 
@@ -42,7 +42,7 @@
 
 - **`tools.whitelist` / `tools.blacklist`** on any MCP `.afs` file — mutually exclusive, fnmatch globs, applied at registration so filtered tools are invisible to the LLM. See [Tools & MCP](docs/concepts/tools-and-mcp.md#tool-filtering-whitelist--blacklist) and the [Add Tools guide](docs/guides/add-mcp-tools.md#filter-the-tool-surface-whitelistblacklist).
 
-### OneLLM v0.20260502.0
+### OneLLM v0.20260503.0
 
 #### CoreML compiled model cached across loads
 

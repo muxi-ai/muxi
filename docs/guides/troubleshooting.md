@@ -122,7 +122,7 @@ ConfigurationValidationError: Embedding model 'local/all-MiniLM-L6-v2' failed in
   → suggestion: did you mean 'local/sentence-transformers/all-MiniLM-L6-v2'?
 ```
 
-**Cause:** As of Runtime v0.20260502.0, every model declared under `llm.models` is exercised with a real minimal round-trip at formation load. A 404 (typo, wrong slug shape, deleted model) aborts startup instead of silently degrading at first request.
+**Cause:** As of Runtime v0.20260503.0, every model declared under `llm.models` is exercised with a real minimal round-trip at formation load. A 404 (typo, wrong slug shape, deleted model) aborts startup instead of silently degrading at first request.
 
 **OneLLM `local/` slug shape:** HuggingFace requires `<owner>/<repo>`, so the local provider expects `local/<owner>/<repo>`. `local/all-MiniLM-L6-v2` is missing the owner segment.
 

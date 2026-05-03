@@ -163,7 +163,7 @@ llm:
 The default local model is pre-downloaded by `muxi-server init` and shared across formations via a host cache bind-mounted at `/opt/hf-cache`.
 
 > [!IMPORTANT]
-> **Slug shape matters, and the runtime now fails fast on typos.** OneLLM's `local/` provider expects `local/<owner>/<repo>` (HuggingFace's required two-segment shape) — `local/all-MiniLM-L6-v2` is invalid; the canonical form is `local/sentence-transformers/all-MiniLM-L6-v2`. As of Runtime v0.20260502.0, every formation-declared model is exercised with a minimal real round-trip at load time. A 404 / shape-invalid slug aborts startup with a `ConfigurationValidationError` and a precise corrected-form suggestion, instead of silently falling back to recency-only retrieval on the first user request.
+> **Slug shape matters, and the runtime now fails fast on typos.** OneLLM's `local/` provider expects `local/<owner>/<repo>` (HuggingFace's required two-segment shape) — `local/all-MiniLM-L6-v2` is invalid; the canonical form is `local/sentence-transformers/all-MiniLM-L6-v2`. As of Runtime v0.20260503.0, every formation-declared model is exercised with a minimal real round-trip at load time. A 404 / shape-invalid slug aborts startup with a `ConfigurationValidationError` and a precise corrected-form suggestion, instead of silently falling back to recency-only retrieval on the first user request.
 
 > [!TIP]
 > If you don't need a custom embedding model, omit the `embedding:` line entirely. The runtime will use its tested default, which is pre-warmed in the official Docker images. Declaring a slug only to match the default just creates an opportunity for typos.
