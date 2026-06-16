@@ -71,7 +71,7 @@ resolvable versions after `uv lock --upgrade`. Notable bumps include
 
 - **`tools.whitelist` / `tools.blacklist`** on any MCP `.afs` file — mutually exclusive, fnmatch globs, applied at registration so filtered tools are invisible to the LLM. See [Tools & MCP](concepts/tools-and-mcp.md#tool-filtering-whitelist--blacklist) and the [Add Tools guide](guides/add-mcp-tools.md#filter-the-tool-surface-whitelistblacklist).
 
-### OneLLM v0.20260503.0
+### OneLLM v0.20260502.0
 
 #### CoreML compiled model cached across loads
 
@@ -81,12 +81,65 @@ resolvable versions after `uv lock --upgrade`. Notable bumps include
 - **Operator knobs**: `ONELLM_COREML_DISABLED=true` drops the CoreML EP entirely; `ONELLM_COREML_CACHE_DIR` overrides the cache root.
 - **Measured impact** (MUXI Runtime macOS arm64 `6_knowledge` e2e): peak RSS 8.7 GB → 3.8 GB (cold) / 4.7 GB (warm), wall time 280 s + SIGKILL → 90 s / 72 s.
 
+### CLI v0.20260501.1
+
+- Append `?pull=true` to registry pull-info requests in `muxi pull` so the registry records each download and refreshes `total_downloads` and weekly activity charts.
+
 ### CLI v0.20260501.0
 
 - `muxi push` bundles now include `SOUL.md` and the legacy `mcp/` component directory, so registry round-trips no longer drop them. Both `mcp/` and `mcps/` directory names are matched when resolving MCP server declarations from `formation.afs`.
 - `muxi validate` recognizes the new MCP spec keys `parameters` (default tool-call parameters) and `tools.whitelist` / `tools.blacklist` (catalog filtering) as valid, and reports an error when both `whitelist` and `blacklist` are declared on the same MCP server.
 
+### Runtime v0.20260508.0
+
+#### Scheduler firing recursion fix
+
+Recurring scheduled jobs were spawning a fresh one-time job on every firing instead of delivering the reminder. The overlord's `request_analyzer` classified the delivery message as a new scheduling request, the scheduler-intent handler created a NEW job, and the agent never ran. Three fixes:
+
+- **`overlord.chat()`** now takes `is_scheduled_execution: bool = False`. When `True`, scheduler-intent and scheduler-query handlers are bypassed so the message reaches the agent as a normal delivery.
+- **`SchedulerService._execute_job`** passes `is_scheduled_execution=True` so any chat invocation tied to a job session is treated as delivery, not new scheduling.
+- **PromptRewriter** no longer treats `rewritten == original_prompt` as failure. Empty LLM responses still fall back to prefix wrapping; surrounding quotes are stripped.
+
+### Server v0.20260514.1
+
+- **Bundle extraction** now lives under `<DataDir>/tmp` instead of system `$TMPDIR`, avoiding `EXDEV` cross-device link failures during `os.Rename` on modern Linux distros where `/tmp` is a separate tmpfs mount.
+- **`safeRename` helper** wraps `os.Rename` with a `copyTreePreservingMode` + `RemoveAll` fallback for `EXDEV` errors, preserving per-file modes (including `0600` for `secrets.enc`).
+- **`os.MkdirAll`** added to update.go's directory-setup to close the registry-without-dir race window.
+
+### Server v0.20260514.0
+
+- **`docker run --platform` pin** in runtime-runner spawn: passes `--platform linux/<arch>` derived from the SIF filename, preventing Apple Silicon Docker from resolving `:latest` to the host-native arm64 manifest and breaking amd64 SIF launches.
+- **`sifPlatform(path)` helper** parses arch suffix from `muxi-runtime-<version>[-<variant>]-linux-<arch>.sif` filenames.
+
+### SDKs v0.20260514.0
+
+- **Go SDK module root moved** from `go/src` to `go/` so `go get github.com/muxi-ai/muxi-go@latest` works with standard Go module layout.
+- **SSE keepalive/heartbeat-aware parsing** across all 12 SDKs: `: keepalive` comments no longer cause false idle failures; multi-line `data:` payloads and `event: done` frames parse correctly; route-level `event: error` frames surface as SDK errors.
+
 ## April 2026
+
+### Server v0.20260428.2
+
+- **`muxi-server init` pre-downloads multilingual embedding model** (`Xenova/multilingual-e5-small`, ~125 MB) alongside the existing Nomic model, so formations needing non-English retrieval skip the first-deploy stall.
+
+### Server v0.20260428.1
+
+- **Self-update URL aligned with v-prefixed S3 layout**: server binary downloads now use `https://pkg.muxi.org/server/v{VERSION}/{binary}`, matching git tags and GitHub release names. Previously the binary constructed a non-v-prefixed URL that 404'd.
+
+### Server v0.20260424.0
+
+- **Runtime-runner image single source of truth**: new `config.DefaultRuntimeRunnerImage` constant. All 7 API handlers and spawn paths now resolve from the config field or constant instead of the previous hardcoded name in `spawn_common.go`.
+- **SIF downloads from pkg.muxi.org**: default mirror changed from GitHub releases to `https://pkg.muxi.org/runtime`. `fetchLatestVersion` reads a plain-text `latest.txt` instead of parsing GitHub redirect headers.
+- **Server binaries uploaded to S3** on release with public-read ACL, mirroring the runtime's S3 distribution layout.
+- **Test stability**: `TestHandleRollback` and `TestHandleBundleDeploy_ValidBundle` no longer hang on real SIF downloads; non-routable test URLs and HTTP client timeouts added.
+
+### Server v0.20260423.0
+
+- **`muxi-server init` pre-downloads default embedding model** (`nomic-ai/nomic-embed-text-v1.5`, ~524 MiB) so first formation deploy doesn't stall on a multi-hundred-MB fetch.
+- **Atomic cache writes**: each file writes to `.tmp` and is atomically renamed, so killed processes can't leave partial cache entries.
+- **`MUXI_CACHE_DIR` env var** overrides default `<data_dir>/cache`.
+- **Runtime variants (CPU / GPU / CUDA)**: formations can opt into GPU or CUDA runtime SIFs via `muxi_runtime.variant`. Variant validation rejects unknown names.
+- **Init UX polish**: single-line Docker pull progress (`⠙ Layers 5/8 (62%)`), spinner for embedding downloads, `--quiet` dropped so init no longer looks frozen.
 
 ### CLI v0.20260428.0
 
