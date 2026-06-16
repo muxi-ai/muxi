@@ -151,13 +151,20 @@ overlord:
     You are a helpful, professional assistant.
 
   llm:
-    model: "openai/gpt-4o-mini"
-    api_key: "${{ secrets.OVERLORD_LLM_API_KEY }}"
     max_extraction_tokens: 500
-    settings:
-      temperature: 0.2
-      max_tokens: 2000
-      timeout_seconds: 45
+    base:
+      model: "openai/gpt-4o-mini"
+      api_key: "${{ secrets.OVERLORD_LLM_API_KEY }}"
+      settings:
+        temperature: 0.2
+        max_tokens: 2000
+        timeout_seconds: 45
+    synthesis:                        # Optional: defaults to `base` when omitted
+      model: "anthropic/claude-haiku-4-5"
+      settings:
+        temperature: 0.5
+        max_tokens: 4096
+        timeout_seconds: 30
 
   caching:
     enabled: true
@@ -201,6 +208,10 @@ overlord:
       execution: 3
       other: 3
 ```
+
+`overlord.llm.base` handles routing, task management, delegation, and media extraction for routing context. `overlord.llm.synthesis` handles the final user-visible reply. If `synthesis` is omitted, `base` is used for both stages.
+
+> **Breaking change:** The flat `overlord.llm.model` / `overlord.llm.settings` shape is no longer accepted. Move those fields into a nested `base:` block. Formations that have not migrated will fail validation.
 
 ### Async Configuration
 
@@ -337,9 +348,23 @@ executor:
   image: "muxi/executor:latest"
   port: 5560
   timeout_default: 30
+  restart_policy: "always"
   resource_limits:
     memory: "2g"
     cpu: 1.0
+```
+
+Skill directories contain a required `SKILL.md` plus optional `scripts/`, `references/`, and `assets/` folders:
+
+```text
+skills/
+├── pdf-processing/
+│   ├── SKILL.md
+│   ├── scripts/
+│   ├── references/
+│   └── assets/
+└── data-analysis/
+    └── SKILL.md
 ```
 
 ### User Credentials
@@ -462,6 +487,10 @@ timeout:
   max: 600
 ```
 
+### Agent-Specific Skills
+
+Agent-level `skills:` are private to that agent only. The agent also retains access to all formation-level skills declared in `formation.afs`, so agent-local skills add capabilities without changing the public skill surface for other agents.
+
 ---
 
 ## MCP Server Schema (`mcp/*.afs`)
@@ -517,6 +546,49 @@ health_check:
 | `basic` | `username`, `password` | Basic authentication |
 | `api_key` | `header`, `key` | Custom API key header |
 
+### MCP Default Parameters
+
+MCP servers support an optional `parameters` field: a flat key-value map injected into every tool call on that server.
+
+```yaml
+schema: "1.0.0"
+id: ms365-mcp
+type: http
+endpoint: "https://mcp.example.com/ms365"
+parameters:
+  driveId: "${{ secrets.ORG_DRIVE_ID }}"
+```
+
+Rules:
+- Values support secret interpolation (`${{ secrets.X }}`)
+- Caller-provided values override defaults
+- Parameters are injected at execution time, not during planning
+
+### MCP Tool Filtering
+
+MCP servers support an optional `tools` block that filters the upstream tool catalog at registration time.
+
+```yaml
+tools:
+  whitelist:               # mutually exclusive with blacklist
+    - "search_*"
+    - "get_*"
+    - "issue_*"
+    - "add_issue_comment"
+```
+
+Or:
+
+```yaml
+tools:
+  blacklist:
+    - "delete_*"
+    - "force_push_branch"
+    - "merge_pull_request"
+```
+
+Patterns use POSIX `fnmatch` semantics (`*`, `?`, `[abc]`, `[!abc]`). Filters are applied at registration time, so excluded tools are invisible to the LLM and cannot be planned.
+
 ---
 
 ## A2A Service Schema (`a2a/*.afs`)
@@ -556,6 +628,23 @@ capabilities:
 
 ---
 
+## Override Hierarchy
+
+### LLM Configuration Precedence (highest to lowest)
+1. Agent-specific (`agents/*.afs` -> `llm_models`)
+2. Overlord (`formation.afs` -> `overlord.llm.{base,synthesis}`)
+3. Formation defaults (`formation.afs` -> `llm.models[text]`)
+
+Resolution order for the overlord stages:
+
+```text
+overlord.llm.synthesis -> overlord.llm.base -> llm.models[text]
+```
+
+If `overlord.llm.synthesis` is set, it is used for the final synthesis stage. If it is omitted, the overlord falls back to `overlord.llm.base`. If `base` is also omitted, the formation-level `llm.models[text]` entry is used for both stages.
+
+---
+
 ## Secrets Interpolation
 
 ### Formation Secrets (loaded at startup)
@@ -576,8 +665,8 @@ Secret names are case-insensitive and normalized to `UPPER_SNAKE_CASE`.
 
 **Formation:** Must have `schema`, `id`, `description`. All secret references must use valid `${{ secrets.NAME }}` syntax.
 
-**Agent:** Must have `schema`, `id`, `description`. MCP server references must exist.
+**Agent:** Must have `schema`, `id`, `name`, `description`. MCP server references must exist. Knowledge paths must be valid.
 
-**MCP:** Must have `schema`, `id`, `type`. Command servers need `command`. HTTP servers need `endpoint`.
+**MCP:** Must have `schema`, `id`, `type`. Command servers need `command`. HTTP servers need `endpoint`. `parameters`, if present, must be a flat key-value map. `tools`, if present, must declare exactly one of `whitelist` or `blacklist`.
 
 **A2A:** Must have `schema`, `id`, `url`. Auth configs must be complete.

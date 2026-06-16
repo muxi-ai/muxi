@@ -12,7 +12,7 @@ description: >
 license: Apache-2.0
 metadata:
   author: muxi-ai
-  version: "1.0"
+  version: "1.0.0"
 ---
 
 # MUXI Platform
@@ -167,6 +167,7 @@ my-formation/
 ```
 
 Components in `agents/`, `mcp/`, `a2a/` must be **explicitly declared** in `formation.afs`. Files in these directories without a matching entry are ignored.
+Formation-level skills are loaded from the `skills:` list in `formation.afs`; agent-level `skills:` entries are private to that agent while still inheriting formation-level skills.
 
 ### Minimal Formation
 
@@ -281,14 +282,19 @@ Layers: Buffer (recent messages) -> Working (session state, FAISSx) -> User Syno
 **MCP tool settings:**
 ```yaml
 mcp:
+  default_retry_attempts: 3
+  default_timeout_seconds: 30
   max_tool_iterations: 10
   max_tool_calls: 50
   max_repeated_errors: 3
   max_timeout_in_seconds: 300
+  max_tool_timeout_in_seconds: 30
   servers:
     - web-search            # Explicitly declare MCP servers from mcp/ directory
     - filesystem
 ```
+
+Per-server MCP configs can also declare `parameters:` for default tool-call arguments and `tools.whitelist` / `tools.blacklist` for registration-time tool filtering. `whitelist` and `blacklist` are mutually exclusive.
 
 ### Agent Schema (`agents/*.afs`)
 
@@ -379,8 +385,8 @@ Patterns use POSIX `fnmatch` (`*`, `?`, `[abc]`). Applied at registration time â
 
 ### Override Hierarchy (highest to lowest)
 1. Agent-specific (`agents/*.afs` -> `llm_models`)
-2. Overlord (`formation.afs` -> `overlord.llm`)
-3. Formation defaults (`formation.afs` -> `llm`)
+2. Overlord (`formation.afs` -> `overlord.llm.{base,synthesis}`)
+3. Formation defaults (`formation.afs` -> `llm.models[text]`)
 
 ## Secrets Management
 
