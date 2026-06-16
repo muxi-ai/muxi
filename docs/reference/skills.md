@@ -357,6 +357,14 @@ skills/my-skill/SKILL.md  →  name: other      ⚠ warning
 [[/toggle]]
 
 
+## Using Skills in SOPs
+
+SOP steps can activate skills deterministically using the `[skill:name]` directive. The skill is activated before the agent processes the task, and its instructions are injected into the task prompt. This works even when the agent doesn't have the skill pre-declared in its formation YAML.
+
+Run form: `[skill:name/script.py]` also executes the script via RCE before the agent runs.
+
+See [SOPs Reference](sops.md#directives) for syntax details and [Create SOPs Guide](../guides/create-sops.md) for examples.
+
 ## Next Steps
 
 [+] [Skills Concepts](../concepts/skills.md) - How skills work
