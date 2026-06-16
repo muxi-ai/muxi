@@ -166,6 +166,8 @@ Embed in step descriptions:
 |-----------|--------|-------------|
 | Agent routing | `[agent:agent-id]` | Route step to specific agent |
 | MCP tool | `[mcp:server/tool]` | Use specific MCP tool |
+| Skill activation | `[skill:skill-name]` | Activate a skill for this step |
+| Skill + script | `[skill:skill-name/script.py]` | Activate a skill and run a script |
 | Critical | `[critical]` | Step cannot be optimized away |
 | File reference | `[file:path/to/file.md]` | Include file content |
 

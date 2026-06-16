@@ -17,6 +17,29 @@ description: Release history and updates for MUXI
 > - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 > - [FAISSx Releases](https://github.com/muxi-ai/faissx/releases)
 
+## June 2026
+
+### Runtime v0.20260616.0
+
+#### SOP Skill Directives -- deterministic skill activation from SOP steps
+
+SOP steps can now declare skills that should be activated deterministically
+before the assigned agent processes the task. This removes the need for the
+LLM to choose the `activate_skill` tool when a skill is required by a
+workflow step.
+
+- **Bracket syntax**: `[skill:skill-name]` for activation-only, `[skill:skill-name/script-name]` to also run a script from the skill's `scripts/` directory. Placed on the same line as the step heading after `[agent:...]`.
+- **Deterministic activation**: the workflow executor calls `skill_manager.activate_async` directly before `agent.process_message`. Skill content is injected into the task prompt as a skill prelude.
+- **Deterministic script execution**: when the run form is used and an RCE client is available, the executor calls `run_skill_command` directly before the agent runs, and the script output is appended to the task prompt under "Skill execution results".
+- **Request-scoped transient grants**: SOP-declared skills work even when not pre-declared for the assigned agent in its YAML formation. The executor registers transient grants via `skill_manager.grant_request_skills` before workflow execution and revokes them in `finally`.
+- See [SOPs guide](guides/create-sops.md) and [Skills guide](guides/add-skills.md) for updated documentation.
+
+#### Dependency minimums updated to latest compatible releases
+
+65 direct dependency minimums in `pyproject.toml` raised to the newest
+resolvable versions after `uv lock --upgrade`. Notable bumps include
+`mcp>=1.27.2`, `fastmcp>=3.4.2`, `numpy>=2.2.6`, `pandas>=2.3.3`.
+
 ## May 2026
 
 ### Runtime v0.20260503.0

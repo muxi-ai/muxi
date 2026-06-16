@@ -74,6 +74,19 @@ Available Skills:
 
 The agent decides when to activate a skill based on the user's request. No explicit trigger required -- the model reads the catalog and activates what it needs.
 
+## Skills in SOPs
+
+SOP steps can declare skills directly using the `[skill:skill-name]` directive. This activates the skill deterministically before the agent processes the task, without requiring the LLM to choose the `activate_skill` tool:
+
+```markdown
+## Steps
+
+1. **Generate Report** [agent:analyst] [skill:report-generation]
+   Use the report-generation skill to create a quarterly summary.
+```
+
+Run form: `[skill:skill-name/script.py]` also executes the script via RCE and includes the output in the task prompt. See [Standard Operating Procedures](standard-operating-procedures.md) for details.
+
 
 ## Skill Activation
 

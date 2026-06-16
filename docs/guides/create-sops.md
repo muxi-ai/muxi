@@ -155,6 +155,18 @@ Add directives in square brackets to control execution:
    Create a Jira ticket for tracking.
 ```
 
+### Activate a Skill
+
+```
+2. **Generate Report** [skill:report-generation]
+   Activate the report-generation skill for this step.
+```
+
+```
+3. **Run Analysis** [skill:data-analysis/run.py]
+   Activate the data-analysis skill and run its run.py script.
+```
+
 ### Mark Critical Steps
 
 ```

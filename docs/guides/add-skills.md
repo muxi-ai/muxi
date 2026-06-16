@@ -189,6 +189,26 @@ my-formation/
 ```
 
 
+## Use Skills in SOPs
+
+Skills can be activated deterministically from SOP step directives, so the agent doesn't need to choose the `activate_skill` tool:
+
+```markdown
+# Quarterly Report
+
+## Steps
+
+1. **Gather Data** [agent:analyst]
+   Retrieve Q4 metrics from the database.
+
+2. **Generate Report** [agent:analyst] [skill:report-generation]
+   Use the report-generation skill to create the PDF.
+```
+
+Run form: `[skill:report-generation/generate.py]` also executes `generate.py` via RCE before the agent processes the step, and includes the script output in the task prompt.
+
+Skills declared this way work even when the agent doesn't have them pre-declared in its YAML formation -- the Overlord grants temporary access for the duration of the workflow.
+
 ## Troubleshooting
 
 ### Skill Not Appearing

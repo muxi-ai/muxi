@@ -184,15 +184,26 @@ Embed instructions in step descriptions:
    Use specific MCP tool.
 ```
 
+### Skill Activation
+```
+3. **Generate Chart** [skill:data-analysis]
+   Activate a skill for this step.
+```
+
+```
+4. **Run Analysis** [skill:data-analysis/chart.py]
+   Activate a skill and run its chart.py script via RCE.
+```
+
 ### Critical Steps
 ```
-3. **Audit Log** [critical]
+5. **Audit Log** [critical]
    This step cannot be optimized away.
 ```
 
 ### File References
 ```
-4. **Use Template** [file:templates/report.md]
+6. **Use Template** [file:templates/report.md]
    Include external file content.
 ```
 
