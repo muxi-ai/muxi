@@ -67,11 +67,17 @@ formation = FormationClient(
 ### Chat (Streaming)
 
 ```python
+import json
+
 # Streaming chat (recommended)
 for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
-    if event.get("type") == "text":
-        print(event.get("text"), end="", flush=True)
-    elif event.get("type") == "done":
+    if event.get("event") == "message":
+        data = json.loads(event.get("data", "{}"))
+        token = data.get("token", {})
+        content = token.get("content")
+        if content:
+            print(content, end="", flush=True)
+    elif event.get("event") == "done":
         break
 ```
 
@@ -202,11 +208,17 @@ async def main():
         client_key="your_client_key",
     )
 
+    import json
+
     # Async streaming
     async for event in await formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
-        if event.get("type") == "text":
-            print(event.get("text"), end="", flush=True)
-        elif event.get("type") == "done":
+        if event.get("event") == "message":
+            data = json.loads(event.get("data", "{}"))
+            token = data.get("token", {})
+            content = token.get("content")
+            if content:
+                print(content, end="", flush=True)
+        elif event.get("event") == "done":
             break
 
 asyncio.run(main())
@@ -317,14 +329,21 @@ while True:
 
     print("Assistant: ", end="")
     for event in formation.chat_stream({"message": user_input}, user_id="user_123"):
-        if event.get("type") == "text":
-            print(event.get("text"), end="", flush=True)
+        if event.get("event") == "message":
+            data = json.loads(event.get("data", "{}"))
+            token = data.get("token", {})
+            content = token.get("content")
+            if content:
+                print(content, end="", flush=True)
+        elif event.get("event") == "done":
+            break
     print()
 ```
 
 ### With Session Persistence
 
 ```python
+import json
 from muxi import FormationClient
 
 formation = FormationClient(
@@ -345,10 +364,16 @@ while True:
         {"message": user_input, "session_id": session_id},
         user_id="user_123"
     ):
-        if event.get("type") == "text":
-            print(event.get("text"), end="", flush=True)
-        elif event.get("session_id"):
-            session_id = event.get("session_id")
+        if event.get("event") == "message":
+            data = json.loads(event.get("data", "{}"))
+            token = data.get("token", {})
+            content = token.get("content")
+            if content:
+                print(content, end="", flush=True)
+            if session_id is None:
+                session_id = token.get("session_id")
+        elif event.get("event") == "done":
+            break
     print()
 ```
 
