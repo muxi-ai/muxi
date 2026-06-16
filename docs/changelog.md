@@ -42,6 +42,25 @@ resolvable versions after `uv lock --upgrade`. Notable bumps include
 
 ## May 2026
 
+### CLI v0.20260501.1
+
+- Append `?pull=true` to registry pull-info requests in `muxi pull` so the registry records each download and refreshes `total_downloads` and weekly activity charts.
+
+### CLI v0.20260501.0
+
+- `muxi push` bundles now include `SOUL.md` and the legacy `mcp/` component directory, so registry round-trips no longer drop them. Both `mcp/` and `mcps/` directory names are matched when resolving MCP server declarations from `formation.afs`.
+- `muxi validate` recognizes the new MCP spec keys `parameters` (default tool-call parameters) and `tools.whitelist` / `tools.blacklist` (catalog filtering) as valid, and reports an error when both `whitelist` and `blacklist` are declared on the same MCP server.
+
+### OneLLM v0.20260502.0
+
+#### CoreML compiled model cached across loads
+
+- **`ModelCacheDirectory` injected for every CoreML EP session**: compiled `.mlmodelc` artifacts are written to `$HF_HOME/onellm-coreml/<repo>/<revision>/` once and mmap'd on subsequent loads, eliminating the 5–15 s recompile cost per session.
+- **`SpecializationStrategy=FastPrediction` enabled** (onnxruntime ≥ 1.20): reduces per-input-shape recompilation; older runtimes log an unknown-option notice and proceed.
+- **Non-CoreML EPs unaffected**: CUDA, ROCm, OpenVINO, and CPU providers pass through untouched.
+- **Operator knobs**: `ONELLM_COREML_DISABLED=true` drops the CoreML EP entirely; `ONELLM_COREML_CACHE_DIR` overrides the cache root.
+- **Measured impact** (MUXI Runtime macOS arm64 `6_knowledge` e2e): peak RSS 8.7 GB → 3.8 GB (cold) / 4.7 GB (warm), wall time 280 s + SIGKILL → 90 s / 72 s.
+
 ### Runtime v0.20260503.0
 
 #### Init-time model probe rejects bad slugs
@@ -71,25 +90,6 @@ resolvable versions after `uv lock --upgrade`. Notable bumps include
 
 - **`tools.whitelist` / `tools.blacklist`** on any MCP `.afs` file — mutually exclusive, fnmatch globs, applied at registration so filtered tools are invisible to the LLM. See [Tools & MCP](concepts/tools-and-mcp.md#tool-filtering-whitelist--blacklist) and the [Add Tools guide](guides/add-mcp-tools.md#filter-the-tool-surface-whitelistblacklist).
 
-### OneLLM v0.20260502.0
-
-#### CoreML compiled model cached across loads
-
-- **`ModelCacheDirectory` injected for every CoreML EP session**: compiled `.mlmodelc` artifacts are written to `$HF_HOME/onellm-coreml/<repo>/<revision>/` once and mmap'd on subsequent loads, eliminating the 5–15 s recompile cost per session.
-- **`SpecializationStrategy=FastPrediction` enabled** (onnxruntime ≥ 1.20): reduces per-input-shape recompilation; older runtimes log an unknown-option notice and proceed.
-- **Non-CoreML EPs unaffected**: CUDA, ROCm, OpenVINO, and CPU providers pass through untouched.
-- **Operator knobs**: `ONELLM_COREML_DISABLED=true` drops the CoreML EP entirely; `ONELLM_COREML_CACHE_DIR` overrides the cache root.
-- **Measured impact** (MUXI Runtime macOS arm64 `6_knowledge` e2e): peak RSS 8.7 GB → 3.8 GB (cold) / 4.7 GB (warm), wall time 280 s + SIGKILL → 90 s / 72 s.
-
-### CLI v0.20260501.1
-
-- Append `?pull=true` to registry pull-info requests in `muxi pull` so the registry records each download and refreshes `total_downloads` and weekly activity charts.
-
-### CLI v0.20260501.0
-
-- `muxi push` bundles now include `SOUL.md` and the legacy `mcp/` component directory, so registry round-trips no longer drop them. Both `mcp/` and `mcps/` directory names are matched when resolving MCP server declarations from `formation.afs`.
-- `muxi validate` recognizes the new MCP spec keys `parameters` (default tool-call parameters) and `tools.whitelist` / `tools.blacklist` (catalog filtering) as valid, and reports an error when both `whitelist` and `blacklist` are declared on the same MCP server.
-
 ### Runtime v0.20260508.0
 
 #### Scheduler firing recursion fix
@@ -100,16 +100,16 @@ Recurring scheduled jobs were spawning a fresh one-time job on every firing inst
 - **`SchedulerService._execute_job`** passes `is_scheduled_execution=True` so any chat invocation tied to a job session is treated as delivery, not new scheduling.
 - **PromptRewriter** no longer treats `rewritten == original_prompt` as failure. Empty LLM responses still fall back to prefix wrapping; surrounding quotes are stripped.
 
+### Server v0.20260514.0
+
+- **`docker run --platform` pin** in runtime-runner spawn: passes `--platform linux/<arch>` derived from the SIF filename, preventing Apple Silicon Docker from resolving `:latest` to the host-native arm64 manifest and breaking amd64 SIF launches.
+- **`sifPlatform(path)` helper** parses arch suffix from `muxi-runtime-<version>[-<variant>]-linux-<arch>.sif` filenames.
+
 ### Server v0.20260514.1
 
 - **Bundle extraction** now lives under `<DataDir>/tmp` instead of system `$TMPDIR`, avoiding `EXDEV` cross-device link failures during `os.Rename` on modern Linux distros where `/tmp` is a separate tmpfs mount.
 - **`safeRename` helper** wraps `os.Rename` with a `copyTreePreservingMode` + `RemoveAll` fallback for `EXDEV` errors, preserving per-file modes (including `0600` for `secrets.enc`).
 - **`os.MkdirAll`** added to update.go's directory-setup to close the registry-without-dir race window.
-
-### Server v0.20260514.0
-
-- **`docker run --platform` pin** in runtime-runner spawn: passes `--platform linux/<arch>` derived from the SIF filename, preventing Apple Silicon Docker from resolving `:latest` to the host-native arm64 manifest and breaking amd64 SIF launches.
-- **`sifPlatform(path)` helper** parses arch suffix from `muxi-runtime-<version>[-<variant>]-linux-<arch>.sif` filenames.
 
 ### SDKs v0.20260514.0
 
