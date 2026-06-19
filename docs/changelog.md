@@ -32,7 +32,7 @@ identifiers) ships as a built-in capability that is on by default.
 - **Luhn-validated cards**: 16-digit runs are masked only when they pass the Luhn checksum, so order IDs, timestamps, and other long digit runs are preserved; placeholders are length-accurate.
 - **New toggle**: `logging.redaction.entities` (default `true`) controls the entity layer; regex redaction is always on. If the spaCy model can't load, the layer degrades gracefully to regex-only with a one-time warning.
 - **Core, not optional**: entity redaction uses Microsoft Presidio + spaCy `en_core_web_sm`, baked into the default images. The memory extractor uses the same detector (and confidence threshold) so PII is also kept out of long-term memory.
-- See [Observability deep dive](deep-dives/observability.md#pii--secret-redaction).
+- See [Observability deep dive](deep-dives/observability#pii--secret-redaction).
 
 ### Runtime v0.20260616.0
 
@@ -47,7 +47,7 @@ workflow step.
 - **Deterministic activation**: the workflow executor calls `skill_manager.activate_async` directly before `agent.process_message`. Skill content is injected into the task prompt as a skill prelude.
 - **Deterministic script execution**: when the run form is used and an RCE client is available, the executor calls `run_skill_command` directly before the agent runs, and the script output is appended to the task prompt under "Skill execution results".
 - **Request-scoped transient grants**: SOP-declared skills work even when not pre-declared for the assigned agent in its YAML formation. The executor registers transient grants via `skill_manager.grant_request_skills` before workflow execution and revokes them in `finally`.
-- See [SOPs guide](guides/create-sops.md) and [Skills guide](guides/add-skills.md) for updated documentation.
+- See [SOPs guide](guides/create-sops) and [Skills guide](guides/add-skills) for updated documentation.
 
 #### Dependency minimums updated to latest compatible releases
 
@@ -606,7 +606,7 @@ Formations now support skills -- self-contained packages of instructions, refere
 - **Built-in `file-generation` skill** for producing PDFs, images, spreadsheets, and charts.
 - **REST API**: `GET /v1/skills`, `GET /v1/skills/{name}`, `GET /v1/agents/{agent_id}/skills`.
 
-[>] [Skills documentation](concepts/skills.md)
+[>] [Skills documentation](concepts/skills)
 
 #### MCP transport reliability
 
@@ -665,7 +665,7 @@ String entries reference files by ID. Dict entries are inline definitions. Omitt
 
 Every formation now exposes an MCP server at `/mcp`. Connect from Claude Desktop, Cursor, or any MCP-compatible client and interact with your agents using the standard Model Context Protocol – same memory, same tools, same auth. All 33 client endpoints are available as MCP tools with clean names (`chat`, `list_sessions`, `search_memories`, etc.). Admin and internal endpoints are never exposed.
 
-[>] [Connect via MCP guide →](guides/connect-via-mcp.md)
+[>] [Connect via MCP guide →](guides/connect-via-mcp)
 
 MCP authentication works exactly like the REST API: pass `X-Muxi-Client-Key` in your transport headers. No key, no access.
 
