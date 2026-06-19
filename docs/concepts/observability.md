@@ -152,7 +152,7 @@ Monitor token usage per user, per agent, per formation. Set alerts for runaway c
 Identify slow LLM calls, memory lookups, or tool executions. Optimize bottlenecks.
 
 ### Compliance
-Audit log of all data access and tool calls. Required for regulated industries.
+Audit log of all data access and tool calls. Required for regulated industries. Events are redacted by default - secrets and PII (names, addresses, orgs, DOB, financial identifiers) are scrubbed before they reach any log sink. See [PII & secret redaction](../deep-dives/observability.md#pii--secret-redaction).
 
 ### Alerting
 Get notified when error rates spike, latency degrades, or specific events occur.

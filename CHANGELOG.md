@@ -11,6 +11,21 @@
 > - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 > - [FAISSx Releases](https://github.com/muxi-ai/faissx/releases)
 
+## June 2026
+
+### Runtime v0.20260619.0
+
+#### PII & secret redaction in logs (entity-based, on by default)
+
+Observability events are now redacted far more thoroughly, and entity-based PII redaction (names, addresses, organizations, dates of birth, financial identifiers) ships as a built-in capability that is on by default.
+
+- **Redact by default**: every emitted event is scrubbed before it reaches any log sink. Previously only user-facing events were redacted, so non-user events (system, MCP, workflow) could carry secrets. Callers may opt out per event via `skip_redaction` for audited, non-sensitive payloads.
+- **Two layers**: an always-on regex layer (API keys/tokens, passwords, AWS credentials, database URLs, JWTs, emails, phone numbers, SSNs, and credit cards) plus an entity layer (names, addresses, orgs, DOB, financial identifiers) masked with consistent indexed tokens like `[PERSON_1]`, `[ORG_1]`.
+- **Luhn-validated cards**: 16-digit runs are masked only when they pass the Luhn checksum, so order IDs, timestamps, and other long digit runs are preserved; placeholders are length-accurate.
+- **New toggle**: `logging.redaction.entities` (default `true`) controls the entity layer; regex redaction is always on. If the spaCy model can't load, the layer degrades gracefully to regex-only with a one-time warning.
+- **Core, not optional**: entity redaction uses Microsoft Presidio + spaCy `en_core_web_sm`, baked into the default images. The memory extractor uses the same detector (and confidence threshold) so PII is also kept out of long-term memory.
+- See [Observability deep dive](docs/deep-dives/observability.md#pii--secret-redaction).
+
 ## May 2026
 
 ### Runtime v0.20260503.0

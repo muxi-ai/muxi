@@ -43,6 +43,9 @@ Error: connection failed (DATABASE_URL=postgres://user:pass@host/db)
 + export OPENAI_API_KEY=sk-abc123...
 ```
 
+> [!TIP]
+> As a second line of defense, the runtime redacts secrets and PII from its **own** observability/log output by default. See [PII & secret redaction](../deep-dives/observability.md#pii--secret-redaction).
+
 ### They're Not Portable
 
 ```bash

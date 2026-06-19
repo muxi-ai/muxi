@@ -128,6 +128,39 @@ logging:
 - **System tier:** infrastructure events (startup/shutdown, MCP, A2A, errors) → single destination.
 - **Conversation tier:** multi-stream with per-stream level/format/event filters; use `events` to scope (e.g., `request.*`, `memory.*`).
 
+## PII & secret redaction
+
+Every event is redacted **before** it reaches any sink (stdout, file, stream, or
+external integration). This applies to all event tiers, including system, MCP,
+and workflow events - not just user-facing ones - so secrets carried in any
+payload are scrubbed by default.
+
+Redaction runs in two layers:
+
+| Layer | Always on? | What it masks |
+|-------|-----------|----------------|
+| **Regex** | Yes | API keys/tokens, passwords, AWS credentials, database URLs, JWTs, emails, phone numbers, SSNs, and credit cards (Luhn-validated) |
+| **Entity** | Default on (toggle) | Names, addresses, organizations, dates of birth, and financial identifiers |
+
+- **Luhn validation:** a 16-digit run is masked only when it passes the Luhn checksum, so order IDs, timestamps, and other long digit runs are preserved. Placeholders are length-accurate (one `****` group per four digits).
+- **Consistent tokens:** entity matches are replaced with indexed tokens such as `[PERSON_1]`, `[ORG_1]`, `[ADDRESS_1]`, `[DOB_1]`. Repeated mentions of the same value reuse the same token within an event.
+- **Dates of birth:** generic timestamps are left intact; a date is only masked as `[DOB_1]` when birth context (e.g. "born", "date of birth") precedes it.
+
+### Configuration
+
+```yaml
+logging:
+  redaction:
+    entities: true   # default; set false to disable the entity layer only
+```
+
+- `logging.redaction.entities` toggles the **entity** layer. The regex layer is always on and cannot be disabled.
+- Entity redaction is a built-in capability (Microsoft Presidio + spaCy `en_core_web_sm`) baked into the default images - no extra install step.
+- If the NLP model is unavailable at startup, the entity layer **degrades gracefully to regex-only** and logs a one-time warning; secret/structured-PII redaction is unaffected.
+
+> [!NOTE]
+> The same detector and confidence threshold gate the memory extractor, so detected PII is also kept out of long-term memory, not just logs.
+
 ## Metrics
 
 ### Available Metrics
