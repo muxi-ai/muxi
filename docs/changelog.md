@@ -19,6 +19,10 @@ description: Release history and updates for MUXI
 
 ## July 2026
 
+July launches MUXI V1: Runtime, Server, CLI, and all 12 SDKs move together to
+the `1.x` release line, establishing a stable generation of contracts across
+formation execution, APIs, and client integrations.
+
 ### Runtime, Server, CLI & SDKs v1.20260713.0
 
 #### Response envelope UI widgets

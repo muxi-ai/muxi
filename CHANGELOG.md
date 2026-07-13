@@ -13,6 +13,120 @@
 
 ## July 2026
 
+July launches MUXI V1: Runtime, Server, CLI, and all 12 SDKs move together to
+the `1.x` release line, establishing a stable generation of contracts across
+formation execution, APIs, and client integrations.
+
+### Runtime, Server, CLI & SDKs v1.20260713.0
+
+#### Response envelope UI widgets
+
+- **Chat responses can now carry typed UI widgets.** A streamed response emits an
+  optional `ui` SSE event at end-of-turn (just before `done`) carrying `options`,
+  `action_link`, and `mcp_resource` widgets. The runtime never renders them;
+  clients render what they understand and ignore the rest, with the response text
+  always carrying the fallback. Non-streaming response messages carry the same
+  optional `ui` array. See [Response UI Widgets](docs/reference/response-ui-widgets.md).
+- **All 12 SDKs surface widgets idiomatically**: Go decodes them into typed
+  `ChatChunk.UI`, TypeScript yields `{ type: "ui", ui: UIWidget[] }`, and the
+  other ten expose a `parse_ui_widgets` / `parseUiWidgets` helper.
+
+#### Idempotency keys for mutating requests
+
+- **`X-Muxi-Idempotency-Key` header** on chat, execute-trigger, and create-scheduled-job
+  requests replays the original 2xx response on retry instead of running the work
+  twice (24h TTL, single-flighted, streaming passes through untouched). The key is
+  echoed back on the response envelope as `request.idempotency_key`. All SDKs send
+  it automatically and surface the echoed value. See [Idempotency](docs/deep-dives/idempotency.md).
+
+#### Formation self-tuning state preserved across deploys
+
+- **The server now preserves `MUXI.md` and `PENDING-MUXI.md`** (the formation's
+  self-improvement state) across updates and rollbacks, alongside `memory.db`, so
+  redeploying code never discards what a formation has learned. See
+  [Self-Tuning](docs/concepts/self-tuning.md).
+
+#### CLI catch-up
+
+- **`muxi tuning show | pending | apply | dismiss`** to review and act on a
+  formation's self-improvement suggestions.
+- **`muxi knowledge rebuild`** to force-rebuild persistent per-agent knowledge trees.
+- **Formation validation** now covers knowledge sources (local `path` vs remote
+  `url` with supported schemes, and the `agent_tree.regenerate` mode), tuning, and
+  A2A auth blocks.
+
+#### Access control (Groups & RBAC)
+
+- **Group-based access control** via an auto-discovered `groups/` directory:
+  allow-list YAML with `inherits`, fnmatch globs, and a four-level `tools:
+  {allow, deny}` cascade. Membership now comes from a `middleware:` MCP server
+  (fail-closed), gated by an `rbac:` block. The pre-1.0 `server.auth` key and
+  `user_groups` table were **removed**. See [Access Control](docs/concepts/access-control.md).
+
+#### Proactiveness
+
+- **Formations can now initiate contact.** The `proactive:` block adds
+  notification routing (`POST /v1/notifications`, per-user channel state),
+  channels-as-transformers (bundled slack/telegram/discord/email templates),
+  heartbeats (active hours, `HEARTBEAT_OK` suppression), `SOUL.md` soul
+  documents, and nine built-in slash commands. See [Proactiveness](docs/concepts/proactiveness.md).
+
+#### Coding-agent delegation
+
+- **New `coding:` block and `delegate_coding` tool** hand coding tasks to an
+  external headless CLI (claude-code/droid/opencode/pi or a custom adapter) as
+  isolated, always-async background jobs. See [Coding-Agent Delegation](docs/concepts/coding-delegation.md).
+
+#### Trigger transformers
+
+- **Trigger results can reach external platforms** with no glue code via
+  `transformers/<name>.yaml` and `transformer:` / `webhook:` / `parse:` in
+  trigger frontmatter (template substitution, auth, retry, fallback). Response
+  UI widgets render natively on supporting channels. See [Triggers](docs/reference/triggers.md#transformers-outbound-routing).
+
+#### Knowledge: reasoning RAG + remote sources
+
+- **Reasoning RAG**: large documents index as hierarchical trees navigated at
+  query time - `retrieval: tree | tree-vector | hybrid`, gated by
+  `knowledge.reasoning_threshold`, with a `knowledge.tree` settings block and
+  persistent per-agent trees (`agent_tree:`). Falls back to vector on failure.
+- **Remote knowledge sources**: `url:` sources over `http(s)`, `s3`, `gs`, `az`,
+  `rsync(+ssh)`, `ftp`, `sftp`, `file`, with archive extraction (`extract:`),
+  scheduled re-sync (`schedule:` + `retry:`), incremental re-embedding, and an
+  on-demand `POST /v1/agents/{id}/knowledge/sync`. See [Knowledge](docs/reference/knowledge.md).
+
+#### Memory platform
+
+- **Scopes** (`user` / `group` / `formation`, grant-gated shared writes),
+  **ingestion API** (`POST /v1/memories`, batch, distillery), an **event
+  substrate** (immutable events, provenance, `POST /v1/memory/{rebuild,backfill,forget}`,
+  decay), and a **knowledge graph + Captain's Log + lessons loop**, plus
+  compaction/pruning/index/lint lifecycle blocks. See [Memory](docs/reference/memory.md).
+
+#### Model selection & workflows
+
+- **Hierarchical model selection** (`llm.models` → agent → SOP/trigger/skill
+  frontmatter → per-step) with `llm.aliases`. See [LLM Providers](docs/concepts/llm-providers.md).
+- **Workflow-level replanning** (`overlord.workflow.replanning`, off by default).
+  See [Workflows](docs/reference/workflows.md#workflow-level-replanning).
+
+#### Tools, skills & A2A
+
+- **Built-in tools**: `watch_job`, `recall_history`, `record_lesson`,
+  `get_artifact*`, `delegate_coding`; unified `allow`/`deny` tool vocabulary
+  with agent-attachment overrides and an `mcp.watch` block. See [Tools](docs/reference/tools.md).
+- **Artifact memory**: everything `generate_file` produces is now persisted
+  (versioned, encrypted, user-scoped) and recallable. See [Artifacts](docs/concepts/artifacts.md).
+- **Bundled `compute` skill** (code-as-reasoning in the RCE sandbox). See [Skills](docs/reference/skills.md).
+- **A2A auth** adds outbound `oauth2`, bidirectional `hmac`, and inbound
+  `openid`. Outbound credentials now use canonical `id` entries matched by
+  service `url`; legacy `service_id` remains accepted but is deprecated. See
+  [A2A Services](docs/reference/a2a.md#authentication).
+
+#### SDK version
+
+- All 12 SDK version sources were reset to `1.0.0` to open the 1.x release train.
+
 ### FAISSx v0.20260708.0
 
 #### Hot-path latency floors removed (~220× faster sequential adds)
