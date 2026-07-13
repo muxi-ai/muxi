@@ -17,6 +17,164 @@ description: Release history and updates for MUXI
 > - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 > - [FAISSx Releases](https://github.com/muxi-ai/faissx/releases)
 
+## July 2026
+
+July launches MUXI V1: Runtime, Server, CLI, and all 12 SDKs move together to
+the `1.x` release line, establishing a stable generation of contracts across
+formation execution, APIs, and client integrations.
+
+### Runtime, Server, CLI & SDKs v1.20260713.0
+
+#### Response envelope UI widgets
+
+- **Chat responses can now carry typed UI widgets.** A streamed response emits an
+  optional `ui` SSE event at end-of-turn (just before `done`) carrying `options`,
+  `action_link`, and `mcp_resource` widgets. The runtime never renders them;
+  clients render what they understand and ignore the rest, with the response text
+  always carrying the fallback. Non-streaming response messages carry the same
+  optional `ui` array. See [Response UI Widgets](reference/response-ui-widgets.md).
+- **All 12 SDKs surface widgets idiomatically**: Go decodes them into typed
+  `ChatChunk.UI`, TypeScript yields `{ type: "ui", ui: UIWidget[] }`, and the
+  other ten expose a `parse_ui_widgets` / `parseUiWidgets` helper.
+
+#### Idempotency keys for mutating requests
+
+- **`X-Muxi-Idempotency-Key` header** on chat, execute-trigger, and create-scheduled-job
+  requests replays the original 2xx response on retry instead of running the work
+  twice (24h TTL, single-flighted, streaming passes through untouched). The key is
+  echoed back on the response envelope as `request.idempotency_key`. All SDKs send
+  it automatically and surface the echoed value. See [Idempotency](deep-dives/idempotency.md).
+
+#### Formation self-tuning state preserved across deploys
+
+- **The server now preserves `MUXI.md` and `PENDING-MUXI.md`** (the formation's
+  self-improvement state) across updates and rollbacks, alongside `memory.db`, so
+  redeploying code never discards what a formation has learned. See
+  [Self-Tuning](concepts/self-tuning.md).
+
+#### CLI catch-up
+
+- **`muxi tuning show | pending | apply | dismiss`** to review and act on a
+  formation's self-improvement suggestions.
+- **`muxi knowledge rebuild`** to force-rebuild persistent per-agent knowledge trees.
+- **Formation validation** now covers knowledge sources (local `path` vs remote
+  `url` with supported schemes, and the `agent_tree.regenerate` mode), tuning, and
+  A2A auth blocks.
+
+#### Access control (Groups & RBAC)
+
+- **Group-based access control** via an auto-discovered `groups/` directory:
+  allow-list YAML with `inherits`, fnmatch globs, and a four-level `tools:
+  {allow, deny}` cascade. Membership now comes from a `middleware:` MCP server
+  (fail-closed), gated by an `rbac:` block. The pre-1.0 `server.auth` key and
+  `user_groups` table were **removed**. See [Access Control](concepts/access-control.md).
+
+#### Proactiveness
+
+- **Formations can now initiate contact.** The `proactive:` block adds
+  notification routing (`POST /v1/notifications`, per-user channel state),
+  channels-as-transformers (bundled slack/telegram/discord/email templates),
+  heartbeats (active hours, `HEARTBEAT_OK` suppression), `SOUL.md` soul
+  documents, and nine built-in slash commands. See [Proactiveness](concepts/proactiveness.md).
+
+#### Coding-agent delegation
+
+- **New `coding:` block and `delegate_coding` tool** hand coding tasks to an
+  external headless CLI (claude-code/droid/opencode/pi or a custom adapter) as
+  isolated, always-async background jobs. See [Coding-Agent Delegation](concepts/coding-delegation.md).
+
+#### Trigger transformers
+
+- **Trigger results can reach external platforms** with no glue code via
+  `transformers/<name>.yaml` and `transformer:` / `webhook:` / `parse:` in
+  trigger frontmatter (template substitution, auth, retry, fallback). Response
+  UI widgets render natively on supporting channels. See [Triggers](reference/triggers.md#transformers-outbound-routing).
+
+#### Knowledge: reasoning RAG + remote sources
+
+- **Reasoning RAG**: large documents index as hierarchical trees navigated at
+  query time - `retrieval: tree | tree-vector | hybrid`, gated by
+  `knowledge.reasoning_threshold`, with a `knowledge.tree` settings block and
+  persistent per-agent trees (`agent_tree:`). Falls back to vector on failure.
+- **Remote knowledge sources**: `url:` sources over `http(s)`, `s3`, `gs`, `az`,
+  `rsync(+ssh)`, `ftp`, `sftp`, `file`, with archive extraction (`extract:`),
+  scheduled re-sync (`schedule:` + `retry:`), incremental re-embedding, and an
+  on-demand `POST /v1/agents/{id}/knowledge/sync`. See [Knowledge](reference/knowledge.md).
+
+#### Memory platform
+
+- **Scopes** (`user` / `group` / `formation`, grant-gated shared writes),
+  **ingestion API** (`POST /v1/memories`, batch, distillery), an **event
+  substrate** (immutable events, provenance, `POST /v1/memory/{rebuild,backfill,forget}`,
+  decay), and a **knowledge graph + Captain's Log + lessons loop**, plus
+  compaction/pruning/index/lint lifecycle blocks. See [Memory](reference/memory.md).
+
+#### Model selection & workflows
+
+- **Hierarchical model selection** (`llm.models` → agent → SOP/trigger/skill
+  frontmatter → per-step) with `llm.aliases`. See [LLM Providers](concepts/llm-providers.md).
+- **Workflow-level replanning** (`overlord.workflow.replanning`, off by default).
+  See [Workflows](reference/workflows.md#workflow-level-replanning).
+
+#### Tools, skills & A2A
+
+- **Built-in tools**: `watch_job`, `recall_history`, `record_lesson`,
+  `get_artifact*`, `delegate_coding`; unified `allow`/`deny` tool vocabulary
+  with agent-attachment overrides and an `mcp.watch` block. See [Tools](reference/tools.md).
+- **Artifact memory**: everything `generate_file` produces is now persisted
+  (versioned, encrypted, user-scoped) and recallable. See [Artifacts](concepts/artifacts.md).
+- **Bundled `compute` skill** (code-as-reasoning in the RCE sandbox). See [Skills](reference/skills.md).
+- **A2A auth** adds outbound `oauth2`, bidirectional `hmac`, and inbound
+  `openid`. Outbound credentials now use canonical `id` entries matched by
+  service `url`; legacy `service_id` remains accepted but is deprecated. See
+  [A2A Services](reference/a2a.md#authentication).
+
+#### SDK version
+
+- All 12 SDK version sources were reset to `1.0.0` to open the 1.x release train.
+
+### FAISSx v0.20260708.0
+
+#### Hot-path latency floors removed (~220× faster sequential adds)
+
+- **Every server operation carried a ~100ms latency floor**: the server's task worker polled for results with a 100ms sleep, so even a microsecond FAISS search took 100ms+. Results are now signalled via a condition variable, returning as soon as the work finishes.
+- **Persistence moved off the request path**: the server previously rewrote the entire index to disk synchronously after every mutation, blocking all clients. Writes are now debounced (default 5s, `FAISSX_PERSIST_INTERVAL`, `0` restores synchronous mode), performed atomically by a background thread, and flushed on shutdown. Combined with the polling fix, a sequential add workload went from 103ms to 0.47ms per add.
+- **Hot-path trims**: debug logging no longer stringifies full vector payloads when disabled, and the client stops re-applying ZMQ socket options on every request.
+
+#### Index type coverage and reliability fixes
+
+- **Server accepts standard FAISS descriptor strings** (`SQ8`, `IVF50,PQ8x8`, OPQ chains, ...) via an `index_factory` fallback instead of rejecting anything without a bespoke handler; remote `IndexScalarQuantizer` now auto-trains on first add to match local-mode behavior.
+- **Test suite repaired and made hermetic** (81/81 passing, from 20 failures + 7 errors): tests now run against a server started from the source tree on a dynamic port instead of whatever was listening on the default port, with client-singleton state reset between tests.
+
+### OneLLM v0.20260708.1
+
+#### Single-pass unicode cleaning on the streaming hot path
+
+- **Per-chunk streaming overhead cut 4.4×** (6.7 µs → 1.5 µs): `clean_unicode_artifacts()` — run on every response object and every streaming chunk — was ~70% of per-chunk overhead, rebuilding a 60-entry replacement dict per call and applying it as 60 sequential `str.replace` passes. Now an `isascii()` fast path skips cleaning entirely for ASCII output, and non-ASCII text is cleaned by one compiled regex with a per-match callback. Output is byte-identical (verified across 253 generated cases).
+- **A 300-chunk streamed response** drops from ~2 ms to ~0.45 ms of library CPU time; non-streaming request overhead −31%.
+
+### OneLLM v0.20260708.0
+
+#### Lazy provider loading
+
+- **`import onellm` no longer imports all 27 provider modules**: provider modules load on first use, cutting import time from ~190 ms to ~95–120 ms. The heaviest saving: `vertexai` no longer pulls `google-auth` + `requests` into every process that never touches Vertex AI.
+- **Public API unchanged**: `from onellm.providers import OpenAIProvider` still works (resolved lazily via PEP 562), class identity is preserved, and `register_provider()` for custom providers behaves as before.
+- **Clearer missing-dependency errors**: requesting a provider whose optional dependency is not installed raises `ImportError` naming the dependency, instead of a generic "not supported" `ValueError`. `list_providers()` now always lists every built-in.
+
+#### Provider instance memoization
+
+- **`get_provider("name")` returns a cached instance** instead of rebuilding config + retry state on every request (~11× faster resolution, multiplied for fallback chains which instantiate one provider per model per request).
+- **Automatic invalidation**: `set_api_key()` / `update_provider_config()` transparently produce a fresh instance via a config version counter; `clear_provider_cache()` is the escape hatch for direct config mutation. Calls with kwargs bypass the cache entirely.
+
+#### Bug fix: per-call kwargs leaked into global config
+
+- **`get_provider_config()` now returns a deep copy**: previously it returned the live global dict, so constructor kwargs like `timeout=5` merged by a provider's `__init__` permanently changed global configuration for all subsequent requests.
+
+#### Hot-path trims
+
+- **Message `deepcopy` skipped when response caching is disabled** (the default), provider-name regex precompiled, and OpenAI streaming no longer computes a fallback timestamp per chunk.
+- **Test-suite hardening**: three pre-existing test-isolation bugs (a config leak in an autouse fixture, mocks patching the wrong module binding, and patcher leaks on setup failure) fixed; the provider test directory now passes in isolation.
+
 ## June 2026
 
 ### Runtime v0.20260619.0
@@ -110,7 +268,7 @@ Recurring scheduled jobs were spawning a fresh one-time job on every firing inst
 
 #### Tool whitelist / blacklist filter on MCP servers (now documented)
 
-- **`tools.whitelist` / `tools.blacklist`** on any MCP `.afs` file — mutually exclusive, fnmatch globs, applied at registration so filtered tools are invisible to the LLM. See [Tools & MCP](concepts/tools-and-mcp.md#tool-filtering-whitelist--blacklist) and the [Add Tools guide](guides/add-mcp-tools.md#filter-the-tool-surface-whitelistblacklist).
+- **`tools.whitelist` / `tools.blacklist`** on any MCP `.afs` file — mutually exclusive in that release, fnmatch globs, applied at registration so filtered tools are invisible to the LLM. They are now aliases for `allow` / `deny`. See [Tools & MCP](concepts/tools-and-mcp.md#tool-filtering-allow--deny) and the [Add Tools guide](guides/add-mcp-tools.md#filter-the-tool-surface-allow--deny).
 
 ### OneLLM v0.20260502.0
 

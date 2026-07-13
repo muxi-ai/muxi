@@ -173,6 +173,21 @@ add_executable(my_app main.cpp)
 target_link_libraries(my_app PRIVATE muxi::muxi)
 ```
 
+## Response UI Widgets
+
+A streamed response can carry optional [UI widgets](../reference/response-ui-widgets.md)
+(choices, links, MCP UI resources) on a `ui` event. Extract them with the
+`parse_ui_widgets(event)` free function; it returns an empty array for any
+non-`ui` or malformed event, so unknown widgets are safely ignored.
+
+## Idempotency
+
+The client auto-generates an `X-Muxi-Idempotency-Key` on every request, so a
+retry of a successful non-streaming mutation replays the original response.
+Streaming and failed requests execute again. Cached responses expose the echoed
+`idempotency_key` on the unwrapped result. See
+[Idempotency](../deep-dives/idempotency.md).
+
 ## Learn More
 
 - [Full documentation on GitHub](https://github.com/muxi-ai/muxi-cpp)

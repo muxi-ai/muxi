@@ -137,7 +137,7 @@ When you're integrating an MCP server with a very large tool surface — Microso
 
 **Why:**
 - The Overlord routes by tool capability. If every Excel question and every email question lands on the same agent, the routing signal is gone.
-- The planning prompt for an agent grows with its tool surface. A whitelisted slice keeps the prompt small and improves tool-selection accuracy.
+- The planning prompt for an agent grows with its tool surface. An allowed slice keeps the prompt small and improves tool-selection accuracy.
 - Per-domain agents can have per-domain system messages tailored to the domain's idioms.
 
 **Worked example** — splitting Microsoft 365 across four specialist agents:
@@ -153,7 +153,7 @@ auth:
   type: env
   ACCESS_TOKEN: "${{ user.credentials.MS365 }}"
 tools:
-  whitelist:
+  allow:
     - "list-excel-files"
     - "read-excel-*"
     - "update-excel-*"
@@ -171,7 +171,7 @@ auth:
   type: env
   ACCESS_TOKEN: "${{ user.credentials.MS365 }}"
 tools:
-  whitelist:
+  allow:
     - "list-mail-*"
     - "read-mail-*"
     - "send-mail"
@@ -203,7 +203,7 @@ Repeat the same shape for `ms365-email-agent.afs`, `ms365-calendar-agent.afs`, `
 > [!TIP]
 > The same pattern applies to any large MCP — Google Workspace, Atlassian, Salesforce, internal company MCPs. The rule of thumb: if a single MCP server exposes more tools than a single agent's role naturally needs, split it.
 
-See [Tools & MCP → Tool Filtering](../concepts/tools-and-mcp.md#tool-filtering-whitelist--blacklist) for the underlying mechanism.
+See [Tools & MCP → Tool Filtering](../concepts/tools-and-mcp.md#tool-filtering-allow--deny) for the underlying mechanism.
 
 
 ## Step 3: Configure Orchestration

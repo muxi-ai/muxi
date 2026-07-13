@@ -129,8 +129,33 @@ while (true) {
 | `chunk` | Text generated | `{"text": "...", "agent": "..."}` |
 | `tool_start` | Tool invoked | `{"tool": "...", "args": {...}}` |
 | `tool_end` | Tool completed | `{"tool": "...", "result": "..."}` |
+| `ui` | End-of-turn, when the response carries UI widgets | `{"ui": [ ... ]}` |
 | `error` | Error occurred | `{"error": "...", "code": "..."}` |
 | `done` | Stream complete | `{"session_id": "..."}` |
+
+
+## UI Events
+
+When a response carries UI widgets (choices to pick, an external link, or an MCP
+UI resource), they ride a single `ui` event emitted at end-of-turn, just before
+`done`:
+
+```
+event: chunk
+data: {"text": "Which region should I use?"}
+
+event: ui
+data: {"ui": [{"type": "options", "id": "ui_a1b2c3", "prompt": "Which region?", "options": [{"value": "us", "label": "United States"}, {"value": "eu", "label": "Europe"}]}]}
+
+event: done
+data: {"finished": true}
+```
+
+A turn with no widgets omits the `ui` event entirely, so the stream is
+byte-identical to before. Clients should ignore widget types they don't
+understand - the response text always carries the fallback. See
+[Response UI Widgets](../reference/response-ui-widgets.md) for the widget types,
+fields, and how to reply to an `options` widget.
 
 
 ## Tool Events

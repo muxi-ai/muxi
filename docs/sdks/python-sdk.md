@@ -378,6 +378,30 @@ while True:
 ```
 
 
+## Response UI Widgets
+
+A streamed response can carry optional [UI widgets](../reference/response-ui-widgets.md)
+(choices, links, MCP UI resources) on a `ui` event. Extract them with
+`parse_ui_widgets`; it returns `[]` for any non-`ui` or malformed chunk, so
+unknown widgets are safely ignored.
+
+```python
+from muxi import parse_ui_widgets
+
+for chunk in formation.chat_stream({"message": "Which region?"}, user_id="user_123"):
+    for widget in parse_ui_widgets(chunk):
+        if widget["type"] == "options":
+            print(widget["prompt"])
+```
+
+## Idempotency
+
+The client auto-generates an `X-Muxi-Idempotency-Key` on every request, so a
+retry of a successful non-streaming mutation replays the original response.
+Streaming and failed requests execute again. Cached responses expose the echoed
+`idempotency_key` on the unwrapped result. See
+[Idempotency](../deep-dives/idempotency.md).
+
 ## Learn More
 
 - [TypeScript SDK](typescript-sdk.md)

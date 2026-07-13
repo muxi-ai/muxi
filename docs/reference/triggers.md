@@ -182,6 +182,71 @@ curl -X POST http://localhost:8001/v1/formations/my-formation/triggers/github-is
   }'
 ```
 
+## Transformers: outbound routing
+
+A trigger's result can be delivered to an external platform (Slack, Telegram,
+Twilio, any webhook consumer) with no custom glue. Add `transformer:` to use a
+named payload template. `webhook:` may be used alone for the standard payload or
+together with `transformer:` to override its delivery URL. Use `parse:` to
+extract inbound fields through simple JSON-style paths into the request and
+template context.
+
+```markdown
+<!-- triggers/slack-message.md -->
+---
+transformer: slack
+webhook: https://hooks.example.com/slack-bridge
+parse:
+  message: "$.event.text"
+  user_id: "$.event.user"
+  context:
+    channel: "$.event.channel"
+    thread_ts: "$.event.thread_ts"
+---
+Handle the inbound Slack message.
+```
+
+Transformer YAML files live in `transformers/<name>.yaml` (fail-fast validation)
+and define the outbound payload template, HTTP delivery with
+bearer/basic/header auth, and optional content transformation:
+
+```yaml
+# transformers/slack.yaml
+name: slack
+endpoint:
+  url: "${{ secrets.SLACK_WEBHOOK }}"   # optional; trigger/channel URL wins
+  method: POST
+auth:
+  type: bearer
+  token: "${{ secrets.SLACK_TOKEN }}"
+headers:
+  Content-Type: application/json
+body:
+  channel: "${{ context.channel }}"
+  text: "${{ response.content }}"
+content_transform:
+  format: markdown
+  max_length: 4000
+  truncation_suffix: "..."
+```
+
+URL resolution is trigger/channel URL first, then the transformer's own, with a
+load-time error when neither exists. Delivery failures use the webhook
+manager's retry policy, then fall back to
+the formation's default async webhook with `transformer_error` metadata - a
+broken transformer never loses the trigger result. Markdown-to-HTML link
+substitution only emits anchors for `http(s)` URLs.
+
+Bundled dormant channel transformers (`slack`, `telegram`, `discord`, `email`)
+ship for use with [proactiveness](../concepts/proactiveness.md); a
+formation-local `transformers/` file shadows them.
+
+## Response UI widgets over channels
+
+Triggers can render [response UI widgets](response-ui-widgets.md) natively on
+supporting channels, and inbound payloads carrying a `ui_response` are parsed
+back into the conversation as the user's widget selection.
+
 ## Related
 
 - [Triggers & Webhooks](../concepts/triggers-and-webhooks.md) - Concept overview

@@ -221,7 +221,7 @@ auth:
 ```
 
 
-## Filter the Tool Surface (whitelist/blacklist)
+## Filter the Tool Surface (`allow` / `deny`)
 
 If you're integrating an MCP server that exposes a very large catalog (Microsoft 365, Google Workspace, ms365-assistant, big internal MCP servers) — say, 30+ tools — the agent's planning quality degrades and its prompt grows even though it only ever needs a handful. Filter at the protocol level so the LLM only ever sees the slice you actually want:
 
@@ -237,18 +237,18 @@ auth:
   ACCESS_TOKEN: "${{ user.credentials.MS365 }}"
 
 tools:
-  whitelist:
+  allow:
     - "list-excel-files"
     - "read-excel-*"
     - "update-excel-*"
 ```
 
-Or, blacklist the dangerous verbs everywhere instead:
+Or, deny the dangerous verbs everywhere instead:
 
 ```yaml
 # mcp/internal-db.afs
 tools:
-  blacklist:
+  deny:
     - "drop-*"
     - "delete-*"
     - "truncate-*"
@@ -256,16 +256,17 @@ tools:
 
 | Field | Behavior |
 |-------|----------|
-| `tools.whitelist` | Only listed tool names are exposed. fnmatch globs (`*`, `?`) supported. |
-| `tools.blacklist` | Every tool except listed names is exposed. Same glob syntax. |
+| `tools.allow` | Only listed tool names are exposed. fnmatch globs (`*`, `?`) supported. |
+| `tools.deny` | Listed tool names are excluded after `allow` is applied. Same glob syntax. |
 
-> [!IMPORTANT]
-> `whitelist` and `blacklist` are mutually exclusive — setting both fails formation validation. Pick the one that's shorter to maintain.
+> [!NOTE]
+> `whitelist` and `blacklist` remain accepted aliases. `allow` and `deny` are
+> canonical and may be combined; deny is applied after allow.
 
 > [!TIP]
-> For catalogs this large, also consider splitting the upstream MCP into per-domain `.afs` files (one for excel, one for email, one for calendar, etc.), each with its own whitelist, and assigning each one to a domain-specialist agent. See [Per-agent MCP scoping](../guides/build-multi-agent-systems.md#per-agent-mcp-scoping-for-large-catalogs) for the full pattern.
+> For catalogs this large, also consider splitting the upstream MCP into per-domain `.afs` files (one for excel, one for email, one for calendar, etc.), each with its own allow list, and assigning each one to a domain-specialist agent. See [Per-agent MCP scoping](../guides/build-multi-agent-systems.md#per-agent-mcp-scoping-for-large-catalogs) for the full pattern.
 
-Full schema details: [Tools Reference → Tool Filtering](../reference/tools.md#tool-filtering-whitelist--blacklist).
+Full schema details: [Tools Reference → Tool Filtering](../reference/tools.md#tool-filtering-allow--deny).
 
 
 ## Agent-Specific Tools

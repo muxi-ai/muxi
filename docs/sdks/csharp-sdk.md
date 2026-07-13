@@ -134,6 +134,21 @@ catch (MuxiException e)
 }
 ```
 
+## Response UI Widgets
+
+A streamed response can carry optional [UI widgets](../reference/response-ui-widgets.md)
+(choices, links, MCP UI resources) on a `ui` event. Extract them with
+`FormationClient.ParseUiWidgets(...)`, which returns a `JsonArray` (empty for any
+non-`ui` or malformed event), so unknown widgets are safely ignored.
+
+## Idempotency
+
+The client auto-generates an `X-Muxi-Idempotency-Key` on every request, so a
+retry of a successful non-streaming mutation replays the original response.
+Streaming and failed requests execute again. Cached responses expose the echoed
+`idempotency_key` on the unwrapped result. See
+[Idempotency](../deep-dives/idempotency.md).
+
 ## Learn More
 
 - [Full documentation on GitHub](https://github.com/muxi-ai/muxi-csharp)

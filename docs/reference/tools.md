@@ -126,9 +126,9 @@ auth:
 | `retry_attempts` | int | - | Number of retries (0-10) |
 | `connection_ttl` | int | - | Per-server idle TTL override (seconds). See [Connection Lifecycle](#connection-lifecycle). |
 | `parameters` | object | - | Default tool arguments injected into every call. See [Default Parameters](#default-parameters). |
-| `tools` | object | - | Filter the agent-visible tool surface advertised by this MCP server. See [Tool Filtering](#tool-filtering-whitelist--blacklist). |
+| `tools` | object | - | Filter the agent-visible tool surface advertised by this MCP server. See [Tool Filtering](#tool-filtering-allow--deny). |
 
-### Tool Filtering (whitelist / blacklist)
+### Tool Filtering (`allow` / `deny`)
 
 Large MCP servers (Microsoft 365, Google Workspace, ms365-assistant, large internal catalogs) often expose 30+ tools, of which any given agent only needs a handful. Filtering trims the surface advertised to the LLM at registration time, so the planning prompt shrinks and the model is less likely to pick a wrong-but-plausible tool.
 
@@ -144,7 +144,7 @@ auth:
   ACCESS_TOKEN: "${{ user.credentials.MS365 }}"
 
 tools:
-  whitelist:
+  allow:
     - "list-excel-files"
     - "read-excel-*"
     - "update-excel-*"
@@ -154,18 +154,42 @@ tools:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `tools.whitelist` | string[] | If set, **only** these tool names are exposed. fnmatch-style globs (`*`, `?`) supported. |
-| `tools.blacklist` | string[] | If set, every tool **except** these is exposed. Same glob syntax. |
+| `tools.allow` | string[] | If set, **only** these tool names are exposed. fnmatch-style globs (`*`, `?`) supported. |
+| `tools.deny` | string[] | These tool names are hidden. Same glob syntax. Applied **after** `allow`. |
 
-> [!IMPORTANT]
-> `whitelist` and `blacklist` are mutually exclusive. Setting both at the same time fails formation validation at load time.
+> [!NOTE]
+> `allow` / `deny` is the canonical vocabulary at every level; `whitelist` /
+> `blacklist` remain accepted aliases. `allow` and `deny` may now be combined
+> (deny is applied after allow) - the old strict either-or rule is relaxed.
+
+`tools:` overrides cascade across four levels, most specific wins:
+
+1. MCP registry catalog (`mcp.servers[].tools`)
+2. **Agent attachment** - an agent's `mcp_servers` entry may be a `{id, tools}`
+   mapping instead of a bare string
+3. Group per-server
+4. Group per-agent-per-server
+
+```yaml
+# agents/researcher.afs
+mcp_servers:
+  - id: web-search
+    tools:
+      allow: ["search"]
+      deny: ["admin_*"]
+```
+
+An intentionally emptied shared catalog is respected as empty (no silent
+fall-through to the unfiltered registry). `tools: {deny: "*"}` hides a server
+entirely. See [Access Control](../concepts/access-control.md) for the group
+levels.
 
 #### How it's applied
 
 ```
 Upstream MCP tools/list response
         ↓
-   Filter (whitelist or blacklist, fnmatch globs)
+   Filter (allow, then deny; fnmatch globs)
         ↓
 Agent-visible tool registry (this is what the LLM ever sees)
 ```
@@ -176,14 +200,14 @@ The filter runs on every MCP `tools/list` refresh, so dynamic tool catalogs stay
 
 | Goal | Pattern |
 |------|---------|
-| Read-only access to a domain | `whitelist: ["list-*", "read-*", "search-*"]` |
-| Block destructive operations | `blacklist: ["delete-*", "drop-*", "purge-*"]` |
-| Single-tool agent | `whitelist: ["search-web"]` |
-| Per-domain split of a large catalog | One MCP file per domain (excel/word/email/calendar), each with its own `whitelist` |
+| Read-only access to a domain | `allow: ["list-*", "read-*", "search-*"]` |
+| Block destructive operations | `deny: ["delete-*", "drop-*", "purge-*"]` |
+| Single-tool agent | `allow: ["search-web"]` |
+| Per-domain split of a large catalog | One MCP file per domain (excel/word/email/calendar), each with its own `allow` |
 
 #### Per-domain split for large catalogs
 
-For MCPs with >20 tools, the recommended pattern is to define **one MCP `.afs` file per domain**, each scoped to the appropriate agent, instead of giving every agent the full catalog. Example: `ms365-excel.afs` (whitelisted to Excel tools) → `ms365-excel-agent.afs`; `ms365-email.afs` → `ms365-email-agent.afs`. The full upstream MCP server still runs once per agent, but each agent's tool surface is a curated slice. See the [multi-agent guide](../guides/build-multi-agent-systems.md#per-agent-mcp-scoping-for-large-catalogs) for a worked example.
+For MCPs with >20 tools, the recommended pattern is to define **one MCP `.afs` file per domain**, each scoped to the appropriate agent, instead of giving every agent the full catalog. Example: `ms365-excel.afs` (allowed Excel tools only) → `ms365-excel-agent.afs`; `ms365-email.afs` → `ms365-email-agent.afs`. The full upstream MCP server still runs once per agent, but each agent's tool surface is a curated slice. See the [multi-agent guide](../guides/build-multi-agent-systems.md#per-agent-mcp-scoping-for-large-catalogs) for a worked example.
 
 ### Capabilities
 
@@ -223,6 +247,52 @@ metadata:
   documentation: "https://docs.example.com"
   tags: ["search", "web"]
 ```
+
+## Built-in Tools
+
+Beyond MCP servers, MUXI registers built-in tools automatically when the
+relevant feature is configured. Agents call them like any other tool.
+
+| Tool | Available when | Purpose |
+|------|----------------|---------|
+| `generate_file` | always | Produce a file artifact in the sandbox (see [Artifacts](../concepts/artifacts.md)) |
+| `get_artifact` / `get_artifact_content` / `get_artifact_history` | artifact memory retrieval | Recall, read, and version-walk previously produced artifacts |
+| `watch_job` | the formation declares MCP servers and watch is not disabled | Poll a remote job and re-enter when it completes |
+| `recall_history` | Captain's Log enabled | Time-anchored recall over the user's own log entries (`date_from`/`date_to` ISO dates, optional `query`, `limit`) |
+| `record_lesson` | Captain's Log enabled | Record a durable lesson that is injected into agent prompts |
+| `delegate_coding` | a `coding:` block exists | Delegate a coding task to an external CLI (see [Coding-Agent Delegation](../concepts/coding-delegation.md)); always async |
+
+## Watching remote MCP tools (`watch_job`)
+
+MCP-reachable work that outlives a turn (image/video generation, long renders,
+batch jobs) can be collected instead of forgotten. The agent calls the built-in
+`watch_job` tool, which registers a deterministic poll loop over any MCP tool the
+calling user can see - the poll loop runs no LLM, so polling costs zero tokens.
+`watch_job` is **always async**: it returns a job handle immediately.
+
+Parameters: `tool` (`server.tool`, `server__tool`, or bare name), `args`,
+`done_when` (`path` + `equals`/`in`), optional `result` selector and `label`.
+There are no interval/timeout arguments - cadence and deadline are formation
+config. Jobs appear on the `/jobs` surface; completion, timeout, or failure
+re-enters the conversation (`route_class: watch`) via the notification router.
+Polls run under the original user's permission context (fail-closed).
+
+The `mcp.watch` sub-block configures the loop. `watch_job` is **on by default**
+whenever the formation declares MCP servers; `mcp: {watch: false}` removes the
+tool entirely.
+
+```yaml
+mcp:
+  watch:
+    interval: 30                  # seconds between polls (default 30)
+    timeout: 7200                 # per-job deadline in seconds (default 7200)
+    max_concurrent: 10            # per user (default 10)
+    max_consecutive_failures: 3   # give up after N failed polls (default 3)
+```
+
+A bundled recognition SOP fragment teaches agents to spot job-shaped responses;
+a formation-local `sops/watch_job.md` shadows it (an empty file removes it).
+Group templates may raise the quota with `mcp: {watch: {max_concurrent: N}}`.
 
 ## Popular MCP Servers
 

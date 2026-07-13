@@ -136,44 +136,45 @@ System validates & executes
      ↓
 File captured
      ↓
-Artifact stored (with session ID)
+Artifact captured for the user
      ↓
 Unique ID assigned (art_ABC123)
 ```
 
 ### Storage
 
-Artifacts are organized by session:
+Artifact memory stores encrypted blobs under the configured local path and
+keeps searchable metadata in persistent memory. Storage is user-scoped rather
+than organized by chat session.
 
 ```
 artifacts/
-└── session_xyz/
-    ├── art_ABC123/
-    │   ├── file.pdf
-    │   └── metadata.json
-    └── art_DEF456/
-        ├── chart.png
-        └── metadata.json
+└── <user_id>/
+    └── <artifact_id_prefix>/
+        └── <artifact_id>.bin
 ```
 
 **Metadata includes:**
 - MIME type (application/pdf, image/png, etc.)
 - File size
 - Created timestamp
-- Session ID
-- Request ID that triggered creation
-- Original filename
+- Producing agent and conversation ID
+- Artifact name
+- Version, parent artifact, summary, tags, and checksum
 
 ### Cleanup
 
-Artifacts automatically expire:
+Retention is unlimited by default. Configure a positive duration in days to
+expire artifacts, with an hourly cleanup sweep:
 
 ```yaml
-artifact_retention: 7d      # Keep for 7 days
-cleanup_interval: 1h        # Check every hour
+artifacts:
+  retention:
+    policy: last_accessed
+    duration: 7
 ```
 
-Old artifacts are automatically purged to save storage.
+Use `last_updated` instead when reads should not extend retention.
 
 
 ## What Agents Can Generate
@@ -334,31 +335,77 @@ Response: "Here's your chart [Download PNG]"
 
 ## Configuration
 
-### Enable Artifact Generation
+The `artifacts:` block configures persistent artifact memory. Capture is enabled
+by default for formations with persistent memory. With no block, artifacts use
+local `./artifacts` storage, encryption is enabled, retention is unlimited, and
+the capture limit is 50 MB per artifact.
 
 ```yaml
 # formation.afs
 artifacts:
   enabled: true
-  max_file_size: 10485760      # 10 MB
-  execution_timeout: 30         # 30 seconds
-  allowed_formats:
-    - pdf
-    - png
-    - jpg
-    - csv
-    - json
+  storage:
+    type: local               # only shipped backend; other values fail load
+    path: ./artifacts
+  encryption:
+    enabled: true
+  retention:
+    policy: last_accessed     # last_accessed | last_updated
+    duration: 0               # days; 0 keeps artifacts forever
+  max_size_mb: 50
 ```
 
-### Storage Options
+
+## Artifact Memory
+
+Everything an agent produces through `generate_file` (local sandbox or RCE) is
+persisted automatically - versioned, user-scoped, encrypted, and
+retention-managed. There is no behavior change for agents; the data accumulates
+so it can be recalled later.
+
+- **Storage**: content is gzipped, then AES-256-GCM encrypted with a per-user
+  key derived (HKDF-SHA256) from an immutable `formation_instance_id`, kept in a
+  local blob store with SHA-256 checksums and a metadata row in the `artifacts`
+  table.
+- **Versioning**: producing an artifact with an existing name demotes the
+  previous head and chains it via `parent_id`; history blobs are retained.
+- **Retention**: `expires_at` is computed at capture from `artifacts.retention`;
+  an hourly sweep soft-deletes expired rows and prunes blobs.
+- **Safety**: capture is a tracked background task off the response path - every
+  failure is logged and swallowed, and secret-interpolated content is never
+  captured. S3 storage is rejected loudly at config time.
+
+### Retrieving artifacts
+
+Agents recall past artifacts through built-in tools, and the same data is
+available over REST:
+
+| Tool | Purpose |
+|------|---------|
+| `get_artifact` | Fetch an id with a 500-character preview, or search name/summary/tags with optional `category` (`limit` defaults to 5, max 20) |
+| `get_artifact_content` | Read decrypted text content by id, optionally selecting `version`; binary content is kept out of model context |
+| `get_artifact_history` | Walk the complete version chain from any version's id |
+
+| REST endpoint | Purpose |
+|---------------|---------|
+| `GET /v1/artifacts` | List the user's latest artifact versions |
+| `GET /v1/artifacts/{artifact_id}` | Read metadata and summary |
+| `GET /v1/artifacts/{artifact_id}/content` | Download decrypted content |
+| `GET /v1/artifacts/{artifact_id}/versions` | Read the version chain |
+
+All reads are user-scoped. A cross-user artifact id behaves as not found.
+Retrieval refreshes `last_accessed_at` and therefore extends expiry under the
+`last_accessed` retention policy. If artifact memory is unavailable, listing
+returns an empty collection and id reads return 404.
+
+The per-user Knowledge Index includes up to
+`memory.index.artifact_cap` artifacts (default 20), then points the agent to
+`get_artifact` for further search:
 
 ```yaml
-artifacts:
-  storage:
-    type: local               # or "s3", "azure-blob"
-    path: /var/muxi/artifacts
-    retention_days: 7
-    cleanup_enabled: true
+memory:
+  index:
+    artifact_cap: 20
 ```
 
 
@@ -366,30 +413,20 @@ artifacts:
 
 ### What's Protected
 
-✅ **System is protected from:**
-- Malicious code execution
-- Resource exhaustion
-- Network attacks
-- File system access
-- Data exfiltration
-
-✅ **User data is protected:**
-- Artifacts isolated per session
-- No cross-user access
-- Encrypted storage (optional)
-- Automatic expiration
+Artifact generation runs in the configured sandbox with import, path, time, and
+memory controls. Persistent artifact reads are isolated by user; cross-user IDs
+return not found. Local blobs are encrypted by default and integrity-checked
+with SHA-256.
 
 ### What Users Should Know
 
-⚠️ **Artifacts are temporary:**
-- Default retention: 7 days
-- Download important files
-- Not a backup solution
+- Retention is unlimited by default (`artifacts.retention.duration: 0`).
+- Set a positive duration in days to enable automatic expiration.
+- Artifact memory is not a replacement for an independent backup.
 
-⚠️ **Size limits exist:**
-- Max file size: 10 MB (default)
-- Large files may be rejected
-- Consider chunking or compression
+- The default capture limit is 50 MB per artifact
+  (`artifacts.max_size_mb`).
+- Larger files are returned to the user but skipped by artifact-memory capture.
 
 
 ## Common Use Cases

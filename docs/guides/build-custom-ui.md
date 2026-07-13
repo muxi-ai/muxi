@@ -230,6 +230,63 @@ history = formation.get_session_messages("sess_abc123", "user-123")
 [[/tabs]]
 
 
+## Rendering UI Widgets
+
+A response can carry optional **UI widgets** - a set of choices to pick from, a
+link to send the user somewhere, or an MCP UI resource. They arrive on streaming
+chat as a dedicated `ui` event just before the stream completes. Rendering them
+natively is optional: the response text always works on its own, so a client that
+ignores widgets still behaves correctly.
+
+[[tabs]]
+
+[[tab TypeScript]]
+```typescript
+for await (const chunk of formation.chatStream({ message }, userId)) {
+  if (chunk.type === 'ui') {
+    for (const widget of chunk.ui) {
+      if (widget.type === 'options') {
+        renderChoiceButtons(widget.prompt, widget.options, (value) => {
+          // Reply with the picked value; the text stands alone too.
+          formation.chat({ message: value, ui_response: { id: widget.id, value } }, userId);
+        });
+      } else if (widget.type === 'action_link') {
+        renderLink(widget.label, widget.url);
+      }
+      // Ignore unknown widget types (progressive enhancement).
+    }
+  } else {
+    appendText(chunk.text || '');
+  }
+}
+```
+[[/tab]]
+
+[[tab Python]]
+```python
+from muxi import parse_ui_widgets
+
+for chunk in formation.chat_stream({"message": message}, user_id=user_id):
+    widgets = parse_ui_widgets(chunk)
+    if widgets:
+        for widget in widgets:
+            if widget["type"] == "options":
+                choice = prompt_user(widget["prompt"], widget["options"])
+                formation.chat(
+                    {"message": choice, "ui_response": {"id": widget["id"], "value": choice}},
+                    user_id=user_id,
+                )
+    else:
+        print(chunk.text, end="", flush=True)
+```
+[[/tab]]
+
+[[/tabs]]
+
+See [Response UI Widgets](../reference/response-ui-widgets.md) for every widget
+type, its fields, and the reply path.
+
+
 ## API Reference
 
 For direct API access (without SDK), see the endpoint reference:
@@ -246,6 +303,12 @@ For direct API access (without SDK), see the endpoint reference:
 - `X-Muxi-User-Id` - User identifier
 - `Content-Type: application/json`
 - `Accept: text/event-stream` (for streaming)
+
+**Optional headers:**
+- `X-Muxi-Idempotency-Key` - Unique per logical request so a successful
+  non-streaming mutation can be retried without re-running it. Streams and
+  failures are not replayed. The SDKs set this automatically; see
+  [Idempotency](../deep-dives/idempotency.md).
 
 [Full API Documentation →](../reference/api-reference.md)
 

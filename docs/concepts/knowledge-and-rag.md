@@ -57,6 +57,25 @@ MUXI uses [MarkItDown](https://github.com/microsoft/markitdown) for document con
 - Files are chunked and cached with MD5; unchanged files are skipped on restart, only deltas are re-embedded.
 
 
+## Reasoning RAG (tree retrieval)
+
+Vector chunking works well for short passages but loses the structure of long
+documents. For large files, MUXI can index a document as a **hierarchical tree**
+and reason over it at query time instead of matching isolated chunks. A per-file
+gate (`knowledge.reasoning_threshold`) decides automatically; a per-source
+`retrieval:` override forces the mode:
+
+- **`tree` (Method A)** - an LLM navigates the compressed tree and selects the
+  relevant nodes. No embeddings, best structural understanding.
+- **`tree-vector` (Method B)** - per-node chunk embeddings scored with the
+  PageIndex formula. No per-query LLM calls, cheaper than Method A.
+- **`hybrid`** - both run in parallel and a sufficiency evaluator decides whether
+  to fetch more, trading cost for recall.
+
+Every mode falls back to plain vector search on failure, so a tree never breaks a
+turn. See the [knowledge reference](../reference/knowledge.md#retrieval-modes-reasoning-rag)
+for the `knowledge.tree` settings and per-source configuration.
+
 ## Multimodal Support
 
 MUXI understands images, not just extracts text from them:

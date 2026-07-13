@@ -474,6 +474,26 @@ export async function POST(req: Request) {
 ```
 
 
+## Response UI Widgets
+
+A streamed response can carry optional [UI widgets](../reference/response-ui-widgets.md)
+(choices, links, MCP UI resources). They arrive as a chunk of shape
+`{ type: "ui", ui: UIWidget[] }`; the `UIWidget` and `UIOption` interfaces are
+exported. Ignore widget types you don't render - the text always stands alone.
+
+```typescript
+for await (const chunk of await formation.chatStream({ message: 'Which region?' }, 'user_123')) {
+  if (chunk.type === 'ui') {
+    for (const widget of chunk.ui) {
+      if (widget.type === 'options') console.log(widget.prompt);
+    }
+  }
+}
+```
+
+The echoed idempotency key is surfaced as `idempotency_key` on the unwrapped
+response. See [Idempotency](../deep-dives/idempotency.md).
+
 ## Learn More
 
 - [Python SDK](python-sdk.md)

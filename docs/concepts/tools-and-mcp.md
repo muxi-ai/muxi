@@ -114,7 +114,7 @@ MUXI:
 - Dozens of tools without burning context window
 
 
-## Tool Filtering (whitelist / blacklist)
+## Tool Filtering (`allow` / `deny`)
 
 Semantic indexing already trims context contamination per request, but for very large MCP catalogs (30+ tools — Microsoft 365, Google Workspace, large internal MCP servers) you also want to trim the *full* tool surface advertised at the protocol level. Otherwise the agent's allowed-tool list, the planning prompt, and the registry grow with every irrelevant tool the upstream MCP exposes.
 
@@ -132,7 +132,7 @@ auth:
   ACCESS_TOKEN: "${{ user.credentials.MS365 }}"
 
 tools:
-  whitelist:
+  allow:
     - "list-excel-files"
     - "read-excel-*"
     - "update-excel-*"
@@ -143,7 +143,7 @@ Or, the inverse — keep most tools but block destructive ones:
 ```yaml
 # mcp/internal-db.afs - block every destructive operation
 tools:
-  blacklist:
+  deny:
     - "drop-*"
     - "delete-*"
     - "truncate-*"
@@ -154,7 +154,7 @@ tools:
 ```
 Upstream MCP tools/list response
         ↓
-   Filter (whitelist OR blacklist, fnmatch-style globs)
+   Filter (allow, then deny; fnmatch-style globs)
         ↓
 Agent-visible tool registry (this is what the LLM ever sees)
 ```
@@ -165,11 +165,12 @@ The filter runs at MCP registration and on every `tools/list` refresh. Filtered-
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `tools.whitelist` | string[] | If set, **only** these tool names are exposed. fnmatch globs (`*`, `?`) supported. |
-| `tools.blacklist` | string[] | If set, every tool **except** these is exposed. Same glob syntax. |
+| `tools.allow` | string[] | If set, **only** these tool names are exposed. fnmatch globs (`*`, `?`) supported. |
+| `tools.deny` | string[] | These tool names are excluded after `allow` is applied. Same glob syntax. |
 
-> [!IMPORTANT]
-> `whitelist` and `blacklist` are mutually exclusive. Setting both fails formation validation at load time, by design — there is no useful interpretation of "include only A, but also exclude B".
+> [!NOTE]
+> `whitelist` and `blacklist` remain accepted aliases. `allow` and `deny` are
+> canonical and may be combined; deny is applied after allow.
 
 ### When to use it
 

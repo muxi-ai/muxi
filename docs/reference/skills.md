@@ -286,7 +286,28 @@ Agent: [Activates file-generation → runs generate.py]
 Agent: [Returns chart image]
 ```
 
-Built-in skills can be disabled in the formation config if not needed.
+### compute
+
+A code-as-reasoning skill: the agent writes a self-contained Python file and a
+bundled executor runs it inside the Skill RCE sandbox - no inner LLM loop, no
+orchestration. `SKILL.md` teaches the write-file/print-answer contract and the
+allowed-imports policy (`json`, `math`, `datetime`, `re`, `statistics`, `csv`,
+plus inlined `pandas`/`numpy`); four worked reference examples ship with it.
+
+The executor is hardened (path-traversal and symlink rejection, AST
+import/builtin policy that follows attribute chains, distinct machine-readable
+error prefixes so syntax and import violations are reported separately), and
+emits `computation.{requested,completed,failed}` events with a `failure_kind`
+breakdown. It degrades like any scripted skill when no RCE is configured.
+
+Built-in skills can be disabled in the formation config via
+`skills.disable_builtin` if not needed:
+
+```yaml
+skills:
+  disable_builtin:
+    - compute
+```
 
 
 ## REST API
