@@ -51,6 +51,20 @@ muxi deploy  # New version starts, old version still serving
 
 If the new version fails health checks, the old version keeps running and the update is automatically aborted.
 
+### Preserved runtime state
+
+An update deploys a new bundle, but some files are **runtime-owned** and belong
+to the running formation, not the bundle. The server preserves these from the
+live version so an update (or rollback) never wipes them:
+
+- `memory.db` - persistent conversation memory
+- `MUXI.md` and `PENDING-MUXI.md` - the formation's self-improvement (tuning)
+  state
+
+The live files always win over any copies carried in the uploaded bundle, and
+they are carried across a [rollback](#rollback) the same way. See
+[Self-Tuning](../concepts/self-tuning.md) for what `MUXI.md` holds.
+
 ## List Formations
 
 ```bash
@@ -125,6 +139,11 @@ The rollback process is instantaneous:
 4. Current version shuts down gracefully
 
 **No requests are dropped during rollback.** The entire process completes in seconds while maintaining full availability.
+
+Rollback preserves the same [runtime-owned state](#preserved-runtime-state) as
+an update: `memory.db` and the tuning files (`MUXI.md`, `PENDING-MUXI.md`) are
+carried from the current version into the restored one, so rolling back the code
+never discards live memory or self-improvement state.
 
 ## View Logs
 

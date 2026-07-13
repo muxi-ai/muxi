@@ -41,11 +41,15 @@ description: Complete guide to building AI agents with MUXI
   * [Async Processing](concepts/async.md)
   * [Triggers & Webhooks](concepts/triggers-and-webhooks.md)
   * [Scheduled Tasks](concepts/scheduled-tasks.md)
+  * [Proactiveness](concepts/proactiveness.md)
+  * [Coding-Agent Delegation](concepts/coding-delegation.md)
+  * [Self-Tuning](concepts/self-tuning.md)
   * [SOPs](concepts/standard-operating-procedures.md)
 
 * Production
   * [LLM Providers](concepts/llm-providers.md)
   * [Secrets & Security](concepts/secrets-and-security.md)
+  * [Access Control](concepts/access-control.md)
   * [User Credentials](concepts/user-credentials.md)
   * [Multi-Tenancy](concepts/multi-tenancy.md)
   * [Multi-Identity Users](concepts/multi-identity.md)
@@ -138,6 +142,7 @@ description: Complete guide to building AI agents with MUXI
   * [Triggers](reference/triggers.md)
   * [Approvals](reference/approvals.md)
   * [Secrets](reference/secrets.md)
+  * [Response UI Widgets](reference/response-ui-widgets.md)
 
 * [Examples](reference/examples.md)
 
@@ -157,6 +162,7 @@ description: Complete guide to building AI agents with MUXI
 * [Event Types](deep-dives/observability-events.md)
 * [Security Model](deep-dives/security-model.md)
 * [Resilience](deep-dives/resilience.md)
+* [Idempotency](deep-dives/idempotency.md)
 * [Multi-Server Memory](deep-dives/multi-server-memory.md)
 
 ## Miscellaneous

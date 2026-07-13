@@ -121,8 +121,15 @@ system_message: |
 knowledge:
   enabled: true
   sources:
-    - path: knowledge/docs/
+    - path: knowledge/docs/          # Local source
+    - url: s3://my-bucket/manuals/   # Remote source (path XOR url)
 ```
+
+Each source declares either `path` or `url`. Remote `url` schemes: `http`,
+`https`, `s3`, `gs`, `az`, `rsync`, `rsync+ssh`, `ftp`, `sftp`, `file`. Local
+sources may add an `agent_tree.regenerate` mode (`manual`, `on-source-change`,
+`on-formation-load`). See the [Knowledge reference](knowledge.md) for the full
+source surface.
 
 ### Agent Fields
 

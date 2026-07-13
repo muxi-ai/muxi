@@ -272,11 +272,13 @@ a2a:
   enabled: true
   outbound:
     enabled: true
-    timeout_seconds: 30
-    max_retries: 3
+    default_timeout_seconds: 30
+    default_retry_attempts: 3
   inbound:
     enabled: true
-    require_auth: true
+    auth:
+      type: bearer
+      token: "${{ secrets.A2A_TOKEN }}"
 ```
 
 [More: A2A Services Reference →](a2a.md)
@@ -517,39 +519,20 @@ id: "analytics-engine"
 name: "Analytics Engine"
 description: "External analytics service"
 
-endpoint: "https://analytics.example.com"
-protocol: https
+url: "https://analytics.example.com"
 version: "1.0.0"
+active: true
 
 timeout_seconds: 30
 retry_attempts: 3
-retry_delay_seconds: 1
-retry_backoff_multiplier: 2.0
 
 auth:
   type: bearer
   token: "${{ secrets.ANALYTICS_TOKEN }}"
 
-rate_limiting:
-  requests_per_minute: 100
-  burst_limit: 20
-
-health_check:
-  enabled: true
-  endpoint: "/health"
-  interval_seconds: 60
-
-circuit_breaker:
-  enabled: true
-  failure_threshold: 5
-  success_threshold: 2
-  timeout_seconds: 60
-
-capabilities:
-  agents: ["analytics-agent", "reporting-agent"]
-  features: ["analysis", "visualization"]
-  streaming: true
-  async: true
+author: "Data Team"
+documentation: "https://docs.analytics.example.com"
+support_contact: "data-team@example.com"
 ```
 
 [More: A2A Services Reference →](a2a.md)

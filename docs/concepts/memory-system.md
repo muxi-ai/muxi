@@ -254,6 +254,27 @@ memory:
 - All memory is user-isolated in production
 
 
+## Beyond conversation memory
+
+The four layers above capture chat context. On top of them MUXI adds a memory
+*platform* for durable, structured, auditable knowledge:
+
+- **Scopes** - a memory is written to one scope (`user`, `group`, or
+  `formation`) and read up the chain, so shared knowledge is separate from
+  personal recall. Shared writes are [grant-gated](access-control.md#shared-memory-grants).
+- **Ingestion** - developers and pipelines push content through `POST /v1/memories`
+  (idempotent by `(source, source_id)`), not just conversation.
+- **Event substrate** - every write is an immutable event; the stores are
+  rebuildable projections. This powers provenance ("why do you think X?"),
+  `POST /v1/memory/rebuild`, decay, and GDPR `POST /v1/memory/forget`.
+- **Knowledge graph & Captain's Log** - structured entity/relationship
+  extraction with contradiction handling, a temporal per-user narrative digest
+  (via `/history`), and a lessons loop that feeds agent prompts.
+
+See the [memory reference](../reference/memory.md#memory-scopes) for the full
+config and API surface.
+
+
 ## Learn More
 
 - [Configure Memory](../reference/memory.md) - YAML syntax

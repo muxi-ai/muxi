@@ -56,6 +56,42 @@ Requests with complexity scores at or above this threshold will present an execu
 
 See [Human-in-the-Loop](../concepts/human-in-the-loop.md) for details.
 
+## Workflow-level replanning
+
+When a workflow fails after task-level recovery is exhausted, the runtime can
+analyze *why* and ask the decomposer for a fundamentally different plan instead
+of returning the failure. Disabled by default.
+
+```yaml
+overlord:
+  workflow:
+    replanning:
+      enabled: false          # opt in
+      max_attempts: 3         # per original workflow (replans of replans share this budget)
+      plan_similarity_threshold: 0.7
+      preserve_successful_outputs: true
+      replan_timeout_seconds: 30
+      non_replannable_error_patterns:
+        - auth
+        - unauthorized
+        - forbidden
+        - permission
+        - credential
+        - configuration error
+        - invalid api key
+        - data corruption
+```
+
+- Non-replannable errors (auth, permissions, credentials, configuration, data
+  corruption) never trigger a replan - a different plan hits the same wall.
+- Replanned executions run within the *remaining* time budget of the original
+  workflow, never a fresh ceiling.
+- Completed work travels into the replan context so the new plan does not redo
+  it.
+- When disabled, the decomposition prompt stays byte-identical to before.
+- Emits `workflow.replanning.{started,completed,failed,skipped}` events and
+  streaming stages.
+
 ## Complexity Calculation
 
 ### complexity_method

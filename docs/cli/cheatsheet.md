@@ -80,6 +80,25 @@ muxi chat --agent researcher "Find info on X"
 ```
 
 
+## Knowledge
+
+```bash
+# Force-rebuild persistent per-agent knowledge trees (running formation)
+muxi knowledge rebuild
+```
+
+
+## Self-Tuning
+
+```bash
+# Review the formation's self-improvement (tuning) state
+muxi tuning show        # Show the live MUXI.md
+muxi tuning pending     # Show the pending MUXI.md suggestion, if any
+muxi tuning apply       # Promote the pending suggestion to the live MUXI.md
+muxi tuning dismiss     # Discard the pending suggestion
+```
+
+
 ## Secrets
 
 ```bash

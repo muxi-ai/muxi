@@ -79,6 +79,50 @@ llm_models:
   - text: "http://llama.example.com/v1/llama-3-70b-instruct"
 ```
 
+## Hierarchical model selection
+
+Model choice follows the formation hierarchy with **lowest-level-wins**
+overrides. Authors specify a model where the knowledge lives; there is no
+capability inference.
+
+```
+formation llm.models  →  agent llm_models  →  SOP/trigger/skill frontmatter model:  →  per-step [model:x]
+        (broadest)                                                                        (most specific)
+```
+
+Every model reference in `sops/`, `triggers/`, and `skills/` is validated at
+load time (fail-fast). At request time, model selection never crashes a turn: an
+unresolvable override falls back to the agent default, and a failing override
+call retries on the agent's own model.
+
+### Aliases
+
+`llm.aliases` maps semantic names to `provider/model`, resolved before cache
+keying so an alias and its target share one cached instance. A broken alias
+errors both at its definition and at every usage site.
+
+```yaml
+# formation.yaml
+llm:
+  models:
+    - text: "openai/gpt-4o-mini"
+  aliases:
+    fast: "openai/gpt-4o-mini"
+    premium: "anthropic/claude-opus-4.5"
+```
+
+```markdown
+<!-- sops/deep-analysis.md frontmatter -->
+---
+model: premium
+---
+```
+
+> [!NOTE]
+> Formations without `llm.aliases` or frontmatter `model:` fields behave exactly
+> as before. When the same underlying model appears under several capabilities,
+> overrides deterministically prefer the `text` capability's entry.
+
 ## Model choice matrix example
 
 - **Reasoning-heavy:** GPT-5, Claude Opus 4.5

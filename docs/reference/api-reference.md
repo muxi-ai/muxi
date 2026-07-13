@@ -236,6 +236,24 @@ curl http://localhost:8271/v1/chat \
 
 [Learn more about API keys →](/docs/server/authentication.md)
 
+### Idempotency (mutating requests)
+
+Send an `X-Muxi-Idempotency-Key` header on a mutating request (chat, execute
+trigger, create scheduled job) so a retry of a successful non-streaming request
+replays the original response instead of running the work twice. Streams and
+failed requests execute again. Cached responses echo the key under
+`request.idempotency_key`. The SDKs set it automatically.
+
+```bash
+curl http://localhost:8271/v1/chat \
+  -H "X-MUXI-CLIENT-KEY: fmc_client_key_here" \
+  -H "X-Muxi-User-ID: user-123" \
+  -H "X-Muxi-Idempotency-Key: 7b2f9c1e-3a44-4c8d-9f21-1e6b0d8a55aa" \
+  -d '{"message": "Hello!"}'
+```
+
+[Learn more about idempotency →](/docs/deep-dives/idempotency.md)
+
 ## Response Formats
 
 ### Server API Response Format
@@ -357,7 +375,18 @@ event: done
 data: {"finished": true}
 ```
 
-[Learn about streaming →](/docs/api/formation#streaming)
+When a response carries UI widgets, a single `ui` event is emitted at
+end-of-turn, just before `done`:
+
+```
+event: ui
+data: {"ui": [{"type": "options", "id": "ui_a1b2c3", "prompt": "Which region?", "options": [{"value": "us", "label": "United States"}]}]}
+
+event: done
+data: {"finished": true}
+```
+
+[Learn about streaming →](/docs/api/formation#streaming) · [Response UI Widgets →](/docs/reference/response-ui-widgets.md)
 
 ## Next Steps
 

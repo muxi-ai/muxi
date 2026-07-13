@@ -7,10 +7,11 @@ description: Configure agent-to-agent communication with external services
 
 ## Connect to external agent services
 
-A2A (Agent-to-Agent) services let your formation communicate with external agent systems. Define connections to remote services that your agents can delegate tasks to.
+A2A (Agent-to-Agent) services let a formation communicate with external agent
+systems. Put reusable service definitions in `a2a/*.afs`; configure inbound
+server auth and extended outbound auth in the top-level `a2a:` block.
 
-
-## Your First A2A Service
+## Service files
 
 Create `a2a/analytics.afs`:
 
@@ -18,51 +19,68 @@ Create `a2a/analytics.afs`:
 schema: "1.0.0"
 id: analytics-engine
 name: Analytics Engine
-description: External analytics service for data processing
+description: External analytics service
+url: "https://analytics.company.com"
+active: true
+timeout_seconds: 30
+retry_attempts: 3
 
-endpoint: "https://analytics.company.com"
 auth:
   type: bearer
   token: "${{ secrets.ANALYTICS_TOKEN }}"
 ```
 
-## Configuration Fields
+Required fields are `schema`, `id`, `name`, `description`, and an HTTP(S)
+`url`. Optional top-level fields include `active`, `timeout_seconds`,
+`retry_attempts`, `author`, `version`, `documentation`, and `support_contact`.
+Service-file auth supports `none`, `api_key`, `bearer`, `basic`, and `custom`.
 
-### Required Fields
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `schema` | string | Schema version (`"1.0.0"`) |
-| `id` | string | Unique identifier |
-| `description` | string | Service capabilities |
-| `endpoint` | string | Service endpoint URL |
-
-### Connection Settings
-
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `name` | string | - | Human-readable name |
-| `protocol` | enum | `https` | `http`, `https`, or `grpc` |
-| `version` | string | - | Service API version |
-| `timeout_seconds` | int | `30` | Request timeout |
-
-### Retry Configuration
+## Top-level configuration
 
 ```yaml
-retry_attempts: 3
-retry_delay_seconds: 1
-retry_backoff_multiplier: 2.0
+# formation.yaml
+a2a:
+  enabled: true
+  inbound:
+    enabled: true
+    host: 0.0.0.0
+    port: 8181
+    auth:
+      type: hmac
+      secret: "${{ secrets.A2A_HMAC_SECRET }}"
+      timestamp_tolerance: 300
+  outbound:
+    enabled: true
+    default_timeout_seconds: 30
+    default_retry_attempts: 3
+    services:
+      - id: analytics
+        url: "https://analytics.example.com"
+        auth:
+          type: oauth2
+          client_id: "analytics-client"
+          client_secret: "${{ secrets.OAUTH_SECRET }}"
+          token_url: "https://auth.example.com/oauth/token"
+          scope: "read write"
 ```
 
-| Field | Type | Default | Description |
-|-------|------|---------|-------------|
-| `retry_attempts` | int | `3` | Number of retries (0-10) |
-| `retry_delay_seconds` | int | `1` | Initial delay between retries |
-| `retry_backoff_multiplier` | float | `2.0` | Exponential backoff multiplier |
+`id` is the canonical identifier for credential registration. The runtime
+matches outbound requests through the service's `url`; when several URL paths
+match, the most specific path wins. The legacy `service_id` field remains
+accepted for compatibility but is deprecated.
 
 ## Authentication
 
-### Bearer Token
+### API key
+
+```yaml
+auth:
+  type: api_key
+  header: X-API-Key
+  key: "${{ secrets.SERVICE_API_KEY }}"
+```
+
+### Bearer token
 
 ```yaml
 auth:
@@ -70,7 +88,7 @@ auth:
   token: "${{ secrets.SERVICE_TOKEN }}"
 ```
 
-### Basic Auth
+### Basic auth
 
 ```yaml
 auth:
@@ -79,154 +97,80 @@ auth:
   password: "${{ secrets.SERVICE_PASSWORD }}"
 ```
 
-### API Key
+### Custom headers
 
 ```yaml
 auth:
-  type: api_key
-  header: "X-API-Key"
-  key: "${{ secrets.SERVICE_API_KEY }}"
+  type: custom
+  headers:
+    X-Tenant: acme
+    X-Service-Key: "${{ secrets.SERVICE_KEY }}"
 ```
 
-### OAuth2
+### OAuth2 client credentials (outbound only)
 
 ```yaml
-auth:
-  type: oauth2
-  oauth2:
-    client_id: "your-client-id"
-    client_secret: "${{ secrets.OAUTH_SECRET }}"
-    token_url: "https://auth.example.com/oauth/token"
-    scopes: ["read", "write"]
+a2a:
+  outbound:
+    services:
+      - id: analytics
+        url: "https://analytics.example.com"
+        auth:
+          type: oauth2
+          client_id: "your-client-id"
+          client_secret: "${{ secrets.OAUTH_SECRET }}"
+          token_url: "https://auth.example.com/oauth/token"
+          scope: "read write"
 ```
 
-## Health Checks
+Tokens are cached until expiry. `scope` is an optional space-delimited string.
 
-Monitor service availability:
+### HMAC (inbound and outbound)
+
+HMAC uses SHA-256 over the timestamp. Inbound verification uses constant-time
+comparison, rejects stale timestamps, and prevents replay. Defaults are
+`X-Signature`, `X-Timestamp`, and a 300-second inbound tolerance.
 
 ```yaml
-health_check:
-  enabled: true
-  endpoint: "/health"
-  interval_seconds: 60
-  timeout_seconds: 5
-  unhealthy_threshold: 3   # Failures before marking unhealthy
-  healthy_threshold: 2     # Successes before marking healthy
+a2a:
+  inbound:
+    enabled: true
+    auth:
+      type: hmac
+      secret: "${{ secrets.HMAC_SECRET }}"
+      timestamp_tolerance: 300
+  outbound:
+    services:
+      - id: analytics
+        url: "https://analytics.example.com"
+        auth:
+          type: hmac
+          secret: "${{ secrets.HMAC_SECRET }}"
+          signature_header: X-Signature
+          timestamp_header: X-Timestamp
 ```
 
-## Circuit Breaker
+### OpenID Connect (inbound only)
 
-Prevent cascade failures:
+OpenID verifies bearer JWTs against the issuer's JWKS and identifies callers as
+`openid:<sub>`. When `jwks_url` is omitted, the runtime uses
+`<issuer>/.well-known/jwks.json`.
 
 ```yaml
-circuit_breaker:
-  enabled: true
-  failure_threshold: 5     # Failures before opening circuit
-  success_threshold: 2     # Successes before closing circuit
-  timeout_seconds: 60      # Time in open state before retry
+a2a:
+  inbound:
+    enabled: true
+    auth:
+      type: openid
+      issuer: "https://auth.example.com"
+      audience: "your-client-id"
+      jwks_url: "https://auth.example.com/.well-known/jwks.json"
+      allowed_algorithms: ["RS256"]
+      clock_skew_seconds: 30
 ```
 
-## Rate Limiting
-
-Control request rates:
-
-```yaml
-rate_limiting:
-  requests_per_second: 10
-  requests_per_minute: 100
-  requests_per_hour: 1000
-  requests_per_day: 10000
-  burst_limit: 20
-  strategy: "sliding_window"  # sliding_window, fixed_window, token_bucket
-```
-
-## Capabilities
-
-Describe what the service offers:
-
-```yaml
-capabilities:
-  agents: ["analytics-agent", "reporting-agent"]
-  features: ["data-analysis", "visualization"]
-  streaming: true
-  async: true
-  webhooks: true
-```
-
-## Service Discovery
-
-Routing and load balancing:
-
-```yaml
-discovery:
-  registry_url: "https://registry.example.com"
-  tags: ["analytics", "data", "reporting"]
-  priority: 10      # Higher = higher priority
-  weight: 100       # 0-100 for load balancing
-```
-
-## Metadata
-
-Additional service information:
-
-```yaml
-metadata:
-  owner: "Data Team"
-  contact: "data-team@company.com"
-  documentation: "https://docs.analytics.company.com"
-  environment: "production"  # development, staging, production
-  sla:
-    uptime_percentage: 99.9
-    response_time_ms: 500
-```
-
-## Full Example
-
-```yaml
-# a2a/analytics-engine.afs
-schema: "1.0.0"
-id: analytics-engine
-name: Analytics Engine
-description: External analytics for data processing and visualization
-
-endpoint: "https://analytics.company.com"
-protocol: https
-version: "2.1.0"
-timeout_seconds: 60
-
-auth:
-  type: bearer
-  token: "${{ secrets.ANALYTICS_TOKEN }}"
-
-retry_attempts: 3
-retry_delay_seconds: 1
-retry_backoff_multiplier: 2.0
-
-health_check:
-  enabled: true
-  endpoint: "/health"
-  interval_seconds: 60
-
-circuit_breaker:
-  enabled: true
-  failure_threshold: 5
-  timeout_seconds: 60
-
-rate_limiting:
-  requests_per_minute: 100
-  burst_limit: 20
-
-capabilities:
-  agents: ["data-analyst", "report-generator"]
-  features: ["analysis", "visualization", "export"]
-  streaming: true
-  async: true
-
-metadata:
-  owner: "Data Team"
-  documentation: "https://docs.analytics.company.com"
-  environment: "production"
-```
+`oauth2` is outbound-only and `openid` is inbound-only. `api_key`, `bearer`,
+`basic`, `custom`, and `hmac` are valid in both directions.
 
 ## Learn More
 

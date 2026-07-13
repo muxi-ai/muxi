@@ -421,6 +421,43 @@ func main() {
 ```
 
 
+## Response UI Widgets
+
+A streamed response can carry optional [UI widgets](../reference/response-ui-widgets.md)
+(choices, links, MCP UI resources). The Go SDK decodes them into the typed
+`Chunk.UI` field (a `[]UIWidget`, each with typed `UIOption`s) on the `ui` chunk;
+other chunks leave it empty.
+
+```go
+stream, errs := client.ChatStream(ctx, &muxi.ChatRequest{
+    Message: "Which region?",
+    UserID:  "user_123",
+})
+
+for stream != nil {
+    select {
+    case chunk, ok := <-stream:
+        if !ok {
+            stream = nil
+            continue
+        }
+        for _, widget := range chunk.UI {
+            if widget.Type == "options" {
+                fmt.Println(widget.Prompt)
+            }
+        }
+    case err := <-errs:
+        if err != nil {
+            log.Fatal(err)
+        }
+        errs = nil
+    }
+}
+```
+
+The echoed idempotency key is available on the unwrapped response via
+`RequestInfo.IdempotencyKey`. See [Idempotency](../deep-dives/idempotency.md).
+
 ## Learn More
 
 - [Python SDK](python-sdk.md)

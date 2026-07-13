@@ -451,12 +451,19 @@ All SDKs provide two clients:
 For interacting with a running formation:
 
 - Chat (streaming & non-streaming)
+- [Response UI widgets](../reference/response-ui-widgets.md) (choices, links, MCP UI resources)
 - Sessions & history
 - Memory management
 - Triggers & scheduled tasks
 - Agent configuration
 
 **Authentication:** Client key (`X-Muxi-Client-Key`) or Admin key (`X-Muxi-Admin-Key`)
+
+> [!NOTE]
+> All SDKs auto-send an `X-Muxi-Idempotency-Key`. Successful non-streaming
+> mutations can be replayed safely; streams and failed requests execute again.
+> Cached responses expose the echoed key on the unwrapped result. See
+> [Idempotency](../deep-dives/idempotency.md).
 
 > [!TIP]
 > **Browser usage:** The TypeScript SDK's FormationClient works directly in browsers. Use the `clientKey` for browser apps - it's safe to expose and has limited permissions. Keep the `adminKey` server-side only.

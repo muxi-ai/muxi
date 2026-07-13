@@ -11,6 +11,50 @@
 > - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 > - [FAISSx Releases](https://github.com/muxi-ai/faissx/releases)
 
+## July 2026
+
+### FAISSx v0.20260708.0
+
+#### Hot-path latency floors removed (~220× faster sequential adds)
+
+- **Every server operation carried a ~100ms latency floor**: the server's task worker polled for results with a 100ms sleep, so even a microsecond FAISS search took 100ms+. Results are now signalled via a condition variable, returning as soon as the work finishes.
+- **Persistence moved off the request path**: the server previously rewrote the entire index to disk synchronously after every mutation, blocking all clients. Writes are now debounced (default 5s, `FAISSX_PERSIST_INTERVAL`, `0` restores synchronous mode), performed atomically by a background thread, and flushed on shutdown. Combined with the polling fix, a sequential add workload went from 103ms to 0.47ms per add.
+- **Hot-path trims**: debug logging no longer stringifies full vector payloads when disabled, and the client stops re-applying ZMQ socket options on every request.
+
+#### Index type coverage and reliability fixes
+
+- **Server accepts standard FAISS descriptor strings** (`SQ8`, `IVF50,PQ8x8`, OPQ chains, ...) via an `index_factory` fallback instead of rejecting anything without a bespoke handler; remote `IndexScalarQuantizer` now auto-trains on first add to match local-mode behavior.
+- **Test suite repaired and made hermetic** (81/81 passing, from 20 failures + 7 errors): tests now run against a server started from the source tree on a dynamic port instead of whatever was listening on the default port, with client-singleton state reset between tests.
+
+### OneLLM v0.20260708.1
+
+#### Single-pass unicode cleaning on the streaming hot path
+
+- **Per-chunk streaming overhead cut 4.4×** (6.7 µs → 1.5 µs): `clean_unicode_artifacts()` — run on every response object and every streaming chunk — was ~70% of per-chunk overhead, rebuilding a 60-entry replacement dict per call and applying it as 60 sequential `str.replace` passes. Now an `isascii()` fast path skips cleaning entirely for ASCII output, and non-ASCII text is cleaned by one compiled regex with a per-match callback. Output is byte-identical (verified across 253 generated cases).
+- **A 300-chunk streamed response** drops from ~2 ms to ~0.45 ms of library CPU time; non-streaming request overhead −31%.
+
+### OneLLM v0.20260708.0
+
+#### Lazy provider loading
+
+- **`import onellm` no longer imports all 27 provider modules**: provider modules load on first use, cutting import time from ~190 ms to ~95–120 ms. The heaviest saving: `vertexai` no longer pulls `google-auth` + `requests` into every process that never touches Vertex AI.
+- **Public API unchanged**: `from onellm.providers import OpenAIProvider` still works (resolved lazily via PEP 562), class identity is preserved, and `register_provider()` for custom providers behaves as before.
+- **Clearer missing-dependency errors**: requesting a provider whose optional dependency is not installed raises `ImportError` naming the dependency, instead of a generic "not supported" `ValueError`. `list_providers()` now always lists every built-in.
+
+#### Provider instance memoization
+
+- **`get_provider("name")` returns a cached instance** instead of rebuilding config + retry state on every request (~11× faster resolution, multiplied for fallback chains which instantiate one provider per model per request).
+- **Automatic invalidation**: `set_api_key()` / `update_provider_config()` transparently produce a fresh instance via a config version counter; `clear_provider_cache()` is the escape hatch for direct config mutation. Calls with kwargs bypass the cache entirely.
+
+#### Bug fix: per-call kwargs leaked into global config
+
+- **`get_provider_config()` now returns a deep copy**: previously it returned the live global dict, so constructor kwargs like `timeout=5` merged by a provider's `__init__` permanently changed global configuration for all subsequent requests.
+
+#### Hot-path trims
+
+- **Message `deepcopy` skipped when response caching is disabled** (the default), provider-name regex precompiled, and OpenAI streaming no longer computes a fallback timestamp per chunk.
+- **Test-suite hardening**: three pre-existing test-isolation bugs (a config leak in an autouse fixture, mocks patching the wrong module binding, and patcher leaks on setup failure) fixed; the provider test directory now passes in isolation.
+
 ## June 2026
 
 ### Runtime v0.20260619.0
