@@ -32,14 +32,17 @@ agents:
 
 [[toggle How do agents remember context?]]
 
-MUXI has a **four-layer memory system**:
+MUXI has a **layered, scoped, event-sourced memory platform**. Its request
+context plane combines:
 
 1. **Buffer** - Recent messages (fast, in-memory)
 2. **Working** - Session state and tool outputs (FAISSx vector store)
 3. **User Synopsis** - Who the user is (LLM-synthesized profile)
 4. **Persistent** - Long-term storage (Postgres for multi-tenancy, SQLite for single-user)
 
-User Synopsis reduces token usage by 80%+ by replacing full history with a concise profile.
+Beyond context assembly, MUXI provides user/group/formation scopes, immutable
+events, provenance, rebuilds, selective forgetting, decay, ingestion,
+distillation, knowledge graphs, Captain's Logs, and reusable lessons.
 
 > **Note:** Long-term memory requires either Postgres (multi-tenant) or SQLite (single-user).
 
@@ -300,17 +303,18 @@ Yes - **multi-identity** lets you link multiple identifiers to one user:
 
 ```python
 # Same user, different platforms
-formation.associate_user_identifiers(
-    identifiers=[
+formation.link_user_identifier(
+    "usr_abc123",
+    [
         "alice@email.com",          # Email
         "U12345ABC",                 # Slack ID
         "user_123"                   # Your internal ID
-    ]
+    ],
 )
 
 # Now they all share the same memory
-formation.chat("Hi", user_id="alice@email.com")  # Same user
-formation.chat("Hi", user_id="U12345ABC")        # Same user
+formation.chat({"message": "Hi"}, user_id="alice@email.com")
+formation.chat({"message": "Hi"}, user_id="U12345ABC")
 ```
 
 User chats on Slack, email, or web - same context everywhere.
@@ -476,10 +480,12 @@ The agent pauses, notifies the approver, and continues only after approval.
 
 Yes. MUXI supports:
 
-- **SSE (Server-Sent Events)** - Stream tokens as the model thinks
-- **WebSockets** - Bidirectional real-time communication
+- **SSE (Server-Sent Events)** - Stream text, progress, planning, tool
+  activity, and typed UI widgets as the request runs
+- **Response envelopes** - Receive the same structured output from
+  non-streaming requests
 
-Perfect for chat UIs and live dashboards.
+This supports chat UIs, live dashboards, and long-running operations.
 
 **Learn more:** [Real-Time Streaming](deep-dives/real-time-streaming.md) | [Response Formats](deep-dives/response-formats.md)
 
@@ -548,10 +554,10 @@ Great for platforms where users pay for their own LLM usage.
 [[toggle How do I develop locally?]]
 
 ```bash
-muxi dev
+muxi up
 ```
 
-Runs your formation locally with hot reload. Change your `.afs` file, see changes immediately.
+Uses the configured local MUXI Server to run the source formation as a draft.
 
 **Learn more:** [Quickstart](quickstart.md) | [CLI Cheatsheet](cli/cheatsheet.md)
 
@@ -559,12 +565,18 @@ Runs your formation locally with hot reload. Change your `.afs` file, see change
 
 [[toggle Are there SDKs?]]
 
-Yes - **Python, TypeScript, and Go**:
+Yes. MUXI ships SDKs for Python, TypeScript, Go, Java, C#, Ruby, PHP, Rust,
+Kotlin, Dart, Swift, and R:
 
 ```python
-from muxi import Muxi
-client = Muxi()
-response = client.chat("Hello!")
+from muxi import FormationClient
+
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
+)
+response = formation.chat({"message": "Hello!"}, user_id="user_123")
 ```
 
 **Learn more:** [Python SDK](sdks/python-sdk.md) | [TypeScript SDK](sdks/typescript-sdk.md) | [Go SDK](sdks/go-sdk.md)
@@ -580,7 +592,7 @@ Yes. Every formation exposes an **MCP server** at `/mcp`. Connect from Claude De
   "mcpServers": {
     "my-formation": {
       "type": "streamable-http",
-      "url": "http://localhost:8001/mcp",
+      "url": "http://localhost:7890/draft/my-formation/mcp",
       "headers": {
         "X-Muxi-Client-Key": "fmc_..."
       }
@@ -624,7 +636,7 @@ muxi pull @acme/code-reviewer
 Yes. Publish to the registry:
 
 ```bash
-muxi publish
+muxi push
 ```
 
 Supports semantic versioning, private formations, and organization sharing.
@@ -703,7 +715,7 @@ Different layer of the stack:
 | **What** | Python frameworks | Production server |
 | **How** | Write code | Declare in YAML |
 | **Deploy** | You figure it out | `muxi deploy` |
-| **Memory** | BYO | Built-in (3-tier) |
+| **Memory** | BYO | Layered, scoped, event-sourced platform |
 | **Multi-tenant** | BYO | Built-in |
 | **Observability** | BYO | Built-in |
 

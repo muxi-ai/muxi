@@ -11,7 +11,7 @@ The overlord soul defines your formation's communication style and behavior. It 
 > [!TIP]
 > **New to souls?** Read [Soul Concept -->](../concepts/soul.md) to learn how to write effective souls.
 >
-> **API Reference:** [`GET /v1/overlord/soul`](api/formation#tag/Overlord/GET/overlord/soul)
+> **API Reference:** [`GET /v1/overlord/soul`](/docs/api/formation#tag/Overlord/GET/overlord/soul)
 
 ## Configuration Methods
 

@@ -31,7 +31,7 @@ Pulling @muxi/hello-muxi...
 
 cd starter-assistant
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 ### Pull Specific Version
@@ -111,10 +111,10 @@ muxi registry orgs
 ### Publish Options
 
 ```bash
-muxi push --public              # Public visibility
-muxi push --private             # Private (default)
-muxi push --tag v1.0.0          # Specific version tag
+muxi push                       # Publish manifest version
+muxi push --dry-run             # Preview the bundle
 muxi push --org my-org          # Publish under organization
+muxi push --registry custom     # Use a configured registry
 ```
 
 ## Registry Namespaces
@@ -183,10 +183,9 @@ Visit [registry.muxi.org](https://registry.muxi.org) to:
 
 Configure private registry:
 
-```yaml
-# ~/.muxi/cli/config.yaml
-registry:
-  url: https://registry.company.com
+```bash
+muxi login --registry registry.company.com
+muxi pull @acme/support --registry registry.company.com
 ```
 
 ## Examples
@@ -199,7 +198,7 @@ muxi pull @muxi/hello-muxi
 muxi search research
 
 # Publish your formation
-muxi push --public
+muxi push
 
 # Pull specific version
 muxi pull @acme/support@2.0.0

@@ -12,7 +12,7 @@ Skills are self-contained packages of instructions, references, and scripts. The
 > [!TIP]
 > **New to skills?** Read [Skills Concepts](../concepts/skills.md) first for an overview of how skills work in MUXI.
 >
-> **API Reference:** [`GET /v1/skills`](api/formation#tag/Skills/GET/skills) | [`GET /v1/skills/{name}`](api/formation#tag/Skills/GET/skills/{name}) | [`GET /v1/agents/{id}/skills`](api/formation#tag/Skills/GET/agents/{agent_id}/skills)
+> **API Reference:** [`GET /v1/skills`](/docs/api/formation#tag/Skills/GET/skills) | [`GET /v1/skills/{name}`](/docs/api/formation#tag/Skills/GET/skills/{name}) | [`GET /v1/agents/{id}/skills`](/docs/api/formation#tag/Skills/GET/agents/{agent_id}/skills)
 
 
 ## Quick Setup
@@ -51,7 +51,7 @@ When asked to create a weekly report, follow these steps:
 [[step Test it]]
 
 ```bash
-muxi dev
+muxi up
 # Ask: "Generate a weekly report"
 ```
 

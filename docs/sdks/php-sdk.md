@@ -4,10 +4,6 @@ description: Native PHP client for MUXI formations
 ---
 # PHP SDK
 
-## PHP access to your agents
-
-Build PHP applications that interact with MUXI formations. Full support for chat, streaming, sessions, and all Formation API operations.
-
 **GitHub:** [`muxi-ai/muxi-php`](https://github.com/muxi-ai/muxi-php)  
 **Packagist:** [`muxi/muxi-php`](https://packagist.org/packages/muxi/muxi-php)
 
@@ -17,120 +13,106 @@ Build PHP applications that interact with MUXI formations. Full support for chat
 composer require muxi/muxi-php
 ```
 
-## Quick Start
+## Formation Client
 
 ```php
 <?php
 use Muxi\FormationClient;
 
-$client = new FormationClient(
-    serverUrl: 'http://localhost:7890',
-    formationId: 'my-assistant',
-    clientKey: 'your_client_key'
-);
+$client = new FormationClient([
+    'serverUrl' => 'http://localhost:7890',
+    'formationId' => 'my-assistant',
+    'clientKey' => 'fmc_...',
+    'adminKey' => 'fma_...',
+]);
 
-// Check health
 print_r($client->health());
 ```
 
-## Chat (Streaming)
+Set `'mode' => 'draft'` for local draft routes. Set `baseUrl` to a Runtime's
+`/v1` URL for a direct connection.
+
+## Chat
 
 ```php
-foreach ($client->chatStream(['message' => 'Hello!'], 'user_123') as $event) {
-    if ($event['type'] === 'text') {
-        echo $event['text'];
-    } elseif ($event['type'] === 'done') {
-        break;
-    }
-}
-```
+$response = $client->chat([
+    'message' => 'Hello!',
+    'session_id' => 'sess_abc123',
+], 'user_123');
 
-## Chat (Non-Streaming)
-
-```php
-$response = $client->chat(['message' => 'Hello!'], 'user_123');
 echo $response['response'];
 ```
 
-## Memory
+## Streaming
+
+The SDK passes raw SSE events to a callback:
 
 ```php
-// Get memories
-$memories = $client->getMemories('user_123');
-
-// Add memory
-$client->addMemory('user_123', 'preference', 'User prefers PHP');
-
-// Clear buffer
-$client->clearUserBuffer('user_123');
+$client->chatStream(
+    ['message' => 'Tell me a story'],
+    'user_123',
+    function (array $event): void {
+        if ($event['event'] !== 'message') {
+            return;
+        }
+        $payload = json_decode($event['data'], true, 512, JSON_THROW_ON_ERROR);
+        if (is_string($payload['token'] ?? null)) {
+            echo $payload['token'];
+        }
+    }
+);
 ```
 
-## Sessions
+`FormationClient::parseUiWidgets($event)` extracts widgets from a named `ui`
+event. Stream error frames are raised as SDK exceptions.
+
+## Sessions and Memory
 
 ```php
-// List sessions
-$sessions = $client->getSessions('user_123');
-
-// Get session messages
+$sessions = $client->getSessions('user_123', 50);
 $messages = $client->getSessionMessages('sess_abc123', 'user_123');
+$memories = $client->getMemories('user_123');
+$client->addMemory('user_123', 'preference', 'User prefers PHP');
+$client->clearUserBuffer('user_123');
 ```
 
 ## Server Client
 
-For managing formations (deploy, start, stop):
-
 ```php
 use Muxi\ServerClient;
 
-$server = new ServerClient(
-    url: 'http://localhost:7890',
-    keyId: 'muxi_pk_...',
-    secretKey: 'muxi_sk_...'
-);
+$server = new ServerClient([
+    'url' => 'http://localhost:7890',
+    'keyId' => 'muxi_pk_...',
+    'secretKey' => 'muxi_sk_...',
+]);
 
-// List formations
 $formations = $server->listFormations();
-
-// Deploy
-$server->deployFormation('my-bot.tar.gz');
-
-// Stop/start/restart
-$server->stopFormation('my-bot');
-$server->startFormation('my-bot');
+$server->stopFormation('my-assistant');
+$server->startFormation('my-assistant');
+$server->rollbackFormation('my-assistant');
 ```
+
+Deploy and update methods accept a formation ID and the corresponding Server
+RPC payload array.
 
 ## Error Handling
 
 ```php
-use Muxi\Exceptions\{MuxiException, AuthenticationException, RateLimitException};
+use Muxi\AuthenticationException;
+use Muxi\MuxiException;
 
 try {
-    $response = $client->chat(['message' => 'Hello!'], 'user_123');
-} catch (AuthenticationException $e) {
-    echo "Auth failed: " . $e->getMessage();
-} catch (RateLimitException $e) {
-    echo "Rate limited, retry after: " . $e->getRetryAfter() . "s";
-} catch (MuxiException $e) {
-    echo "Error: " . $e->getCode() . " - " . $e->getMessage();
+    $client->chat(['message' => 'Hello!'], 'user_123');
+} catch (AuthenticationException $error) {
+    echo $error->getMessage();
+} catch (MuxiException $error) {
+    echo $error->errorCode . ': ' . $error->getMessage();
 }
 ```
 
-## Response UI Widgets
-
-A streamed response can carry optional [UI widgets](../reference/response-ui-widgets.md)
-(choices, links, MCP UI resources) on a `ui` event. Extract them with the static
-`FormationClient::parseUiWidgets($event)`; it returns `[]` for any non-`ui` or
-malformed event, so unknown widgets are safely ignored.
-
-## Idempotency
-
-The client auto-generates an `X-Muxi-Idempotency-Key` on every request, so a
-retry of a successful non-streaming mutation replays the original response.
-Streaming and failed requests execute again. Cached responses expose the echoed
-`idempotency_key` on the unwrapped result. See
-[Idempotency](../deep-dives/idempotency.md).
-
 ## Learn More
 
-- [Full documentation on GitHub](https://github.com/muxi-ai/muxi-php)
+- [SDK Overview](README.md)
+- [Streaming Responses](../deep-dives/real-time-streaming.md)
 - [API Reference](../reference/api-reference.md)

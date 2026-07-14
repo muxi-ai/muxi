@@ -7,28 +7,29 @@ description: How formation versions work in the MUXI Registry
 ## How formation versions work in the MUXI Registry
 
 
-Every push creates a version. Pull specific versions, rollback instantly, manage releases with semantic versioning.
+Every push publishes the version declared in the formation manifest. Pull
+specific versions, roll deployments back, and manage releases with semantic
+versioning.
 
 
 ## How Versions Work
 
-### Automatic Increment
-
-Each push auto-increments the patch version:
+### Publish the Declared Version
 
 ```bash
-muxi push    # v1.0.0 (first push)
-muxi push    # v1.0.1
-muxi push    # v1.0.2
+muxi push
 ```
 
-### Manual Versioning
+### Bump Before Publishing
 
-Specify a version explicitly:
+Update the manifest version, then publish it:
 
 ```bash
-muxi push --tag v1.1.0    # Minor bump
-muxi push --tag v2.0.0    # Major bump
+muxi bump minor
+muxi push
+
+muxi bump --set 2.0.0
+muxi push
 ```
 
 
@@ -135,23 +136,8 @@ Source:    @alice/my-formation@1.1.0
 muxi remote rollback my-formation
 ```
 
-```
-Current version: 1.2.0
-Available versions:
-  1. v1.1.1
-  2. v1.1.0
-  3. v1.0.0
-
-Select version [1]: 1
-Rolling back to v1.1.1...
-✓ Rollback complete
-```
-
-Or directly:
-
-```bash
-muxi remote rollback my-formation --to 1.0.0
-```
+Rollback restores the immediately previous deployed version using the Server's
+blue-green rollback path.
 
 
 ## Version Pinning
@@ -170,14 +156,11 @@ The deployed formation stays at 1.0.0 even if newer versions are published.
 ### Update Strategy
 
 ```bash
-# Check for updates
-muxi outdated
+# Inspect published versions
+muxi show @muxi/hello-muxi --versions
 
-# Update to latest compatible
-muxi update @muxi/hello-muxi
-
-# Update to specific version
-muxi update @muxi/hello-muxi@1.1.0
+# Pull a specific version into a new directory
+muxi pull @muxi/hello-muxi@1.1.0 --output hello-muxi-1.1.0
 ```
 
 
@@ -186,8 +169,8 @@ muxi update @muxi/hello-muxi@1.1.0
 For testing before release:
 
 ```bash
-muxi push --tag v2.0.0-beta.1
-muxi push --tag v2.0.0-rc.1
+muxi bump --set 2.0.0-beta.1
+muxi push
 ```
 
 Pre-release versions:
@@ -201,27 +184,12 @@ muxi pull @alice/my-formation@2.0.0-beta.1
 ```
 
 
-## Deprecation
-
-Mark old versions as deprecated:
-
-```bash
-muxi deprecate @alice/my-formation@1.0.0 --message "Use v2.0.0+"
-```
-
-Deprecated versions:
-- Still pullable
-- Show warning on install
-- Listed as deprecated in `muxi info`
-
-
 ## Best Practices
 
 1. **Use semantic versioning** - Communicate changes clearly
 2. **Pin production versions** - Avoid surprise updates
 3. **Test before major bumps** - Breaking changes need care
-4. **Deprecate, don't delete** - Give users migration time
-5. **Document changes** - Update README with each version
+4. **Document changes** - Update release notes with each version
 
 
 ## Next Steps

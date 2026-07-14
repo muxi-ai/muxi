@@ -54,7 +54,7 @@ knowledge:
 [[step Test it]]
 
 ```bash
-muxi dev
+muxi up
 # Ask: "How do I get started?"
 ```
 [[/step]]
@@ -398,7 +398,7 @@ MUXI caches embeddings to avoid re-indexing:
 Force reindex during local development:
 
 ```bash
-muxi dev --reindex
+muxi knowledge rebuild
 ```
 
 Force-rebuild the persistent per-agent knowledge trees on a running formation:

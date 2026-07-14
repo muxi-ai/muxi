@@ -73,10 +73,9 @@ import json
 for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
     if event.get("event") == "message":
         data = json.loads(event.get("data", "{}"))
-        token = data.get("token", {})
-        content = token.get("content")
-        if content:
-            print(content, end="", flush=True)
+        token = data.get("token")
+        if isinstance(token, str):
+            print(token, end="", flush=True)
     elif event.get("event") == "done":
         break
 ```
@@ -128,19 +127,26 @@ formation.clear_user_buffer(user_id="user_123")
 ### Triggers
 
 ```python
-# Fire a trigger (name, data, async_mode, user_id)
+# Fire a trigger
 response = formation.fire_trigger(
     name="github-issue",
     data={
-        "repository": "muxi/runtime",
-        "issue": {"number": 123, "title": "Bug report"}
+        "data": {
+            "repository": "muxi/runtime",
+            "issue": {"number": 123, "title": "Bug report"},
+        },
+        "use_async": False,
     },
-    async_mode=False,
-    user_id="user_123"
+    user_id="user_123",
 )
 
 # Fire async trigger
-formation.fire_trigger("daily-report", {"date": "2024-01-15"}, async_mode=True, user_id="user_123")
+formation.fire_trigger(
+    "daily-report",
+    {"data": {"date": "2026-07-14"}, "use_async": True},
+    async_mode=True,
+    user_id="user_123",
+)
 ```
 
 ### Scheduler
@@ -214,10 +220,9 @@ async def main():
     async for event in await formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
         if event.get("event") == "message":
             data = json.loads(event.get("data", "{}"))
-            token = data.get("token", {})
-            content = token.get("content")
-            if content:
-                print(content, end="", flush=True)
+            token = data.get("token")
+            if isinstance(token, str):
+                print(token, end="", flush=True)
         elif event.get("event") == "done":
             break
 
@@ -240,7 +245,11 @@ from muxi import (
 )
 
 try:
-    response = formation.chat_stream({"message": "Hello!"}, user_id="user_123")
+    for event in formation.chat_stream(
+        {"message": "Hello!"},
+        user_id="user_123",
+    ):
+        print(event)
 except AuthenticationError as e:
     print(f"Auth failed: {e.message}")
 except RateLimitError as e:
@@ -314,6 +323,7 @@ Environment variable `MUXI_DEBUG=1` also enables debug logging.
 ### Chat Bot
 
 ```python
+import json
 from muxi import FormationClient
 
 formation = FormationClient(
@@ -331,10 +341,9 @@ while True:
     for event in formation.chat_stream({"message": user_input}, user_id="user_123"):
         if event.get("event") == "message":
             data = json.loads(event.get("data", "{}"))
-            token = data.get("token", {})
-            content = token.get("content")
-            if content:
-                print(content, end="", flush=True)
+            token = data.get("token")
+            if isinstance(token, str):
+                print(token, end="", flush=True)
         elif event.get("event") == "done":
             break
     print()
@@ -344,6 +353,7 @@ while True:
 
 ```python
 import json
+from uuid import uuid4
 from muxi import FormationClient
 
 formation = FormationClient(
@@ -352,7 +362,7 @@ formation = FormationClient(
     client_key="your_client_key",
 )
 
-session_id = None
+session_id = f"sess_{uuid4().hex}"
 
 while True:
     user_input = input("You: ")
@@ -366,12 +376,9 @@ while True:
     ):
         if event.get("event") == "message":
             data = json.loads(event.get("data", "{}"))
-            token = data.get("token", {})
-            content = token.get("content")
-            if content:
-                print(content, end="", flush=True)
-            if session_id is None:
-                session_id = token.get("session_id")
+            token = data.get("token")
+            if isinstance(token, str):
+                print(token, end="", flush=True)
         elif event.get("event") == "done":
             break
     print()

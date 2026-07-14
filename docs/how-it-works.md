@@ -46,7 +46,10 @@ flowchart TB
 [[step Your app sends a request]]
 
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: user_123" \
   -d '{"message": "What can you help me with?"}'
 ```
 
@@ -56,7 +59,7 @@ The request hits your formation's API and goes to the **Overlord**. You can also
 
 [[step The Overlord builds context]]
 
-The Overlord loads context from four memory layers:
+The Overlord assembles request context from the memory platform's context plane:
 
 - **Buffer memory** - Recent conversation messages
 - **Long-term memory** - User preferences and history (if enabled)
@@ -101,7 +104,7 @@ The Overlord:
 
 - Applies the configured soul (tone, style) to the response
 - Streams the response back to your app
-- Updates all memory layers with the conversation
+- Records the conversation through the memory platform
 
 [[/step]]
 
@@ -310,25 +313,25 @@ Good for: customer support systems, research assistants, content pipelines.
 
 ## Development vs. production
 
-| ✓ | `muxi dev` | `muxi deploy` |
+| ✓ | `muxi up` | `muxi deploy` |
 |---|---|---|
-| **Where it runs** | Your machine | MUXI Server |
-| **Port** | 8001 (direct) | 7890 (proxied) |
-| **Hot reload** | Yes | No |
+| **Where it runs** | Source directory through local MUXI Server | Deployed formation on MUXI Server |
+| **Route** | `/draft/{formation-id}` | `/api/{formation-id}` |
+| **Lifecycle** | Local draft | Versioned deployment |
 | **Use for** | Development | Production |
 
 ### Local development
 
 ```bash
-muxi dev
-# Formation running at http://localhost:8001
+muxi up
+# Draft available at http://localhost:7890/draft/{formation-id}
 ```
 
 ### Production deployment
 
 ```bash
 muxi deploy
-# Formation deployed to server at http://server:7890/api/my-assistant/
+# Formation deployed at http://server:7890/api/my-assistant
 ```
 
 [Deploy to Production →](guides/deploy-to-production.md)

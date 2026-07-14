@@ -67,7 +67,7 @@ for event in client.chat_stream({"message": "Hi"}):
 ```json
 {
   "type": "streamable-http",
-  "url": "http://localhost:8001/mcp",
+  "url": "http://localhost:7890/draft/my-formation/mcp",
   "headers": {
     "X-Muxi-Client-Key": "fmc_..."
   }
@@ -137,7 +137,7 @@ muxi new formation my-assistant
 muxi secrets setup
 
 # Run locally for development
-muxi dev
+muxi up
 
 # Deploy to production server
 muxi deploy --profile production
@@ -186,9 +186,14 @@ go get github.com/muxi-ai/muxi-go
 ```python
 from muxi import FormationClient
 
-client = FormationClient(url="http://localhost:8001")
+client = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
+    mode="draft",
+)
 
-for event in client.chat_stream({"message": "Hello!"}):
+for event in client.chat_stream({"message": "Hello!"}, user_id="user_123"):
     if event.get("type") == "text":
         print(event.get("text"), end="")
 ```
@@ -199,11 +204,14 @@ for event in client.chat_stream({"message": "Hello!"}):
 import { FormationClient } from "@muxi-ai/muxi-typescript";
 
 const client = new FormationClient({
-  url: "http://localhost:8001",
+  serverUrl: "http://localhost:7890",
+  formationId: "my-assistant",
+  clientKey: "<your-client-key>",
+  mode: "draft",
 });
 
-for await (const event of client.chatStream({ message: "Hello!" })) {
-  if (event.type === "text") process.stdout.write(event.text);
+for await (const event of client.chatStream({ message: "Hello!" }, "user_123")) {
+  if (typeof event.token === "string") process.stdout.write(event.token);
 }
 ```
 [[/tab]]
@@ -211,15 +219,19 @@ for await (const event of client.chatStream({ message: "Hello!" })) {
 [[tab Go]]
 ```go
 client := muxi.NewFormationClient(&muxi.FormationConfig{
-    URL: "http://localhost:8001",
+    ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
+    ClientKey:   "<your-client-key>",
+    Mode:        "draft",
 })
 
 stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{
     Message: "Hello!",
+    UserID:  "user_123",
 })
 for chunk := range stream {
-    if chunk.Type == "text" {
-        fmt.Print(chunk.Text)
+    if token, ok := chunk.Raw["token"].(string); ok {
+        fmt.Print(token)
     }
 }
 ```

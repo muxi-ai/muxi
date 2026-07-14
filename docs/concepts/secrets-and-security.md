@@ -94,7 +94,7 @@ git clone https://github.com/team/formation.git
 
 # Team member gets .key securely (vault, password manager)
 # Then just works
-muxi dev
+muxi up
 ```
 
 Compare to environment variables:
@@ -242,7 +242,7 @@ muxi secrets setup
 # Enter: BSA-xyz789
 
 # Run (secrets auto-loaded)
-muxi dev
+muxi up
 ```
 [[/tab]]
 

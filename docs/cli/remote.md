@@ -59,25 +59,19 @@ muxi remote get my-assistant
 Output:
 
 ```
-Formation: my-assistant
-=======================
-Status:    running
-Port:      8001
-Version:   1.0.0
-Uptime:    2h 15m
-Memory:    128MB
+  Formation: my-assistant
+  Version:   1.0.0
 
-Agents:
-  - assistant
-  - researcher
+  Status:     ● running
+  Uptime:     2h 15m
+  Health:     ✓ healthy
+  Restarts:   0
 
-MCPs:
-  - web-search
-
-Endpoints:
-  Health:  http://localhost:8001/health
-  Chat:    http://localhost:8001/v1/chat
+  Deployed:   2026-07-14 10:30:00
+  Updated:    2026-07-14 10:30:00
 ```
+
+Use `--verbose` to include internal process and port details.
 
 ## Stop Formation
 
@@ -174,7 +168,7 @@ Continue? [Y/n] y
 ✓ Downloading from server...
 ✓ Extracting...
 ✓ Downloaded 'my-assistant' to ./my-assistant/
-  cd my-assistant && muxi dev
+  cd my-assistant && muxi up
 ```
 
 ### In Formation Directory
@@ -249,11 +243,12 @@ muxi console
 
 ## Options
 
-| Flag | Description |
-|------|-------------|
-| `--profile <name>` | Server profile |
-| `--force` | Skip confirmation |
-| `--output json` | JSON output |
+| Command | Flag | Description |
+|---------|------|-------------|
+| All remote commands | `--profile <name>` | Server profile |
+| `remote get` | `--verbose` | Include internal process and port details |
+| `remote delete` | `--force` | Skip confirmation |
+| `remote delete` | `--atomic` | Non-interactive delete for scripts |
 
 ## Examples
 

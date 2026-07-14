@@ -69,6 +69,7 @@ const formation = new FormationClient({
 
 // Direct connection (bypasses server proxy)
 const formation = new FormationClient({
+  formationId: "direct",
   baseUrl: "http://localhost:8001/v1",  // Direct to formation port
   clientKey: "your_client_key",
 });
@@ -81,17 +82,18 @@ const formation = new FormationClient({
 
 ```typescript
 // Streaming chat (recommended)
-for await (const chunk of await formation.chatStream(
+for await (const chunk of formation.chatStream(
   { message: "Hello!" },
   "user_123"
 )) {
-  if (chunk.type === "text") {
-    process.stdout.write(chunk.text);
+  if (typeof chunk.token === "string") {
+    process.stdout.write(chunk.token);
   }
 }
 ```
 
-Chunk types: `text`, `tool_call`, `tool_result`, `agent_handoff`, `thinking`, `error`, `done`.
+Named `ui` and `done` events are returned with `type: "ui"` and
+`type: "done"`. Stream errors are raised as SDK exceptions.
 
 ### Agents
 
@@ -146,19 +148,27 @@ const stats = await formation.getBufferStats();
 ### Triggers
 
 ```typescript
-// Fire a trigger (name, data, asyncMode, userId)
+// Fire a synchronous trigger
 const response = await formation.fireTrigger(
   "github-issue",
   {
-    repository: "muxi/runtime",
-    issue: { number: 123, title: "Bug report" }
+    data: {
+      repository: "muxi/runtime",
+      issue: { number: 123, title: "Bug report" }
+    },
+    use_async: false
   },
-  false,      // asyncMode
-  "user_123"  // userId
+  false,
+  "user_123"
 );
 
 // Fire async trigger
-await formation.fireTrigger("daily-report", { date: "2024-01-15" }, true, "user_123");
+await formation.fireTrigger(
+  "daily-report",
+  { data: { date: "2026-07-14" }, use_async: true },
+  true,
+  "user_123"
+);
 ```
 
 ### Scheduler
@@ -183,12 +193,12 @@ await formation.deleteSchedulerJob("job_abc123");
 
 ```typescript
 // Stream events for a user
-for await (const event of await formation.streamEvents("user_123")) {
+for await (const event of formation.streamEvents("user_123")) {
   console.log(event);
 }
 
 // Stream logs (admin)
-for await (const log of await formation.streamLogs({ level: "info" })) {
+for await (const log of formation.streamLogs({ level: "info" })) {
   console.log(log);
 }
 ```
@@ -339,12 +349,12 @@ const rl = readline.createInterface({
 
 async function chat(message: string) {
   process.stdout.write("Assistant: ");
-  for await (const chunk of await formation.chatStream(
+  for await (const chunk of formation.chatStream(
     { message },
     "user_123"
   )) {
-    if (chunk.type === "text") {
-      process.stdout.write(chunk.text);
+    if (typeof chunk.token === "string") {
+      process.stdout.write(chunk.token);
     }
   }
   console.log();
@@ -381,9 +391,9 @@ const formation = new FormationClient({
 // Chat with streaming
 async function chat(message: string, userId: string) {
   const response = [];
-  for await (const chunk of await formation.chatStream({ message }, userId)) {
-    if (chunk.type === "text") {
-      response.push(chunk.text);
+  for await (const chunk of formation.chatStream({ message }, userId)) {
+    if (typeof chunk.token === "string") {
+      response.push(chunk.token);
       // Update your UI here
     }
   }
@@ -416,12 +426,12 @@ export function useChat(userId: string) {
 
     let response = "";
     try {
-      for await (const chunk of await formation.chatStream(
+      for await (const chunk of formation.chatStream(
         { message: content },
         userId
       )) {
-        if (chunk.type === "text") {
-          response += chunk.text;
+        if (typeof chunk.token === "string") {
+          response += chunk.token;
           setMessages(prev => [
             ...prev.slice(0, -1),
             { role: "assistant", content: response },
@@ -455,12 +465,12 @@ export async function POST(req: Request) {
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
-      for await (const chunk of await formation.chatStream(
+      for await (const chunk of formation.chatStream(
         { message },
         userId
       )) {
-        if (chunk.type === "text") {
-          controller.enqueue(encoder.encode(chunk.text));
+        if (typeof chunk.token === "string") {
+          controller.enqueue(encoder.encode(chunk.token));
         }
       }
       controller.close();
@@ -482,7 +492,7 @@ A streamed response can carry optional [UI widgets](../reference/response-ui-wid
 exported. Ignore widget types you don't render - the text always stands alone.
 
 ```typescript
-for await (const chunk of await formation.chatStream({ message: 'Which region?' }, 'user_123')) {
+for await (const chunk of formation.chatStream({ message: 'Which region?' }, 'user_123')) {
   if (chunk.type === 'ui') {
     for (const widget of chunk.ui) {
       if (widget.type === 'options') console.log(widget.prompt);

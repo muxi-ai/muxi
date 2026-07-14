@@ -1,16 +1,19 @@
 ---
 title: Memory
-description: Give agents persistent memory across conversations
+description: Configure MUXI's layered, scoped, event-sourced memory platform
 ---
 
 # Memory
 
-## Give agents memory that persists
+## Configure the memory platform
 
-MUXI's three-tier memory system lets agents remember context within conversations and across sessions.
+MUXI combines fast conversational context with durable, scoped, and auditable
+memory. Buffer, vector, synopsis, and persistent stores serve the request path;
+immutable events, rebuildable projections, ingestion, provenance, lifecycle
+controls, and derived intelligence make them a complete memory platform.
 
 > [!TIP]
-> **New to memory?** Read [Memory Concepts →](../concepts/memory-system.md) first to understand how the three-tier architecture works.
+> **New to memory?** Read [Memory Concepts →](../concepts/memory-system.md) first for the platform architecture.
 >
 > **API Reference:** [`GET /v1/memory`](/docs/api/formation#tag/Memory/GET/memory) | [`DELETE /v1/memory/buffer`](/docs/api/formation#tag/Memory/DELETE/memory/buffer)
 
@@ -18,21 +21,30 @@ MUXI's three-tier memory system lets agents remember context within conversation
 ## Memory Architecture
 
 ```plain
-┌─────────────────────────────────────┐
-│         Buffer Memory               │  ← Recent messages (fast)
-│         ~50 messages                │
-└─────────────────────────────────────┘
-                ↓
-┌─────────────────────────────────────┐
-│         Vector Search               │  ← Semantic similarity
-│         Find related context        │
-└─────────────────────────────────────┘
-                ↓
-┌─────────────────────────────────────┐
-│       Persistent Memory             │  ← Long-term storage
-│       SQLite / PostgreSQL           │
-└─────────────────────────────────────┘
+Sources: conversation · ingestion API · signed distillery
+                              │
+                              ▼
+                  Immutable memory events
+                              │
+                              ▼
+                  Rebuildable projections
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+ Context plane         Scope & governance   Derived intelligence
+ buffer                user / group         knowledge graph
+ working vectors       formation            Captain's Log
+ user synopsis         grants               lessons
+ persistent facts      provenance           contradictions
+          │                   │                   │
+          └───────────────────┼───────────────────┘
+                              ▼
+      rebuild · backfill · forget · decay · compact · prune · lint
 ```
+
+The sections below begin with the context-plane stores, then cover scopes,
+ingestion, distillation, the event substrate, derived intelligence, and
+lifecycle management.
 
 ## Quick Setup
 
@@ -202,7 +214,9 @@ Pass user ID in requests:
 
 [[tab curl]]
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
   -H "X-Muxi-User-Id: user_123" \
   -d '{"message": "Remember I prefer Python"}'
 ```
@@ -211,24 +225,26 @@ curl -X POST http://localhost:8001/v1/chat \
 [[tab Python]]
 ```python
 response = formation.chat(
-    "Remember I prefer Python",
-    user_id="user_123"
+    {"message": "Remember I prefer Python"},
+    user_id="user_123",
 )
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-const response = await formation.chat('Remember I prefer Python', {
-  userId: 'user_123'
-});
+const response = await formation.chat(
+  { message: "Remember I prefer Python" },
+  "user_123"
+);
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-response, _ := formation.ChatWithOptions("Remember I prefer Python", muxi.ChatOptions{
-    UserID: "user_123",
+response, _ := formation.Chat(ctx, &muxi.ChatRequest{
+    Message: "Remember I prefer Python",
+    UserID:  "user_123",
 })
 ```
 [[/tab]]

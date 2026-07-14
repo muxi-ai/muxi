@@ -67,7 +67,7 @@ Give agents superpowers - web search, file access, databases, and any MCP server
 
 (memory.md)[[card]]
 #### Memory
-Three-tier memory system: buffer, vector search, and persistent storage.
+Layered, scoped, event-sourced memory with provenance, ingestion, lifecycle controls, and derived intelligence.
 [[/card]]
 
 (knowledge.md)[[card]]
@@ -111,7 +111,7 @@ Enter API keys when prompted.
 [[step Run locally]]
 
 ```bash
-muxi dev
+muxi up
 ```
 [[/step]]
 

@@ -161,7 +161,7 @@ muxi logs my-assistant --lines 100
 ## Health Check
 
 ```bash
-curl http://localhost:8001/health
+curl http://localhost:7890/api/my-assistant/v1/health
 ```
 
 Response:
@@ -219,7 +219,7 @@ muxi deploy --profile production
 With multi-server profile:
 
 ```yaml
-# ~/.muxi/cli/servers.yaml
+# ~/.muxi/cli/profiles.yaml
 profiles:
   production:
     servers:

@@ -21,7 +21,7 @@ Find pre-built formations, share your own, and manage versions - all from the co
 muxi pull @muxi/hello-muxi
 cd starter-assistant
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 ### Publish Your Formation

@@ -168,7 +168,8 @@ async:
 
 **Mode 1 (auto)** is recommended because the Overlord intelligently estimates how long each request will take. Quick questions get immediate answers; complex tasks go async.
 
-**Per-request override:** You can also pass `async: true` or `async: false` in individual requests to override the formation setting.
+**Per-request override:** Pass `mode: "async"` or `mode: "sync"` in an
+individual chat request.
 
 ### Threshold Configuration
 
@@ -184,7 +185,7 @@ The Overlord compares estimated execution time to this threshold:
 **Per-request threshold override:** You can override the formation-level threshold on individual requests by passing `threshold_seconds` in the chat request body:
 
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -H "X-Muxi-Client-Key: fmc_..." \
   -d '{
     "message": "Quick analysis of this data",
@@ -245,21 +246,21 @@ Both `webhook_url` and `threshold_seconds` can be overridden per-request in the 
 
 **API:**
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -H "X-Muxi-Client-Key: fmc_..." \
   -d '{
     "message": "Research AI trends",
-    "async": true
+    "mode": "async"
   }'
 ```
 
 **With per-request overrides:**
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -H "X-Muxi-Client-Key: fmc_..." \
   -d '{
     "message": "Research AI trends",
-    "async": true,
+    "mode": "async",
     "threshold_seconds": 15,
     "webhook_url": "https://your-app.com/callback"
   }'
@@ -289,7 +290,7 @@ curl -X POST http://localhost:8001/v1/chat \
 
 **Poll for completion:**
 ```bash
-curl http://localhost:8001/v1/requests/req_abc123 \
+curl http://localhost:7890/api/my-assistant/v1/requests/req_abc123 \
   -H "X-Muxi-Client-Key: fmc_..."
 ```
 
@@ -320,10 +321,10 @@ curl http://localhost:8001/v1/requests/req_abc123 \
 
 **Request with webhook:**
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -d '{
     "message": "Research AI trends",
-    "async": true,
+    "mode": "async",
     "webhook_url": "https://your-app.com/muxi-callback"
   }'
 ```
@@ -539,7 +540,7 @@ for event in formation.chat_stream(
 
 # Poll for completion
 while True:
-    status = formation.get_request_status(request_id)
+    status = formation.get_request_status(request_id, "user_123")
 
     if status.get("status") == "completed":
         print(status.get("result"))
@@ -557,19 +558,15 @@ async:
   webhook_retries: 3
 ```
 
-**Async with callback:**
+**Async with webhook:**
 ```python
-def on_complete(result):
-    print(f"Done! {result.text}")
-
-def on_progress(status):
-    print(f"Progress: {status.progress}%")
-
-# Start with callback
-request = formation.chat_async(
-    "Research AI trends",
-    on_complete=on_complete,
-    on_progress=on_progress
+request = formation.chat(
+    {
+        "message": "Research AI trends",
+        "mode": "async",
+        "webhook_url": "https://your-app.com/callback",
+    },
+    user_id="user_123",
 )
 ```
 
@@ -586,7 +583,7 @@ const formation = new FormationClient({
 
 // Get request ID from streaming response
 let requestId: string;
-for await (const chunk of await formation.chatStream(
+for await (const chunk of formation.chatStream(
   { message: "Research AI trends" },
   "user_123"
 )) {
@@ -598,7 +595,7 @@ for await (const chunk of await formation.chatStream(
 
 // Poll for completion
 while (true) {
-  const status = await formation.getRequestStatus(requestId);
+  const status = await formation.getRequestStatus(requestId, "user_123");
 
   if (status.status === "completed") {
     console.log(status.result);
@@ -609,10 +606,12 @@ while (true) {
   await new Promise(resolve => setTimeout(resolve, 2000));
 }
 
-// Async with webhook
-await formation.chatAsync("Research AI trends", {
-  webhookUrl: "https://your-app.com/callback"
-});
+// Explicit async request with webhook delivery
+await formation.chat({
+  message: "Research AI trends",
+  mode: "async",
+  webhook_url: "https://your-app.com/callback"
+}, "user_123");
 ```
 
 ## Triggers (Default Async)
@@ -621,7 +620,7 @@ await formation.chatAsync("Research AI trends", {
 
 ```bash
 # GitHub webhook triggers MUXI
-POST http://localhost:8001/v1/triggers/github-issue
+POST http://localhost:7890/api/my-assistant/v1/triggers/github-issue
 {
   "action": "opened",
   "issue": {...}
@@ -639,10 +638,10 @@ POST http://localhost:8001/v1/triggers/github-issue
 
 **Force sync trigger:**
 ```bash
-POST http://localhost:8001/v1/triggers/github-issue
+POST http://localhost:7890/api/my-assistant/v1/triggers/github-issue
 {
   "data": {...},
-  "use_async": false     # Wait for completion
+  "use_async": false
 }
 ```
 
@@ -689,7 +688,7 @@ DELETE /v1/requests/req_abc123
 
 **SDK:**
 ```python
-formation.cancel_request("req_abc123")
+formation.cancel_request("req_abc123", "user_123")
 ```
 
 ## Error Handling
@@ -738,8 +737,12 @@ Success! Continue processing
 ### 1. Research & Analysis
 ```python
 # Long research task
-request = formation.chat_async(
-    "Research top 10 AI companies, analyze products, create comparison report"
+request = formation.chat(
+    {
+        "message": "Research top 10 AI companies, analyze products, create comparison report",
+        "mode": "async",
+    },
+    user_id="user_123",
 )
 # Estimated: 2-3 minutes
 ```
@@ -748,9 +751,13 @@ request = formation.chat_async(
 ```python
 # Process 100 documents
 for doc in documents:
-    formation.chat_async(
-        f"Analyze {doc.name}",
-        webhook_url=f"https://app.com/callback/{doc.id}"
+    formation.chat(
+        {
+            "message": f"Analyze {doc.name}",
+            "mode": "async",
+            "webhook_url": f"https://app.com/callback/{doc.id}",
+        },
+        user_id="user_123",
     )
 # All process in parallel
 ```
@@ -760,9 +767,13 @@ for doc in documents:
 # Daily report generation
 @schedule.daily("09:00")
 def generate_report():
-    request = formation.chat_async(
-        "Generate daily analytics report",
-        webhook_url="https://app.com/report-ready"
+    request = formation.chat(
+        {
+            "message": "Generate daily analytics report",
+            "mode": "async",
+            "webhook_url": "https://app.com/report-ready",
+        },
+        user_id="user_123",
     )
 ```
 
@@ -771,11 +782,13 @@ def generate_report():
 # GitHub webhook → MUXI
 @app.post("/github-webhook")
 def handle_github(payload):
-    request = formation.trigger_async(
+    request = formation.fire_trigger(
         "github-issue-created",
-        data=payload
+        {"data": payload, "use_async": True},
+        async_mode=True,
+        user_id="user_123",
     )
-    return {"request_id": request.id}
+    return {"request_id": request["request_id"]}
 ```
 
 ## Best Practices
@@ -852,8 +865,9 @@ overlord:
 ```
 # Increase poll frequency (but don't spam)
 while True:
-    status = formation.get_request(request.id)
-    if status.is_complete: break
+    status = formation.get_request_status(request["request_id"], "user_123")
+    if status.get("status") == "completed":
+        break
     time.sleep(2)  # Poll every 2 seconds (reasonable)
 ```
 

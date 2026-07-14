@@ -4,9 +4,7 @@ description: Native .NET client for MUXI formations
 ---
 # C# SDK
 
-## .NET access to your agents
-
-Build .NET applications that interact with MUXI formations. Full support for chat, streaming, async/await, and all Formation API operations.
+Use the C# SDK to call Formation APIs and manage MUXI Server from .NET.
 
 **GitHub:** [`muxi-ai/muxi-csharp`](https://github.com/muxi-ai/muxi-csharp)  
 **NuGet:** [`Muxi`](https://www.nuget.org/packages/Muxi)
@@ -17,139 +15,131 @@ Build .NET applications that interact with MUXI formations. Full support for cha
 dotnet add package Muxi
 ```
 
-Or via Package Manager:
-
-```powershell
-Install-Package Muxi
-```
-
-## Quick Start
+## Formation Client
 
 ```csharp
 using Muxi;
 
-var client = new FormationClient(
-    serverUrl: "http://localhost:7890",
-    formationId: "my-assistant",
-    clientKey: "your_client_key"
-);
+using var client = new FormationClient(new FormationConfig
+{
+    ServerUrl = "http://localhost:7890",
+    FormationId = "my-assistant",
+    ClientKey = "fmc_...",
+    AdminKey = "fma_..."
+});
 
-// Check health
 var health = await client.HealthAsync();
 Console.WriteLine(health);
 ```
 
-## Chat (Streaming)
+For local drafts, set `Mode = "draft"`. For a direct Runtime connection, set
+`BaseUrl` to the Runtime's `/v1` base URL.
 
-```csharp
-await foreach (var chunk in client.ChatStreamAsync(
-    new ChatRequest { Message = "Hello!" },
-    userId: "user_123"))
-{
-    if (chunk.Type == "text")
-        Console.Write(chunk.Text);
-    else if (chunk.Type == "done")
-        break;
-}
-```
+## Chat
 
-## Chat (Non-Streaming)
+Formation methods return `JsonNode` values:
 
 ```csharp
 var response = await client.ChatAsync(
-    new ChatRequest { Message = "Hello!" },
+    new Dictionary<string, object>
+    {
+        ["message"] = "Hello!",
+        ["session_id"] = "sess_abc123"
+    },
     userId: "user_123"
 );
-Console.WriteLine(response.Response);
+
+Console.WriteLine(response?["response"]);
+```
+
+## Streaming
+
+The C# SDK exposes raw SSE events. Parse message-event data to read each token:
+
+```csharp
+using System.Text.Json;
+
+await foreach (var evt in client.ChatStreamAsync(
+    new Dictionary<string, object> { ["message"] = "Tell me a story" },
+    userId: "user_123"))
+{
+    if (evt.Event == "message")
+    {
+        using var document = JsonDocument.Parse(evt.Data);
+        if (document.RootElement.TryGetProperty("token", out var token) &&
+            token.ValueKind == JsonValueKind.String)
+        {
+            Console.Write(token.GetString());
+        }
+    }
+    else if (evt.Event == "done")
+    {
+        break;
+    }
+}
+```
+
+`FormationClient.ParseUiWidgets(evt)` extracts the optional widget array from
+an `ui` event. Error frames are raised as SDK exceptions.
+
+## Sessions and Requests
+
+```csharp
+var sessions = await client.GetSessionsAsync("user_123", limit: 50);
+var messages = await client.GetSessionMessagesAsync("sess_abc123", "user_123");
+var status = await client.GetRequestStatusAsync("req_abc123", "user_123");
+await client.CancelRequestAsync("req_abc123", "user_123");
 ```
 
 ## Memory
 
 ```csharp
-// Get memories
 var memories = await client.GetMemoriesAsync("user_123");
-
-// Add memory
 await client.AddMemoryAsync("user_123", "preference", "User prefers C#");
-
-// Clear buffer
 await client.ClearUserBufferAsync("user_123");
-```
-
-## Sessions
-
-```csharp
-// List sessions
-var sessions = await client.GetSessionsAsync("user_123");
-
-// Get session messages
-var messages = await client.GetSessionMessagesAsync("sess_abc123", "user_123");
 ```
 
 ## Server Client
 
-For managing formations (deploy, start, stop):
-
 ```csharp
-var server = new ServerClient(
-    url: "http://localhost:7890",
-    keyId: "muxi_pk_...",
-    secretKey: "muxi_sk_..."
-);
+using var server = new ServerClient(new ServerConfig
+{
+    Url = "http://localhost:7890",
+    KeyId = "muxi_pk_...",
+    SecretKey = "muxi_sk_..."
+});
 
-// List formations
 var formations = await server.ListFormationsAsync();
-
-// Deploy
-await server.DeployFormationAsync("my-bot.tar.gz");
-
-// Stop/start/restart
-await server.StopFormationAsync("my-bot");
-await server.StartFormationAsync("my-bot");
+await server.StopFormationAsync("my-assistant");
+await server.StartFormationAsync("my-assistant");
+await server.RollbackFormationAsync("my-assistant");
 ```
+
+Deployment and update calls accept a formation ID and the corresponding Server
+RPC payload.
 
 ## Error Handling
 
 ```csharp
-using Muxi.Exceptions;
-
 try
 {
-    var response = await client.ChatAsync(
-        new ChatRequest { Message = "Hello!" },
+    await client.ChatAsync(
+        new Dictionary<string, object> { ["message"] = "Hello!" },
         userId: "user_123"
     );
 }
-catch (AuthenticationException e)
+catch (AuthenticationException ex)
 {
-    Console.WriteLine($"Auth failed: {e.Message}");
+    Console.Error.WriteLine(ex.Message);
 }
-catch (RateLimitException e)
+catch (MuxiException ex)
 {
-    Console.WriteLine($"Rate limited, retry after: {e.RetryAfter}s");
-}
-catch (MuxiException e)
-{
-    Console.WriteLine($"Error: {e.Code} - {e.Message}");
+    Console.Error.WriteLine($"{ex.ErrorCode}: {ex.Message}");
 }
 ```
 
-## Response UI Widgets
-
-A streamed response can carry optional [UI widgets](../reference/response-ui-widgets.md)
-(choices, links, MCP UI resources) on a `ui` event. Extract them with
-`FormationClient.ParseUiWidgets(...)`, which returns a `JsonArray` (empty for any
-non-`ui` or malformed event), so unknown widgets are safely ignored.
-
-## Idempotency
-
-The client auto-generates an `X-Muxi-Idempotency-Key` on every request, so a
-retry of a successful non-streaming mutation replays the original response.
-Streaming and failed requests execute again. Cached responses expose the echoed
-`idempotency_key` on the unwrapped result. See
-[Idempotency](../deep-dives/idempotency.md).
-
 ## Learn More
 
-- [Full documentation on GitHub](https://github.com/muxi-ai/muxi-csharp)
+- [SDK Overview](README.md)
+- [Streaming Responses](../deep-dives/real-time-streaming.md)
 - [API Reference](../reference/api-reference.md)

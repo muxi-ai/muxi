@@ -143,7 +143,7 @@ Support agent knows troubleshooting; sales agent knows pricing. No overlap, no c
 ### Automatic at Startup
 
 ```bash
-muxi dev
+muxi up
 # Indexing knowledge...
 # ✓ 47 documents indexed
 # ✓ 1,234 chunks created
@@ -159,7 +159,7 @@ When files change:
 
 Force full reindex:
 ```bash
-muxi dev --reindex
+muxi knowledge rebuild
 ```
 
 ### Lazy Loading

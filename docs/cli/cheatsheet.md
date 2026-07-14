@@ -76,7 +76,6 @@ muxi validate
 # Interactive chat
 muxi chat
 muxi chat "Hello!"
-muxi chat --agent researcher "Find info on X"
 ```
 
 
@@ -143,7 +142,7 @@ muxi deploy
 muxi deploy --profile production
 
 # Validate without deploying
-muxi deploy --validate
+muxi validate
 
 # Dry run
 muxi deploy --dry-run
@@ -234,7 +233,8 @@ muxi show @muxi/hello-muxi
 # Push
 muxi login
 muxi push
-muxi push --tag v1.0.0
+muxi bump --set 1.0.0
+muxi push
 muxi push --dry-run
 muxi push --org my-org          # Publish under organization (admin only)
 
@@ -419,35 +419,29 @@ Disable update checks: `export MUXI_NO_UPDATE_CHECK=1`
 
 | Flag | Description |
 |------|-------------|
-| `--profile <name>` | Use specific server profile |
-| `--output json` | JSON output format |
-| `--quiet` | Suppress non-essential output |
-| `--verbose` | Verbose output |
 | `--help` | Show help |
+| `--version` | Show CLI version |
 
 ### Common Flags
 
 | Command | Flag | Description |
 |---------|------|-------------|
-| `deploy` | `--validate` | Validate only |
 | `deploy` | `--dry-run` | Show what would deploy |
 | `bump` | `--set <ver>` | Set specific version |
-| `server delete` | `--force` | Skip confirmation |
+| `remote delete` | `--force` | Skip confirmation |
 | `logs` | `--follow` | Stream logs |
 | `logs` | `--lines <n>` | Number of lines |
 | `pull` | `--output <dir>` | Output directory |
 | `push` | `--dry-run` | Preview without publishing |
 | `push` | `--org <name>` | Publish under organization |
-| `dev` | `--port <n>` | Override port |
-| `dev` | `--reindex` | Force reindex |
+| `up` | `--port <n>` | Local Server port |
+| `knowledge rebuild` | `--agent <id>` | Rebuild one agent's knowledge |
 | `info` | `--full` | Show full configuration |
 | `sessions` | `-u <user>` | User ID (required) |
 | `memory` | `-u <user>` | User ID for user-scoped ops |
-| `memory buffer` | `--clear` | Clear buffer |
-| `memory buffer` | `--stats` | Show buffer statistics |
+| `memory buffer clear` | `--all` | Clear all buffers (admin) |
 | `triggers run` | `--data <json>` | Trigger input data |
-| `triggers run` | `--async` | Run asynchronously |
-| `scheduler add` | `--schedule` | Cron schedule |
+| `triggers run` | `--sync` | Wait for trigger response |
 | `download` | `-f, --force` | Skip confirmation |
 | `download` | `-p, --profile` | Server profile |
 | `download` | `--include-db` | Include memory.db |
@@ -466,7 +460,7 @@ Disable update checks: `export MUXI_NO_UPDATE_CHECK=1`
 muxi new formation my-bot
 cd my-bot
 muxi secrets setup
-muxi dev
+muxi up
 
 # Test
 muxi chat "Hello!"
@@ -482,7 +476,7 @@ muxi logs my-bot --follow
 
 ```bash
 # In CI pipeline
-muxi deploy --validate
+muxi validate
 muxi deploy --profile production
 muxi remote get my-bot
 ```
@@ -499,5 +493,5 @@ muxi push
 # Use someone else's
 muxi pull @alice/awesome-agent
 muxi secrets setup
-muxi dev
+muxi up
 ```

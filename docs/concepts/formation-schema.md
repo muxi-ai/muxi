@@ -460,4 +460,4 @@ muxi validate formation.afs
 - [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - Complex task handling
 - [Memory Systems](../concepts/memory-system.md) - Working and persistent memory
 - [MCP Integration](../concepts/tools-and-mcp.md) - Add tools via Model Context Protocol
-- [Formation Examples](examples/) - Complete working examples
+- [Formation Examples](../examples/) - Complete working examples

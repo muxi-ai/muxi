@@ -239,8 +239,11 @@ const client = new FormationClient({
   mode: "draft",
 });
 
-for await (const event of client.chatStream({ message: "Hello!" })) {
-  if (event.type === "text") process.stdout.write(event.text);
+for await (const event of client.chatStream(
+  { message: "Hello!" },
+  "user_123"
+)) {
+  if (typeof event.token === "string") process.stdout.write(event.token);
 }
 ```
 [[/tab]]
@@ -261,8 +264,8 @@ client := muxi.NewFormationClient(&muxi.FormationConfig{
 
 stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{Message: "Hello!"})
 for chunk := range stream {
-    if chunk.Type == "text" {
-        fmt.Print(chunk.Text)
+    if token, ok := chunk.Raw["token"].(string); ok {
+        fmt.Print(token)
     }
 }
 ```
@@ -274,16 +277,20 @@ gem install muxi
 ```
 
 ```ruby
+require 'json'
 require 'muxi'
 
 client = Muxi::FormationClient.new(
   server_url: 'http://localhost:7890',
   formation_id: 'my-assistant',
-  mode: 'draft'
+  mode: 'draft',
+  client_key: 'fmc_...'
 )
 
-client.chat_stream(message: 'Hello!') do |event|
-  print event['text'] if event['type'] == 'text'
+client.chat_stream({ message: 'Hello!' }, user_id: 'user_123') do |event|
+  next unless event['event'] == 'message'
+  data = JSON.parse(event['data'])
+  print data['token'] if data['token'].is_a?(String)
 end
 ```
 [[/tab]]
@@ -297,14 +304,19 @@ implementation("org.muxi:muxi-java:0.20260212.0")
 FormationClient client = new FormationClient(
     "http://localhost:7890",
     "my-assistant",
+    "fmc_...",
+    null,
+    30,
     "draft"
 );
 
-client.chatStream(new ChatRequest("Hello!"), event -> {
-    if ("text".equals(event.getType())) {
-        System.out.print(event.getText());
+JsonObject request = new JsonObject();
+request.addProperty("message", "Hello!");
+client.chatStream(request, "user_123", event -> {
+    if ("message".equals(event.event())) {
+        JsonObject data = JsonParser.parseString(event.data()).getAsJsonObject();
+        if (data.has("token")) System.out.print(data.get("token").getAsString());
     }
-    return true;
 });
 ```
 [[/tab]]
@@ -315,14 +327,22 @@ implementation("org.muxi:muxi-kotlin:0.20260212.0")
 ```
 
 ```kotlin
-val client = FormationClient(
+val client = FormationClient(FormationConfig(
     serverUrl = "http://localhost:7890",
     formationId = "my-assistant",
-    mode = "draft"
-)
+    mode = "draft",
+    clientKey = "fmc_..."
+))
 
-client.chatStream(ChatRequest(message = "Hello!")).collect { event ->
-    if (event.type == "text") print(event.text)
+client.chatStream(
+    mapOf("message" to "Hello!"),
+    userId = "user_123"
+).collect { event ->
+    if (event.event == "message") {
+        val token = Json.parseToJsonElement(event.data)
+            .jsonObject["token"]?.jsonPrimitive?.contentOrNull
+        if (token != null) print(token)
+    }
 }
 ```
 [[/tab]]
@@ -334,14 +354,22 @@ client.chatStream(ChatRequest(message = "Hello!")).collect { event ->
 ```
 
 ```swift
-let client = FormationClient(
-    serverURL: "http://localhost:7890",
-    formationID: "my-assistant",
+let client = try FormationClient(config: FormationConfig(
+    formationId: "my-assistant",
+    serverUrl: "http://localhost:7890",
+    clientKey: "fmc_...",
     mode: "draft"
-)
+))
 
-for try await event in client.chatStream(message: "Hello!") {
-    if event.type == "text" { print(event.text ?? "", terminator: "") }
+for try await event in await client.chatStream(
+    ["message": "Hello!"],
+    userId: "user_123"
+) {
+    guard event.event == "message",
+          let data = event.data.data(using: .utf8),
+          let payload = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+          let token = payload["token"] as? String else { continue }
+    print(token, terminator: "")
 }
 ```
 [[/tab]]
@@ -352,15 +380,25 @@ dotnet add package Muxi
 ```
 
 ```csharp
-var client = new FormationClient(
-    serverUrl: "http://localhost:7890",
-    formationId: "my-assistant",
-    mode: "draft"
-);
+using System.Text.Json;
 
-await foreach (var chunk in client.ChatStreamAsync(new ChatRequest { Message = "Hello!" }))
+var client = new FormationClient(new FormationConfig
 {
-    if (chunk.Type == "text") Console.Write(chunk.Text);
+    ServerUrl = "http://localhost:7890",
+    FormationId = "my-assistant",
+    Mode = "draft",
+    ClientKey = "fmc_..."
+});
+
+await foreach (var evt in client.ChatStreamAsync(
+    new Dictionary<string, object> { ["message"] = "Hello!" },
+    userId: "user_123"))
+{
+    if (evt.Event != "message") continue;
+    using var document = JsonDocument.Parse(evt.Data);
+    if (document.RootElement.TryGetProperty("token", out var token) &&
+        token.ValueKind == JsonValueKind.String)
+        Console.Write(token.GetString());
 }
 ```
 [[/tab]]
@@ -371,15 +409,22 @@ composer require muxi/muxi-php
 ```
 
 ```php
-$client = new FormationClient(
-    serverUrl: 'http://localhost:7890',
-    formationId: 'my-assistant',
-    mode: 'draft'
-);
+$client = new FormationClient([
+    'serverUrl' => 'http://localhost:7890',
+    'formationId' => 'my-assistant',
+    'mode' => 'draft',
+    'clientKey' => 'fmc_...',
+]);
 
-foreach ($client->chatStream(['message' => 'Hello!']) as $event) {
-    if ($event['type'] === 'text') echo $event['text'];
-}
+$client->chatStream(
+    ['message' => 'Hello!'],
+    'user_123',
+    function (array $event): void {
+        if ($event['event'] !== 'message') return;
+        $data = json_decode($event['data'], true);
+        if (is_string($data['token'] ?? null)) echo $data['token'];
+    }
+);
 ```
 [[/tab]]
 
@@ -389,14 +434,20 @@ dart pub add muxi
 ```
 
 ```dart
-final client = FormationClient(
+final client = FormationClient(FormationConfig(
   serverUrl: 'http://localhost:7890',
   formationId: 'my-assistant',
   mode: 'draft',
-);
+  clientKey: 'fmc_...',
+));
 
-await for (final event in client.chatStream(message: 'Hello!')) {
-  if (event['type'] == 'text') stdout.write(event['text']);
+await for (final event in client.chatStream(
+  {'message': 'Hello!'},
+  userId: 'user_123',
+)) {
+  if (event.event != 'message') continue;
+  final data = jsonDecode(event.data);
+  if (data['token'] is String) stdout.write(data['token']);
 }
 ```
 [[/tab]]
@@ -407,14 +458,23 @@ cargo add muxi-rust
 ```
 
 ```rust
-let client = FormationClient::new(
+let mut config = FormationConfig::new(
     "http://localhost:7890",
     "my-assistant",
-).with_mode("draft");
+    "fmc_...",
+    "",
+);
+config.mode = "draft".to_string();
+let client = FormationClient::new(config)?;
 
-let mut stream = client.chat_stream("Hello!").await?;
+let stream = client.chat_stream(json!({"message": "Hello!"}), Some("user_123"));
+futures::pin_mut!(stream);
 while let Some(event) = stream.next().await {
-    if event?.event_type == "text" { print!("{}", event.text.unwrap_or_default()); }
+    let event = event?;
+    if event.event == "message" {
+        let data: serde_json::Value = serde_json::from_str(&event.data)?;
+        if let Some(token) = data["token"].as_str() { print!("{}", token); }
+    }
 }
 ```
 [[/tab]]
@@ -423,15 +483,18 @@ while let Some(event) = stream.next().await {
 ```cpp
 #include <muxi/muxi.hpp>
 
-auto client = muxi::FormationClient(
-    "http://localhost:7890",
-    "my-assistant",
-    "draft"
-);
+muxi::FormationConfig config;
+config.server_url = "http://localhost:7890";
+config.formation_id = "my-assistant";
+config.mode = "draft";
+config.client_key = "fmc_...";
+muxi::FormationClient client(config);
 
-client.chat_stream({{"message", "Hello!"}}, [](const auto& event) {
-    if (event.type == "text") std::cout << event.text;
-    return true;
+client.chat_stream({{"message", "Hello!"}}, "user_123", [](const auto& event) {
+    if (event.event != "message") return;
+    auto data = nlohmann::json::parse(event.data);
+    if (data.contains("token") && data["token"].is_string())
+        std::cout << data["token"].get<std::string>();
 });
 ```
 [[/tab]]
@@ -462,7 +525,7 @@ Pull a pre-built formation instead of creating from scratch:
 muxi pull @muxi/hello-muxi
 cd starter-assistant
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 > [!TIP]

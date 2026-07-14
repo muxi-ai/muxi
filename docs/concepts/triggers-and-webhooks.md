@@ -73,7 +73,7 @@ POST https://your-server.com/v1/formations/{formation_id}/triggers/github-issue
 ### 3. Send Webhook
 
 ```bash
-curl -X POST http://localhost:8001/v1/formations/my-formation/triggers/github-issue \
+curl -X POST http://localhost:7890/draft/my-formation/v1/triggers/github-issue \
   -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
   -H "X-Muxi-User-Id: webhook-user" \
   -H "Content-Type: application/json" \

@@ -27,14 +27,11 @@ muxi deploy
 Output:
 
 ```
-Deploying my-assistant...
-✓ Bundled formation
-✓ Uploaded to server
-✓ Formation started on port 8001
-✓ Health check passed
+✓ Deployed
 
-Formation deployed successfully!
-API: http://localhost:8001
+✓ Deployed my-assistant
+
+  URL: http://localhost:7890/api/my-assistant
 ```
 
 ## Options
@@ -42,9 +39,8 @@ API: http://localhost:8001
 | Flag | Description |
 |------|-------------|
 | `--profile <name>` | Server profile to use |
-| `--path <dir>` | Formation directory |
-| `--validate` | Validate only, don't deploy |
 | `--dry-run` | Show what would be deployed |
+| `--no-stream` | Disable streaming deployment progress |
 | `--include-db` | Include `memory.db` in bundle (excluded by default) |
 
 ## Deploy to Profile
@@ -56,7 +52,7 @@ muxi deploy --profile production
 Uses server from profile:
 
 ```yaml
-# ~/.muxi/cli/servers.yaml
+# ~/.muxi/cli/profiles.yaml
 profiles:
   production:
     url: https://prod.example.com:7890
@@ -67,7 +63,8 @@ profiles:
 ## Deploy from Path
 
 ```bash
-muxi deploy --path /path/to/formation
+cd /path/to/formation
+muxi deploy
 ```
 
 ## Validate Only
@@ -75,7 +72,7 @@ muxi deploy --path /path/to/formation
 Check formation without deploying:
 
 ```bash
-muxi deploy --validate
+muxi validate
 ```
 
 Output:
@@ -160,7 +157,7 @@ Check:
 muxi new formation my-bot
 cd my-bot
 muxi secrets setup
-muxi dev
+muxi up
 
 # 2. Deploy to server
 muxi deploy --profile production
@@ -190,7 +187,7 @@ muxi download
 muxi download my-bot --profile production
 ```
 
-See [muxi remote](server.md#download-formation) for details.
+See [Download Formation](remote.md#download-formation) for details.
 
 ## Examples
 
@@ -202,8 +199,9 @@ muxi deploy
 muxi deploy --profile production
 
 # Deploy specific formation
-muxi deploy --path ~/formations/my-bot
+cd ~/formations/my-bot
+muxi deploy
 
 # Validate before deploy
-muxi deploy --validate
+muxi validate
 ```

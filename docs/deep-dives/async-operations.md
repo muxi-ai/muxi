@@ -25,9 +25,9 @@ A webhook URL is not required -- if none is configured, the response includes a 
 Request:
 
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -H "X-Muxi-Client-Key: fmc_..." \
-  -d '{"message": "Research AI trends", "async": true}'
+  -d '{"message": "Research AI trends", "mode": "async"}'
 ```
 
 Response (immediate):
@@ -46,7 +46,7 @@ If a `webhook_url` is provided (in the formation config or per-request), the res
 ## Check Status
 
 ```bash
-curl http://localhost:8001/v1/requests/req_abc123 \
+curl http://localhost:7890/api/my-assistant/v1/requests/req_abc123 \
   -H "X-Muxi-Client-Key: fmc_..."
 ```
 
@@ -74,7 +74,8 @@ Response:
 | `cancelled` | Cancelled by user |
 
 **Decision logic & retries (runtime):**
-- Auto async when estimated duration/complexity exceeds threshold or when webhook is provided; override with `use_async` flag.
+- Auto async when estimated duration or complexity exceeds the threshold, or
+  when a webhook is provided. Override it with the chat request's `mode` field.
 - Both `threshold_seconds` and `webhook_url` can be overridden per-request in the chat request body.
 - Without a webhook, async uses polling delivery. Completed results are retained for 5 minutes before being purged.
 - Background executor retries transient failures with backoff; final status lands in `failed` if retries exhaust.
@@ -88,7 +89,7 @@ Response:
 Triggers default to async:
 
 ```bash
-curl -X POST http://localhost:8001/v1/triggers/github-issue \
+curl -X POST http://localhost:7890/api/my-assistant/v1/triggers/github-issue \
   -H "X-Muxi-Client-Key: fmc_..." \
   -d '{"data": {...}}'
 ```
@@ -107,7 +108,7 @@ Returns immediately:
 Force synchronous:
 
 ```bash
-curl -X POST http://localhost:8001/v1/triggers/github-issue \
+curl -X POST http://localhost:7890/api/my-assistant/v1/triggers/github-issue \
   -d '{"data": {...}, "use_async": false}'
 ```
 
@@ -118,10 +119,10 @@ Waits for completion.
 Get notified when complete:
 
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -d '{
     "message": "Complex task",
-    "async": true,
+    "mode": "async",
     "webhook_url": "https://your-app.com/callback"
   }'
 ```
@@ -148,7 +149,7 @@ overlord:
 ## Cancel Request
 
 ```bash
-curl -X DELETE http://localhost:8001/v1/requests/req_abc123 \
+curl -X DELETE http://localhost:7890/api/my-assistant/v1/requests/req_abc123 \
   -H "X-Muxi-Client-Key: fmc_..."
 ```
 
@@ -156,21 +157,28 @@ curl -X DELETE http://localhost:8001/v1/requests/req_abc123 \
 
 ```python
 # Async request
-request = formation.chat_async("Complex task")
-print(request.id)  # req_abc123
+request = formation.chat(
+    {"message": "Complex task", "mode": "async"},
+    user_id="user_123",
+)
+print(request["request_id"])
 
 # Poll for result
 while True:
-    status = formation.get_request(request.id)
-    if status.is_complete:
-        print(status.result.text)
+    status = formation.get_request_status(request["request_id"], "user_123")
+    if status.get("status") == "completed":
+        print(status.get("result"))
         break
     time.sleep(1)
 
-# Or use callback
-formation.chat_async(
-    "Complex task",
-    webhook_url="https://..."
+# Or use webhook delivery
+formation.chat(
+    {
+        "message": "Complex task",
+        "mode": "async",
+        "webhook_url": "https://...",
+    },
+    user_id="user_123",
 )
 ```
 

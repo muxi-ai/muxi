@@ -1,608 +1,126 @@
 ---
 title: Human-in-the-Loop
-description: Require approval before executing complex or sensitive workflows
+description: Review complex workflow plans before MUXI executes them
 ---
 # Human-in-the-Loop
 
-## Require approval before executing complex or sensitive workflows
-
-Give users control over complex operations. MUXI can present execution plans and wait for approval before proceeding - preventing unwanted actions and building trust.
-
-## Why Approvals Matter
-
-**Without approvals:**
-```
-User:  "Deploy to production"
-         ↓
-MUXI immediately deploys
-         ↓
-User:  "Wait, I didn't mean NOW!"
-```
-
-Too late - deployment already happened.
-
-**With approvals:**
-```
-User:  "Deploy to production"
-         ↓
-MUXI: "I'll deploy version 2.1.0 to production.
-       This affects 10,000 users. Proceed? [y/N]"
-         ↓
-User:  "Actually, let me check something first..."
-         ↓
-Deployment prevented
-```
-
-Safe, controlled execution.
-
-## When to Use Approvals
-
-**Sensitive operations:**
-- ✅ Production deployments
-- ✅ Data deletion
-- ✅ Financial transactions
-- ✅ External communications (emails, posts)
-- ✅ User account modifications
-
-**Complex workflows:**
-- ✅ Multi-step operations
-- ✅ Long-running tasks
-- ✅ Resource-intensive operations
-- ✅ Operations affecting multiple systems
-
-**Learning scenarios:**
-- ✅ New agent testing
-- ✅ Unfamiliar operations
-- ✅ Compliance requirements
-- ✅ Training/demo purposes
+MUXI can pause a decomposed workflow, present its execution plan, and wait for
+the user to approve, reject, or revise it. Approval happens in the same
+conversation, so the next chat message continues the pending workflow.
 
 ## Configuration
 
-The `plan_approval_threshold` controls when approvals are required based on complexity scoring (1-10).
+Set the approval threshold under `overlord.workflow`:
 
-### Default Configuration
 ```yaml
 overlord:
   workflow:
-    plan_approval_threshold: 7   # Default: require approval for complexity ≥ 7
+    auto_decomposition: true
+    complexity_threshold: 7
+    plan_approval_threshold: 7
 ```
 
-### Require Approval for Complex Tasks
-```yaml
-overlord:
-  workflow:
-    plan_approval_threshold: 8   # Only very complex tasks require approval
-```
+`plan_approval_threshold` accepts a number from 1 through 10. A decomposed
+request requires approval when its complexity score is greater than or equal
+to this threshold. Lower values request approval more often. A value of `10`
+limits automatic approval requests to workflows scored at the maximum
+complexity.
 
-> [!TIP]
-> **Start with a lower threshold in production.** Better to approve too often than to let something slip through. Raise the threshold as you build confidence in your agents.
+The workflow complexity threshold and approval threshold are separate:
 
-### Require Approval for Most Tasks
-```yaml
-overlord:
-  workflow:
-    plan_approval_threshold: 5   # Most tasks require approval
-```
+- `complexity_threshold` determines when MUXI decomposes a request into a
+  workflow.
+- `plan_approval_threshold` determines whether the resulting workflow pauses
+  for approval.
+- A user can explicitly ask to see a plan before execution, which also enters
+  the approval flow.
 
-### Require Approval for Everything
-```yaml
-overlord:
-  workflow:
-    plan_approval_threshold: 1   # All tasks require approval (even simple ones)
-```
+## Approval Flow
 
-### Disable Approvals
-```yaml
-overlord:
-  workflow:
-    plan_approval_threshold: 10  # Never require approval (max score is 10)
-```
+1. MUXI analyzes the request and creates a workflow when decomposition applies.
+2. If approval is required, MUXI returns the proposed plan with metadata that
+   includes `approval_required: true` and `requires_user_response: true`.
+3. The user replies in the same session:
+   - `yes` or `proceed` approves and starts execution.
+   - `no` or `reject` cancels the workflow.
+   - A requested change keeps the workflow paused while MUXI gathers the
+     modification details.
+4. MUXI executes, cancels, or revises the pending workflow based on that reply.
 
-## How It Works
+There are no separate `approve_request` or `reject_request` client methods.
+The follow-up chat message is the approval decision.
 
-```
-1. User makes request
-         ↓
-2. Overlord calculates complexity score (1-10)
-         ↓
-3. Score ≥ plan_approval_threshold?
-         ↓
-4. YES → Create execution plan
-         ↓
-5. Present plan to user
-         ↓
-6. Wait for approval
-         ↓
-7. User approves? → Execute
-   User rejects? → Cancel
-```
+## SDK Example
 
-## Approval Flow Example
-
-### Simple Request (No Approval)
-```
-User:  "What's the weather in SF?"
-
-Complexity: 2/10 (below threshold)
-         ↓
-Execute immediately (no approval needed)
-         ↓
-Response: "It's 68°F and sunny in San Francisco."
-```
-
-### Complex Request (Approval Required)
-```
-User:  "Research competitors, create comparison report, post to Slack"
-
-Overlord analyzes:
-  - Multiple steps required
-  - Different skills needed
-  - External communication
-  - Complexity score: 9/10
-         ↓
-Score ≥ plan_approval_threshold (7 by default)
-         ↓
-MUXI presents plan:
-
-"I've created a plan for this task:
-
-1. Research competitors (researcher agent)
-   - Search for top 5 competitors
-   - Analyze their offerings
-   - Estimated time: 2-3 minutes
-
-2. Create comparison report (analyst + writer agents)
-   - Compare features and pricing
-   - Generate PDF report
-   - Estimated time: 1-2 minutes
-
-3. Post to Slack (slack-agent)
-   - Post to #marketing channel
-   - Include report as attachment
-   - Estimated time: <10 seconds
-
-Total estimated time: 3-6 minutes
-
-Proceed? [y/N]"
-         ↓
-User types: y
-         ↓
-Execute workflow
-         ↓
-Complete and return results
-```
-
-## Approval Messages
-
-### Basic Approval
-```
-MUXI: I'll execute this workflow:
-      1. Research data
-      2. Create report
-      3. Send email
-
-      Proceed? [y/N]
-```
-
-### Detailed Approval
-```
-MUXI: I've created a plan for this task:
-
-**What I'll do:**
-1. Research competitors (researcher)
-   - Tools: web-search, company-db
-   - Output: competitor_analysis.json
-
-2. Compare features (analyst)
-   - Input: competitor_analysis.json
-   - Tools: data-analysis
-   - Output: comparison_matrix.csv
-
-3. Create presentation (writer)
-   - Input: comparison_matrix.csv
-   - Tools: document-creation
-   - Output: presentation.pdf
-
-**Impact:**
-- External API calls: ~15 requests
-- Estimated cost: $0.12
-- Estimated time: 5-7 minutes
-
-**Proceed? [y/N]**
-```
-
-### Sensitive Operation Approval
-```
-MUXI: ⚠️  PRODUCTION DEPLOYMENT
-
-I'll deploy version 2.1.0 to production:
-
-**Changes:**
-- 12 files modified
-- 3 new migrations
-- API endpoint /v2/users updated
-
-**Impact:**
-- Affects: 10,234 active users
-- Downtime: ~30 seconds (rolling update)
-- Rollback available: Yes
-
-**Last deployed:** 2 hours ago (v2.0.9)
-
-This is a PRODUCTION change. Are you sure? [y/N]
-```
-
-## Approval Responses
-
-### Approve
-```
-User: y
-User: yes
-User: proceed
-User: go ahead
-```
-
-All trigger execution.
-
-### Reject
-```
-User: n
-User: no
-User: cancel
-User: abort
-```
-
-All cancel execution.
-
-### Modify
-```
-User:  "Actually, skip the Slack post"
-         ↓
-MUXI: "Updated plan:
-       1. Research competitors
-       2. Create comparison report
-       (Removed: Post to Slack)
-
-       Proceed? [y/N]"
-```
-
-## Adjusting the Threshold
-
-The threshold determines which requests require approval. Lower threshold = more approvals.
-
-| Threshold | When Approvals Trigger |
-|-----------|------------------------|
-| 1 | All requests (even "What's the weather?") |
-| 3 | Most requests with any complexity |
-| 5 | Moderate and complex requests |
-| **7** | **Complex requests only (default)** |
-| 9 | Only very complex multi-step workflows |
-| 10 | Never (effectively disables approvals) |
-
-**Example: Strict control for production**
-```yaml
-overlord:
-  workflow:
-    plan_approval_threshold: 5   # Require approval for most tasks
-```
-
-**Example: Testing/development**
-```yaml
-overlord:
-  workflow:
-    plan_approval_threshold: 10  # No approvals during development
-```
-
-## Approval in Different Modes
-
-### Synchronous (Default)
-```
-User:  "Complex task"
-         ↓
-MUXI: "Plan... Proceed? [y/N]"
-         ↓
-User:  "y"
-         ↓
-MUXI executes and returns result
-```
-
-Connection stays open, user waits.
-
-### Asynchronous
-```
-User:  "Complex task" (async: true)
-         ↓
-MUXI: "Plan... Proceed? [y/N]"
-         ↓
-MUXI: Returns request_id immediately
-         ↓
-User:  "y" (to /requests/{id}/approve)
-         ↓
-MUXI executes in background
-         ↓
-User polls or receives webhook when complete
-```
-
-Non-blocking, user can do other things.
-
-## SDK Examples
-
-[[tabs]]
-[[tab Python]]
 ```python
 from muxi import FormationClient
 
 formation = FormationClient(
     server_url="http://localhost:7890",
     formation_id="my-assistant",
-    client_key="...",
+    client_key="fmc_...",
 )
 
-# Streaming chat - approvals are handled via events
-for event in formation.chat_stream(
-    {"message": "Deploy to production"},
-    user_id="user_123"
-):
-    if event.get("type") == "approval_required":
-        print("Plan:", event.get("plan"))
-        # User approval handled via separate endpoint
-    elif event.get("type") == "text":
-        print(event.get("text"), end="")
+session_id = "deployment-review"
+user_id = "user_123"
 
-# Check async request status
-status = formation.get_request_status(request_id="req_abc123")
+plan = formation.chat(
+    {
+        "message": "Prepare and execute the production deployment",
+        "session_id": session_id,
+    },
+    user_id=user_id,
+)
 
-# Later, approve
-formation.approve_request(request.id)
-
-# Or reject
-formation.reject_request(request.id)
+if plan.get("metadata", {}).get("approval_required"):
+    result = formation.chat(
+        {
+            "message": "Proceed",
+            "session_id": session_id,
+        },
+        user_id=user_id,
+    )
+    print(result)
 ```
-[[/tab]]
-[[tab TypeScript]]
-```typescript
-import { FormationClient } from "@muxi-ai/muxi-typescript";
 
-const formation = new FormationClient({
-  serverUrl: "http://localhost:7890",
-  formationId: "my-assistant",
-  clientKey: "...",
-});
+The exact response envelope can vary with the formation response format. Keep
+the same `user_id` and `session_id` so MUXI can associate the reply with the
+pending approval.
 
-// Streaming chat - approvals are handled via events
-for await (const event of await formation.chatStream(
-  { message: "Deploy to production" },
-  "user_123"
-)) {
-  if (event.type === "approval_required") {
-    console.log("Plan:", event.plan);
-  } else if (event.type === "text") {
-    process.stdout.write(event.text);
-  }
-}
+## API Example
 
-// Check async request status
-const status = await formation.getRequestStatus("req_abc123");
-
-// Later, approve or reject
-await formation.approveRequest(request.id);
-await formation.rejectRequest(request.id);
-```
-[[/tab]]
-[[tab Go]]
-```go
-import "github.com/muxi-ai/muxi-go"
-
-formation := muxi.NewFormationClient(muxi.Config{
-    ServerURL:   "http://localhost:7890",
-    FormationID: "my-assistant",
-    ClientKey:   "...",
-})
-
-// Streaming chat - approvals are handled via events
-stream, _ := formation.ChatStream(ctx, muxi.ChatRequest{
-    Message: "Deploy to production",
-}, "user_123")
-
-for event := range stream {
-    switch event.Type {
-    case "approval_required":
-        fmt.Println("Plan:", event.Plan)
-    case "text":
-        fmt.Print(event.Text)
-    }
-}
-
-// Check async request status
-status, _ := formation.GetRequestStatus(ctx, "req_abc123")
-
-// Later, approve or reject
-formation.ApproveRequest(ctx, request.ID)
-formation.RejectRequest(ctx, request.ID)
-```
-[[/tab]]
-[[/tabs]]
-
-## API Endpoints
-
-### Get Approval Status
 ```bash
-GET /v1/requests/{request_id}
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: fmc_..." \
+  -H "X-Muxi-User-ID: user_123" \
+  -d '{
+    "message": "Prepare and execute the production deployment",
+    "session_id": "deployment-review"
+  }'
 ```
 
-Response:
-```json
-{
-  "request_id": "req_abc123",
-  "status": "awaiting_approval",
-  "plan": {
-    "tasks": [...],
-    "estimated_time": "5-7 minutes",
-    "estimated_cost": "$0.12"
-  }
-}
-```
+After reviewing the returned plan, approve it with another chat request:
 
-### Approve Request
 ```bash
-POST /v1/requests/{request_id}/approve
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: fmc_..." \
+  -H "X-Muxi-User-ID: user_123" \
+  -d '{
+    "message": "Proceed",
+    "session_id": "deployment-review"
+  }'
 ```
 
-### Reject Request
-```bash
-POST /v1/requests/{request_id}/reject
-```
+## Operational Guidance
 
-## Use Cases
-
-### 1. Production Deployments
-```yaml
-overlord:
-  workflow:
-    approval_rules:
-      - match: "deploy.*production"
-        requires_approval: true
-        show_impact: true
-```
-
-**Flow:**
-```
-User:  "Deploy version 2.1.0 to production"
-MUXI: Shows deployment plan with impact analysis
-User: Reviews and approves
-MUXI: Executes deployment
-```
-
-### 2. Data Deletion
-```yaml
-overlord:
-  workflow:
-    approval_rules:
-      - match: "delete|remove|drop"
-        requires_approval: true
-        require_confirmation: true
-```
-
-**Flow:**
-```
-User:  "Delete all test users"
-MUXI: "This will delete 1,234 users. Type 'CONFIRM' to proceed:"
-User:  "CONFIRM"
-MUXI: Executes deletion
-```
-
-### 3. External Communications
-```yaml
-overlord:
-  workflow:
-    approval_rules:
-      - match: "send email|post.*slack|tweet"
-        requires_approval: true
-        show_preview: true
-```
-
-**Flow:**
-```
-User:  "Send weekly update email to customers"
-MUXI: Shows email preview and recipient count
-User: Approves
-MUXI: Sends emails
-```
-
-### 4. Financial Transactions
-```yaml
-overlord:
-  workflow:
-    approval_rules:
-      - match: "transfer|payment|refund"
-        requires_approval: true
-        require_explicit_amount: true
-```
-
-**Flow:**
-```
-User:  "Process refund for order #12345"
-MUXI: "This will refund $249.99 to customer. Proceed? [y/N]"
-User:  "y"
-MUXI: Processes refund
-```
-
-## Best Practices
-
-**DO:**
-- ✅ Use approvals for sensitive operations
-- ✅ Show clear impact in approval messages
-- ✅ Include estimated time and cost
-- ✅ Set reasonable timeouts
-- ✅ Test approval flows before production
-
-**DON'T:**
-- ❌ Require approval for everything (annoying)
-- ❌ Use vague approval messages
-- ❌ Set timeout too short (rushed decisions)
-- ❌ Skip approval for destructive operations
-- ❌ Approve without reading (defeats purpose)
-
-## Monitoring Approvals
-
-Use logging to track approval patterns:
-
-```yaml
-logging:
-  enabled: true
-  streams:
-    - transport: file
-      level: info
-      destination: /var/log/muxi/approvals.log
-```
-
-This captures when approvals are requested, approved, or rejected for audit purposes.
-
-## Troubleshooting
-
-### Approval Not Showing
-```yaml
-# Configuration
-overlord:
-  workflow:
-    plan_approval_threshold: 8   # Requires approval for complexity ≥ 8
-
-# Request complexity calculated as 7 (below threshold)
-# Solution: Lower threshold to 7 or 6
-overlord:
-  workflow:
-    plan_approval_threshold: 6   # Now complexity 7 will require approval
-```
-
-### Too Many Approvals
-```yaml
-# Was: Approving everything
-overlord:
-  workflow:
-    plan_approval_threshold: 3   # Almost all requests need approval
-
-# Solution: Raise threshold
-overlord:
-  workflow:
-    plan_approval_threshold: 8   # Only very complex requests need approval
-```
-
-### Not Enough Control
-```yaml
-# Was: Too few approvals
-overlord:
-  workflow:
-    plan_approval_threshold: 9   # Only extremely complex requests
-
-# Solution: Lower threshold for production environments
-overlord:
-  workflow:
-    plan_approval_threshold: 6   # More requests require approval
-```
-
-## Learn More
-
-- [Approvals Reference](../reference/approvals.md) - Full approval configuration
-- [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - How workflows are created
-- [The Overlord](overlord.md) - Orchestration engine
-- [Async Processing](../concepts/async.md) - Background task execution
+- Preserve the user and session identifiers across the plan and decision.
+- Display the full plan before asking the user to approve it.
+- Treat plan metadata as a signal to collect a conversational response, not as
+  a separate request-state endpoint.
+- Use triggers only for workflows that are safe to run without interactive
+  approval. Trigger execution bypasses workflow approval because triggers are
+  automated entry points.
+- Capture workflow and conversation events through the configured
+  observability transports for audit trails.

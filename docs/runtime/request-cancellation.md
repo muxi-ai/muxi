@@ -15,62 +15,75 @@ Cancel in-flight requests to stop processing, free up resources, and prevent unn
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+import asyncio
+from muxi import AsyncFormationClient
 
-client = Muxi()
+formation = AsyncFormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
+)
 
 # Start a request
 request_id = "my-request-123"
-task = client.chat_async(
-    message="Write a very long story...",
-    request_id=request_id,
-    user_id="user123"
+task = asyncio.create_task(
+    formation.chat(
+        {"message": "Write a very long story...", "request_id": request_id},
+        user_id="user123",
+    )
 )
 
 # Cancel it
-client.cancel_request(request_id, user_id="user123")
+await formation.cancel_request(request_id, "user123")
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
+});
 
 // Start a request
 const requestId = 'my-request-123';
-const task = client.chat({
+const task = formation.chat({
   message: 'Write a very long story...',
-  requestId,
-  userId: 'user123'
-});
+  request_id: requestId
+}, 'user123');
 
 // Cancel it
-await client.cancelRequest(requestId, { userId: 'user123' });
+await formation.cancelRequest(requestId, 'user123');
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-client := muxi.NewClient()
+formation := muxi.NewFormationClient(&muxi.FormationConfig{
+    ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
+    ClientKey:   "<your-client-key>",
+})
 
-// Start a request
+// Start a request in another goroutine
 requestID := "my-request-123"
-task := client.ChatAsync(ctx, &muxi.ChatRequest{
-    Message:   "Write a very long story...",
+go formation.Chat(ctx, &muxi.ChatRequest{
+    Message: "Write a very long story...",
     RequestID: requestID,
-    UserID:    "user123",
+    UserID: "user123",
 })
 
 // Cancel it
-client.CancelRequest(ctx, requestID, "user123")
+formation.CancelRequest(ctx, requestID, "user123")
 ```
 [[/tab]]
 
 [[tab cURL]]
 ```bash
-curl -X DELETE 'http://localhost:8001/v1/requests/my-request-123' \
+curl -X DELETE 'http://localhost:7890/api/my-assistant/v1/requests/my-request-123' \
   -H 'X-Muxi-Client-Key: YOUR_CLIENT_KEY' \
   -H 'X-Muxi-User-Id: user123'
 ```
@@ -117,45 +130,58 @@ Cancellation is checked after every long-running operation:
 
 [[tab Python]]
 ```python
-from muxi import Muxi
 import asyncio
+import uuid
 
-client = Muxi()
+from muxi import AsyncFormationClient
+
+formation = AsyncFormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
+)
 
 async def chat_with_timeout(message: str, timeout_seconds: int = 30):
     request_id = f"req_{uuid.uuid4()}"
 
     try:
         response = await asyncio.wait_for(
-            client.chat_async(message, request_id=request_id),
+            formation.chat(
+                {"message": message, "request_id": request_id},
+                user_id="user123",
+            ),
             timeout=timeout_seconds
         )
         return response
     except asyncio.TimeoutError:
         # Timeout - cancel the request
-        await client.cancel_request(request_id)
+        await formation.cancel_request(request_id, "user123")
         raise TimeoutError(f"Request timed out after {timeout_seconds}s")
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
+});
 
 async function chatWithTimeout(message: string, timeoutMs = 30000) {
   const requestId = `req_${Date.now()}`;
 
   const timeoutPromise = new Promise((_, reject) => {
     setTimeout(async () => {
-      await client.cancelRequest(requestId);
+      await formation.cancelRequest(requestId, 'user123');
       reject(new Error(`Request timed out after ${timeoutMs}ms`));
     }, timeoutMs);
   });
 
   return Promise.race([
-    client.chat({ message, requestId }),
+    formation.chat({ message, request_id: requestId }, 'user123'),
     timeoutPromise
   ]);
 }
@@ -170,13 +196,14 @@ func chatWithTimeout(ctx context.Context, message string, timeout time.Duration)
     ctx, cancel := context.WithTimeout(ctx, timeout)
     defer cancel()
 
-    response, err := client.Chat(ctx, &muxi.ChatRequest{
+    response, err := formation.Chat(ctx, &muxi.ChatRequest{
         Message:   message,
         RequestID: requestID,
+        UserID:    userID,
     })
 
     if ctx.Err() == context.DeadlineExceeded {
-        client.CancelRequest(context.Background(), requestID, userID)
+        formation.CancelRequest(context.Background(), requestID, userID)
         return nil, fmt.Errorf("request timed out after %v", timeout)
     }
 
@@ -193,20 +220,27 @@ func chatWithTimeout(ctx context.Context, message string, timeout time.Duration)
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+from muxi import FormationClient
 
-client = Muxi()
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
+)
 
 request_id = "streaming-123"
 chunks_received = 0
 
-for chunk in client.chat_stream(message="Write a long essay...", request_id=request_id):
-    print(chunk.text, end="")
+for chunk in formation.chat_stream(
+    {"message": "Write a long essay...", "request_id": request_id},
+    user_id="user123",
+):
+    print(chunk.get("text", ""), end="")
     chunks_received += 1
 
     # Cancel after receiving 10 chunks
     if chunks_received >= 10:
-        client.cancel_request(request_id)
+        formation.cancel_request(request_id, "user123")
         print("\n[Cancelled]")
         break
 ```
@@ -214,20 +248,29 @@ for chunk in client.chat_stream(message="Write a long essay...", request_id=requ
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
+});
 
 const requestId = 'streaming-123';
 let chunksReceived = 0;
 
-for await (const chunk of client.chatStream({ message: 'Write a long essay...', requestId })) {
-  process.stdout.write(chunk.text);
-  chunksReceived++;
+for await (const chunk of formation.chatStream(
+  { message: 'Write a long essay...', request_id: requestId },
+  'user123'
+)) {
+  if (typeof chunk.token === 'string') {
+    process.stdout.write(chunk.token);
+    chunksReceived++;
+  }
 
   // Cancel after receiving 10 chunks
   if (chunksReceived >= 10) {
-    await client.cancelRequest(requestId);
+    await formation.cancelRequest(requestId, 'user123');
     console.log('\n[Cancelled]');
     break;
   }
@@ -244,9 +287,13 @@ for await (const chunk of client.chatStream({ message: 'Write a long essay...', 
 [[tab React]]
 ```typescript
 import { useState } from 'react';
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
+});
 
 function ChatInterface() {
   const [requestId, setRequestId] = useState<string | null>(null);
@@ -258,7 +305,10 @@ function ChatInterface() {
     setIsProcessing(true);
 
     try {
-      const response = await client.chat({ message, requestId: id });
+      const response = await formation.chat(
+        { message, request_id: id },
+        'user123'
+      );
       // Handle response...
     } finally {
       setIsProcessing(false);
@@ -268,7 +318,7 @@ function ChatInterface() {
 
   const cancelRequest = async () => {
     if (requestId) {
-      await client.cancelRequest(requestId);
+      await formation.cancelRequest(requestId, 'user123');
       setIsProcessing(false);
       setRequestId(null);
     }
@@ -346,7 +396,7 @@ User cancels after first LLM call: 1,500 tokens used
          ↓
 Remaining 8,500 tokens NOT consumed
          ↓
-Saved: ~$0.17 (at $0.02/1K tokens)
+Remaining model and tool work is avoided
 ```
 
 

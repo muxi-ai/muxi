@@ -242,7 +242,7 @@ Agent: [Returns PNG artifact]
 
 The system automatically detects file types:
 
-```python
+```text
 Generated: chart.png
      ↓
 MIME detection

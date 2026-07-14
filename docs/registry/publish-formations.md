@@ -97,19 +97,15 @@ muxi push
 
 Publishes to your namespace (`@username/formation`).
 
-> [!NOTE]
-> Visibility controls (public/private), organization publishing (`--org`), and access permissions are planned for future releases.
+Use `--org <name>` to publish under an organization you can manage.
 
 ## Versioning
 
-### Automatic
-
-Versions auto-increment on push.
-
-### Manual
+### Set the Version
 
 ```bash
-muxi push --tag v1.0.0
+muxi bump --set 1.0.0
+muxi push
 ```
 
 ### Semantic Versioning

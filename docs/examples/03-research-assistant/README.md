@@ -49,25 +49,29 @@ muxi secrets setup
 mkdir -p research
 
 # 5. Run locally
-muxi dev
+muxi up
 ```
 
 ## Test It
 
 ### Simple Search
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/research-assistant/v1/chat \
   -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: user_123" \
   -d '{
-    "message": "Research the latest developments in AI agent frameworks in 2025",
+    "message": "Research the latest developments in AI agent frameworks in 2026",
     "session_id": "research_session_1"
   }'
 ```
 
 ### Multi-Step Research
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/research-assistant/v1/chat \
   -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: user_123" \
   -d '{
     "message": "Research AI frameworks, compare top 3, and create a comparison report",
     "session_id": "research_session_2"
@@ -77,7 +81,7 @@ curl -X POST http://localhost:8001/v1/chat \
 ## Expected Behavior
 
 The agent will:
-1. Search the web for "AI agent frameworks 2025"
+1. Search the web for "AI agent frameworks 2026"
 2. Analyze top results
 3. Identify top 3 frameworks
 4. Search for details on each
@@ -232,8 +236,8 @@ curl https://api.yourcompany.com/research/v1/chat \
 ## Next Steps
 
 - [Add More Tools](../../guides/add-mcp-tools.md) - Database, APIs, etc.
-- [Code Reviewer](04-code-reviewer/) - GitHub integration example
-- [Multi-Agent Team](05-multi-agent-team/) - Specialized researchers
+- [Code Reviewer](../04-code-reviewer/) - GitHub integration example
+- [Multi-Agent Team](../05-multi-agent-team/) - Specialized researchers
 
 ## Common Issues
 

@@ -19,23 +19,23 @@ MUXI emits structured events across the full request lifecycle - from initial ro
 
 ## Event System
 
-MUXI emits 356 typed events across the system lifecycle.
+MUXI emits hundreds of typed events across the system lifecycle.
 
 ### Event Categories
 
-| Category | Count | Examples |
-|----------|-------|----------|
-| System | 120 | Startup, shutdown, config |
-| Conversation | 157 | Request, response, routing |
-| Server | 9 | HTTP, connections |
-| API | 2 | Call start/end |
-| Error | 61 | All error types |
+| Category | Examples |
+|----------|----------|
+| System | Startup, shutdown, configuration, services |
+| Conversation | Requests, responses, routing, agents, tools, memory |
+| Server | HTTP and runtime connections |
+| API | API call lifecycle |
+| Error | Typed failures across subsystems |
 
 ## Event Format
 
 ```json
 {
-  "event_type": "conversation.request.received",
+  "event_type": "request.received",
   "timestamp": "2025-01-08T10:00:00.123Z",
   "formation_id": "my-assistant",
   "session_id": "sess_abc123",
@@ -52,7 +52,7 @@ MUXI emits 356 typed events across the system lifecycle.
 Subscribe to events:
 
 ```bash
-curl http://localhost:8001/v1/events \
+curl http://localhost:7890/draft/my-assistant/v1/events \
   -H "X-Muxi-Admin-Key: fma_..." \
   -H "Accept: text/event-stream"
 ```
@@ -117,7 +117,7 @@ logging:
         format: jsonl          # jsonl | text | msgpack | datadog_json | splunk_hec | ...
         events: ["request.*", "agent.*", "tool.*"]
       - transport: stream
-        protocol: http         # http/https/zmq/websocket
+        protocol: http         # http/https, kafka, or zmq
         destination: https://logs.example.com/ingest
         format: jsonl
         auth:

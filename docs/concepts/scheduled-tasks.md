@@ -273,72 +273,70 @@ Developers can manage scheduled tasks programmatically:
 [[tab CLI]]
 ```bash
 # List all scheduled tasks for a user
-muxi schedules list --user alice@acme.com
+muxi scheduler list --user alice@acme.com
 
-# Pause a scheduled task
-muxi schedules pause github-notifications --user alice@acme.com
+# Add a recurring task
+muxi scheduler add recurring "0 9 * * 1" "Send the weekly report" --user alice@acme.com
 
-# Resume a scheduled task
-muxi schedules resume github-notifications --user alice@acme.com
+# Show scheduler status
+muxi scheduler status
 
 # Delete a scheduled task
-muxi schedules delete weekly-report --user alice@acme.com
-
-# Update schedule frequency
-muxi schedules update api-health --cron "*/10 * * * *" --user alice@acme.com
+muxi scheduler remove job_123
 ```
 [[/tab]]
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+from muxi import FormationClient
 
-client = Muxi()
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    admin_key="<your-admin-key>",
+)
 
 # List all scheduled tasks for a user
-tasks = client.schedules.list(user_id="alice@acme.com")
+tasks = formation.get_scheduler_jobs("alice@acme.com")
 
 # Pause a scheduled task
-client.schedules.pause("github-notifications", user_id="alice@acme.com")
+formation.pause_scheduler_job("job_123")
 
 # Resume a scheduled task
-client.schedules.resume("github-notifications", user_id="alice@acme.com")
+formation.resume_scheduler_job("job_123")
 
 # Delete a scheduled task
-client.schedules.delete("weekly-report", user_id="alice@acme.com")
+formation.delete_scheduler_job("job_123")
 
 # Update schedule frequency
-client.schedules.update(
-    "api-health",
-    user_id="alice@acme.com",
-    cron="*/10 * * * *"
-)
+formation.update_scheduler_job("job_123", schedule="*/10 * * * *")
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  adminKey: '<your-admin-key>'
+});
 
 // List all scheduled tasks for a user
-const tasks = await client.schedules.list({ userId: 'alice@acme.com' });
+const tasks = await formation.getSchedulerJobs('alice@acme.com');
 
 // Pause a scheduled task
-await client.schedules.pause('github-notifications', { userId: 'alice@acme.com' });
+await formation.pauseSchedulerJob('job_123');
 
 // Resume a scheduled task
-await client.schedules.resume('github-notifications', { userId: 'alice@acme.com' });
+await formation.resumeSchedulerJob('job_123');
 
 // Delete a scheduled task
-await client.schedules.delete('weekly-report', { userId: 'alice@acme.com' });
+await formation.deleteSchedulerJob('job_123');
 
 // Update schedule frequency
-await client.schedules.update('api-health', {
-  userId: 'alice@acme.com',
-  cron: '*/10 * * * *'
-});
+await formation.updateSchedulerJob('job_123', { schedule: '*/10 * * * *' });
 ```
 [[/tab]]
 

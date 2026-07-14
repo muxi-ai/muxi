@@ -30,20 +30,19 @@ Minor versions are backward compatible. Major versions may require migration.
 
 ## Formation Versioning
 
-### Automatic
+### Publish the Manifest Version
 
-When publishing to registry:
+When publishing to the registry:
 
 ```bash
 muxi push
 ```
 
-Version auto-increments: 1.0.0 → 1.0.1
-
-### Manual
+### Bump the Version
 
 ```bash
-muxi push --tag v1.1.0
+muxi bump minor
+muxi push
 ```
 
 ### Semantic Versioning
@@ -122,7 +121,7 @@ When upgrading schema versions:
 1. Check changelog for breaking changes
 2. Update formation.afs schema version
 3. Apply required changes
-4. Test locally: `muxi dev`
+4. Test locally: `muxi up`
 5. Deploy: `muxi deploy`
 
 ### Migration Guides
