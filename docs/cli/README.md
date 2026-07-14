@@ -153,14 +153,10 @@ muxi up
 
 ## Configuration
 
-CLI config: `~/.muxi/cli/config.yaml`
+CLI state lives under `~/.muxi/cli/`, split across `profiles.yaml`,
+`formations.yaml`, `defaults.yaml`, and `registries.yaml`.
 
-```yaml
-default_profile: local
-editor: vim
-output:
-  format: table    # table, json
-```
+[Configuration reference](configuration.md)
 
 
 ## Command Reference

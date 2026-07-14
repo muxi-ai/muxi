@@ -1,35 +1,59 @@
 ---
-title: Memory System
-description: How MUXI remembers context across conversations and sessions
+title: Memory Platform
+description: Layered, scoped, event-sourced memory for persistent agent systems
 ---
-# Memory System
+# Memory Platform
 
-## How MUXI remembers context across conversations and sessions
+## Memory that can explain, rebuild, and forget itself
 
-MUXI's four-layer memory system handles everything from immediate conversation context to long-term user knowledge. Automatic tiering, intelligent caching, and semantic search - all built in.
+MUXI memory is more than conversation history plus a vector store. It combines
+fast context assembly with scoped sharing, immutable events, rebuildable
+projections, ingestion pipelines, provenance, lifecycle controls, and derived
+intelligence.
 
-## The Four Layers
+## Platform Architecture
 
 ```mermaid
 flowchart TB
-    subgraph "Memory System"
-        direction TB
-        A["<b>Buffer Memory:</b><br>Recent messages (fast, in-memory)"]
-        B["<b>Working Memory:</b><br>Active session state (FAISSx)"]
-        C["<b>User Synopsis:</b><br>Who is this user? (LLM-synthesized)"]
-        D["<b>Persistent Memory:</b><br>Long-term storage (Postgres/SQLite)"]
+    Sources["Conversation + Ingestion API + Distillery"] --> Events["Immutable Memory Events"]
+    Events --> Projections["Rebuildable Projections"]
+
+    subgraph Context["Context Plane"]
+        Buffer["Buffer<br>Recent conversation"]
+        Working["Working<br>Semantic task context"]
+        Synopsis["User Synopsis<br>Derived profile"]
+        Persistent["Persistent<br>Durable facts"]
     end
-    A --> B
-    B --> C
-    C --> D
+
+    subgraph Governance["Scope & Governance"]
+        Scopes["User / Group / Formation"]
+        Grants["Grant-controlled shared writes"]
+        Provenance["Provenance / Forget / Rebuild"]
+    end
+
+    subgraph Intelligence["Derived Intelligence"]
+        Graph["Knowledge Graph"]
+        Log["Captain's Log"]
+        Lessons["Lessons Loop"]
+    end
+
+    Projections --> Context
+    Projections --> Governance
+    Projections --> Intelligence
 ```
 
-| Layer | Purpose | Storage |
-|-------|---------|---------|
-| **Buffer** | Recent messages | In-memory |
-| **Working** | Session state, tool outputs | FAISSx (vector) |
-| **User Synopsis** | Who the user is | Derived from persistent |
-| **Persistent** | Long-term facts | Postgres/SQLite |
+| Plane | What it provides |
+|-------|------------------|
+| **Context** | Buffer, semantic working context, persistent facts, and derived user synopses |
+| **Scope** | Isolated user memory plus grant-controlled group and formation knowledge |
+| **Events** | Immutable writes, provenance, idempotent ingestion, and rebuildable projections |
+| **Intelligence** | Knowledge graph, contradiction handling, Captain's Log, and reusable lessons |
+| **Lifecycle** | Backfill, selective forgetting, decay, compaction, pruning, indexing, and linting |
+| **Enterprise ingestion** | Batch APIs and signed on-premises distillery submissions |
+
+The context plane still uses buffer, working, synopsis, and persistent stores
+for fast request assembly. Those stores are implementation layers inside the
+platform, not the complete memory architecture.
 
 
 ## FAISSx: MUXI's Vector Store
@@ -254,10 +278,10 @@ memory:
 - All memory is user-isolated in production
 
 
-## Beyond conversation memory
+## Platform capabilities
 
-The four layers above capture chat context. On top of them MUXI adds a memory
-*platform* for durable, structured, auditable knowledge:
+The context plane assembles each request. The rest of the platform makes memory
+durable, structured, shareable, and auditable:
 
 - **Scopes** - a memory is written to one scope (`user`, `group`, or
   `formation`) and read up the chain, so shared knowledge is separate from

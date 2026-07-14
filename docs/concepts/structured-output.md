@@ -1,13 +1,15 @@
 ---
-title: Structured Output
-description: Get type-safe JSON responses from agents for API integration
+title: Response Formats
+description: Configure formation-wide markdown, text, or JSON responses
 ---
-# Structured Output
+# Response Formats
 
-## Get type-safe JSON responses from agents for API integration
+## Configure how a formation returns text
 
 
-Agents can return structured data - not just text. Define schemas, get validated JSON, build APIs. Perfect for data extraction, form filling, and programmatic access.
+MUXI can instruct the Overlord to return markdown, plain text, or a
+JSON-wrapped response. For domain-specific structured data, describe the
+required shape in the agent instructions and validate it in your application.
 
 
 ## The Problem: Text Responses
@@ -26,13 +28,14 @@ Agent: "The customer's name is John Smith, email is john@example.com,
 - String manipulation? (error-prone)
 
 
-## The Solution: Structured Output
+## The Solution: Formation-Wide Formatting
 
 Tell the agent what format you want:
 
 ```yaml
-response:
-  format: json
+overlord:
+  response:
+    format: json
 ```
 
 Now you get:
@@ -45,18 +48,20 @@ Now you get:
 }
 ```
 
-**Machine-readable, type-safe, ready to use.**
+The JSON wrapper is machine-readable. MUXI does not enforce a domain schema for
+the content inside it.
 
 
 ## Response Formats
 
-MUXI supports 4 response formats:
+MUXI supports three response formats:
 
 ### 1. Markdown (Default)
 
 ```yaml
-response:
-  format: markdown
+overlord:
+  response:
+    format: markdown
 ```
 
 **Best for:**
@@ -80,8 +85,9 @@ response:
 ### 2. Plain Text
 
 ```yaml
-response:
-  format: text
+overlord:
+  response:
+    format: text
 ```
 
 **Best for:**
@@ -103,8 +109,9 @@ Cloud computing offers three key benefits:
 ### 3. JSON (Structured)
 
 ```yaml
-response:
-  format: json
+overlord:
+  response:
+    format: json
 ```
 
 **Best for:**
@@ -122,29 +129,6 @@ response:
 }
 ```
 
-### 4. HTML
-
-```yaml
-response:
-  format: html
-```
-
-**Best for:**
-- Web applications
-- Email templates
-- Content management systems
-
-**Example output:**
-```html
-<h1>Cloud Computing Benefits</h1>
-<p>Key advantages include:</p>
-<ul>
-  <li><strong>Cost Efficiency:</strong> Pay-as-you-use pricing</li>
-  <li><strong>Scalability:</strong> Elastic resources</li>
-</ul>
-```
-
-
 ## How It Works
 
 ### Format Instructions
@@ -161,15 +145,13 @@ For Plain Text:
  characters. Use simple line breaks and spacing only."
 ```
 
-The agent naturally generates responses in the requested format.
+The setting applies to the formation. The chat API does not accept a
+per-request `format` override.
 
 ### Validation
 
-**JSON and HTML are validated:**
-- **JSON**: Parsed with `json.loads()` - must be valid JSON
-- **HTML**: Validated with BeautifulSoup - proper tag structure
-
-**Markdown and Text are not validated** (by design - more flexible).
+JSON mode serializes the final response into a valid JSON wrapper. It does not
+validate a custom schema. Markdown and text remain strings.
 
 
 ## Use Cases
@@ -178,8 +160,9 @@ The agent naturally generates responses in the requested format.
 
 ```yaml
 # Extract structured data from text
-response:
-  format: json
+overlord:
+  response:
+    format: json
 
 agents:
   - id: extractor
@@ -206,52 +189,67 @@ agents:
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+import json
+from muxi import FormationClient
 
-client = Muxi()
-
-# Request JSON format
-response = client.chat(
-    message="Analyze: " + text,
-    format="json"
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
 )
 
-# response.content is already JSON!
-return response.content
+# Request JSON format
+response = formation.chat(
+    {"message": "Analyze: " + text},
+    user_id="user_123",
+)
+
+# The formation is configured for JSON mode.
+return json.loads(response["response"])
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
-
-// Request JSON format
-const response = await client.chat({
-  message: `Analyze: ${text}`,
-  format: 'json'
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
 });
 
-// response.content is already JSON!
-return response.content;
+// Request JSON format
+const response = await formation.chat({
+  message: `Analyze: ${text}`
+}, 'user_123');
+
+return JSON.parse(response.response);
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-import "github.com/muxi-ai/muxi-go"
+import (
+    "encoding/json"
 
-client := muxi.NewClient()
+    muxi "github.com/muxi-ai/muxi-go"
+)
 
-// Request JSON format
-response, _ := client.Chat(ctx, &muxi.ChatRequest{
-    Message: "Analyze: " + text,
-    Format:  "json",
+formation := muxi.NewFormationClient(&muxi.FormationConfig{
+    ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
+    ClientKey:   "<your-client-key>",
 })
 
-// response.Content is already JSON!
-return response.Content
+// Request JSON format
+response, _ := formation.Chat(ctx, &muxi.ChatRequest{
+    Message: "Analyze: " + text,
+})
+
+var result map[string]interface{}
+json.Unmarshal([]byte(response.Response), &result)
+return result
 ```
 [[/tab]]
 
@@ -260,9 +258,9 @@ return response.Content
 ### Form Filling
 
 ```yaml
-response:
-  format: json
-
+overlord:
+  response:
+    format: json
 agents:
   - id: form_filler
     system_message: |
@@ -288,37 +286,48 @@ agents:
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+import json
+from muxi import FormationClient
 import json
 
-client = Muxi()
-
-# Extract data
-response = client.chat(
-    message="Extract product info from this description: ...",
-    format="json"
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
 )
 
-# response.content is already JSON
-product_data = json.loads(response.content)
+# Extract data
+response = formation.chat(
+    {
+        "message": "Extract product info from this description: ...",
+    },
+    user_id="user_123",
+)
+
+# JSON mode wraps the agent's text in a JSON response object.
+wrapper = json.loads(response["response"])
+product_data = json.loads(wrapper["content"])
 db.insert("products", product_data)
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
-
-// Extract data
-const response = await client.chat({
-  message: 'Extract product info from this description: ...',
-  format: 'json'
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
 });
 
-// response.content is already JSON
-const productData = JSON.parse(response.content);
+// Extract data
+const response = await formation.chat({
+  message: 'Extract product info from this description: ...'
+}, 'user_123');
+
+const wrapper = JSON.parse(response.response);
+const productData = JSON.parse(wrapper.content);
 await db.insert('products', productData);
 ```
 [[/tab]]
@@ -327,20 +336,28 @@ await db.insert('products', productData);
 ```go
 import (
     "encoding/json"
-    "github.com/muxi-ai/muxi-go"
+
+    muxi "github.com/muxi-ai/muxi-go"
 )
 
-client := muxi.NewClient()
-
-// Extract data
-response, _ := client.Chat(ctx, &muxi.ChatRequest{
-    Message: "Extract product info from this description: ...",
-    Format:  "json",
+formation := muxi.NewFormationClient(&muxi.FormationConfig{
+    ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
+    ClientKey:   "<your-client-key>",
 })
 
-// response.Content is already JSON
+// Extract data
+response, _ := formation.Chat(ctx, &muxi.ChatRequest{
+    Message: "Extract product info from this description: ...",
+})
+
+var wrapper struct {
+    Content string `json:"content"`
+}
+json.Unmarshal([]byte(response.Response), &wrapper)
+
 var productData map[string]interface{}
-json.Unmarshal([]byte(response.Content), &productData)
+json.Unmarshal([]byte(wrapper.Content), &productData)
 db.Insert("products", productData)
 ```
 [[/tab]]
@@ -359,63 +376,9 @@ overlord:
     format: json  # All responses are JSON
 ```
 
-### Runtime Override
-
-[[tabs]]
-
-[[tab Python]]
-```python
-from muxi import Muxi
-
-client = Muxi()
-
-# JSON format for this request
-response1 = client.chat(message="Extract data...", format="json")
-
-# Text format for this request
-response2 = client.chat(message="Summarize...", format="text")
-```
-[[/tab]]
-
-[[tab TypeScript]]
-```typescript
-import { Muxi } from '@muxi/sdk';
-
-const client = new Muxi();
-
-// JSON format for this request
-const response1 = await client.chat({ message: 'Extract data...', format: 'json' });
-
-// Text format for this request
-const response2 = await client.chat({ message: 'Summarize...', format: 'text' });
-```
-[[/tab]]
-
-[[tab Go]]
-```go
-client := muxi.NewClient()
-
-// JSON format for this request
-response1, _ := client.Chat(ctx, &muxi.ChatRequest{Message: "Extract data...", Format: "json"})
-
-// Text format for this request
-response2, _ := client.Chat(ctx, &muxi.ChatRequest{Message: "Summarize...", Format: "text"})
-```
-[[/tab]]
-
-[[/tabs]]
-
-### Per-Request Format
-
-```bash
-# Via API
-curl -X POST http://localhost:8001/v1/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Extract customer info",
-    "format": "json"
-  }'
-```
+The configured format applies to every chat request handled by the formation.
+Change the formation configuration and restart or redeploy it to change the
+default.
 
 
 ## With Streaming
@@ -426,47 +389,73 @@ All formats work with streaming:
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+from muxi import FormationClient
 
-client = Muxi()
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
+)
 
 # Stream JSON response
-for chunk in client.chat_stream(message="Analyze this...", format="json"):
-    print(chunk.text, end="", flush=True)
+for event in formation.chat_stream(
+    {"message": "Analyze this..."},
+    user_id="user_123",
+):
+    if event.get("event") == "message":
+        payload = json.loads(event.get("data", "{}"))
+        token = payload.get("token")
+        if isinstance(token, str):
+            print(token, end="", flush=True)
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
+});
 
 // Stream JSON response
-for await (const chunk of client.chatStream({ message: 'Analyze this...', format: 'json' })) {
-  process.stdout.write(chunk.text);
+for await (const chunk of formation.chatStream(
+  { message: 'Analyze this...' },
+  'user_123'
+)) {
+  if (typeof chunk.token === 'string') {
+    process.stdout.write(chunk.token);
+  }
 }
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-client := muxi.NewClient()
+formation := muxi.NewFormationClient(&muxi.FormationConfig{
+    ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
+    ClientKey:   "<your-client-key>",
+})
 
-// Stream JSON response
-stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{
+stream, _ := formation.ChatStream(ctx, &muxi.ChatRequest{
     Message: "Analyze this...",
-    Format:  "json",
+    UserID:  "user_123",
 })
 for chunk := range stream {
-    fmt.Print(chunk.Text)
+    if token, ok := chunk.Raw["token"].(string); ok {
+        fmt.Print(token)
+    }
 }
 ```
 [[/tab]]
 
 [[/tabs]]
 
-The agent streams the JSON as it's generated - collect chunks and parse at the end.
+Collect the text chunks and parse the completed value according to the
+formation's response format.
 
 
 ## Best Practices
@@ -490,10 +479,14 @@ Clear instructions → better structured output.
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+from muxi import FormationClient
 import json
 
-client = Muxi()
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
+)
 
 schema = {
     "name": "string",
@@ -502,21 +495,25 @@ schema = {
     "company": "string | null"
 }
 
-response = client.chat(
-    message=f"""Extract customer info. Return JSON matching this schema:
+response = formation.chat(
+    {"message": f"""Extract customer info. Return JSON matching this schema:
 {json.dumps(schema, indent=2)}
 
-Text: {input_text}""",
-    format="json"
+Text: {text}"""},
+    user_id="user_123",
 )
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
+});
 
 const schema = {
   name: 'string',
@@ -525,13 +522,12 @@ const schema = {
   company: 'string | null'
 };
 
-const response = await client.chat({
+const response = await formation.chat({
   message: `Extract customer info. Return JSON matching this schema:
 ${JSON.stringify(schema, null, 2)}
 
 Text: ${inputText}`,
-  format: 'json'
-});
+}, 'user_123');
 ```
 [[/tab]]
 
@@ -548,7 +544,8 @@ Providing schema improves accuracy.
 import json
 
 try:
-    data = json.loads(response.content)
+    wrapper = json.loads(response["response"])
+    data = json.loads(wrapper["content"])
 except json.JSONDecodeError:
     # Invalid JSON - retry or use fallback
     logger.error("Agent returned invalid JSON")
@@ -558,7 +555,8 @@ except json.JSONDecodeError:
 [[tab TypeScript]]
 ```typescript
 try {
-  const data = JSON.parse(response.content);
+  const wrapper = JSON.parse(response.response);
+  const data = JSON.parse(wrapper.content);
 } catch (e) {
   // Invalid JSON - retry or use fallback
   console.error('Agent returned invalid JSON');
@@ -575,7 +573,8 @@ Always validate, even with structured output.
 
 ### Not a Schema Validator
 
-MUXI validates that JSON is valid, but doesn't enforce a specific schema:
+JSON mode guarantees a valid outer wrapper, but it does not validate a schema
+for the agent-generated content:
 
 ```json
 // Agent might return this:
@@ -593,7 +592,7 @@ Quality depends on:
 - Prompt clarity
 - Input complexity
 
-Better models (GPT-4, Claude) → better structured output.
+More capable models generally produce more reliable structured content.
 
 ### Not Perfect
 
@@ -609,11 +608,11 @@ Always validate in production.
 
 | Text Responses | Structured Output |
 |---------------|-------------------|
-| Parse with regex | Use as-is |
-| Fragile, breaks easily | Robust, type-safe |
+| Parse with regex | Parse a JSON wrapper |
+| Fragile, breaks easily | Explicit application validation |
 | Extra code needed | Machine-readable |
 | Hard to integrate | API-ready |
-| Unvalidated | Validated format |
+| Unstructured | Machine-readable envelope |
 
 The result: **Agents that return data**, not just text.
 
@@ -624,7 +623,7 @@ The result: **Agents that return data**, not just text.
 # formation.afs
 overlord:
   response:
-    format: json  # or "text", "markdown", "html"
+    format: json  # or "text", "markdown"
 
 agents:
   - id: assistant

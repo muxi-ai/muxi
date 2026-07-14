@@ -1,275 +1,139 @@
 ---
 title: Streaming Responses
-description: Real-time response streaming via Server-Sent Events
+description: Consume chat responses over Server-Sent Events
 ---
-
 # Streaming Responses
 
-## Real-time responses as they're generated
+MUXI streams chat responses with Server-Sent Events (SSE). Streaming avoids
+waiting for the full response before rendering generated tokens.
 
-MUXI streams responses using Server-Sent Events (SSE), reducing time-to-first-token from seconds to milliseconds.
+## Request a Stream
 
+Set `stream: true`, send `Accept: text/event-stream`, and keep the connection
+open:
 
-## Why Streaming?
-
-| Metric | Without Streaming | With Streaming |
-|--------|-------------------|----------------|
-| Time to first token | 2-10 seconds | ~500ms |
-| User experience | Wait... wait... wall of text | Typewriter effect |
-| Memory usage | Buffer entire response | Chunk by chunk |
-
-Performance baseline (typical):
-- Time to first token: 400-800ms
-- Subsequent chunks: 50-150ms
-- End-to-end (500-1500 tokens): 2-6s depending on model
-
-
-## Enable Streaming
-
-```yaml
-# formation.afs
-overlord:
-  response:
-    streaming: true
-```
-
-
-## SSE Format
-
-Responses arrive as Server-Sent Events:
-
-```
-event: chunk
-data: {"text": "Hello", "agent": "assistant"}
-
-event: chunk
-data: {"text": " there", "agent": "assistant"}
-
-event: chunk
-data: {"text": "!", "agent": "assistant"}
-
-event: done
-data: {"session_id": "sess_abc123"}
-```
-
-
-## Using Streaming
-
-[[tabs]]
-
-[[tab curl]]
 ```bash
-curl -N http://localhost:8001/v1/chat \
+curl -N -X POST http://localhost:7890/api/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
   -H "Accept: text/event-stream" \
   -H "X-Muxi-Client-Key: fmc_..." \
-  -d '{"message": "Tell me a story"}'
+  -H "X-Muxi-User-ID: user_123" \
+  -d '{"message":"Tell me a story","stream":true}'
 ```
-[[/tab]]
 
-[[tab Python]]
-```python
-for chunk in formation.chat_stream("Tell me a story"):
-    print(chunk.text, end="", flush=True)
-print()  # Newline at end
-```
-[[/tab]]
+The SDK streaming methods set `stream: true` automatically.
 
-[[tab TypeScript]]
-```typescript
-for await (const chunk of formation.chatStream('Tell me a story')) {
-  process.stdout.write(chunk.text);
-}
-console.log();  // Newline at end
-```
-[[/tab]]
+## Wire Format
 
-[[tab Go]]
-```go
-stream, _ := formation.ChatStream("Tell me a story")
-for chunk := range stream.Chunks {
-    fmt.Print(chunk.Text)
-}
-fmt.Println()  // Newline at end
-```
-[[/tab]]
+Text tokens use ordinary SSE message frames. The runtime sends the token in a
+JSON `token` field:
 
-[[tab JavaScript (Browser)]]
-```javascript
-const response = await fetch('http://localhost:8001/v1/chat', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'text/event-stream',
-    'X-Muxi-Client-Key': 'fmc_...'
-  },
-  body: JSON.stringify({ message: 'Tell me a story' })
-});
+```text
+data: {"token":"Hello"}
 
-const reader = response.body.getReader();
-const decoder = new TextDecoder();
-
-while (true) {
-  const { done, value } = await reader.read();
-  if (done) break;
-
-  const chunk = decoder.decode(value);
-  // Parse SSE format and update UI
-  console.log(chunk);
-}
-```
-[[/tab]]
-
-[[/tabs]]
-
-
-## Event Types
-
-| Event | When | Data |
-|-------|------|------|
-| `chunk` | Text generated | `{"text": "...", "agent": "..."}` |
-| `tool_start` | Tool invoked | `{"tool": "...", "args": {...}}` |
-| `tool_end` | Tool completed | `{"tool": "...", "result": "..."}` |
-| `ui` | End-of-turn, when the response carries UI widgets | `{"ui": [ ... ]}` |
-| `error` | Error occurred | `{"error": "...", "code": "..."}` |
-| `done` | Stream complete | `{"session_id": "..."}` |
-
-
-## UI Events
-
-When a response carries UI widgets (choices to pick, an external link, or an MCP
-UI resource), they ride a single `ui` event emitted at end-of-turn, just before
-`done`:
-
-```
-event: chunk
-data: {"text": "Which region should I use?"}
-
-event: ui
-data: {"ui": [{"type": "options", "id": "ui_a1b2c3", "prompt": "Which region?", "options": [{"value": "us", "label": "United States"}, {"value": "eu", "label": "Europe"}]}]}
+data: {"token":" there"}
 
 event: done
-data: {"finished": true}
+data: {"finished":true}
 ```
 
-A turn with no widgets omits the `ui` event entirely, so the stream is
-byte-identical to before. Clients should ignore widget types they don't
-understand - the response text always carries the fallback. See
-[Response UI Widgets](../reference/response-ui-widgets.md) for the widget types,
-fields, and how to reply to an `options` widget.
+A response with UI widgets emits one `ui` event immediately before `done`:
 
-
-## Tool Events
-
-When an agent uses tools, you see the process:
-
-```
-event: chunk
-data: {"text": "Let me search for that..."}
-
-event: tool_start
-data: {"tool": "web-search", "args": {"query": "AI trends 2025"}}
-
-event: tool_end
-data: {"tool": "web-search", "result": "Found 10 results..."}
-
-event: chunk
-data: {"text": "Based on my research, "}
-
-event: chunk
-data: {"text": "here are the latest AI trends..."}
+```text
+event: ui
+data: {"ui":[{"type":"options","id":"region","prompt":"Choose a region","options":[{"value":"us","label":"United States"}]}]}
 ```
 
-This lets you show users what's happening:
+The chat stream contract defines message, `ui`, `done`, and `error` frames. Tool
+execution details belong to the observability event stream, not the client chat
+stream.
 
-- "Searching the web..."
-- "Querying database..."
-- "Reading file..."
+## Python
 
+```python
+import json
+from muxi import parse_ui_widgets
 
-## React Integration
+for event in formation.chat_stream(
+    {"message": "Tell me a story"},
+    user_id="user_123",
+):
+    if event["event"] == "message":
+        payload = json.loads(event["data"])
+        token = payload.get("token")
+        if isinstance(token, str):
+            print(token, end="", flush=True)
+    elif event["event"] == "ui":
+        widgets = parse_ui_widgets(event)
+        render_widgets(widgets)
+    elif event["event"] == "done":
+        print()
+```
+
+The Python SDK yields raw SSE frames as dictionaries with `event` and `data`
+fields. Stream error frames are raised as SDK exceptions.
+
+## TypeScript
 
 ```typescript
-function Chat() {
-  const [messages, setMessages] = useState<string[]>([]);
-  const [currentMessage, setCurrentMessage] = useState('');
+for await (const chunk of formation.chatStream(
+  { message: "Tell me a story" },
+  "user_123"
+)) {
+  if (typeof chunk.token === "string") {
+    process.stdout.write(chunk.token);
+  } else if (chunk.type === "ui") {
+    renderWidgets(chunk.ui);
+  } else if (chunk.type === "done") {
+    process.stdout.write("\n");
+  }
+}
+```
 
-  const sendMessage = async (text: string) => {
-    setMessages(prev => [...prev, `You: ${text}`]);
-    setCurrentMessage('');
+The TypeScript SDK parses JSON data and adds `type` for named SSE events.
 
-    for await (const chunk of formation.chatStream(text)) {
-      setCurrentMessage(prev => prev + chunk.text);
+## Go
+
+```go
+stream, errs := formation.ChatStream(ctx, &muxi.ChatRequest{
+    Message: "Tell me a story",
+    UserID:  "user_123",
+})
+
+for chunk := range stream {
+    if token, ok := chunk.Raw["token"].(string); ok {
+        fmt.Print(token)
     }
-
-    setMessages(prev => [...prev, `Assistant: ${currentMessage}`]);
-    setCurrentMessage('');
-  };
-
-  return (
-    <div>
-      {messages.map((m, i) => <p key={i}>{m}</p>)}
-      {currentMessage && <p>Assistant: {currentMessage}▌</p>}
-    </div>
-  );
+    if chunk.Type == "ui" {
+        renderWidgets(chunk.UI)
+    }
+}
+if err := <-errs; err != nil {
+    log.Fatal(err)
 }
 ```
 
+## Browser Clients
 
-## Connection Management
+Browser `EventSource` supports only GET requests, while chat streaming is a
+POST request. Use `fetch()` and parse the response body as SSE, or use the
+TypeScript SDK in environments where its streaming transport is available.
+Do not split solely on network chunks: one SSE frame can span reads, and one
+read can contain several frames.
 
-### Timeouts
+## Connection Handling
 
-Configure server timeouts for long responses:
+- Do not apply ordinary short request timeouts to a stream.
+- Treat `done` as the successful end-of-turn marker.
+- Treat `error` as terminal and surface the returned error payload.
+- Ignore unknown named events for forward compatibility.
+- Reconnect by starting a new chat request. Chat POST streams do not use SSE
+  event IDs for automatic resume.
+- Cancel the request or close the response body when the user stops generation.
 
-```yaml
-server:
-  write_timeout: 60s
-```
+Streaming latency depends on the model, provider, tools, network, and formation
+workflow. Measure time-to-first-token in the deployed environment instead of
+assuming a fixed baseline.
 
-### Keep-Alive
-
-MUXI sends periodic heartbeats:
-
-```
-: heartbeat
-
-event: chunk
-data: {"text": "..."}
-```
-
-Heartbeats prevent proxy/load balancer timeouts.
-
-### Client Reconnection
-
-If connection drops, resume with Last-Event-ID:
-
-```bash
-curl -H "Last-Event-ID: 42" ...
-```
-
-
-## Fallback to Non-Streaming
-
-If streaming fails or is disabled:
-
-```bash
-curl http://localhost:8001/v1/chat \
-  -H "Accept: application/json" \
-  -d '{"message": "Hello"}'
-```
-
-Returns complete JSON:
-
-```json
-{
-  "text": "Hello! How can I help?",
-  "agent": "assistant",
-  "session_id": "sess_abc123"
-}
-```
-
-
-## Next Steps
-
-[+] [Build Custom UI](../guides/build-custom-ui.md) - Frontend streaming integration
-[+] [Async Operations](../concepts/async.md) - Background task processing
+See [Response UI Widgets](../reference/response-ui-widgets.md) for supported
+widget types and reply payloads.

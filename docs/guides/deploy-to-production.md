@@ -27,7 +27,7 @@ graph LR
 
 ## Prerequisites
 
-- Formation working locally (`muxi dev` succeeds)
+- Formation working locally (`muxi up` succeeds)
 - Server with SSH access (cloud VM, dedicated, etc.)
 - Domain name (optional but recommended)
 - TLS-ready reverse proxy (Nginx/Caddy) or ability to bind HTTPS at the edge

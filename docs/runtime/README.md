@@ -50,13 +50,14 @@ MUXI Server (:7890)
     └── Formation C → Runtime (:8003)
 ```
 
-### By the CLI (dev mode)
+### By the CLI (local development)
 
-`muxi dev` runs the runtime directly for local development:
+`muxi up` asks the configured local Server to run the formation directly from
+its source directory as a draft:
 
 ```bash
-muxi dev
-# Starts runtime on :8001
+muxi up
+# Available through http://localhost:7890/draft/{formation-id}
 ```
 
 

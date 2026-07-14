@@ -219,7 +219,7 @@ overlord:
 ## Step 4: Test
 
 ```bash
-muxi dev
+muxi up
 ```
 
 Complex request:
@@ -279,14 +279,14 @@ knowledge:
 
 ## Explicit Agent Selection
 
-Override automatic routing:
+The Formation API can override automatic routing:
 
 ```bash
-# CLI
-muxi chat --agent researcher "Find info on X"
-
-# API
-curl -d '{"message": "...", "agent": "researcher"}'
+curl -X POST http://localhost:7890/draft/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: user_123" \
+  -d '{"message": "Find info on X", "agent_id": "researcher"}'
 ```
 
 ## Best Practices
@@ -303,4 +303,4 @@ curl -d '{"message": "...", "agent": "researcher"}'
 [+] [Workflows Reference](../reference/workflows.md) - Routing configuration
 [+] [Deep Dive: Orchestration](../deep-dives/how-orchestration-works.md) - How routing works
 [+] [Write SOPs](../guides/create-sops.md) - Standard procedures
-[+] [Example: Multi-Agent Team](examples/05-multi-agent-team/) - Working example
+[+] [Example: Multi-Agent Team](../examples/05-multi-agent-team/) - Working example

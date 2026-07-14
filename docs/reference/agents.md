@@ -12,7 +12,7 @@ Agents are the workers in your formation. Each has a role, system prompt, and se
 > [!TIP]
 > **New to agents?** Read [Agent Concepts →](../concepts/agents-and-orchestration.md) first for an overview of how agents work in MUXI.
 >
-> **API Reference:** [`GET /v1/agents`](api/formation#tag/Agents/GET/agents) | [`GET /v1/agents/{id}`](api/formation#tag/Agents/GET/agents/{agent_id})
+> **API Reference:** [`GET /v1/agents`](/docs/api/formation#tag/Agents/GET/agents) | [`GET /v1/agents/{id}`](/docs/api/formation#tag/Agents/GET/agents/{agent_id})
 
 
 ## Your First Agent
@@ -252,41 +252,31 @@ Override automatic routing when needed:
 
 [[tabs]]
 
-[[tab CLI]]
-```bash
-muxi chat --agent researcher "Find info about AI trends"
-```
-[[/tab]]
-
 [[tab curl]]
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
-  -d '{"message": "...", "agent": "researcher"}'
+curl -X POST http://localhost:7890/draft/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: user_123" \
+  -d '{"message": "...", "agent_id": "researcher"}'
 ```
 [[/tab]]
 
 [[tab Python]]
 ```python
 response = formation.chat(
-    "Find info about AI trends",
-    agent="researcher"
+    {"message": "Find info about AI trends", "agent_id": "researcher"},
+    user_id="user_123",
 )
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-const response = await formation.chat('Find info about AI trends', {
-  agent: 'researcher'
-});
-```
-[[/tab]]
-
-[[tab Go]]
-```go
-response, _ := formation.ChatWithOptions("Find info about AI trends", muxi.ChatOptions{
-    Agent: "researcher",
-})
+const response = await formation.chat(
+  { message: "Find info about AI trends", agent_id: "researcher" },
+  "user_123"
+);
 ```
 [[/tab]]
 

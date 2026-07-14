@@ -166,7 +166,7 @@ Work configured to run at specific times or intervals. In MUXI, users create sch
 Sensitive configuration values (API keys, passwords, connection strings) that shouldn't be exposed. In MUXI, secrets are stored encrypted and referenced as `${{ secrets.NAME }}` in formation files - never hardcoded.
 
 ### Semantic Cache
-A cache that matches by meaning rather than exact string comparison. "What's the weather?" matches "How's the weather today?" MUXI's OneLLM provides semantic caching with 50-80% cost savings on repeated similar queries.
+A cache that matches by meaning rather than exact string comparison. "What's the weather?" can match "How's the weather today?" MUXI uses semantic caching to avoid repeating equivalent LLM calls.
 
 ### Session
 A continuous interaction thread, typically tied to a conversation. In MUXI, each session has its own working memory. Users can have multiple concurrent sessions, and sessions can be restored for persistent chat history.

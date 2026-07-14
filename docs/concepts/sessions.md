@@ -87,21 +87,20 @@ Sessions are identified by unique IDs:
 sess_V1StGXR8_Z5jdHi6B
 ```
 
-SDKs track sessions automatically, or you can manage them explicitly:
+Pass a stable session ID when several requests should share one conversation:
 
 ```python
-# Let SDK manage sessions
-response = formation.chat("Hello!", user_id="alice@email.com")
-# SDK creates/continues session automatically
-
-# Or manage explicitly
 response = formation.chat(
-    "Hello!",
+    {
+        "message": "Hello!",
+        "session_id": "sess_my_custom_session",
+    },
     user_id="alice@email.com",
-    session_id="sess_my_custom_session"
 )
 ```
 
+If `session_id` is omitted, the runtime creates one for that request. Read the
+returned session ID and reuse it if the conversation continues.
 
 ## Buffer vs Working Memory
 
@@ -207,13 +206,19 @@ X-Muxi-User-ID: alice
 ### Chat Application (Multiple Windows)
 
 ```python
-# User opens new chat
-session1 = formation.create_session(user_id="alice")
-response = formation.chat("Help with project A", session_id=session1)
+from uuid import uuid4
 
-# User opens another chat window
-session2 = formation.create_session(user_id="alice")
-response = formation.chat("Help with project B", session_id=session2)
+session1 = f"sess_{uuid4().hex}"
+response = formation.chat(
+    {"message": "Help with project A", "session_id": session1},
+    user_id="alice",
+)
+
+session2 = f"sess_{uuid4().hex}"
+response = formation.chat(
+    {"message": "Help with project B", "session_id": session2},
+    user_id="alice",
+)
 
 # Both sessions can recall user's general preferences
 # But have separate conversation contexts
@@ -224,16 +229,14 @@ response = formation.chat("Help with project B", session_id=session2)
 ```python
 # User chats on web
 response = formation.chat(
-    "My flight is March 15",
+    {"message": "My flight is March 15", "session_id": "sess_web"},
     user_id="alice@email.com",
-    session_id="sess_web"
 )
 
 # Later, user asks on Slack
 response = formation.chat(
-    "When is my flight?",
+    {"message": "When is my flight?", "session_id": "sess_slack"},
     user_id="U12345ABC",  # Slack ID, but linked to same user
-    session_id="sess_slack"
 )
 # MUXI: "Your flight is March 15"
 # ↑ Found via cross-session memory, even different session
@@ -242,19 +245,10 @@ response = formation.chat(
 ### Persistent Chat History
 
 ```python
-# On user message, save to your DB
-@webhook.on("message.created")
-def save_message(event):
-    db.save_message(
-        session_id=event.session_id,
-        role=event.role,
-        content=event.content
-    )
-
 # When user returns, restore session
 def on_user_return(user_id, session_id):
     messages = db.get_messages(session_id)
-    formation.restore_session(session_id, messages, user_id=user_id)
+    formation.restore_session(session_id, user_id, messages)
 ```
 
 
@@ -290,7 +284,7 @@ The key insight: **Sessions organize conversations, but memory flows across them
 ## Learn More
 
 - [Memory Reference](../reference/memory.md) - Session and buffer configuration
-- [Memory System](memory-system.md) - Four memory layers in depth
+- [Memory Platform](memory-system.md) - Context, scopes, events, intelligence, and lifecycle
 - [Multi-Identity Users](multi-identity.md) - One user, many identifiers
 - [Session Restore](../runtime/session-restore.md) - Restore conversations from external storage
 - [SDK Reference](../sdks/README.md) - Session management in code

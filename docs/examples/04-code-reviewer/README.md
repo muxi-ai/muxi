@@ -120,7 +120,7 @@ def login(username, password):
 ```
 
 **Agent Comment:**
-```
+````markdown
 ## Code Review
 
 ### 🚨 Security Issues
@@ -139,6 +139,7 @@ def login(username, password):
    **Fix:**
    ```python
    if user and verify_password(password, user.password_hash):
+       return create_token(user)
    ```
 
 ### ⚠️ Best Practices
@@ -155,7 +156,7 @@ def login(username, password):
 **Overall:** Reject - Critical security issues must be fixed before merge.
 
 I've created issue #456 to track the security improvements.
-```
+````
 
 ## Configuration Highlights
 
@@ -268,12 +269,11 @@ curl -H "Authorization: token $GITHUB_TOKEN" \
 Check GitHub MCP tool is working:
 ```bash
 # Test GitHub connection
-muxi formation exec code-reviewer \
-  "List issues in user/repo repository"
+muxi chat "List issues in user/repo repository"
 ```
 
 ## Next Steps
 
-- [Multi-Agent Team](05-multi-agent-team/) - Add security specialist, performance expert
+- [Multi-Agent Team](../05-multi-agent-team/) - Add security specialist, performance expert
 - [SOPs Guide](../../guides/create-sops.md) - Create standard review workflows
 - [Triggers Guide](../../guides/create-triggers.md) - Add more GitHub events

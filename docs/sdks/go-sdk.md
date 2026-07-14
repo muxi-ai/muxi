@@ -111,8 +111,8 @@ for stream != nil {
             stream = nil
             continue
         }
-        if chunk.Type == "text" {
-            fmt.Print(chunk.Text)
+        if token, ok := chunk.Raw["token"].(string); ok {
+            fmt.Print(token)
         }
     case err := <-errs:
         if err != nil {
@@ -123,7 +123,8 @@ for stream != nil {
 }
 ```
 
-Chunk types: `text`, `tool_call`, `tool_result`, `agent_handoff`, `thinking`, `error`, `done`.
+Named `ui` and `done` events set `chunk.Type`. Text tokens are available in
+`chunk.Raw["token"]`.
 
 ### Memory
 
@@ -135,10 +136,10 @@ config, err := client.GetMemoryConfig(ctx)
 memories, err := client.GetMemories(ctx, "user_123")
 
 // Add a memory (ctx, userID, memType, detail)
-err = client.AddMemory(ctx, "user_123", "preference", "User prefers Go")
+memory, err := client.AddMemory(ctx, "user_123", "preference", "User prefers Go")
 
 // Clear user buffer
-err = client.ClearUserBuffer(ctx, "user_123")
+cleared, err := client.ClearUserBuffer(ctx, "user_123")
 
 // Get buffer stats
 stats, err := client.GetBufferStats(ctx)
@@ -161,16 +162,21 @@ err = client.DeleteSchedulerJob(ctx, "job_abc123")
 
 ```go
 // Get sessions
-sessions, err := client.GetSessions(ctx, "user_123")
+sessions, err := client.GetSessions(ctx, "user_123", 50)
 
 // Get request status
-status, err := client.GetRequestStatus(ctx, "req_abc123")
+status, err := client.GetRequestStatus(ctx, "req_abc123", "user_123")
 
 // Cancel a request
-err = client.CancelRequest(ctx, "req_abc123")
+err = client.CancelRequest(ctx, "req_abc123", "user_123")
 
 // Stream request events
-stream, errs := client.StreamRequest(ctx, "req_abc123")
+stream, errs := client.StreamRequest(
+    ctx,
+    "user_123",
+    "sess_abc123",
+    "req_abc123",
+)
 ```
 
 ### Event & Log Streaming
@@ -183,7 +189,7 @@ for event := range events {
 }
 
 // Stream logs (admin)
-logs, errs := client.StreamLogs(ctx, &muxi.LogFilter{Level: "info"})
+logs, errs := client.StreamLogs(ctx, &muxi.LogStreamFilters{Level: "info"})
 for log := range logs {
     fmt.Println(log)
 }
@@ -358,8 +364,8 @@ func main() {
                     stream = nil
                     continue
                 }
-                if chunk.Type == "text" {
-                    fmt.Print(chunk.Text)
+                if token, ok := chunk.Raw["token"].(string); ok {
+                    fmt.Print(token)
                 }
             case err := <-errs:
                 if err != nil {

@@ -129,7 +129,7 @@ server:
 Full access to formation:
 
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -H "X-MUXI-Admin-Key: fma_abc123..."
 ```
 
@@ -138,7 +138,7 @@ curl -X POST http://localhost:8001/v1/chat \
 Limited access (chat only):
 
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
   -H "X-MUXI-Client-Key: fmc_xyz789..."
 ```
 
@@ -149,7 +149,7 @@ The MCP server at `/mcp` uses the same client key as the REST API. Pass it in yo
 ```json
 {
   "type": "streamable-http",
-  "url": "http://localhost:8001/mcp",
+  "url": "http://localhost:7890/api/my-assistant/mcp",
   "headers": {
     "X-Muxi-Client-Key": "fmc_xyz789..."
   }
@@ -170,7 +170,7 @@ muxi profiles add production
 muxi remote list
 ```
 
-Profiles stored in `~/.muxi/cli/servers.yaml`.
+Profiles are stored in `~/.muxi/cli/profiles.yaml`.
 
 ## SDK Authentication
 

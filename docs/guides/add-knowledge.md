@@ -50,7 +50,7 @@ knowledge:
 ## Step 3: Test
 
 ```bash
-muxi dev
+muxi up
 ```
 
 Ask about your docs:
@@ -132,7 +132,7 @@ When files change:
 Or force reindex:
 
 ```bash
-muxi dev --reindex
+muxi knowledge rebuild
 ```
 
 ## Troubleshooting

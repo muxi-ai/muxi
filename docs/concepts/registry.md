@@ -38,7 +38,7 @@ Formations are **portable, versioned, shareable** - just like container images.
 muxi pull @acme/research-agent
 cd research-agent
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 That's it. Someone else's formation, running locally in seconds.
@@ -163,7 +163,7 @@ The result: **formations that spread**, not code that rots in private repos.
 muxi pull @muxi/hello-muxi
 cd starter
 muxi secrets setup
-muxi dev
+muxi up
 
 # Publish your own
 cd my-formation

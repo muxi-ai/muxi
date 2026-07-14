@@ -37,7 +37,7 @@ By the end of this guide, your agent will:
 
 ## Prerequisites
 
-- A working formation (`muxi dev` succeeds)
+- A working formation (`muxi up` succeeds)
 - **For this example:** Brave Search API key ([get one free](https://brave.com/search/api/))
 
 > [!TIP]
@@ -125,7 +125,7 @@ system_message: |
 [[step Test It]]
 
 ```bash
-muxi dev
+muxi up
 ```
 
 Then try:
@@ -319,7 +319,7 @@ mcp_servers:
 [[toggle Tool not appearing]]
 1. Check the MCP file exists in `mcp/` directory
 2. Check the agent has the MCP ID in its `mcps` list
-3. Restart with `muxi dev`
+3. Restart with `muxi down && muxi up`
 [[/toggle]]
 
 [[toggle API errors]]

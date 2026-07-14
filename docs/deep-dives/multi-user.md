@@ -21,7 +21,9 @@ MUXI isolates users through:
 Pass user ID in header:
 
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: fmc_..." \
   -H "X-Muxi-User-Id: user_123" \
   -d '{"message": "Hello"}'
 ```
@@ -30,36 +32,33 @@ Default user ID: `"0"` (single-user mode)
 
 ## Session Management
 
-### Create Session
+### Start a Session
 
 ```bash
-curl -X POST http://localhost:8001/v1/sessions \
-  -H "X-Muxi-Client-Key: fmc_..."
-```
-
-Response:
-
-```json
-{
-  "id": "sess_abc123",
-  "user_id": "user_123",
-  "created_at": "2025-01-08T10:00:00Z"
-}
-```
-
-### Use Session
-
-```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
   -H "X-Muxi-Client-Key: fmc_..." \
+  -H "X-Muxi-User-Id: user_123" \
+  -d '{"message": "Hello"}'
+```
+
+The response contains the generated `session_id`. Pass it on later requests to
+continue the same conversation:
+
+```bash
+curl -X POST http://localhost:7890/api/my-assistant/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: fmc_..." \
+  -H "X-Muxi-User-Id: user_123" \
   -d '{"message": "Hello", "session_id": "sess_abc123"}'
 ```
 
 ### Get Session History
 
 ```bash
-curl http://localhost:8001/v1/sessions/sess_abc123 \
-  -H "X-Muxi-Client-Key: fmc_..."
+curl http://localhost:7890/api/my-assistant/v1/sessions/sess_abc123 \
+  -H "X-Muxi-Client-Key: fmc_..." \
+  -H "X-Muxi-User-Id: user_123"
 ```
 
 ## Memory Isolation
@@ -155,13 +154,11 @@ X-Muxi-User-Id: tenant_a:user_1
 ## SDK Usage
 
 ```python
-# Create session for user
-session = formation.create_session(user_id="user_123")
-
-# Chat with user context
 response = formation.chat(
-    "Hello",
-    session_id=session.id,
-    user_id="user_123"
+    {
+        "message": "Hello",
+        "session_id": "sess_user_123",
+    },
+    user_id="user_123",
 )
 ```

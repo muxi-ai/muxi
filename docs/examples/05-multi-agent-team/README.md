@@ -65,14 +65,17 @@ npm install -g @modelcontextprotocol/server-filesystem
 muxi secrets setup
 
 # 4. Run
-muxi dev
+muxi up
 ```
 
 ## Test It
 
 ### Simple Request (Single Agent)
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/multi-agent-team/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: user_123" \
   -d '{"message": "What is machine learning?"}'
 
 # Overlord routes to researcher (simple factual question)
@@ -80,7 +83,10 @@ curl -X POST http://localhost:8001/v1/chat \
 
 ### Complex Request (Multi-Agent Workflow)
 ```bash
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/multi-agent-team/v1/chat \
+  -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: user_123" \
   -d '{"message": "Research the top 3 cloud providers, analyze their pricing and features, and create a comparison report"}'
 
 # Overlord creates workflow:

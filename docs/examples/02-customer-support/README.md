@@ -43,28 +43,30 @@ echo "Shipping takes 3-5 business days." > knowledge/shipping-info.txt
 muxi secrets setup
 
 # 4. Run locally
-muxi dev
+muxi up
 ```
 
 ## Test It
 
 ```bash
 # First question
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/customer-support/v1/chat \
   -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: alice@example.com" \
   -d '{
     "message": "What is your refund policy?",
-    "session_id": "customer_123",
-    "user_id": "alice@example.com"
+    "session_id": "customer_123"
   }'
 
 # Follow-up (uses memory)
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/customer-support/v1/chat \
   -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: alice@example.com" \
   -d '{
     "message": "And what about shipping?",
-    "session_id": "customer_123",
-    "user_id": "alice@example.com"
+    "session_id": "customer_123"
   }'
 ```
 
@@ -163,7 +165,7 @@ muxi deploy production
 ## Next Steps
 
 - [Add Tools](../../guides/add-mcp-tools.md) - Let agent check order status, create tickets
-- [Multi-Agent Team](05-multi-agent-team/) - Add specialized agents
+- [Multi-Agent Team](../05-multi-agent-team/) - Add specialized agents
 - [Triggers](../../guides/create-triggers.md) - Integrate with Zendesk/Intercom
 
 ## Common Issues

@@ -96,7 +96,7 @@ Validate before deploy:
 
 ```yaml
 - name: Validate Formation
-  run: muxi deploy --validate
+  run: muxi validate
 ```
 
 Fails the build if formation is invalid.

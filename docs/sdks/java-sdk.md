@@ -4,32 +4,18 @@ description: Native Java client for MUXI formations
 ---
 # Java SDK
 
-## Java access to your agents
-
-Build Java applications that interact with MUXI formations. Full support for chat, streaming, and all Formation API operations.
-
 **GitHub:** [`muxi-ai/muxi-java`](https://github.com/muxi-ai/muxi-java)  
 **Maven Central:** [`org.muxi:muxi-java`](https://central.sonatype.com/artifact/org.muxi/muxi-java)
 
 ## Installation
 
-### Gradle
-
 ```kotlin
-implementation("org.muxi:muxi-java:0.20260212.0")
+implementation("org.muxi:muxi-java:<version>")
 ```
 
-### Maven
+Use the latest published version from Maven Central.
 
-```xml
-<dependency>
-    <groupId>org.muxi</groupId>
-    <artifactId>muxi-java</artifactId>
-    <version>0.20260212.0</version>
-</dependency>
-```
-
-## Quick Start
+## Formation Client
 
 ```java
 import org.muxi.sdk.FormationClient;
@@ -37,59 +23,65 @@ import org.muxi.sdk.FormationClient;
 FormationClient client = new FormationClient(
     "http://localhost:7890",
     "my-assistant",
-    "your_client_key"
+    "fmc_...",
+    null
 );
 
-// Check health
 System.out.println(client.health());
 ```
 
-## Chat (Streaming)
+The fourth constructor argument is the optional admin key. Constructors with a
+`mode` argument support `"draft"` for local draft routes. Use
+`FormationClient.withBaseUrl(...)` for a direct Runtime `/v1` URL.
+
+## Chat
 
 ```java
-client.chatStream(new ChatRequest("Hello!"), "user_123", event -> {
-    if ("text".equals(event.getType())) {
-        System.out.print(event.getText());
-    } else if ("done".equals(event.getType())) {
-        return false; // Stop streaming
+import com.google.gson.JsonObject;
+
+JsonObject request = new JsonObject();
+request.addProperty("message", "Hello!");
+request.addProperty("session_id", "sess_abc123");
+
+JsonObject response = client.chat(request, "user_123");
+System.out.println(response.get("response").getAsString());
+```
+
+## Streaming
+
+The Java SDK exposes raw `SseEvent` records:
+
+```java
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+JsonObject request = new JsonObject();
+request.addProperty("message", "Tell me a story");
+
+client.chatStream(request, "user_123", event -> {
+    if ("message".equals(event.event())) {
+        JsonObject data = JsonParser.parseString(event.data()).getAsJsonObject();
+        if (data.has("token") && data.get("token").isJsonPrimitive()) {
+            System.out.print(data.get("token").getAsString());
+        }
     }
-    return true; // Continue
 });
 ```
 
-## Chat (Non-Streaming)
+`FormationClient.parseUiWidgets(event)` extracts widgets from a named `ui`
+event. Stream error frames are raised as SDK exceptions.
+
+## Sessions and Memory
 
 ```java
-ChatResponse response = client.chat(new ChatRequest("Hello!"), "user_123");
-System.out.println(response.getResponse());
-```
-
-## Memory
-
-```java
-// Get memories
-List<Memory> memories = client.getMemories("user_123");
-
-// Add memory
+var sessions = client.getSessions("user_123", 50);
+var messages = client.getSessionMessages("sess_abc123", "user_123");
+var memories = client.getMemories("user_123");
 client.addMemory("user_123", "preference", "User prefers Java");
-
-// Clear buffer
 client.clearUserBuffer("user_123");
 ```
 
-## Sessions
-
-```java
-// List sessions
-List<Session> sessions = client.getSessions("user_123");
-
-// Get session messages
-List<Message> messages = client.getSessionMessages("sess_abc123", "user_123");
-```
-
 ## Server Client
-
-For managing formations (deploy, start, stop):
 
 ```java
 import org.muxi.sdk.ServerClient;
@@ -100,49 +92,32 @@ ServerClient server = new ServerClient(
     "muxi_sk_..."
 );
 
-// List formations
-List<Formation> formations = server.listFormations();
-
-// Deploy
-server.deployFormation("my-bot.tar.gz");
-
-// Stop/start/restart
-server.stopFormation("my-bot");
-server.startFormation("my-bot");
+JsonObject formations = server.listFormations();
+server.stopFormation("my-assistant");
+server.startFormation("my-assistant");
+server.rollbackFormation("my-assistant");
 ```
+
+Deploy and update methods accept a formation ID and the corresponding Server
+RPC `JsonObject` payload.
 
 ## Error Handling
 
 ```java
-import org.muxi.sdk.exceptions.*;
+import org.muxi.sdk.Errors.AuthenticationException;
+import org.muxi.sdk.Errors.MuxiException;
 
 try {
-    ChatResponse response = client.chat(new ChatRequest("Hello!"), "user_123");
-} catch (AuthenticationException e) {
-    System.out.println("Auth failed: " + e.getMessage());
-} catch (RateLimitException e) {
-    System.out.println("Rate limited, retry after: " + e.getRetryAfter() + "s");
-} catch (MuxiException e) {
-    System.out.println("Error: " + e.getCode() + " - " + e.getMessage());
+    client.chat(request, "user_123");
+} catch (AuthenticationException error) {
+    System.err.println(error.getMessage());
+} catch (MuxiException error) {
+    System.err.println(error.getErrorCode() + ": " + error.getMessage());
 }
 ```
 
-## Response UI Widgets
-
-A streamed response can carry optional [UI widgets](../reference/response-ui-widgets.md)
-(choices, links, MCP UI resources) on a `ui` event. Extract them with the static
-`FormationClient.parseUiWidgets(...)`; it returns an empty list for any non-`ui`
-or malformed event, so unknown widgets are safely ignored.
-
-## Idempotency
-
-The client auto-generates an `X-Muxi-Idempotency-Key` on every request, so a
-retry of a successful non-streaming mutation replays the original response.
-Streaming and failed requests execute again. Cached responses expose the echoed
-`idempotency_key` on the unwrapped result. See
-[Idempotency](../deep-dives/idempotency.md).
-
 ## Learn More
 
-- [Full documentation on GitHub](https://github.com/muxi-ai/muxi-java)
+- [SDK Overview](README.md)
+- [Streaming Responses](../deep-dives/real-time-streaming.md)
 - [API Reference](../reference/api-reference.md)

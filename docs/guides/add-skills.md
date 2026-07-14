@@ -47,7 +47,7 @@ When asked to generate a report:
 ## Step 2: Test It
 
 ```bash
-muxi dev
+muxi up
 ```
 
 Ask your agent something that matches the skill:

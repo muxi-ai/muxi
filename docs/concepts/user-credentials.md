@@ -351,55 +351,64 @@ Developers can manage user credentials programmatically:
 # List all credentials for a user
 muxi credentials list --user alice@acme.com
 
-# Add a credential for a user
-muxi credentials set GITHUB_TOKEN --user alice@acme.com
+# Add a GitHub credential for a user
+muxi credentials add github --user alice@acme.com
 
-# Delete a credential
-muxi credentials delete GITHUB_TOKEN --user alice@acme.com
-
-# Check credential status
-muxi credentials status --user alice@acme.com
+# Delete a credential by ID
+muxi credentials delete cred_123 --user alice@acme.com
 ```
 [[/tab]]
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+from muxi import FormationClient
 
-client = Muxi()
-
-# List all credentials for a user
-credentials = client.credentials.list(user_id="alice@acme.com")
-
-# Add a credential for a user
-client.credentials.set(
-    "GITHUB_TOKEN",
-    value="ghp_xxx",
-    user_id="alice@acme.com"
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
 )
 
-# Delete a credential
-client.credentials.delete("GITHUB_TOKEN", user_id="alice@acme.com")
+# List all credentials for a user
+credentials = formation.list_credentials("alice@acme.com")
+
+# Add a credential for a user
+created = formation.create_credential(
+    "alice@acme.com",
+    {
+        "service": "github",
+        "name": "work",
+        "credential": {"token": "ghp_xxx"},
+    },
+)
+
+# Delete a credential by ID
+formation.delete_credential(created["credential_id"], "alice@acme.com")
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
-
-// List all credentials for a user
-const credentials = await client.credentials.list({ userId: 'alice@acme.com' });
-
-// Add a credential for a user
-await client.credentials.set('GITHUB_TOKEN', {
-  value: 'ghp_xxx',
-  userId: 'alice@acme.com'
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
 });
 
-// Delete a credential
-await client.credentials.delete('GITHUB_TOKEN', { userId: 'alice@acme.com' });
+// List all credentials for a user
+const credentials = await formation.listCredentials('alice@acme.com');
+
+// Add a credential for a user
+const created = await formation.createCredential('alice@acme.com', {
+  service: 'github',
+  name: 'work',
+  credential: { token: 'ghp_xxx' }
+});
+
+// Delete a credential by ID
+await formation.deleteCredential(created.credential_id, 'alice@acme.com');
 ```
 [[/tab]]
 

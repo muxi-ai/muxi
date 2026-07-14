@@ -223,7 +223,7 @@ config:
 flowchart TB
     subgraph Formation["Formation Runtime"]
         Overlord["Overlord (Orchestrator)"]
-        Memory["Memory (3-tier)"]
+        Memory["Memory Platform"]
 
         subgraph Agents
             A1[Agent]
@@ -246,7 +246,7 @@ flowchart TB
 ### Local Development
 
 ```
-muxi dev → Runtime (localhost:8001)
+muxi up → Draft formation through MUXI Server
 ```
 
 ### Single Server

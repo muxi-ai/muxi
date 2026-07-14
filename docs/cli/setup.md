@@ -121,19 +121,16 @@ Your keys are encrypted locally - never sent to the server unencrypted.
 Test your formation before deploying:
 
 ```bash
-muxi dev
+muxi up
 ```
 
 ```
-Starting development server...
-✓ Formation loaded
-✓ Knowledge indexed (0 documents)
-✓ Server running at http://localhost:8001
+✓ Started my-assistant
 
-Chat: http://localhost:8001/chat
-API:  http://localhost:8001/v1
+✓ Formation running on port 8001
 
-Press Ctrl+C to stop.
+  Draft URL: http://localhost:7890/draft/my-assistant
+  To stop:   muxi down
 ```
 
 Try chatting:
@@ -164,7 +161,7 @@ Deploying my-assistant to local...
 
 Formation: my-assistant
 Status:    running
-URL:       http://localhost:7890/v1/formations/my-assistant
+URL:       http://localhost:7890/api/my-assistant
 ```
 
 [[/steps]]

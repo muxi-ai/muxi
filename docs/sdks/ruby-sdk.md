@@ -4,12 +4,7 @@ description: Native Ruby client for MUXI formations
 ---
 # Ruby SDK
 
-## Idiomatic Ruby access to your agents
-
-Build Ruby applications that interact with MUXI formations. Full support for chat, streaming, sessions, and all Formation API operations.
-
-**GitHub:** [`muxi-ai/muxi-ruby`](https://github.com/muxi-ai/muxi-ruby)  
-**RubyGems:** [`muxi`](https://rubygems.org/gems/muxi)
+**GitHub:** [`muxi-ai/muxi-ruby`](https://github.com/muxi-ai/muxi-ruby)
 
 ## Installation
 
@@ -17,140 +12,67 @@ Build Ruby applications that interact with MUXI formations. Full support for cha
 gem install muxi
 ```
 
-Or add to your Gemfile:
+## Formation Client
 
 ```ruby
-gem 'muxi'
-```
-
-## Quick Start
-
-```ruby
+require 'json'
 require 'muxi'
 
 client = Muxi::FormationClient.new(
   server_url: 'http://localhost:7890',
   formation_id: 'my-assistant',
-  client_key: 'your_client_key'
+  client_key: 'fmc_...',
+  admin_key: 'fma_...'
 )
 
-# Check health
 puts client.health
 ```
 
-## Chat (Streaming)
+Set `mode: 'draft'` for local drafts, or `base_url:` for a direct Runtime `/v1`
+connection.
+
+## Chat
 
 ```ruby
-client.chat_stream(message: 'Hello!', user_id: 'user_123') do |event|
-  case event['type']
-  when 'text'
-    print event['text']
-  when 'done'
-    break
-  end
-end
-```
-
-## Chat (Non-Streaming)
-
-```ruby
-response = client.chat(message: 'Hello!', user_id: 'user_123')
+response = client.chat(
+  { message: 'Hello!', session_id: 'sess_abc123' },
+  user_id: 'user_123'
+)
 puts response['response']
 ```
 
-## Memory
+## Streaming
 
 ```ruby
-# Get memories
-memories = client.get_memories(user_id: 'user_123')
+client.chat_stream({ message: 'Tell me a story' }, user_id: 'user_123') do |event|
+  next unless event['event'] == 'message'
 
-# Add memory
-client.add_memory(
-  user_id: 'user_123',
-  mem_type: 'preference',
-  detail: 'User prefers Ruby'
-)
-
-# Clear buffer
-client.clear_user_buffer(user_id: 'user_123')
+  payload = JSON.parse(event['data'])
+  print payload['token'] if payload['token'].is_a?(String)
+end
 ```
 
-## Sessions
+`Muxi.parse_ui_widgets(event)` extracts widgets from a named `ui` event. Stream
+error frames are raised as SDK exceptions.
+
+## Sessions and Memory
 
 ```ruby
-# List sessions
-sessions = client.get_sessions(user_id: 'user_123')
-
-# Get session messages
-messages = client.get_session_messages(
-  session_id: 'sess_abc123',
-  user_id: 'user_123'
-)
+sessions = client.get_sessions('user_123', limit: 50)
+messages = client.get_session_messages('sess_abc123', 'user_123')
+memories = client.get_memories('user_123')
+client.add_memory('user_123', 'preference', 'User prefers Ruby')
+client.clear_user_buffer('user_123')
 ```
 
 ## Server Client
 
-For managing formations (deploy, start, stop):
-
-```ruby
-server = Muxi::ServerClient.new(
-  url: 'http://localhost:7890',
-  key_id: 'muxi_pk_...',
-  secret_key: 'muxi_sk_...'
-)
-
-# List formations
-formations = server.list_formations
-
-# Deploy
-server.deploy_formation(bundle_path: 'my-bot.tar.gz')
-
-# Stop/start/restart
-server.stop_formation(formation_id: 'my-bot')
-server.start_formation(formation_id: 'my-bot')
-```
-
-## Error Handling
-
-```ruby
-begin
-  response = client.chat(message: 'Hello!', user_id: 'user_123')
-rescue Muxi::AuthenticationError => e
-  puts "Auth failed: #{e.message}"
-rescue Muxi::RateLimitError => e
-  puts "Rate limited, retry after: #{e.retry_after}s"
-rescue Muxi::MuxiError => e
-  puts "Error: #{e.code} - #{e.message}"
-end
-```
-
-## Response UI Widgets
-
-A streamed response can carry optional [UI widgets](../reference/response-ui-widgets.md)
-(choices, links, MCP UI resources) on a `ui` event. Extract them with
-`Muxi.parse_ui_widgets`; it returns `[]` for any non-`ui` or malformed event, so
-unknown widgets are safely ignored.
-
-```ruby
-client.chat_stream(message: 'Which region?', user_id: 'user_123') do |event|
-  widgets = Muxi.parse_ui_widgets(event)
-  next if widgets.empty?
-
-  widgets.each do |widget|
-    puts widget['prompt'] if widget['type'] == 'options'
-  end
-end
-```
-
-## Idempotency
-
-The client auto-generates an `X-Muxi-Idempotency-Key` on every request, so a
-retry of a successful non-streaming mutation replays the original response.
-Streaming and failed requests execute again. Cached responses expose the echoed
-`idempotency_key` on the unwrapped result. See
-[Idempotency](../deep-dives/idempotency.md).
+Construct `Muxi::ServerClient` with `url`, `key_id`, and `secret_key`. Deploy
+and update methods accept a formation ID and the corresponding Server RPC
+payload.
 
 ## Learn More
 
-- [Full documentation on GitHub](https://github.com/muxi-ai/muxi-ruby)
+- [SDK Overview](README.md)
+- [Streaming Responses](../deep-dives/real-time-streaming.md)
 - [API Reference](../reference/api-reference.md)

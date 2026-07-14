@@ -31,7 +31,7 @@ const response = await formation.chat({ message: 'Hello!' }, 'user-123');
 
 // Streaming
 for await (const chunk of formation.chatStream({ message: 'Tell me a story' }, 'user-123')) {
-  console.log(chunk.text);
+  if (typeof chunk.token === 'string') console.log(chunk.token);
 }
 ```
 
@@ -69,18 +69,22 @@ for await (const chunk of formation.chatStream({ message: 'Tell me a story' }, '
       const message = input.value;
       if (!message) return;
 
-      messagesDiv.innerHTML += `<p><b>You:</b> ${message}</p>`;
+      const userP = document.createElement('p');
+      userP.textContent = `You: ${message}`;
+      messagesDiv.appendChild(userP);
       input.value = '';
 
       // Streaming response
       let response = '';
       const responseP = document.createElement('p');
-      responseP.innerHTML = '<b>Assistant:</b> ';
+      responseP.textContent = 'Assistant: ';
       messagesDiv.appendChild(responseP);
 
       for await (const chunk of formation.chatStream({ message }, userId)) {
-        response += chunk.text || '';
-        responseP.innerHTML = `<b>Assistant:</b> ${response}`;
+        if (typeof chunk.token === 'string') {
+          response += chunk.token;
+          responseP.textContent = `Assistant: ${response}`;
+        }
       }
     };
   </script>
@@ -112,11 +116,15 @@ export function Chat({ userId }: { userId: string }) {
     setInput('');
     setStreaming('');
 
+    let response = '';
     for await (const chunk of formation.chatStream({ message: input }, userId)) {
-      setStreaming(prev => prev + (chunk.text || ''));
+      if (typeof chunk.token === 'string') {
+        response += chunk.token;
+        setStreaming(response);
+      }
     }
 
-    setMessages(prev => [...prev, { role: 'assistant', content: streaming }]);
+    setMessages(prev => [...prev, { role: 'assistant', content: response }]);
     setStreaming('');
   };
 
@@ -149,14 +157,16 @@ const response = await formation.chat(
   { message: 'Hello!' },
   'user-123'
 );
-console.log(response.text);
+console.log(response.response);
 
 // Streaming
 for await (const chunk of formation.chatStream(
   { message: 'Tell me a story' },
   'user-123'
 )) {
-  process.stdout.write(chunk.text);
+  if (typeof chunk.token === 'string') {
+    process.stdout.write(chunk.token);
+  }
 }
 console.log();
 ```
@@ -164,6 +174,7 @@ console.log();
 
 [[tab Python]]
 ```python
+import json
 from muxi import FormationClient
 
 formation = FormationClient(
@@ -174,11 +185,15 @@ formation = FormationClient(
 
 # Simple chat
 response = formation.chat({"message": "Hello!"}, user_id="user-123")
-print(response.text)
+print(response["response"])
 
 # Streaming
-for chunk in formation.chat_stream({"message": "Tell me a story"}, user_id="user-123"):
-    print(chunk.text, end="", flush=True)
+for event in formation.chat_stream({"message": "Tell me a story"}, user_id="user-123"):
+    if event.get("event") == "message":
+        payload = json.loads(event.get("data", "{}"))
+        token = payload.get("token")
+        if isinstance(token, str):
+            print(token, end="", flush=True)
 print()
 ```
 [[/tab]]
@@ -197,7 +212,7 @@ Sessions maintain conversation context:
 
 [[tab TypeScript]]
 ```typescript
-// Create session
+// List the user's sessions
 const sessions = await formation.getSessions('user-123');
 
 // Chat with session
@@ -213,7 +228,7 @@ const history = await formation.getSessionMessages('sess_abc123', 'user-123');
 
 [[tab Python]]
 ```python
-# Create session
+# List the user's sessions
 sessions = formation.get_sessions("user-123")
 
 # Chat with session
@@ -255,8 +270,8 @@ for await (const chunk of formation.chatStream({ message }, userId)) {
       }
       // Ignore unknown widget types (progressive enhancement).
     }
-  } else {
-    appendText(chunk.text || '');
+  } else if (typeof chunk.token === 'string') {
+    appendText(chunk.token);
   }
 }
 ```
@@ -264,10 +279,11 @@ for await (const chunk of formation.chatStream({ message }, userId)) {
 
 [[tab Python]]
 ```python
+import json
 from muxi import parse_ui_widgets
 
-for chunk in formation.chat_stream({"message": message}, user_id=user_id):
-    widgets = parse_ui_widgets(chunk)
+for event in formation.chat_stream({"message": message}, user_id=user_id):
+    widgets = parse_ui_widgets(event)
     if widgets:
         for widget in widgets:
             if widget["type"] == "options":
@@ -276,8 +292,11 @@ for chunk in formation.chat_stream({"message": message}, user_id=user_id):
                     {"message": choice, "ui_response": {"id": widget["id"], "value": choice}},
                     user_id=user_id,
                 )
-    else:
-        print(chunk.text, end="", flush=True)
+    elif event.get("event") == "message":
+        payload = json.loads(event.get("data", "{}"))
+        token = payload.get("token")
+        if isinstance(token, str):
+            print(token, end="", flush=True)
 ```
 [[/tab]]
 
@@ -294,7 +313,7 @@ For direct API access (without SDK), see the endpoint reference:
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/v1/chat` | POST | Send message |
-| `/v1/sessions` | POST | Create session |
+| `/v1/sessions` | GET | List sessions |
 | `/v1/sessions/{id}` | GET | Get session history |
 | `/v1/agents` | GET | List agents |
 

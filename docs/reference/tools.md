@@ -47,7 +47,7 @@ muxi secrets set BRAVE_API_KEY
 All agents in the formation automatically have access to MCP servers defined in `mcp/*.afs`.
 
 ```bash
-muxi dev
+muxi up
 # Then: "Search for recent AI news"
 ```
 [[/step]]

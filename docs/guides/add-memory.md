@@ -10,11 +10,16 @@ Enable memory so agents remember what users told them - within a conversation an
 
 ## Overview
 
-MUXI memory layers:
+This guide configures the three context stores used on the request path:
 
 1. **Buffer** - Recent messages (in-memory)
 2. **Vector Search** - Semantic similarity
 3. **Persistent** - Long-term storage (database)
+
+These stores are one part of the wider [Memory Platform](../concepts/memory-system.md),
+which also provides user/group/formation scopes, immutable events, provenance,
+rebuilds, selective forgetting, ingestion, distillation, lifecycle controls,
+knowledge graphs, Captain's Logs, and lessons.
 
 > [!TIP]
 > **Persistent memory is enabled by default.** When you create a formation, SQLite-backed persistent memory is automatically active with `memory.db` in the formation directory. This guide covers customization and production setups.
@@ -97,7 +102,7 @@ muxi secrets set POSTGRES_URI
 ## Step 4: Test
 
 ```bash
-muxi dev
+muxi up
 ```
 
 Test memory:

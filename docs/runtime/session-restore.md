@@ -36,15 +36,19 @@ Build ChatGPT-like chat applications where users can return to previous conversa
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+from muxi import FormationClient
 
-client = Muxi()
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
+)
 
 # Restore a previous conversation
-client.sessions.restore(
-    session_id="conv_abc123",
-    user_id="user@example.com",
-    messages=[
+formation.restore_session(
+    "conv_abc123",
+    "user@example.com",
+    [
         {
             "role": "user",
             "content": "What's the weather?",
@@ -59,25 +63,28 @@ client.sessions.restore(
 )
 
 # Continue the conversation with full context
-response = client.chat(
-    message="What about tomorrow?",
-    session_id="conv_abc123",
-    user_id="user@example.com"
+response = formation.chat(
+    {"message": "What about tomorrow?", "session_id": "conv_abc123"},
+    user_id="user@example.com",
 )
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
+});
 
 // Restore a previous conversation
-await client.sessions.restore({
-  sessionId: 'conv_abc123',
-  userId: 'user@example.com',
-  messages: [
+await formation.restoreSession(
+  'conv_abc123',
+  'user@example.com',
+  [
     {
       role: 'user',
       content: "What's the weather?",
@@ -89,33 +96,32 @@ await client.sessions.restore({
       timestamp: '2025-01-09T10:00:15Z'
     }
   ]
-});
+);
 
 // Continue the conversation with full context
-const response = await client.chat({
+const response = await formation.chat({
   message: 'What about tomorrow?',
-  sessionId: 'conv_abc123',
-  userId: 'user@example.com'
-});
+  session_id: 'conv_abc123'
+}, 'user@example.com');
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-client := muxi.NewClient()
+formation := muxi.NewFormationClient(&muxi.FormationConfig{
+    ServerURL:   "http://localhost:7890",
+    FormationID: "my-assistant",
+    ClientKey:   "<your-client-key>",
+})
 
 // Restore a previous conversation
-client.Sessions.Restore(ctx, &muxi.RestoreRequest{
-    SessionID: "conv_abc123",
-    UserID:    "user@example.com",
-    Messages: []muxi.Message{
+formation.RestoreSession(ctx, "conv_abc123", "user@example.com", []muxi.Message{
         {Role: "user", Content: "What's the weather?", Timestamp: "2025-01-09T10:00:00Z"},
         {Role: "assistant", Content: "It's sunny and 72°F.", Timestamp: "2025-01-09T10:00:15Z"},
-    },
 })
 
 // Continue the conversation with full context
-response, _ := client.Chat(ctx, &muxi.ChatRequest{
+response, _ := formation.Chat(ctx, &muxi.ChatRequest{
     Message:   "What about tomorrow?",
     SessionID: "conv_abc123",
     UserID:    "user@example.com",
@@ -145,9 +151,13 @@ response, _ := client.Chat(ctx, &muxi.ChatRequest{
 
 [[tab Python]]
 ```python
-from muxi import Muxi
+from muxi import FormationClient
 
-client = Muxi()
+formation = FormationClient(
+    server_url="http://localhost:7890",
+    formation_id="my-assistant",
+    client_key="<your-client-key>",
+)
 
 async def chat(session_id: str, message: str, user_id: str):
     # Check if we have stored history for this session
@@ -155,22 +165,25 @@ async def chat(session_id: str, message: str, user_id: str):
 
     if history:
         # Restore before sending message
-        client.sessions.restore(
-            session_id=session_id,
-            user_id=user_id,
-            messages=history
-        )
+        formation.restore_session(session_id, user_id, history)
 
     # Send message with full context
-    return client.chat(message=message, session_id=session_id, user_id=user_id)
+    return formation.chat(
+        {"message": message, "session_id": session_id},
+        user_id=user_id,
+    )
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-import { Muxi } from '@muxi/sdk';
+import { FormationClient } from '@muxi/sdk';
 
-const client = new Muxi();
+const formation = new FormationClient({
+  serverUrl: 'http://localhost:7890',
+  formationId: 'my-assistant',
+  clientKey: '<your-client-key>'
+});
 
 async function chat(sessionId: string, message: string, userId: string) {
   // Check if we have stored history for this session
@@ -178,32 +191,28 @@ async function chat(sessionId: string, message: string, userId: string) {
 
   if (history.length > 0) {
     // Restore before sending message
-    await client.sessions.restore({ sessionId, userId, messages: history });
+    await formation.restoreSession(sessionId, userId, history);
   }
 
   // Send message with full context
-  return client.chat({ message, sessionId, userId });
+  return formation.chat({ message, session_id: sessionId }, userId);
 }
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-func chat(ctx context.Context, sessionID, message, userID string) (*muxi.Response, error) {
+func chat(ctx context.Context, sessionID, message, userID string) (*muxi.ChatResponse, error) {
     // Check if we have stored history for this session
     history, _ := db.Messages.Find(ctx, sessionID, userID)
 
     if len(history) > 0 {
         // Restore before sending message
-        client.Sessions.Restore(ctx, &muxi.RestoreRequest{
-            SessionID: sessionID,
-            UserID:    userID,
-            Messages:  history,
-        })
+        formation.RestoreSession(ctx, sessionID, userID, history)
     }
 
     // Send message with full context
-    return client.Chat(ctx, &muxi.ChatRequest{
+    return formation.Chat(ctx, &muxi.ChatRequest{
         Message:   message,
         SessionID: sessionID,
         UserID:    userID,
@@ -215,15 +224,15 @@ func chat(ctx context.Context, sessionID, message, userID string) (*muxi.Respons
 [[tab cURL]]
 ```bash
 # Step 1: Restore session with history from your database
-curl -X POST 'https://api.muxi.ai/v1/sessions/sess_abc123/restore' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+curl -X POST 'http://localhost:7890/api/my-assistant/v1/sessions/sess_abc123/restore' \
+  -H 'X-Muxi-Client-Key: YOUR_CLIENT_KEY' \
   -H 'X-Muxi-User-Id: user@example.com' \
   -H 'Content-Type: application/json' \
   -d '{"messages": [...]}'
 
 # Step 2: Send new message with full context
-curl -X POST 'https://api.muxi.ai/v1/chat' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+curl -X POST 'http://localhost:7890/api/my-assistant/v1/chat' \
+  -H 'X-Muxi-Client-Key: YOUR_CLIENT_KEY' \
   -H 'X-Muxi-User-Id: user@example.com' \
   -H 'Content-Type: application/json' \
   -d '{"message": "Continue our conversation", "session_id": "sess_abc123"}'
@@ -250,11 +259,7 @@ messages = await db.messages.find(
     timestamp__gte=cutoff
 )
 
-client.sessions.restore(
-    session_id=session_id,
-    user_id=user_id,
-    messages=messages[-50:]  # Last 50 only
-)
+formation.restore_session(session_id, user_id, messages[-50:])
 ```
 [[/tab]]
 
@@ -268,11 +273,7 @@ const messages = await db.messages.find({
   timestamp: { $gte: cutoff }
 });
 
-await client.sessions.restore({
-  sessionId,
-  userId,
-  messages: messages.slice(-50)  // Last 50 only
-});
+await formation.restoreSession(sessionId, userId, messages.slice(-50));
 ```
 [[/tab]]
 
@@ -288,19 +289,15 @@ if len(messages) > 50 {
     messages = messages[len(messages)-50:]
 }
 
-client.Sessions.Restore(ctx, &muxi.RestoreRequest{
-    SessionID: sessionID,
-    UserID:    userID,
-    Messages:  messages,
-})
+formation.RestoreSession(ctx, sessionID, userID, messages)
 ```
 [[/tab]]
 
 [[tab cURL]]
 ```bash
 # Restore with time-filtered messages from your database
-curl -X POST 'https://api.muxi.ai/v1/sessions/sess_abc123/restore' \
-  -H 'Authorization: Bearer YOUR_API_KEY' \
+curl -X POST 'http://localhost:7890/api/my-assistant/v1/sessions/sess_abc123/restore' \
+  -H 'X-Muxi-Client-Key: YOUR_CLIENT_KEY' \
   -H 'X-Muxi-User-Id: user@example.com' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -324,15 +321,7 @@ Buffer has size limits (default: 50 messages). If you restore more:
 - Response shows `messages_dropped` count
 
 ```python
-result = client.sessions.restore(
-    session_id="sess_123",
-    user_id=user_id,
-    messages=all_100_messages  # Too many!
-)
-
-# Result:
-# messages_loaded: 50
-# messages_dropped: 50  (oldest 50 dropped)
+formation.restore_session("sess_123", user_id, all_100_messages)
 ```
 
 **Recommendation:** Only restore last 20-50 messages for performance.
@@ -354,9 +343,12 @@ result = client.sessions.restore(
 
 ```python
 # Store as messages flow - don't batch
-response = client.chat(message, session_id, user_id)
+response = formation.chat(
+    {"message": message, "session_id": session_id},
+    user_id=user_id,
+)
 await db.save_message(session_id, "user", message)
-await db.save_message(session_id, "assistant", response.content)
+await db.save_message(session_id, "assistant", response["response"])
 ```
 
 ### 2. Limit Restore Size
@@ -368,12 +360,11 @@ messages = await db.messages.find({...}).limit(50)
 # Bad: All 10,000 messages (slow, wasteful)
 ```
 
-### 3. Handle Overflow
+### 3. Prevent Overflow
 
 ```python
-result = client.sessions.restore(...)
-if result.messages_dropped > 0:
-    # Notify user: "Showing last 50 messages"
+messages = history[-50:]
+formation.restore_session(session_id, user_id, messages)
 ```
 
 ### 4. Include Metadata

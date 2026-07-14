@@ -27,7 +27,7 @@ curl http://localhost:7890/health
 ### Formation Health
 
 ```bash
-curl http://localhost:8001/health
+curl http://localhost:7890/api/my-assistant/v1/health
 ```
 
 ```json
@@ -125,7 +125,7 @@ logging:
 
 ## Observability Events
 
-MUXI emits 356 typed events for observability.
+MUXI emits hundreds of typed events for observability.
 
 ### Event Categories
 
@@ -140,7 +140,7 @@ MUXI emits 356 typed events for observability.
 ### Streaming Events
 
 ```bash
-curl http://localhost:8001/v1/events \
+curl http://localhost:7890/api/my-assistant/v1/events \
   -H "X-MUXI-Admin-Key: ..." \
   -H "Accept: text/event-stream"
 ```

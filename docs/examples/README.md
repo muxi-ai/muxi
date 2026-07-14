@@ -27,7 +27,7 @@ The simplest MUXI formation - one agent, no tools, no memory.
 cp -r examples/01-simple-chatbot my-bot
 cd my-bot
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 ---
@@ -53,7 +53,7 @@ cp -r examples/02-customer-support my-support
 cd my-support
 # Add your docs to knowledge/
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 ---
@@ -83,7 +83,7 @@ cd my-researcher
 npm install -g @modelcontextprotocol/server-brave-search
 npm install -g @modelcontextprotocol/server-filesystem
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 ---
@@ -139,7 +139,7 @@ cp -r examples/05-multi-agent-team my-team
 cd my-team
 npm install -g @modelcontextprotocol/server-brave-search
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 
@@ -169,15 +169,14 @@ All examples include test commands. General pattern:
 
 ```bash
 # Start formation
-muxi dev
+muxi up
 
 # Test with curl
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/FORMATION_ID/v1/chat \
   -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: user_123" \
   -d '{"message": "Your test message"}'
-
-# Or open browser
-open http://localhost:8001/chat
 ```
 
 ## Customization

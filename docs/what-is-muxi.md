@@ -122,10 +122,17 @@ muxi deploy
 ### Build on top
 
 ```python
-from muxi import MuxiClient
+from muxi import FormationClient
 
-client = MuxiClient("http://server:7890/api")
-response = client.chat("customer-support", "I need a refund", user_id="user_123")
+formation = FormationClient(
+    server_url="http://server:7890",
+    formation_id="customer-support",
+    client_key="<your-client-key>",
+)
+response = formation.chat(
+    {"message": "I need a refund"},
+    user_id="user_123",
+)
 ```
 
 ## Key Capabilities
@@ -144,11 +151,11 @@ Use OpenAI, Anthropic, Google, Azure, AWS Bedrock, or local models (Ollama, llam
 
 [[card]]
 
-#### Multi-Tenant by Design
+#### Multi-Tenant RBAC
 
-Each user stores their own credentials – OAuth tokens, API keys, connection strings. Complete session isolation. One formation serves thousands of users with personalized experiences.
+Sessions, memory, artifacts, and encrypted credentials stay isolated per user. Group-based RBAC controls access to agents, MCP servers, and individual tools through inheritance and fail-closed membership resolution.
 
-[Learn more →](concepts/multi-tenancy.md)
+[Learn more →](concepts/access-control.md)
 
 [[/card]]
 
@@ -174,9 +181,9 @@ Agents within your formation work together seamlessly. Delegate tasks across for
 
 [[card]]
 
-#### 1,000+ MCP Tools
+#### MCP Without the Bloat
 
-Access GitHub, Slack, Stripe, databases, file systems, and more through Model Context Protocol. Unlike typical implementations, MUXI indexes tool schemas once – not dumped into every context window.
+Connect MCP tool catalogs without injecting every schema into every prompt. MUXI indexes definitions once, selects relevant tools at runtime, and filters the surface through layered allow/deny rules.
 
 [Learn more →](concepts/tools-and-mcp.md)
 
@@ -184,9 +191,9 @@ Access GitHub, Slack, Stripe, databases, file systems, and more through Model Co
 
 [[card]]
 
-#### Three-Tier Memory
+#### Memory Platform
 
-Buffer memory for immediate context. Persistent memory across sessions. Vector memory for semantic retrieval. User synopsis caching reduces token usage by 80%+.
+Layered context, user/group/formation scopes, immutable events, provenance, rebuilds, selective forgetting, decay, knowledge graphs, Captain's Logs, and signed on-premises distillation.
 
 [Learn more →](concepts/memory-system.md)
 
@@ -194,9 +201,9 @@ Buffer memory for immediate context. Persistent memory across sessions. Vector m
 
 [[card]]
 
-#### Knowledge & RAG
+#### Reasoning RAG & Remote Knowledge
 
-Pre-load agents with domain knowledge from files and URLs. PDFs, markdown, Office docs, images – agents retrieve relevant context without fine-tuning. Update knowledge by updating files.
+Navigate hierarchical document trees with tree, vector, or hybrid retrieval. Synchronize local and remote knowledge from HTTP, cloud storage, rsync, FTP, and SFTP sources.
 
 [Learn more →](concepts/knowledge-and-rag.md)
 
@@ -206,27 +213,62 @@ Pre-load agents with domain knowledge from files and URLs. PDFs, markdown, Offic
 
 #### Real-Time Streaming
 
-Stream responses as agents think, not after completion. SSE and WebSocket support. Token-by-token delivery for chat interfaces. Progress updates for multi-step operations.
+Stream text, progress, planning, tool activity, and typed UI widgets over SSE. Non-streaming responses use the same response envelope and text fallback.
 
-[Learn more →](deep-dives/real-time-streaming.md)
+[Learn more →](reference/response-ui-widgets.md)
+
+[[/card]]
+
+[[card]]
+
+#### Formation Self-Tuning
+
+Turn operational evidence into reviewable revisions of `MUXI.md`, backed by experiments and watched metrics. Inspect, apply, or dismiss every suggested behavioral change.
+
+[Learn more →](concepts/self-tuning.md)
+
+[[/card]]
+
+[[card]]
+
+#### Proactive Formations
+
+Let formations initiate useful contact through heartbeats, active hours, per-user channels, soul documents, notification routing, and built-in slash commands.
+
+[Learn more →](concepts/proactiveness.md)
+
+[[/card]]
+
+[[card]]
+
+#### Coding-Agent Delegation
+
+Delegate repository work to supported headless coding agents in isolated asynchronous workspaces, with deterministic monitoring for long-running jobs.
+
+[Learn more →](concepts/coding-delegation.md)
+
+[[/card]]
+
+[[card]]
+
+#### Durable Artifacts & UI
+
+Persist generated files as encrypted, versioned, user-scoped memory and return typed options, actions, links, and MCP resources that clients render natively.
+
+[Learn more →](concepts/artifacts.md)
 
 [[/card]]
 
 ::::
 
 
-## Built for Efficiency
+## Built for Production
 
-MUXI isn't a prototype tool – it's production infrastructure with the numbers to prove it.
-
-| Metric | Value |
-|--------|-------|
-| Time to first agent | 5 Minutes |
-| Response time | <100ms time to first token |
-| Test coverage | 80%+ test coverage across core components |
-| Observability Events | 356 typed events |
-| LLM  supported | 21+ providers, 300+ models |
-| LLM cost saving | 50-80% via semantic caching |
+MUXI includes the infrastructure that normally appears after a prototype fails
+its first production review: group-based RBAC, per-user credentials, scoped and
+auditable memory, idempotent mutations, circuit breakers, fallback models,
+typed observability, PII redaction, isolated runtimes, health checks, updates,
+and rollbacks.
 
 
 ## Declare Once, Deploy Everywhere
@@ -249,8 +291,9 @@ Discover and share formations through the [MUXI Registry](https://registry.muxi.
 # Pull a pre-built formation
 muxi pull @acme/customer-support
 
-# Publish your own
-muxi publish my-agent:1.0.0
+# Publish the current formation
+cd my-agent
+muxi push
 ```
 
 Browse community formations, install with one command, customize for your needs.
@@ -263,7 +306,7 @@ MUXI is **open-source** and **self-hostable**. Your data stays on your infrastru
 - Full source code on [GitHub](https://github.com/muxi-ai)
 - Single binary installation
 - Works on Linux, macOS, Windows, Docker
-- Enterprise features available
+- Enterprise controls included
 
 
 ## How It Compares
@@ -277,7 +320,7 @@ MUXI is **open-source** and **self-hostable**. Your data stays on your infrastru
 | **Multi-tenancy** | Built-in | You build it | Limited |
 | **Self-hosted** | Yes | N/A | No |
 | **LLM choice** | Any provider | Any provider | Vendor models |
-| **Observability** | 356 events | You build it | Vendor tools |
+| **Observability** | Hundreds of typed events | You build it | Vendor tools |
 
 ### vs. AI Assistants (OpenClaw, ChatGPT)
 
@@ -294,7 +337,7 @@ Building a SaaS with AI features? MUXI handles orchestration, memory, and multi-
 
 ### Internal Tool Builders
 
-Deploying AI assistants for your team? MUXI gives you SOPs, observability, and enterprise-grade infrastructure out of the box.
+Deploying AI systems across your organization? MUXI gives you group-based RBAC, scoped memory, per-user credentials, SOPs, observability, and self-tuning out of the box.
 
 ### Developers Tired of Framework Hell
 

@@ -15,7 +15,7 @@ Monitor formation health, track request latency, and debug issues with structure
 curl http://localhost:7890/health
 
 # Formation health
-curl http://localhost:8001/health
+curl http://localhost:7890/api/my-assistant/v1/health
 ```
 
 ## View Logs
@@ -90,7 +90,7 @@ Watch for:
 
 ```bash
 #!/bin/bash
-if ! curl -sf http://localhost:8001/health > /dev/null; then
+if ! curl -sf http://localhost:7890/api/my-assistant/v1/health > /dev/null; then
     echo "Formation unhealthy!" | mail -s "MUXI Alert" admin@example.com
 fi
 ```

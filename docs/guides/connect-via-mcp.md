@@ -35,7 +35,7 @@ MCP uses the same `X-Muxi-Client-Key` as the REST API. Pass it in your transport
 
 ```json
 {
-  "url": "http://localhost:8001/mcp",
+  "url": "http://localhost:7890/draft/my-formation/mcp",
   "headers": {
     "X-Muxi-Client-Key": "fmc_..."
   }
@@ -70,7 +70,7 @@ Add your formation to `claude_desktop_config.json`:
   "mcpServers": {
     "my-formation": {
       "type": "streamable-http",
-      "url": "http://localhost:8001/mcp",
+      "url": "http://localhost:7890/draft/my-formation/mcp",
       "headers": {
         "X-Muxi-Client-Key": "fmc_..."
       }
@@ -93,7 +93,7 @@ Add the MCP server in Cursor's settings:
 2. Add a new server:
    - **Name:** `my-formation`
    - **Type:** `streamable-http`
-   - **URL:** `http://localhost:8001/mcp`
+   - **URL:** `http://localhost:7890/draft/my-formation/mcp`
 3. Add the header `X-Muxi-Client-Key: fmc_...`
 
 Your formation's tools are now available to Cursor's AI assistant.
@@ -113,7 +113,7 @@ from fastmcp import Client
 from fastmcp.client.transports.http import StreamableHttpTransport
 
 transport = StreamableHttpTransport(
-    "http://localhost:8001/mcp/",
+    "http://localhost:7890/draft/my-formation/mcp/",
     headers={"X-Muxi-Client-Key": "fmc_..."},
 )
 
@@ -156,7 +156,7 @@ response = client.messages.create(
     max_tokens=1024,
     mcp_servers=[{
         "type": "url",
-        "url": "http://localhost:8001/mcp",
+        "url": "http://localhost:7890/draft/my-formation/mcp",
         "name": "my-formation",
         "custom_headers": {
             "X-Muxi-Client-Key": "fmc_...",
@@ -202,7 +202,7 @@ REST Client ──headers──────────────────�
 ## Troubleshooting
 
 **Tools not appearing?**
-- Verify the formation is running and `/mcp` is reachable: `curl http://localhost:8001/mcp/`
+- Verify the formation is running and `/mcp` is reachable: `curl http://localhost:7890/draft/my-formation/mcp/`
 - Check that `fastmcp>=3.0.0` is installed in the runtime environment
 
 **401 on tool calls?**

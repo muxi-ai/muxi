@@ -31,19 +31,18 @@ muxi secrets setup
 # Enter your OpenAI API key when prompted
 
 # 3. Run locally
-muxi dev
+muxi up
 ```
 
 ## Test It
 
 ```bash
 # Using curl
-curl -X POST http://localhost:8001/v1/chat \
+curl -X POST http://localhost:7890/draft/simple-chatbot/v1/chat \
   -H "Content-Type: application/json" \
+  -H "X-Muxi-Client-Key: YOUR_CLIENT_KEY" \
+  -H "X-Muxi-User-Id: user_123" \
   -d '{"message": "Hello! What can you help me with?"}'
-
-# Or open browser
-open http://localhost:8001/chat
 ```
 
 ## Expected Response
@@ -88,8 +87,8 @@ system_message: You are a helpful AI assistant.
 
 This is the simplest formation. Try:
 
-- [02-customer-support](02-customer-support/) - Add memory and knowledge
-- [03-research-assistant](03-research-assistant/) - Add web search tools
+- [02-customer-support](../02-customer-support/) - Add memory and knowledge
+- [03-research-assistant](../03-research-assistant/) - Add web search tools
 - [Add Memory Guide](../../guides/add-memory.md) - Persist conversations
 - [Add Tools Guide](../../guides/add-mcp-tools.md) - Give agent capabilities
 

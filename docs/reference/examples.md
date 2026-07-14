@@ -431,4 +431,4 @@ logging:
 
 - [Schema Reference](../reference/formation-schema.md) - Full schema documentation
 - [Tools](../concepts/tools-and-mcp.md) - MCP configuration
-- [Example Formations](examples/) - Runnable examples
+- [Example Formations](../examples/) - Runnable examples

@@ -411,5 +411,5 @@ data: {"finished": true}
 > [!TIP]
 > **Building an SDK for a new language?**
 >
-> We'd love to have you contribute! Check out our [SDK Development Guide](/docs/https://muxi.org/contributing)
-> or reach out on [GitHub Discussions](/docs/https://github.com/org/muxi-ai/discussions).
+> We'd love to have you contribute! Check out our [SDK Development Guide](https://muxi.org/contributing)
+> or reach out on [GitHub Discussions](https://github.com/orgs/muxi-ai/discussions).

@@ -148,7 +148,7 @@ Run your own support agents without sending customer data to third parties.
 | Multi-tenancy | Built-in isolation per user/customer |
 | Self-hosted | Runs on your infrastructure |
 | Reliability | Circuit breakers, retries, observability |
-| Integration | 1,000+ MCP tools, webhooks, triggers |
+| Integration | Indexed MCP catalogs, webhooks, triggers |
 | Compliance | Data never leaves your control |
 | Scale | One server, many agents, many users |
 

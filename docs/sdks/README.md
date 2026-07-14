@@ -133,8 +133,11 @@ const client = new FormationClient({
   clientKey: "your_client_key",
 });
 
-for await (const event of client.chatStream({ message: "Hello!" })) {
-  if (event.type === "text") process.stdout.write(event.text);
+for await (const event of client.chatStream(
+  { message: "Hello!" },
+  "user_123"
+)) {
+  if (typeof event.token === "string") process.stdout.write(event.token);
 }
 ```
 [[/tab]]
@@ -149,8 +152,8 @@ client := muxi.NewFormationClient(&muxi.FormationConfig{
 
 stream, _ := client.ChatStream(ctx, &muxi.ChatRequest{Message: "Hello!"})
 for chunk := range stream {
-    if chunk.Type == "text" {
-        fmt.Print(chunk.Text)
+    if token, ok := chunk.Raw["token"].(string); ok {
+        fmt.Print(token)
     }
 }
 ```
@@ -158,6 +161,7 @@ for chunk := range stream {
 
 [[tab Ruby]]
 ```ruby
+require 'json'
 require 'muxi'
 
 client = Muxi::FormationClient.new(
@@ -166,8 +170,10 @@ client = Muxi::FormationClient.new(
   client_key: 'your_client_key'
 )
 
-client.chat_stream(message: 'Hello!') do |event|
-  print event['text'] if event['type'] == 'text'
+client.chat_stream({ message: 'Hello!' }, user_id: 'user_123') do |event|
+  next unless event['event'] == 'message'
+  data = JSON.parse(event['data'])
+  print data['token'] if data['token'].is_a?(String)
 end
 ```
 [[/tab]]
@@ -177,115 +183,161 @@ end
 FormationClient client = new FormationClient(
     "http://localhost:7890",
     "my-assistant",
-    "your_client_key"
+    "your_client_key",
+    null
 );
 
-client.chatStream(new ChatRequest("Hello!"), event -> {
-    if ("text".equals(event.getType())) {
-        System.out.print(event.getText());
+JsonObject request = new JsonObject();
+request.addProperty("message", "Hello!");
+client.chatStream(request, "user_123", event -> {
+    if ("message".equals(event.event())) {
+        JsonObject data = JsonParser.parseString(event.data()).getAsJsonObject();
+        if (data.has("token")) System.out.print(data.get("token").getAsString());
     }
-    return true;
 });
 ```
 [[/tab]]
 
 [[tab Kotlin]]
 ```kotlin
-val client = FormationClient(
+val client = FormationClient(FormationConfig(
     serverUrl = "http://localhost:7890",
     formationId = "my-assistant",
     clientKey = "your_client_key"
-)
+))
 
-client.chatStream(ChatRequest(message = "Hello!")).collect { event ->
-    if (event.type == "text") print(event.text)
+client.chatStream(
+    mapOf("message" to "Hello!"),
+    userId = "user_123"
+).collect { event ->
+    if (event.event == "message") {
+        val token = Json.parseToJsonElement(event.data)
+            .jsonObject["token"]?.jsonPrimitive?.contentOrNull
+        if (token != null) print(token)
+    }
 }
 ```
 [[/tab]]
 
 [[tab Swift]]
 ```swift
-let client = FormationClient(
-    serverURL: "http://localhost:7890",
-    formationID: "my-assistant",
+let client = try FormationClient(config: FormationConfig(
+    formationId: "my-assistant",
+    serverUrl: "http://localhost:7890",
     clientKey: "your_client_key"
-)
+))
 
-for try await event in client.chatStream(message: "Hello!") {
-    if event.type == "text" { print(event.text ?? "", terminator: "") }
+for try await event in await client.chatStream(
+    ["message": "Hello!"],
+    userId: "user_123"
+) {
+    guard event.event == "message",
+          let data = event.data.data(using: .utf8),
+          let payload = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+          let token = payload["token"] as? String else { continue }
+    print(token, terminator: "")
 }
 ```
 [[/tab]]
 
 [[tab C#]]
 ```csharp
-var client = new FormationClient(
-    serverUrl: "http://localhost:7890",
-    formationId: "my-assistant",
-    clientKey: "your_client_key"
-);
+using System.Text.Json;
 
-await foreach (var chunk in client.ChatStreamAsync(new ChatRequest { Message = "Hello!" }))
+var client = new FormationClient(new FormationConfig
 {
-    if (chunk.Type == "text") Console.Write(chunk.Text);
+    ServerUrl = "http://localhost:7890",
+    FormationId = "my-assistant",
+    ClientKey = "your_client_key"
+});
+
+await foreach (var evt in client.ChatStreamAsync(
+    new Dictionary<string, object> { ["message"] = "Hello!" },
+    userId: "user_123"))
+{
+    if (evt.Event != "message") continue;
+    using var document = JsonDocument.Parse(evt.Data);
+    if (document.RootElement.TryGetProperty("token", out var token) &&
+        token.ValueKind == JsonValueKind.String)
+        Console.Write(token.GetString());
 }
 ```
 [[/tab]]
 
 [[tab PHP]]
 ```php
-$client = new FormationClient(
-    serverUrl: 'http://localhost:7890',
-    formationId: 'my-assistant',
-    clientKey: 'your_client_key'
-);
+$client = new FormationClient([
+    'serverUrl' => 'http://localhost:7890',
+    'formationId' => 'my-assistant',
+    'clientKey' => 'your_client_key',
+]);
 
-foreach ($client->chatStream(['message' => 'Hello!']) as $event) {
-    if ($event['type'] === 'text') echo $event['text'];
-}
+$client->chatStream(
+    ['message' => 'Hello!'],
+    'user_123',
+    function (array $event): void {
+        if ($event['event'] !== 'message') return;
+        $data = json_decode($event['data'], true);
+        if (is_string($data['token'] ?? null)) echo $data['token'];
+    }
+);
 ```
 [[/tab]]
 
 [[tab Dart]]
 ```dart
-final client = FormationClient(
+final client = FormationClient(FormationConfig(
   serverUrl: 'http://localhost:7890',
   formationId: 'my-assistant',
   clientKey: 'your_client_key',
-);
+));
 
-await for (final event in client.chatStream(message: 'Hello!')) {
-  if (event['type'] == 'text') stdout.write(event['text']);
+await for (final event in client.chatStream(
+  {'message': 'Hello!'},
+  userId: 'user_123',
+)) {
+  if (event.event != 'message') continue;
+  final data = jsonDecode(event.data);
+  if (data['token'] is String) stdout.write(data['token']);
 }
 ```
 [[/tab]]
 
 [[tab Rust]]
 ```rust
-let client = FormationClient::new(
+let config = FormationConfig::new(
     "http://localhost:7890",
     "my-assistant",
     "your_client_key",
+    "",
 );
+let client = FormationClient::new(config)?;
 
-let mut stream = client.chat_stream("Hello!").await?;
+let stream = client.chat_stream(json!({"message": "Hello!"}), Some("user_123"));
+futures::pin_mut!(stream);
 while let Some(event) = stream.next().await {
-    if event?.event_type == "text" { print!("{}", event.text.unwrap_or_default()); }
+    let event = event?;
+    if event.event == "message" {
+        let data: serde_json::Value = serde_json::from_str(&event.data)?;
+        if let Some(token) = data["token"].as_str() { print!("{}", token); }
+    }
 }
 ```
 [[/tab]]
 
 [[tab C++]]
 ```cpp
-auto client = muxi::FormationClient(
-    "http://localhost:7890",
-    "my-assistant",
-    "your_client_key"
-);
+muxi::FormationConfig config;
+config.server_url = "http://localhost:7890";
+config.formation_id = "my-assistant";
+config.client_key = "your_client_key";
+muxi::FormationClient client(config);
 
-client.chat_stream({{"message", "Hello!"}}, [](const auto& event) {
-    if (event.type == "text") std::cout << event.text;
-    return true;
+client.chat_stream({{"message", "Hello!"}}, "user_123", [](const auto& event) {
+    if (event.event != "message") return;
+    auto data = nlohmann::json::parse(event.data);
+    if (data.contains("token") && data["token"].is_string())
+        std::cout << data["token"].get<std::string>();
 });
 ```
 [[/tab]]
@@ -349,52 +401,55 @@ FormationClient client = new FormationClient(
     "http://localhost:7890",
     "my-assistant",
     "your_client_key",
-    "draft"  // Uses /draft/ prefix
+    null,
+    30,
+    "draft"
 );
 ```
 [[/tab]]
 
 [[tab Kotlin]]
 ```kotlin
-val client = FormationClient(
+val client = FormationClient(FormationConfig(
     serverUrl = "http://localhost:7890",
     formationId = "my-assistant",
     mode = "draft",  // Uses /draft/ prefix
     clientKey = "your_client_key"
-)
+))
 ```
 [[/tab]]
 
 [[tab Swift]]
 ```swift
-let client = FormationClient(
-    serverURL: "http://localhost:7890",
-    formationID: "my-assistant",
-    mode: "draft",  // Uses /draft/ prefix
-    clientKey: "your_client_key"
-)
+let client = try FormationClient(config: FormationConfig(
+    formationId: "my-assistant",
+    serverUrl: "http://localhost:7890",
+    clientKey: "your_client_key",
+    mode: "draft"
+))
 ```
 [[/tab]]
 
 [[tab C#]]
 ```csharp
-var client = new FormationClient(
-    serverUrl: "http://localhost:7890",
-    formationId: "my-assistant",
-    mode: "draft",  // Uses /draft/ prefix
-    clientKey: "your_client_key"
-);
+var client = new FormationClient(new FormationConfig
+{
+    ServerUrl = "http://localhost:7890",
+    FormationId = "my-assistant",
+    Mode = "draft",
+    ClientKey = "your_client_key"
+});
 ```
 [[/tab]]
 
 [[tab PHP]]
 ```php
-$client = new FormationClient(
-    serverUrl: 'http://localhost:7890',
-    formationId: 'my-assistant',
-    mode: 'draft',  // Uses /draft/ prefix
-    clientKey: 'your_client_key'
-);
+$client = new FormationClient([
+    'serverUrl' => 'http://localhost:7890',
+    'formationId' => 'my-assistant',
+    'mode' => 'draft',
+    'clientKey' => 'your_client_key',
+]);
 ```
 [[/tab]]
 
@@ -411,22 +466,25 @@ final client = FormationClient(
 
 [[tab Rust]]
 ```rust
-let client = FormationClient::new(
+let mut config = FormationConfig::new(
     "http://localhost:7890",
     "my-assistant",
     "your_client_key",
-).with_mode("draft");  // Uses /draft/ prefix
+    "",
+);
+config.mode = "draft".to_string();
+let client = FormationClient::new(config)?;
 ```
 [[/tab]]
 
 [[tab C++]]
 ```cpp
-auto client = muxi::FormationClient(
-    "http://localhost:7890",
-    "my-assistant",
-    "your_client_key",
-    "draft"  // Uses /draft/ prefix
-);
+muxi::FormationConfig config;
+config.server_url = "http://localhost:7890";
+config.formation_id = "my-assistant";
+config.client_key = "your_client_key";
+config.mode = "draft";
+muxi::FormationClient client(config);
 ```
 [[/tab]]
 
@@ -498,8 +556,8 @@ for event in formation.chat_stream({"message": "Hello!"}, user_id="user_123"):
 
 [[tab TypeScript]]
 ```typescript
-for await (const chunk of await formation.chatStream({ message: "Hello!" }, "user_123")) {
-  if (chunk.type === "text") process.stdout.write(chunk.text);
+for await (const chunk of formation.chatStream({ message: "Hello!" }, "user_123")) {
+  if (typeof chunk.token === "string") process.stdout.write(chunk.token);
   if (chunk.type === "done") break;
 }
 ```
@@ -509,8 +567,8 @@ for await (const chunk of await formation.chatStream({ message: "Hello!" }, "use
 ```go
 stream, errs := client.ChatStream(ctx, &muxi.ChatRequest{Message: "Hello!", UserID: "user_123"})
 for chunk := range stream {
-    if chunk.Type == "text" {
-        fmt.Print(chunk.Text)
+    if token, ok := chunk.Raw["token"].(string); ok {
+        fmt.Print(token)
     }
 }
 ```
@@ -641,48 +699,51 @@ Link multiple identifiers (email, Slack ID, etc.) to a single user:
 
 [[tab Python]]
 ```python
-# Link email, Slack ID, and internal ID to same user
-result = formation.associate_user_identifiers(
-    identifiers=[
+# Resolve the first identifier, then link the others
+user = formation.resolve_user("alice@email.com", create_user=True)
+result = formation.link_user_identifier(
+    user["muxi_user_id"],
+    [
         "alice@email.com",
         {"identifier": "U12345ABC", "type": "slack"},
-        ("user_123", "internal"),
+        ["user_123", "internal"],
     ],
-    user_id=None,  # Create new user (or pass existing user ID)
 )
 print(f"User ID: {result['muxi_user_id']}")
 
 # Now all identifiers resolve to the same user
-formation.chat("Hello", user_id="alice@email.com")  # Same user
-formation.chat("Hello", user_id="U12345ABC")        # Same user
-formation.chat("Hello", user_id="user_123")         # Same user
+formation.chat({"message": "Hello"}, user_id="alice@email.com")
+formation.chat({"message": "Hello"}, user_id="U12345ABC")
+formation.chat({"message": "Hello"}, user_id="user_123")
 ```
 [[/tab]]
 
 [[tab TypeScript]]
 ```typescript
-// Link identifiers to same user
-const result = await formation.associateUserIdentifiers({
-  identifiers: [
+const user = await formation.resolveUser("alice@email.com", true);
+const result = await formation.linkUserIdentifier(
+  user.muxi_user_id,
+  [
     "alice@email.com",
     { identifier: "U12345ABC", type: "slack" },
-  ],
-  userId: null,  // Create new user
-});
-console.log(`User ID: ${result.muxiUserId}`);
+  ]
+);
+console.log(`User ID: ${result.muxi_user_id}`);
 ```
 [[/tab]]
 
 [[tab Go]]
 ```go
-result, _ := client.AssociateUserIdentifiers(ctx, &muxi.AssociateRequest{
-    Identifiers: []interface{}{
+user, _ := client.ResolveUser(ctx, "alice@email.com", true)
+result, _ := client.LinkUserIdentifier(
+    ctx,
+    user.MuxiUserID,
+    []interface{}{
         "alice@email.com",
-        muxi.TypedIdentifier{Identifier: "U12345ABC", Type: "slack"},
+        map[string]interface{}{"identifier": "U12345ABC", "type": "slack"},
     },
-    UserID: nil,
-})
-fmt.Printf("User ID: %s\n", result.MuxiUserID)
+)
+fmt.Printf("User ID: %s (%d identifiers)\n", user.MuxiUserID, result.Count)
 ```
 [[/tab]]
 

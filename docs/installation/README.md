@@ -108,7 +108,7 @@ Server runs on port 7890.
 muxi new formation my-assistant
 cd my-assistant
 muxi secrets setup
-muxi dev
+muxi up
 ```
 
 [[/step]]

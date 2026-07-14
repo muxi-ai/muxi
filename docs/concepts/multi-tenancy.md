@@ -163,6 +163,6 @@ Each tenant gets separate vector indices for optimal performance.
 ## Learn More
 
 - [User Credentials](./user-credentials.md) - Per-user API keys and secrets
-- [Memory System](../concepts/memory-system.md) - How the four memory layers work
+- [Memory Platform](../concepts/memory-system.md) - User isolation, shared scopes, events, and lifecycle
 - [Deep dive: Multi-Tenancy](../deep-dives/multi-tenancy.md) - Technical implementation details
 - [Authentication](../server/authentication.md) - API key and header requirements

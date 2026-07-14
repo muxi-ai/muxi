@@ -43,7 +43,7 @@ Please analyze this issue and suggest next steps.
 ### 2. Test Locally
 
 ```bash
-curl -X POST http://localhost:8001/v1/formations/my-formation/triggers/github-issue \
+curl -X POST http://localhost:7890/draft/my-formation/v1/triggers/github-issue \
   -H "X-Muxi-Client-Key: fmc_..." \
   -H "Content-Type: application/json" \
   -d '{
@@ -176,7 +176,7 @@ curl -X POST .../triggers/my-trigger \
 ### Check Available Triggers
 
 ```bash
-curl http://localhost:8001/v1/formations/my-formation/triggers
+curl http://localhost:7890/draft/my-formation/v1/triggers
 ```
 
 ### Common Errors

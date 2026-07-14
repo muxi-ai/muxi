@@ -1,16 +1,23 @@
 ---
 title: Memory Internals
-description: Technical deep dive into MUXI's three-tier memory system
+description: Technical deep dive into MUXI's layered, event-sourced memory platform
 ---
 # Memory Internals
 
-## Technical deep dive into MUXI's three-tier memory system
+## Technical deep dive into MUXI's memory platform
 
 
-Technical implementation of MUXI's memory system: data structures, algorithms, caching strategies, and performance characteristics.
+Technical implementation of MUXI's context stores, event substrate, scoped
+projections, derived intelligence, lifecycle controls, and retrieval path.
 
 
-## Architecture Overview
+## Context-Plane Architecture
+
+The diagram below covers the hot path used to assemble request context. It is
+one plane inside the larger memory platform, which also includes immutable
+events, user/group/formation scopes, provenance, rebuild and forgetting,
+ingestion and distillation, decay, the knowledge graph, Captain's Log, and the
+lessons loop.
 
 ```plain
 ┌─────────────────────────────────────────────────────────┐

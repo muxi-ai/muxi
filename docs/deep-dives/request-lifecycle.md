@@ -14,7 +14,7 @@ This is the definitive guide to understanding how MUXI processes requests - from
 MUXI isn't just a request-response system. It's an intelligent processing pipeline that:
 
 - **Adapts to complexity** - Routes simple queries to single agents, decomposes complex requests into multi-agent workflows
-- **Maintains context** - Three-tier memory system ensures coherent conversations
+- **Maintains context** - The layered, scoped memory platform assembles coherent and auditable context
 - **Clarifies ambiguity** - Multi-turn clarification resolves unclear requests before processing
 - **Orchestrates intelligence** - Coordinates multiple AI agents with specialized capabilities
 - **Optimizes execution** - Dynamically chooses sync/async processing based on estimated time
@@ -26,7 +26,7 @@ MUXI isn't just a request-response system. It's an intelligent processing pipeli
 
 A request passing through MUXI undergoes:
 
-1. **Session & Memory Initialization** - Context loading from four memory layers
+1. **Session & Memory Initialization** - Context assembly from the memory platform
 2. **Credential Detection** - Intercepts credential-related requests before processing
 3. **Clarification & Actionability** - Resolves unclear requests via multi-turn dialog
 4. **Intelligent Routing** - Priority-based: agent specification → SOP match → complexity analysis
@@ -248,9 +248,13 @@ Add to context for agent access
 
 ---
 
-### Phase 3: Memory System Initialization
+### Phase 3: Memory Context Initialization
 
-**Three-tier memory loading:**
+This phase assembles the fast context plane for the request. Durable writes,
+scopes, immutable events, provenance, rebuilds, forgetting, and derived
+intelligence are managed by the wider memory platform.
+
+**Context loading:**
 
 #### 1. Smart Buffer Memory
 ```
@@ -915,7 +919,7 @@ Attach to response:
 |-------|--------------|---------|
 | Auth & Routing | 1-5ms | Minimal overhead |
 | Session Load | 5-20ms | Retrieve session |
-| Memory Loading | 10-100ms | 3-tier memory |
+| Memory Loading | 10-100ms | Context-plane assembly |
 | Credential Check | 1-10ms | Cache hit: <1ms |
 | Clarification | 500ms-3s | LLM analysis |
 | Complexity Analysis | 500ms-2s | LLM scoring |
@@ -1058,7 +1062,7 @@ Total time: ~10 seconds (with credential collection)
 **What makes this lifecycle special:**
 
 1. **Intelligence at every stage** - LLM analysis drives routing, not hardcoded rules
-2. **Context preservation** - 3-tier memory ensures coherent conversations
+2. **Context preservation** - Layered, scoped memory keeps conversations coherent and auditable
 3. **Automatic error recovery** - Agents adapt when tools fail
 4. **Seamless complexity handling** - Same pipeline for simple and complex requests
 5. **User privacy** - Per-user credentials and memory isolation

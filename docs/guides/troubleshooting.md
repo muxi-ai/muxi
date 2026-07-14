@@ -82,7 +82,7 @@ Error: Formation failed to start
 
 **Solution:**
 1. Check logs: `muxi logs my-formation`
-2. Validate config: `muxi deploy --validate`
+2. Validate config: `muxi validate`
 3. Check port availability
 
 ### Invalid Configuration
@@ -93,7 +93,7 @@ Error: Invalid formation.afs
 
 **Solution:**
 - Check YAML syntax
-- Validate: `muxi deploy --validate`
+- Validate: `muxi validate`
 - Compare with examples
 
 ## Memory Issues
@@ -219,12 +219,12 @@ args:
 ### Connection Refused
 
 ```
-Error: Connection refused to localhost:8001
+Error: Connection refused to localhost:7890
 ```
 
 **Solution:**
 1. Check formation is running: `muxi remote list`
-2. Check port is correct
+2. Check the configured Server profile URL
 3. Start formation: `muxi remote start my-assistant`
 
 ### Timeout
@@ -249,7 +249,7 @@ Error: Failed to deploy formation
 **Solution:**
 1. Check server is running
 2. Verify profile credentials
-3. Validate formation: `muxi deploy --validate`
+3. Validate formation: `muxi validate`
 
 ### Bundle Too Large
 
@@ -371,7 +371,7 @@ Error: Formation validation failed
 
 **Solution:**
 1. Check YAML syntax (indentation, colons)
-2. Validate: `muxi deploy --validate`
+2. Validate: `muxi validate`
 3. Compare with examples: `docs/examples/`
 
 **Common fixes:**
