@@ -91,7 +91,9 @@ knowledge:
 
 ## Supported Formats
 
-MUXI uses [MarkItDown](https://github.com/microsoft/markitdown) for document conversion - any format MarkItDown supports works with MUXI.
+MUXI uses [MarkItDown](https://github.com/microsoft/markitdown) for document conversion - any format MarkItDown supports works with MUXI. PDFs route to a dedicated pdf-inspector engine, with MarkItDown as fallback.
+
+Conversion runs in a sandboxed subprocess with resource limits and a wall-clock timeout. Files that time out, exhaust memory, exceed size limits, are encrypted, or crash the parser are quarantined and skipped - indexing continues with the rest of your sources.
 
 | Category | Formats | Notes |
 |----------|---------|-------|

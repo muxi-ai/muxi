@@ -220,6 +220,7 @@ Track request:
 - Multi-turn clarifications reuse same `request_id`
 - Enables complete trace of conversation
 - Simplifies debugging and observability
+- Memory events record the originating `request_id`, so provenance chains link back to the turn that produced them
 
 ---
 

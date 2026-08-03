@@ -372,6 +372,8 @@ Submissions carry `X-Distillery-ID`, `X-Distillery-Signature`, and
 `X-Distillery-Timestamp`. Authentication is fail-closed Ed25519 over the raw
 body bound to id and timestamp. Unknown or invalid credentials return the same
 401, revoked registrations return 410, and quota exhaustion returns 429.
+Daily quotas are stored in the database per (formation, distillery, UTC day),
+so counts survive restarts and are shared across replicas.
 
 ```json
 {
@@ -401,7 +403,9 @@ float arrays in each event's `embedding_vectors`.
 ## Event Substrate
 
 Every memory write is recorded as an immutable event; the stores are rebuildable
-projections.
+projections. Each event also records the `request_id` of the chat turn that
+produced it (null for maintenance, synthesis, and legacy backfill writes),
+surfaced in event dicts and provenance chains.
 
 | Endpoint | Purpose |
 |----------|---------|
