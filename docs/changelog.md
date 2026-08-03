@@ -17,6 +17,54 @@ description: Release history and updates for MUXI
 > - [OneLLM Releases](https://github.com/muxi-ai/onellm/releases)
 > - [FAISSx Releases](https://github.com/muxi-ai/faissx/releases)
 
+## August 2026
+
+August hardens the runtime: untrusted-document containment, durable
+ingestion quotas, and request-level memory provenance land together in
+Runtime v1.20260803.0.
+
+### Runtime v1.20260803.0
+
+#### Sandboxed document processing
+
+- **Untrusted documents are no longer parsed in-process.** Chat attachments and
+  knowledge-source files convert in a spawned subprocess with resource limits and
+  a hard wall-clock timeout. Failures return typed quarantine outcomes (`timeout`,
+  `memory`, `oversize`, `parser_error`, `encrypted`, `unsupported`) instead of
+  exceptions — the attachment fails, the chat continues. New observability events
+  `document.conversion.completed`, `document.conversion.quarantined`, and
+  `document.conversion.fallback` make every outcome traceable. See
+  [Observability Events](deep-dives/observability-events.md).
+- **PDFs now route to pdf-inspector** for local classification and native-text
+  markdown extraction, falling back to sandboxed MarkItDown per file — PDFs never
+  fail harder than before.
+
+#### Durable distillery quotas
+
+- **Daily distilled-submission quotas survive restarts and are correct across
+  replicas.** The per-process counter is replaced by DB-backed atomic counters
+  per formation, distillery, and UTC day; concurrent batches can never overshoot
+  the limit, and a crash can neither reset a quota nor permanently leak reserved
+  slots. The API contract (429 on exhaustion) is unchanged. See
+  [Memory Reference](reference/memory.md).
+
+#### Memory-event provenance
+
+- **Every memory event now records the `request_id` of the chat turn that
+  produced it**, surfaced in event dicts and provenance chains — connecting
+  answer-to-evidence provenance with request tracing end to end.
+
+#### Security and reliability
+
+- **pypdf 6.14.2** clears four upstream advisories (inline-image infinite loops,
+  malformed-xref long runtimes, oversized-image memory). nltk is deliberately
+  held below 3.10: its new import guard breaks in-project virtualenv layouts,
+  and the advisories it fixes cover corpus readers MUXI never uses.
+- **Tuning benchmarks now work under `PYTHONSAFEPATH` deployments** — previously
+  such deployments silently recorded no benchmark observations.
+- Unit-test runs no longer leak aiosqlite worker threads, and a new e2e test
+  proves quota durability across formation restarts.
+
 ## July 2026
 
 July launches MUXI V1: Runtime, Server, CLI, and all 12 SDKs move together to
