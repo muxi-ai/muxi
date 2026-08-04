@@ -343,17 +343,44 @@ function ChatInterface() {
 
 ### Cancelled Response
 
+`DELETE /v1/requests/{request_id}` returns the standard API envelope:
+
 ```json
 {
-  "content": "",
-  "status": "cancelled",
-  "request_id": "req_123"
+  "object": "request_status",
+  "timestamp": 1785843861099,
+  "type": "request.cancelled",
+  "request": { "id": "req_KmmLwVssTNetTpTm8IqnS", "idempotency_key": null },
+  "success": true,
+  "error": null,
+  "data": {
+    "request_id": "req_123",
+    "status": "cancelled",
+    "cancellation": "cooperative",
+    "message": "Request marked for cancellation; it will stop at the next checkpoint"
+  }
 }
 ```
 
+`data.cancellation` tells you how strong the guarantee is:
+
+| Value | Meaning |
+|-------|---------|
+| `cooperative` | The cancellation flag is set; the request stops at its next checkpoint. This is what an ordinary chat turn gets. |
+| `immediate` | The underlying task was cancelled outright. Background workflow executions get this. |
+
+Status codes:
+
+| Situation | Status | Body |
+|-----------|--------|------|
+| Request in flight (either mode) | 200 | Success envelope above |
+| Request already cancelled | 200 | Success envelope, `cancellation: "cooperative"` |
+| Unknown `request_id` | 404 | `error.code: "NOT_FOUND"` |
+| Request already completed or failed | 400 | `error.code: "OPERATION_FAILED"` |
+
 ### Idempotent
 
-Cancelling the same request multiple times is safe - subsequent calls return "already cancelled".
+Cancelling the same request multiple times is safe - subsequent calls return the same 200 success envelope.
 
 ### No Partial Results
 
