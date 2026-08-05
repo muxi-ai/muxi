@@ -343,17 +343,62 @@ function ChatInterface() {
 
 ### Cancelled Response
 
+`DELETE /v1/requests/{request_id}` returns the standard API envelope:
+
 ```json
 {
-  "content": "",
-  "status": "cancelled",
-  "request_id": "req_123"
+  "object": "request_status",
+  "timestamp": 1785843861099,
+  "type": "request.cancelled",
+  "request": { "id": "req_KmmLwVssTNetTpTm8IqnS", "idempotency_key": null },
+  "success": true,
+  "error": null,
+  "data": {
+    "request_id": "req_123",
+    "status": "cancelled",
+    "cancellation": "cooperative",
+    "message": "Request marked for cancellation; it will stop at the next checkpoint"
+  }
 }
 ```
 
+### How strong is the guarantee?
+
+`data.cancellation` tells you which of two things just happened:
+
+| Value | Meaning |
+|-------|---------|
+| `cooperative` | The cancellation flag is set; the request stops at its next checkpoint. This is what an ordinary chat turn gets. |
+| `immediate` | The underlying task was cancelled outright and is already stopped. Requests tracked with a live background task - such as background workflow executions - get this. |
+
+In both cases `status` is `"cancelled"` and the call succeeds. The difference is
+whether the work has already stopped or is about to.
+
+### Status codes
+
+| Situation | Status | Body |
+|-----------|--------|------|
+| Request in flight (either mode) | 200 | Success envelope above |
+| Request already cancelled | 200 | Success envelope, `cancellation: "cooperative"` |
+| Unknown `request_id` | 404 | `error.code: "NOT_FOUND"` |
+| Request already completed or failed | 400 | `error.code: "OPERATION_FAILED"`, message names the final status |
+| Request belongs to another user | 403 | `error.code: "FORBIDDEN"` |
+
+A request that finishes in the moment between your check and your cancel returns 400
+rather than pretending to have cancelled it - and leaves no stale cancellation flag
+behind.
+
 ### Idempotent
 
-Cancelling the same request multiple times is safe - subsequent calls return "already cancelled".
+Cancelling the same request multiple times is safe - subsequent calls return the same
+200 success envelope. Only `completed` and `failed` are uncancellable; `cancelled` is
+deliberately not, so a retry of your own cancel is a no-op rather than an error.
+
+### Cancelling an escalated request
+
+A request that has escalated to [async retry](async-retry-escalation.md) can be
+cancelled the same way. The retry chain ends in the `abandoned` terminal state and
+sends no further notification - this response was the acknowledgement.
 
 ### No Partial Results
 
@@ -410,6 +455,8 @@ Remaining model and tool work is avoided
 
 ## Learn More
 
+- [Request Status](request-status.md) - poll a request for its state and result
+- [Async Retry Escalation](async-retry-escalation.md) - what cancelling a retry chain does
 - [Async Operations](../deep-dives/async-operations.md) - Background task management
 - [Streaming](../deep-dives/real-time-streaming.md) - Cancel streaming responses
 - [Observability](../deep-dives/observability.md) - Monitor cancellations

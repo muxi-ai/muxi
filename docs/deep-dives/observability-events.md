@@ -56,9 +56,9 @@ Events for processing documents, images, audio, and other media content types.
 | Event | Level | Description |
 |-------|-------|-------------|
 | `content.document.parsed` | INFO | Document attachment processing |
-| `document.conversion.completed` | INFO | Sandboxed document conversion succeeded (pdf-inspector or MarkItDown) |
+| `document.conversion.completed` | INFO | Sandboxed document conversion succeeded (anydoc, pdf-inspector, or MarkItDown) |
 | `document.conversion.quarantined` | WARN | Conversion refused or killed; `quarantine_reason` is one of `timeout`, `memory`, `oversize`, `parser_error`, `encrypted`, `unsupported` |
-| `document.conversion.fallback` | WARN | pdf-inspector failed on a PDF; conversion fell back to sandboxed MarkItDown |
+| `document.conversion.fallback` | WARN | The primary engine failed and conversion fell back to sandboxed MarkItDown; `primary` and `fallback` name the engines involved |
 | `content.image.analyzed` | INFO | Image analysis and vision processing |
 | `content.audio.transcribed` | INFO | Audio transcription |
 | `content.extraction.failed` | ERROR | Content processing failure |

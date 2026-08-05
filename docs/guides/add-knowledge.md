@@ -91,13 +91,17 @@ knowledge:
 
 ## Supported Formats
 
-MUXI uses [MarkItDown](https://github.com/microsoft/markitdown) for document conversion - any format MarkItDown supports works with MUXI. PDFs route to a dedicated pdf-inspector engine, with MarkItDown as fallback.
+Office documents convert with [anydoc](https://pypi.org/project/firecrawl-anydoc/) as the primary engine, with [MarkItDown](https://github.com/microsoft/markitdown) as a per-file fallback and as the converter for the formats anydoc does not claim. PDFs route to a dedicated pdf-inspector engine, with MarkItDown as fallback.
 
 Conversion runs in a sandboxed subprocess with resource limits and a wall-clock timeout. Files that time out, exhaust memory, exceed size limits, are encrypted, or crash the parser are quarantined and skipped - indexing continues with the rest of your sources.
 
 | Category | Formats | Notes |
 |----------|---------|-------|
-| **Text & Documents** | `.md`, `.txt`, `.pdf`, `.docx`, `.pptx`, `.xlsx` | Structure preserved |
+| **Text & Documents** | `.md`, `.txt`, `.pdf`, `.rtf`, `.epub` | Structure preserved |
+| **Word** | `.doc`, `.docx`, `.docm` | Legacy and macro-enabled variants |
+| **PowerPoint** | `.ppt`, `.pps`, `.pot`, `.pptx`, `.pptm`, `.ppsx`, `.ppsm` | Slides, shows, and templates |
+| **Excel** | `.xls`, `.xlsx`, `.xlsm`, `.xlsb` | Including binary `.xlsb` workbooks |
+| **OpenDocument** | `.odt`, `.ods`, `.odp` | Text, spreadsheet, and presentation |
 | **Data** | `.csv`, `.json`, `.html` | Structure-aware chunking |
 | **Images** | `.jpg`, `.png`, `.gif` | OCR + vision model analysis |
 

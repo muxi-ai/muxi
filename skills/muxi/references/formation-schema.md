@@ -175,6 +175,12 @@ overlord:
     widgets: true                   # Interactive UI elements
     streaming: false
     progress: true
+    stream_tokens: true             # Stream the final response as content deltas
+    retry_async:                    # Escalate failed turns to background retries
+      enabled: true
+      max_attempts: 2               # Background attempts after the failed sync one (1-10)
+      attempt_idle_timeout: "15m"   # Per-attempt idle bound, not a duration cap
+      deadline: null                # Optional ceiling; arms at the 2nd background attempt
 
   workflow:
     auto_decomposition: true

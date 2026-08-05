@@ -13,11 +13,83 @@
 
 ## August 2026
 
-August hardens the runtime: untrusted-document containment, durable
-ingestion quotas, and request-level memory provenance land together in
-Runtime v1.20260803.0.
+August teaches the runtime to fail honestly. A turn that cannot succeed now says so,
+keeps working within a stated budget, and reports what it tried — and the runtime
+joins the SDKs on the `1.x` line with Runtime v1.20260805.0. Earlier in the month,
+untrusted-document containment, durable ingestion quotas, and request-level memory
+provenance landed in Runtime v0.20260803.0.
 
-### Runtime v1.20260803.0
+### Runtime v1.20260805.0
+
+#### Failed turns now escalate to bounded async retries
+
+- **A turn that fails terminally no longer ends in a bare error.** Instead of
+  returning the failure, the runtime says *"This has failed. I'm going to retry with
+  a different approach and let you know asynchronously"*, hands back the request ID,
+  and keeps working in the background with a genuinely different plan. The message is
+  fixed text — a failure report that has been through a personality is not a failure
+  report. See [Async Retry Escalation](docs/runtime/async-retry-escalation.md).
+- **The budget is explicit and bounded by attempts, not by wall-clock duration.**
+  `overlord.response.retry_async` takes `max_attempts` (default 2, counted after the
+  failed sync attempt) and `attempt_idle_timeout` (default `15m`) — a *liveness*
+  bound, so an attempt that is genuinely working can run as long as it needs to. An
+  optional `deadline` caps the tail of the chain, and its clock only starts at the
+  second background attempt so the first retry always gets an unhurried run.
+- **Every chain ends in a named state**: `achieved`, `impossible`, `stuck`,
+  `budget_exhausted`, or `abandoned`. `stuck` is a deliberate early exit — when
+  replanning cannot produce a meaningfully different plan and the failure has not
+  changed, the runtime stops rather than spending the rest of the budget to say the
+  same thing at greater length.
+- **Giving up produces a report, not a shrug.** Every non-success terminal carries the
+  attempts it made, each plan it tried, why each failed, and a deterministic
+  `what_would_unblock` — retrievable from `GET /v1/requests/{id}` alongside
+  `escalated: true`, delivered by signed webhook, and written to the formation's
+  Captain's Log. See [Request Status](docs/runtime/request-status.md).
+- **Some failures never escalate**, because a different plan would hit the same wall:
+  permission and credential denials, turns awaiting a clarification or approval,
+  cancelled requests, and requests that are already an escalated retry.
+
+#### Token streaming
+
+- **The final response now streams as incremental `content` events** rather than
+  arriving whole at end-of-turn. The terminal `completed` event still carries the
+  full text, so existing clients are unaffected — the deltas are purely additive. If
+  a stream breaks after deltas have been sent, `completed` carries
+  `stream_discontinuity: true` and its own text is authoritative. Controlled by
+  `overlord.response.stream_tokens` (default on). See
+  [Real-Time Streaming](docs/deep-dives/real-time-streaming.md).
+
+#### Wider document conversion
+
+- **anydoc is now the primary document converter**, adding legacy `.doc`/`.ppt`,
+  macro-enabled variants, binary `.xlsb` workbooks, OpenDocument (`.odt`/`.ods`/
+  `.odp`), RTF, and EPUB to the formats a formation can read — as chat attachments
+  and as knowledge sources. MarkItDown remains the per-file fallback for the formats
+  it also understands, and the converter for everything anydoc does not claim. PDFs
+  are unchanged: pdf-inspector first, MarkItDown as fallback. Conversion still runs
+  in the same sandboxed subprocess. See
+  [Knowledge & RAG](docs/concepts/knowledge-and-rag.md).
+
+#### Request tracking that tells the truth
+
+- **Completed chat turns now reach a terminal status.** Polling
+  `GET /v1/requests/{id}` after a finished turn reports `completed` instead of
+  leaving it forever in `processing`. Turns awaiting a clarification or approval stay
+  non-terminal, and escalated turns leave the transition to the chain that owns them.
+- **Cancellation returns 2xx and says how strong the guarantee is.** `DELETE
+  /v1/requests/{id}` now answers 200 with a `cancellation` field: `immediate` (the
+  task was stopped outright) or `cooperative` (the request stops at its next
+  checkpoint). Re-cancelling is a no-op, not an error; only already-completed or
+  already-failed requests return 400. See
+  [Request Cancellation](docs/runtime/request-cancellation.md).
+- **Idempotency keys are now scoped by response mode**, so the same key used for a
+  streaming and a non-streaming request can never replay a cached JSON body into an
+  event stream. Streaming still passes through uncached. See
+  [Idempotency](docs/deep-dives/idempotency.md).
+- **Collect-mode credential continuations keep their original request ID**, so a turn
+  that pauses to gather credentials stays traceable end to end.
+
+### Runtime v0.20260803.0
 
 #### Sandboxed document processing
 

@@ -54,11 +54,38 @@ request.
 - **Concurrent requests with the same key are single-flighted.** The second
   caller waits for the first to finish, then receives the same cached response
   rather than racing it.
-- **Keys are scoped per method, path, and user.** Different callers, endpoints,
-  or path parameters (e.g. two different trigger names) can reuse the same key
-  value safely.
+- **Keys are scoped per method, path, user, and response mode.** Different callers,
+  endpoints, or path parameters (e.g. two different trigger names) can reuse the same
+  key value safely. The scope is built by serializing those components rather than
+  joining them with a delimiter, so a user ID or key containing a separator character
+  can never collide with a different tuple.
 - **Storage is in-process with a 24-hour TTL.** Like async request state, cached
   responses do not survive a runtime restart.
+
+
+## Response-mode scoping
+
+Response mode is part of the key's scope, so a streaming request and a non-streaming
+request carrying the same idempotency key occupy separate namespaces. There are two
+modes: `json` (the request body explicitly set `stream: false`) and `stream`
+(everything else).
+
+This matters because streaming responses are never cached. Without mode in the scope,
+a `stream: false` call followed by a `stream: true` call with the same key would
+replay a cached JSON body to a caller asking for an event stream. With it:
+
+| Sequence | What happens |
+|----------|--------------|
+| `stream: false`, then the same key with `stream: false` | Second call replays the cached JSON response |
+| `stream: false`, then the same key with `stream: true` | Second call runs fresh and returns a real event stream - no cached JSON leaks into it |
+| `stream: true`, then the same key with `stream: false` | Second call runs fresh; the streaming call never cached anything |
+
+The practical consequence is unchanged from before: **every streaming request is
+effectively non-idempotent**. Use `stream: false` when you need idempotent chat
+retries.
+
+Only `POST /v1/chat` carries a `stream` field, so mode scoping has no effect on the
+trigger and scheduled-job endpoints.
 
 
 ## The echoed key

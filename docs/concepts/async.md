@@ -491,13 +491,19 @@ The `X-Muxi-Signature` header format: `t=<timestamp>,v1=<signature>`
 
 ## Request States
 
-| State | Description |
-|-------|-------------|
-| `pending` | Queued, not started yet |
-| `processing` | Currently executing |
-| `completed` | Finished successfully |
-| `failed` | Error occurred |
-| `cancelled` | Cancelled by user |
+| State | Terminal | Description |
+|-------|----------|-------------|
+| `pending` | | Queued, not started yet |
+| `processing` | | Accepted and being worked on |
+| `running` | | Executing |
+| `completed` | Yes | Finished successfully |
+| `failed` | Yes | Error occurred |
+| `cancelled` | Yes | Cancelled |
+| `awaiting_clarification` | | Waiting on a human answer |
+
+Chat turns reach a terminal state too, so polling a finished turn reports the truth
+rather than leaving it in `processing`. See
+[Request Status](../runtime/request-status.md) for the full response shape.
 
 ## Progress Tracking
 
@@ -677,14 +683,27 @@ Error: "Task exceeded timeout (300s)"
 DELETE /v1/requests/req_abc123
 ```
 
-**Response:**
+**Response:** the standard envelope, with `data.cancellation` naming how strong the
+guarantee is - `immediate` (the task was cancelled outright) or `cooperative` (the
+flag is set; the request stops at its next checkpoint):
+
 ```json
 {
-  "request_id": "req_abc123",
-  "status": "cancelled",
-  "message": "Request cancelled by user"
+  "object": "request_status",
+  "type": "request.cancelled",
+  "success": true,
+  "data": {
+    "request_id": "req_abc123",
+    "status": "cancelled",
+    "cancellation": "cooperative",
+    "message": "Request marked for cancellation; it will stop at the next checkpoint"
+  }
 }
 ```
+
+Cancelling an already-cancelled request returns the same 200. Cancelling one that has
+already completed or failed returns 400. See
+[Request Cancellation](../runtime/request-cancellation.md) for the full matrix.
 
 **SDK:**
 ```python
@@ -883,3 +902,5 @@ Completed request results are retained for 5 minutes. If you poll after that win
 - [Workflows & Task Decomposition](../concepts/workflows-and-task-decomposition.md) - Complex task execution
 - [Triggers & Webhooks](../concepts/triggers-and-webhooks.md) - Webhook integrations
 - [Request Cancellation](../runtime/request-cancellation.md) - Cancel in-flight requests
+- [Request Status](../runtime/request-status.md) - Poll a request for its state and result
+- [Async Retry Escalation](../runtime/async-retry-escalation.md) - Failed turns that keep working in the background
