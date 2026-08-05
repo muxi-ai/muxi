@@ -271,6 +271,12 @@ overlord:
   response:
     format: markdown
     streaming: true
+    stream_tokens: true          # stream the final response as content deltas
+    retry_async:                 # escalate failed turns to background retries
+      enabled: true
+      max_attempts: 2
+      attempt_idle_timeout: "15m"
+      deadline: null
 
   clarification:
     style: conversational
@@ -278,6 +284,28 @@ overlord:
       direct: 3
       brainstorm: 10
 ```
+
+### Response Settings
+
+| Field | Default | Description |
+|-------|---------|-------------|
+| `format` | `markdown` | Response format |
+| `streaming` | `false` | Stream the turn as SSE |
+| `stream_tokens` | `true` | Stream the final response as incremental `content` events. The terminal `completed` event carries the full text either way. See [Real-Time Streaming](../deep-dives/real-time-streaming.md) |
+| `retry_async` | see below | Escalate a terminally failed turn into bounded background retries |
+
+#### `retry_async`
+
+| Field | Default | Description |
+|-------|---------|-------------|
+| `enabled` | `true` | Turn escalation on or off |
+| `max_attempts` | `2` | Background attempts allowed after the failed sync attempt (1-10) |
+| `attempt_idle_timeout` | `"15m"` | Per-attempt liveness bound - idle time, not total duration |
+| `deadline` | `null` | Optional ceiling on the chain tail; the clock starts at the second background attempt |
+
+Durations accept `"500ms"`, `"90s"`, `"15m"`, `"2h"`, or a bare number of seconds.
+Unknown keys and unparseable durations fail formation validation at load time. See
+[Async Retry Escalation](../runtime/async-retry-escalation.md).
 
 ## Server Configuration
 

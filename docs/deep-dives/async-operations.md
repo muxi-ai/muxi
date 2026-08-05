@@ -65,13 +65,19 @@ Response:
 
 ## Request States
 
-| State | Description |
-|-------|-------------|
-| `pending` | Queued, not started |
-| `processing` | Currently executing |
-| `completed` | Finished successfully |
-| `failed` | Error occurred |
-| `cancelled` | Cancelled by user |
+| State | Terminal | Description |
+|-------|----------|-------------|
+| `pending` | | Queued, not started |
+| `processing` | | Accepted and being worked on |
+| `running` | | Executing |
+| `completed` | Yes | Finished successfully |
+| `failed` | Yes | Error occurred |
+| `cancelled` | Yes | Cancelled |
+| `awaiting_clarification` | | Waiting on a human answer |
+
+Chat turns reach a terminal state as well - a completed turn polls as `completed`.
+See [Request Status](../runtime/request-status.md) for the full response shape and
+the escalation fields.
 
 **Decision logic & retries (runtime):**
 - Auto async when estimated duration or complexity exceeds the threshold, or
@@ -79,6 +85,9 @@ Response:
 - Both `threshold_seconds` and `webhook_url` can be overridden per-request in the chat request body.
 - Without a webhook, async uses polling delivery. Completed results are retained for 5 minutes before being purged.
 - Background executor retries transient failures with backoff; final status lands in `failed` if retries exhaust.
+- A synchronous turn that fails terminally can escalate into a bounded background
+  retry chain instead of returning a bare error - see
+  [Async Retry Escalation](../runtime/async-retry-escalation.md).
 - Webhook payloads mirror the status API; include `request_id`, `status`, and `result` or `error`.
 
 > [!TIP]

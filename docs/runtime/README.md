@@ -73,6 +73,8 @@ Each runtime exposes the same API:
 | `GET /v1/sessions/{id}` | Get history |
 | `GET /v1/agents` | List agents |
 | `POST /v1/triggers/{name}` | Fire trigger |
+| `GET /v1/requests/{id}` | [Request status](request-status.md) |
+| `DELETE /v1/requests/{id}` | [Cancel request](request-cancellation.md) |
 | `GET /v1/events` | SSE event stream |
 
 

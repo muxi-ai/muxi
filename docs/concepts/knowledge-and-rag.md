@@ -37,15 +37,22 @@ sequenceDiagram
 
 ## Supported Formats
 
-MUXI uses [MarkItDown](https://github.com/microsoft/markitdown) for document conversion - any format MarkItDown supports works with MUXI. PDFs route to a dedicated pdf-inspector engine, with MarkItDown as fallback. Conversion runs in a sandboxed subprocess with resource limits and a wall-clock timeout; hostile or malformed files are quarantined and skipped instead of affecting the runtime.
+Office documents convert with [anydoc](https://pypi.org/project/firecrawl-anydoc/) as the primary engine, with [MarkItDown](https://github.com/microsoft/markitdown) as a per-file fallback and as the converter for everything anydoc does not claim (HTML, images, audio, and more). PDFs route to a dedicated pdf-inspector engine, with MarkItDown as fallback. Conversion runs in a sandboxed subprocess with resource limits and a wall-clock timeout; hostile or malformed files are quarantined and skipped instead of affecting the runtime.
 
 ### Common Formats
 
 | Category | Examples | Notes |
 |----------|----------|-------|
-| **Text & Documents** | `.md`, `.txt`, `.pdf`, `.docx`, `.pptx`, `.xlsx` | Headers, structure, and formatting preserved |
+| **Text & Documents** | `.md`, `.txt`, `.pdf`, `.rtf`, `.epub` | Headers, structure, and formatting preserved |
+| **Word** | `.doc`, `.docx`, `.docm` | Legacy and macro-enabled variants included |
+| **PowerPoint** | `.ppt`, `.pps`, `.pot`, `.pptx`, `.pptm`, `.ppsx`, `.ppsm` | Slides, shows, and templates |
+| **Excel** | `.xls`, `.xlsx`, `.xlsm`, `.xlsb` | Including the binary `.xlsb` workbook format |
+| **OpenDocument** | `.odt`, `.ods`, `.odp` | Text, spreadsheet, and presentation |
 | **Data** | `.csv`, `.json`, `.html` | Structure-aware chunking |
 | **Multimodal** | `.jpg`, `.png`, `.gif`, and more | OCR + vision model analysis |
+
+> [!NOTE]
+> Formats only anydoc can read - legacy `.doc`/`.ppt`, the macro-enabled variants, `.xlsb`, OpenDocument, and RTF - have no fallback engine. If anydoc cannot parse one, the file is quarantined as `parser_error` and skipped. Formats both engines understand (`.docx`, `.pptx`, `.xlsx`, `.xls`, `.csv`, `.epub`) fall back to MarkItDown for that file only.
 
 > [!TIP]
 > MUXI handles images natively. Vision models (GPT-4V, Claude, Gemini) can analyze screenshots, diagrams, charts, and photos in your knowledge base.

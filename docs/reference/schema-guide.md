@@ -167,7 +167,25 @@ overlord:
   response:
     streaming: true
     format: "markdown"
+    stream_tokens: true
+    retry_async:
+      enabled: true
+      max_attempts: 2
+      attempt_idle_timeout: "15m"
+      deadline: null
 ```
+
+#### Response Settings
+
+| Field | Default | Description |
+|-------|---------|-------------|
+| `format` | `"markdown"` | Response format |
+| `streaming` | `false` | Stream the turn as SSE |
+| `stream_tokens` | `true` | Stream the final response as incremental `content` events |
+| `retry_async.enabled` | `true` | Escalate terminally failed turns to background retries |
+| `retry_async.max_attempts` | `2` | Background attempts after the failed sync attempt (1-10) |
+| `retry_async.attempt_idle_timeout` | `"15m"` | Per-attempt idle bound, not a duration cap |
+| `retry_async.deadline` | `null` | Optional ceiling on the chain tail |
 
 #### Workflow Settings
 

@@ -25,17 +25,24 @@ The SDK streaming methods set `stream: true` automatically.
 
 ## Wire Format
 
-Text tokens use ordinary SSE message frames. The runtime sends the token in a
-JSON `token` field:
+Runtime events use ordinary SSE message frames. Each frame carries one event object
+in a JSON `token` field, and the object's `type` says what kind of event it is:
 
 ```text
-data: {"token":"Hello"}
+data: {"token":{"type":"progress","content":"Getting started","stage":"init"}}
 
-data: {"token":" there"}
+data: {"token":{"type":"content","content":"Hello"}}
+
+data: {"token":{"type":"content","content":" there"}}
+
+data: {"token":{"type":"completed","content":"Hello there","status":"success"}}
 
 event: done
 data: {"finished":true}
 ```
+
+Every event object carries `request_id`, `user_id`, `session_id`, `type`, `content`,
+and `timestamp`, plus event-specific metadata such as `stage` or `status`.
 
 A response with UI widgets emits one `ui` event immediately before `done`:
 
@@ -47,6 +54,35 @@ data: {"ui":[{"type":"options","id":"region","prompt":"Choose a region","options
 The chat stream contract defines message, `ui`, `done`, and `error` frames. Tool
 execution details belong to the observability event stream, not the client chat
 stream.
+
+## Token Streaming
+
+The final response streams as incremental `content` events - one per model chunk,
+passed through exactly as the provider chunks them, with no coalescing. The terminal
+`completed` event still carries the full text, so concatenating the deltas and
+reading `completed.content` give you the same answer. Clients written before token
+streaming keep working unchanged.
+
+```yaml
+overlord:
+  response:
+    streaming: true
+    stream_tokens: true    # default: true
+```
+
+Deltas are suppressed when `stream_tokens` is `false`, and when the response format
+is `json` or `html` - both rewrite the text after generation, so a partial stream
+would not be valid output.
+
+### Discontinuity
+
+If the response stream fails *after* at least one delta was published, the terminal
+`completed` event carries `stream_discontinuity: true`. The deltas you accumulated
+may be incomplete or inconsistent: discard them and render `completed.content`, which
+is always authoritative.
+
+The flag is additive and only ever appears as `true` - a turn that streamed cleanly
+simply omits it, as does a failure that produced no deltas at all.
 
 ## Python
 

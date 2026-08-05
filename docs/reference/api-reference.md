@@ -360,23 +360,46 @@ curl -X POST http://localhost:8271/v1/chat \
   }'
 ```
 
-Responses stream as Server-Sent Events (SSE):
+Responses stream as Server-Sent Events. Each frame carries a runtime event under a
+`token` field, and the event's `type` says what it is:
 
 ```
-data: {"token": "Once"}
+data: {"token": {"type": "progress", "content": "Getting started", "stage": "init", "request_id": "req_abc123"}}
 
-data: {"token": " upon"}
+data: {"token": {"type": "content", "content": "Once", "stage": "response_generation"}}
 
-data: {"token": " a"}
+data: {"token": {"type": "content", "content": " upon a time"}}
 
-data: {"token": " time"}
+data: {"token": {"type": "completed", "content": "Once upon a time...", "status": "success", "processing_time_ms": 2140}}
 
 event: done
 data: {"finished": true}
 ```
 
-When a response carries UI widgets, a single `ui` event is emitted at
-end-of-turn, just before `done`:
+The final response arrives as incremental `content` events during the turn, one per
+model chunk. The terminal `completed` event still carries the **full** text, so a
+client that only reads `completed` behaves exactly as it did before - the deltas are
+additive.
+
+| `type` | Meaning |
+|--------|---------|
+| `progress` | Stage marker (`init`, `agent_processing`, `response_preparation`, ...) |
+| `planning` | The overlord is choosing how to handle the request |
+| `content` | An incremental slice of the final response |
+| `completed` | End of turn; `content` is the complete response text |
+
+Turn token streaming off with `overlord.response.stream_tokens: false`; the
+`completed` event is unaffected. Deltas are also suppressed when the response format
+is `json` or `html`, because both rewrite the text after generation.
+
+If the response stream breaks after some deltas have already been sent, the
+`completed` event carries `stream_discontinuity: true`. Discard what you accumulated
+and use `completed.content` - it is authoritative. The flag is absent, not `false`,
+on normal turns.
+
+Only three SSE frames are *named* events: `ui`, `done`, and `error`. When a response
+carries UI widgets, a single `ui` event is emitted at end-of-turn, just before
+`done`:
 
 ```
 event: ui
