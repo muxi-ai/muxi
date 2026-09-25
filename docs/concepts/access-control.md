@@ -108,10 +108,12 @@ Membership comes from a `middleware:` MCP server you run. It exposes exactly one
 tool named `middleware`, receives the full request payload (`user_id`,
 `message`, `attachments`, `metadata`, `route_class` - never `groups` inbound),
 and returns the same-shaped payload, optionally attaching `groups`, rewriting
-identity, or applying payload policy. The middleware receives `user_id` exactly
-as the caller sent it. The runtime never alters the case of a user id: it uses
-the id the middleware returns (or, without a middleware, the caller's id)
-byte-for-byte, so any normalisation belongs in the middleware or the client.
+identity, or applying payload policy. The middleware receives `user_id` as the
+caller sent it, with one exception: an email-shaped id is lowercased first, so
+`Ada@Example.com` arrives as `ada@example.com`. All other ids pass
+byte-for-byte. The runtime then uses the id the middleware returns unchanged;
+without a middleware, it uses the caller's id with the same single exception.
+Any other normalisation belongs in the middleware or the client.
 
 ```yaml
 middleware:
