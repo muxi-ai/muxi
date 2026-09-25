@@ -109,8 +109,9 @@ tool named `middleware`, receives the full request payload (`user_id`,
 `message`, `attachments`, `metadata`, `route_class` - never `groups` inbound),
 and returns the same-shaped payload, optionally attaching `groups`, rewriting
 identity, or applying payload policy. The middleware receives `user_id` exactly
-as the caller sent it; the runtime lowercases and trims the user id it uses
-only after the middleware step, including any id the middleware returns.
+as the caller sent it. The runtime never alters the case of a user id: it uses
+the id the middleware returns (or, without a middleware, the caller's id)
+byte-for-byte, so any normalisation belongs in the middleware or the client.
 
 ```yaml
 middleware:
