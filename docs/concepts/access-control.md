@@ -108,7 +108,9 @@ Membership comes from a `middleware:` MCP server you run. It exposes exactly one
 tool named `middleware`, receives the full request payload (`user_id`,
 `message`, `attachments`, `metadata`, `route_class` - never `groups` inbound),
 and returns the same-shaped payload, optionally attaching `groups`, rewriting
-identity, or applying payload policy.
+identity, or applying payload policy. The middleware receives `user_id` exactly
+as the caller sent it; the runtime lowercases and trims the user id it uses
+only after the middleware step, including any id the middleware returns.
 
 ```yaml
 middleware:
