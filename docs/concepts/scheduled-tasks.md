@@ -53,6 +53,9 @@ The system parses your intent and creates the schedule automatically.
 "Send me a summary every Monday morning"
 → Runs Mondays at 9am (default morning time)
 
+"Remind me every Monday to water the plants"
+→ Runs Mondays at the default time (9am unless the formation sets another)
+
 "Every 2 weeks on Tuesday, analyze metrics"
 → Runs every 2 weeks on Tuesday
 
@@ -66,7 +69,20 @@ The system parses your intent and creates the schedule automatically.
 No cron syntax needed - the agent figures it out.
 
 > [!TIP]
-> **Set your timezone in the formation.** Scheduled tasks use the formation's configured timezone. Without it, times default to UTC, which may not match user expectations.
+> **Set your timezone in the formation.** A scheduled task is read in the user's own timezone when they have set one, otherwise in the formation's `scheduler.timezone`. Without either, times default to UTC, which may not match user expectations.
+
+### When No Time Is Given
+
+A schedule that names days but no time of day ("every day", "daily", "every weekday", "every weekend", "every Monday", "every Tuesday and Thursday", "every 3 days", "weekly" or "every week", "monthly" or "every month") runs at the formation's default time, 9am unless `scheduler.default_time` sets another. "Weekly" runs on Mondays and "monthly" on the 1st. The same applies to a one-time task that names only a date: "tomorrow", "next week" (its Monday) or "in 3 days".
+
+The reply says when the default was used:
+
+```
+User:  "Remind me every day to stretch"
+Agent: "I've created a scheduled job for you. Your request 'Remind me every day to stretch' has been scheduled successfully and will run every day at 9am (UTC). No time was given, so I used the default time; tell me a time to change it. (Job ID: ...)"
+```
+
+Intervals ("every 15 minutes", "hourly") never get a default time. A request that asks for an interval and a time of day together ("every 15 minutes starting at 9am") is read as a whole by the model rather than cut down to one of them.
 
 
 ## Creating Scheduled Tasks
@@ -155,26 +171,21 @@ Never forget important tasks.
 
 ## Timezone Support
 
-Schedules respect user timezones:
+A new task is read in the user's own timezone when they have set one, otherwise in the formation's `scheduler.timezone`:
 
 ```
 User in New York: "Check email at 9am"
-→ Executes 9am ET
+→ Executes 9am ET (13:00 UTC in summer, 14:00 UTC in winter)
 
 User in London: "Check email at 9am"
-→ Executes 9am GMT
+→ Executes 9am UK time (GMT or BST)
 ```
 
-Each user's schedule runs in their timezone.
+Users set their timezone with the `/preferences timezone <IANA name>` command (for example `/preferences timezone America/New_York`), which needs the formation's `proactive:` block (see [Proactiveness](proactiveness.md)). The reply to a scheduling request names the timezone the task was read in, and daylight saving time is followed.
 
 ### Changing Timezones
 
-```
-User:  "I'm traveling to Tokyo next week"
-Agent: "Would you like me to adjust your scheduled tasks to Tokyo time?"
-User:  "Yes"
-Agent: "Updated all schedules to JST timezone."
-```
+Each task keeps the timezone it was created in. When a user changes their timezone, tasks they create from then on use the new one; existing tasks keep running in the timezone they were created in. Tasks created by earlier runtime versions, and tasks created through the admin API, run in the formation's `scheduler.timezone`.
 
 
 ## User Isolation
@@ -411,7 +422,10 @@ scheduler:
   enabled: true
   check_interval_minutes: 1    # Check for due tasks every minute
   timezone: "America/New_York" # Default timezone
+  default_time: "09:00"        # When a schedule names no time (default "09:00")
 ```
+
+`default_time` accepts "08:30", "8:30am", "9am" or "21:15". Quote it: YAML reads an unquoted `21:15` as a number. A value that is not a clock time stops the formation from loading.
 
 ### Database Required
 
