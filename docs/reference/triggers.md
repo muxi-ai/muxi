@@ -17,15 +17,15 @@ Triggers provide webhook endpoints for external systems to invoke your agents.
 ### Execute Trigger
 
 ```http
-POST /v1/formations/{formation_id}/triggers/{trigger_name}
+POST /api/{formation_id}/v1/triggers/{trigger_name}
 ```
 
 **Headers:**
 | Header | Required | Description |
 |--------|----------|-------------|
-| `X-Muxi-Client-Key` | Yes | Client API key |
-| `X-Muxi-User-Id` | No | User ID (defaults to "0") |
-| `Content-Type` | Yes | `application/json` |
+| `X-Muxi-Client-Key` | Yes, unless the trigger declares [`auth`](#per-trigger-auth) | Client API key |
+| `X-Muxi-User-Id` | No | User ID (defaults to "0"; ignored after an `auth` pass) |
+| `Content-Type` | Yes | `application/json` (an `auth` trigger takes the provider's own body) |
 
 **Request Body:**
 ```json
@@ -69,7 +69,7 @@ POST /v1/formations/{formation_id}/triggers/{trigger_name}
 ### List Triggers
 
 ```http
-GET /v1/formations/{formation_id}/triggers
+GET /api/{formation_id}/v1/triggers
 ```
 
 **Response:**
@@ -129,6 +129,10 @@ Templates are auto-discovered from `triggers/` directory.
 }
 ```
 
+### Failed Auth Check
+
+A failed `auth` check returns the same `401` as a missing client key, so callers cannot tell the two apart.
+
 ### Trigger Not Found
 
 ```json
@@ -159,7 +163,7 @@ Please triage this issue.
 
 ### 2. Configure GitHub Webhook
 
-- URL: `https://your-server/v1/formations/my-formation/triggers/github-issue`
+- URL: `https://your-server/api/my-formation/v1/triggers/github-issue`
 - Content type: `application/json`
 - Events: Issues
 
@@ -181,6 +185,80 @@ curl -X POST http://localhost:7890/draft/my-formation/v1/triggers/github-issue \
     "use_async": false
   }'
 ```
+
+## Per-trigger auth
+
+A webhook provider such as Stripe or HubSpot cannot send `X-Muxi-Client-Key`. It proves who it is with its own signature header. A trigger can name its own check for that in its frontmatter, with a script path or an http(s) URL:
+
+```markdown
+<!-- triggers/stripe-payment.md -->
+---
+auth: ./auth/stripe.py
+---
+A Stripe event arrived: ${{ data.type }}
+```
+
+```yaml
+---
+auth: https://auth.internal/stripe
+---
+```
+
+A relative path is resolved from the formation directory. Formations with no `auth` line behave exactly as before.
+
+### Load-time checks
+
+The runtime reads `auth` from every trigger once, at load. The formation fails to load, with an error naming the trigger and the target, when:
+
+- the script does not exist or is not executable;
+- the URL gives no HTTP response at all (DNS failure, connection refused, timeout); any HTTP status counts as reachable;
+- the value is neither a path nor an http(s) URL.
+
+Only `auth` is checked at load. Any other frontmatter problem stays a call-time error, as before.
+
+### The check
+
+On `POST /v1/triggers/{name}` for a trigger with `auth`, the runtime sends the check this JSON:
+
+```json
+{
+  "trigger": "stripe-payment",
+  "method": "POST",
+  "url": "http://127.0.0.1:8001/v1/triggers/stripe-payment",
+  "headers": {"stripe-signature": "...", "content-type": "application/json"},
+  "body": "<base64 of the exact request bytes>"
+}
+```
+
+`url` is the URL the runtime received, which behind the MUXI server is the local address. Header names are lowercase, and a repeated header arrives as one comma-joined value. The body is passed byte for byte, because provider signatures are computed over the exact bytes.
+
+| Target | How it gets the JSON | Pass |
+|--------|----------------------|------|
+| Script | On stdin, with the runtime's environment (which is how it reads its signing secret). Its output is discarded. | Exit code `0` |
+| URL | As a POST | Any `2xx` response |
+
+The check fails closed: an error, a timeout (2 seconds, fixed) or an unreachable target is a fail.
+
+### Pass and fail
+
+- **Pass:** the request runs as a normal key-authenticated call. The provider's body becomes `data` (see below), the run is async in its own session, and a caller-sent `X-Muxi-User-Id` is dropped, so the user is `"0"`. A request middleware, if configured, may still set the identity.
+- **Fail:** nothing is added to the request, so the caller gets the existing `401` for a missing client key. The fail is logged as `error.authentication.failed` with the trigger name and the failure kind (`exit_code`, `http_status`, `timeout` or `error`), never headers or body.
+
+| Provider body | `data` |
+|---------------|--------|
+| A JSON object | The object as-is |
+| Anything else (form-encoded, plain text, a JSON array, empty) | `{"body": "<the body as text>"}` |
+
+A caller holding the client key can still call an `auth` trigger the normal way, with a `{"data": ...}` body. A request that already carries the real key skips the check and runs exactly as today, with its own `session_id`, user and `use_async`. Replays and scheduled catch-ups use this path, since a stored provider event cannot pass a signature check twice. `GET` on a trigger always requires the key.
+
+A body sent as `Content-Type: application/json` that is not valid JSON gets a `422` rather than the `401`, as on every route.
+
+### Not supported
+
+- Responses beyond pass or fail. Slack's one-time `url_verification` handshake, which must echo a challenge, cannot be answered, so Slack Events cannot be pointed at a trigger yet.
+- A configurable timeout, auth headers on the auth URL, or retries.
+
+See [Create Triggers → Stripe](../guides/create-triggers.md#stripe) for a complete example.
 
 ## Transformers: outbound routing
 
