@@ -64,7 +64,7 @@ curl -X POST http://localhost:7890/draft/my-formation/v1/triggers/github-issue \
 
 Point your external system to:
 ```
-https://your-server/v1/formations/{formation_id}/triggers/github-issue
+https://your-server/api/{formation_id}/v1/triggers/github-issue
 ```
 
 
@@ -102,7 +102,7 @@ Please triage this issue.
 ```
 
 **GitHub Webhook Settings:**
-- Payload URL: `https://your-server/v1/formations/my-formation/triggers/github-issue`
+- Payload URL: `https://your-server/api/my-formation/v1/triggers/github-issue`
 - Content type: `application/json`
 - Events: Issues
 
@@ -118,13 +118,21 @@ Please respond helpfully.
 ```
 
 **Slack App Settings:**
-- Event Subscriptions → Request URL: `https://your-server/v1/formations/my-formation/triggers/slack-message`
+- Event Subscriptions → Request URL: `https://your-server/api/my-formation/v1/triggers/slack-message`
 - Subscribe to: `message.channels`
+
+> [!NOTE]
+> Slack cannot send the client key, and a trigger's `auth` check cannot answer Slack's `url_verification` handshake yet, so put a small relay in front of the trigger for now.
 
 ### Stripe
 
+Stripe cannot send the client key. It signs each request with a `Stripe-Signature` header, so the trigger checks that itself with an [`auth`](../reference/triggers.md#per-trigger-auth) script.
+
 **Template:** `triggers/stripe-payment.md`
 ```
+---
+auth: ./auth/stripe.py
+---
 Payment received:
 
 **Amount**: ${{ data.data.object.amount }}
@@ -134,9 +142,30 @@ Payment received:
 Please send receipt and update records.
 ```
 
+**Auth script:** `auth/stripe.py`, executable (`chmod +x`), with the endpoint's signing secret in `STRIPE_WEBHOOK_SECRET` in the runtime's environment. It reads the request on stdin and exits `0` only for a valid signature less than five minutes old:
+
+```python
+#!/usr/bin/env python3
+import base64, hashlib, hmac, json, os, sys, time
+
+request = json.load(sys.stdin)
+body = base64.b64decode(request["body"])
+header = request["headers"].get("stripe-signature", "")
+pairs = [item.split("=", 1) for item in header.split(",") if "=" in item]
+timestamp = next((value for key, value in pairs if key == "t"), "")
+signatures = [value for key, value in pairs if key == "v1"]
+if not timestamp.isdigit() or abs(time.time() - int(timestamp)) > 300:
+    sys.exit(1)
+secret = os.environ["STRIPE_WEBHOOK_SECRET"].encode()
+expected = hmac.new(secret, timestamp.encode() + b"." + body, hashlib.sha256).hexdigest()
+sys.exit(0 if any(hmac.compare_digest(expected, s) for s in signatures) else 1)
+```
+
 **Stripe Webhook Settings:**
-- Endpoint URL: `https://your-server/v1/formations/my-formation/triggers/stripe-payment`
+- Endpoint URL: `https://your-server/api/my-formation/v1/triggers/stripe-payment`
 - Events: `payment_intent.succeeded`
+
+Stripe posts its event as-is, and the event becomes `data`, so `${{ data.data.object.amount }}` reads the amount. If the script or the secret is wrong, Stripe gets a `401` and the attempt is logged as `error.authentication.failed`.
 
 
 ## Async vs Sync
@@ -186,6 +215,11 @@ curl http://localhost:7890/draft/my-formation/v1/triggers
 Template: ${{ data.issue.number }}
 Payload missing: issue.number
 Fix: Check webhook payload structure
+```
+
+**401 on a trigger with `auth`**: the check failed (bad signature, expired timestamp, missing secret, a timeout)
+```
+Fix: Look for error.authentication.failed in the logs; it names the trigger and the failure kind
 ```
 
 **"Trigger not found"**: No template file exists

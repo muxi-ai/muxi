@@ -39,7 +39,7 @@ External System → Webhook POST → Template Rendering → Agent Processes
 | Message source | User provides directly | Template + webhook data |
 | Response | Streaming or async | Complete response (no streaming) |
 | Use case | Interactive chat | Webhook integration |
-| Authentication | Same | Same |
+| Authentication | Client key | Client key, or the trigger's own `auth` check |
 
 Triggers are just webhook-optimized requests.
 
@@ -67,7 +67,7 @@ Please analyze this issue and suggest next steps.
 Point your external system to:
 
 ```
-POST https://your-server.com/v1/formations/{formation_id}/triggers/github-issue
+POST https://your-server.com/api/{formation_id}/v1/triggers/github-issue
 ```
 
 ### 3. Send Webhook
@@ -315,7 +315,7 @@ Please investigate and suggest remediation.
 
 1. Go to repository Settings → Webhooks
 2. Add webhook:
-   - URL: `https://your-server/v1/formations/{id}/triggers/github-issue`
+   - URL: `https://your-server/api/{id}/v1/triggers/github-issue`
    - Content type: `application/json`
    - Events: Select relevant events
 
@@ -323,20 +323,41 @@ Please investigate and suggest remediation.
 
 1. Create Slack App
 2. Enable Event Subscriptions
-3. Set Request URL: `https://your-server/v1/formations/{id}/triggers/slack-message`
+3. Set Request URL: `https://your-server/api/{id}/v1/triggers/slack-message`
+
+> [!NOTE]
+> Slack cannot send the client key, and Slack will not save a Request URL until it answers the `url_verification` handshake, which a trigger's `auth` check cannot do yet. Put a small relay in front of the trigger for now.
 
 ### Stripe Setup
 
-1. Go to Developers → Webhooks
-2. Add endpoint: `https://your-server/v1/formations/{id}/triggers/stripe-payment`
-3. Select events to listen for
+1. Give the trigger an `auth` check for the `Stripe-Signature` header (see [Authentication](#authentication))
+2. Go to Developers → Webhooks
+3. Add endpoint: `https://your-server/api/{id}/v1/triggers/stripe-payment`
+4. Select events to listen for
 
 
 ## Authentication
 
-All trigger endpoints require:
+By default, trigger endpoints require:
 - `X-Muxi-Client-Key`: Client API key (required)
 - `X-Muxi-User-Id`: User ID for isolation (optional, defaults to "0")
+
+Most webhook providers cannot send a custom key. They sign each request instead, usually with a header such as `Stripe-Signature`. For those, a trigger names its own check in its frontmatter:
+
+```markdown
+<!-- triggers/stripe-payment.md -->
+---
+auth: ./auth/stripe.py
+---
+Payment received: ${{ data.data.object.amount }}
+```
+
+`auth` is a script path or an http(s) URL. MUXI passes it the whole request, headers and body, and gets back pass or fail: exit code `0` for a script, a `2xx` for a URL. MUXI does no parsing and knows nothing about signatures; that all lives in the check.
+
+- **Pass:** the request runs like a keyed call, with the provider's JSON body as `data`, in its own session, as user `"0"`.
+- **Fail:** the caller gets the same `401` as a missing key.
+
+A caller with the client key can still call the trigger the normal way, which is how stored events are replayed. A missing script or an unreachable URL stops the formation from loading. Full details are in the [Triggers Reference](../reference/triggers.md#per-trigger-auth).
 
 
 ## Workflow Approvals
